@@ -1,0 +1,56 @@
+{
+  "sourceId": "erpdb-purchase-orders",
+  "version": "1.0.0",
+  "sourceType": "postgresql",
+  "profileRef": "SMProfile-PurchaseOrder",
+  "connection": {
+    "host": "192.168.178.150",
+    "port": 30431,
+    "database": "erpdb",
+    "schema": "llm_test_v3",
+    "table": "bestellung"
+  },
+  "columnMappings": [
+    {
+      "column": "bestellnummer",
+      "smAttribute": "order_no",
+      "isId": true
+    },
+    {
+      "column": "lieferant_id",
+      "smAttribute": "supplier_id"
+    },
+    {
+      "column": "lieferant_name",
+      "smAttribute": "supplier_name"
+    },
+    {
+      "column": "bestelldatum",
+      "smAttribute": "order_date"
+    },
+    {
+      "column": "lieferdatum_soll",
+      "smAttribute": "delivery_date_planned"
+    },
+    {
+      "column": "lieferdatum_ist",
+      "smAttribute": "delivery_date_actual"
+    },
+    {
+      "column": "status",
+      "smAttribute": "status"
+    },
+    {
+      "column": "gesamtwert",
+      "smAttribute": "total_value"
+    }
+  ],
+  "filter": null,
+  "edges": [
+    {
+      "type": "FROM_SUPPLIER",
+      "fkColumn": "lieferant_id",
+      "targetLabel": "Supplier"
+    }
+  ]
+}

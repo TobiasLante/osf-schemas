@@ -1,0 +1,48 @@
+{
+  "profileId": "SMProfile-Supplier",
+  "version": "1.0.0",
+  "standard": "CESMII",
+  "displayName": "Supplier (Lieferant)",
+  "description": "External material or service supplier",
+  "parentType": null,
+  "attributes": [
+    {
+      "name": "supplier_id",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "name",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "contact",
+      "dataType": "String",
+      "category": "Contact"
+    },
+    {
+      "name": "email",
+      "dataType": "String",
+      "category": "Contact"
+    },
+    {
+      "name": "rating",
+      "dataType": "String",
+      "category": "Quality"
+    },
+    {
+      "name": "active",
+      "dataType": "Boolean",
+      "category": "Core"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "SUPPLIES",
+      "target": "Article"
+    }
+  ],
+  "kgNodeLabel": "Supplier",
+  "kgIdProperty": "supplier_id"
+}

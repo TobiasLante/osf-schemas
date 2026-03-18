@@ -1,0 +1,56 @@
+{
+  "sourceId": "qmsdb-corrective-actions",
+  "version": "1.0.0",
+  "sourceType": "postgresql",
+  "profileRef": "SMProfile-CorrectiveAction",
+  "connection": {
+    "host": "192.168.178.150",
+    "port": 30433,
+    "database": "qmsdb",
+    "schema": "llm_test_v3",
+    "table": "qms_corrective_actions"
+  },
+  "columnMappings": [
+    {
+      "column": "action_no",
+      "smAttribute": "action_no",
+      "isId": true
+    },
+    {
+      "column": "notification_no",
+      "smAttribute": "notification_no"
+    },
+    {
+      "column": "action_type",
+      "smAttribute": "action_type"
+    },
+    {
+      "column": "description",
+      "smAttribute": "description"
+    },
+    {
+      "column": "responsible",
+      "smAttribute": "responsible"
+    },
+    {
+      "column": "due_date",
+      "smAttribute": "due_date"
+    },
+    {
+      "column": "status",
+      "smAttribute": "status"
+    },
+    {
+      "column": "is_effective",
+      "smAttribute": "is_effective"
+    }
+  ],
+  "filter": null,
+  "edges": [
+    {
+      "type": "FOR_NOTIFICATION",
+      "fkColumn": "notification_no",
+      "targetLabel": "QualityNotification"
+    }
+  ]
+}

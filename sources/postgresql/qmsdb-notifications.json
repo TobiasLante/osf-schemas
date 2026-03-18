@@ -1,0 +1,60 @@
+{
+  "sourceId": "qmsdb-notifications",
+  "version": "1.0.0",
+  "sourceType": "postgresql",
+  "profileRef": "SMProfile-QualityNotification",
+  "connection": {
+    "host": "192.168.178.150",
+    "port": 30433,
+    "database": "qmsdb",
+    "schema": "llm_test_v3",
+    "table": "qms_notifications"
+  },
+  "columnMappings": [
+    {
+      "column": "notification_no",
+      "smAttribute": "notification_no",
+      "isId": true
+    },
+    {
+      "column": "notification_type",
+      "smAttribute": "notification_type"
+    },
+    {
+      "column": "reference_no",
+      "smAttribute": "reference_no"
+    },
+    {
+      "column": "article_no",
+      "smAttribute": "article_no"
+    },
+    {
+      "column": "defect_quantity",
+      "smAttribute": "defect_quantity"
+    },
+    {
+      "column": "priority",
+      "smAttribute": "priority"
+    },
+    {
+      "column": "status",
+      "smAttribute": "status"
+    },
+    {
+      "column": "description",
+      "smAttribute": "description"
+    },
+    {
+      "column": "root_cause",
+      "smAttribute": "root_cause"
+    }
+  ],
+  "filter": null,
+  "edges": [
+    {
+      "type": "FOR_ARTICLE",
+      "fkColumn": "article_no",
+      "targetLabel": "Article"
+    }
+  ]
+}

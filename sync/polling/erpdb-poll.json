@@ -1,0 +1,45 @@
+{
+  "syncId": "erpdb-poll",
+  "version": "1.0.0",
+  "syncType": "polling",
+  "pollIntervalMs": 30000,
+  "sources": [
+    {
+      "sourceRef": "erpdb-production-orders",
+      "changeDetection": "timestamp",
+      "timestampColumn": "last_updated_at",
+      "batchSize": 500
+    },
+    {
+      "sourceRef": "erpdb-stock",
+      "changeDetection": "timestamp",
+      "timestampColumn": "updated_at",
+      "batchSize": 200
+    },
+    {
+      "sourceRef": "erpdb-customer-orders",
+      "changeDetection": "full_refresh",
+      "refreshIntervalMs": 60000
+    },
+    {
+      "sourceRef": "erpdb-purchase-orders",
+      "changeDetection": "full_refresh",
+      "refreshIntervalMs": 120000
+    },
+    {
+      "sourceRef": "erpdb-suppliers",
+      "changeDetection": "full_refresh",
+      "refreshIntervalMs": 300000
+    },
+    {
+      "sourceRef": "erpdb-bom",
+      "changeDetection": "full_refresh",
+      "refreshIntervalMs": 300000
+    },
+    {
+      "sourceRef": "erpdb-routing",
+      "changeDetection": "full_refresh",
+      "refreshIntervalMs": 300000
+    }
+  ]
+}

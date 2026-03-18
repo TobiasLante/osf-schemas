@@ -1,0 +1,69 @@
+{
+  "sourceId": "wmsdb-quants",
+  "version": "1.0.0",
+  "sourceType": "postgresql",
+  "profileRef": "SMProfile-Quant",
+  "connection": {
+    "host": "192.168.178.150",
+    "port": 30437,
+    "database": "warehousedb",
+    "schema": "llm_test_v3",
+    "table": "quant"
+  },
+  "columnMappings": [
+    {
+      "column": "id",
+      "smAttribute": "quant_id",
+      "isId": true
+    },
+    {
+      "column": "artikel_nr",
+      "smAttribute": "article_no"
+    },
+    {
+      "column": "artikel_bezeichnung",
+      "smAttribute": "article_name"
+    },
+    {
+      "column": "charge",
+      "smAttribute": "batch"
+    },
+    {
+      "column": "lagerplatz_key",
+      "smAttribute": "location_key"
+    },
+    {
+      "column": "menge",
+      "smAttribute": "quantity"
+    },
+    {
+      "column": "einheit",
+      "smAttribute": "unit"
+    },
+    {
+      "column": "qualitaets_status",
+      "smAttribute": "quality_status"
+    },
+    {
+      "column": "herkunft_typ",
+      "smAttribute": "origin_type"
+    },
+    {
+      "column": "herkunft_referenz",
+      "smAttribute": "origin_ref"
+    }
+  ],
+  "filter": null,
+  "edges": [
+    {
+      "type": "AT_LOCATION",
+      "fkColumn": "lagerplatz_key",
+      "targetLabel": "StorageLocation"
+    },
+    {
+      "type": "FOR_ARTICLE",
+      "fkColumn": "artikel_nr",
+      "targetLabel": "Article"
+    }
+  ]
+}

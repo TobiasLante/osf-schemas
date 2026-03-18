@@ -1,0 +1,50 @@
+{
+  "sourceId": "wmsdb-storage-locations",
+  "version": "1.0.0",
+  "sourceType": "postgresql",
+  "profileRef": "SMProfile-StorageLocation",
+  "connection": {
+    "host": "192.168.178.150",
+    "port": 30437,
+    "database": "warehousedb",
+    "schema": "llm_test_v3",
+    "table": "lagerplatz"
+  },
+  "columnMappings": [
+    {
+      "column": "lagerplatz_key",
+      "smAttribute": "location_key",
+      "isId": true
+    },
+    {
+      "column": "lager_nr",
+      "smAttribute": "warehouse"
+    },
+    {
+      "column": "zone",
+      "smAttribute": "zone"
+    },
+    {
+      "column": "zone_bezeichnung",
+      "smAttribute": "zone_name"
+    },
+    {
+      "column": "kapazitaet_max",
+      "smAttribute": "capacity_max"
+    },
+    {
+      "column": "kapazitaet_belegt",
+      "smAttribute": "capacity_used"
+    },
+    {
+      "column": "platz_typ",
+      "smAttribute": "type"
+    },
+    {
+      "column": "status",
+      "smAttribute": "status"
+    }
+  ],
+  "filter": null,
+  "edges": []
+}

@@ -1,0 +1,68 @@
+{
+  "profileId": "SMProfile-CustomerOrder",
+  "version": "1.0.0",
+  "standard": "CESMII",
+  "displayName": "Customer Order (Kundenauftrag)",
+  "description": "Sales order from customer with delivery commitment",
+  "parentType": null,
+  "attributes": [
+    {
+      "name": "order_no",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "customer",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "article_no",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "article_name",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "quantity",
+      "dataType": "Float",
+      "category": "Core"
+    },
+    {
+      "name": "unit_price",
+      "dataType": "Float",
+      "category": "Commercial",
+      "unit": "EUR"
+    },
+    {
+      "name": "due_date",
+      "dataType": "String",
+      "category": "Planning"
+    },
+    {
+      "name": "status",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "production_order_no",
+      "dataType": "String",
+      "category": "Link"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "FOR_ARTICLE",
+      "target": "Article"
+    },
+    {
+      "type": "TRIGGERS",
+      "target": "ProductionOrder"
+    }
+  ],
+  "kgNodeLabel": "CustomerOrder",
+  "kgIdProperty": "order_no"
+}

@@ -1,0 +1,38 @@
+{
+  "syncId": "qmsdb-poll",
+  "version": "1.0.0",
+  "syncType": "polling",
+  "pollIntervalMs": 30000,
+  "sources": [
+    {
+      "sourceRef": "qmsdb-inspection-lots",
+      "changeDetection": "timestamp",
+      "timestampColumn": "updated_at",
+      "batchSize": 200
+    },
+    {
+      "sourceRef": "qmsdb-inspection-results",
+      "changeDetection": "timestamp",
+      "timestampColumn": "recorded_at",
+      "batchSize": 500
+    },
+    {
+      "sourceRef": "qmsdb-spc-analysis",
+      "changeDetection": "timestamp",
+      "timestampColumn": "calculation_date",
+      "batchSize": 100
+    },
+    {
+      "sourceRef": "qmsdb-notifications",
+      "changeDetection": "timestamp",
+      "timestampColumn": "updated_at",
+      "batchSize": 100
+    },
+    {
+      "sourceRef": "qmsdb-corrective-actions",
+      "changeDetection": "timestamp",
+      "timestampColumn": "updated_at",
+      "batchSize": 100
+    }
+  ]
+}

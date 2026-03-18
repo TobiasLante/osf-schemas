@@ -1,0 +1,64 @@
+{
+  "profileId": "SMProfile-StorageLocation",
+  "version": "1.0.0",
+  "standard": "CESMII",
+  "displayName": "Storage Location (Lagerplatz)",
+  "description": "Physical warehouse bin — zone/aisle/rack/shelf",
+  "parentType": null,
+  "attributes": [
+    {
+      "name": "location_key",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "warehouse",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "zone",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "zone_name",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "capacity_max",
+      "dataType": "Float",
+      "category": "Capacity"
+    },
+    {
+      "name": "capacity_used",
+      "dataType": "Float",
+      "category": "Capacity"
+    },
+    {
+      "name": "type",
+      "dataType": "String",
+      "category": "Core",
+      "description": "STANDARD, BLOCK, KOMMISSION, PUFFER"
+    },
+    {
+      "name": "status",
+      "dataType": "String",
+      "category": "Core",
+      "description": "FREI, BELEGT, TEILBELEGT, GESPERRT"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "IN_ZONE",
+      "target": "WarehouseZone"
+    },
+    {
+      "type": "STORES",
+      "target": "Quant"
+    }
+  ],
+  "kgNodeLabel": "StorageLocation",
+  "kgIdProperty": "location_key"
+}

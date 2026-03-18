@@ -1,0 +1,52 @@
+{
+  "sourceId": "qmsdb-inspection-results",
+  "version": "1.0.0",
+  "sourceType": "postgresql",
+  "profileRef": "SMProfile-InspectionResult",
+  "connection": {
+    "host": "192.168.178.150",
+    "port": 30433,
+    "database": "qmsdb",
+    "schema": "llm_test_v3",
+    "table": "qms_inspection_results"
+  },
+  "columnMappings": [
+    {
+      "column": "result_id",
+      "smAttribute": "result_id",
+      "isId": true
+    },
+    {
+      "column": "lot_no",
+      "smAttribute": "lot_no"
+    },
+    {
+      "column": "characteristic_no",
+      "smAttribute": "characteristic_no"
+    },
+    {
+      "column": "sample_number",
+      "smAttribute": "sample_number"
+    },
+    {
+      "column": "measured_value",
+      "smAttribute": "measured_value"
+    },
+    {
+      "column": "is_within_spec",
+      "smAttribute": "is_within_spec"
+    },
+    {
+      "column": "deviation",
+      "smAttribute": "deviation"
+    }
+  ],
+  "filter": null,
+  "edges": [
+    {
+      "type": "BELONGS_TO",
+      "fkColumn": "lot_no",
+      "targetLabel": "InspectionLot"
+    }
+  ]
+}

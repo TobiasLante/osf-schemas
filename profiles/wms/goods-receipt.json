@@ -1,0 +1,69 @@
+{
+  "profileId": "SMProfile-GoodsReceipt",
+  "version": "1.0.0",
+  "standard": "CESMII",
+  "displayName": "Goods Receipt (Wareneingangsavis)",
+  "description": "Notification of incoming goods from production or procurement",
+  "parentType": null,
+  "attributes": [
+    {
+      "name": "avis_nr",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "article_no",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "article_name",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "quantity",
+      "dataType": "Float",
+      "category": "Core"
+    },
+    {
+      "name": "origin_type",
+      "dataType": "String",
+      "category": "Traceability",
+      "description": "FERTIGUNG or EINKAUF"
+    },
+    {
+      "name": "origin_ref",
+      "dataType": "String",
+      "category": "Traceability"
+    },
+    {
+      "name": "origin_machine",
+      "dataType": "String",
+      "category": "Traceability"
+    },
+    {
+      "name": "status",
+      "dataType": "String",
+      "category": "Core",
+      "description": "OFFEN, IN_BEARBEITUNG, EINGELAGERT"
+    },
+    {
+      "name": "target_warehouse",
+      "dataType": "String",
+      "category": "Location"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "FOR_ARTICLE",
+      "target": "Article"
+    },
+    {
+      "type": "FROM_MACHINE",
+      "target": "Machine"
+    }
+  ],
+  "kgNodeLabel": "GoodsReceipt",
+  "kgIdProperty": "avis_nr"
+}

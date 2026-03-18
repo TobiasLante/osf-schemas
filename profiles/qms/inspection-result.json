@@ -1,0 +1,53 @@
+{
+  "profileId": "SMProfile-InspectionResult",
+  "version": "1.0.0",
+  "standard": "CESMII",
+  "displayName": "Inspection Result (Prüfergebnis)",
+  "description": "Individual measurement result within an inspection lot",
+  "parentType": null,
+  "attributes": [
+    {
+      "name": "result_id",
+      "dataType": "Int32",
+      "category": "Core"
+    },
+    {
+      "name": "lot_no",
+      "dataType": "String",
+      "category": "Link"
+    },
+    {
+      "name": "characteristic_no",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "sample_number",
+      "dataType": "Int32",
+      "category": "Core"
+    },
+    {
+      "name": "measured_value",
+      "dataType": "Float",
+      "category": "Measurement"
+    },
+    {
+      "name": "is_within_spec",
+      "dataType": "Boolean",
+      "category": "Quality"
+    },
+    {
+      "name": "deviation",
+      "dataType": "Float",
+      "category": "Quality"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "BELONGS_TO",
+      "target": "InspectionLot"
+    }
+  ],
+  "kgNodeLabel": "InspectionResult",
+  "kgIdProperty": "result_id"
+}

@@ -1,0 +1,77 @@
+{
+  "sourceId": "erpdb-production-orders",
+  "version": "1.0.0",
+  "sourceType": "postgresql",
+  "profileRef": "SMProfile-ProductionOrder",
+  "connection": {
+    "host": "192.168.178.150",
+    "port": 30431,
+    "database": "erpdb",
+    "schema": "llm_test_v3",
+    "table": "machineid_nodeid"
+  },
+  "columnMappings": [
+    {
+      "column": "production_order_no",
+      "smAttribute": "order_no",
+      "isId": true
+    },
+    {
+      "column": "machine_no",
+      "smAttribute": "machine_no"
+    },
+    {
+      "column": "article_no",
+      "smAttribute": "article_no"
+    },
+    {
+      "column": "artikelbezeichnung",
+      "smAttribute": "article_name"
+    },
+    {
+      "column": "order_status",
+      "smAttribute": "status"
+    },
+    {
+      "column": "geplante_stueckzahl",
+      "smAttribute": "planned_qty"
+    },
+    {
+      "column": "produzierte_stueckzahl",
+      "smAttribute": "produced_qty"
+    },
+    {
+      "column": "geplantes_start_datum",
+      "smAttribute": "planned_start"
+    },
+    {
+      "column": "geplantes_end_datum",
+      "smAttribute": "planned_end"
+    },
+    {
+      "column": "tool_no",
+      "smAttribute": "tool_no"
+    },
+    {
+      "column": "arbeitsplan",
+      "smAttribute": "routing"
+    },
+    {
+      "column": "stueckliste",
+      "smAttribute": "bom"
+    }
+  ],
+  "filter": "order_status IN (2, 3, 4)",
+  "edges": [
+    {
+      "type": "RUNS_ON",
+      "fkColumn": "machine_no",
+      "targetLabel": "auto"
+    },
+    {
+      "type": "PRODUCES",
+      "fkColumn": "article_no",
+      "targetLabel": "Article"
+    }
+  ]
+}

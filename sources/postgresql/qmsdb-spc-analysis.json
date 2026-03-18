@@ -1,0 +1,60 @@
+{
+  "sourceId": "qmsdb-spc-analysis",
+  "version": "1.0.0",
+  "sourceType": "postgresql",
+  "profileRef": "SMProfile-SPCAnalysis",
+  "connection": {
+    "host": "192.168.178.150",
+    "port": 30433,
+    "database": "qmsdb",
+    "schema": "llm_test_v3",
+    "table": "qms_spc_analysis"
+  },
+  "columnMappings": [
+    {
+      "column": "analysis_id",
+      "smAttribute": "analysis_id",
+      "isId": true
+    },
+    {
+      "column": "lot_no",
+      "smAttribute": "lot_no"
+    },
+    {
+      "column": "characteristic_no",
+      "smAttribute": "characteristic_no"
+    },
+    {
+      "column": "mean_value",
+      "smAttribute": "mean_value"
+    },
+    {
+      "column": "std_deviation",
+      "smAttribute": "std_deviation"
+    },
+    {
+      "column": "cp",
+      "smAttribute": "cp"
+    },
+    {
+      "column": "cpk",
+      "smAttribute": "cpk"
+    },
+    {
+      "column": "is_in_control",
+      "smAttribute": "is_in_control"
+    },
+    {
+      "column": "trend",
+      "smAttribute": "trend"
+    }
+  ],
+  "filter": null,
+  "edges": [
+    {
+      "type": "FOR_LOT",
+      "fkColumn": "lot_no",
+      "targetLabel": "InspectionLot"
+    }
+  ]
+}

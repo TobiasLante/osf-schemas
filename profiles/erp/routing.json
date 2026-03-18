@@ -1,0 +1,69 @@
+{
+  "profileId": "SMProfile-Routing",
+  "version": "1.0.0",
+  "standard": "CESMII",
+  "displayName": "Routing (Arbeitsplan)",
+  "description": "Manufacturing routing — sequence of operations for producing an article",
+  "parentType": null,
+  "attributes": [
+    {
+      "name": "routing_no",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "article_no",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "article_name",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "operation_no",
+      "dataType": "Int32",
+      "category": "Core"
+    },
+    {
+      "name": "operation_name",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "machine",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "cycle_time_sec",
+      "dataType": "Float",
+      "category": "Planning",
+      "unit": "s"
+    },
+    {
+      "name": "setup_time_sec",
+      "dataType": "Float",
+      "category": "Planning",
+      "unit": "s"
+    },
+    {
+      "name": "pcs_per_cycle",
+      "dataType": "Int32",
+      "category": "Planning"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "FOR_ARTICLE",
+      "target": "Article"
+    },
+    {
+      "type": "ON_MACHINE",
+      "target": "Machine"
+    }
+  ],
+  "kgNodeLabel": "Routing",
+  "kgIdProperty": "routing_no"
+}

@@ -1,0 +1,31 @@
+{
+  "syncId": "wmsdb-poll",
+  "version": "1.0.0",
+  "syncType": "polling",
+  "pollIntervalMs": 30000,
+  "sources": [
+    {
+      "sourceRef": "wmsdb-quants",
+      "changeDetection": "timestamp",
+      "timestampColumn": "updated_at",
+      "batchSize": 200
+    },
+    {
+      "sourceRef": "wmsdb-transport-orders",
+      "changeDetection": "timestamp",
+      "timestampColumn": "erstellt_am",
+      "batchSize": 200
+    },
+    {
+      "sourceRef": "wmsdb-goods-receipts",
+      "changeDetection": "timestamp",
+      "timestampColumn": "erstellt_am",
+      "batchSize": 100
+    },
+    {
+      "sourceRef": "wmsdb-storage-locations",
+      "changeDetection": "full_refresh",
+      "refreshIntervalMs": 120000
+    }
+  ]
+}

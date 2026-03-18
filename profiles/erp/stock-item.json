@@ -1,0 +1,67 @@
+{
+  "profileId": "SMProfile-StockItem",
+  "version": "1.0.0",
+  "standard": "CESMII",
+  "displayName": "Stock Item (Lagerbestand)",
+  "description": "Current inventory level for an article",
+  "parentType": null,
+  "attributes": [
+    {
+      "name": "teil_id",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "name",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "type",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "qty_free",
+      "dataType": "Float",
+      "category": "Stock"
+    },
+    {
+      "name": "qty_blocked",
+      "dataType": "Float",
+      "category": "Stock"
+    },
+    {
+      "name": "reserved",
+      "dataType": "Float",
+      "category": "Stock"
+    },
+    {
+      "name": "min_stock",
+      "dataType": "Float",
+      "category": "Planning"
+    },
+    {
+      "name": "location",
+      "dataType": "String",
+      "category": "Warehouse"
+    },
+    {
+      "name": "unit",
+      "dataType": "String",
+      "category": "Core"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "FOR_ARTICLE",
+      "target": "Article"
+    },
+    {
+      "type": "STORED_AT",
+      "target": "StorageLocation"
+    }
+  ],
+  "kgNodeLabel": "StockItem",
+  "kgIdProperty": "teil_id"
+}

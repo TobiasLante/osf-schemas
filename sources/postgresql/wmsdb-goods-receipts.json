@@ -1,0 +1,54 @@
+{
+  "sourceId": "wmsdb-goods-receipts",
+  "version": "1.0.0",
+  "sourceType": "postgresql",
+  "profileRef": "SMProfile-GoodsReceipt",
+  "connection": {
+    "host": "192.168.178.150",
+    "port": 30437,
+    "database": "warehousedb",
+    "schema": "llm_test_v3",
+    "table": "we_avis"
+  },
+  "columnMappings": [
+    {
+      "column": "avis_nr",
+      "smAttribute": "avis_nr",
+      "isId": true
+    },
+    {
+      "column": "artikel_nr",
+      "smAttribute": "article_no"
+    },
+    {
+      "column": "artikel_bezeichnung",
+      "smAttribute": "article_name"
+    },
+    {
+      "column": "menge",
+      "smAttribute": "quantity"
+    },
+    {
+      "column": "herkunft_typ",
+      "smAttribute": "origin_type"
+    },
+    {
+      "column": "herkunft_referenz",
+      "smAttribute": "origin_ref"
+    },
+    {
+      "column": "herkunft_maschine",
+      "smAttribute": "origin_machine"
+    },
+    {
+      "column": "status",
+      "smAttribute": "status"
+    },
+    {
+      "column": "ziel_lager",
+      "smAttribute": "target_warehouse"
+    }
+  ],
+  "filter": null,
+  "edges": []
+}

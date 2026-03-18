@@ -1,0 +1,73 @@
+{
+  "profileId": "SMProfile-Quant",
+  "version": "1.0.0",
+  "standard": "CESMII",
+  "displayName": "Quant (Lagerbestand-Einheit)",
+  "description": "Stock quantity at a specific storage location — article + batch + location",
+  "parentType": null,
+  "attributes": [
+    {
+      "name": "quant_id",
+      "dataType": "Int32",
+      "category": "Core"
+    },
+    {
+      "name": "article_no",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "article_name",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "batch",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "location_key",
+      "dataType": "String",
+      "category": "Location"
+    },
+    {
+      "name": "quantity",
+      "dataType": "Float",
+      "category": "Stock"
+    },
+    {
+      "name": "unit",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "quality_status",
+      "dataType": "String",
+      "category": "Quality",
+      "description": "FREI, GESPERRT, PRUEFUNG"
+    },
+    {
+      "name": "origin_type",
+      "dataType": "String",
+      "category": "Traceability"
+    },
+    {
+      "name": "origin_ref",
+      "dataType": "String",
+      "category": "Traceability"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "AT_LOCATION",
+      "target": "StorageLocation"
+    },
+    {
+      "type": "FOR_ARTICLE",
+      "target": "Article"
+    }
+  ],
+  "kgNodeLabel": "Quant",
+  "kgIdProperty": "quant_id"
+}

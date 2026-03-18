@@ -1,0 +1,42 @@
+{
+  "sourceId": "erpdb-suppliers",
+  "version": "1.0.0",
+  "sourceType": "postgresql",
+  "profileRef": "SMProfile-Supplier",
+  "connection": {
+    "host": "192.168.178.150",
+    "port": 30431,
+    "database": "erpdb",
+    "schema": "llm_test_v3",
+    "table": "lieferanten"
+  },
+  "columnMappings": [
+    {
+      "column": "lieferant_id",
+      "smAttribute": "supplier_id",
+      "isId": true
+    },
+    {
+      "column": "name",
+      "smAttribute": "name"
+    },
+    {
+      "column": "kontaktperson",
+      "smAttribute": "contact"
+    },
+    {
+      "column": "email",
+      "smAttribute": "email"
+    },
+    {
+      "column": "bewertung",
+      "smAttribute": "rating"
+    },
+    {
+      "column": "aktiv",
+      "smAttribute": "active"
+    }
+  ],
+  "filter": null,
+  "edges": []
+}

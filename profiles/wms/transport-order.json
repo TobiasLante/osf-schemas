@@ -1,0 +1,78 @@
+{
+  "profileId": "SMProfile-TransportOrder",
+  "version": "1.0.0",
+  "standard": "CESMII",
+  "displayName": "Transport Order (Transportauftrag)",
+  "description": "Warehouse material movement order — put-away, pick, replenishment",
+  "parentType": null,
+  "attributes": [
+    {
+      "name": "ta_nr",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "type",
+      "dataType": "String",
+      "category": "Core",
+      "description": "EINLAGERUNG, AUSLAGERUNG, UMLAGERUNG, NACHSCHUB"
+    },
+    {
+      "name": "article_no",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "quantity",
+      "dataType": "Float",
+      "category": "Core"
+    },
+    {
+      "name": "from_location",
+      "dataType": "String",
+      "category": "Movement"
+    },
+    {
+      "name": "to_location",
+      "dataType": "String",
+      "category": "Movement"
+    },
+    {
+      "name": "status",
+      "dataType": "String",
+      "category": "Core",
+      "description": "OFFEN, IN_TRANSPORT, ERLEDIGT, STORNIERT"
+    },
+    {
+      "name": "priority",
+      "dataType": "Int32",
+      "category": "Core"
+    },
+    {
+      "name": "reference_type",
+      "dataType": "String",
+      "category": "Link"
+    },
+    {
+      "name": "reference_no",
+      "dataType": "String",
+      "category": "Link"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "FROM",
+      "target": "StorageLocation"
+    },
+    {
+      "type": "TO",
+      "target": "StorageLocation"
+    },
+    {
+      "type": "FOR_ARTICLE",
+      "target": "Article"
+    }
+  ],
+  "kgNodeLabel": "TransportOrder",
+  "kgIdProperty": "ta_nr"
+}

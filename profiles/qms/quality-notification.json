@@ -1,0 +1,67 @@
+{
+  "profileId": "SMProfile-QualityNotification",
+  "version": "1.0.0",
+  "standard": "CESMII",
+  "displayName": "Quality Notification (Qualitätsmeldung)",
+  "description": "Defect report — customer complaint, supplier defect, or internal defect",
+  "parentType": null,
+  "attributes": [
+    {
+      "name": "notification_no",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "notification_type",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "reference_no",
+      "dataType": "String",
+      "category": "Link"
+    },
+    {
+      "name": "article_no",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "defect_quantity",
+      "dataType": "Int32",
+      "category": "Core"
+    },
+    {
+      "name": "priority",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "status",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "description",
+      "dataType": "String",
+      "category": "Detail"
+    },
+    {
+      "name": "root_cause",
+      "dataType": "String",
+      "category": "Detail"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "FOR_ARTICLE",
+      "target": "Article"
+    },
+    {
+      "type": "HAS_ACTION",
+      "target": "CorrectiveAction"
+    }
+  ],
+  "kgNodeLabel": "QualityNotification",
+  "kgIdProperty": "notification_no"
+}

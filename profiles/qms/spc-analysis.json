@@ -1,0 +1,64 @@
+{
+  "profileId": "SMProfile-SPCAnalysis",
+  "version": "1.0.0",
+  "standard": "CESMII",
+  "displayName": "SPC Analysis",
+  "description": "Statistical Process Control analysis — Cp, Cpk, control limits",
+  "parentType": null,
+  "attributes": [
+    {
+      "name": "analysis_id",
+      "dataType": "Int32",
+      "category": "Core"
+    },
+    {
+      "name": "lot_no",
+      "dataType": "String",
+      "category": "Link"
+    },
+    {
+      "name": "characteristic_no",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "mean_value",
+      "dataType": "Float",
+      "category": "Statistics"
+    },
+    {
+      "name": "std_deviation",
+      "dataType": "Float",
+      "category": "Statistics"
+    },
+    {
+      "name": "cp",
+      "dataType": "Float",
+      "category": "Capability"
+    },
+    {
+      "name": "cpk",
+      "dataType": "Float",
+      "category": "Capability"
+    },
+    {
+      "name": "is_in_control",
+      "dataType": "Boolean",
+      "category": "Status"
+    },
+    {
+      "name": "trend",
+      "dataType": "String",
+      "category": "Status",
+      "description": "stable, improving, declining, out_of_control"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "FOR_LOT",
+      "target": "InspectionLot"
+    }
+  ],
+  "kgNodeLabel": "SPCAnalysis",
+  "kgIdProperty": "analysis_id"
+}

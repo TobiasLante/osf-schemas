@@ -1,0 +1,59 @@
+{
+  "profileId": "SMProfile-BOMEntry",
+  "version": "1.0.0",
+  "standard": "CESMII",
+  "displayName": "BOM Entry (Stücklistenposition)",
+  "description": "Bill of Materials component — parent-child relationship between articles",
+  "parentType": null,
+  "attributes": [
+    {
+      "name": "bom_id",
+      "dataType": "String",
+      "category": "Core",
+      "description": "stueckliste_id + position"
+    },
+    {
+      "name": "stueckliste_id",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "position",
+      "dataType": "Int32",
+      "category": "Core"
+    },
+    {
+      "name": "component_id",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "component_name",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "quantity",
+      "dataType": "Float",
+      "category": "Core"
+    },
+    {
+      "name": "unit",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "level",
+      "dataType": "Int32",
+      "category": "Structure"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "COMPONENT_OF",
+      "target": "Article"
+    }
+  ],
+  "kgNodeLabel": "BOMEntry",
+  "kgIdProperty": "bom_id"
+}

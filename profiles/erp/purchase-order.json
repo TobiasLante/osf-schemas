@@ -1,0 +1,63 @@
+{
+  "profileId": "SMProfile-PurchaseOrder",
+  "version": "1.0.0",
+  "standard": "CESMII",
+  "displayName": "Purchase Order (Bestellung)",
+  "description": "Order to external supplier for raw materials or components",
+  "parentType": null,
+  "attributes": [
+    {
+      "name": "order_no",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "supplier_id",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "supplier_name",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "order_date",
+      "dataType": "String",
+      "category": "Planning"
+    },
+    {
+      "name": "delivery_date_planned",
+      "dataType": "String",
+      "category": "Planning"
+    },
+    {
+      "name": "delivery_date_actual",
+      "dataType": "String",
+      "category": "Planning"
+    },
+    {
+      "name": "status",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "total_value",
+      "dataType": "Float",
+      "category": "Commercial",
+      "unit": "EUR"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "FROM_SUPPLIER",
+      "target": "Supplier"
+    },
+    {
+      "type": "ORDERS",
+      "target": "Article"
+    }
+  ],
+  "kgNodeLabel": "PurchaseOrder",
+  "kgIdProperty": "order_no"
+}

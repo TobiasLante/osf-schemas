@@ -1,0 +1,59 @@
+{
+  "profileId": "SMProfile-CorrectiveAction",
+  "version": "1.0.0",
+  "standard": "CESMII",
+  "displayName": "Corrective Action (CAPA)",
+  "description": "Corrective and Preventive Action linked to a quality notification",
+  "parentType": null,
+  "attributes": [
+    {
+      "name": "action_no",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "notification_no",
+      "dataType": "String",
+      "category": "Link"
+    },
+    {
+      "name": "action_type",
+      "dataType": "String",
+      "category": "Core",
+      "description": "containment, corrective, preventive"
+    },
+    {
+      "name": "description",
+      "dataType": "String",
+      "category": "Detail"
+    },
+    {
+      "name": "responsible",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "due_date",
+      "dataType": "String",
+      "category": "Planning"
+    },
+    {
+      "name": "status",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "is_effective",
+      "dataType": "Boolean",
+      "category": "Verification"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "FOR_NOTIFICATION",
+      "target": "QualityNotification"
+    }
+  ],
+  "kgNodeLabel": "CorrectiveAction",
+  "kgIdProperty": "action_no"
+}

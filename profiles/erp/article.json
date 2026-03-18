@@ -1,0 +1,68 @@
+{
+  "profileId": "SMProfile-Article",
+  "version": "1.0.0",
+  "standard": "CESMII",
+  "displayName": "Article (Artikel)",
+  "description": "Manufactured or purchased item in the ERP system",
+  "parentType": null,
+  "attributes": [
+    {
+      "name": "article_no",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "name",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "type",
+      "dataType": "String",
+      "category": "Core",
+      "description": "FERT/HALB/ROH/KAUF"
+    },
+    {
+      "name": "unit",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "lead_time_days",
+      "dataType": "Int32",
+      "category": "Planning"
+    },
+    {
+      "name": "machine_group",
+      "dataType": "String",
+      "category": "Routing"
+    },
+    {
+      "name": "weight_kg",
+      "dataType": "Float",
+      "category": "Physical",
+      "unit": "kg"
+    },
+    {
+      "name": "abc_class",
+      "dataType": "String",
+      "category": "Classification"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "HAS_BOM",
+      "target": "BOMEntry"
+    },
+    {
+      "type": "HAS_ROUTING",
+      "target": "Routing"
+    },
+    {
+      "type": "IN_STOCK",
+      "target": "StockItem"
+    }
+  ],
+  "kgNodeLabel": "Article",
+  "kgIdProperty": "article_no"
+}

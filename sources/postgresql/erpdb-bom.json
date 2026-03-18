@@ -1,0 +1,56 @@
+{
+  "sourceId": "erpdb-bom",
+  "version": "1.0.0",
+  "sourceType": "postgresql",
+  "profileRef": "SMProfile-BOMEntry",
+  "connection": {
+    "host": "192.168.178.150",
+    "port": 30431,
+    "database": "erpdb",
+    "schema": "llm_test_v3",
+    "table": "stueckliste_bom"
+  },
+  "columnMappings": [
+    {
+      "column": "stueckliste_id || '-' || position",
+      "smAttribute": "bom_id",
+      "isId": true
+    },
+    {
+      "column": "stueckliste_id",
+      "smAttribute": "stueckliste_id"
+    },
+    {
+      "column": "position",
+      "smAttribute": "position"
+    },
+    {
+      "column": "baugruppe_id",
+      "smAttribute": "component_id"
+    },
+    {
+      "column": "baugruppe_bezeichnung",
+      "smAttribute": "component_name"
+    },
+    {
+      "column": "menge",
+      "smAttribute": "quantity"
+    },
+    {
+      "column": "einheit",
+      "smAttribute": "unit"
+    },
+    {
+      "column": "stufe",
+      "smAttribute": "level"
+    }
+  ],
+  "filter": "stufe = 1",
+  "edges": [
+    {
+      "type": "COMPONENT_OF",
+      "fkColumn": "baugruppe_id",
+      "targetLabel": "Article"
+    }
+  ]
+}

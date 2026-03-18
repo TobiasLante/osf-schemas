@@ -1,0 +1,69 @@
+{
+  "sourceId": "qmsdb-inspection-lots",
+  "version": "1.0.0",
+  "sourceType": "postgresql",
+  "profileRef": "SMProfile-InspectionLot",
+  "connection": {
+    "host": "192.168.178.150",
+    "port": 30433,
+    "database": "qmsdb",
+    "schema": "llm_test_v3",
+    "table": "qms_inspection_lots"
+  },
+  "columnMappings": [
+    {
+      "column": "lot_no",
+      "smAttribute": "lot_no",
+      "isId": true
+    },
+    {
+      "column": "lot_type",
+      "smAttribute": "lot_type"
+    },
+    {
+      "column": "production_order_no",
+      "smAttribute": "production_order_no"
+    },
+    {
+      "column": "article_no",
+      "smAttribute": "article_no"
+    },
+    {
+      "column": "machine_no",
+      "smAttribute": "machine_no"
+    },
+    {
+      "column": "lot_quantity",
+      "smAttribute": "lot_quantity"
+    },
+    {
+      "column": "sample_size",
+      "smAttribute": "sample_size"
+    },
+    {
+      "column": "status",
+      "smAttribute": "status"
+    },
+    {
+      "column": "inspection_start",
+      "smAttribute": "inspection_start"
+    },
+    {
+      "column": "inspection_end",
+      "smAttribute": "inspection_end"
+    }
+  ],
+  "filter": null,
+  "edges": [
+    {
+      "type": "FOR_ORDER",
+      "fkColumn": "production_order_no",
+      "targetLabel": "ProductionOrder"
+    },
+    {
+      "type": "FOR_ARTICLE",
+      "fkColumn": "article_no",
+      "targetLabel": "Article"
+    }
+  ]
+}

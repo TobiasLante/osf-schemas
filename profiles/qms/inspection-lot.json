@@ -1,0 +1,81 @@
+{
+  "profileId": "SMProfile-InspectionLot",
+  "version": "1.0.0",
+  "standard": "CESMII",
+  "displayName": "Inspection Lot (Prüflos)",
+  "description": "Quality inspection batch linked to a production order",
+  "parentType": null,
+  "attributes": [
+    {
+      "name": "lot_no",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "lot_type",
+      "dataType": "String",
+      "category": "Core",
+      "description": "goods_receipt, in_process, final"
+    },
+    {
+      "name": "production_order_no",
+      "dataType": "String",
+      "category": "Link"
+    },
+    {
+      "name": "article_no",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "machine_no",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "lot_quantity",
+      "dataType": "Int32",
+      "category": "Core"
+    },
+    {
+      "name": "sample_size",
+      "dataType": "Int32",
+      "category": "Core"
+    },
+    {
+      "name": "status",
+      "dataType": "String",
+      "category": "Core"
+    },
+    {
+      "name": "inspection_start",
+      "dataType": "String",
+      "category": "Timing"
+    },
+    {
+      "name": "inspection_end",
+      "dataType": "String",
+      "category": "Timing"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "FOR_ORDER",
+      "target": "ProductionOrder"
+    },
+    {
+      "type": "FOR_ARTICLE",
+      "target": "Article"
+    },
+    {
+      "type": "ON_MACHINE",
+      "target": "Machine"
+    },
+    {
+      "type": "HAS_RESULT",
+      "target": "InspectionResult"
+    }
+  ],
+  "kgNodeLabel": "InspectionLot",
+  "kgIdProperty": "lot_no"
+}
