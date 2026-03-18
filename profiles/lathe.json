@@ -1,0 +1,31 @@
+{
+  "profileId": "SMProfile-Lathe",
+  "version": "1.0.0",
+  "standard": "CESMII",
+  "displayName": "Lathe (Drehmaschine)",
+  "description": "Drehmaschine — rotational symmetric part machining (turning, boring, threading)",
+  "parentType": "SMProfile-CNC-Machine",
+  "attributes": [
+    { "name": "Machine_Status",        "dataType": "Int32",  "category": "BDE", "description": "1=Produktion, 2=Stillstand, 3=Rüsten, 4=Wartung, 5=Störung", "enum": [1,2,3,4,5] },
+    { "name": "Machine_Status_Text",   "dataType": "String", "category": "BDE" },
+    { "name": "Good_Parts",            "dataType": "Int32",  "category": "BDE" },
+    { "name": "Scrap_Parts",           "dataType": "Int32",  "category": "BDE" },
+    { "name": "Rework_Parts",          "dataType": "Int32",  "category": "BDE" },
+    { "name": "Cycle_Time_Planned",    "dataType": "Float",  "category": "BDE", "unit": "s" },
+    { "name": "Cycle_Time_Actual",     "dataType": "Float",  "category": "BDE", "unit": "s" },
+    { "name": "Power_kW",              "dataType": "Float",  "category": "BDE", "unit": "kW" },
+    { "name": "Energy_kWh",            "dataType": "Float",  "category": "BDE", "unit": "kWh" },
+    { "name": "Production_Order",      "dataType": "String", "category": "BDE" },
+    { "name": "Article_ID",            "dataType": "String", "category": "BDE" },
+    { "name": "Tool_ID",               "dataType": "String", "category": "BDE" },
+    { "name": "Shift_Number",          "dataType": "Int32",  "category": "BDE" },
+    { "name": "Operator_ID",           "dataType": "String", "category": "BDE" }
+  ],
+  "relationships": [
+    { "type": "PART_OF",   "target": "ProductionLine" },
+    { "type": "PRODUCES",  "target": "Article" },
+    { "type": "EXECUTES",  "target": "ProductionOrder" }
+  ],
+  "kgNodeLabel": "Lathe",
+  "kgIdProperty": "machine_id"
+}
