@@ -4,16 +4,26 @@
   "sourceType": "postgresql",
   "profileRef": "SMProfile-Pool",
   "connection": {
-    "host": "192.168.178.150",
-    "port": 30431,
+    "host": "${ERP_DB_HOST}",
+    "port": "${ERP_DB_PORT}",
     "database": "erpdb",
     "schema": "llm_test_v3",
     "table": "machine_pools"
   },
   "columnMappings": [
-    { "column": "pool_id", "smAttribute": "pool_id", "isId": true },
-    { "column": "pool_name", "smAttribute": "name" },
-    { "column": "description", "smAttribute": "description" }
+    {
+      "column": "pool_id",
+      "smAttribute": "pool_id",
+      "isId": true
+    },
+    {
+      "column": "pool_name",
+      "smAttribute": "name"
+    },
+    {
+      "column": "description",
+      "smAttribute": "description"
+    }
   ],
   "filter": null,
   "edges": []

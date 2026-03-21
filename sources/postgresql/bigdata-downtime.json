@@ -4,23 +4,49 @@
   "sourceType": "postgresql",
   "profileRef": "SMProfile-DowntimeRecord",
   "connection": {
-    "host": "192.168.178.150",
-    "port": 30432,
+    "host": "${BIGDATA_DB_HOST}",
+    "port": "${BIGDATA_DB_PORT}",
     "database": "bigdata_homelab",
     "schema": "llm_test_v3",
     "table": "bde_data"
   },
   "columnMappings": [
-    { "column": "id", "smAttribute": "downtime_id", "isId": true },
-    { "column": "machine_id", "smAttribute": "machine_id" },
-    { "column": "machine_name", "smAttribute": "machine_name" },
-    { "column": "downtime_reason", "smAttribute": "reason" },
-    { "column": "downtime_duration_sec", "smAttribute": "duration_sec" },
-    { "column": "shift_number", "smAttribute": "shift_number" },
-    { "column": "recorded_at", "smAttribute": "recorded_at" }
+    {
+      "column": "id",
+      "smAttribute": "downtime_id",
+      "isId": true
+    },
+    {
+      "column": "machine_id",
+      "smAttribute": "machine_id"
+    },
+    {
+      "column": "machine_name",
+      "smAttribute": "machine_name"
+    },
+    {
+      "column": "downtime_reason",
+      "smAttribute": "reason"
+    },
+    {
+      "column": "downtime_duration_sec",
+      "smAttribute": "duration_sec"
+    },
+    {
+      "column": "shift_number",
+      "smAttribute": "shift_number"
+    },
+    {
+      "column": "recorded_at",
+      "smAttribute": "recorded_at"
+    }
   ],
   "filter": "downtime_duration_sec > 0 AND recorded_at > NOW() - INTERVAL '30 days'",
   "edges": [
-    { "type": "HAD_DOWNTIME", "fkColumn": "machine_id", "targetLabel": "Machine" }
+    {
+      "type": "HAD_DOWNTIME",
+      "fkColumn": "machine_id",
+      "targetLabel": "Machine"
+    }
   ]
 }

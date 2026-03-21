@@ -4,19 +4,38 @@
   "sourceType": "postgresql",
   "profileRef": "SMProfile-KPIDef",
   "connection": {
-    "host": "192.168.178.150",
-    "port": 30431,
+    "host": "${ERP_DB_HOST}",
+    "port": "${ERP_DB_PORT}",
     "database": "erpdb",
     "schema": "llm_test_v3",
     "table": "kpi_otd"
   },
   "columnMappings": [
-    { "column": "id", "smAttribute": "kpi_id", "isId": true },
-    { "column": "kunde_name", "smAttribute": "customer_name" },
-    { "column": "orders_total", "smAttribute": "orders_total" },
-    { "column": "orders_on_time", "smAttribute": "orders_on_time" },
-    { "column": "orders_late", "smAttribute": "orders_late" },
-    { "column": "otd_percentage", "smAttribute": "otd_percentage" }
+    {
+      "column": "id",
+      "smAttribute": "kpi_id",
+      "isId": true
+    },
+    {
+      "column": "kunde_name",
+      "smAttribute": "customer_name"
+    },
+    {
+      "column": "orders_total",
+      "smAttribute": "orders_total"
+    },
+    {
+      "column": "orders_on_time",
+      "smAttribute": "orders_on_time"
+    },
+    {
+      "column": "orders_late",
+      "smAttribute": "orders_late"
+    },
+    {
+      "column": "otd_percentage",
+      "smAttribute": "otd_percentage"
+    }
   ],
   "filter": null,
   "edges": []

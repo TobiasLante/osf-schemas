@@ -4,18 +4,34 @@
   "sourceType": "postgresql",
   "profileRef": "SMProfile-Customer",
   "connection": {
-    "host": "192.168.178.150",
-    "port": 30431,
+    "host": "${ERP_DB_HOST}",
+    "port": "${ERP_DB_PORT}",
     "database": "erpdb",
     "schema": "llm_test_v3",
     "table": "kunden"
   },
   "columnMappings": [
-    { "column": "kunde_id", "smAttribute": "customer_id", "isId": true },
-    { "column": "name", "smAttribute": "name" },
-    { "column": "ort", "smAttribute": "city" },
-    { "column": "land", "smAttribute": "country" },
-    { "column": "email", "smAttribute": "email" }
+    {
+      "column": "kunde_id",
+      "smAttribute": "customer_id",
+      "isId": true
+    },
+    {
+      "column": "name",
+      "smAttribute": "name"
+    },
+    {
+      "column": "ort",
+      "smAttribute": "city"
+    },
+    {
+      "column": "land",
+      "smAttribute": "country"
+    },
+    {
+      "column": "email",
+      "smAttribute": "email"
+    }
   ],
   "filter": null,
   "edges": []
