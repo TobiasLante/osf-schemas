@@ -19,7 +19,7 @@
     { "column": "shift_number", "smAttribute": "shift_number" },
     { "column": "recorded_at", "smAttribute": "recorded_at" }
   ],
-  "filter": "downtime_duration_sec > 0",
+  "filter": "downtime_duration_sec > 0 AND recorded_at > NOW() - INTERVAL '30 days'",
   "edges": [
     { "type": "HAD_DOWNTIME", "fkColumn": "machine_id", "targetLabel": "Machine" }
   ]
