@@ -1,0 +1,25 @@
+{
+  "sourceId": "erpdb-articles",
+  "version": "1.0.0",
+  "sourceType": "postgresql",
+  "profileRef": "SMProfile-Article",
+  "connection": {
+    "host": "192.168.178.150",
+    "port": 30431,
+    "database": "erpdb",
+    "schema": "llm_test_v3",
+    "table": "lagerbestand"
+  },
+  "columnMappings": [
+    { "column": "teil_id", "smAttribute": "article_no", "isId": true },
+    { "column": "teil_bezeichnung", "smAttribute": "name" },
+    { "column": "teil_typ", "smAttribute": "type" },
+    { "column": "einheit", "smAttribute": "unit" },
+    { "column": "wiederbeschaffungszeit_tage", "smAttribute": "lead_time_days" },
+    { "column": "machine_group", "smAttribute": "machine_group" },
+    { "column": "gewicht_kg", "smAttribute": "weight_kg" },
+    { "column": "abc_klasse", "smAttribute": "abc_class" }
+  ],
+  "filter": null,
+  "edges": []
+}

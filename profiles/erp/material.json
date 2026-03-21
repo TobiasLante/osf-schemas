@@ -1,0 +1,26 @@
+{
+  "profileId": "SMProfile-Material",
+  "version": "1.0.0",
+  "standard": "CESMII",
+  "displayName": "Material / Stock Item",
+  "description": "Material- und Lagerbestandsdaten (Rohmaterial, Halbzeug, Fertigware)",
+  "parentType": null,
+  "attributes": [
+    { "name": "name", "dataType": "String", "category": "Master" },
+    { "name": "type", "dataType": "String", "category": "Master" },
+    { "name": "unit", "dataType": "String", "category": "Master" },
+    { "name": "free_stock", "dataType": "Float", "category": "Stock" },
+    { "name": "blocked_stock", "dataType": "Float", "category": "Stock" },
+    { "name": "reserved", "dataType": "Float", "category": "Stock" },
+    { "name": "safety_stock", "dataType": "Float", "category": "Stock" },
+    { "name": "location", "dataType": "String", "category": "Stock" },
+    { "name": "abc_class", "dataType": "String", "category": "Master" },
+    { "name": "lead_time_days", "dataType": "Int32", "category": "Master" },
+    { "name": "supplier", "dataType": "String", "category": "Master" }
+  ],
+  "relationships": [
+    { "type": "SUPPLIED_BY", "target": "Supplier" }
+  ],
+  "kgNodeLabel": "Material",
+  "kgIdProperty": "material_id"
+}

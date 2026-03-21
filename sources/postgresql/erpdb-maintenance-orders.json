@@ -1,0 +1,30 @@
+{
+  "sourceId": "erpdb-maintenance-orders",
+  "version": "1.0.0",
+  "sourceType": "postgresql",
+  "profileRef": "SMProfile-MaintenanceOrder",
+  "connection": {
+    "host": "192.168.178.150",
+    "port": 30431,
+    "database": "erpdb",
+    "schema": "llm_test_v3",
+    "table": "maintenance_orders"
+  },
+  "columnMappings": [
+    { "column": "order_no", "smAttribute": "order_no", "isId": true },
+    { "column": "notification_no", "smAttribute": "notification_no" },
+    { "column": "machine_no", "smAttribute": "machine_no" },
+    { "column": "order_type", "smAttribute": "order_type" },
+    { "column": "priority", "smAttribute": "priority" },
+    { "column": "status", "smAttribute": "status" },
+    { "column": "description", "smAttribute": "description" },
+    { "column": "planned_start", "smAttribute": "planned_start" },
+    { "column": "planned_end", "smAttribute": "planned_end" },
+    { "column": "planned_hours", "smAttribute": "planned_hours" }
+  ],
+  "filter": null,
+  "edges": [
+    { "type": "HAS_MAINTENANCE", "fkColumn": "machine_no", "targetLabel": "Machine" },
+    { "type": "FROM_NOTIFICATION", "fkColumn": "notification_no", "targetLabel": "MaintenanceNotification" }
+  ]
+}

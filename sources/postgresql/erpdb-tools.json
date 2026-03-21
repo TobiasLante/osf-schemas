@@ -1,0 +1,25 @@
+{
+  "sourceId": "erpdb-tools",
+  "version": "1.0.0",
+  "sourceType": "postgresql",
+  "profileRef": "SMProfile-Tool",
+  "connection": {
+    "host": "192.168.178.150",
+    "port": 30431,
+    "database": "erpdb",
+    "schema": "llm_test_v3",
+    "table": "werkzeug_instanzen"
+  },
+  "columnMappings": [
+    { "column": "instanz_id", "smAttribute": "tool_id", "isId": true },
+    { "column": "werkzeug_id", "smAttribute": "tool_type_id" },
+    { "column": "maschine_no", "smAttribute": "machine" },
+    { "column": "status", "smAttribute": "status" },
+    { "column": "verschleiss_prozent", "smAttribute": "wear_pct" },
+    { "column": "einsatz_minuten", "smAttribute": "usage_minutes" }
+  ],
+  "filter": null,
+  "edges": [
+    { "type": "MOUNTED_ON", "fkColumn": "maschine_no", "targetLabel": "Machine" }
+  ]
+}

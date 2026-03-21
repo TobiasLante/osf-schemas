@@ -1,0 +1,23 @@
+{
+  "profileId": "SMProfile-MaintenanceNotification",
+  "version": "1.0.0",
+  "standard": "CESMII",
+  "displayName": "Maintenance Notification",
+  "description": "Instandhaltungsmeldung (Störung/Wartung/Inspektion)",
+  "parentType": null,
+  "attributes": [
+    { "name": "machine_no", "dataType": "String", "category": "Reference" },
+    { "name": "notification_type", "dataType": "String", "category": "Master" },
+    { "name": "priority", "dataType": "String", "category": "Master" },
+    { "name": "status", "dataType": "String", "category": "Status" },
+    { "name": "description", "dataType": "String", "category": "Master" },
+    { "name": "downtime_minutes", "dataType": "Int32", "category": "Impact" },
+    { "name": "root_cause", "dataType": "String", "category": "Analysis" },
+    { "name": "reported_by", "dataType": "String", "category": "Master" }
+  ],
+  "relationships": [
+    { "type": "FOR_MACHINE", "target": "Machine" }
+  ],
+  "kgNodeLabel": "MaintenanceNotification",
+  "kgIdProperty": "notification_no"
+}

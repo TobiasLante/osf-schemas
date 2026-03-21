@@ -1,0 +1,31 @@
+{
+  "sourceId": "erpdb-materials",
+  "version": "1.0.0",
+  "sourceType": "postgresql",
+  "profileRef": "SMProfile-Material",
+  "connection": {
+    "host": "192.168.178.150",
+    "port": 30431,
+    "database": "erpdb",
+    "schema": "llm_test_v3",
+    "table": "lagerbestand"
+  },
+  "columnMappings": [
+    { "column": "teil_id", "smAttribute": "material_id", "isId": true },
+    { "column": "teil_bezeichnung", "smAttribute": "name" },
+    { "column": "teil_typ", "smAttribute": "type" },
+    { "column": "einheit", "smAttribute": "unit" },
+    { "column": "menge_frei", "smAttribute": "free_stock" },
+    { "column": "menge_gesperrt", "smAttribute": "blocked_stock" },
+    { "column": "reserviert", "smAttribute": "reserved" },
+    { "column": "mindestbestand", "smAttribute": "safety_stock" },
+    { "column": "lagerort", "smAttribute": "location" },
+    { "column": "abc_klasse", "smAttribute": "abc_class" },
+    { "column": "wiederbeschaffungszeit_tage", "smAttribute": "lead_time_days" },
+    { "column": "lieferant", "smAttribute": "supplier" }
+  ],
+  "filter": null,
+  "edges": [
+    { "type": "SUPPLIED_BY", "fkColumn": "lieferant", "targetLabel": "Supplier" }
+  ]
+}

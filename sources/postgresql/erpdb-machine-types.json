@@ -1,0 +1,22 @@
+{
+  "sourceId": "erpdb-machine-types",
+  "version": "1.0.0",
+  "sourceType": "postgresql",
+  "profileRef": "SMProfile-MachineType",
+  "connection": {
+    "host": "192.168.178.150",
+    "port": 30431,
+    "database": "erpdb",
+    "schema": "llm_test_v3",
+    "table": "machine_groups"
+  },
+  "columnMappings": [
+    { "column": "group_id", "smAttribute": "group_id", "isId": true },
+    { "column": "group_name", "smAttribute": "name" },
+    { "column": "description", "smAttribute": "description" },
+    { "column": "max_closing_force_kn", "smAttribute": "max_closing_force_kn" },
+    { "column": "min_closing_force_kn", "smAttribute": "min_closing_force_kn" }
+  ],
+  "filter": null,
+  "edges": []
+}

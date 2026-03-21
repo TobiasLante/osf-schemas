@@ -1,0 +1,23 @@
+{
+  "profileId": "SMProfile-Tool",
+  "version": "1.0.0",
+  "standard": "CESMII",
+  "displayName": "Tool Instance",
+  "description": "Werkzeuginstanz mit Verschleiß und Einsatzstatus",
+  "parentType": null,
+  "attributes": [
+    { "name": "tool_type_id", "dataType": "String", "category": "Master" },
+    { "name": "name", "dataType": "String", "category": "Master" },
+    { "name": "type", "dataType": "String", "category": "Master" },
+    { "name": "machine", "dataType": "String", "category": "Assignment" },
+    { "name": "status", "dataType": "String", "category": "Status" },
+    { "name": "wear_pct", "dataType": "Float", "category": "Condition" },
+    { "name": "usage_minutes", "dataType": "Int32", "category": "Condition" }
+  ],
+  "relationships": [
+    { "type": "MOUNTED_ON", "target": "Machine" },
+    { "type": "INSTANCE_OF", "target": "ToolType" }
+  ],
+  "kgNodeLabel": "Tool",
+  "kgIdProperty": "tool_id"
+}

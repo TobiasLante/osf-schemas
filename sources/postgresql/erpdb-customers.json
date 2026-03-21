@@ -1,0 +1,25 @@
+{
+  "sourceId": "erpdb-customers",
+  "version": "1.0.0",
+  "sourceType": "postgresql",
+  "profileRef": "SMProfile-Customer",
+  "connection": {
+    "host": "192.168.178.150",
+    "port": 30431,
+    "database": "erpdb",
+    "schema": "llm_test_v3",
+    "table": "kunden"
+  },
+  "columnMappings": [
+    { "column": "name", "smAttribute": "name", "isId": true },
+    { "column": "kunde_id", "smAttribute": "customer_id" },
+    { "column": "ort", "smAttribute": "city" },
+    { "column": "land", "smAttribute": "country" },
+    { "column": "ansprechpartner", "smAttribute": "contact" },
+    { "column": "email", "smAttribute": "email" },
+    { "column": "zahlungsziel_tage", "smAttribute": "payment_days" },
+    { "column": "aktiv", "smAttribute": "active" }
+  ],
+  "filter": null,
+  "edges": []
+}
