@@ -55,8 +55,20 @@
   ],
   "filter": null,
   "edges": [
-    { "fkColumn": "artikel_nr", "type": "FOR_ARTICLE", "targetLabel": "Article" },
-    { "fkColumn": "von_lagerplatz", "type": "FROM_LOCATION", "targetLabel": "StorageLocation" },
-    { "fkColumn": "nach_lagerplatz", "type": "TO_LOCATION", "targetLabel": "StorageLocation" }
+    {
+      "fkColumn": "artikel_nr",
+      "type": "FOR_ARTICLE",
+      "targetIdProp": "article_no"
+    },
+    {
+      "fkColumn": "von_lagerplatz",
+      "type": "FROM_LOCATION",
+      "targetIdProp": "location_key"
+    },
+    {
+      "fkColumn": "nach_lagerplatz",
+      "type": "TO_LOCATION",
+      "targetIdProp": "location_key"
+    }
   ]
 }

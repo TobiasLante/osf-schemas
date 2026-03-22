@@ -51,8 +51,20 @@
   ],
   "filter": null,
   "edges": [
-    { "fkColumn": "artikel_nr", "type": "FOR_ARTICLE", "targetLabel": "Article" },
-    { "fkColumn": "herkunft_maschine", "type": "PRODUCED_ON", "targetLabel": "Machine" },
-    { "fkColumn": "ziel_lager", "type": "TO_WAREHOUSE", "targetLabel": "StorageLocation" }
+    {
+      "fkColumn": "artikel_nr",
+      "type": "FOR_ARTICLE",
+      "targetIdProp": "article_no"
+    },
+    {
+      "fkColumn": "herkunft_maschine",
+      "type": "PRODUCED_ON",
+      "targetIdProp": "machine_id"
+    },
+    {
+      "fkColumn": "ziel_lager",
+      "type": "TO_WAREHOUSE",
+      "targetIdProp": "location_key"
+    }
   ]
 }
