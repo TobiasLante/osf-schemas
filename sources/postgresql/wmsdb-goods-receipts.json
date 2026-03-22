@@ -50,5 +50,9 @@
     }
   ],
   "filter": null,
-  "edges": []
+  "edges": [
+    { "fkColumn": "artikel_nr", "type": "FOR_ARTICLE", "targetLabel": "Article" },
+    { "fkColumn": "herkunft_maschine", "type": "PRODUCED_ON", "targetLabel": "Machine" },
+    { "fkColumn": "ziel_lager", "type": "TO_WAREHOUSE", "targetLabel": "StorageLocation" }
+  ]
 }
