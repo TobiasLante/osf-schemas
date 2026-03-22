@@ -1,0 +1,285 @@
+{
+  "mappingId": "uns-walker-reynolds",
+  "version": "1.0.0",
+  "description": "Full Unified Name Space (UNS) after Walker Reynolds — ISA-95 hierarchy with all domains: BDE, ProcessData, ERP, QMS, TMS, Maintenance, Energy",
+
+  "broker": {
+    "host": "${MQTT_HOST}",
+    "port": "${MQTT_PORT}"
+  },
+
+  "topicStructure": {
+    "pattern": "{enterprise}/{site}/{area}/{line}/{machine}/{domain}/{category}/{attribute}",
+    "hierarchy": "ISA-95",
+    "segments": {
+      "enterprise": { "index": 0, "description": "Enterprise name (e.g. 'ZeroGuess')" },
+      "site":       { "index": 1, "description": "Plant/Site (e.g. 'Hauptwerk')" },
+      "area":       { "index": 2, "description": "Production area (e.g. 'Spritzgusshalle', 'CNC-Fertigung')" },
+      "line":       { "index": 3, "description": "Production line/cell (e.g. 'SGM-1300', 'CNC-Pool')" },
+      "machine":    { "index": 4, "description": "Machine ID (e.g. 'SGM-004', '7533')" },
+      "domain":     { "index": 5, "description": "Data domain: BDE, ProcessData, ERP, QMS, TMS, Maintenance, Energy" },
+      "category":   { "index": 6, "description": "Sub-category within domain" },
+      "attribute":  { "index": 7, "description": "Attribute name" }
+    },
+    "subscribeFilters": [
+      "+/+/+/+/+/BDE/#",
+      "+/+/+/+/+/ProcessData/#",
+      "+/+/+/+/+/ERP/#",
+      "+/+/+/+/+/QMS/#",
+      "+/+/+/+/+/TMS/#",
+      "+/+/+/+/+/Maintenance/#",
+      "+/+/+/+/+/Energy/#"
+    ]
+  },
+
+  "payloadSchema": {
+    "format": "JSON",
+    "valuePath": "$.value",
+    "timestampPath": "$.ts",
+    "timestampFormat": "ISO8601",
+    "unitPath": "$.unit",
+    "qualityPath": "$.quality",
+    "example": {
+      "value": 234.5,
+      "ts": "2026-03-22T14:30:00.000Z",
+      "unit": "°C",
+      "quality": "good"
+    }
+  },
+
+  "machineIdResolution": {
+    "strategy": "topic_segment",
+    "segment": 4,
+    "description": "Segment 4 is the machine ID, resolved against SM Profile kgIdProperty 'machine_id'"
+  },
+
+  "domains": {
+    "BDE": {
+      "description": "Betriebsdatenerfassung — real-time production counters and status",
+      "topicPattern": "{enterprise}/{site}/{area}/{line}/{machine}/BDE/{attribute}",
+      "examples": [
+        "{enterprise}/{site}/{area}/{line}/SGM-004/BDE/Machine_Status",
+        "{enterprise}/{site}/{area}/{line}/SGM-004/BDE/Parts_Good",
+        "{enterprise}/{site}/{area}/{line}/SGM-004/BDE/Parts_Scrap",
+        "{enterprise}/{site}/{area}/{line}/SGM-004/BDE/Cycle_Time_Actual",
+        "{enterprise}/{site}/{area}/{line}/SGM-004/BDE/OEE",
+        "{enterprise}/{site}/{area}/{line}/SGM-004/BDE/Availability",
+        "{enterprise}/{site}/{area}/{line}/SGM-004/BDE/Performance",
+        "{enterprise}/{site}/{area}/{line}/SGM-004/BDE/Quality_Pct",
+        "{enterprise}/{site}/{area}/{line}/SGM-004/BDE/Shot_Counter",
+        "{enterprise}/{site}/{area}/{line}/SGM-004/BDE/Production_Order",
+        "{enterprise}/{site}/{area}/{line}/SGM-004/BDE/Article_ID"
+      ],
+      "attributeMappings": [
+        { "topicAttribute": "Machine_Status",   "smAttribute": "Machine_Status" },
+        { "topicAttribute": "Parts_Good",       "smAttribute": "Good_Parts" },
+        { "topicAttribute": "Parts_Scrap",      "smAttribute": "Scrap_Parts" },
+        { "topicAttribute": "Parts_Rework",     "smAttribute": "Rework_Parts" },
+        { "topicAttribute": "Cycle_Time_Actual","smAttribute": "Cycle_Time_Actual" },
+        { "topicAttribute": "Cycle_Time_Plan",  "smAttribute": "Cycle_Time_Planned" },
+        { "topicAttribute": "OEE",              "smAttribute": "OEE" },
+        { "topicAttribute": "Availability",     "smAttribute": "Availability" },
+        { "topicAttribute": "Performance",      "smAttribute": "Performance" },
+        { "topicAttribute": "Quality_Pct",      "smAttribute": "Quality_Pct" },
+        { "topicAttribute": "Shot_Counter",     "smAttribute": "Shot_Counter" },
+        { "topicAttribute": "Production_Order", "smAttribute": "Production_Order" },
+        { "topicAttribute": "Article_ID",       "smAttribute": "Article_ID" }
+      ]
+    },
+
+    "ProcessData": {
+      "description": "Process parameters — temperatures, pressures, speeds, positions, volumes",
+      "topicPattern": "{enterprise}/{site}/{area}/{line}/{machine}/ProcessData/{category}/{attribute}",
+      "categories": ["Temperature", "Pressure", "Speed", "Time", "Position", "Volume", "Force"],
+      "examples": [
+        "{enterprise}/{site}/{area}/{line}/SGM-004/ProcessData/Temperature/Melting_Actual",
+        "{enterprise}/{site}/{area}/{line}/SGM-004/ProcessData/Temperature/Melting_Set",
+        "{enterprise}/{site}/{area}/{line}/SGM-004/ProcessData/Pressure/Holding_Actual",
+        "{enterprise}/{site}/{area}/{line}/SGM-004/ProcessData/Speed/Injection_Actual",
+        "{enterprise}/{site}/{area}/{line}/SGM-004/ProcessData/Time/Dosing_Actual",
+        "{enterprise}/{site}/{area}/{line}/SGM-004/ProcessData/Position/Screw_Dosing",
+        "{enterprise}/{site}/{area}/{line}/SGM-004/ProcessData/Volume/Shot_Actual",
+        "{enterprise}/{site}/{area}/{line}/SGM-004/ProcessData/Force/Clamping_Actual"
+      ],
+      "attributeMappings": [
+        { "topicAttribute": "Temperature/Melting_Actual",       "smAttribute": "Temp_Melting" },
+        { "topicAttribute": "Temperature/Melting_Set",          "smAttribute": "Temp_Melting_Set" },
+        { "topicAttribute": "Temperature/Zone1_Actual",         "smAttribute": "Temp_Zone_1" },
+        { "topicAttribute": "Temperature/Zone1_Set",            "smAttribute": "Temp_Zone_1_Set" },
+        { "topicAttribute": "Temperature/Zone2_Actual",         "smAttribute": "Temp_Zone_2" },
+        { "topicAttribute": "Temperature/Zone2_Set",            "smAttribute": "Temp_Zone_2_Set" },
+        { "topicAttribute": "Temperature/Nozzle_Actual",        "smAttribute": "Temp_Nozzle" },
+        { "topicAttribute": "Temperature/Nozzle_Set",           "smAttribute": "Temp_Nozzle_Set" },
+        { "topicAttribute": "Temperature/Mould_Fixed_Actual",   "smAttribute": "Temp_Mould_Fixed" },
+        { "topicAttribute": "Temperature/Mould_Moving_Actual",  "smAttribute": "Temp_Mould_Moving" },
+        { "topicAttribute": "Temperature/Water_Inlet",          "smAttribute": "Temp_Water_Inlet" },
+        { "topicAttribute": "Temperature/Water_Outlet",         "smAttribute": "Temp_Water_Outlet" },
+        { "topicAttribute": "Temperature/Oil_Actual",           "smAttribute": "Temp_Oil" },
+        { "topicAttribute": "Temperature/Ambient",              "smAttribute": "Temp_Ambient" },
+
+        { "topicAttribute": "Pressure/Holding_Actual",          "smAttribute": "Pressure_Holding" },
+        { "topicAttribute": "Pressure/Holding_Set",             "smAttribute": "Pressure_Holding_Set" },
+        { "topicAttribute": "Pressure/Injection_Max_Actual",    "smAttribute": "Pressure_Injection_Max" },
+        { "topicAttribute": "Pressure/Injection_Max_Set",       "smAttribute": "Pressure_Injection_Max_Set" },
+        { "topicAttribute": "Pressure/Switch_Actual",           "smAttribute": "Pressure_Injection_Switch" },
+        { "topicAttribute": "Pressure/Back_Actual",             "smAttribute": "Pressure_Back" },
+        { "topicAttribute": "Pressure/Oil",                     "smAttribute": "Pressure_Oil" },
+
+        { "topicAttribute": "Speed/Injection_Actual",           "smAttribute": "Speed_Injection" },
+        { "topicAttribute": "Speed/Injection_Set",              "smAttribute": "Speed_Injection_Set" },
+        { "topicAttribute": "Speed/Screw_Actual",               "smAttribute": "Speed_Screw_RPM" },
+        { "topicAttribute": "Speed/Screw_Set",                  "smAttribute": "Speed_Screw_RPM_Set" },
+        { "topicAttribute": "Speed/Mould_Open_Actual",          "smAttribute": "Speed_Mould_Open" },
+        { "topicAttribute": "Speed/Mould_Close_Actual",         "smAttribute": "Speed_Mould_Close" },
+        { "topicAttribute": "Speed/Ejector_Actual",             "smAttribute": "Speed_Ejector" },
+        { "topicAttribute": "Spindle_RPM",                      "smAttribute": "Spindle_RPM" },
+        { "topicAttribute": "Feed_Rate",                        "smAttribute": "Feed_Rate" },
+
+        { "topicAttribute": "Time/Dosing_Actual",               "smAttribute": "Time_Dosing" },
+        { "topicAttribute": "Time/Filling_Actual",              "smAttribute": "Time_Filling" },
+        { "topicAttribute": "Time/Holding_Actual",              "smAttribute": "Time_Holding" },
+        { "topicAttribute": "Time/Cooling_Actual",              "smAttribute": "Time_Cooling" },
+        { "topicAttribute": "Time/Mould_Open_Actual",           "smAttribute": "Time_Mould_Open" },
+        { "topicAttribute": "Time/Mould_Close_Actual",          "smAttribute": "Time_Mould_Close" },
+        { "topicAttribute": "Time/Ejection_Actual",             "smAttribute": "Time_Ejection" },
+        { "topicAttribute": "Time/Injection_Actual",            "smAttribute": "Time_Injection" },
+
+        { "topicAttribute": "Position/Screw_Dosing_Actual",     "smAttribute": "Position_Screw_Dosing" },
+        { "topicAttribute": "Position/Screw_Switch_Actual",     "smAttribute": "Position_Screw_Switch" },
+        { "topicAttribute": "Position/Mould_Open_Actual",       "smAttribute": "Position_Mould_Open" },
+        { "topicAttribute": "Position/Ejector_Actual",          "smAttribute": "Position_Ejector" },
+
+        { "topicAttribute": "Volume/Shot_Actual",               "smAttribute": "Volume_Shot" },
+        { "topicAttribute": "Volume/Cushion_Actual",            "smAttribute": "Volume_Cushion" },
+
+        { "topicAttribute": "Force/Clamping_Actual",            "smAttribute": "Force_Closing" },
+        { "topicAttribute": "Force/Ejector_Actual",             "smAttribute": "Force_Ejector" },
+        { "topicAttribute": "Force/Screw_Torque",               "smAttribute": "Torque_Screw" }
+      ]
+    },
+
+    "ERP": {
+      "description": "Enterprise Resource Planning — orders, stock, BOM, MRP status",
+      "topicPattern": "{enterprise}/{site}/ERP/{category}/{entityId}/{attribute}",
+      "categories": ["CustomerOrder", "ProductionOrder", "PurchaseOrder", "Stock", "BOM", "MRP"],
+      "examples": [
+        "ZeroGuess/Hauptwerk/ERP/CustomerOrder/KA202657129/Status",
+        "ZeroGuess/Hauptwerk/ERP/CustomerOrder/KA202657129/Quantity",
+        "ZeroGuess/Hauptwerk/ERP/CustomerOrder/KA202657129/DueDate",
+        "ZeroGuess/Hauptwerk/ERP/ProductionOrder/FA252630644/Status",
+        "ZeroGuess/Hauptwerk/ERP/ProductionOrder/FA252630644/Machine",
+        "ZeroGuess/Hauptwerk/ERP/ProductionOrder/FA252630644/Progress_Pct",
+        "ZeroGuess/Hauptwerk/ERP/Stock/14-0021-009/Qty_Free",
+        "ZeroGuess/Hauptwerk/ERP/Stock/14-0021-009/Qty_Reserved",
+        "ZeroGuess/Hauptwerk/ERP/Stock/14-0021-009/Coverage_Days",
+        "ZeroGuess/Hauptwerk/ERP/MRP/Shortages/Total_Count",
+        "ZeroGuess/Hauptwerk/ERP/MRP/Shortages/Critical_Count",
+        "ZeroGuess/Hauptwerk/ERP/BOM/ART-006/Components"
+      ],
+      "attributeMappings": [
+        { "topicAttribute": "Status",        "smAttribute": "status" },
+        { "topicAttribute": "Quantity",      "smAttribute": "quantity" },
+        { "topicAttribute": "DueDate",       "smAttribute": "due_date" },
+        { "topicAttribute": "Machine",       "smAttribute": "machine_no" },
+        { "topicAttribute": "Progress_Pct",  "smAttribute": "progress_pct" },
+        { "topicAttribute": "Qty_Free",      "smAttribute": "qty_free" },
+        { "topicAttribute": "Qty_Reserved",  "smAttribute": "reserved" },
+        { "topicAttribute": "Coverage_Days", "smAttribute": "coverage_days" },
+        { "topicAttribute": "Article",       "smAttribute": "article_no" },
+        { "topicAttribute": "Customer",      "smAttribute": "customer" }
+      ]
+    },
+
+    "QMS": {
+      "description": "Quality Management System — notifications, inspection lots, SPC, Cpk",
+      "topicPattern": "{enterprise}/{site}/QMS/{category}/{entityId}/{attribute}",
+      "categories": ["Notification", "InspectionLot", "SPC", "Calibration"],
+      "examples": [
+        "ZeroGuess/Hauptwerk/QMS/Notification/QM-2026-001/Status",
+        "ZeroGuess/Hauptwerk/QMS/Notification/QM-2026-001/Article",
+        "ZeroGuess/Hauptwerk/QMS/InspectionLot/IL-2026-042/Result",
+        "ZeroGuess/Hauptwerk/QMS/InspectionLot/IL-2026-042/Defect_Rate",
+        "ZeroGuess/Hauptwerk/QMS/SPC/SGM-004/Cpk_Current",
+        "ZeroGuess/Hauptwerk/QMS/SPC/SGM-004/Alarm_Active",
+        "ZeroGuess/Hauptwerk/QMS/Calibration/Gauge-001/DueDate"
+      ],
+      "attributeMappings": [
+        { "topicAttribute": "Status",       "smAttribute": "status" },
+        { "topicAttribute": "Result",       "smAttribute": "result" },
+        { "topicAttribute": "Defect_Rate",  "smAttribute": "defect_rate" },
+        { "topicAttribute": "Cpk_Current",  "smAttribute": "cpk" },
+        { "topicAttribute": "Alarm_Active", "smAttribute": "alarm_active" },
+        { "topicAttribute": "Article",      "smAttribute": "article_no" }
+      ]
+    },
+
+    "TMS": {
+      "description": "Tool Management System — tool wear, location, availability",
+      "topicPattern": "{enterprise}/{site}/{area}/{line}/{machine}/TMS/{toolId}/{attribute}",
+      "examples": [
+        "{enterprise}/{site}/{area}/{line}/7533/TMS/WKZ-440/Wear_Pct",
+        "{enterprise}/{site}/{area}/{line}/7533/TMS/WKZ-440/Remaining_Life_Min",
+        "{enterprise}/{site}/{area}/{line}/7533/TMS/WKZ-440/Status",
+        "{enterprise}/{site}/{area}/{line}/SGM-004/TMS/Mould-1300A/Shot_Count",
+        "{enterprise}/{site}/{area}/{line}/SGM-004/TMS/Mould-1300A/Condition"
+      ],
+      "attributeMappings": [
+        { "topicAttribute": "Wear_Pct",           "smAttribute": "Tool_Wear_Pct" },
+        { "topicAttribute": "Remaining_Life_Min",  "smAttribute": "Tool_Remaining_Life" },
+        { "topicAttribute": "Status",              "smAttribute": "Tool_Status" },
+        { "topicAttribute": "Shot_Count",          "smAttribute": "Mould_Shot_Count" },
+        { "topicAttribute": "Condition",           "smAttribute": "Tool_Condition" }
+      ]
+    },
+
+    "Maintenance": {
+      "description": "Maintenance — open notifications, orders, MTBF, next scheduled maintenance",
+      "topicPattern": "{enterprise}/{site}/{area}/{line}/{machine}/Maintenance/{attribute}",
+      "examples": [
+        "{enterprise}/{site}/{area}/{line}/SGM-004/Maintenance/Open_Notifications",
+        "{enterprise}/{site}/{area}/{line}/SGM-004/Maintenance/Open_Orders",
+        "{enterprise}/{site}/{area}/{line}/SGM-004/Maintenance/MTBF_Hours",
+        "{enterprise}/{site}/{area}/{line}/SGM-004/Maintenance/MTTR_Hours",
+        "{enterprise}/{site}/{area}/{line}/SGM-004/Maintenance/Next_PM_Date",
+        "{enterprise}/{site}/{area}/{line}/SGM-004/Maintenance/Last_Breakdown"
+      ],
+      "attributeMappings": [
+        { "topicAttribute": "Open_Notifications",  "smAttribute": "Maintenance_Open_Notifications" },
+        { "topicAttribute": "Open_Orders",          "smAttribute": "Maintenance_Open_Orders" },
+        { "topicAttribute": "MTBF_Hours",           "smAttribute": "MTBF_Hours" },
+        { "topicAttribute": "MTTR_Hours",           "smAttribute": "MTTR_Hours" },
+        { "topicAttribute": "Next_PM_Date",         "smAttribute": "Next_PM_Date" },
+        { "topicAttribute": "Last_Breakdown",       "smAttribute": "Last_Breakdown" }
+      ]
+    },
+
+    "Energy": {
+      "description": "Energy monitoring — consumption, costs, base load",
+      "topicPattern": "{enterprise}/{site}/{area}/{line}/{machine}/Energy/{attribute}",
+      "examples": [
+        "{enterprise}/{site}/{area}/{line}/SGM-004/Energy/Total_kWh",
+        "{enterprise}/{site}/{area}/{line}/SGM-004/Energy/Heating_kWh",
+        "{enterprise}/{site}/{area}/{line}/SGM-004/Energy/Drive_kWh",
+        "{enterprise}/{site}/{area}/{line}/SGM-004/Energy/Power_Current_kW",
+        "{enterprise}/{site}/{area}/{line}/SGM-004/Energy/Base_Load_kW",
+        "{enterprise}/{site}/{area}/{line}/SGM-004/Energy/Cost_EUR_per_Hour"
+      ],
+      "attributeMappings": [
+        { "topicAttribute": "Total_kWh",         "smAttribute": "Energy_Total_kWh" },
+        { "topicAttribute": "Heating_kWh",       "smAttribute": "Energy_Heating_kWh" },
+        { "topicAttribute": "Drive_kWh",         "smAttribute": "Energy_Drive_kWh" },
+        { "topicAttribute": "Power_Current_kW",  "smAttribute": "Power_Current" },
+        { "topicAttribute": "Base_Load_kW",      "smAttribute": "Base_Load_kW" },
+        { "topicAttribute": "Cost_EUR_per_Hour",  "smAttribute": "Energy_Cost_EUR" }
+      ]
+    }
+  },
+
+  "notes": {
+    "hierarchy": "ISA-95 Enterprise → Site → Area → Line → Machine, then domain-specific branches",
+    "walkerReynoldsCompliance": "Follows UNS principles: single source of truth, event-driven, ISA-95 hierarchy, no point-to-point integrations",
+    "machineTopics": "BDE, ProcessData, TMS, Maintenance, Energy are per-machine (segments 0-4 = hierarchy, 5+ = domain)",
+    "siteTopics": "ERP, QMS are per-site (segments 0-1 = enterprise/site, 2+ = domain) because they are not machine-specific",
+    "scalability": "New machines: add OPC-UA mapping → topics auto-generated. New domains: add domain block here + publisher in simulator"
+  }
+}
