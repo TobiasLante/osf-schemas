@@ -4,21 +4,63 @@
   "standard": "CESMII",
   "displayName": "Maintenance Order",
   "description": "Instandhaltungsauftrag (präventiv/korrektiv)",
-  "parentType": null,
+  "parentType": "Order",
   "attributes": [
-    { "name": "notification_no", "dataType": "String", "category": "Reference" },
-    { "name": "machine_no", "dataType": "String", "category": "Reference" },
-    { "name": "order_type", "dataType": "String", "category": "Master" },
-    { "name": "priority", "dataType": "String", "category": "Master" },
-    { "name": "status", "dataType": "String", "category": "Status" },
-    { "name": "description", "dataType": "String", "category": "Master" },
-    { "name": "planned_start", "dataType": "String", "category": "Schedule" },
-    { "name": "planned_end", "dataType": "String", "category": "Schedule" },
-    { "name": "planned_hours", "dataType": "Float", "category": "Schedule" }
+    {
+      "name": "notification_no",
+      "dataType": "String",
+      "category": "Reference"
+    },
+    {
+      "name": "machine_no",
+      "dataType": "String",
+      "category": "Reference"
+    },
+    {
+      "name": "order_type",
+      "dataType": "String",
+      "category": "Master"
+    },
+    {
+      "name": "priority",
+      "dataType": "String",
+      "category": "Master"
+    },
+    {
+      "name": "status",
+      "dataType": "String",
+      "category": "Status"
+    },
+    {
+      "name": "description",
+      "dataType": "String",
+      "category": "Master"
+    },
+    {
+      "name": "planned_start",
+      "dataType": "String",
+      "category": "Schedule"
+    },
+    {
+      "name": "planned_end",
+      "dataType": "String",
+      "category": "Schedule"
+    },
+    {
+      "name": "planned_hours",
+      "dataType": "Float",
+      "category": "Schedule"
+    }
   ],
   "relationships": [
-    { "type": "FOR_MACHINE", "target": "Machine" },
-    { "type": "FROM_NOTIFICATION", "target": "MaintenanceNotification" }
+    {
+      "type": "FOR_MACHINE",
+      "target": "Machine"
+    },
+    {
+      "type": "FROM_NOTIFICATION",
+      "target": "MaintenanceNotification"
+    }
   ],
   "kgNodeLabel": "MaintenanceOrder",
   "kgIdProperty": "order_no"
