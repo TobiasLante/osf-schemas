@@ -1,20 +1,48 @@
 {
   "profileId": "SMProfile-Sensor",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "standard": "CESMII",
   "displayName": "Sensor / Variable",
   "description": "Maschinengebundene Sensorvariable (aus BDE oder MQTT UNS)",
   "parentType": null,
   "attributes": [
-    { "name": "name", "dataType": "String", "category": "Master" },
-    { "name": "machine", "dataType": "String", "category": "Reference" },
-    { "name": "category", "dataType": "String", "category": "Master", "description": "BDE or ProcessData" },
-    { "name": "unit", "dataType": "String", "category": "Master" },
-    { "name": "last_value", "dataType": "Float", "category": "Live" },
-    { "name": "last_seen", "dataType": "String", "category": "Live" }
+    {
+      "name": "name",
+      "dataType": "String",
+      "category": "Master"
+    },
+    {
+      "name": "machine",
+      "dataType": "String",
+      "category": "Reference"
+    },
+    {
+      "name": "category",
+      "dataType": "String",
+      "category": "Master",
+      "description": "BDE or ProcessData"
+    },
+    {
+      "name": "unit",
+      "dataType": "String",
+      "category": "Master"
+    },
+    {
+      "name": "last_value",
+      "dataType": "Float",
+      "category": "Live"
+    },
+    {
+      "name": "last_seen",
+      "dataType": "String",
+      "category": "Live"
+    }
   ],
   "relationships": [
-    { "type": "HAS_SENSOR", "target": "Machine" }
+    {
+      "type": "HAS_SENSOR",
+      "target": "Machine"
+    }
   ],
   "kgNodeLabel": "Sensor",
   "kgIdProperty": "sensor_id"

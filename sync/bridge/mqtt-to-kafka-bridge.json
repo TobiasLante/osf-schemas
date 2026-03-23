@@ -1,8 +1,7 @@
 {
   "mappingId": "MQTT_Kafka_Bridge",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "MQTT_Kafka_Bridge — Aggregates ISA-95 MQTT messages (OT, single-attribute) into Kafka records (IT, full-object). Bridges OT→IT boundary.",
-
   "source": {
     "type": "mqtt",
     "schemaRef": "ISA-95_Walker_Reynolds",
@@ -11,20 +10,21 @@
       "port": "${MQTT_PORT}"
     }
   },
-
   "sink": {
     "type": "kafka",
     "schemaRef": "Kafka_UNS",
     "bootstrapServers": "${KAFKA_BOOTSTRAP_SERVERS}",
     "compression": "lz4"
   },
-
   "routes": [
     {
       "name": "BDE Events",
       "mqttSubscribe": "+/+/+/+/+/BDE/#",
       "kafkaTopic": "factory.bde.events",
-      "keyExtract": { "segment": 4, "description": "Machine ID from topic" },
+      "keyExtract": {
+        "segment": 4,
+        "description": "Machine ID from topic"
+      },
       "aggregation": {
         "strategy": "window",
         "windowMs": 5000,
@@ -37,7 +37,9 @@
       "name": "Process Data",
       "mqttSubscribe": "+/+/+/+/+/ProcessData/#",
       "kafkaTopic": "factory.process-data",
-      "keyExtract": { "segment": 4 },
+      "keyExtract": {
+        "segment": 4
+      },
       "aggregation": {
         "strategy": "window",
         "windowMs": 5000,
@@ -49,7 +51,9 @@
       "name": "Energy Readings",
       "mqttSubscribe": "+/+/+/+/+/Energy/#",
       "kafkaTopic": "factory.energy.readings",
-      "keyExtract": { "segment": 4 },
+      "keyExtract": {
+        "segment": 4
+      },
       "aggregation": {
         "strategy": "window",
         "windowMs": 30000,
@@ -62,7 +66,9 @@
       "name": "TMS Tool Events",
       "mqttSubscribe": "+/+/+/+/+/TMS/#",
       "kafkaTopic": "factory.tms.tool-events",
-      "keyExtract": { "segment": 4 },
+      "keyExtract": {
+        "segment": 4
+      },
       "aggregation": {
         "strategy": "on_change",
         "deduplicateMs": 10000,
@@ -75,7 +81,9 @@
       "name": "Maintenance Events",
       "mqttSubscribe": "+/+/+/+/+/Maintenance/#",
       "kafkaTopic": "factory.maintenance.events",
-      "keyExtract": { "segment": 4 },
+      "keyExtract": {
+        "segment": 4
+      },
       "aggregation": {
         "strategy": "on_change",
         "deduplicateMs": 30000,
@@ -88,7 +96,10 @@
       "name": "ERP Customer Orders",
       "mqttSubscribe": "+/+/ERP/CustomerOrder/#",
       "kafkaTopic": "factory.erp.customer-orders",
-      "keyExtract": { "segment": 4, "description": "Order ID from topic: .../ERP/CustomerOrder/{orderId}/..." },
+      "keyExtract": {
+        "segment": 4,
+        "description": "Order ID from topic: .../ERP/CustomerOrder/{orderId}/..."
+      },
       "aggregation": {
         "strategy": "on_change",
         "deduplicateMs": 60000,
@@ -101,7 +112,9 @@
       "name": "ERP Production Orders",
       "mqttSubscribe": "+/+/ERP/ProductionOrder/#",
       "kafkaTopic": "factory.erp.production-orders",
-      "keyExtract": { "segment": 4 },
+      "keyExtract": {
+        "segment": 4
+      },
       "aggregation": {
         "strategy": "on_change",
         "deduplicateMs": 60000,
@@ -112,7 +125,10 @@
       "name": "ERP Stock Changes",
       "mqttSubscribe": "+/+/ERP/Stock/#",
       "kafkaTopic": "factory.erp.stock-changes",
-      "keyExtract": { "segment": 4, "description": "Article ID from topic" },
+      "keyExtract": {
+        "segment": 4,
+        "description": "Article ID from topic"
+      },
       "aggregation": {
         "strategy": "on_change",
         "deduplicateMs": 30000,
@@ -123,7 +139,9 @@
       "name": "ERP Purchase Orders",
       "mqttSubscribe": "+/+/ERP/PurchaseOrder/#",
       "kafkaTopic": "factory.erp.purchase-orders",
-      "keyExtract": { "segment": 4 },
+      "keyExtract": {
+        "segment": 4
+      },
       "aggregation": {
         "strategy": "on_change",
         "deduplicateMs": 60000,
@@ -134,7 +152,9 @@
       "name": "QMS Notifications",
       "mqttSubscribe": "+/+/QMS/Notification/#",
       "kafkaTopic": "factory.qms.notifications",
-      "keyExtract": { "segment": 4 },
+      "keyExtract": {
+        "segment": 4
+      },
       "aggregation": {
         "strategy": "on_change",
         "deduplicateMs": 60000,
@@ -145,7 +165,9 @@
       "name": "QMS Inspection Results",
       "mqttSubscribe": "+/+/QMS/InspectionLot/#",
       "kafkaTopic": "factory.qms.inspection-results",
-      "keyExtract": { "segment": 4 },
+      "keyExtract": {
+        "segment": 4
+      },
       "aggregation": {
         "strategy": "on_change",
         "deduplicateMs": 60000,
@@ -153,7 +175,6 @@
       }
     }
   ],
-
   "aggregationStrategies": {
     "window": {
       "description": "Collect all MQTT messages for a groupBy key within windowMs, then flush as single Kafka record with all collected attributes merged into one JSON object.",
@@ -166,7 +187,6 @@
       "missingAttributes": "Uses last-known values for attributes not in the current message (stateful)."
     }
   },
-
   "recordFormat": {
     "description": "Each Kafka record produced by the bridge",
     "key": "Entity ID extracted from MQTT topic (e.g. 'SGM-004', 'KA202657129')",
@@ -183,7 +203,6 @@
       "aggregation-strategy": "window|on_change"
     }
   },
-
   "notes": {
     "purpose": "Bridges the OT/IT boundary: OT systems publish fast, small MQTT messages. IT systems consume structured, complete Kafka records.",
     "data_flow": "OPC-UA/PLC → MQTT Broker (ISA-95 topics) → Bridge → Kafka → KG Builder / Data Lake / BI",

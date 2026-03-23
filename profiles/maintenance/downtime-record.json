@@ -1,20 +1,47 @@
 {
   "profileId": "SMProfile-DowntimeRecord",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "standard": "CESMII",
   "displayName": "Downtime Record",
   "description": "Stillstandsereignis einer Maschine aus BDE-Daten",
   "parentType": null,
   "attributes": [
-    { "name": "machine_id", "dataType": "String", "category": "Reference" },
-    { "name": "machine_name", "dataType": "String", "category": "Reference" },
-    { "name": "reason", "dataType": "String", "category": "Master" },
-    { "name": "duration_sec", "dataType": "Int32", "category": "Metric" },
-    { "name": "shift_number", "dataType": "Int32", "category": "Context" },
-    { "name": "recorded_at", "dataType": "String", "category": "Time" }
+    {
+      "name": "machine_id",
+      "dataType": "String",
+      "category": "Reference"
+    },
+    {
+      "name": "machine_name",
+      "dataType": "String",
+      "category": "Reference"
+    },
+    {
+      "name": "reason",
+      "dataType": "String",
+      "category": "Master"
+    },
+    {
+      "name": "duration_sec",
+      "dataType": "Int32",
+      "category": "Metric"
+    },
+    {
+      "name": "shift_number",
+      "dataType": "Int32",
+      "category": "Context"
+    },
+    {
+      "name": "recorded_at",
+      "dataType": "String",
+      "category": "Time"
+    }
   ],
   "relationships": [
-    { "type": "HAD_DOWNTIME", "target": "Machine" }
+    {
+      "type": "HAD_DOWNTIME",
+      "target": "Machine"
+    }
   ],
   "kgNodeLabel": "DowntimeRecord",
   "kgIdProperty": "downtime_id"

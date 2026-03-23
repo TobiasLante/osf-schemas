@@ -1,5 +1,5 @@
 {
-  "sourceId": "erpdb-pools",
+  "sourceId": "erpdb-pool-members",
   "version": "1.1.0",
   "sourceType": "postgresql",
   "profileRef": "SMProfile-Pool",
@@ -8,7 +8,7 @@
     "port": "${ERP_DB_PORT}",
     "database": "erpdb",
     "schema": "llm_test_v3",
-    "table": "machine_pools"
+    "table": "machine_pool_members"
   },
   "columnMappings": [
     {
@@ -17,14 +17,20 @@
       "isId": true
     },
     {
-      "column": "pool_name",
-      "smAttribute": "name"
+      "column": "machine_no",
+      "smAttribute": "machine_no"
     },
     {
-      "column": "description",
-      "smAttribute": "description"
+      "column": "priority",
+      "smAttribute": "priority"
     }
   ],
   "filter": null,
-  "edges": []
+  "edges": [
+    {
+      "type": "MEMBER_OF",
+      "fkColumn": "machine_no",
+      "targetIdProp": "machine_id"
+    }
+  ]
 }

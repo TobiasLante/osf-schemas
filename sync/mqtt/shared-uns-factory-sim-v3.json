@@ -1,25 +1,37 @@
 {
   "mappingId": "#shared.uns",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "#shared.uns — Factory Simulator v3 flat MQTT topic structure, covers all 35 machines (CNC, SGM, Assembly, FFS)",
-
   "broker": {
     "host": "192.168.178.150",
     "port": 31883
   },
-
   "topicStructure": {
     "pattern": "Factory/{machineId}/{workOrder}/{tool}/{category}/{attribute}",
     "segments": {
-      "machineId":  { "index": 1, "description": "Machine display name (e.g. 'CNC-01', 'SGM-002', 'BZ-1')" },
-      "workOrder":  { "index": 2, "description": "Production order number or '---' if idle" },
-      "tool":       { "index": 3, "description": "Tool ID (e.g. 'T01') or '---'" },
-      "category":   { "index": 4, "description": "BDE or ProcessData" },
-      "attribute":  { "index": 5, "description": "Attribute name as published by the simulator" }
+      "machineId": {
+        "index": 1,
+        "description": "Machine display name (e.g. 'CNC-01', 'SGM-002', 'BZ-1')"
+      },
+      "workOrder": {
+        "index": 2,
+        "description": "Production order number or '---' if idle"
+      },
+      "tool": {
+        "index": 3,
+        "description": "Tool ID (e.g. 'T01') or '---'"
+      },
+      "category": {
+        "index": 4,
+        "description": "BDE or ProcessData"
+      },
+      "attribute": {
+        "index": 5,
+        "description": "Attribute name as published by the simulator"
+      }
     },
     "subscribeFilter": "Factory/#"
   },
-
   "payloadSchema": {
     "format": "JSON",
     "valuePath": "$.Value",
@@ -29,128 +41,429 @@
     "qualityPath": "$.ValueQualityQualifier",
     "datatypePath": "$.Datatype"
   },
-
   "attributeMapping": {
     "strategy": "topic_segment",
     "categorySegment": 4,
     "attributeSegment": 5,
     "mappings": [
-      { "topicAttribute": "Machine_Status",             "smAttribute": "Machine_Status" },
-      { "topicAttribute": "Act_RunMode_Asset",          "smAttribute": "Machine_Status_Text" },
-      { "topicAttribute": "Act_Qty_Good",               "smAttribute": "Good_Parts" },
-      { "topicAttribute": "Act_Qty_Scrap",              "smAttribute": "Scrap_Parts" },
-      { "topicAttribute": "Act_Qty_Rework",             "smAttribute": "Rework_Parts" },
-      { "topicAttribute": "Act_CycleTime",              "smAttribute": "Cycle_Time_Actual" },
-      { "topicAttribute": "Plan_CycleTime",             "smAttribute": "Cycle_Time_Planned" },
-      { "topicAttribute": "Act_OEE",                    "smAttribute": "OEE" },
-      { "topicAttribute": "Act_Availability",           "smAttribute": "Availability" },
-      { "topicAttribute": "Act_Performance",            "smAttribute": "Performance" },
-      { "topicAttribute": "Act_Quality",                "smAttribute": "Quality_Pct" },
-
-      { "topicAttribute": "Act_Temp_Barrel",            "smAttribute": "Temp_Melting" },
-      { "topicAttribute": "Set_Temp_Barrel",            "smAttribute": "Temp_Melting_Set" },
-      { "topicAttribute": "Act_Temp_Zone1",             "smAttribute": "Temp_Zone_1" },
-      { "topicAttribute": "Set_Temp_Zone1",             "smAttribute": "Temp_Zone_1_Set" },
-      { "topicAttribute": "Act_Temp_Zone2",             "smAttribute": "Temp_Zone_2" },
-      { "topicAttribute": "Set_Temp_Zone2",             "smAttribute": "Temp_Zone_2_Set" },
-      { "topicAttribute": "Act_Temp_Zone3",             "smAttribute": "Temp_Zone_3" },
-      { "topicAttribute": "Set_Temp_Zone3",             "smAttribute": "Temp_Zone_3_Set" },
-      { "topicAttribute": "Act_Temp_Zone4",             "smAttribute": "Temp_Zone_4" },
-      { "topicAttribute": "Set_Temp_Zone4",             "smAttribute": "Temp_Zone_4_Set" },
-      { "topicAttribute": "Act_Temp_Zone5",             "smAttribute": "Temp_Zone_5" },
-      { "topicAttribute": "Set_Temp_Zone5",             "smAttribute": "Temp_Zone_5_Set" },
-      { "topicAttribute": "Act_Temp_Zone6",             "smAttribute": "Temp_Zone_6" },
-      { "topicAttribute": "Set_Temp_Zone6",             "smAttribute": "Temp_Zone_6_Set" },
-      { "topicAttribute": "Act_Temp_Nozzle",            "smAttribute": "Temp_Nozzle" },
-      { "topicAttribute": "Set_Temp_Nozzle",            "smAttribute": "Temp_Nozzle_Set" },
-      { "topicAttribute": "Act_Temp_Mould_Fixed",       "smAttribute": "Temp_Mould_Fixed" },
-      { "topicAttribute": "Set_Temp_Mould_Fixed",       "smAttribute": "Temp_Mould_Fixed_Set" },
-      { "topicAttribute": "Act_Temp_Mould_Moving",      "smAttribute": "Temp_Mould_Moving" },
-      { "topicAttribute": "Set_Temp_Mould_Moving",      "smAttribute": "Temp_Mould_Moving_Set" },
-      { "topicAttribute": "Act_Temp_Water_Inlet",       "smAttribute": "Temp_Water_Inlet" },
-      { "topicAttribute": "Set_Temp_Water_Inlet",       "smAttribute": "Temp_Water_Inlet_Set" },
-      { "topicAttribute": "Act_Temp_Water_Outlet",      "smAttribute": "Temp_Water_Outlet" },
-      { "topicAttribute": "Act_Temp_Oil",               "smAttribute": "Temp_Oil" },
-      { "topicAttribute": "Set_Temp_Oil",               "smAttribute": "Temp_Oil_Set" },
-      { "topicAttribute": "Act_Temp_Dryer",             "smAttribute": "Temp_Dryer" },
-      { "topicAttribute": "Set_Temp_Dryer",             "smAttribute": "Temp_Dryer_Set" },
-      { "topicAttribute": "Act_Temp_Ambient",           "smAttribute": "Temp_Ambient" },
-
-      { "topicAttribute": "Act_Time_Dosing",            "smAttribute": "Time_Dosing" },
-      { "topicAttribute": "Set_Time_Dosing",            "smAttribute": "Time_Dosing_Set" },
-      { "topicAttribute": "Act_Time_Filling",           "smAttribute": "Time_Filling" },
-      { "topicAttribute": "Set_Time_Filling",           "smAttribute": "Time_Filling_Set" },
-      { "topicAttribute": "Act_Time_Holding",           "smAttribute": "Time_Holding" },
-      { "topicAttribute": "Set_Time_Holding",           "smAttribute": "Time_Holding_Set" },
-      { "topicAttribute": "Act_Time_Cooling",           "smAttribute": "Time_Cooling" },
-      { "topicAttribute": "Set_Time_Cooling",           "smAttribute": "Time_Cooling_Set" },
-      { "topicAttribute": "Act_Time_Mould_Open",        "smAttribute": "Time_Mould_Open" },
-      { "topicAttribute": "Act_Time_Mould_Close",       "smAttribute": "Time_Mould_Close" },
-      { "topicAttribute": "Act_Time_Ejection",          "smAttribute": "Time_Ejection" },
-      { "topicAttribute": "Act_Time_Injection",         "smAttribute": "Time_Injection" },
-      { "topicAttribute": "Act_Time_Plasticizing",      "smAttribute": "Time_Plasticizing" },
-      { "topicAttribute": "Act_Time_Pause",             "smAttribute": "Time_Pause" },
-
-      { "topicAttribute": "Act_Pressure_Holding",       "smAttribute": "Pressure_Holding" },
-      { "topicAttribute": "Set_Pressure_Holding",       "smAttribute": "Pressure_Holding_Set" },
-      { "topicAttribute": "Act_Pressure_Injection_Max", "smAttribute": "Pressure_Injection_Max" },
-      { "topicAttribute": "Set_Pressure_Injection_Max", "smAttribute": "Pressure_Injection_Max_Set" },
-      { "topicAttribute": "Act_Pressure_Switch",        "smAttribute": "Pressure_Injection_Switch" },
-      { "topicAttribute": "Set_Pressure_Switch",        "smAttribute": "Pressure_Injection_Switch_Set" },
-      { "topicAttribute": "Act_Pressure_Back",          "smAttribute": "Pressure_Back" },
-      { "topicAttribute": "Set_Pressure_Back",          "smAttribute": "Pressure_Back_Set" },
-      { "topicAttribute": "Act_Pressure_Oil",           "smAttribute": "Pressure_Oil" },
-      { "topicAttribute": "Act_Force_Clamping",         "smAttribute": "Force_Closing" },
-      { "topicAttribute": "Set_Force_Clamping",         "smAttribute": "Force_Closing_Set" },
-      { "topicAttribute": "Act_Force_Ejector",          "smAttribute": "Force_Ejector" },
-      { "topicAttribute": "Set_Force_Ejector",          "smAttribute": "Force_Ejector_Set" },
-      { "topicAttribute": "Act_Torque_Screw",           "smAttribute": "Torque_Screw" },
-
-      { "topicAttribute": "Act_Volume_Shot",            "smAttribute": "Volume_Shot" },
-      { "topicAttribute": "Set_Volume_Shot",            "smAttribute": "Volume_Shot_Set" },
-      { "topicAttribute": "Act_Volume_Cushion",         "smAttribute": "Volume_Cushion" },
-      { "topicAttribute": "Set_Volume_Cushion",         "smAttribute": "Volume_Cushion_Set" },
-
-      { "topicAttribute": "Act_Speed_Injection",        "smAttribute": "Speed_Injection" },
-      { "topicAttribute": "Set_Speed_Injection",        "smAttribute": "Speed_Injection_Set" },
-      { "topicAttribute": "Act_Speed_Screw",            "smAttribute": "Speed_Screw_RPM" },
-      { "topicAttribute": "Set_Speed_Screw",            "smAttribute": "Speed_Screw_RPM_Set" },
-      { "topicAttribute": "Act_Speed_Mould_Open",       "smAttribute": "Speed_Mould_Open" },
-      { "topicAttribute": "Set_Speed_Mould_Open",       "smAttribute": "Speed_Mould_Open_Set" },
-      { "topicAttribute": "Act_Speed_Mould_Close",      "smAttribute": "Speed_Mould_Close" },
-      { "topicAttribute": "Set_Speed_Mould_Close",      "smAttribute": "Speed_Mould_Close_Set" },
-      { "topicAttribute": "Act_Speed_Ejector",          "smAttribute": "Speed_Ejector" },
-      { "topicAttribute": "Set_Speed_Ejector",          "smAttribute": "Speed_Ejector_Set" },
-
-      { "topicAttribute": "Act_Pos_Screw_Dosing",       "smAttribute": "Position_Screw_Dosing" },
-      { "topicAttribute": "Set_Pos_Screw_Dosing",       "smAttribute": "Position_Screw_Dosing_Set" },
-      { "topicAttribute": "Act_Pos_Screw_Switch",       "smAttribute": "Position_Screw_Switch" },
-      { "topicAttribute": "Set_Pos_Screw_Switch",       "smAttribute": "Position_Screw_Switch_Set" },
-      { "topicAttribute": "Act_Pos_Screw_Decompress",   "smAttribute": "Position_Screw_Decompress" },
-      { "topicAttribute": "Set_Pos_Screw_Decompress",   "smAttribute": "Position_Screw_Decompress_Set" },
-      { "topicAttribute": "Act_Pos_Mould_Open",         "smAttribute": "Position_Mould_Open" },
-      { "topicAttribute": "Set_Pos_Mould_Open",         "smAttribute": "Position_Mould_Open_Set" },
-      { "topicAttribute": "Act_Pos_Ejector",            "smAttribute": "Position_Ejector" },
-      { "topicAttribute": "Set_Pos_Ejector",            "smAttribute": "Position_Ejector_Set" },
-
-      { "topicAttribute": "Act_Energy_Total",           "smAttribute": "Energy_Total_kWh" },
-      { "topicAttribute": "Act_Energy_Heating",         "smAttribute": "Energy_Heating_kWh" },
-      { "topicAttribute": "Act_Energy_Drive",           "smAttribute": "Energy_Drive_kWh" },
-      { "topicAttribute": "Act_Power_Current",          "smAttribute": "Power_Current" },
-
-      { "topicAttribute": "Act_Humidity_Granulate",     "smAttribute": "Humidity_Granulate" },
-      { "topicAttribute": "Act_Humidity_Ambient",       "smAttribute": "Humidity_Ambient" },
-      { "topicAttribute": "Act_Weight_Shot",            "smAttribute": "Weight_Shot_Total" },
-      { "topicAttribute": "Shot_Counter",               "smAttribute": "Shot_Counter" },
-
-      { "topicAttribute": "Spindle_RPM",                "smAttribute": "Spindle_RPM" },
-      { "topicAttribute": "Feed_Rate",                  "smAttribute": "Feed_Rate" },
-      { "topicAttribute": "Tool_Wear_Pct",              "smAttribute": "Tool_Wear_Pct" },
-      { "topicAttribute": "Active_GCode",               "smAttribute": "Active_GCode" },
-      { "topicAttribute": "Program_Line",               "smAttribute": "Program_Line" }
+      {
+        "topicAttribute": "Machine_Status",
+        "smAttribute": "Machine_Status"
+      },
+      {
+        "topicAttribute": "Act_RunMode_Asset",
+        "smAttribute": "Machine_Status_Text"
+      },
+      {
+        "topicAttribute": "Act_Qty_Good",
+        "smAttribute": "Good_Parts"
+      },
+      {
+        "topicAttribute": "Act_Qty_Scrap",
+        "smAttribute": "Scrap_Parts"
+      },
+      {
+        "topicAttribute": "Act_Qty_Rework",
+        "smAttribute": "Rework_Parts"
+      },
+      {
+        "topicAttribute": "Act_CycleTime",
+        "smAttribute": "Cycle_Time_Actual"
+      },
+      {
+        "topicAttribute": "Plan_CycleTime",
+        "smAttribute": "Cycle_Time_Planned"
+      },
+      {
+        "topicAttribute": "Act_OEE",
+        "smAttribute": "OEE"
+      },
+      {
+        "topicAttribute": "Act_Availability",
+        "smAttribute": "Availability"
+      },
+      {
+        "topicAttribute": "Act_Performance",
+        "smAttribute": "Performance"
+      },
+      {
+        "topicAttribute": "Act_Quality",
+        "smAttribute": "Quality_Pct"
+      },
+      {
+        "topicAttribute": "Act_Temp_Barrel",
+        "smAttribute": "Temp_Melting"
+      },
+      {
+        "topicAttribute": "Set_Temp_Barrel",
+        "smAttribute": "Temp_Melting_Set"
+      },
+      {
+        "topicAttribute": "Act_Temp_Zone1",
+        "smAttribute": "Temp_Zone_1"
+      },
+      {
+        "topicAttribute": "Set_Temp_Zone1",
+        "smAttribute": "Temp_Zone_1_Set"
+      },
+      {
+        "topicAttribute": "Act_Temp_Zone2",
+        "smAttribute": "Temp_Zone_2"
+      },
+      {
+        "topicAttribute": "Set_Temp_Zone2",
+        "smAttribute": "Temp_Zone_2_Set"
+      },
+      {
+        "topicAttribute": "Act_Temp_Zone3",
+        "smAttribute": "Temp_Zone_3"
+      },
+      {
+        "topicAttribute": "Set_Temp_Zone3",
+        "smAttribute": "Temp_Zone_3_Set"
+      },
+      {
+        "topicAttribute": "Act_Temp_Zone4",
+        "smAttribute": "Temp_Zone_4"
+      },
+      {
+        "topicAttribute": "Set_Temp_Zone4",
+        "smAttribute": "Temp_Zone_4_Set"
+      },
+      {
+        "topicAttribute": "Act_Temp_Zone5",
+        "smAttribute": "Temp_Zone_5"
+      },
+      {
+        "topicAttribute": "Set_Temp_Zone5",
+        "smAttribute": "Temp_Zone_5_Set"
+      },
+      {
+        "topicAttribute": "Act_Temp_Zone6",
+        "smAttribute": "Temp_Zone_6"
+      },
+      {
+        "topicAttribute": "Set_Temp_Zone6",
+        "smAttribute": "Temp_Zone_6_Set"
+      },
+      {
+        "topicAttribute": "Act_Temp_Nozzle",
+        "smAttribute": "Temp_Nozzle"
+      },
+      {
+        "topicAttribute": "Set_Temp_Nozzle",
+        "smAttribute": "Temp_Nozzle_Set"
+      },
+      {
+        "topicAttribute": "Act_Temp_Mould_Fixed",
+        "smAttribute": "Temp_Mould_Fixed"
+      },
+      {
+        "topicAttribute": "Set_Temp_Mould_Fixed",
+        "smAttribute": "Temp_Mould_Fixed_Set"
+      },
+      {
+        "topicAttribute": "Act_Temp_Mould_Moving",
+        "smAttribute": "Temp_Mould_Moving"
+      },
+      {
+        "topicAttribute": "Set_Temp_Mould_Moving",
+        "smAttribute": "Temp_Mould_Moving_Set"
+      },
+      {
+        "topicAttribute": "Act_Temp_Water_Inlet",
+        "smAttribute": "Temp_Water_Inlet"
+      },
+      {
+        "topicAttribute": "Set_Temp_Water_Inlet",
+        "smAttribute": "Temp_Water_Inlet_Set"
+      },
+      {
+        "topicAttribute": "Act_Temp_Water_Outlet",
+        "smAttribute": "Temp_Water_Outlet"
+      },
+      {
+        "topicAttribute": "Act_Temp_Oil",
+        "smAttribute": "Temp_Oil"
+      },
+      {
+        "topicAttribute": "Set_Temp_Oil",
+        "smAttribute": "Temp_Oil_Set"
+      },
+      {
+        "topicAttribute": "Act_Temp_Dryer",
+        "smAttribute": "Temp_Dryer"
+      },
+      {
+        "topicAttribute": "Set_Temp_Dryer",
+        "smAttribute": "Temp_Dryer_Set"
+      },
+      {
+        "topicAttribute": "Act_Temp_Ambient",
+        "smAttribute": "Temp_Ambient"
+      },
+      {
+        "topicAttribute": "Act_Time_Dosing",
+        "smAttribute": "Time_Dosing"
+      },
+      {
+        "topicAttribute": "Set_Time_Dosing",
+        "smAttribute": "Time_Dosing_Set"
+      },
+      {
+        "topicAttribute": "Act_Time_Filling",
+        "smAttribute": "Time_Filling"
+      },
+      {
+        "topicAttribute": "Set_Time_Filling",
+        "smAttribute": "Time_Filling_Set"
+      },
+      {
+        "topicAttribute": "Act_Time_Holding",
+        "smAttribute": "Time_Holding"
+      },
+      {
+        "topicAttribute": "Set_Time_Holding",
+        "smAttribute": "Time_Holding_Set"
+      },
+      {
+        "topicAttribute": "Act_Time_Cooling",
+        "smAttribute": "Time_Cooling"
+      },
+      {
+        "topicAttribute": "Set_Time_Cooling",
+        "smAttribute": "Time_Cooling_Set"
+      },
+      {
+        "topicAttribute": "Act_Time_Mould_Open",
+        "smAttribute": "Time_Mould_Open"
+      },
+      {
+        "topicAttribute": "Act_Time_Mould_Close",
+        "smAttribute": "Time_Mould_Close"
+      },
+      {
+        "topicAttribute": "Act_Time_Ejection",
+        "smAttribute": "Time_Ejection"
+      },
+      {
+        "topicAttribute": "Act_Time_Injection",
+        "smAttribute": "Time_Injection"
+      },
+      {
+        "topicAttribute": "Act_Time_Plasticizing",
+        "smAttribute": "Time_Plasticizing"
+      },
+      {
+        "topicAttribute": "Act_Time_Pause",
+        "smAttribute": "Time_Pause"
+      },
+      {
+        "topicAttribute": "Act_Pressure_Holding",
+        "smAttribute": "Pressure_Holding"
+      },
+      {
+        "topicAttribute": "Set_Pressure_Holding",
+        "smAttribute": "Pressure_Holding_Set"
+      },
+      {
+        "topicAttribute": "Act_Pressure_Injection_Max",
+        "smAttribute": "Pressure_Injection_Max"
+      },
+      {
+        "topicAttribute": "Set_Pressure_Injection_Max",
+        "smAttribute": "Pressure_Injection_Max_Set"
+      },
+      {
+        "topicAttribute": "Act_Pressure_Switch",
+        "smAttribute": "Pressure_Injection_Switch"
+      },
+      {
+        "topicAttribute": "Set_Pressure_Switch",
+        "smAttribute": "Pressure_Injection_Switch_Set"
+      },
+      {
+        "topicAttribute": "Act_Pressure_Back",
+        "smAttribute": "Pressure_Back"
+      },
+      {
+        "topicAttribute": "Set_Pressure_Back",
+        "smAttribute": "Pressure_Back_Set"
+      },
+      {
+        "topicAttribute": "Act_Pressure_Oil",
+        "smAttribute": "Pressure_Oil"
+      },
+      {
+        "topicAttribute": "Act_Force_Clamping",
+        "smAttribute": "Force_Closing"
+      },
+      {
+        "topicAttribute": "Set_Force_Clamping",
+        "smAttribute": "Force_Closing_Set"
+      },
+      {
+        "topicAttribute": "Act_Force_Ejector",
+        "smAttribute": "Force_Ejector"
+      },
+      {
+        "topicAttribute": "Set_Force_Ejector",
+        "smAttribute": "Force_Ejector_Set"
+      },
+      {
+        "topicAttribute": "Act_Torque_Screw",
+        "smAttribute": "Torque_Screw"
+      },
+      {
+        "topicAttribute": "Act_Volume_Shot",
+        "smAttribute": "Volume_Shot"
+      },
+      {
+        "topicAttribute": "Set_Volume_Shot",
+        "smAttribute": "Volume_Shot_Set"
+      },
+      {
+        "topicAttribute": "Act_Volume_Cushion",
+        "smAttribute": "Volume_Cushion"
+      },
+      {
+        "topicAttribute": "Set_Volume_Cushion",
+        "smAttribute": "Volume_Cushion_Set"
+      },
+      {
+        "topicAttribute": "Act_Speed_Injection",
+        "smAttribute": "Speed_Injection"
+      },
+      {
+        "topicAttribute": "Set_Speed_Injection",
+        "smAttribute": "Speed_Injection_Set"
+      },
+      {
+        "topicAttribute": "Act_Speed_Screw",
+        "smAttribute": "Speed_Screw_RPM"
+      },
+      {
+        "topicAttribute": "Set_Speed_Screw",
+        "smAttribute": "Speed_Screw_RPM_Set"
+      },
+      {
+        "topicAttribute": "Act_Speed_Mould_Open",
+        "smAttribute": "Speed_Mould_Open"
+      },
+      {
+        "topicAttribute": "Set_Speed_Mould_Open",
+        "smAttribute": "Speed_Mould_Open_Set"
+      },
+      {
+        "topicAttribute": "Act_Speed_Mould_Close",
+        "smAttribute": "Speed_Mould_Close"
+      },
+      {
+        "topicAttribute": "Set_Speed_Mould_Close",
+        "smAttribute": "Speed_Mould_Close_Set"
+      },
+      {
+        "topicAttribute": "Act_Speed_Ejector",
+        "smAttribute": "Speed_Ejector"
+      },
+      {
+        "topicAttribute": "Set_Speed_Ejector",
+        "smAttribute": "Speed_Ejector_Set"
+      },
+      {
+        "topicAttribute": "Act_Pos_Screw_Dosing",
+        "smAttribute": "Position_Screw_Dosing"
+      },
+      {
+        "topicAttribute": "Set_Pos_Screw_Dosing",
+        "smAttribute": "Position_Screw_Dosing_Set"
+      },
+      {
+        "topicAttribute": "Act_Pos_Screw_Switch",
+        "smAttribute": "Position_Screw_Switch"
+      },
+      {
+        "topicAttribute": "Set_Pos_Screw_Switch",
+        "smAttribute": "Position_Screw_Switch_Set"
+      },
+      {
+        "topicAttribute": "Act_Pos_Screw_Decompress",
+        "smAttribute": "Position_Screw_Decompress"
+      },
+      {
+        "topicAttribute": "Set_Pos_Screw_Decompress",
+        "smAttribute": "Position_Screw_Decompress_Set"
+      },
+      {
+        "topicAttribute": "Act_Pos_Mould_Open",
+        "smAttribute": "Position_Mould_Open"
+      },
+      {
+        "topicAttribute": "Set_Pos_Mould_Open",
+        "smAttribute": "Position_Mould_Open_Set"
+      },
+      {
+        "topicAttribute": "Act_Pos_Ejector",
+        "smAttribute": "Position_Ejector"
+      },
+      {
+        "topicAttribute": "Set_Pos_Ejector",
+        "smAttribute": "Position_Ejector_Set"
+      },
+      {
+        "topicAttribute": "Act_Energy_Total",
+        "smAttribute": "Energy_Total_kWh"
+      },
+      {
+        "topicAttribute": "Act_Energy_Heating",
+        "smAttribute": "Energy_Heating_kWh"
+      },
+      {
+        "topicAttribute": "Act_Energy_Drive",
+        "smAttribute": "Energy_Drive_kWh"
+      },
+      {
+        "topicAttribute": "Act_Power_Current",
+        "smAttribute": "Power_Current"
+      },
+      {
+        "topicAttribute": "Act_Humidity_Granulate",
+        "smAttribute": "Humidity_Granulate"
+      },
+      {
+        "topicAttribute": "Act_Humidity_Ambient",
+        "smAttribute": "Humidity_Ambient"
+      },
+      {
+        "topicAttribute": "Act_Weight_Shot",
+        "smAttribute": "Weight_Shot_Total"
+      },
+      {
+        "topicAttribute": "Shot_Counter",
+        "smAttribute": "Shot_Counter"
+      },
+      {
+        "topicAttribute": "Spindle_RPM",
+        "smAttribute": "Spindle_RPM"
+      },
+      {
+        "topicAttribute": "Feed_Rate",
+        "smAttribute": "Feed_Rate"
+      },
+      {
+        "topicAttribute": "Tool_Wear_Pct",
+        "smAttribute": "Tool_Wear_Pct"
+      },
+      {
+        "topicAttribute": "Active_GCode",
+        "smAttribute": "Active_GCode"
+      },
+      {
+        "topicAttribute": "Program_Line",
+        "smAttribute": "Program_Line"
+      }
     ]
   },
-
   "machineIdResolution": {
     "strategy": "topic_segment",
     "segment": 1,

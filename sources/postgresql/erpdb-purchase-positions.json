@@ -1,0 +1,48 @@
+{
+  "sourceId": "erpdb-purchase-positions",
+  "version": "1.1.0",
+  "sourceType": "postgresql",
+  "profileRef": "SMProfile-PurchaseOrder",
+  "connection": {
+    "host": "${ERP_DB_HOST}",
+    "port": "${ERP_DB_PORT}",
+    "database": "erpdb",
+    "schema": "llm_test_v3",
+    "table": "bestellung_position"
+  },
+  "columnMappings": [
+    {
+      "column": "bestellnummer || '-' || position",
+      "smAttribute": "order_no",
+      "isId": true
+    },
+    {
+      "column": "teil_id",
+      "smAttribute": "article_no"
+    },
+    {
+      "column": "menge_bestellt",
+      "smAttribute": "qty_ordered"
+    },
+    {
+      "column": "menge_geliefert",
+      "smAttribute": "qty_delivered"
+    },
+    {
+      "column": "preis_einheit",
+      "smAttribute": "unit_price"
+    },
+    {
+      "column": "status",
+      "smAttribute": "status"
+    }
+  ],
+  "filter": null,
+  "edges": [
+    {
+      "type": "FOR_MATERIAL",
+      "fkColumn": "teil_id",
+      "targetIdProp": "article_no"
+    }
+  ]
+}

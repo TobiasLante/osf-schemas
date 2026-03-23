@@ -1,27 +1,33 @@
 {
   "mappingId": "Kafka_UNS",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Kafka_UNS — Event-driven sync via Apache Kafka. One topic per entity type, JSON payloads, key = entity ID. Full object per message (not single attributes like MQTT).",
-
   "connection": {
     "bootstrapServers": "${KAFKA_BOOTSTRAP_SERVERS}",
     "consumerGroupId": "osf-kg-builder",
     "securityProtocol": "PLAINTEXT",
     "autoOffsetReset": "latest"
   },
-
   "serialization": {
     "keyFormat": "string",
     "valueFormat": "json",
     "timestampField": "_ts",
     "timestampFormat": "ISO8601"
   },
-
   "topics": {
     "factory.bde.events": {
       "description": "BDE events — one message per machine per cycle/tick",
       "keyIdProp": "machine_id",
-      "profileRefs": ["SMProfile-InjectionMoldingMachine", "SMProfile-CNC_Machine", "SMProfile-Lathe", "SMProfile-MillingMachine", "SMProfile-GrindingMachine", "SMProfile-FiveAxisMillingMachine", "SMProfile-FFS_Cell", "SMProfile-AssemblyLine"],
+      "profileRefs": [
+        "SMProfile-InjectionMoldingMachine",
+        "SMProfile-CNC_Machine",
+        "SMProfile-Lathe",
+        "SMProfile-MillingMachine",
+        "SMProfile-GrindingMachine",
+        "SMProfile-FiveAxisMillingMachine",
+        "SMProfile-FFS_Cell",
+        "SMProfile-AssemblyLine"
+      ],
       "partitionKey": "machine_id",
       "partitions": 6,
       "retention": "7d",
@@ -56,11 +62,12 @@
         }
       }
     },
-
     "factory.process-data": {
       "description": "Process parameters — temperatures, pressures, speeds, volumes per machine per cycle",
       "keyIdProp": "machine_id",
-      "profileRefs": ["SMProfile-InjectionMoldingMachine"],
+      "profileRefs": [
+        "SMProfile-InjectionMoldingMachine"
+      ],
       "partitionKey": "machine_id",
       "partitions": 6,
       "retention": "14d",
@@ -101,11 +108,12 @@
         }
       }
     },
-
     "factory.erp.customer-orders": {
       "description": "Customer order CDC events — created, updated, status changed, delivered",
       "keyIdProp": "order_no",
-      "profileRefs": ["SMProfile-CustomerOrder"],
+      "profileRefs": [
+        "SMProfile-CustomerOrder"
+      ],
       "partitionKey": "order_no",
       "partitions": 3,
       "retention": "30d",
@@ -119,7 +127,13 @@
         "production_order_no": "production_order_no",
         "_event": "_event_type"
       },
-      "eventTypes": ["created", "confirmed", "in_production", "shipped", "cancelled"],
+      "eventTypes": [
+        "created",
+        "confirmed",
+        "in_production",
+        "shipped",
+        "cancelled"
+      ],
       "example": {
         "key": "KA202657129",
         "value": {
@@ -134,11 +148,12 @@
         }
       }
     },
-
     "factory.erp.production-orders": {
       "description": "Production order CDC events — planned, started, completed",
       "keyIdProp": "order_no",
-      "profileRefs": ["SMProfile-ProductionOrder"],
+      "profileRefs": [
+        "SMProfile-ProductionOrder"
+      ],
       "partitionKey": "order_no",
       "partitions": 3,
       "retention": "30d",
@@ -152,13 +167,20 @@
         "start_date": "start_date",
         "end_date": "end_date"
       },
-      "eventTypes": ["created", "released", "started", "completed", "cancelled"]
+      "eventTypes": [
+        "created",
+        "released",
+        "started",
+        "completed",
+        "cancelled"
+      ]
     },
-
     "factory.erp.stock-changes": {
       "description": "Stock level change events — goods receipt, issue, reservation, adjustment",
       "keyIdProp": "article_no",
-      "profileRefs": ["SMProfile-StockItem"],
+      "profileRefs": [
+        "SMProfile-StockItem"
+      ],
       "partitionKey": "article_no",
       "partitions": 3,
       "retention": "14d",
@@ -172,13 +194,20 @@
         "change_qty": "_change_qty",
         "change_reason": "_change_reason"
       },
-      "eventTypes": ["goods_receipt", "goods_issue", "reservation", "adjustment", "stock_count"]
+      "eventTypes": [
+        "goods_receipt",
+        "goods_issue",
+        "reservation",
+        "adjustment",
+        "stock_count"
+      ]
     },
-
     "factory.erp.purchase-orders": {
       "description": "Purchase order CDC events",
       "keyIdProp": "order_no",
-      "profileRefs": ["SMProfile-PurchaseOrder"],
+      "profileRefs": [
+        "SMProfile-PurchaseOrder"
+      ],
       "partitionKey": "order_no",
       "partitions": 2,
       "retention": "30d",
@@ -190,13 +219,20 @@
         "status": "status",
         "expected_delivery": "expected_delivery"
       },
-      "eventTypes": ["created", "confirmed", "shipped", "received", "cancelled"]
+      "eventTypes": [
+        "created",
+        "confirmed",
+        "shipped",
+        "received",
+        "cancelled"
+      ]
     },
-
     "factory.qms.notifications": {
       "description": "Quality notification events — complaints, internal findings, defects",
       "keyIdProp": "notification_no",
-      "profileRefs": ["SMProfile-QualityNotification"],
+      "profileRefs": [
+        "SMProfile-QualityNotification"
+      ],
       "partitionKey": "notification_no",
       "partitions": 2,
       "retention": "90d",
@@ -208,13 +244,19 @@
         "description": "description",
         "defect_qty": "defect_qty"
       },
-      "eventTypes": ["created", "in_progress", "completed", "closed"]
+      "eventTypes": [
+        "created",
+        "in_progress",
+        "completed",
+        "closed"
+      ]
     },
-
     "factory.qms.inspection-results": {
       "description": "Inspection lot results — pass/fail, measurements, Cpk",
       "keyIdProp": "result_id",
-      "profileRefs": ["SMProfile-InspectionResult"],
+      "profileRefs": [
+        "SMProfile-InspectionResult"
+      ],
       "partitionKey": "lot_no",
       "partitions": 2,
       "retention": "90d",
@@ -229,11 +271,14 @@
         "cpk": "cpk"
       }
     },
-
     "factory.tms.tool-events": {
       "description": "Tool management events — wear updates, changes, breakage",
       "keyIdProp": "machine_id",
-      "profileRefs": ["SMProfile-CNC_Machine", "SMProfile-MillingMachine", "SMProfile-Lathe"],
+      "profileRefs": [
+        "SMProfile-CNC_Machine",
+        "SMProfile-MillingMachine",
+        "SMProfile-Lathe"
+      ],
       "partitionKey": "machine_id",
       "partitions": 2,
       "retention": "14d",
@@ -245,13 +290,20 @@
         "status": "Tool_Status",
         "event": "_event_type"
       },
-      "eventTypes": ["wear_update", "tool_change", "tool_breakage", "tool_mounted"]
+      "eventTypes": [
+        "wear_update",
+        "tool_change",
+        "tool_breakage",
+        "tool_mounted"
+      ]
     },
-
     "factory.maintenance.events": {
       "description": "Maintenance events — notifications, order status, breakdowns",
       "keyIdProp": "machine_id",
-      "profileRefs": ["SMProfile-MaintenanceOrder", "SMProfile-MaintenanceNotification"],
+      "profileRefs": [
+        "SMProfile-MaintenanceOrder",
+        "SMProfile-MaintenanceNotification"
+      ],
       "partitionKey": "machine_id",
       "partitions": 2,
       "retention": "30d",
@@ -265,13 +317,21 @@
         "description": "description",
         "downtime_minutes": "downtime_minutes"
       },
-      "eventTypes": ["notification_created", "order_created", "order_started", "order_completed", "breakdown"]
+      "eventTypes": [
+        "notification_created",
+        "order_created",
+        "order_started",
+        "order_completed",
+        "breakdown"
+      ]
     },
-
     "factory.energy.readings": {
       "description": "Energy consumption readings per machine — periodic (every 5 min)",
       "keyIdProp": "machine_id",
-      "profileRefs": ["SMProfile-InjectionMoldingMachine", "SMProfile-CNC_Machine"],
+      "profileRefs": [
+        "SMProfile-InjectionMoldingMachine",
+        "SMProfile-CNC_Machine"
+      ],
       "partitionKey": "machine_id",
       "partitions": 3,
       "retention": "30d",
@@ -285,7 +345,6 @@
       }
     }
   },
-
   "builderStrategy": {
     "description": "How the KG builder consumes Kafka topics",
     "approach": "poll",
@@ -295,7 +354,6 @@
     "nodeUpdate": "SET node += payload (full object merge, not single attribute)",
     "edgeCreation": "Edges derived from payload FK fields (e.g. article_no → FOR_ARTICLE edge) using targetIdProp resolution from SM profiles"
   },
-
   "notes": {
     "vs_mqtt": "Kafka guarantees ordering per key (partition), has replay capability (offset reset), and native CDC support. MQTT is better for low-latency single-attribute updates.",
     "vs_shared_uns": "#shared.uns publishes one MQTT message per attribute per machine. Kafka_UNS publishes one message per entity with ALL attributes — fewer messages, larger payloads.",

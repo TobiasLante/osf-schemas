@@ -1,23 +1,60 @@
 {
   "profileId": "SMProfile-MaterialLot",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "standard": "CESMII",
   "displayName": "Material Lot (Produktions-Los)",
   "description": "Produktionslos — verknüpft Fertigungsauftrag mit Artikel und produzierter Menge",
   "parentType": null,
   "attributes": [
-    { "name": "order_no", "dataType": "String", "category": "Reference" },
-    { "name": "article_no", "dataType": "String", "category": "Reference" },
-    { "name": "article_name", "dataType": "String", "category": "Master" },
-    { "name": "machine_no", "dataType": "String", "category": "Reference" },
-    { "name": "planned_qty", "dataType": "Int32", "category": "Planning" },
-    { "name": "produced_qty", "dataType": "Int32", "category": "Actual" },
-    { "name": "status", "dataType": "Int32", "category": "Status" }
+    {
+      "name": "order_no",
+      "dataType": "String",
+      "category": "Reference"
+    },
+    {
+      "name": "article_no",
+      "dataType": "String",
+      "category": "Reference"
+    },
+    {
+      "name": "article_name",
+      "dataType": "String",
+      "category": "Master"
+    },
+    {
+      "name": "machine_no",
+      "dataType": "String",
+      "category": "Reference"
+    },
+    {
+      "name": "planned_qty",
+      "dataType": "Int32",
+      "category": "Planning"
+    },
+    {
+      "name": "produced_qty",
+      "dataType": "Int32",
+      "category": "Actual"
+    },
+    {
+      "name": "status",
+      "dataType": "Int32",
+      "category": "Status"
+    }
   ],
   "relationships": [
-    { "type": "PRODUCED_ON", "target": "Machine" },
-    { "type": "FOR_ARTICLE", "target": "Article" },
-    { "type": "FROM_ORDER", "target": "ProductionOrder" }
+    {
+      "type": "PRODUCED_ON",
+      "target": "Machine"
+    },
+    {
+      "type": "FOR_ARTICLE",
+      "target": "Article"
+    },
+    {
+      "type": "FROM_ORDER",
+      "target": "ProductionOrder"
+    }
   ],
   "kgNodeLabel": "MaterialLot",
   "kgIdProperty": "lot_id"

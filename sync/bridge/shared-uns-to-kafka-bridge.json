@@ -1,8 +1,7 @@
 {
   "mappingId": "SharedUNS_Kafka_Bridge",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "SharedUNS_Kafka_Bridge — Aggregates #shared.uns flat MQTT messages (OT, single-attribute) into Kafka records (IT, full-object). Bridges OT→IT boundary for Factory Simulator v3 topic format.",
-
   "source": {
     "type": "mqtt",
     "schemaRef": "#shared.uns",
@@ -11,45 +10,81 @@
       "port": "${MQTT_PORT}"
     }
   },
-
   "sink": {
     "type": "kafka",
     "schemaRef": "Kafka_UNS",
     "bootstrapServers": "${KAFKA_BOOTSTRAP_SERVERS}",
     "compression": "lz4"
   },
-
   "topicMapping": {
     "description": "#shared.uns topic format: Factory/{machineId}/{workOrder}/{tool}/{category}/{attribute}. Machine ID is segment 1, category is segment 4, attribute is segment 5.",
     "machineIdSegment": 1,
     "categorySegment": 4,
     "attributeSegment": 5
   },
-
   "routes": [
     {
       "name": "BDE Events",
       "mqttSubscribe": "Factory/+/+/+/BDE/#",
       "kafkaTopic": "factory.bde.events",
-      "keyExtract": { "segment": 1, "description": "Machine ID from topic segment 1" },
+      "keyExtract": {
+        "segment": 1,
+        "description": "Machine ID from topic segment 1"
+      },
       "aggregation": {
         "strategy": "window",
         "windowMs": 5000,
         "groupBy": "machine_id"
       },
       "attributeMapping": [
-        { "mqttAttribute": "Machine_Status", "kafkaField": "machine_status" },
-        { "mqttAttribute": "Act_RunMode_Asset", "kafkaField": "machine_status_text" },
-        { "mqttAttribute": "Act_Qty_Good", "kafkaField": "good_parts" },
-        { "mqttAttribute": "Act_Qty_Scrap", "kafkaField": "scrap_parts" },
-        { "mqttAttribute": "Act_Qty_Rework", "kafkaField": "rework_parts" },
-        { "mqttAttribute": "Act_CycleTime", "kafkaField": "cycle_time_actual" },
-        { "mqttAttribute": "Plan_CycleTime", "kafkaField": "cycle_time_planned" },
-        { "mqttAttribute": "Act_OEE", "kafkaField": "oee" },
-        { "mqttAttribute": "Act_Availability", "kafkaField": "availability" },
-        { "mqttAttribute": "Act_Performance", "kafkaField": "performance" },
-        { "mqttAttribute": "Act_Quality", "kafkaField": "quality_pct" },
-        { "mqttAttribute": "Shot_Counter", "kafkaField": "shot_counter" }
+        {
+          "mqttAttribute": "Machine_Status",
+          "kafkaField": "machine_status"
+        },
+        {
+          "mqttAttribute": "Act_RunMode_Asset",
+          "kafkaField": "machine_status_text"
+        },
+        {
+          "mqttAttribute": "Act_Qty_Good",
+          "kafkaField": "good_parts"
+        },
+        {
+          "mqttAttribute": "Act_Qty_Scrap",
+          "kafkaField": "scrap_parts"
+        },
+        {
+          "mqttAttribute": "Act_Qty_Rework",
+          "kafkaField": "rework_parts"
+        },
+        {
+          "mqttAttribute": "Act_CycleTime",
+          "kafkaField": "cycle_time_actual"
+        },
+        {
+          "mqttAttribute": "Plan_CycleTime",
+          "kafkaField": "cycle_time_planned"
+        },
+        {
+          "mqttAttribute": "Act_OEE",
+          "kafkaField": "oee"
+        },
+        {
+          "mqttAttribute": "Act_Availability",
+          "kafkaField": "availability"
+        },
+        {
+          "mqttAttribute": "Act_Performance",
+          "kafkaField": "performance"
+        },
+        {
+          "mqttAttribute": "Act_Quality",
+          "kafkaField": "quality_pct"
+        },
+        {
+          "mqttAttribute": "Shot_Counter",
+          "kafkaField": "shot_counter"
+        }
       ]
     },
     {
@@ -57,26 +92,67 @@
       "mqttSubscribe": "Factory/+/+/+/ProcessData/#",
       "mqttFilter": "Act_Temp_*|Set_Temp_*",
       "kafkaTopic": "factory.process-data",
-      "keyExtract": { "segment": 1 },
+      "keyExtract": {
+        "segment": 1
+      },
       "aggregation": {
         "strategy": "window",
         "windowMs": 5000,
         "groupBy": "machine_id"
       },
       "attributeMapping": [
-        { "mqttAttribute": "Act_Temp_Barrel", "kafkaField": "temp_melting" },
-        { "mqttAttribute": "Set_Temp_Barrel", "kafkaField": "temp_melting_set" },
-        { "mqttAttribute": "Act_Temp_Zone1", "kafkaField": "temp_zone_1" },
-        { "mqttAttribute": "Set_Temp_Zone1", "kafkaField": "temp_zone_1_set" },
-        { "mqttAttribute": "Act_Temp_Zone2", "kafkaField": "temp_zone_2" },
-        { "mqttAttribute": "Set_Temp_Zone2", "kafkaField": "temp_zone_2_set" },
-        { "mqttAttribute": "Act_Temp_Nozzle", "kafkaField": "temp_nozzle" },
-        { "mqttAttribute": "Act_Temp_Mould_Fixed", "kafkaField": "temp_mould_fixed" },
-        { "mqttAttribute": "Act_Temp_Mould_Moving", "kafkaField": "temp_mould_moving" },
-        { "mqttAttribute": "Act_Temp_Water_Inlet", "kafkaField": "temp_water_inlet" },
-        { "mqttAttribute": "Act_Temp_Water_Outlet", "kafkaField": "temp_water_outlet" },
-        { "mqttAttribute": "Act_Temp_Oil", "kafkaField": "temp_oil" },
-        { "mqttAttribute": "Act_Temp_Ambient", "kafkaField": "temp_ambient" }
+        {
+          "mqttAttribute": "Act_Temp_Barrel",
+          "kafkaField": "temp_melting"
+        },
+        {
+          "mqttAttribute": "Set_Temp_Barrel",
+          "kafkaField": "temp_melting_set"
+        },
+        {
+          "mqttAttribute": "Act_Temp_Zone1",
+          "kafkaField": "temp_zone_1"
+        },
+        {
+          "mqttAttribute": "Set_Temp_Zone1",
+          "kafkaField": "temp_zone_1_set"
+        },
+        {
+          "mqttAttribute": "Act_Temp_Zone2",
+          "kafkaField": "temp_zone_2"
+        },
+        {
+          "mqttAttribute": "Set_Temp_Zone2",
+          "kafkaField": "temp_zone_2_set"
+        },
+        {
+          "mqttAttribute": "Act_Temp_Nozzle",
+          "kafkaField": "temp_nozzle"
+        },
+        {
+          "mqttAttribute": "Act_Temp_Mould_Fixed",
+          "kafkaField": "temp_mould_fixed"
+        },
+        {
+          "mqttAttribute": "Act_Temp_Mould_Moving",
+          "kafkaField": "temp_mould_moving"
+        },
+        {
+          "mqttAttribute": "Act_Temp_Water_Inlet",
+          "kafkaField": "temp_water_inlet"
+        },
+        {
+          "mqttAttribute": "Act_Temp_Water_Outlet",
+          "kafkaField": "temp_water_outlet"
+        },
+        {
+          "mqttAttribute": "Act_Temp_Oil",
+          "kafkaField": "temp_oil"
+        },
+        {
+          "mqttAttribute": "Act_Temp_Ambient",
+          "kafkaField": "temp_ambient"
+        }
       ]
     },
     {
@@ -84,7 +160,9 @@
       "mqttSubscribe": "Factory/+/+/+/ProcessData/#",
       "mqttFilter": "Act_Pressure_*|Set_Pressure_*|Act_Force_*",
       "kafkaTopic": "factory.process-data",
-      "keyExtract": { "segment": 1 },
+      "keyExtract": {
+        "segment": 1
+      },
       "aggregation": {
         "strategy": "window",
         "windowMs": 5000,
@@ -92,14 +170,38 @@
         "mergeWith": "Process Data — Temperature"
       },
       "attributeMapping": [
-        { "mqttAttribute": "Act_Pressure_Holding", "kafkaField": "pressure_holding" },
-        { "mqttAttribute": "Set_Pressure_Holding", "kafkaField": "pressure_holding_set" },
-        { "mqttAttribute": "Act_Pressure_Injection_Max", "kafkaField": "pressure_injection_max" },
-        { "mqttAttribute": "Act_Pressure_Switch", "kafkaField": "pressure_switch" },
-        { "mqttAttribute": "Act_Pressure_Back", "kafkaField": "pressure_back" },
-        { "mqttAttribute": "Act_Pressure_Oil", "kafkaField": "pressure_oil" },
-        { "mqttAttribute": "Act_Force_Clamping", "kafkaField": "force_closing" },
-        { "mqttAttribute": "Act_Torque_Screw", "kafkaField": "torque_screw" }
+        {
+          "mqttAttribute": "Act_Pressure_Holding",
+          "kafkaField": "pressure_holding"
+        },
+        {
+          "mqttAttribute": "Set_Pressure_Holding",
+          "kafkaField": "pressure_holding_set"
+        },
+        {
+          "mqttAttribute": "Act_Pressure_Injection_Max",
+          "kafkaField": "pressure_injection_max"
+        },
+        {
+          "mqttAttribute": "Act_Pressure_Switch",
+          "kafkaField": "pressure_switch"
+        },
+        {
+          "mqttAttribute": "Act_Pressure_Back",
+          "kafkaField": "pressure_back"
+        },
+        {
+          "mqttAttribute": "Act_Pressure_Oil",
+          "kafkaField": "pressure_oil"
+        },
+        {
+          "mqttAttribute": "Act_Force_Clamping",
+          "kafkaField": "force_closing"
+        },
+        {
+          "mqttAttribute": "Act_Torque_Screw",
+          "kafkaField": "torque_screw"
+        }
       ]
     },
     {
@@ -107,7 +209,9 @@
       "mqttSubscribe": "Factory/+/+/+/ProcessData/#",
       "mqttFilter": "Act_Speed_*|Act_Time_*|Act_Pos_*|Act_Volume_*",
       "kafkaTopic": "factory.process-data",
-      "keyExtract": { "segment": 1 },
+      "keyExtract": {
+        "segment": 1
+      },
       "aggregation": {
         "strategy": "window",
         "windowMs": 5000,
@@ -115,21 +219,66 @@
         "mergeWith": "Process Data — Temperature"
       },
       "attributeMapping": [
-        { "mqttAttribute": "Act_Speed_Injection", "kafkaField": "speed_injection" },
-        { "mqttAttribute": "Act_Speed_Screw", "kafkaField": "speed_screw_rpm" },
-        { "mqttAttribute": "Act_Time_Dosing", "kafkaField": "time_dosing" },
-        { "mqttAttribute": "Act_Time_Filling", "kafkaField": "time_filling" },
-        { "mqttAttribute": "Act_Time_Holding", "kafkaField": "time_holding" },
-        { "mqttAttribute": "Act_Time_Cooling", "kafkaField": "time_cooling" },
-        { "mqttAttribute": "Act_Time_Mould_Open", "kafkaField": "time_mould_open" },
-        { "mqttAttribute": "Act_Time_Mould_Close", "kafkaField": "time_mould_close" },
-        { "mqttAttribute": "Act_Volume_Shot", "kafkaField": "volume_shot" },
-        { "mqttAttribute": "Act_Volume_Cushion", "kafkaField": "volume_cushion" },
-        { "mqttAttribute": "Act_Pos_Screw_Dosing", "kafkaField": "position_screw_dosing" },
-        { "mqttAttribute": "Act_Pos_Screw_Switch", "kafkaField": "position_screw_switch" },
-        { "mqttAttribute": "Spindle_RPM", "kafkaField": "spindle_rpm" },
-        { "mqttAttribute": "Feed_Rate", "kafkaField": "feed_rate" },
-        { "mqttAttribute": "Tool_Wear_Pct", "kafkaField": "tool_wear_pct" }
+        {
+          "mqttAttribute": "Act_Speed_Injection",
+          "kafkaField": "speed_injection"
+        },
+        {
+          "mqttAttribute": "Act_Speed_Screw",
+          "kafkaField": "speed_screw_rpm"
+        },
+        {
+          "mqttAttribute": "Act_Time_Dosing",
+          "kafkaField": "time_dosing"
+        },
+        {
+          "mqttAttribute": "Act_Time_Filling",
+          "kafkaField": "time_filling"
+        },
+        {
+          "mqttAttribute": "Act_Time_Holding",
+          "kafkaField": "time_holding"
+        },
+        {
+          "mqttAttribute": "Act_Time_Cooling",
+          "kafkaField": "time_cooling"
+        },
+        {
+          "mqttAttribute": "Act_Time_Mould_Open",
+          "kafkaField": "time_mould_open"
+        },
+        {
+          "mqttAttribute": "Act_Time_Mould_Close",
+          "kafkaField": "time_mould_close"
+        },
+        {
+          "mqttAttribute": "Act_Volume_Shot",
+          "kafkaField": "volume_shot"
+        },
+        {
+          "mqttAttribute": "Act_Volume_Cushion",
+          "kafkaField": "volume_cushion"
+        },
+        {
+          "mqttAttribute": "Act_Pos_Screw_Dosing",
+          "kafkaField": "position_screw_dosing"
+        },
+        {
+          "mqttAttribute": "Act_Pos_Screw_Switch",
+          "kafkaField": "position_screw_switch"
+        },
+        {
+          "mqttAttribute": "Spindle_RPM",
+          "kafkaField": "spindle_rpm"
+        },
+        {
+          "mqttAttribute": "Feed_Rate",
+          "kafkaField": "feed_rate"
+        },
+        {
+          "mqttAttribute": "Tool_Wear_Pct",
+          "kafkaField": "tool_wear_pct"
+        }
       ]
     },
     {
@@ -137,21 +286,34 @@
       "mqttSubscribe": "Factory/+/+/+/ProcessData/#",
       "mqttFilter": "Act_Energy_*|Act_Power_*",
       "kafkaTopic": "factory.energy.readings",
-      "keyExtract": { "segment": 1 },
+      "keyExtract": {
+        "segment": 1
+      },
       "aggregation": {
         "strategy": "window",
         "windowMs": 30000,
         "groupBy": "machine_id"
       },
       "attributeMapping": [
-        { "mqttAttribute": "Act_Energy_Total", "kafkaField": "total_kwh" },
-        { "mqttAttribute": "Act_Energy_Heating", "kafkaField": "heating_kwh" },
-        { "mqttAttribute": "Act_Energy_Drive", "kafkaField": "drive_kwh" },
-        { "mqttAttribute": "Act_Power_Current", "kafkaField": "power_current_kw" }
+        {
+          "mqttAttribute": "Act_Energy_Total",
+          "kafkaField": "total_kwh"
+        },
+        {
+          "mqttAttribute": "Act_Energy_Heating",
+          "kafkaField": "heating_kwh"
+        },
+        {
+          "mqttAttribute": "Act_Energy_Drive",
+          "kafkaField": "drive_kwh"
+        },
+        {
+          "mqttAttribute": "Act_Power_Current",
+          "kafkaField": "power_current_kw"
+        }
       ]
     }
   ],
-
   "aggregationStrategies": {
     "window": {
       "description": "Collect all MQTT messages for a machine within windowMs, then flush as single Kafka record.",
@@ -159,13 +321,20 @@
       "mergeWith": "Multiple routes targeting the same kafkaTopic with same key are merged into one record."
     }
   },
-
   "limitations": {
     "description": "#shared.uns only covers BDE + ProcessData (machine-scoped). No ERP, QMS, TMS, Maintenance topics — those are only available in ISA-95_Walker_Reynolds. Use MQTT_Kafka_Bridge for full domain coverage.",
-    "coveredDomains": ["BDE", "ProcessData", "Energy"],
-    "notCovered": ["ERP", "QMS", "TMS", "Maintenance"]
+    "coveredDomains": [
+      "BDE",
+      "ProcessData",
+      "Energy"
+    ],
+    "notCovered": [
+      "ERP",
+      "QMS",
+      "TMS",
+      "Maintenance"
+    ]
   },
-
   "notes": {
     "vs_mqtt_kafka_bridge": "MQTT_Kafka_Bridge uses ISA-95 topic hierarchy (8 segments). This bridge uses #shared.uns flat hierarchy (6 segments). Same Kafka sink topics — both produce compatible records.",
     "machineId": "Segment 1 in #shared.uns (Factory/{machineId}/...) vs segment 4 in ISA-95 (Enterprise/Site/Area/Line/{machineId}/...)"

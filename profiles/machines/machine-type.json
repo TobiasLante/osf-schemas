@@ -1,18 +1,37 @@
 {
   "profileId": "SMProfile-MachineType",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "standard": "CESMII",
   "displayName": "Machine Type / Group",
   "description": "Maschinentyp/-gruppe (z.B. Spritzguss 1300kN)",
   "parentType": null,
   "attributes": [
-    { "name": "name", "dataType": "String", "category": "Master" },
-    { "name": "description", "dataType": "String", "category": "Master" },
-    { "name": "max_closing_force_kn", "dataType": "Int32", "category": "Spec" },
-    { "name": "min_closing_force_kn", "dataType": "Int32", "category": "Spec" }
+    {
+      "name": "name",
+      "dataType": "String",
+      "category": "Master"
+    },
+    {
+      "name": "description",
+      "dataType": "String",
+      "category": "Master"
+    },
+    {
+      "name": "max_closing_force_kn",
+      "dataType": "Int32",
+      "category": "Spec"
+    },
+    {
+      "name": "min_closing_force_kn",
+      "dataType": "Int32",
+      "category": "Spec"
+    }
   ],
   "relationships": [
-    { "type": "HAS_SUBTYPE", "target": "MachineType" }
+    {
+      "type": "HAS_SUBTYPE",
+      "target": "MachineType"
+    }
   ],
   "kgNodeLabel": "MachineType",
   "kgIdProperty": "group_id"
