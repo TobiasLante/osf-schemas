@@ -44,9 +44,9 @@ flowchart LR
 
     subgraph SCH["osf-schemas"]
         direction TB
-        S1["**Schema 1 — WHAT**\n45 SM Profiles\nTypes · Attributes · Inheritance"]
-        S2["**Schema 2 — WHERE**\n65 Source Bindings\nPG · OPC-UA · MCP · REST"]
-        S3["**Schema 3 — HOW**\n9 Sync Configs\nMQTT · Polling · Kafka · Webhook"]
+        S2["**Schema 2 — WHERE from**\n65 Source Bindings\nPG · OPC-UA · MCP · REST"]
+        S1["**Schema 1 — WHAT exists**\n45 SM Profiles\nTypes · Attributes · Inheritance"]
+        S3["**Schema 3 — HOW it flows**\n9 Sync Configs\nMQTT · Polling · Kafka · Webhook"]
     end
 
     subgraph USE["Schema Consumers"]
