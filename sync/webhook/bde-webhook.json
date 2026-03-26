@@ -1,0 +1,25 @@
+{
+  "syncId": "BDE_Webhook",
+  "version": "1.0.0",
+  "syncType": "rest-webhook",
+  "description": "REST webhook endpoint for external BDE systems to push machine events directly into the KG.",
+  "webhook": {
+    "webhookPath": "/api/webhook/bde",
+    "secret": "${WEBHOOK_BDE_SECRET}",
+    "verifySignature": true,
+    "profileRef": "SMProfile-InjectionMoldingMachine",
+    "idField": "machine_id",
+    "payloadMapping": {
+      "machine_id": "machine_id",
+      "status": "Machine_Status",
+      "good_parts": "Good_Parts",
+      "scrap_parts": "Scrap_Parts",
+      "cycle_time": "Cycle_Time_Actual",
+      "oee": "OEE"
+    }
+  },
+  "notes": {
+    "usage": "External MES or BDE systems POST JSON payloads to this endpoint. The KG builder validates the signature, maps fields, and merges into Neo4j.",
+    "authentication": "HMAC-SHA256 signature in X-Webhook-Signature header, verified against the secret."
+  }
+}

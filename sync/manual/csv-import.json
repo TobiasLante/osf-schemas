@@ -1,0 +1,17 @@
+{
+  "syncId": "Manual_CSV_Import",
+  "version": "1.0.0",
+  "syncType": "manual",
+  "description": "Manual CSV/JSON import for one-off data loads — e.g. initial master data migration, Excel exports from legacy systems.",
+  "manual": {
+    "trigger": "api",
+    "format": "csv",
+    "profileRef": "SMProfile-Article",
+    "idField": "article_no"
+  },
+  "notes": {
+    "trigger_options": "ui = user uploads via UI, api = POST /api/import endpoint, schedule = periodic scheduled import",
+    "format_options": "csv = comma-separated with header row, json = array of objects",
+    "usage": "Useful for initial data loads, legacy system migrations, or periodic Excel-based updates from departments without API access."
+  }
+}

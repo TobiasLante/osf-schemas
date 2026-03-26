@@ -1,364 +1,100 @@
 {
-  "mappingId": "Kafka_UNS",
-  "version": "1.1.0",
+  "syncId": "Kafka_UNS",
+  "version": "2.0.0",
+  "syncType": "kafka",
   "description": "Kafka_UNS — Event-driven sync via Apache Kafka. One topic per entity type, JSON payloads, key = entity ID. Full object per message (not single attributes like MQTT).",
-  "connection": {
+  "kafka": {
     "bootstrapServers": "${KAFKA_BOOTSTRAP_SERVERS}",
-    "consumerGroupId": "osf-kg-builder",
+    "consumerGroup": "osf-kg-builder",
     "securityProtocol": "PLAINTEXT",
-    "autoOffsetReset": "latest"
-  },
-  "serialization": {
-    "keyFormat": "string",
-    "valueFormat": "json",
-    "timestampField": "_ts",
-    "timestampFormat": "ISO8601"
-  },
-  "topics": {
-    "factory.bde.events": {
-      "description": "BDE events — one message per machine per cycle/tick",
-      "keyIdProp": "machine_id",
-      "profileRefs": [
-        "SMProfile-InjectionMoldingMachine",
-        "SMProfile-CNC_Machine",
-        "SMProfile-Lathe",
-        "SMProfile-MillingMachine",
-        "SMProfile-GrindingMachine",
-        "SMProfile-FiveAxisMillingMachine",
-        "SMProfile-FFS_Cell",
-        "SMProfile-AssemblyLine"
-      ],
-      "partitionKey": "machine_id",
-      "partitions": 6,
-      "retention": "7d",
-      "payloadMapping": {
-        "machine_id": "machine_id",
-        "machine_status": "Machine_Status",
-        "good_parts": "Good_Parts",
-        "scrap_parts": "Scrap_Parts",
-        "rework_parts": "Rework_Parts",
-        "cycle_time_actual": "Cycle_Time_Actual",
-        "cycle_time_planned": "Cycle_Time_Planned",
-        "oee": "OEE",
-        "availability": "Availability",
-        "performance": "Performance",
-        "quality_pct": "Quality_Pct",
-        "shot_counter": "Shot_Counter",
-        "production_order": "Production_Order",
-        "article_id": "Article_ID"
+    "schemaRegistry": "${KAFKA_SCHEMA_REGISTRY}",
+    "topics": [
+      {
+        "topic": "factory.bde.events",
+        "profileRef": "SMProfile-InjectionMoldingMachine",
+        "keyIdProp": "machine_id",
+        "payloadMapping": {
+          "machine_id": "machine_id",
+          "machine_status": "Machine_Status",
+          "good_parts": "Good_Parts",
+          "scrap_parts": "Scrap_Parts",
+          "cycle_time_actual": "Cycle_Time_Actual",
+          "oee": "OEE",
+          "availability": "Availability",
+          "performance": "Performance",
+          "quality_pct": "Quality_Pct",
+          "production_order": "Production_Order",
+          "article_id": "Article_ID"
+        }
       },
-      "example": {
-        "key": "SGM-004",
-        "value": {
-          "machine_id": "SGM-004",
-          "machine_status": 1,
-          "good_parts": 8,
-          "scrap_parts": 0,
-          "cycle_time_actual": 28.5,
-          "oee": 0.864,
-          "production_order": "FA252630644",
-          "article_id": "ART-006",
-          "_ts": "2026-03-22T14:30:00.000Z"
+      {
+        "topic": "factory.process-data",
+        "profileRef": "SMProfile-InjectionMoldingMachine",
+        "keyIdProp": "machine_id",
+        "payloadMapping": {
+          "machine_id": "machine_id",
+          "temp_melting": "Temp_Melting",
+          "temp_melting_set": "Temp_Melting_Set",
+          "pressure_holding": "Pressure_Holding",
+          "speed_injection": "Speed_Injection",
+          "volume_shot": "Volume_Shot",
+          "energy_total_kwh": "Energy_Total_kWh"
+        }
+      },
+      {
+        "topic": "factory.erp.customer-orders",
+        "profileRef": "SMProfile-CustomerOrder",
+        "keyIdProp": "order_no",
+        "payloadMapping": {
+          "order_no": "order_no",
+          "customer": "customer",
+          "article_no": "article_no",
+          "quantity": "quantity",
+          "due_date": "due_date",
+          "status": "status"
+        }
+      },
+      {
+        "topic": "factory.erp.production-orders",
+        "profileRef": "SMProfile-ProductionOrder",
+        "keyIdProp": "order_no",
+        "payloadMapping": {
+          "order_no": "order_no",
+          "article_no": "article_no",
+          "machine_no": "machine_no",
+          "planned_qty": "planned_qty",
+          "produced_qty": "produced_qty",
+          "status": "status"
+        }
+      },
+      {
+        "topic": "factory.qms.notifications",
+        "profileRef": "SMProfile-QualityNotification",
+        "keyIdProp": "notification_no",
+        "payloadMapping": {
+          "notification_no": "notification_no",
+          "article_no": "article_no",
+          "type": "type",
+          "status": "status",
+          "description": "description"
+        }
+      },
+      {
+        "topic": "factory.maintenance.events",
+        "profileRef": "SMProfile-MaintenanceOrder",
+        "keyIdProp": "order_no",
+        "payloadMapping": {
+          "machine_id": "machine_id",
+          "order_no": "order_no",
+          "type": "type",
+          "status": "status",
+          "priority": "priority"
         }
       }
-    },
-    "factory.process-data": {
-      "description": "Process parameters — temperatures, pressures, speeds, volumes per machine per cycle",
-      "keyIdProp": "machine_id",
-      "profileRefs": [
-        "SMProfile-InjectionMoldingMachine"
-      ],
-      "partitionKey": "machine_id",
-      "partitions": 6,
-      "retention": "14d",
-      "payloadMapping": {
-        "machine_id": "machine_id",
-        "temp_melting": "Temp_Melting",
-        "temp_melting_set": "Temp_Melting_Set",
-        "temp_zone_1": "Temp_Zone_1",
-        "temp_zone_1_set": "Temp_Zone_1_Set",
-        "temp_nozzle": "Temp_Nozzle",
-        "temp_mould_fixed": "Temp_Mould_Fixed",
-        "temp_mould_moving": "Temp_Mould_Moving",
-        "pressure_holding": "Pressure_Holding",
-        "pressure_injection_max": "Pressure_Injection_Max",
-        "force_closing": "Force_Closing",
-        "speed_injection": "Speed_Injection",
-        "speed_screw_rpm": "Speed_Screw_RPM",
-        "time_dosing": "Time_Dosing",
-        "time_filling": "Time_Filling",
-        "time_holding": "Time_Holding",
-        "time_cooling": "Time_Cooling",
-        "volume_shot": "Volume_Shot",
-        "volume_cushion": "Volume_Cushion",
-        "energy_total_kwh": "Energy_Total_kWh",
-        "power_current": "Power_Current"
-      },
-      "example": {
-        "key": "SGM-004",
-        "value": {
-          "machine_id": "SGM-004",
-          "temp_melting": 234.5,
-          "temp_melting_set": 235.0,
-          "pressure_holding": 85.2,
-          "speed_injection": 120.0,
-          "volume_shot": 45.3,
-          "energy_total_kwh": 1523.7,
-          "_ts": "2026-03-22T14:30:00.000Z"
-        }
-      }
-    },
-    "factory.erp.customer-orders": {
-      "description": "Customer order CDC events — created, updated, status changed, delivered",
-      "keyIdProp": "order_no",
-      "profileRefs": [
-        "SMProfile-CustomerOrder"
-      ],
-      "partitionKey": "order_no",
-      "partitions": 3,
-      "retention": "30d",
-      "payloadMapping": {
-        "order_no": "order_no",
-        "customer": "customer",
-        "article_no": "article_no",
-        "quantity": "quantity",
-        "due_date": "due_date",
-        "status": "status",
-        "production_order_no": "production_order_no",
-        "_event": "_event_type"
-      },
-      "eventTypes": [
-        "created",
-        "confirmed",
-        "in_production",
-        "shipped",
-        "cancelled"
-      ],
-      "example": {
-        "key": "KA202657129",
-        "value": {
-          "order_no": "KA202657129",
-          "customer": "Müller Maschinenbau GmbH",
-          "article_no": "ART-006",
-          "quantity": 500,
-          "due_date": "2026-04-15",
-          "status": "Bestätigt",
-          "_event": "confirmed",
-          "_ts": "2026-03-22T14:30:00.000Z"
-        }
-      }
-    },
-    "factory.erp.production-orders": {
-      "description": "Production order CDC events — planned, started, completed",
-      "keyIdProp": "order_no",
-      "profileRefs": [
-        "SMProfile-ProductionOrder"
-      ],
-      "partitionKey": "order_no",
-      "partitions": 3,
-      "retention": "30d",
-      "payloadMapping": {
-        "order_no": "order_no",
-        "article_no": "article_no",
-        "machine_no": "machine_no",
-        "planned_qty": "planned_qty",
-        "produced_qty": "produced_qty",
-        "status": "status",
-        "start_date": "start_date",
-        "end_date": "end_date"
-      },
-      "eventTypes": [
-        "created",
-        "released",
-        "started",
-        "completed",
-        "cancelled"
-      ]
-    },
-    "factory.erp.stock-changes": {
-      "description": "Stock level change events — goods receipt, issue, reservation, adjustment",
-      "keyIdProp": "article_no",
-      "profileRefs": [
-        "SMProfile-StockItem"
-      ],
-      "partitionKey": "article_no",
-      "partitions": 3,
-      "retention": "14d",
-      "payloadMapping": {
-        "teil_id": "teil_id",
-        "qty_free": "qty_free",
-        "qty_blocked": "qty_blocked",
-        "reserved": "reserved",
-        "min_stock": "min_stock",
-        "location": "location",
-        "change_qty": "_change_qty",
-        "change_reason": "_change_reason"
-      },
-      "eventTypes": [
-        "goods_receipt",
-        "goods_issue",
-        "reservation",
-        "adjustment",
-        "stock_count"
-      ]
-    },
-    "factory.erp.purchase-orders": {
-      "description": "Purchase order CDC events",
-      "keyIdProp": "order_no",
-      "profileRefs": [
-        "SMProfile-PurchaseOrder"
-      ],
-      "partitionKey": "order_no",
-      "partitions": 2,
-      "retention": "30d",
-      "payloadMapping": {
-        "order_no": "order_no",
-        "supplier_id": "supplier_id",
-        "article_no": "article_no",
-        "quantity": "quantity",
-        "status": "status",
-        "expected_delivery": "expected_delivery"
-      },
-      "eventTypes": [
-        "created",
-        "confirmed",
-        "shipped",
-        "received",
-        "cancelled"
-      ]
-    },
-    "factory.qms.notifications": {
-      "description": "Quality notification events — complaints, internal findings, defects",
-      "keyIdProp": "notification_no",
-      "profileRefs": [
-        "SMProfile-QualityNotification"
-      ],
-      "partitionKey": "notification_no",
-      "partitions": 2,
-      "retention": "90d",
-      "payloadMapping": {
-        "notification_no": "notification_no",
-        "article_no": "article_no",
-        "type": "type",
-        "status": "status",
-        "description": "description",
-        "defect_qty": "defect_qty"
-      },
-      "eventTypes": [
-        "created",
-        "in_progress",
-        "completed",
-        "closed"
-      ]
-    },
-    "factory.qms.inspection-results": {
-      "description": "Inspection lot results — pass/fail, measurements, Cpk",
-      "keyIdProp": "result_id",
-      "profileRefs": [
-        "SMProfile-InspectionResult"
-      ],
-      "partitionKey": "lot_no",
-      "partitions": 2,
-      "retention": "90d",
-      "payloadMapping": {
-        "result_id": "result_id",
-        "lot_no": "lot_no",
-        "characteristic": "characteristic",
-        "measured_value": "measured_value",
-        "upper_limit": "upper_limit",
-        "lower_limit": "lower_limit",
-        "result": "result",
-        "cpk": "cpk"
-      }
-    },
-    "factory.tms.tool-events": {
-      "description": "Tool management events — wear updates, changes, breakage",
-      "keyIdProp": "machine_id",
-      "profileRefs": [
-        "SMProfile-CNC_Machine",
-        "SMProfile-MillingMachine",
-        "SMProfile-Lathe"
-      ],
-      "partitionKey": "machine_id",
-      "partitions": 2,
-      "retention": "14d",
-      "payloadMapping": {
-        "machine_id": "machine_id",
-        "tool_id": "tool_id",
-        "wear_pct": "Tool_Wear_Pct",
-        "remaining_life_min": "Tool_Remaining_Life",
-        "status": "Tool_Status",
-        "event": "_event_type"
-      },
-      "eventTypes": [
-        "wear_update",
-        "tool_change",
-        "tool_breakage",
-        "tool_mounted"
-      ]
-    },
-    "factory.maintenance.events": {
-      "description": "Maintenance events — notifications, order status, breakdowns",
-      "keyIdProp": "machine_id",
-      "profileRefs": [
-        "SMProfile-MaintenanceOrder",
-        "SMProfile-MaintenanceNotification"
-      ],
-      "partitionKey": "machine_id",
-      "partitions": 2,
-      "retention": "30d",
-      "payloadMapping": {
-        "machine_id": "machine_id",
-        "notification_no": "notification_no",
-        "order_no": "order_no",
-        "type": "type",
-        "status": "status",
-        "priority": "priority",
-        "description": "description",
-        "downtime_minutes": "downtime_minutes"
-      },
-      "eventTypes": [
-        "notification_created",
-        "order_created",
-        "order_started",
-        "order_completed",
-        "breakdown"
-      ]
-    },
-    "factory.energy.readings": {
-      "description": "Energy consumption readings per machine — periodic (every 5 min)",
-      "keyIdProp": "machine_id",
-      "profileRefs": [
-        "SMProfile-InjectionMoldingMachine",
-        "SMProfile-CNC_Machine"
-      ],
-      "partitionKey": "machine_id",
-      "partitions": 3,
-      "retention": "30d",
-      "payloadMapping": {
-        "machine_id": "machine_id",
-        "total_kwh": "Energy_Total_kWh",
-        "heating_kwh": "Energy_Heating_kWh",
-        "drive_kwh": "Energy_Drive_kWh",
-        "power_current_kw": "Power_Current",
-        "base_load_kw": "Base_Load_kW"
-      }
-    }
-  },
-  "builderStrategy": {
-    "description": "How the KG builder consumes Kafka topics",
-    "approach": "poll",
-    "pollIntervalMs": 5000,
-    "batchSize": 500,
-    "commitStrategy": "after_neo4j_write",
-    "nodeUpdate": "SET node += payload (full object merge, not single attribute)",
-    "edgeCreation": "Edges derived from payload FK fields (e.g. article_no → FOR_ARTICLE edge) using targetIdProp resolution from SM profiles"
+    ]
   },
   "notes": {
-    "vs_mqtt": "Kafka guarantees ordering per key (partition), has replay capability (offset reset), and native CDC support. MQTT is better for low-latency single-attribute updates.",
-    "vs_shared_uns": "#shared.uns publishes one MQTT message per attribute per machine. Kafka_UNS publishes one message per entity with ALL attributes — fewer messages, larger payloads.",
-    "vs_isa95_uns": "ISA-95_Walker_Reynolds uses MQTT topic hierarchy for routing. Kafka_UNS uses topic-per-entity-type with JSON key for routing. Both follow UNS principles but different transport.",
-    "cdc_integration": "For ERP/QMS topics, the producer can use Debezium CDC to capture database changes and publish to Kafka automatically — no custom publisher needed.",
-    "scalability": "Kafka topics are partitioned — add partitions for throughput. Consumer group allows multiple KG builder instances to share load."
+    "vs_mqtt": "Kafka guarantees ordering per key (partition), has replay capability. MQTT is better for low-latency single-attribute updates.",
+    "cdc_integration": "Use Debezium CDC to capture database changes and publish to Kafka automatically."
   }
 }
