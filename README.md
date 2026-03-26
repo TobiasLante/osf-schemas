@@ -36,9 +36,14 @@ The 3 schemas are the **single source of truth** for the entire data pipeline �
 flowchart LR
     subgraph SRC["Data Sources"]
         direction TB
-        PG[("PostgreSQL\nERP · QMS · WMS")]
-        OPC["OPC-UA\n35 machines"]
-        MQ["MQTT Broker"]
+        ERP["ERP"]
+        MES["MES"]
+        QMS["QMS"]
+        WMS["WMS"]
+        TMS["TMS"]
+        SCADA["SCADA"]
+        OPC["OPC-UA"]
+        MQ["MQTT"]
         KF["Kafka"]
     end
 
