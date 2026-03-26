@@ -7,59 +7,104 @@ No LLM is needed — the schemas are the single source of truth.
 
 ```
 osf-schemas/
-├── profiles/           ← SM Profiles: type system (node labels, properties, idProperty)
-│   ├── erp/            ← ERP domain (Article, Customer, Order, BOM, ...)
-│   ├── machines/       ← Machine types (InjectionMoldingMachine, CNC_Machine, ...)
-│   ├── maintenance/    ← Maintenance domain (MaintenanceOrder, DowntimeRecord, ...)
-│   ├── qms/            ← Quality domain (InspectionLot, QualityNotification, ...)
-│   └── wms/            ← Warehouse domain (GoodsReceipt, TransportOrder, Quant, ...)
-├── sources/            ← Data sources: where to load instance data from
-│   ├── postgresql/     ← PostgreSQL table → KG nodes + edges
-│   └── opcua/          ← OPC-UA endpoints → machine nodes + live properties
-├── sync/               ← Live sync: MQTT/polling for real-time updates
-└── schema-guide.md     ← This file
+├── profiles/              ← Schema 1: SM Profiles (type system)
+│   ├── enterprise/        ← ISA-95 hierarchy (Enterprise, Site, Area, ProductionLine, System)
+│   ├── machines/          ← Machine types (Machine*, CNC, IMM, FFS, Lathe, Milling, Mould, CNCProgram)
+│   ├── erp/               ← ERP domain (Article, Order*, Customer, Supplier, BOM, Stock, Routing, ...)
+│   ├── maintenance/       ← Maintenance (MaintenanceOrder, MaintenanceNotification, DowntimeRecord)
+│   ├── qms/               ← Quality (InspectionLot, InspectionResult, QualityNotification, SPC, CorrectiveAction)
+│   └── wms/               ← Warehouse (GoodsReceipt, TransportOrder, Quant, StorageLocation)
+├── sources/               ← Schema 2: Data Sources (instance binding)
+│   ├── postgresql/        ← 30 PostgreSQL table → KG node mappings
+│   └── opcua/             ← 35 OPC-UA endpoint → machine node mappings
+├── sync/                  ← Schema 3: Live Sync (transport layer)
+│   ├── mqtt/              ← MQTT UNS subscriptions
+│   ├── polling/           ← PostgreSQL polling (timestamp + full refresh)
+│   ├── kafka/             ← Kafka consumer configs
+│   ├── webhook/           ← REST webhook endpoints
+│   ├── manual/            ← Manual CSV/JSON import configs
+│   └── bridge/            ← MQTT→Kafka bridge (reference only, not executed)
+└── schema-guide.md        ← This file
+
+* = abstract parent (Machine, Order) — see Inheritance section
 ```
+
+## Counts
+
+| Category | Files | Examples |
+|----------|-------|---------|
+| Profiles | 45 | Machine, CNC_Machine, Article, CustomerOrder, Site, ... |
+| Sources (PostgreSQL) | 30 | erpdb-articles, qmsdb-inspection-lots, wmsdb-quants, ... |
+| Sources (OPC-UA) | 35 | sgm-001 through sgm-020, bz-1/2/3, ml-1/2, ... |
+| Sync (MQTT) | 2 | ISA-95 Walker-Reynolds, shared UNS factory-sim-v3 |
+| Sync (Polling) | 3 | erpdb-poll, qmsdb-poll, wmsdb-poll |
+| Sync (Kafka) | 1 | kafka-uns-factory (10 topics) |
+| Sync (Webhook) | 1 | bde-webhook |
+| Sync (Manual) | 1 | csv-import |
+| Bridge (ref only) | 2 | mqtt-to-kafka, shared-uns-to-kafka |
+
+---
 
 ## Schema 1: SM Profile
 
-Defines **what types of nodes exist** — their label, ID property, attributes, and relationships.
+Defines **what types of nodes exist** — their label, ID property, attributes, relationships, and inheritance.
 
 **File:** `profiles/<domain>/<type>.json`
 
 ```json
 {
-  "profileId": "SMProfile-InjectionMoldingMachine",
-  "version": "1.0.0",
-  "displayName": "Injection Molding Machine",
-  "kgNodeLabel": "InjectionMoldingMachine",
-  "kgIdProperty": "machine_id",
-  "attributes": [
-    { "name": "Machine_Status", "dataType": "Int32", "category": "BDE" },
-    { "name": "Parts_Good", "dataType": "Int32", "category": "BDE" },
-    { "name": "Temp_Melting", "dataType": "Float", "unit": "°C", "category": "ProcessData" }
-  ],
-  "relationships": [
-    { "type": "PART_OF", "target": "ProductionLine" },
-    { "type": "PRODUCES", "target": "Article" }
-  ]
+  "profileId": "SMProfile-CNC-Machine",
+  "version": "1.2.0",
+  "standard": "CESMII",
+  "displayName": "CNC Machine",
+  "parentType": "Machine",
+  "abstract": false,
+  "attributes": [],
+  "relationships": [],
+  "kgNodeLabel": "CNC_Machine",
+  "kgIdProperty": "machine_id"
 }
 ```
 
 ### Key fields
-- `kgNodeLabel`: The Neo4j label for this node type (e.g. `InjectionMoldingMachine`)
-- `kgIdProperty`: The property used to uniquely identify nodes of this type (e.g. `machine_id`)
+
+| Field | Purpose |
+|-------|---------|
+| `kgNodeLabel` | Neo4j label for this node type (e.g. `CNC_Machine`) |
+| `kgIdProperty` | Property used as unique ID (e.g. `machine_id`) |
+| `parentType` | Parent profile — resolved by `profileId` or `kgNodeLabel` |
+| `abstract` | If `true`, skip index creation (parent-only, no direct instances) |
+| `attributes` | Array of `{ name, dataType, unit?, category, description?, enum? }` |
+| `relationships` | Array of `{ type, target, description? }` |
+
+### Inheritance
+
+When `parentType` is set, the KG Builder merges at load time:
+
+1. **Attributes**: parent attributes prepended to child. Child overrides on name collision.
+2. **Relationships**: parent relationships prepended to child. Child overrides on `type+target` collision.
+3. **Multi-level**: grandparent → parent → child works (resolved depth-first).
+4. **Cycles**: detected and broken silently (partial inheritance).
+
+**Example:** `CNC_Machine` has `parentType: "Machine"` and empty `attributes: []`. After inheritance, it has all 18 Machine attributes + 3 Machine relationships.
 
 ### What the builder does
+
 ```cypher
--- Create range index for fast MERGE lookups
-CREATE INDEX IF NOT EXISTS FOR (n:InjectionMoldingMachine) ON (n.machine_id)
+-- Phase 1: Create range index (skipped for abstract profiles)
+CREATE INDEX IF NOT EXISTS FOR (n:CNC_Machine) ON (n.machine_id)
+
+-- Phase 2d: Apply parent labels
+MATCH (n:CNC_Machine) SET n:Machine
 ```
 
 ---
 
-## Schema 2: Source Schema (PostgreSQL)
+## Schema 2: Source Schema
 
-Defines **where to load instance data from** — which database table, how columns map to node properties, and how to create edges.
+Defines **where to load instance data from** — which database/endpoint, how fields map to node properties, and how to create edges.
+
+### PostgreSQL Source
 
 **File:** `sources/postgresql/<source-id>.json`
 
@@ -78,8 +123,7 @@ Defines **where to load instance data from** — which database table, how colum
   "columnMappings": [
     { "column": "order_no", "smAttribute": "order_no", "isId": true },
     { "column": "article_no", "smAttribute": "article_no" },
-    { "column": "machine_no", "smAttribute": "machine_no" },
-    { "column": "geplante_stueckzahl", "smAttribute": "planned_qty" }
+    { "column": "machine_no", "smAttribute": "machine_no" }
   ],
   "edges": [
     { "fkColumn": "machine_no", "type": "WORKS_ON", "targetIdProp": "machine_id" },
@@ -88,94 +132,123 @@ Defines **where to load instance data from** — which database table, how colum
 }
 ```
 
-### Key fields
-
-#### `columnMappings`
-- `column`: Database column name (or SQL expression)
-- `smAttribute`: Property name on the KG node
-- `isId`: true for the column that becomes the node's unique ID
-
-#### `edges`
-- `fkColumn`: Database column containing the foreign key value
-- `type`: Edge label in Neo4j (e.g. `WORKS_ON`, `FOR_ARTICLE`)
-- `targetIdProp`: The `kgIdProperty` of the target node type
-
-### How `targetIdProp` works
-
-The builder resolves `targetIdProp` to all SM Profile labels that have this property as their `kgIdProperty`. This handles polymorphic types automatically.
-
-**Example:** `"targetIdProp": "machine_id"` resolves to:
-- `InjectionMoldingMachine` (kgIdProperty: machine_id)
-- `CNC_Machine` (kgIdProperty: machine_id)
-- `Lathe` (kgIdProperty: machine_id)
-- `MillingMachine` (kgIdProperty: machine_id)
-- etc.
-
-The builder generates:
-```cypher
-UNWIND $batch AS row
-MATCH (a:ProductionOrder {order_no: row.fromId})
-MATCH (b) WHERE (b:InjectionMoldingMachine OR b:CNC_Machine OR b:Lathe OR ...) AND b.machine_id = row.toId
-MERGE (a)-[:WORKS_ON]->(b)
-```
-
-For non-polymorphic targets (e.g. `"targetIdProp": "article_no"` → only `Article`), the builder generates a simple single-label MATCH:
-```cypher
-MATCH (b:Article {article_no: row.toId})
-```
-
-### Adding a new machine type
-
-1. Create a new SM Profile with `kgIdProperty: "machine_id"`
-2. Add an OPC-UA mapping for the machine
-3. All existing edges with `targetIdProp: "machine_id"` will automatically find the new machine type — **no source schema changes needed**
-
----
-
-## Schema 3: OPC-UA Mapping
-
-Defines **which concrete machine** maps to which SM Profile, and maps OPC-UA nodes to SM attributes.
+### OPC-UA Source
 
 **File:** `sources/opcua/<machine-id>.json`
 
 ```json
 {
-  "mappingId": "opcua-sgm-002",
+  "sourceId": "opcua-sgm-002",
+  "sourceType": "opcua",
+  "profileRef": "SMProfile-InjectionMoldingMachine",
   "endpoint": "opc.tcp://192.168.178.150:4851",
   "machineId": "SGM-002",
   "machineName": "Spritzgussmaschine 2",
-  "profileRef": "SMProfile-InjectionMoldingMachine",
-  "location": {
-    "site": "Hauptwerk",
-    "area": "Spritzgusshalle",
-    "line": "SGM-1300"
-  },
+  "location": { "site": "Hauptwerk", "area": "Spritzgusshalle", "line": "SGM-1300" },
   "nodeMappings": [
-    { "opcuaNodeId": "ns=1;s=Factory.SGM-002.BDE.Good_Parts", "smAttribute": "Parts_Good" },
-    { "opcuaNodeId": "ns=1;s=Factory.SGM-002.ProcessData.Temp_Melting", "smAttribute": "Temp_Melting" }
+    { "opcuaNodeId": "ns=1;s=Factory.SGM-002.BDE.Good_Parts", "smAttribute": "Parts_Good" }
   ]
 }
 ```
 
+### Key concepts
+
+**`columnMappings`**: `column` → `smAttribute` (DB column → KG node property). `isId: true` marks the identity column.
+
+**`edges`**: `fkColumn` → `targetIdProp`. The builder resolves `targetIdProp` to ALL profile labels sharing that `kgIdProperty` (polymorphic resolution).
+
+**`targetIdProp` example:** `"machine_id"` resolves to 8+ labels:
+```
+InjectionMoldingMachine, CNC_Machine, Lathe, MillingMachine,
+GrindingMachine, FiveAxisMillingMachine, FFS_Cell, AssemblyLine
+```
+
+**Environment variables:** `"${ERP_DB_HOST}"` is replaced at load time from `process.env`.
+
+**Computed columns:** SQL expressions as column values: `"column": "(start_time + interval '1 hour')"`.
+
 ---
 
-## Schema 4: Sync Schema (MQTT / Polling)
+## Schema 3: Sync Schema
 
-Defines **how to keep the KG updated in real-time** via MQTT subscriptions or database polling.
+Defines **how to keep the KG updated** in real-time or near-real-time.
 
-**File:** `sync/<sync-id>.json`
+### Supported sync types
+
+| syncType | Transport | Handler | Status |
+|----------|-----------|---------|--------|
+| `mqtt` | MQTT broker subscription | Implemented | Live |
+| `polling` | PostgreSQL periodic query | Implemented | Live |
+| `pg-notify` | PostgreSQL LISTEN/NOTIFY | Implemented | Live |
+| `kafka` | Apache Kafka consumer | Schema validated, handler pending | Planned |
+| `rest-webhook` | HTTP POST from external | Schema validated, handler pending | Planned |
+| `manual` | CSV/JSON upload via API/UI | Schema validated, handler pending | Planned |
+
+### MQTT Sync
+
+**File:** `sync/mqtt/<sync-id>.json`
 
 ```json
 {
-  "syncId": "mqtt-factory-uns",
+  "syncId": "#shared.uns",
   "syncType": "mqtt",
   "broker": { "host": "${MQTT_HOST}", "port": "${MQTT_PORT}" },
-  "topic": "Factory/#",
-  "payloadFormat": "json",
-  "valuePath": "$.Value",
-  "timestampPath": "$.timestamp"
+  "topicStructure": {
+    "pattern": "Factory/{machineId}/{workOrder}/{tool}/{category}/{attribute}",
+    "segments": { "machineId": { "index": 1 }, "attribute": { "index": 5 } },
+    "subscribeFilter": "#shared/uns/#"
+  },
+  "attributeMapping": {
+    "strategy": "topic_segment",
+    "mappings": [
+      { "topicAttribute": "Machine_Status", "smAttribute": "Machine_Status" }
+    ]
+  }
 }
 ```
+
+### Polling Sync
+
+**File:** `sync/polling/<sync-id>.json`
+
+```json
+{
+  "syncId": "erpdb-poll",
+  "syncType": "polling",
+  "pollIntervalMs": 30000,
+  "sources": [
+    { "sourceRef": "erpdb-production-orders", "changeDetection": "timestamp", "timestampColumn": "last_updated_at" },
+    { "sourceRef": "erpdb-stock", "changeDetection": "full_refresh" }
+  ]
+}
+```
+
+### Kafka Sync
+
+**File:** `sync/kafka/<sync-id>.json`
+
+```json
+{
+  "syncId": "Kafka_UNS",
+  "syncType": "kafka",
+  "kafka": {
+    "bootstrapServers": "${KAFKA_BOOTSTRAP_SERVERS}",
+    "consumerGroup": "osf-kg-builder",
+    "topics": [
+      {
+        "topic": "factory.bde.events",
+        "profileRef": "SMProfile-InjectionMoldingMachine",
+        "keyIdProp": "machine_id",
+        "payloadMapping": { "machine_id": "machine_id", "oee": "OEE" }
+      }
+    ]
+  }
+}
+```
+
+### Bridge Configs (Reference Only)
+
+Files in `sync/bridge/` describe MQTT→Kafka aggregation bridges. They are **not executed** by the KG Builder — they document the data flow architecture for external bridge services.
 
 ---
 
@@ -183,26 +256,47 @@ Defines **how to keep the KG updated in real-time** via MQTT subscriptions or da
 
 ```
 Phase 1: Type System
-  → Load all SM Profiles
-  → Create range indexes on kgIdProperty per label
+  → Load all SM Profiles + resolve inheritance (attributes + relationships)
+  → Create range indexes on kgIdProperty per label (skip abstract)
+
+Phase 2a: OPC-UA Instance Nodes
   → MERGE machine nodes from OPC-UA mappings
-  → Create ISA-95 hierarchy edges (PART_OF)
+  → Create ISA-95 hierarchy: Site → Area → ProductionLine → Machine (PART_OF edges)
 
-Phase 2: Instance Data
-  → Load PostgreSQL sources (max 4 concurrent)
-  → For each source:
-    a. Query table → build BulkNode[] with idProp from profile
-    b. UNWIND MERGE nodes (batches of 1000, parallel 3)
-    c. Build BulkEdge[] from edge schemas (resolve targetIdProp → labels)
-    d. UNWIND MERGE edges (sequential, batches of 1000)
+Phase 2b: PostgreSQL Instance Nodes
+  → Load sources (max 4 concurrent)
+  → UNWIND MERGE nodes (batches of 1000)
+  → UNWIND MERGE edges (sequential, polymorphic targetIdProp resolution)
 
-Phase 3: Live Sync
-  → Subscribe MQTT topics from sync schemas
-  → On message: parse payload → SET property on matching KG node
-  → Polling sources: periodic re-query → upsert changed rows
+Phase 2c: MCP Instance Nodes
+  → Call MCP tools, parse JSON response, MERGE nodes + edges
 
-Result: A live Knowledge Graph built entirely from schemas.
+Phase 2d: Parent Labels
+  → MATCH (n:CNC_Machine) SET n:Machine  (for each child→parent pair)
+
+Phase 3a: MQTT Live Sync
+  → Subscribe topics, buffer 2s, SET properties on matching nodes
+
+Phase 3b: Polling Sync
+  → Periodic re-query, upsert changed rows (timestamp or full refresh)
+
+Phase 3c: PG LISTEN/NOTIFY
+  → Async notification channels → immediate node updates
+
+Phase 3d-f: Kafka / Webhook / Manual (planned)
+  → Schema validated and logged, handlers not yet implemented
+
+Phase 4: Tombstone Sweep
+  → Remove nodes with _lastSeen < current run timestamp
+
+Phase 5: Embeddings
+  → Generate vector embeddings for all new/changed nodes
+
+Phase 6: Sensor Discovery
+  → Auto-create Sensor child nodes from MQTT-tracked variables
 ```
+
+---
 
 ## Common `targetIdProp` Values
 
@@ -220,3 +314,22 @@ Result: A live Knowledge Graph built entirely from schemas.
 | `ta_nr` | TransportOrder |
 | `avis_nr` | GoodsReceipt |
 | `quant_id` | Quant |
+| `program_id` | CNCProgram |
+| `mould_id` | Mould |
+| `id` | Enterprise, Site, Area, ProductionLine, System |
+
+---
+
+## Adding a New Machine Type
+
+1. Create `profiles/machines/<type>.json` with `parentType: "Machine"` and `kgIdProperty: "machine_id"`
+2. Add only machine-specific attributes (BDE/OEE attributes inherited from Machine parent)
+3. Add OPC-UA mapping in `sources/opcua/<machine-id>.json`
+4. All existing edges with `targetIdProp: "machine_id"` automatically find the new type — **no source schema changes needed**
+
+## Adding a New ERP Entity
+
+1. Create `profiles/erp/<entity>.json` with unique `kgNodeLabel` and `kgIdProperty`
+2. Create `sources/postgresql/<source>.json` with `profileRef` and `columnMappings`
+3. Add `edges` if the entity references other entities (e.g. `article_no` → Article)
+4. Optionally add to polling sync for live updates
