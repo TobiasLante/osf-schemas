@@ -1,0 +1,14 @@
+{
+  "kpiId": "KPI-Performance",
+  "version": "1.0.0",
+  "displayName": "Performance",
+  "description": "Performance rate — ratio of planned to actual cycle time",
+  "unit": "%",
+  "category": "efficiency",
+  "calculation": {
+    "inputs": ["Cycle_Time_Planned", "Cycle_Time_Actual"],
+    "cypher": "CASE WHEN coalesce(m.Cycle_Time_Actual, 0) = 0 THEN null ELSE round(toFloat(coalesce(m.Cycle_Time_Planned, 0)) / m.Cycle_Time_Actual * 1000) / 10 END"
+  },
+  "thresholds": { "target": 95, "warning": 85, "critical": 70 },
+  "appliesTo": ["SMProfile-Machine"]
+}

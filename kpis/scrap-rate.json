@@ -1,0 +1,14 @@
+{
+  "kpiId": "KPI-Scrap-Rate",
+  "version": "1.0.0",
+  "displayName": "Scrap Rate",
+  "description": "Percentage of scrap parts out of total production",
+  "unit": "%",
+  "category": "quality",
+  "calculation": {
+    "inputs": ["Good_Parts", "Scrap_Parts", "Rework_Parts"],
+    "cypher": "CASE WHEN (m.Good_Parts + coalesce(m.Scrap_Parts,0) + coalesce(m.Rework_Parts,0)) = 0 THEN null ELSE round(toFloat(coalesce(m.Scrap_Parts, 0)) / (m.Good_Parts + coalesce(m.Scrap_Parts,0) + coalesce(m.Rework_Parts,0)) * 1000) / 10 END"
+  },
+  "thresholds": { "target": 1, "warning": 3, "critical": 5 },
+  "appliesTo": ["SMProfile-Machine"]
+}

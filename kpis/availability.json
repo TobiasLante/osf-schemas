@@ -1,0 +1,14 @@
+{
+  "kpiId": "KPI-Availability",
+  "version": "1.0.0",
+  "displayName": "Availability",
+  "description": "Machine availability — percentage of time in production status (1) vs total time",
+  "unit": "%",
+  "category": "efficiency",
+  "calculation": {
+    "inputs": ["Machine_Status"],
+    "cypher": "CASE WHEN m.Machine_Status = 1 THEN 100.0 WHEN m.Machine_Status IN [2,3] THEN 50.0 ELSE 0.0 END"
+  },
+  "thresholds": { "target": 90, "warning": 80, "critical": 60 },
+  "appliesTo": ["SMProfile-Machine"]
+}

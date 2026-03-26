@@ -1,0 +1,14 @@
+{
+  "kpiId": "KPI-Quality-Rate",
+  "version": "1.0.0",
+  "displayName": "Quality Rate",
+  "description": "Percentage of good parts out of total parts produced",
+  "unit": "%",
+  "category": "quality",
+  "calculation": {
+    "inputs": ["Good_Parts", "Scrap_Parts", "Rework_Parts"],
+    "cypher": "CASE WHEN (m.Good_Parts + coalesce(m.Scrap_Parts,0) + coalesce(m.Rework_Parts,0)) = 0 THEN null ELSE round(toFloat(m.Good_Parts) / (m.Good_Parts + coalesce(m.Scrap_Parts,0) + coalesce(m.Rework_Parts,0)) * 1000) / 10 END"
+  },
+  "thresholds": { "target": 99, "warning": 95, "critical": 90 },
+  "appliesTo": ["SMProfile-Machine"]
+}

@@ -1,0 +1,14 @@
+{
+  "kpiId": "KPI-Energy-Per-Part",
+  "version": "1.0.0",
+  "displayName": "Energy per Good Part",
+  "description": "Energy consumption per good part produced (kWh/part)",
+  "unit": "kWh/part",
+  "category": "energy",
+  "calculation": {
+    "inputs": ["Energy_kWh", "Good_Parts"],
+    "cypher": "CASE WHEN coalesce(m.Good_Parts, 0) = 0 THEN null ELSE round(toFloat(coalesce(m.Energy_kWh, 0)) / m.Good_Parts * 1000) / 1000 END"
+  },
+  "thresholds": { "target": 0.5, "warning": 1.0, "critical": 2.0 },
+  "appliesTo": ["SMProfile-Machine"]
+}

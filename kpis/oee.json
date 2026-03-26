@@ -1,0 +1,14 @@
+{
+  "kpiId": "KPI-OEE",
+  "version": "1.0.0",
+  "displayName": "Overall Equipment Effectiveness",
+  "description": "OEE = Quality Rate (Good / Total Parts). Simplified — full OEE requires Availability and Performance from shift data.",
+  "unit": "%",
+  "category": "efficiency",
+  "calculation": {
+    "inputs": ["Good_Parts", "Scrap_Parts", "Rework_Parts"],
+    "cypher": "CASE WHEN (m.Good_Parts + coalesce(m.Scrap_Parts,0) + coalesce(m.Rework_Parts,0)) = 0 THEN null ELSE round(toFloat(m.Good_Parts) / (m.Good_Parts + coalesce(m.Scrap_Parts,0) + coalesce(m.Rework_Parts,0)) * 1000) / 10 END"
+  },
+  "thresholds": { "target": 85, "warning": 75, "critical": 60 },
+  "appliesTo": ["SMProfile-Machine"]
+}
