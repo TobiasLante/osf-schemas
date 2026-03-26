@@ -6,6 +6,7 @@
   "description": "Manufacturing work order — planned, released, in-progress, or completed",
   "parentType": "Order",
   "attributes": [
+    { "name": "status", "dataType": "Int32", "category": "Core", "description": "1=Planned,2=Released,3=Active,4=Complete,5=Shipped", "enum": [1, 2, 3, 4, 5] },
     { "name": "machine_no", "dataType": "String", "category": "Core" },
     { "name": "article_no", "dataType": "String", "category": "Core" },
     { "name": "article_name", "dataType": "String", "category": "Core" },
