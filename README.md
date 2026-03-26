@@ -45,7 +45,9 @@ flowchart LR
         OPC["OPC-UA"]
         MQ["MQTT"]
         KF["Kafka"]
+        ERP --- MES --- QMS --- WMS --- TMS --- SCADA --- OPC --- MQ --- KF
     end
+    linkStyle 0,1,2,3,4,5,6,7 stroke:none
 
     subgraph SCH["osf-schemas"]
         direction TB
