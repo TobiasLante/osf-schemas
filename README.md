@@ -28,6 +28,83 @@ OSF schemas are inspired by [CESMII Smart Manufacturing Profiles](https://www.ce
 
 4. **Inheritance reduces duplication** — 8 machine types share 18 BDE attributes from one parent. 112 redundant attribute definitions eliminated.
 
+## Data Flow
+
+The 3 schemas are the **single source of truth** for the entire data pipeline — not just the KG Builder, but any system that needs to know what exists, where data comes from, and how it flows.
+
+```mermaid
+graph TB
+    subgraph schemas["osf-schemas (GitHub)"]
+        S1["<b>Schema 1: Profiles</b><br/>45 types — WHAT exists<br/><i>Machine, Article, Order, Site, ...</i>"]
+        S2["<b>Schema 2: Sources</b><br/>65 bindings — WHERE from<br/><i>PostgreSQL, OPC-UA, MCP, REST</i>"]
+        S3["<b>Schema 3: Sync</b><br/>9 configs — HOW it flows<br/><i>MQTT, Polling, Kafka, Webhook</i>"]
+    end
+
+    subgraph sources["Data Sources"]
+        PG["PostgreSQL<br/><i>ERP, QMS, WMS, TMS</i>"]
+        OPC["OPC-UA<br/><i>35 machines</i>"]
+        MQTT["MQTT Broker<br/><i>UNS topics</i>"]
+        KAFKA["Kafka<br/><i>CDC events</i>"]
+        WH["Webhooks<br/><i>External BDE</i>"]
+        CSV["Manual Import<br/><i>CSV / JSON</i>"]
+    end
+
+    subgraph consumers["Schema Consumers"]
+        KGB["<b>KG Builder</b><br/>Builds graph from<br/>all 3 schemas"]
+        IFLOW["<b>i-flow / Connector</b><br/>Reads Schema 2+3 to<br/>configure UNS + MQTT"]
+        BRIDGE["<b>Kafka Bridge</b><br/>Reads bridge configs<br/>for MQTT→Kafka routing"]
+        I3X["<b>i3X API</b><br/>Reads Schema 1 for<br/>type hierarchy + labels"]
+    end
+
+    subgraph output["Output"]
+        KG["<b>Knowledge Graph</b><br/>Neo4j / Apache AGE<br/><i>45 types, 30+ edge types,<br/>vector embeddings</i>"]
+        UNS["<b>Unified Namespace</b><br/>MQTT / Kafka<br/><i>ISA-95 topic structure</i>"]
+    end
+
+    subgraph api["API Layer"]
+        CHAT["Chat / LLM Agents"]
+        MCPT["MCP Tools (KG Server)"]
+        REST["i3X REST API"]
+    end
+
+    schemas --> |"git pull<br/>(1h poll)"| KGB
+    schemas --> |"read"| IFLOW
+    schemas --> |"read"| BRIDGE
+    schemas --> |"read"| I3X
+
+    PG --> KGB
+    OPC --> KGB
+    MQTT --> KGB
+    KAFKA -.-> KGB
+    WH -.-> KGB
+    CSV -.-> KGB
+
+    OPC --> IFLOW
+    IFLOW --> MQTT
+    MQTT --> BRIDGE
+    BRIDGE --> KAFKA
+
+    KGB --> KG
+    IFLOW --> UNS
+
+    KG --> CHAT
+    KG --> MCPT
+    KG --> REST
+
+    style schemas fill:#1a1a2e,stroke:#e94560,color:#fff
+    style KG fill:#0f3460,stroke:#e94560,color:#fff
+    style UNS fill:#0f3460,stroke:#16213e,color:#fff
+    style KGB fill:#533483,stroke:#e94560,color:#fff
+```
+
+**Key insight:** The schemas define the data model once. Multiple systems consume them:
+- **KG Builder** reads all 3 schemas → builds the graph
+- **i-flow / OPC-UA Connectors** read Schema 2 (sources) + Schema 3 (sync) → configure UNS topics and MQTT publishing
+- **Kafka Bridge** reads bridge configs → routes MQTT messages to Kafka topics
+- **i3X API** reads Schema 1 (profiles) → serves type hierarchy and object queries
+
+Dashed lines (- - -) indicate planned but not yet implemented data flows.
+
 ## Structure
 
 ```
