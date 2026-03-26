@@ -1,0 +1,22 @@
+{
+  "profileId": "SMProfile-System",
+  "version": "1.0.0",
+  "standard": "CESMII",
+  "displayName": "Enterprise System",
+  "description": "An IT/OT system connected to the factory — ERP, MES, SCADA, Historian, MQTT Broker, etc.",
+  "parentType": null,
+  "attributes": [
+    { "name": "name", "dataType": "String", "category": "Core" },
+    { "name": "system_type", "dataType": "String", "category": "Classification", "description": "e.g. ERP, MES, SCADA, Historian, MQTT, OPC-UA, PLM" },
+    { "name": "vendor", "dataType": "String", "category": "Core", "description": "e.g. SAP, Siemens, Rockwell, Ignition" },
+    { "name": "version", "dataType": "String", "category": "Core" },
+    { "name": "connection_type", "dataType": "String", "category": "Integration", "description": "e.g. postgresql, opcua, mqtt, rest, kafka" },
+    { "name": "endpoint", "dataType": "String", "category": "Integration", "description": "Connection endpoint (host:port, URL, broker address)" }
+  ],
+  "relationships": [
+    { "type": "DEPLOYED_AT", "target": "Site" },
+    { "type": "PROVIDES_DATA_FOR", "target": "Machine", "description": "Which machines/entities this system feeds data for" }
+  ],
+  "kgNodeLabel": "System",
+  "kgIdProperty": "system_id"
+}

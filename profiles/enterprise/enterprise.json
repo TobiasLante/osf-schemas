@@ -1,0 +1,19 @@
+{
+  "profileId": "SMProfile-Enterprise",
+  "version": "1.0.0",
+  "standard": "CESMII",
+  "displayName": "Enterprise",
+  "description": "Top-level ISA-95 entity — the company or organization owning multiple sites",
+  "parentType": null,
+  "attributes": [
+    { "name": "name", "dataType": "String", "category": "Core" },
+    { "name": "description", "dataType": "String", "category": "Core" },
+    { "name": "country", "dataType": "String", "category": "Location" },
+    { "name": "industry", "dataType": "String", "category": "Classification", "description": "e.g. Discrete Manufacturing, Process Industry, Automotive" }
+  ],
+  "relationships": [
+    { "type": "HAS_SITE", "target": "Site" }
+  ],
+  "kgNodeLabel": "Enterprise",
+  "kgIdProperty": "enterprise_id"
+}

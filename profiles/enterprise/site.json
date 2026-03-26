@@ -1,0 +1,21 @@
+{
+  "profileId": "SMProfile-Site",
+  "version": "1.0.0",
+  "standard": "CESMII",
+  "displayName": "Site (Werk)",
+  "description": "ISA-95 Level 4 — physical plant or factory location",
+  "parentType": null,
+  "attributes": [
+    { "name": "name", "dataType": "String", "category": "Core" },
+    { "name": "description", "dataType": "String", "category": "Core" },
+    { "name": "address", "dataType": "String", "category": "Location" },
+    { "name": "country", "dataType": "String", "category": "Location" },
+    { "name": "timezone", "dataType": "String", "category": "Core", "description": "IANA timezone e.g. Europe/Berlin" }
+  ],
+  "relationships": [
+    { "type": "PART_OF", "target": "Enterprise" },
+    { "type": "HAS_AREA", "target": "Area" }
+  ],
+  "kgNodeLabel": "Site",
+  "kgIdProperty": "site_id"
+}

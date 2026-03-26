@@ -1,88 +1,11 @@
 {
   "profileId": "SMProfile-FFS-Cell",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "standard": "CESMII",
   "displayName": "FFS Cell (Flexible Fertigungszelle)",
   "description": "Flexible Manufacturing System cell — CNC machining with automatic part loading, G-code execution, tool management",
   "parentType": "Machine",
   "attributes": [
-    {
-      "name": "Machine_Status",
-      "dataType": "Int32",
-      "category": "BDE",
-      "description": "1=Produktion, 2=Stillstand, 3=Rüsten, 4=Wartung, 5=Störung",
-      "enum": [
-        1,
-        2,
-        3,
-        4,
-        5
-      ]
-    },
-    {
-      "name": "Machine_Status_Text",
-      "dataType": "String",
-      "category": "BDE"
-    },
-    {
-      "name": "Good_Parts",
-      "dataType": "Int32",
-      "category": "BDE"
-    },
-    {
-      "name": "Scrap_Parts",
-      "dataType": "Int32",
-      "category": "BDE"
-    },
-    {
-      "name": "Cycle_Time_Planned",
-      "dataType": "Float",
-      "category": "BDE",
-      "unit": "s"
-    },
-    {
-      "name": "Cycle_Time_Actual",
-      "dataType": "Float",
-      "category": "BDE",
-      "unit": "s"
-    },
-    {
-      "name": "Power_kW",
-      "dataType": "Float",
-      "category": "BDE",
-      "unit": "kW"
-    },
-    {
-      "name": "Energy_kWh",
-      "dataType": "Float",
-      "category": "BDE",
-      "unit": "kWh"
-    },
-    {
-      "name": "Production_Order",
-      "dataType": "String",
-      "category": "BDE"
-    },
-    {
-      "name": "Article_ID",
-      "dataType": "String",
-      "category": "BDE"
-    },
-    {
-      "name": "Tool_ID",
-      "dataType": "String",
-      "category": "BDE"
-    },
-    {
-      "name": "Shift_Number",
-      "dataType": "Int32",
-      "category": "BDE"
-    },
-    {
-      "name": "Operator_ID",
-      "dataType": "String",
-      "category": "BDE"
-    },
     {
       "name": "Spindle_RPM",
       "dataType": "Float",
@@ -115,18 +38,6 @@
     }
   ],
   "relationships": [
-    {
-      "type": "PART_OF",
-      "target": "ProductionLine"
-    },
-    {
-      "type": "PRODUCES",
-      "target": "Article"
-    },
-    {
-      "type": "EXECUTES",
-      "target": "ProductionOrder"
-    },
     {
       "type": "RUNS_PROGRAM",
       "target": "CNCProgram",

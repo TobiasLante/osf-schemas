@@ -1,0 +1,20 @@
+{
+  "profileId": "SMProfile-ProductionLine",
+  "version": "1.0.0",
+  "standard": "CESMII",
+  "displayName": "Production Line (Fertigungslinie)",
+  "description": "ISA-95 Level 2 — a line of machines/work centers within an area",
+  "parentType": null,
+  "attributes": [
+    { "name": "name", "dataType": "String", "category": "Core" },
+    { "name": "description", "dataType": "String", "category": "Core" },
+    { "name": "line_type", "dataType": "String", "category": "Classification", "description": "e.g. CNC, Assembly, Injection, FFS" },
+    { "name": "capacity_units_per_hour", "dataType": "Float", "category": "Capacity", "unit": "pcs/h" }
+  ],
+  "relationships": [
+    { "type": "PART_OF", "target": "Area" },
+    { "type": "HAS_MACHINE", "target": "Machine" }
+  ],
+  "kgNodeLabel": "ProductionLine",
+  "kgIdProperty": "line_id"
+}
