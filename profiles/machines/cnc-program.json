@@ -1,0 +1,21 @@
+{
+  "profileId": "SMProfile-CNCProgram",
+  "version": "1.0.0",
+  "standard": "CESMII",
+  "displayName": "CNC Program (NC-Programm)",
+  "description": "NC program executed by CNC machines and FFS cells — identified by O-number (e.g. O1001)",
+  "parentType": null,
+  "attributes": [
+    { "name": "program_id", "dataType": "String", "category": "Core", "description": "O-number e.g. O1001" },
+    { "name": "name", "dataType": "String", "category": "Core" },
+    { "name": "description", "dataType": "String", "category": "Core" },
+    { "name": "article_no", "dataType": "String", "category": "Reference", "description": "Article produced by this program" },
+    { "name": "estimated_cycle_time", "dataType": "Float", "unit": "s", "category": "Planning" },
+    { "name": "tool_list", "dataType": "String", "category": "Tooling", "description": "Comma-separated tool IDs required" }
+  ],
+  "relationships": [
+    { "type": "FOR_ARTICLE", "target": "Article" }
+  ],
+  "kgNodeLabel": "CNCProgram",
+  "kgIdProperty": "program_id"
+}

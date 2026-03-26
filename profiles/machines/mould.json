@@ -1,0 +1,22 @@
+{
+  "profileId": "SMProfile-Mould",
+  "version": "1.0.0",
+  "standard": "CESMII",
+  "displayName": "Mould (Spritzgusswerkzeug)",
+  "description": "Injection moulding tool/die — mounted on injection molding machines",
+  "parentType": null,
+  "attributes": [
+    { "name": "mould_id", "dataType": "String", "category": "Core" },
+    { "name": "name", "dataType": "String", "category": "Core" },
+    { "name": "cavities", "dataType": "Int32", "category": "Specification", "description": "Number of cavities" },
+    { "name": "article_no", "dataType": "String", "category": "Reference", "description": "Article produced by this mould" },
+    { "name": "shot_count", "dataType": "Int32", "category": "Lifecycle", "description": "Total shots since creation" },
+    { "name": "max_shots", "dataType": "Int32", "category": "Lifecycle", "description": "Max shots before replacement" },
+    { "name": "status", "dataType": "String", "category": "Core", "description": "active, maintenance, retired" }
+  ],
+  "relationships": [
+    { "type": "FOR_ARTICLE", "target": "Article" }
+  ],
+  "kgNodeLabel": "Mould",
+  "kgIdProperty": "mould_id"
+}
