@@ -6,14 +6,27 @@
   "description": "Abstract parent profile for all machine types — defines common BDE attributes inherited by CNC, Milling, Lathe, Grinding, IMM, FFS, Assembly",
   "parentType": null,
   "abstract": true,
-  "kpiRefs": ["KPI-OEE", "KPI-Availability", "KPI-Performance", "KPI-Quality-Rate", "KPI-Energy-Per-Part", "KPI-Scrap-Rate"],
+  "kpiRefs": [
+    "KPI-OEE",
+    "KPI-Availability",
+    "KPI-Performance",
+    "KPI-Quality-Rate",
+    "KPI-Energy-Per-Part",
+    "KPI-Scrap-Rate"
+  ],
   "attributes": [
     {
       "name": "Machine_Status",
       "dataType": "Int32",
       "category": "BDE",
       "description": "1=Produktion, 2=Stillstand, 3=Rüsten, 4=Wartung, 5=Störung",
-      "enum": [1, 2, 3, 4, 5]
+      "enum": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
     },
     {
       "name": "Machine_Status_Text",
@@ -105,5 +118,8 @@
     }
   ],
   "kgNodeLabel": "Machine",
-  "kgIdProperty": "machine_id"
+  "kgIdProperty": "machine_id",
+  "companionSpec": "OPC40001-1",
+  "opcuaTypeDefinition": "MachineType",
+  "deviceClass": "Machine"
 }

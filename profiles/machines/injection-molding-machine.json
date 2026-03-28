@@ -6,104 +6,575 @@
   "description": "Spritzgussmaschine with ISA-88 process parameters — temperature zones, pressures, speeds, positions, energy, cavity data. Note: uses Parts_Good/Parts_Scrap (not Good_Parts/Scrap_Parts) and Time_Cycle_* (not Cycle_Time_*) — normalization pending source schema update.",
   "parentType": "Machine",
   "attributes": [
-    { "name": "Parts_Good", "dataType": "Int32", "category": "BDE" },
-    { "name": "Parts_Scrap", "dataType": "Int32", "category": "BDE" },
-    { "name": "Shot_Counter", "dataType": "Int32", "category": "BDE" },
-    { "name": "Mould_ID", "dataType": "String", "category": "BDE" },
-    { "name": "Quality", "dataType": "String", "category": "BDE" },
-    { "name": "Temp_Melting", "dataType": "Float", "unit": "°C", "category": "ProcessData.Temperature" },
-    { "name": "Temp_Melting_Set", "dataType": "Float", "unit": "°C", "category": "ProcessData.Temperature" },
-    { "name": "Temp_Zone_1", "dataType": "Float", "unit": "°C", "category": "ProcessData.Temperature" },
-    { "name": "Temp_Zone_1_Set", "dataType": "Float", "unit": "°C", "category": "ProcessData.Temperature" },
-    { "name": "Temp_Zone_2", "dataType": "Float", "unit": "°C", "category": "ProcessData.Temperature" },
-    { "name": "Temp_Zone_2_Set", "dataType": "Float", "unit": "°C", "category": "ProcessData.Temperature" },
-    { "name": "Temp_Zone_3", "dataType": "Float", "unit": "°C", "category": "ProcessData.Temperature" },
-    { "name": "Temp_Zone_3_Set", "dataType": "Float", "unit": "°C", "category": "ProcessData.Temperature" },
-    { "name": "Temp_Zone_4", "dataType": "Float", "unit": "°C", "category": "ProcessData.Temperature" },
-    { "name": "Temp_Zone_4_Set", "dataType": "Float", "unit": "°C", "category": "ProcessData.Temperature" },
-    { "name": "Temp_Zone_5", "dataType": "Float", "unit": "°C", "category": "ProcessData.Temperature" },
-    { "name": "Temp_Zone_5_Set", "dataType": "Float", "unit": "°C", "category": "ProcessData.Temperature" },
-    { "name": "Temp_Zone_6", "dataType": "Float", "unit": "°C", "category": "ProcessData.Temperature" },
-    { "name": "Temp_Zone_6_Set", "dataType": "Float", "unit": "°C", "category": "ProcessData.Temperature" },
-    { "name": "Temp_Nozzle", "dataType": "Float", "unit": "°C", "category": "ProcessData.Temperature" },
-    { "name": "Temp_Nozzle_Set", "dataType": "Float", "unit": "°C", "category": "ProcessData.Temperature" },
-    { "name": "Temp_Mould_Fixed", "dataType": "Float", "unit": "°C", "category": "ProcessData.Temperature" },
-    { "name": "Temp_Mould_Fixed_Set", "dataType": "Float", "unit": "°C", "category": "ProcessData.Temperature" },
-    { "name": "Temp_Mould_Moving", "dataType": "Float", "unit": "°C", "category": "ProcessData.Temperature" },
-    { "name": "Temp_Mould_Moving_Set", "dataType": "Float", "unit": "°C", "category": "ProcessData.Temperature" },
-    { "name": "Temp_Water_Inlet", "dataType": "Float", "unit": "°C", "category": "ProcessData.Temperature" },
-    { "name": "Temp_Water_Inlet_Set", "dataType": "Float", "unit": "°C", "category": "ProcessData.Temperature" },
-    { "name": "Temp_Water_Outlet", "dataType": "Float", "unit": "°C", "category": "ProcessData.Temperature" },
-    { "name": "Temp_Oil", "dataType": "Float", "unit": "°C", "category": "ProcessData.Temperature" },
-    { "name": "Temp_Oil_Set", "dataType": "Float", "unit": "°C", "category": "ProcessData.Temperature" },
-    { "name": "Temp_Dryer", "dataType": "Float", "unit": "°C", "category": "ProcessData.Temperature" },
-    { "name": "Temp_Dryer_Set", "dataType": "Float", "unit": "°C", "category": "ProcessData.Temperature" },
-    { "name": "Temp_Ambient", "dataType": "Float", "unit": "°C", "category": "ProcessData.Temperature" },
-    { "name": "Time_Cycle_Actual", "dataType": "Float", "unit": "s", "category": "ProcessData.Time" },
-    { "name": "Time_Cycle_Planned", "dataType": "Float", "unit": "s", "category": "ProcessData.Time" },
-    { "name": "Time_Dosing", "dataType": "Float", "unit": "s", "category": "ProcessData.Time" },
-    { "name": "Time_Dosing_Set", "dataType": "Float", "unit": "s", "category": "ProcessData.Time" },
-    { "name": "Time_Filling", "dataType": "Float", "unit": "s", "category": "ProcessData.Time" },
-    { "name": "Time_Filling_Set", "dataType": "Float", "unit": "s", "category": "ProcessData.Time" },
-    { "name": "Time_Holding", "dataType": "Float", "unit": "s", "category": "ProcessData.Time" },
-    { "name": "Time_Holding_Set", "dataType": "Float", "unit": "s", "category": "ProcessData.Time" },
-    { "name": "Time_Cooling", "dataType": "Float", "unit": "s", "category": "ProcessData.Time" },
-    { "name": "Time_Cooling_Set", "dataType": "Float", "unit": "s", "category": "ProcessData.Time" },
-    { "name": "Time_Mould_Open", "dataType": "Float", "unit": "s", "category": "ProcessData.Time" },
-    { "name": "Time_Mould_Close", "dataType": "Float", "unit": "s", "category": "ProcessData.Time" },
-    { "name": "Time_Ejection", "dataType": "Float", "unit": "s", "category": "ProcessData.Time" },
-    { "name": "Time_Injection", "dataType": "Float", "unit": "s", "category": "ProcessData.Time" },
-    { "name": "Time_Plasticizing", "dataType": "Float", "unit": "s", "category": "ProcessData.Time" },
-    { "name": "Time_Pause", "dataType": "Float", "unit": "s", "category": "ProcessData.Time" },
-    { "name": "Pressure_Holding", "dataType": "Float", "unit": "bar", "category": "ProcessData.Pressure" },
-    { "name": "Pressure_Holding_Set", "dataType": "Float", "unit": "bar", "category": "ProcessData.Pressure" },
-    { "name": "Pressure_Injection_Max", "dataType": "Float", "unit": "bar", "category": "ProcessData.Pressure" },
-    { "name": "Pressure_Injection_Max_Set", "dataType": "Float", "unit": "bar", "category": "ProcessData.Pressure" },
-    { "name": "Pressure_Injection_Switch", "dataType": "Float", "unit": "bar", "category": "ProcessData.Pressure" },
-    { "name": "Pressure_Injection_Switch_Set", "dataType": "Float", "unit": "bar", "category": "ProcessData.Pressure" },
-    { "name": "Pressure_Back", "dataType": "Float", "unit": "bar", "category": "ProcessData.Pressure" },
-    { "name": "Pressure_Back_Set", "dataType": "Float", "unit": "bar", "category": "ProcessData.Pressure" },
-    { "name": "Pressure_Oil", "dataType": "Float", "unit": "bar", "category": "ProcessData.Pressure" },
-    { "name": "Force_Closing", "dataType": "Float", "unit": "kN", "category": "ProcessData.Pressure" },
-    { "name": "Force_Closing_Set", "dataType": "Float", "unit": "kN", "category": "ProcessData.Pressure" },
-    { "name": "Force_Ejector", "dataType": "Float", "unit": "kN", "category": "ProcessData.Pressure" },
-    { "name": "Force_Ejector_Set", "dataType": "Float", "unit": "kN", "category": "ProcessData.Pressure" },
-    { "name": "Torque_Screw", "dataType": "Float", "unit": "Nm", "category": "ProcessData.Pressure" },
-    { "name": "Volume_Shot", "dataType": "Float", "unit": "cm³", "category": "ProcessData.Volume" },
-    { "name": "Volume_Shot_Set", "dataType": "Float", "unit": "cm³", "category": "ProcessData.Volume" },
-    { "name": "Volume_Cushion", "dataType": "Float", "unit": "cm³", "category": "ProcessData.Volume" },
-    { "name": "Volume_Cushion_Set", "dataType": "Float", "unit": "cm³", "category": "ProcessData.Volume" },
-    { "name": "Speed_Injection", "dataType": "Float", "unit": "mm/s", "category": "ProcessData.Speed" },
-    { "name": "Speed_Injection_Set", "dataType": "Float", "unit": "mm/s", "category": "ProcessData.Speed" },
-    { "name": "Speed_Screw_RPM", "dataType": "Float", "unit": "rpm", "category": "ProcessData.Speed" },
-    { "name": "Speed_Screw_RPM_Set", "dataType": "Float", "unit": "rpm", "category": "ProcessData.Speed" },
-    { "name": "Speed_Mould_Open", "dataType": "Float", "unit": "mm/s", "category": "ProcessData.Speed" },
-    { "name": "Speed_Mould_Open_Set", "dataType": "Float", "unit": "mm/s", "category": "ProcessData.Speed" },
-    { "name": "Speed_Mould_Close", "dataType": "Float", "unit": "mm/s", "category": "ProcessData.Speed" },
-    { "name": "Speed_Mould_Close_Set", "dataType": "Float", "unit": "mm/s", "category": "ProcessData.Speed" },
-    { "name": "Speed_Ejector", "dataType": "Float", "unit": "mm/s", "category": "ProcessData.Speed" },
-    { "name": "Speed_Ejector_Set", "dataType": "Float", "unit": "mm/s", "category": "ProcessData.Speed" },
-    { "name": "Position_Screw_Dosing", "dataType": "Float", "unit": "mm", "category": "ProcessData.Position" },
-    { "name": "Position_Screw_Dosing_Set", "dataType": "Float", "unit": "mm", "category": "ProcessData.Position" },
-    { "name": "Position_Screw_Switch", "dataType": "Float", "unit": "mm", "category": "ProcessData.Position" },
-    { "name": "Position_Screw_Switch_Set", "dataType": "Float", "unit": "mm", "category": "ProcessData.Position" },
-    { "name": "Position_Screw_Decompress", "dataType": "Float", "unit": "mm", "category": "ProcessData.Position" },
-    { "name": "Position_Screw_Decompress_Set", "dataType": "Float", "unit": "mm", "category": "ProcessData.Position" },
-    { "name": "Position_Mould_Open", "dataType": "Float", "unit": "mm", "category": "ProcessData.Position" },
-    { "name": "Position_Mould_Open_Set", "dataType": "Float", "unit": "mm", "category": "ProcessData.Position" },
-    { "name": "Position_Ejector", "dataType": "Float", "unit": "mm", "category": "ProcessData.Position" },
-    { "name": "Position_Ejector_Set", "dataType": "Float", "unit": "mm", "category": "ProcessData.Position" },
-    { "name": "Energy_Total_kWh", "dataType": "Float", "unit": "kWh", "category": "ProcessData.Energy" },
-    { "name": "Energy_Heating_kWh", "dataType": "Float", "unit": "kWh", "category": "ProcessData.Energy" },
-    { "name": "Energy_Drive_kWh", "dataType": "Float", "unit": "kWh", "category": "ProcessData.Energy" },
-    { "name": "Power_Current", "dataType": "Float", "unit": "kW", "category": "ProcessData.Energy" },
-    { "name": "Humidity_Granulate", "dataType": "Float", "unit": "%", "category": "ProcessData.Material" },
-    { "name": "Humidity_Ambient", "dataType": "Float", "unit": "%RH", "category": "ProcessData.Material" },
-    { "name": "Weight_Shot_Total", "dataType": "Float", "unit": "g", "category": "ProcessData.Material" }
+    {
+      "name": "Parts_Good",
+      "dataType": "Int32",
+      "category": "BDE"
+    },
+    {
+      "name": "Parts_Scrap",
+      "dataType": "Int32",
+      "category": "BDE"
+    },
+    {
+      "name": "Shot_Counter",
+      "dataType": "Int32",
+      "category": "BDE"
+    },
+    {
+      "name": "Mould_ID",
+      "dataType": "String",
+      "category": "BDE"
+    },
+    {
+      "name": "Quality",
+      "dataType": "String",
+      "category": "BDE"
+    },
+    {
+      "name": "Temp_Melting",
+      "dataType": "Float",
+      "unit": "°C",
+      "category": "ProcessData.Temperature"
+    },
+    {
+      "name": "Temp_Melting_Set",
+      "dataType": "Float",
+      "unit": "°C",
+      "category": "ProcessData.Temperature"
+    },
+    {
+      "name": "Temp_Zone_1",
+      "dataType": "Float",
+      "unit": "°C",
+      "category": "ProcessData.Temperature"
+    },
+    {
+      "name": "Temp_Zone_1_Set",
+      "dataType": "Float",
+      "unit": "°C",
+      "category": "ProcessData.Temperature"
+    },
+    {
+      "name": "Temp_Zone_2",
+      "dataType": "Float",
+      "unit": "°C",
+      "category": "ProcessData.Temperature"
+    },
+    {
+      "name": "Temp_Zone_2_Set",
+      "dataType": "Float",
+      "unit": "°C",
+      "category": "ProcessData.Temperature"
+    },
+    {
+      "name": "Temp_Zone_3",
+      "dataType": "Float",
+      "unit": "°C",
+      "category": "ProcessData.Temperature"
+    },
+    {
+      "name": "Temp_Zone_3_Set",
+      "dataType": "Float",
+      "unit": "°C",
+      "category": "ProcessData.Temperature"
+    },
+    {
+      "name": "Temp_Zone_4",
+      "dataType": "Float",
+      "unit": "°C",
+      "category": "ProcessData.Temperature"
+    },
+    {
+      "name": "Temp_Zone_4_Set",
+      "dataType": "Float",
+      "unit": "°C",
+      "category": "ProcessData.Temperature"
+    },
+    {
+      "name": "Temp_Zone_5",
+      "dataType": "Float",
+      "unit": "°C",
+      "category": "ProcessData.Temperature"
+    },
+    {
+      "name": "Temp_Zone_5_Set",
+      "dataType": "Float",
+      "unit": "°C",
+      "category": "ProcessData.Temperature"
+    },
+    {
+      "name": "Temp_Zone_6",
+      "dataType": "Float",
+      "unit": "°C",
+      "category": "ProcessData.Temperature"
+    },
+    {
+      "name": "Temp_Zone_6_Set",
+      "dataType": "Float",
+      "unit": "°C",
+      "category": "ProcessData.Temperature"
+    },
+    {
+      "name": "Temp_Nozzle",
+      "dataType": "Float",
+      "unit": "°C",
+      "category": "ProcessData.Temperature"
+    },
+    {
+      "name": "Temp_Nozzle_Set",
+      "dataType": "Float",
+      "unit": "°C",
+      "category": "ProcessData.Temperature"
+    },
+    {
+      "name": "Temp_Mould_Fixed",
+      "dataType": "Float",
+      "unit": "°C",
+      "category": "ProcessData.Temperature"
+    },
+    {
+      "name": "Temp_Mould_Fixed_Set",
+      "dataType": "Float",
+      "unit": "°C",
+      "category": "ProcessData.Temperature"
+    },
+    {
+      "name": "Temp_Mould_Moving",
+      "dataType": "Float",
+      "unit": "°C",
+      "category": "ProcessData.Temperature"
+    },
+    {
+      "name": "Temp_Mould_Moving_Set",
+      "dataType": "Float",
+      "unit": "°C",
+      "category": "ProcessData.Temperature"
+    },
+    {
+      "name": "Temp_Water_Inlet",
+      "dataType": "Float",
+      "unit": "°C",
+      "category": "ProcessData.Temperature"
+    },
+    {
+      "name": "Temp_Water_Inlet_Set",
+      "dataType": "Float",
+      "unit": "°C",
+      "category": "ProcessData.Temperature"
+    },
+    {
+      "name": "Temp_Water_Outlet",
+      "dataType": "Float",
+      "unit": "°C",
+      "category": "ProcessData.Temperature"
+    },
+    {
+      "name": "Temp_Oil",
+      "dataType": "Float",
+      "unit": "°C",
+      "category": "ProcessData.Temperature"
+    },
+    {
+      "name": "Temp_Oil_Set",
+      "dataType": "Float",
+      "unit": "°C",
+      "category": "ProcessData.Temperature"
+    },
+    {
+      "name": "Temp_Dryer",
+      "dataType": "Float",
+      "unit": "°C",
+      "category": "ProcessData.Temperature"
+    },
+    {
+      "name": "Temp_Dryer_Set",
+      "dataType": "Float",
+      "unit": "°C",
+      "category": "ProcessData.Temperature"
+    },
+    {
+      "name": "Temp_Ambient",
+      "dataType": "Float",
+      "unit": "°C",
+      "category": "ProcessData.Temperature"
+    },
+    {
+      "name": "Time_Cycle_Actual",
+      "dataType": "Float",
+      "unit": "s",
+      "category": "ProcessData.Time"
+    },
+    {
+      "name": "Time_Cycle_Planned",
+      "dataType": "Float",
+      "unit": "s",
+      "category": "ProcessData.Time"
+    },
+    {
+      "name": "Time_Dosing",
+      "dataType": "Float",
+      "unit": "s",
+      "category": "ProcessData.Time"
+    },
+    {
+      "name": "Time_Dosing_Set",
+      "dataType": "Float",
+      "unit": "s",
+      "category": "ProcessData.Time"
+    },
+    {
+      "name": "Time_Filling",
+      "dataType": "Float",
+      "unit": "s",
+      "category": "ProcessData.Time"
+    },
+    {
+      "name": "Time_Filling_Set",
+      "dataType": "Float",
+      "unit": "s",
+      "category": "ProcessData.Time"
+    },
+    {
+      "name": "Time_Holding",
+      "dataType": "Float",
+      "unit": "s",
+      "category": "ProcessData.Time"
+    },
+    {
+      "name": "Time_Holding_Set",
+      "dataType": "Float",
+      "unit": "s",
+      "category": "ProcessData.Time"
+    },
+    {
+      "name": "Time_Cooling",
+      "dataType": "Float",
+      "unit": "s",
+      "category": "ProcessData.Time"
+    },
+    {
+      "name": "Time_Cooling_Set",
+      "dataType": "Float",
+      "unit": "s",
+      "category": "ProcessData.Time"
+    },
+    {
+      "name": "Time_Mould_Open",
+      "dataType": "Float",
+      "unit": "s",
+      "category": "ProcessData.Time"
+    },
+    {
+      "name": "Time_Mould_Close",
+      "dataType": "Float",
+      "unit": "s",
+      "category": "ProcessData.Time"
+    },
+    {
+      "name": "Time_Ejection",
+      "dataType": "Float",
+      "unit": "s",
+      "category": "ProcessData.Time"
+    },
+    {
+      "name": "Time_Injection",
+      "dataType": "Float",
+      "unit": "s",
+      "category": "ProcessData.Time"
+    },
+    {
+      "name": "Time_Plasticizing",
+      "dataType": "Float",
+      "unit": "s",
+      "category": "ProcessData.Time"
+    },
+    {
+      "name": "Time_Pause",
+      "dataType": "Float",
+      "unit": "s",
+      "category": "ProcessData.Time"
+    },
+    {
+      "name": "Pressure_Holding",
+      "dataType": "Float",
+      "unit": "bar",
+      "category": "ProcessData.Pressure"
+    },
+    {
+      "name": "Pressure_Holding_Set",
+      "dataType": "Float",
+      "unit": "bar",
+      "category": "ProcessData.Pressure"
+    },
+    {
+      "name": "Pressure_Injection_Max",
+      "dataType": "Float",
+      "unit": "bar",
+      "category": "ProcessData.Pressure"
+    },
+    {
+      "name": "Pressure_Injection_Max_Set",
+      "dataType": "Float",
+      "unit": "bar",
+      "category": "ProcessData.Pressure"
+    },
+    {
+      "name": "Pressure_Injection_Switch",
+      "dataType": "Float",
+      "unit": "bar",
+      "category": "ProcessData.Pressure"
+    },
+    {
+      "name": "Pressure_Injection_Switch_Set",
+      "dataType": "Float",
+      "unit": "bar",
+      "category": "ProcessData.Pressure"
+    },
+    {
+      "name": "Pressure_Back",
+      "dataType": "Float",
+      "unit": "bar",
+      "category": "ProcessData.Pressure"
+    },
+    {
+      "name": "Pressure_Back_Set",
+      "dataType": "Float",
+      "unit": "bar",
+      "category": "ProcessData.Pressure"
+    },
+    {
+      "name": "Pressure_Oil",
+      "dataType": "Float",
+      "unit": "bar",
+      "category": "ProcessData.Pressure"
+    },
+    {
+      "name": "Force_Closing",
+      "dataType": "Float",
+      "unit": "kN",
+      "category": "ProcessData.Pressure"
+    },
+    {
+      "name": "Force_Closing_Set",
+      "dataType": "Float",
+      "unit": "kN",
+      "category": "ProcessData.Pressure"
+    },
+    {
+      "name": "Force_Ejector",
+      "dataType": "Float",
+      "unit": "kN",
+      "category": "ProcessData.Pressure"
+    },
+    {
+      "name": "Force_Ejector_Set",
+      "dataType": "Float",
+      "unit": "kN",
+      "category": "ProcessData.Pressure"
+    },
+    {
+      "name": "Torque_Screw",
+      "dataType": "Float",
+      "unit": "Nm",
+      "category": "ProcessData.Pressure"
+    },
+    {
+      "name": "Volume_Shot",
+      "dataType": "Float",
+      "unit": "cm³",
+      "category": "ProcessData.Volume"
+    },
+    {
+      "name": "Volume_Shot_Set",
+      "dataType": "Float",
+      "unit": "cm³",
+      "category": "ProcessData.Volume"
+    },
+    {
+      "name": "Volume_Cushion",
+      "dataType": "Float",
+      "unit": "cm³",
+      "category": "ProcessData.Volume"
+    },
+    {
+      "name": "Volume_Cushion_Set",
+      "dataType": "Float",
+      "unit": "cm³",
+      "category": "ProcessData.Volume"
+    },
+    {
+      "name": "Speed_Injection",
+      "dataType": "Float",
+      "unit": "mm/s",
+      "category": "ProcessData.Speed"
+    },
+    {
+      "name": "Speed_Injection_Set",
+      "dataType": "Float",
+      "unit": "mm/s",
+      "category": "ProcessData.Speed"
+    },
+    {
+      "name": "Speed_Screw_RPM",
+      "dataType": "Float",
+      "unit": "rpm",
+      "category": "ProcessData.Speed"
+    },
+    {
+      "name": "Speed_Screw_RPM_Set",
+      "dataType": "Float",
+      "unit": "rpm",
+      "category": "ProcessData.Speed"
+    },
+    {
+      "name": "Speed_Mould_Open",
+      "dataType": "Float",
+      "unit": "mm/s",
+      "category": "ProcessData.Speed"
+    },
+    {
+      "name": "Speed_Mould_Open_Set",
+      "dataType": "Float",
+      "unit": "mm/s",
+      "category": "ProcessData.Speed"
+    },
+    {
+      "name": "Speed_Mould_Close",
+      "dataType": "Float",
+      "unit": "mm/s",
+      "category": "ProcessData.Speed"
+    },
+    {
+      "name": "Speed_Mould_Close_Set",
+      "dataType": "Float",
+      "unit": "mm/s",
+      "category": "ProcessData.Speed"
+    },
+    {
+      "name": "Speed_Ejector",
+      "dataType": "Float",
+      "unit": "mm/s",
+      "category": "ProcessData.Speed"
+    },
+    {
+      "name": "Speed_Ejector_Set",
+      "dataType": "Float",
+      "unit": "mm/s",
+      "category": "ProcessData.Speed"
+    },
+    {
+      "name": "Position_Screw_Dosing",
+      "dataType": "Float",
+      "unit": "mm",
+      "category": "ProcessData.Position"
+    },
+    {
+      "name": "Position_Screw_Dosing_Set",
+      "dataType": "Float",
+      "unit": "mm",
+      "category": "ProcessData.Position"
+    },
+    {
+      "name": "Position_Screw_Switch",
+      "dataType": "Float",
+      "unit": "mm",
+      "category": "ProcessData.Position"
+    },
+    {
+      "name": "Position_Screw_Switch_Set",
+      "dataType": "Float",
+      "unit": "mm",
+      "category": "ProcessData.Position"
+    },
+    {
+      "name": "Position_Screw_Decompress",
+      "dataType": "Float",
+      "unit": "mm",
+      "category": "ProcessData.Position"
+    },
+    {
+      "name": "Position_Screw_Decompress_Set",
+      "dataType": "Float",
+      "unit": "mm",
+      "category": "ProcessData.Position"
+    },
+    {
+      "name": "Position_Mould_Open",
+      "dataType": "Float",
+      "unit": "mm",
+      "category": "ProcessData.Position"
+    },
+    {
+      "name": "Position_Mould_Open_Set",
+      "dataType": "Float",
+      "unit": "mm",
+      "category": "ProcessData.Position"
+    },
+    {
+      "name": "Position_Ejector",
+      "dataType": "Float",
+      "unit": "mm",
+      "category": "ProcessData.Position"
+    },
+    {
+      "name": "Position_Ejector_Set",
+      "dataType": "Float",
+      "unit": "mm",
+      "category": "ProcessData.Position"
+    },
+    {
+      "name": "Energy_Total_kWh",
+      "dataType": "Float",
+      "unit": "kWh",
+      "category": "ProcessData.Energy"
+    },
+    {
+      "name": "Energy_Heating_kWh",
+      "dataType": "Float",
+      "unit": "kWh",
+      "category": "ProcessData.Energy"
+    },
+    {
+      "name": "Energy_Drive_kWh",
+      "dataType": "Float",
+      "unit": "kWh",
+      "category": "ProcessData.Energy"
+    },
+    {
+      "name": "Power_Current",
+      "dataType": "Float",
+      "unit": "kW",
+      "category": "ProcessData.Energy"
+    },
+    {
+      "name": "Humidity_Granulate",
+      "dataType": "Float",
+      "unit": "%",
+      "category": "ProcessData.Material"
+    },
+    {
+      "name": "Humidity_Ambient",
+      "dataType": "Float",
+      "unit": "%RH",
+      "category": "ProcessData.Material"
+    },
+    {
+      "name": "Weight_Shot_Total",
+      "dataType": "Float",
+      "unit": "g",
+      "category": "ProcessData.Material"
+    }
   ],
   "relationships": [
-    { "type": "USES_MOULD", "target": "Mould" }
+    {
+      "type": "USES_MOULD",
+      "target": "Mould"
+    }
   ],
   "kgNodeLabel": "InjectionMoldingMachine",
-  "kgIdProperty": "machine_id"
+  "kgIdProperty": "machine_id",
+  "companionSpec": "EUROMAP77",
+  "opcuaTypeDefinition": "InjectionMouldingMachineType",
+  "deviceClass": "Injection Moulding Machine"
 }
