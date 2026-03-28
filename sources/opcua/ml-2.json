@@ -1,6 +1,6 @@
 {
   "mappingId": "opcua-ml-2",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "discoveredAt": "2026-03-18T22:00:00Z",
   "endpoint": "opc.tcp://192.168.178.150:4871",
   "machineId": "ML-2",
@@ -11,6 +11,15 @@
     "site": "Homelab",
     "area": "Montage",
     "line": "Montage-Hauptlinie"
+  },
+  "polling": {
+    "mode": "scan",
+    "intervalMs": 5000
+  },
+  "security": {
+    "mode": "None",
+    "policy": "None",
+    "auth": "Anonymous"
   },
   "nodeMappings": [
     {

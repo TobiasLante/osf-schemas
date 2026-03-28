@@ -1,6 +1,6 @@
 {
   "mappingId": "opcua-sgm-008",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "discoveredAt": "2026-03-18T22:00:00Z",
   "endpoint": "opc.tcp://192.168.178.150:4857",
   "machineId": "SGM-008",
@@ -11,6 +11,15 @@
     "site": "Homelab",
     "area": "Spritzguss",
     "line": "SGM-2500"
+  },
+  "polling": {
+    "mode": "scan",
+    "intervalMs": 5000
+  },
+  "security": {
+    "mode": "None",
+    "policy": "None",
+    "auth": "Anonymous"
   },
   "nodeMappings": [
     {
