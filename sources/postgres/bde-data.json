@@ -1,0 +1,74 @@
+{
+  "sourceId": "Source-PG-bde-data",
+  "version": "1.0.0",
+  "sourceType": "postgresql",
+  "profileRef": "SMProfile-Machine",
+  "machineId": "bde-data",
+  "machineName": "BDE Data (Production Events)",
+  "location": {},
+  "connection": {
+    "host": "192.168.178.150",
+    "port": 30432,
+    "database": "bigdata_homelab",
+    "schema": "llm_test_v3",
+    "table": "bde_data"
+  },
+  "columnMappings": [
+    {
+      "column": "machine_status",
+      "smAttribute": "Machine_Status"
+    },
+    {
+      "column": "machine_status_text",
+      "smAttribute": "Machine_Status_Text"
+    },
+    {
+      "column": "good_parts",
+      "smAttribute": "Good_Parts"
+    },
+    {
+      "column": "scrap_parts",
+      "smAttribute": "Scrap_Parts"
+    },
+    {
+      "column": "rework_parts",
+      "smAttribute": "Rework_Parts"
+    },
+    {
+      "column": "cycle_time_planned_sec",
+      "smAttribute": "Cycle_Time_Planned"
+    },
+    {
+      "column": "cycle_time_actual_sec",
+      "smAttribute": "Cycle_Time_Actual"
+    },
+    {
+      "column": "power_kw",
+      "smAttribute": "Power_kW"
+    },
+    {
+      "column": "energy_kwh",
+      "smAttribute": "Energy_kWh"
+    },
+    {
+      "column": "production_order_id",
+      "smAttribute": "Production_Order"
+    },
+    {
+      "column": "article_id",
+      "smAttribute": "Article_ID"
+    },
+    {
+      "column": "tool_id",
+      "smAttribute": "Tool_ID"
+    },
+    {
+      "column": "shift_number",
+      "smAttribute": "Shift_Number"
+    },
+    {
+      "column": "operator_id",
+      "smAttribute": "Operator_ID"
+    }
+  ]
+}
