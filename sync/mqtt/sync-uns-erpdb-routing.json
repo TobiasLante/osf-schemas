@@ -1,0 +1,85 @@
+{
+  "syncId": "Sync-UNS-erpdb-routing",
+  "version": "1.0.0",
+  "syncType": "mqtt",
+  "broker": {
+    "host": "mqtt-raw",
+    "port": 1883
+  },
+  "topicStructure": {
+    "pattern": "ZeroGuess/Hauptwerk/+/+/erpdb-routing/+",
+    "segments": {
+      "enterprise": {
+        "index": 0
+      },
+      "site": {
+        "index": 1
+      },
+      "domain": {
+        "index": 2
+      },
+      "category": {
+        "index": 3
+      },
+      "objectId": {
+        "index": 4
+      },
+      "attribute": {
+        "index": 5
+      }
+    },
+    "subscribeFilter": "ZeroGuess/Hauptwerk/#/#/erpdb-routing/#"
+  },
+  "payloadSchema": {
+    "format": "json",
+    "valuePath": "$.value",
+    "timestampPath": "$.ts",
+    "timestampFormat": "ISO8601"
+  },
+  "attributeMapping": {
+    "strategy": "topic-segments",
+    "mappings": [
+      {
+        "topicAttribute": "routing_no",
+        "smAttribute": "routing_no"
+      },
+      {
+        "topicAttribute": "article_no",
+        "smAttribute": "article_no"
+      },
+      {
+        "topicAttribute": "article_name",
+        "smAttribute": "article_name"
+      },
+      {
+        "topicAttribute": "operation_no",
+        "smAttribute": "operation_no"
+      },
+      {
+        "topicAttribute": "operation_name",
+        "smAttribute": "operation_name"
+      },
+      {
+        "topicAttribute": "machine",
+        "smAttribute": "machine"
+      },
+      {
+        "topicAttribute": "cycle_time_sec",
+        "smAttribute": "cycle_time_sec"
+      },
+      {
+        "topicAttribute": "setup_time_sec",
+        "smAttribute": "setup_time_sec"
+      },
+      {
+        "topicAttribute": "pcs_per_cycle",
+        "smAttribute": "pcs_per_cycle"
+      }
+    ]
+  },
+  "machineIdResolution": {
+    "strategy": "topic-segment",
+    "segment": 4
+  },
+  "profileRef": "SMProfile-Routing"
+}
