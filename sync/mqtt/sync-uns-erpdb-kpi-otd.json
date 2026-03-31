@@ -1,0 +1,69 @@
+{
+  "syncId": "Sync-UNS-erpdb-kpi-otd",
+  "version": "1.0.0",
+  "syncType": "mqtt",
+  "broker": {
+    "host": "mqtt-raw",
+    "port": 1883
+  },
+  "topicStructure": {
+    "pattern": "ZeroGuess/Hauptwerk/+/+/erpdb-kpi-otd/+",
+    "segments": {
+      "enterprise": {
+        "index": 0
+      },
+      "site": {
+        "index": 1
+      },
+      "domain": {
+        "index": 2
+      },
+      "category": {
+        "index": 3
+      },
+      "objectId": {
+        "index": 4
+      },
+      "attribute": {
+        "index": 5
+      }
+    },
+    "subscribeFilter": "ZeroGuess/Hauptwerk/#/#/erpdb-kpi-otd/#"
+  },
+  "payloadSchema": {
+    "format": "json",
+    "valuePath": "$.value",
+    "timestampPath": "$.ts",
+    "timestampFormat": "ISO8601"
+  },
+  "attributeMapping": {
+    "strategy": "topic-segments",
+    "mappings": [
+      {
+        "topicAttribute": "customer_name",
+        "smAttribute": "customer_name"
+      },
+      {
+        "topicAttribute": "orders_total",
+        "smAttribute": "orders_total"
+      },
+      {
+        "topicAttribute": "orders_on_time",
+        "smAttribute": "orders_on_time"
+      },
+      {
+        "topicAttribute": "orders_late",
+        "smAttribute": "orders_late"
+      },
+      {
+        "topicAttribute": "otd_percentage",
+        "smAttribute": "otd_percentage"
+      }
+    ]
+  },
+  "machineIdResolution": {
+    "strategy": "topic-segment",
+    "segment": 4
+  },
+  "profileRef": "SMProfile-KPIDef"
+}
