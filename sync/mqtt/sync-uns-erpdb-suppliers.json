@@ -1,0 +1,73 @@
+{
+  "syncId": "Sync-UNS-erpdb-suppliers",
+  "version": "1.0.0",
+  "syncType": "mqtt",
+  "broker": {
+    "host": "mqtt-raw",
+    "port": 1883
+  },
+  "topicStructure": {
+    "pattern": "ZeroGuess/Hauptwerk/+/+/erpdb-suppliers/+",
+    "segments": {
+      "enterprise": {
+        "index": 0
+      },
+      "site": {
+        "index": 1
+      },
+      "domain": {
+        "index": 2
+      },
+      "category": {
+        "index": 3
+      },
+      "objectId": {
+        "index": 4
+      },
+      "attribute": {
+        "index": 5
+      }
+    },
+    "subscribeFilter": "ZeroGuess/Hauptwerk/#/#/erpdb-suppliers/#"
+  },
+  "payloadSchema": {
+    "format": "json",
+    "valuePath": "$.value",
+    "timestampPath": "$.ts",
+    "timestampFormat": "ISO8601"
+  },
+  "attributeMapping": {
+    "strategy": "topic-segments",
+    "mappings": [
+      {
+        "topicAttribute": "supplier_id",
+        "smAttribute": "supplier_id"
+      },
+      {
+        "topicAttribute": "name",
+        "smAttribute": "name"
+      },
+      {
+        "topicAttribute": "contact",
+        "smAttribute": "contact"
+      },
+      {
+        "topicAttribute": "email",
+        "smAttribute": "email"
+      },
+      {
+        "topicAttribute": "rating",
+        "smAttribute": "rating"
+      },
+      {
+        "topicAttribute": "active",
+        "smAttribute": "active"
+      }
+    ]
+  },
+  "machineIdResolution": {
+    "strategy": "topic-segment",
+    "segment": 4
+  },
+  "profileRef": "SMProfile-Supplier"
+}
