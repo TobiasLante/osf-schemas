@@ -1,0 +1,81 @@
+{
+  "syncId": "Sync-UNS-qmsdb-corrective-actions",
+  "version": "1.0.0",
+  "syncType": "mqtt",
+  "broker": {
+    "host": "mqtt-raw",
+    "port": 1883
+  },
+  "topicStructure": {
+    "pattern": "ZeroGuess/Hauptwerk/+/+/qmsdb-corrective-actions/+",
+    "segments": {
+      "enterprise": {
+        "index": 0
+      },
+      "site": {
+        "index": 1
+      },
+      "domain": {
+        "index": 2
+      },
+      "category": {
+        "index": 3
+      },
+      "objectId": {
+        "index": 4
+      },
+      "attribute": {
+        "index": 5
+      }
+    },
+    "subscribeFilter": "ZeroGuess/Hauptwerk/#/#/qmsdb-corrective-actions/#"
+  },
+  "payloadSchema": {
+    "format": "json",
+    "valuePath": "$.value",
+    "timestampPath": "$.ts",
+    "timestampFormat": "ISO8601"
+  },
+  "attributeMapping": {
+    "strategy": "topic-segments",
+    "mappings": [
+      {
+        "topicAttribute": "action_no",
+        "smAttribute": "action_no"
+      },
+      {
+        "topicAttribute": "notification_no",
+        "smAttribute": "notification_no"
+      },
+      {
+        "topicAttribute": "action_type",
+        "smAttribute": "action_type"
+      },
+      {
+        "topicAttribute": "description",
+        "smAttribute": "description"
+      },
+      {
+        "topicAttribute": "responsible",
+        "smAttribute": "responsible"
+      },
+      {
+        "topicAttribute": "due_date",
+        "smAttribute": "due_date"
+      },
+      {
+        "topicAttribute": "status",
+        "smAttribute": "status"
+      },
+      {
+        "topicAttribute": "is_effective",
+        "smAttribute": "is_effective"
+      }
+    ]
+  },
+  "machineIdResolution": {
+    "strategy": "topic-segment",
+    "segment": 4
+  },
+  "profileRef": "SMProfile-CorrectiveAction"
+}
