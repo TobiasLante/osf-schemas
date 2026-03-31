@@ -1,0 +1,85 @@
+{
+  "syncId": "Sync-UNS-erpdb-stock",
+  "version": "1.0.0",
+  "syncType": "mqtt",
+  "broker": {
+    "host": "mqtt-raw",
+    "port": 1883
+  },
+  "topicStructure": {
+    "pattern": "ZeroGuess/Hauptwerk/+/+/erpdb-stock/+",
+    "segments": {
+      "enterprise": {
+        "index": 0
+      },
+      "site": {
+        "index": 1
+      },
+      "domain": {
+        "index": 2
+      },
+      "category": {
+        "index": 3
+      },
+      "objectId": {
+        "index": 4
+      },
+      "attribute": {
+        "index": 5
+      }
+    },
+    "subscribeFilter": "ZeroGuess/Hauptwerk/#/#/erpdb-stock/#"
+  },
+  "payloadSchema": {
+    "format": "json",
+    "valuePath": "$.value",
+    "timestampPath": "$.ts",
+    "timestampFormat": "ISO8601"
+  },
+  "attributeMapping": {
+    "strategy": "topic-segments",
+    "mappings": [
+      {
+        "topicAttribute": "teil_id",
+        "smAttribute": "teil_id"
+      },
+      {
+        "topicAttribute": "name",
+        "smAttribute": "name"
+      },
+      {
+        "topicAttribute": "type",
+        "smAttribute": "type"
+      },
+      {
+        "topicAttribute": "qty_free",
+        "smAttribute": "qty_free"
+      },
+      {
+        "topicAttribute": "qty_blocked",
+        "smAttribute": "qty_blocked"
+      },
+      {
+        "topicAttribute": "reserved",
+        "smAttribute": "reserved"
+      },
+      {
+        "topicAttribute": "min_stock",
+        "smAttribute": "min_stock"
+      },
+      {
+        "topicAttribute": "location",
+        "smAttribute": "location"
+      },
+      {
+        "topicAttribute": "unit",
+        "smAttribute": "unit"
+      }
+    ]
+  },
+  "machineIdResolution": {
+    "strategy": "topic-segment",
+    "segment": 4
+  },
+  "profileRef": "SMProfile-StockItem"
+}
