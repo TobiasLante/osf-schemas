@@ -1,0 +1,89 @@
+{
+  "syncId": "Sync-UNS-qmsdb-inspection-lots",
+  "version": "1.0.0",
+  "syncType": "mqtt",
+  "broker": {
+    "host": "mqtt-raw",
+    "port": 1883
+  },
+  "topicStructure": {
+    "pattern": "ZeroGuess/Hauptwerk/+/+/qmsdb-inspection-lots/+",
+    "segments": {
+      "enterprise": {
+        "index": 0
+      },
+      "site": {
+        "index": 1
+      },
+      "domain": {
+        "index": 2
+      },
+      "category": {
+        "index": 3
+      },
+      "objectId": {
+        "index": 4
+      },
+      "attribute": {
+        "index": 5
+      }
+    },
+    "subscribeFilter": "ZeroGuess/Hauptwerk/#/#/qmsdb-inspection-lots/#"
+  },
+  "payloadSchema": {
+    "format": "json",
+    "valuePath": "$.value",
+    "timestampPath": "$.ts",
+    "timestampFormat": "ISO8601"
+  },
+  "attributeMapping": {
+    "strategy": "topic-segments",
+    "mappings": [
+      {
+        "topicAttribute": "lot_no",
+        "smAttribute": "lot_no"
+      },
+      {
+        "topicAttribute": "lot_type",
+        "smAttribute": "lot_type"
+      },
+      {
+        "topicAttribute": "production_order_no",
+        "smAttribute": "production_order_no"
+      },
+      {
+        "topicAttribute": "article_no",
+        "smAttribute": "article_no"
+      },
+      {
+        "topicAttribute": "machine_no",
+        "smAttribute": "machine_no"
+      },
+      {
+        "topicAttribute": "lot_quantity",
+        "smAttribute": "lot_quantity"
+      },
+      {
+        "topicAttribute": "sample_size",
+        "smAttribute": "sample_size"
+      },
+      {
+        "topicAttribute": "status",
+        "smAttribute": "status"
+      },
+      {
+        "topicAttribute": "inspection_start",
+        "smAttribute": "inspection_start"
+      },
+      {
+        "topicAttribute": "inspection_end",
+        "smAttribute": "inspection_end"
+      }
+    ]
+  },
+  "machineIdResolution": {
+    "strategy": "topic-segment",
+    "segment": 4
+  },
+  "profileRef": "SMProfile-InspectionLot"
+}
