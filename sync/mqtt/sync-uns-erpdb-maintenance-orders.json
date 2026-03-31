@@ -1,0 +1,89 @@
+{
+  "syncId": "Sync-UNS-erpdb-maintenance-orders",
+  "version": "1.0.0",
+  "syncType": "mqtt",
+  "broker": {
+    "host": "mqtt-raw",
+    "port": 1883
+  },
+  "topicStructure": {
+    "pattern": "ZeroGuess/Hauptwerk/+/+/erpdb-maintenance-orders/+",
+    "segments": {
+      "enterprise": {
+        "index": 0
+      },
+      "site": {
+        "index": 1
+      },
+      "domain": {
+        "index": 2
+      },
+      "category": {
+        "index": 3
+      },
+      "objectId": {
+        "index": 4
+      },
+      "attribute": {
+        "index": 5
+      }
+    },
+    "subscribeFilter": "ZeroGuess/Hauptwerk/#/#/erpdb-maintenance-orders/#"
+  },
+  "payloadSchema": {
+    "format": "json",
+    "valuePath": "$.value",
+    "timestampPath": "$.ts",
+    "timestampFormat": "ISO8601"
+  },
+  "attributeMapping": {
+    "strategy": "topic-segments",
+    "mappings": [
+      {
+        "topicAttribute": "order_no",
+        "smAttribute": "order_no"
+      },
+      {
+        "topicAttribute": "status",
+        "smAttribute": "status"
+      },
+      {
+        "topicAttribute": "notification_no",
+        "smAttribute": "notification_no"
+      },
+      {
+        "topicAttribute": "machine_no",
+        "smAttribute": "machine_no"
+      },
+      {
+        "topicAttribute": "order_type",
+        "smAttribute": "order_type"
+      },
+      {
+        "topicAttribute": "priority",
+        "smAttribute": "priority"
+      },
+      {
+        "topicAttribute": "description",
+        "smAttribute": "description"
+      },
+      {
+        "topicAttribute": "planned_start",
+        "smAttribute": "planned_start"
+      },
+      {
+        "topicAttribute": "planned_end",
+        "smAttribute": "planned_end"
+      },
+      {
+        "topicAttribute": "planned_hours",
+        "smAttribute": "planned_hours"
+      }
+    ]
+  },
+  "machineIdResolution": {
+    "strategy": "topic-segment",
+    "segment": 4
+  },
+  "profileRef": "SMProfile-MaintenanceOrder"
+}
