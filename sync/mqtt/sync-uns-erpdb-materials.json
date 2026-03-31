@@ -1,0 +1,93 @@
+{
+  "syncId": "Sync-UNS-erpdb-materials",
+  "version": "1.0.0",
+  "syncType": "mqtt",
+  "broker": {
+    "host": "mqtt-raw",
+    "port": 1883
+  },
+  "topicStructure": {
+    "pattern": "ZeroGuess/Hauptwerk/+/+/erpdb-materials/+",
+    "segments": {
+      "enterprise": {
+        "index": 0
+      },
+      "site": {
+        "index": 1
+      },
+      "domain": {
+        "index": 2
+      },
+      "category": {
+        "index": 3
+      },
+      "objectId": {
+        "index": 4
+      },
+      "attribute": {
+        "index": 5
+      }
+    },
+    "subscribeFilter": "ZeroGuess/Hauptwerk/#/#/erpdb-materials/#"
+  },
+  "payloadSchema": {
+    "format": "json",
+    "valuePath": "$.value",
+    "timestampPath": "$.ts",
+    "timestampFormat": "ISO8601"
+  },
+  "attributeMapping": {
+    "strategy": "topic-segments",
+    "mappings": [
+      {
+        "topicAttribute": "name",
+        "smAttribute": "name"
+      },
+      {
+        "topicAttribute": "type",
+        "smAttribute": "type"
+      },
+      {
+        "topicAttribute": "unit",
+        "smAttribute": "unit"
+      },
+      {
+        "topicAttribute": "free_stock",
+        "smAttribute": "free_stock"
+      },
+      {
+        "topicAttribute": "blocked_stock",
+        "smAttribute": "blocked_stock"
+      },
+      {
+        "topicAttribute": "reserved",
+        "smAttribute": "reserved"
+      },
+      {
+        "topicAttribute": "safety_stock",
+        "smAttribute": "safety_stock"
+      },
+      {
+        "topicAttribute": "location",
+        "smAttribute": "location"
+      },
+      {
+        "topicAttribute": "abc_class",
+        "smAttribute": "abc_class"
+      },
+      {
+        "topicAttribute": "lead_time_days",
+        "smAttribute": "lead_time_days"
+      },
+      {
+        "topicAttribute": "supplier",
+        "smAttribute": "supplier"
+      }
+    ]
+  },
+  "machineIdResolution": {
+    "strategy": "topic-segment",
+    "segment": 4
+  },
+  "profileRef": "SMProfile-Material"
+}
