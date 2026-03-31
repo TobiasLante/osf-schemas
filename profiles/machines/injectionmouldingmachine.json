@@ -1,0 +1,1452 @@
+{
+  "profileId": "SMProfile-InjectionMouldingMachine",
+  "version": "1.0.0",
+  "standard": "CESMII",
+  "displayName": "Injection Moulding Machine (EUROMAP77)",
+  "description": "Generated from OPC-UA Companion Spec EUROMAP77",
+  "parentType": "SMProfile-Machine",
+  "companionSpec": "EUROMAP77",
+  "attributes": [
+    {
+      "name": "EnumValues",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "OPC40077",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Collects the data type descriptions of http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/"
+    },
+    {
+      "name": "NamespaceUri",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "A URI that uniquely identifies the dictionary."
+    },
+    {
+      "name": "OPC40077",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Collects the data type descriptions of http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/"
+    },
+    {
+      "name": "NamespaceUri",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "A URI that uniquely identifies the dictionary."
+    },
+    {
+      "name": "NodeVersion",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ContinueAtJobEnd",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Indication if the machine continues the production even if the nominal output has been reached"
+    },
+    {
+      "name": "CustomerName",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Name of the cumstomer for that the job is produced"
+    },
+    {
+      "name": "ExpectedCycleTime",
+      "dataType": "String",
+      "category": "Production.Cycle",
+      "description": "Calculated cycle time for the job"
+    },
+    {
+      "name": "JobDescription",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Description of the job"
+    },
+    {
+      "name": "JobName",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Name of the job"
+    },
+    {
+      "name": "Material",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Array of material names used for the job"
+    },
+    {
+      "name": "MouldId",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Id of the Mould used for the job"
+    },
+    {
+      "name": "NominalBoxParts",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Number of parts that shall be put into one box"
+    },
+    {
+      "name": "NominalParts",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Total number (sum of all cavities) of parts that shall be produced by the job"
+    },
+    {
+      "name": "NumCavities",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "Number of cavities in the Mould used for production"
+    },
+    {
+      "name": "ProductDescription",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Array of descriptions of the products produced by the job"
+    },
+    {
+      "name": "ProductionDatasetDescription",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Additional description of the production dataset which is needed for the job"
+    },
+    {
+      "name": "ProductionDatasetName",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Name of the production dataset which is needed for the job"
+    },
+    {
+      "name": "ProductName",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Array of product names produced by the job"
+    },
+    {
+      "name": "InputArguments",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "AverageCycleTime",
+      "dataType": "String",
+      "category": "Production.Cycle",
+      "description": "Average cycle time"
+    },
+    {
+      "name": "BoxBadPartsCounter",
+      "dataType": "String",
+      "category": "Production.Counter",
+      "description": "Number of bad parts produced in the current box"
+    },
+    {
+      "name": "BoxCycleCounter",
+      "dataType": "String",
+      "category": "Production.Counter",
+      "description": "Number of finished cycles for the current box"
+    },
+    {
+      "name": "BoxGoodPartsCounter",
+      "dataType": "String",
+      "category": "Production.Counter",
+      "description": "Number of good parts produced in the current box"
+    },
+    {
+      "name": "BoxId",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Id of the box in which the current production is put in"
+    },
+    {
+      "name": "BoxPartsCounter",
+      "dataType": "String",
+      "category": "Production.Counter",
+      "description": "Total number of parts produced in the current box"
+    },
+    {
+      "name": "BoxTestSamplesCounter",
+      "dataType": "String",
+      "category": "Production.Counter",
+      "description": "Number of test sample parts produced in the current box"
+    },
+    {
+      "name": "CurrentLotName",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Name of the current production lot"
+    },
+    {
+      "name": "JobBadPartsCounter",
+      "dataType": "String",
+      "category": "Production.Counter",
+      "description": "Number of bad parts produced in the current job"
+    },
+    {
+      "name": "JobCycleCounter",
+      "dataType": "String",
+      "category": "Production.Counter",
+      "description": "Number of finished cycles in the job"
+    },
+    {
+      "name": "JobGoodPartsCounter",
+      "dataType": "String",
+      "category": "Production.Counter",
+      "description": "Number of good parts produced in the current job"
+    },
+    {
+      "name": "JobPartsCounter",
+      "dataType": "String",
+      "category": "Production.Counter",
+      "description": "Total number of parts produced in the current job"
+    },
+    {
+      "name": "JobStatus",
+      "dataType": "String",
+      "category": "Status",
+      "description": "Current status of the job"
+    },
+    {
+      "name": "JobTestSamplesCounter",
+      "dataType": "String",
+      "category": "Production.Counter",
+      "description": "Number of test sample parts produced in the current job"
+    },
+    {
+      "name": "LastCycleTime",
+      "dataType": "String",
+      "category": "Production.Cycle",
+      "description": "Time of the recently finished cycle"
+    },
+    {
+      "name": "LastPartId",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Id(s) of the parts produced in the recently finished cycle"
+    },
+    {
+      "name": "MachineCycleCounter",
+      "dataType": "String",
+      "category": "Production.Counter",
+      "description": "Number of finished cycles in the machine life time"
+    },
+    {
+      "name": "ContinueAtJobEnd",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Indication if the machine continues the production even if the nominal output has been reached"
+    },
+    {
+      "name": "CustomerName",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Name of the cumstomer for that the job is produced"
+    },
+    {
+      "name": "ExpectedCycleTime",
+      "dataType": "String",
+      "category": "Production.Cycle",
+      "description": "Calculated cycle time for the job"
+    },
+    {
+      "name": "JobDescription",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Description of the job"
+    },
+    {
+      "name": "JobName",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Name of the job"
+    },
+    {
+      "name": "Material",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Array of material names used for the job"
+    },
+    {
+      "name": "MouldId",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Id of the Mould used for the job"
+    },
+    {
+      "name": "NominalBoxParts",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Number of parts that shall be put into one box"
+    },
+    {
+      "name": "NominalParts",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Total number (sum of all cavities) of parts that shall be produced by the job"
+    },
+    {
+      "name": "NumCavities",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "Number of cavities in the Mould used for production"
+    },
+    {
+      "name": "ProductDescription",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Array of descriptions of the products produced by the job"
+    },
+    {
+      "name": "ProductionDatasetDescription",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Additional description of the production dataset which is needed for the job"
+    },
+    {
+      "name": "ProductionDatasetName",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Name of the production dataset which is needed for the job"
+    },
+    {
+      "name": "ProductName",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Array of product names produced by the job"
+    },
+    {
+      "name": "InputArguments",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "InputArguments",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "InputArguments",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "OutputArguments",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "InputArguments",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "OutputArguments",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "LocationName",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Description of the location of the machine given by the machine operator or OPC client"
+    },
+    {
+      "name": "PageDirectory",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "List of the pages that are implemented in the machine control system and are shown on the screen of the machine"
+    },
+    {
+      "name": "InputArguments",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "TimeZoneOffset",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Difference of the local time to Coordinated Universal Time (UTC) given by the machine operator or OPC client"
+    },
+    {
+      "name": "UserMachineName",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Description of the machine given by the machine operator or OPC client"
+    },
+    {
+      "name": "AssetId",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ComponentName",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ControllerName",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Name of the machine controller"
+    },
+    {
+      "name": "DeviceClass",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Indicates in which domain or for what purpose a device is used."
+    },
+    {
+      "name": "DeviceManual",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "DeviceRevision",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "HardwareRevision",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "Manufacturer",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Name of the company that manufactured the device"
+    },
+    {
+      "name": "ManufacturerUri",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "Model",
+      "dataType": "String",
+      "category": "Control.Mode",
+      "description": "Model name of the device"
+    },
+    {
+      "name": "ProductCode",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ProductInstanceUri",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RevisionCounter",
+      "dataType": "Int32",
+      "category": "Production.Counter"
+    },
+    {
+      "name": "SerialNumber",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Identifier that uniquely identifies, within a manufacturer, a device instance"
+    },
+    {
+      "name": "SoftwareRevision",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "SupportedLogbookEvents",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Information which LogbookEvents are supported by the machine"
+    },
+    {
+      "name": "MESUrl",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "URL to display a webpage generated by the MES in a web browser integrated in the machine"
+    },
+    {
+      "name": "StandstillReasons",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "List of the standstill reasons from which one is selected by the operator in the case of a standstill"
+    },
+    {
+      "name": "StandstillReasonsLockedByMES",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Indication if the list StandstillReasons has been modified by the MES and may not be changed by the machine"
+    },
+    {
+      "name": "Id",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Id of the message"
+    },
+    {
+      "name": "Message",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Text of the message"
+    },
+    {
+      "name": "Severity",
+      "dataType": "UInt16",
+      "category": "ProcessData",
+      "description": "Severity of the message"
+    },
+    {
+      "name": "AutomaticRunEnabled",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Indication if semi-automatic and automatic run of the machine is allowed by MES"
+    },
+    {
+      "name": "ProductionOnlyWithMES",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Indication if production with the machine is only allowed when the MES is active"
+    },
+    {
+      "name": "ProductionReleasedByMES",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Indication if ProductionStatus may have the value PRODUCTION_4"
+    },
+    {
+      "name": "ProductionStatus",
+      "dataType": "String",
+      "category": "Status",
+      "description": "Production status when the machine is in automatic or semi-automatic mode"
+    },
+    {
+      "name": "InputArguments",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "InputArguments",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "Classification",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Classification of the message"
+    },
+    {
+      "name": "Id",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Id of the message"
+    },
+    {
+      "name": "Message",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Text of the message"
+    },
+    {
+      "name": "Severity",
+      "dataType": "UInt16",
+      "category": "ProcessData",
+      "description": "Severity of the message"
+    },
+    {
+      "name": "StandstillReasonId",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Id of the StandstillReason set by the operator after a standstill occurs"
+    },
+    {
+      "name": "IsPresent",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Indication if the machine is physically present and connected"
+    },
+    {
+      "name": "MachineMode",
+      "dataType": "String",
+      "category": "Control.Mode",
+      "description": "Current machine mode (as defined by mode selector on the machine)"
+    },
+    {
+      "name": "NodeVersion",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "NodeVersion",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "NodeVersion",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "Frozen",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Indication if changes on the machine in the production dataset are allowed"
+    },
+    {
+      "name": "Information",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Set of information on the production dataset"
+    },
+    {
+      "name": "InputArguments",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "Modified",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Indication if the production dataset has been changed after the last storage"
+    },
+    {
+      "name": "InputArguments",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "InputArguments",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "OutputArguments",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "Frozen",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Indication if changes on the machine in the production dataset are allowed"
+    },
+    {
+      "name": "Information",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Set of information on the production dataset"
+    },
+    {
+      "name": "InputArguments",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "Modified",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Indication if the production dataset has been changed after the last storage"
+    },
+    {
+      "name": "InputArguments",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "InputArguments",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "OutputArguments",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "InputArguments",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ClientProcessingTimeout",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "InputArguments",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "OutputArguments",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "InputArguments",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "OutputArguments",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "InputArguments",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "OutputArguments",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "InputArguments",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "BackPressure",
+      "dataType": "Float64",
+      "category": "ProcessData.Pressure",
+      "description": "Back pressure is the melt-pressure against the screw movement during dosage"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "CavityPressureMaximum",
+      "dataType": "Float64",
+      "category": "ProcessData.Pressure",
+      "description": "Maximum pressure during the injection process in the cavity or mould"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "CushionStroke",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Stroke position at cushion"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "CushionVolume",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Material volume remained in front of the screw after injection and holding pressure"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "DecompressionVolumeAfterPlastification",
+      "dataType": "Float64",
+      "category": "ProcessData.Pressure",
+      "description": "Decompression after plastification is the movement of the screw in the opposite direction to injection"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "DecompressionVolumeBeforePlastification",
+      "dataType": "Float64",
+      "category": "ProcessData.Pressure",
+      "description": "Decompression before plastification is the movement of the screw in the opposite direction to injection"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "DosingTime",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Time to melt-up the plastic granulates and feed the melt for the next injection shot to the front of the screw"
+    },
+    {
+      "name": "FlowIndex",
+      "dataType": "Float64",
+      "category": "ProcessData.Flow",
+      "description": "Flow index"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "HoldHydraulicPressureAverage",
+      "dataType": "Float64",
+      "category": "ProcessData.Pressure",
+      "description": "Average holding pressure in the hydraulic cylinder"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "HoldHydraulicPressureMaximum",
+      "dataType": "Float64",
+      "category": "ProcessData.Pressure",
+      "description": "Maximum holding pressure in the hydraulic cylinder"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "HoldSpecificPressureAverage",
+      "dataType": "Float64",
+      "category": "ProcessData.Pressure",
+      "description": "Average holding pressure in front of the screw"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "HoldSpecificPressureMaximum",
+      "dataType": "Float64",
+      "category": "ProcessData.Pressure",
+      "description": "Maximum holding pressure in front of the screw"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "HydraulicPressureMaximum",
+      "dataType": "Float64",
+      "category": "ProcessData.Pressure",
+      "description": "Maximum pressure in the hydraulic cylinder"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "Index",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "Index of the injection unit"
+    },
+    {
+      "name": "InjectionSpeedAverage",
+      "dataType": "Float64",
+      "category": "ProcessData.Speed",
+      "description": "Average injection speed (e.g. mm/s)"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "InjectionSpeedMaximum",
+      "dataType": "Float64",
+      "category": "ProcessData.Speed",
+      "description": "Maximum injection speed (e.g. mm/s)"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "InjectionStartPosition",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Start position of the injection"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "InjectionTime",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Time required to fill the cavity or mould"
+    },
+    {
+      "name": "PlastificationCircumferentialSpeedAverage",
+      "dataType": "Float64",
+      "category": "ProcessData.Speed",
+      "description": "Average screw circumferential speed for plastification (e.g. mm/s)"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "PlastificationCircumferentialSpeedMaximum",
+      "dataType": "Float64",
+      "category": "ProcessData.Speed",
+      "description": "Maximum screw circumferential speed for plastification (e.g. mm/s)"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "PlastificationHydraulicPressureAverage",
+      "dataType": "Float64",
+      "category": "ProcessData.Pressure",
+      "description": "Average plastification pressure in cylinder"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "PlastificationHydraulicPressureMaximum",
+      "dataType": "Float64",
+      "category": "ProcessData.Pressure",
+      "description": "Maximum plastification pressure in cylinder"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "PlastificationRotationalSpeedAverage",
+      "dataType": "Float64",
+      "category": "ProcessData.Speed",
+      "description": "Average plastification speed of the injection unit (RPM)"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "PlastificationRotationalSpeedMaximum",
+      "dataType": "Float64",
+      "category": "ProcessData.Speed",
+      "description": "Maximum plastification speed of the injection unit (RPM)"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "PlastificationSpecificPressureAverage",
+      "dataType": "Float64",
+      "category": "ProcessData.Pressure",
+      "description": "Average plastification pressure in front of the screw tip"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "PlastificationSpecificPressureMaximum",
+      "dataType": "Float64",
+      "category": "ProcessData.Pressure",
+      "description": "Maximum plastification pressure in front of the screw tip"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "PlastificationVolume",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Volume dosed by the machine for the next injection shot"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "SpecificPressureMaximum",
+      "dataType": "Float64",
+      "category": "ProcessData.Pressure",
+      "description": "Pressure in front of the screw tip"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "TransferCavityPressure",
+      "dataType": "Float64",
+      "category": "ProcessData.Pressure",
+      "description": "Cavity pressure in the mould during switch-over to the holding pressure"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "TransferHydraulicPressure",
+      "dataType": "Float64",
+      "category": "ProcessData.Pressure",
+      "description": "Hydraulic pressure in the cylinder during switch-over to the holding pressure"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "TransferSpecificPressure",
+      "dataType": "Float64",
+      "category": "ProcessData.Pressure",
+      "description": "Pressure in front of the screw tip during switch-over to the holding pressure"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "TransferStroke",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Switch-over point to the holding pressure via stroke"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "TransferVolume",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Switch-over point to the holding pressure via volume"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "VPChangeOverPosition",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Screw position at switching between injection (V) and holding pressure (P)"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "BarrelId",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Id (e.g. serial number) of the barrel"
+    },
+    {
+      "name": "Index",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "Number of the injection unit"
+    },
+    {
+      "name": "InProduction",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "information if the injection unit is used in the current running production"
+    },
+    {
+      "name": "IsPresent",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Information if the injection unit is physically installed on the injection machines"
+    },
+    {
+      "name": "MaxScrewStroke",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "maximum stroke of the screw installed in the injection unit"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ScrewDiameter",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "diameter of the screw installed in the injection unit"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ScrewId",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Id of the screw installed in the injection unit"
+    },
+    {
+      "name": "ScrewVolume",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "volume of the screw installed in the injection unit"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "NodeVersion",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "NodeVersion",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "BarrelId",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Id (e.g. serial number) of the barrel"
+    },
+    {
+      "name": "Index",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "Number of the injection unit"
+    },
+    {
+      "name": "InProduction",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "information if the injection unit is used in the current running production"
+    },
+    {
+      "name": "IsPresent",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Information if the injection unit is physically installed on the injection machines"
+    },
+    {
+      "name": "MaxScrewStroke",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "maximum stroke of the screw installed in the injection unit"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ScrewDiameter",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "diameter of the screw installed in the injection unit"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ScrewId",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Id of the screw installed in the injection unit"
+    },
+    {
+      "name": "ScrewVolume",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "volume of the screw installed in the injection unit"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "NodeVersion",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "IsNamespaceSubset",
+      "dataType": "Boolean",
+      "category": "ProcessData"
+    },
+    {
+      "name": "NamespacePublicationDate",
+      "dataType": "DateTime",
+      "category": "ProcessData"
+    },
+    {
+      "name": "NamespaceUri",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "NamespaceVersion",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "StaticNodeIdTypes",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "StaticNumericNodeIdRange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "StaticStringNodeIdPattern",
+      "dataType": "String",
+      "category": "ProcessData"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "LOCATED_IN",
+      "target": "Area",
+      "description": "Physical location"
+    },
+    {
+      "type": "PART_OF",
+      "target": "ProductionLine",
+      "description": "Part of production line"
+    },
+    {
+      "type": "PRODUCES",
+      "target": "Article",
+      "description": "Produces articles"
+    }
+  ],
+  "kgNodeLabel": "InjectionMouldingMachine",
+  "kgIdProperty": "machine_id"
+}
