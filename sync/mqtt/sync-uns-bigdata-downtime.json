@@ -1,0 +1,73 @@
+{
+  "syncId": "Sync-UNS-bigdata-downtime",
+  "version": "1.0.0",
+  "syncType": "mqtt",
+  "broker": {
+    "host": "mqtt-raw",
+    "port": 1883
+  },
+  "topicStructure": {
+    "pattern": "ZeroGuess/Hauptwerk/+/+/bigdata-downtime/+",
+    "segments": {
+      "enterprise": {
+        "index": 0
+      },
+      "site": {
+        "index": 1
+      },
+      "domain": {
+        "index": 2
+      },
+      "category": {
+        "index": 3
+      },
+      "objectId": {
+        "index": 4
+      },
+      "attribute": {
+        "index": 5
+      }
+    },
+    "subscribeFilter": "ZeroGuess/Hauptwerk/#/#/bigdata-downtime/#"
+  },
+  "payloadSchema": {
+    "format": "json",
+    "valuePath": "$.value",
+    "timestampPath": "$.ts",
+    "timestampFormat": "ISO8601"
+  },
+  "attributeMapping": {
+    "strategy": "topic-segments",
+    "mappings": [
+      {
+        "topicAttribute": "machine_id",
+        "smAttribute": "machine_id"
+      },
+      {
+        "topicAttribute": "machine_name",
+        "smAttribute": "machine_name"
+      },
+      {
+        "topicAttribute": "reason",
+        "smAttribute": "reason"
+      },
+      {
+        "topicAttribute": "duration_sec",
+        "smAttribute": "duration_sec"
+      },
+      {
+        "topicAttribute": "shift_number",
+        "smAttribute": "shift_number"
+      },
+      {
+        "topicAttribute": "recorded_at",
+        "smAttribute": "recorded_at"
+      }
+    ]
+  },
+  "machineIdResolution": {
+    "strategy": "topic-segment",
+    "segment": 4
+  },
+  "profileRef": "SMProfile-DowntimeRecord"
+}
