@@ -1,0 +1,204 @@
+{
+  "syncId": "Sync-UNS-SGM-002",
+  "version": "1.0.0",
+  "syncType": "mqtt",
+  "broker": {
+    "host": "mqtt-raw",
+    "port": 1883
+  },
+  "topicStructure": {
+    "pattern": "ZeroGuess/Homelab/Spritzguss/SGM-1300/SGM-002/+/+",
+    "segments": {
+      "enterprise": {
+        "index": 0
+      },
+      "site": {
+        "index": 1
+      },
+      "area": {
+        "index": 2
+      },
+      "line": {
+        "index": 3
+      },
+      "machineId": {
+        "index": 4
+      },
+      "domain": {
+        "index": 5
+      },
+      "attribute": {
+        "index": 6
+      }
+    },
+    "subscribeFilter": "ZeroGuess/Homelab/Spritzguss/SGM-1300/SGM-002/#/#"
+  },
+  "payloadSchema": {
+    "format": "json",
+    "valuePath": "$.value",
+    "timestampPath": "$.ts",
+    "timestampFormat": "ISO8601"
+  },
+  "attributeMapping": {
+    "strategy": "topic-segments",
+    "mappings": [
+      {
+        "topicAttribute": "Good_Parts",
+        "smAttribute": "Good_Parts"
+      },
+      {
+        "topicAttribute": "Scrap_Parts",
+        "smAttribute": "Scrap_Parts"
+      },
+      {
+        "topicAttribute": "Production_Order",
+        "smAttribute": "Production_Order"
+      },
+      {
+        "topicAttribute": "Article_ID",
+        "smAttribute": "Article_ID"
+      },
+      {
+        "topicAttribute": "Mould_ID",
+        "smAttribute": "Mould_ID"
+      },
+      {
+        "topicAttribute": "Quality",
+        "smAttribute": "Quality"
+      },
+      {
+        "topicAttribute": "Time_Cycle_Actual",
+        "smAttribute": "Time_Cycle_Actual"
+      },
+      {
+        "topicAttribute": "Time_Cycle_Planned",
+        "smAttribute": "Time_Cycle_Planned"
+      },
+      {
+        "topicAttribute": "Time_Dosing_Set",
+        "smAttribute": "Time_Dosing_Set"
+      },
+      {
+        "topicAttribute": "Time_Filling_Set",
+        "smAttribute": "Time_Filling_Set"
+      },
+      {
+        "topicAttribute": "Time_Holding_Set",
+        "smAttribute": "Time_Holding_Set"
+      },
+      {
+        "topicAttribute": "Time_Cooling_Set",
+        "smAttribute": "Time_Cooling_Set"
+      },
+      {
+        "topicAttribute": "Time_Mould_Open",
+        "smAttribute": "Time_Mould_Open"
+      },
+      {
+        "topicAttribute": "Time_Mould_Close",
+        "smAttribute": "Time_Mould_Close"
+      },
+      {
+        "topicAttribute": "Time_Ejection",
+        "smAttribute": "Time_Ejection"
+      },
+      {
+        "topicAttribute": "Time_Injection",
+        "smAttribute": "Time_Injection"
+      },
+      {
+        "topicAttribute": "Time_Plasticizing",
+        "smAttribute": "Time_Plasticizing"
+      },
+      {
+        "topicAttribute": "Time_Pause",
+        "smAttribute": "Time_Pause"
+      },
+      {
+        "topicAttribute": "Pressure_Holding_Set",
+        "smAttribute": "Pressure_Holding_Set"
+      },
+      {
+        "topicAttribute": "Pressure_Injection_Max_Set",
+        "smAttribute": "Pressure_Injection_Max_Set"
+      },
+      {
+        "topicAttribute": "Pressure_Injection_Switch_Set",
+        "smAttribute": "Pressure_Injection_Switch_Set"
+      },
+      {
+        "topicAttribute": "Pressure_Back_Set",
+        "smAttribute": "Pressure_Back_Set"
+      },
+      {
+        "topicAttribute": "Pressure_Oil",
+        "smAttribute": "Pressure_Oil"
+      },
+      {
+        "topicAttribute": "Volume_Shot_Set",
+        "smAttribute": "Volume_Shot_Set"
+      },
+      {
+        "topicAttribute": "Volume_Cushion_Set",
+        "smAttribute": "Volume_Cushion_Set"
+      },
+      {
+        "topicAttribute": "Speed_Injection_Set",
+        "smAttribute": "Speed_Injection_Set"
+      },
+      {
+        "topicAttribute": "Speed_Screw_RPM_Set",
+        "smAttribute": "Speed_Screw_RPM_Set"
+      },
+      {
+        "topicAttribute": "Speed_Mould_Open_Set",
+        "smAttribute": "Speed_Mould_Open_Set"
+      },
+      {
+        "topicAttribute": "Speed_Mould_Close_Set",
+        "smAttribute": "Speed_Mould_Close_Set"
+      },
+      {
+        "topicAttribute": "Speed_Ejector_Set",
+        "smAttribute": "Speed_Ejector_Set"
+      },
+      {
+        "topicAttribute": "Position_Screw_Dosing_Set",
+        "smAttribute": "Position_Screw_Dosing_Set"
+      },
+      {
+        "topicAttribute": "Position_Screw_Switch_Set",
+        "smAttribute": "Position_Screw_Switch_Set"
+      },
+      {
+        "topicAttribute": "Position_Screw_Decompress_Set",
+        "smAttribute": "Position_Screw_Decompress_Set"
+      },
+      {
+        "topicAttribute": "Position_Mould_Open_Set",
+        "smAttribute": "Position_Mould_Open_Set"
+      },
+      {
+        "topicAttribute": "Position_Ejector_Set",
+        "smAttribute": "Position_Ejector_Set"
+      },
+      {
+        "topicAttribute": "Energy_Total_kWh",
+        "smAttribute": "Energy_Total_kWh"
+      },
+      {
+        "topicAttribute": "Energy_Heating_kWh",
+        "smAttribute": "Energy_Heating_kWh"
+      },
+      {
+        "topicAttribute": "Energy_Drive_kWh",
+        "smAttribute": "Energy_Drive_kWh"
+      }
+    ]
+  },
+  "machineIdResolution": {
+    "strategy": "topic-segment",
+    "segment": 4
+  },
+  "profileRef": "SMProfile-InjectionMoldingMachine"
+}
