@@ -1,0 +1,128 @@
+{
+  "syncId": "Sync-UNS-BZ-3",
+  "version": "1.0.0",
+  "syncType": "mqtt",
+  "broker": {
+    "host": "mqtt-raw",
+    "port": 1883
+  },
+  "topicStructure": {
+    "pattern": "ZeroGuess/Homelab/FFS/FFS-Linie/BZ-3/+/+",
+    "segments": {
+      "enterprise": {
+        "index": 0
+      },
+      "site": {
+        "index": 1
+      },
+      "area": {
+        "index": 2
+      },
+      "line": {
+        "index": 3
+      },
+      "machineId": {
+        "index": 4
+      },
+      "domain": {
+        "index": 5
+      },
+      "attribute": {
+        "index": 6
+      }
+    },
+    "subscribeFilter": "ZeroGuess/Homelab/FFS/FFS-Linie/BZ-3/#/#"
+  },
+  "payloadSchema": {
+    "format": "json",
+    "valuePath": "$.value",
+    "timestampPath": "$.ts",
+    "timestampFormat": "ISO8601"
+  },
+  "attributeMapping": {
+    "strategy": "topic-segments",
+    "mappings": [
+      {
+        "topicAttribute": "Machine_Status",
+        "smAttribute": "Machine_Status"
+      },
+      {
+        "topicAttribute": "Machine_Status_Text",
+        "smAttribute": "Machine_Status_Text"
+      },
+      {
+        "topicAttribute": "Good_Parts",
+        "smAttribute": "Good_Parts"
+      },
+      {
+        "topicAttribute": "Scrap_Parts",
+        "smAttribute": "Scrap_Parts"
+      },
+      {
+        "topicAttribute": "Rework_Parts",
+        "smAttribute": "Rework_Parts"
+      },
+      {
+        "topicAttribute": "Cycle_Time_Planned",
+        "smAttribute": "Cycle_Time_Planned"
+      },
+      {
+        "topicAttribute": "Cycle_Time_Actual",
+        "smAttribute": "Cycle_Time_Actual"
+      },
+      {
+        "topicAttribute": "Power_kW",
+        "smAttribute": "Power_kW"
+      },
+      {
+        "topicAttribute": "Energy_kWh",
+        "smAttribute": "Energy_kWh"
+      },
+      {
+        "topicAttribute": "Production_Order",
+        "smAttribute": "Production_Order"
+      },
+      {
+        "topicAttribute": "Article_ID",
+        "smAttribute": "Article_ID"
+      },
+      {
+        "topicAttribute": "Tool_ID",
+        "smAttribute": "Tool_ID"
+      },
+      {
+        "topicAttribute": "Shift_Number",
+        "smAttribute": "Shift_Number"
+      },
+      {
+        "topicAttribute": "Operator_ID",
+        "smAttribute": "Operator_ID"
+      },
+      {
+        "topicAttribute": "Spindle_RPM",
+        "smAttribute": "Spindle_RPM"
+      },
+      {
+        "topicAttribute": "Feed_Rate",
+        "smAttribute": "Feed_Rate"
+      },
+      {
+        "topicAttribute": "Tool_Wear_Pct",
+        "smAttribute": "Tool_Wear_Pct"
+      },
+      {
+        "topicAttribute": "Active_GCode",
+        "smAttribute": "Active_GCode"
+      },
+      {
+        "topicAttribute": "Program_Line",
+        "smAttribute": "Program_Line"
+      }
+    ]
+  },
+  "machineIdResolution": {
+    "strategy": "topic-segment",
+    "segment": 4
+  },
+  "profileRef": "SMProfile-FFS-Cell"
+}
