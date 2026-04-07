@@ -1,0 +1,30 @@
+{
+  "profileId": "SMProfile-EnergyMeter",
+  "version": "1.0.0",
+  "standard": "CESMII",
+  "displayName": "Energy Meter (Energiezähler)",
+  "description": "Energiezähler — electrical power monitoring via Modbus TCP (Siemens PAC, Janitza, Socomec)",
+  "parentType": null,
+  "attributes": [
+    { "name": "Voltage_L1", "dataType": "Float", "unit": "V", "category": "Electrical", "description": "Phase L1 voltage" },
+    { "name": "Voltage_L2", "dataType": "Float", "unit": "V", "category": "Electrical" },
+    { "name": "Voltage_L3", "dataType": "Float", "unit": "V", "category": "Electrical" },
+    { "name": "Current_L1", "dataType": "Float", "unit": "A", "category": "Electrical", "description": "Phase L1 current" },
+    { "name": "Current_L2", "dataType": "Float", "unit": "A", "category": "Electrical" },
+    { "name": "Current_L3", "dataType": "Float", "unit": "A", "category": "Electrical" },
+    { "name": "Power_Active_Total", "dataType": "Float", "unit": "kW", "category": "Power", "description": "Total active power" },
+    { "name": "Power_Reactive_Total", "dataType": "Float", "unit": "kvar", "category": "Power" },
+    { "name": "Power_Apparent_Total", "dataType": "Float", "unit": "kVA", "category": "Power" },
+    { "name": "Power_Factor", "dataType": "Float", "unit": "", "category": "Power", "description": "cos(phi)" },
+    { "name": "Frequency", "dataType": "Float", "unit": "Hz", "category": "Power" },
+    { "name": "Energy_Active_Total", "dataType": "Float", "unit": "kWh", "category": "Energy", "description": "Total active energy consumed" },
+    { "name": "Energy_Reactive_Total", "dataType": "Float", "unit": "kvarh", "category": "Energy" },
+    { "name": "Demand_Power_Max", "dataType": "Float", "unit": "kW", "category": "Demand", "description": "Maximum demand power" }
+  ],
+  "relationships": [
+    { "type": "MONITORS", "target": "Machine", "description": "Machine being monitored" }
+  ],
+  "kgNodeLabel": "EnergyMeter",
+  "kgIdProperty": "machine_id",
+  "deviceClass": "Energy Meter"
+}
