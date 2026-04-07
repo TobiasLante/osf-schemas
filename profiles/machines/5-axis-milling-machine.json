@@ -1,15 +1,20 @@
 {
   "profileId": "SMProfile-5AxisMillingMachine",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "standard": "CESMII",
   "displayName": "5-Axis Milling Machine (5-Achs-Fräsmaschine)",
-  "description": "5-Achs-Fräsmaschine — simultaneous 5-axis machining for complex freeform surfaces",
-  "parentType": "Machine",
-  "attributes": [],
+  "description": "5-Achs-Fräsmaschine — simultaneous 5-axis machining for complex freeform surfaces. Inherits Milling + 2 rotary axes.",
+  "parentType": "MillingMachine",
+  "attributes": [
+    { "name": "Axis_A_Actual", "dataType": "Float", "unit": "deg", "category": "ProcessData.Axes", "description": "A rotary axis actual position" },
+    { "name": "Axis_A_Set", "dataType": "Float", "unit": "deg", "category": "ProcessData.Axes" },
+    { "name": "Axis_C_Actual", "dataType": "Float", "unit": "deg", "category": "ProcessData.Axes", "description": "C rotary axis actual position" },
+    { "name": "Axis_C_Set", "dataType": "Float", "unit": "deg", "category": "ProcessData.Axes" }
+  ],
   "relationships": [],
   "kgNodeLabel": "FiveAxisMillingMachine",
   "kgIdProperty": "machine_id",
-  "companionSpec": "OPC40001-1",
+  "companionSpec": "OPC40077-CNC",
   "opcuaTypeDefinition": "CNC_MachineType",
   "deviceClass": "CNC Machine"
 }

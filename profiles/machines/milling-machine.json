@@ -1,15 +1,19 @@
 {
   "profileId": "SMProfile-MillingMachine",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "standard": "CESMII",
   "displayName": "Milling Machine (Fräsmaschine)",
-  "description": "Fräsmaschine — 3-axis milling for prismatic parts, pockets, contours",
-  "parentType": "Machine",
-  "attributes": [],
+  "description": "Fräsmaschine — 3-axis milling for prismatic parts, pockets, contours. Inherits CNC process data + milling-specific attributes.",
+  "parentType": "CNC-Machine",
+  "attributes": [
+    { "name": "Cutter_Diameter_mm", "dataType": "Float", "unit": "mm", "category": "ProcessData.Milling", "description": "Active cutter diameter" },
+    { "name": "Depth_Of_Cut_mm", "dataType": "Float", "unit": "mm", "category": "ProcessData.Milling", "description": "Depth of cut per pass" },
+    { "name": "Width_Of_Cut_mm", "dataType": "Float", "unit": "mm", "category": "ProcessData.Milling", "description": "Radial width of cut" }
+  ],
   "relationships": [],
   "kgNodeLabel": "MillingMachine",
   "kgIdProperty": "machine_id",
-  "companionSpec": "OPC40001-1",
+  "companionSpec": "OPC40077-CNC",
   "opcuaTypeDefinition": "CNC_MachineType",
   "deviceClass": "CNC Machine"
 }

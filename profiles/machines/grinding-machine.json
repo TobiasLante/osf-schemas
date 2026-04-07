@@ -1,15 +1,20 @@
 {
   "profileId": "SMProfile-GrindingMachine",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "standard": "CESMII",
   "displayName": "Grinding Machine (Schleifmaschine)",
-  "description": "Schleifmaschine — precision surface and cylindrical grinding for finishing operations",
-  "parentType": "Machine",
-  "attributes": [],
+  "description": "Schleifmaschine — precision surface and cylindrical grinding. Inherits CNC process data + grinding-specific attributes.",
+  "parentType": "CNC-Machine",
+  "attributes": [
+    { "name": "Wheel_Speed_RPM", "dataType": "Float", "unit": "rpm", "category": "ProcessData.Grinding", "description": "Grinding wheel speed" },
+    { "name": "Wheel_Diameter_mm", "dataType": "Float", "unit": "mm", "category": "ProcessData.Grinding", "description": "Current wheel diameter (decreases with dressing)" },
+    { "name": "Surface_Roughness_Ra", "dataType": "Float", "unit": "um", "category": "ProcessData.Grinding", "description": "Surface roughness Ra (measured or estimated)" },
+    { "name": "Dressing_Cycles", "dataType": "Int32", "category": "ProcessData.Grinding", "description": "Dressing cycle counter" }
+  ],
   "relationships": [],
   "kgNodeLabel": "GrindingMachine",
   "kgIdProperty": "machine_id",
-  "companionSpec": "OPC40001-1",
+  "companionSpec": "OPC40077-CNC",
   "opcuaTypeDefinition": "CNC_MachineType",
   "deviceClass": "CNC Machine"
 }
