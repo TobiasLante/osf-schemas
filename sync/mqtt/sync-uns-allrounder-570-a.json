@@ -1,0 +1,244 @@
+{
+  "syncId": "Sync-UNS-Allrounder-570-A",
+  "version": "1.0.0",
+  "syncType": "mqtt",
+  "broker": {
+    "host": "mqtt-raw",
+    "port": 1883
+  },
+  "topicStructure": {
+    "pattern": "Enterprise/Site/Halle 3/Linie 2/Allrounder-570-A/+/+",
+    "segments": {
+      "enterprise": {
+        "index": 0
+      },
+      "site": {
+        "index": 1
+      },
+      "area": {
+        "index": 2
+      },
+      "line": {
+        "index": 3
+      },
+      "machineId": {
+        "index": 4
+      },
+      "domain": {
+        "index": 5
+      },
+      "attribute": {
+        "index": 6
+      }
+    },
+    "subscribeFilter": "Enterprise/Site/Halle 3/Linie 2/Allrounder-570-A/#/#"
+  },
+  "payloadSchema": {
+    "format": "json",
+    "valuePath": "$.value",
+    "timestampPath": "$.ts",
+    "timestampFormat": "ISO8601"
+  },
+  "attributeMapping": {
+    "strategy": "topic-segments",
+    "mappings": [
+      {
+        "topicAttribute": "Machine_Status",
+        "smAttribute": "Machine_Status"
+      },
+      {
+        "topicAttribute": "Machine_Status_Text",
+        "smAttribute": "Machine_Status_Text"
+      },
+      {
+        "topicAttribute": "Good_Parts",
+        "smAttribute": "Good_Parts"
+      },
+      {
+        "topicAttribute": "Scrap_Parts",
+        "smAttribute": "Scrap_Parts"
+      },
+      {
+        "topicAttribute": "Rework_Parts",
+        "smAttribute": "Rework_Parts"
+      },
+      {
+        "topicAttribute": "Cycle_Time_Planned",
+        "smAttribute": "Cycle_Time_Planned"
+      },
+      {
+        "topicAttribute": "Cycle_Time_Actual",
+        "smAttribute": "Cycle_Time_Actual"
+      },
+      {
+        "topicAttribute": "Power_kW",
+        "smAttribute": "Power_kW"
+      },
+      {
+        "topicAttribute": "Energy_kWh",
+        "smAttribute": "Energy_kWh"
+      },
+      {
+        "topicAttribute": "Production_Order",
+        "smAttribute": "Production_Order"
+      },
+      {
+        "topicAttribute": "Article_ID",
+        "smAttribute": "Article_ID"
+      },
+      {
+        "topicAttribute": "Tool_ID",
+        "smAttribute": "Tool_ID"
+      },
+      {
+        "topicAttribute": "Shift_Number",
+        "smAttribute": "Shift_Number"
+      },
+      {
+        "topicAttribute": "Operator_ID",
+        "smAttribute": "Operator_ID"
+      },
+      {
+        "topicAttribute": "NamespaceUri",
+        "smAttribute": "NamespaceUri"
+      },
+      {
+        "topicAttribute": "NamespaceUri",
+        "smAttribute": "NamespaceUri"
+      },
+      {
+        "topicAttribute": "NodeVersion",
+        "smAttribute": "NodeVersion"
+      },
+      {
+        "topicAttribute": "ContinueAtJobEnd",
+        "smAttribute": "ContinueAtJobEnd"
+      },
+      {
+        "topicAttribute": "ExpectedCycleTime",
+        "smAttribute": "ExpectedCycleTime"
+      },
+      {
+        "topicAttribute": "ContinueAtJobEnd",
+        "smAttribute": "ContinueAtJobEnd"
+      },
+      {
+        "topicAttribute": "ExpectedCycleTime",
+        "smAttribute": "ExpectedCycleTime"
+      },
+      {
+        "topicAttribute": "LocationName",
+        "smAttribute": "LocationName"
+      },
+      {
+        "topicAttribute": "DeviceClass",
+        "smAttribute": "DeviceClass"
+      },
+      {
+        "topicAttribute": "Manufacturer",
+        "smAttribute": "Manufacturer"
+      },
+      {
+        "topicAttribute": "Model",
+        "smAttribute": "Model"
+      },
+      {
+        "topicAttribute": "ProductInstanceUri",
+        "smAttribute": "ProductInstanceUri"
+      },
+      {
+        "topicAttribute": "SerialNumber",
+        "smAttribute": "SerialNumber"
+      },
+      {
+        "topicAttribute": "Id",
+        "smAttribute": "Id"
+      },
+      {
+        "topicAttribute": "Message",
+        "smAttribute": "Message"
+      },
+      {
+        "topicAttribute": "Severity",
+        "smAttribute": "Severity"
+      },
+      {
+        "topicAttribute": "Id",
+        "smAttribute": "Id"
+      },
+      {
+        "topicAttribute": "Message",
+        "smAttribute": "Message"
+      },
+      {
+        "topicAttribute": "Severity",
+        "smAttribute": "Severity"
+      },
+      {
+        "topicAttribute": "NodeVersion",
+        "smAttribute": "NodeVersion"
+      },
+      {
+        "topicAttribute": "NodeVersion",
+        "smAttribute": "NodeVersion"
+      },
+      {
+        "topicAttribute": "NodeVersion",
+        "smAttribute": "NodeVersion"
+      },
+      {
+        "topicAttribute": "Information",
+        "smAttribute": "Information"
+      },
+      {
+        "topicAttribute": "Information",
+        "smAttribute": "Information"
+      },
+      {
+        "topicAttribute": "NodeVersion",
+        "smAttribute": "NodeVersion"
+      },
+      {
+        "topicAttribute": "NodeVersion",
+        "smAttribute": "NodeVersion"
+      },
+      {
+        "topicAttribute": "NodeVersion",
+        "smAttribute": "NodeVersion"
+      },
+      {
+        "topicAttribute": "IsNamespaceSubset",
+        "smAttribute": "IsNamespaceSubset"
+      },
+      {
+        "topicAttribute": "NamespacePublicationDate",
+        "smAttribute": "NamespacePublicationDate"
+      },
+      {
+        "topicAttribute": "NamespaceUri",
+        "smAttribute": "NamespaceUri"
+      },
+      {
+        "topicAttribute": "NamespaceVersion",
+        "smAttribute": "NamespaceVersion"
+      },
+      {
+        "topicAttribute": "StaticNodeIdTypes",
+        "smAttribute": "StaticNodeIdTypes"
+      },
+      {
+        "topicAttribute": "StaticNumericNodeIdRange",
+        "smAttribute": "StaticNumericNodeIdRange"
+      },
+      {
+        "topicAttribute": "StaticStringNodeIdPattern",
+        "smAttribute": "StaticStringNodeIdPattern"
+      }
+    ]
+  },
+  "machineIdResolution": {
+    "strategy": "topic-segment",
+    "segment": 4
+  },
+  "profileRef": "SMProfile-InjectionMouldingMachine"
+}
