@@ -1,0 +1,64 @@
+{
+  "flowSchemaId": "Flow-OpcUA-UNS-Standard",
+  "version": "1.0.0",
+  "name": "OPC-UA → UNS MQTT (Standard)",
+  "description": "Standard flow: reads OPC-UA tags periodically, transforms to UNS payload, publishes to MQTT broker",
+
+  "sourceRefs": ["$sourceId"],
+  "syncRef": "#shared.uns",
+  "profileRef": "$profileRef",
+
+  "processors": [
+    {
+      "id": "trigger",
+      "type": "injectProcessor",
+      "name": "Trigger",
+      "description": "Periodic trigger for OPC-UA reads",
+      "configuration": {
+        "interval": 5000,
+        "executionTime": null,
+        "payload": "",
+        "selectedTimeModel": "seconds"
+      }
+    },
+    {
+      "id": "opcua-read",
+      "type": "OpcuaReadTag",
+      "name": "OPC UA Read",
+      "description": "Read all mapped OPC-UA tags from machine",
+      "connectionRef": "$sourceId",
+      "configuration": {}
+    },
+    {
+      "id": "transform",
+      "type": "Javascript",
+      "name": "UNS Transform",
+      "description": "Transform OPC-UA values to UNS payload format (from Sync Schema)",
+      "syncRef": "#shared.uns",
+      "configuration": {}
+    },
+    {
+      "id": "mqtt-publish",
+      "type": "MQTTConnectionActions",
+      "name": "MQTT Publish",
+      "description": "Publish to MQTT broker",
+      "connectionRef": "mqtt-k8s",
+      "configuration": {
+        "action": "Publish",
+        "qos": 0,
+        "retain": false
+      }
+    }
+  ],
+
+  "wiring": [
+    {"from": "trigger", "to": "opcua-read"},
+    {"from": "opcua-read", "to": "transform"},
+    {"from": "transform", "to": "mqtt-publish"}
+  ],
+
+  "schedule": {
+    "interval": 5,
+    "unit": "seconds"
+  }
+}
