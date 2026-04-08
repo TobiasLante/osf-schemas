@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-StorageLocation",
-  "version": "1.1.0",
+  "version": "1.4.0",
   "standard": "CESMII",
   "displayName": "Storage Location (Lagerplatz)",
   "description": "Physical warehouse bin — zone/aisle/rack/shelf",
@@ -9,44 +9,52 @@
     {
       "name": "location_key",
       "dataType": "String",
-      "category": "Core"
+      "category": "Core",
+      "polling": "subscribe"
     },
     {
       "name": "warehouse",
       "dataType": "String",
-      "category": "Core"
+      "category": "Core",
+      "polling": "subscribe"
     },
     {
       "name": "zone",
       "dataType": "String",
-      "category": "Core"
+      "category": "Core",
+      "polling": "subscribe"
     },
     {
       "name": "zone_name",
       "dataType": "String",
-      "category": "Core"
+      "category": "Core",
+      "polling": "subscribe"
     },
     {
       "name": "capacity_max",
       "dataType": "Float",
-      "category": "Capacity"
+      "category": "Capacity",
+      "polling": "subscribe"
     },
     {
       "name": "capacity_used",
       "dataType": "Float",
-      "category": "Capacity"
+      "category": "Capacity",
+      "polling": "subscribe"
     },
     {
       "name": "type",
       "dataType": "String",
       "category": "Core",
-      "description": "STANDARD, BLOCK, KOMMISSION, PUFFER"
+      "description": "STANDARD, BLOCK, KOMMISSION, PUFFER",
+      "polling": "subscribe"
     },
     {
       "name": "status",
       "dataType": "String",
       "category": "Core",
-      "description": "FREI, BELEGT, TEILBELEGT, GESPERRT"
+      "description": "FREI, BELEGT, TEILBELEGT, GESPERRT",
+      "polling": "subscribe"
     }
   ],
   "relationships": [

@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-Routing",
-  "version": "1.1.0",
+  "version": "1.4.0",
   "standard": "CESMII",
   "displayName": "Routing (Arbeitsplan)",
   "description": "Manufacturing routing — sequence of operations for producing an article",
@@ -9,49 +9,58 @@
     {
       "name": "routing_no",
       "dataType": "String",
-      "category": "Core"
+      "category": "Core",
+      "polling": "subscribe"
     },
     {
       "name": "article_no",
       "dataType": "String",
-      "category": "Core"
+      "category": "Core",
+      "polling": "subscribe"
     },
     {
       "name": "article_name",
       "dataType": "String",
-      "category": "Core"
+      "category": "Core",
+      "polling": "subscribe"
     },
     {
       "name": "operation_no",
       "dataType": "Int32",
-      "category": "Core"
+      "category": "Core",
+      "polling": "subscribe"
     },
     {
       "name": "operation_name",
       "dataType": "String",
-      "category": "Core"
+      "category": "Core",
+      "polling": "subscribe"
     },
     {
       "name": "machine",
       "dataType": "String",
-      "category": "Core"
+      "category": "Core",
+      "polling": "subscribe"
     },
     {
       "name": "cycle_time_sec",
       "dataType": "Float",
       "category": "Planning",
-      "unit": "s"
+      "unit": "s",
+      "polling": "subscribe"
     },
     {
       "name": "setup_time_sec",
       "dataType": "Float",
       "category": "Planning",
-      "unit": "s"
+      "unit": "s",
+      "polling": "subscribe"
     },
     {
       "name": "pcs_per_cycle",
       "dataType": "Int32",
-      "category": "Planning"
+      "category": "Planning",
+      "polling": "subscribe"
     }
   ],
   "relationships": [

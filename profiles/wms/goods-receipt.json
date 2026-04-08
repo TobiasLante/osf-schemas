@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-GoodsReceipt",
-  "version": "1.1.0",
+  "version": "1.4.0",
   "standard": "CESMII",
   "displayName": "Goods Receipt (Wareneingangsavis)",
   "description": "Notification of incoming goods from production or procurement",
@@ -9,49 +9,58 @@
     {
       "name": "avis_nr",
       "dataType": "String",
-      "category": "Core"
+      "category": "Core",
+      "polling": "subscribe"
     },
     {
       "name": "article_no",
       "dataType": "String",
-      "category": "Core"
+      "category": "Core",
+      "polling": "subscribe"
     },
     {
       "name": "article_name",
       "dataType": "String",
-      "category": "Core"
+      "category": "Core",
+      "polling": "subscribe"
     },
     {
       "name": "quantity",
       "dataType": "Float",
-      "category": "Core"
+      "category": "Core",
+      "polling": "subscribe"
     },
     {
       "name": "origin_type",
       "dataType": "String",
       "category": "Traceability",
-      "description": "FERTIGUNG or EINKAUF"
+      "description": "FERTIGUNG or EINKAUF",
+      "polling": "subscribe"
     },
     {
       "name": "origin_ref",
       "dataType": "String",
-      "category": "Traceability"
+      "category": "Traceability",
+      "polling": "subscribe"
     },
     {
       "name": "origin_machine",
       "dataType": "String",
-      "category": "Traceability"
+      "category": "Traceability",
+      "polling": "subscribe"
     },
     {
       "name": "status",
       "dataType": "String",
       "category": "Core",
-      "description": "OFFEN, IN_BEARBEITUNG, EINGELAGERT"
+      "description": "OFFEN, IN_BEARBEITUNG, EINGELAGERT",
+      "polling": "subscribe"
     },
     {
       "name": "target_warehouse",
       "dataType": "String",
-      "category": "Location"
+      "category": "Location",
+      "polling": "subscribe"
     }
   ],
   "relationships": [

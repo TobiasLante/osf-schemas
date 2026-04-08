@@ -1,19 +1,47 @@
 {
   "profileId": "SMProfile-ProductionLine",
-  "version": "1.0.0",
+  "version": "1.4.0",
   "standard": "CESMII",
   "displayName": "Production Line (Fertigungslinie)",
   "description": "ISA-95 Level 2 — a line of machines/work centers within an area",
   "parentType": null,
   "attributes": [
-    { "name": "name", "dataType": "String", "category": "Core" },
-    { "name": "description", "dataType": "String", "category": "Core" },
-    { "name": "line_type", "dataType": "String", "category": "Classification", "description": "e.g. CNC, Assembly, Injection, FFS" },
-    { "name": "capacity_units_per_hour", "dataType": "Float", "category": "Capacity", "unit": "pcs/h" }
+    {
+      "name": "name",
+      "dataType": "String",
+      "category": "Core",
+      "polling": "subscribe"
+    },
+    {
+      "name": "description",
+      "dataType": "String",
+      "category": "Core",
+      "polling": "subscribe"
+    },
+    {
+      "name": "line_type",
+      "dataType": "String",
+      "category": "Classification",
+      "description": "e.g. CNC, Assembly, Injection, FFS",
+      "polling": "subscribe"
+    },
+    {
+      "name": "capacity_units_per_hour",
+      "dataType": "Float",
+      "category": "Capacity",
+      "unit": "pcs/h",
+      "polling": "subscribe"
+    }
   ],
   "relationships": [
-    { "type": "PART_OF", "target": "Area" },
-    { "type": "HAS_MACHINE", "target": "Machine" }
+    {
+      "type": "PART_OF",
+      "target": "Area"
+    },
+    {
+      "type": "HAS_MACHINE",
+      "target": "Machine"
+    }
   ],
   "kgNodeLabel": "ProductionLine",
   "kgIdProperty": "id"

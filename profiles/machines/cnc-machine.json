@@ -1,45 +1,220 @@
 {
   "profileId": "SMProfile-CNC-Machine",
-  "version": "2.0.0",
+  "version": "1.4.0",
   "standard": "CESMII",
   "displayName": "CNC Machine",
   "description": "CNC-Bearbeitungszentrum — OPC 40077 process data (spindle, feed, axes, tool, coolant, vibration)",
   "parentType": "Machine",
   "attributes": [
-    { "name": "Spindle_Speed_Actual", "dataType": "Float", "unit": "rpm", "category": "ProcessData.Spindle", "description": "Actual spindle speed" },
-    { "name": "Spindle_Speed_Set", "dataType": "Float", "unit": "rpm", "category": "ProcessData.Spindle", "description": "Target spindle speed" },
-    { "name": "Spindle_Load_Pct", "dataType": "Float", "unit": "%", "category": "ProcessData.Spindle", "description": "Spindle load percentage" },
-    { "name": "Spindle_Torque", "dataType": "Float", "unit": "Nm", "category": "ProcessData.Spindle", "description": "Spindle torque" },
-
-    { "name": "Feed_Rate_Actual", "dataType": "Float", "unit": "mm/min", "category": "ProcessData.Feed", "description": "Actual feed rate" },
-    { "name": "Feed_Rate_Set", "dataType": "Float", "unit": "mm/min", "category": "ProcessData.Feed", "description": "Target feed rate" },
-    { "name": "Feed_Override_Pct", "dataType": "Float", "unit": "%", "category": "ProcessData.Feed", "description": "Feed override percentage" },
-
-    { "name": "Axis_X_Actual", "dataType": "Float", "unit": "mm", "category": "ProcessData.Axes", "description": "X axis actual position" },
-    { "name": "Axis_X_Set", "dataType": "Float", "unit": "mm", "category": "ProcessData.Axes" },
-    { "name": "Axis_Y_Actual", "dataType": "Float", "unit": "mm", "category": "ProcessData.Axes", "description": "Y axis actual position" },
-    { "name": "Axis_Y_Set", "dataType": "Float", "unit": "mm", "category": "ProcessData.Axes" },
-    { "name": "Axis_Z_Actual", "dataType": "Float", "unit": "mm", "category": "ProcessData.Axes", "description": "Z axis actual position" },
-    { "name": "Axis_Z_Set", "dataType": "Float", "unit": "mm", "category": "ProcessData.Axes" },
-
-    { "name": "Tool_Number", "dataType": "Int32", "category": "ProcessData.Tool", "description": "Active tool number" },
-    { "name": "Tool_Wear_Pct", "dataType": "Float", "unit": "%", "category": "ProcessData.Tool", "description": "Tool wear percentage" },
-    { "name": "Tool_Life_Remaining_Min", "dataType": "Float", "unit": "min", "category": "ProcessData.Tool", "description": "Remaining tool life" },
-
-    { "name": "Active_Program", "dataType": "String", "category": "ProcessData.Program", "description": "Active NC program (G-Code)" },
-    { "name": "Program_Line", "dataType": "Int32", "category": "ProcessData.Program", "description": "Current program line number" },
-    { "name": "Program_Status", "dataType": "String", "category": "ProcessData.Program", "description": "Program execution status" },
-
-    { "name": "Coolant_Flow_LPM", "dataType": "Float", "unit": "l/min", "category": "ProcessData.Coolant", "description": "Coolant flow rate" },
-    { "name": "Coolant_Temp", "dataType": "Float", "unit": "°C", "category": "ProcessData.Coolant", "description": "Coolant temperature" },
-    { "name": "Coolant_Pressure_Bar", "dataType": "Float", "unit": "bar", "category": "ProcessData.Coolant", "description": "Coolant pressure" },
-
-    { "name": "Vibration_X", "dataType": "Float", "unit": "mm/s", "category": "ProcessData.Vibration", "description": "X-axis vibration RMS" },
-    { "name": "Vibration_Y", "dataType": "Float", "unit": "mm/s", "category": "ProcessData.Vibration", "description": "Y-axis vibration RMS" },
-    { "name": "Vibration_Z", "dataType": "Float", "unit": "mm/s", "category": "ProcessData.Vibration", "description": "Z-axis vibration RMS" },
-
-    { "name": "Power_Spindle_kW", "dataType": "Float", "unit": "kW", "category": "ProcessData.Energy", "description": "Spindle power consumption" },
-    { "name": "Energy_Cycle_kWh", "dataType": "Float", "unit": "kWh", "category": "ProcessData.Energy", "description": "Energy per cycle" }
+    {
+      "name": "Spindle_Speed_Actual",
+      "dataType": "Float",
+      "unit": "rpm",
+      "category": "ProcessData.Spindle",
+      "description": "Actual spindle speed",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Spindle_Speed_Set",
+      "dataType": "Float",
+      "unit": "rpm",
+      "category": "ProcessData.Spindle",
+      "description": "Target spindle speed",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Spindle_Load_Pct",
+      "dataType": "Float",
+      "unit": "%",
+      "category": "ProcessData.Spindle",
+      "description": "Spindle load percentage",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Spindle_Torque",
+      "dataType": "Float",
+      "unit": "Nm",
+      "category": "ProcessData.Spindle",
+      "description": "Spindle torque",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Feed_Rate_Actual",
+      "dataType": "Float",
+      "unit": "mm/min",
+      "category": "ProcessData.Feed",
+      "description": "Actual feed rate",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Feed_Rate_Set",
+      "dataType": "Float",
+      "unit": "mm/min",
+      "category": "ProcessData.Feed",
+      "description": "Target feed rate",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Feed_Override_Pct",
+      "dataType": "Float",
+      "unit": "%",
+      "category": "ProcessData.Feed",
+      "description": "Feed override percentage",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Axis_X_Actual",
+      "dataType": "Float",
+      "unit": "mm",
+      "category": "ProcessData.Axes",
+      "description": "X axis actual position",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Axis_X_Set",
+      "dataType": "Float",
+      "unit": "mm",
+      "category": "ProcessData.Axes",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Axis_Y_Actual",
+      "dataType": "Float",
+      "unit": "mm",
+      "category": "ProcessData.Axes",
+      "description": "Y axis actual position",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Axis_Y_Set",
+      "dataType": "Float",
+      "unit": "mm",
+      "category": "ProcessData.Axes",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Axis_Z_Actual",
+      "dataType": "Float",
+      "unit": "mm",
+      "category": "ProcessData.Axes",
+      "description": "Z axis actual position",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Axis_Z_Set",
+      "dataType": "Float",
+      "unit": "mm",
+      "category": "ProcessData.Axes",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Tool_Number",
+      "dataType": "Int32",
+      "category": "ProcessData.Tool",
+      "description": "Active tool number",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Tool_Wear_Pct",
+      "dataType": "Float",
+      "unit": "%",
+      "category": "ProcessData.Tool",
+      "description": "Tool wear percentage",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Tool_Life_Remaining_Min",
+      "dataType": "Float",
+      "unit": "min",
+      "category": "ProcessData.Tool",
+      "description": "Remaining tool life",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Active_Program",
+      "dataType": "String",
+      "category": "ProcessData.Program",
+      "description": "Active NC program (G-Code)",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Program_Line",
+      "dataType": "Int32",
+      "category": "ProcessData.Program",
+      "description": "Current program line number",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Program_Status",
+      "dataType": "String",
+      "category": "ProcessData.Program",
+      "description": "Program execution status",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Coolant_Flow_LPM",
+      "dataType": "Float",
+      "unit": "l/min",
+      "category": "ProcessData.Coolant",
+      "description": "Coolant flow rate",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Coolant_Temp",
+      "dataType": "Float",
+      "unit": "°C",
+      "category": "ProcessData.Coolant",
+      "description": "Coolant temperature",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Coolant_Pressure_Bar",
+      "dataType": "Float",
+      "unit": "bar",
+      "category": "ProcessData.Coolant",
+      "description": "Coolant pressure",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Vibration_X",
+      "dataType": "Float",
+      "unit": "mm/s",
+      "category": "ProcessData.Vibration",
+      "description": "X-axis vibration RMS",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Vibration_Y",
+      "dataType": "Float",
+      "unit": "mm/s",
+      "category": "ProcessData.Vibration",
+      "description": "Y-axis vibration RMS",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Vibration_Z",
+      "dataType": "Float",
+      "unit": "mm/s",
+      "category": "ProcessData.Vibration",
+      "description": "Z-axis vibration RMS",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Power_Spindle_kW",
+      "dataType": "Float",
+      "unit": "kW",
+      "category": "ProcessData.Energy",
+      "description": "Spindle power consumption",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Energy_Cycle_kWh",
+      "dataType": "Float",
+      "unit": "kWh",
+      "category": "ProcessData.Energy",
+      "description": "Energy per cycle",
+      "polling": "subscribe"
+    }
   ],
   "relationships": [],
   "kgNodeLabel": "CNC_Machine",

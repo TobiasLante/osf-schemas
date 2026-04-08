@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-MaintenanceNotification",
-  "version": "1.1.0",
+  "version": "1.4.0",
   "standard": "CESMII",
   "displayName": "Maintenance Notification",
   "description": "Instandhaltungsmeldung (Störung/Wartung/Inspektion)",
@@ -9,42 +9,50 @@
     {
       "name": "machine_no",
       "dataType": "String",
-      "category": "Reference"
+      "category": "Reference",
+      "polling": "subscribe"
     },
     {
       "name": "notification_type",
       "dataType": "String",
-      "category": "Master"
+      "category": "Master",
+      "polling": "subscribe"
     },
     {
       "name": "priority",
       "dataType": "String",
-      "category": "Master"
+      "category": "Master",
+      "polling": "subscribe"
     },
     {
       "name": "status",
       "dataType": "String",
-      "category": "Status"
+      "category": "Status",
+      "polling": "subscribe"
     },
     {
       "name": "description",
       "dataType": "String",
-      "category": "Master"
+      "category": "Master",
+      "polling": "subscribe"
     },
     {
       "name": "downtime_minutes",
       "dataType": "Int32",
-      "category": "Impact"
+      "category": "Impact",
+      "polling": "subscribe"
     },
     {
       "name": "root_cause",
       "dataType": "String",
-      "category": "Analysis"
+      "category": "Analysis",
+      "polling": "subscribe"
     },
     {
       "name": "reported_by",
       "dataType": "String",
-      "category": "Master"
+      "category": "Master",
+      "polling": "subscribe"
     }
   ],
   "relationships": [

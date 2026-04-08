@@ -1,23 +1,82 @@
 {
   "profileId": "SMProfile-AssemblyLine",
-  "version": "2.0.0",
+  "version": "1.4.0",
   "standard": "CESMII",
   "displayName": "Assembly Line (Montage Linie)",
   "description": "Montage Linie — multi-station assembly with BOM material consumption, feeder management, takt time monitoring",
   "parentType": "Machine",
   "attributes": [
-    { "name": "Station_Count", "dataType": "Int32", "category": "ProcessData.Assembly", "description": "Number of active stations" },
-    { "name": "Takt_Time_Actual", "dataType": "Float", "unit": "s", "category": "ProcessData.Assembly", "description": "Actual takt time" },
-    { "name": "Takt_Time_Set", "dataType": "Float", "unit": "s", "category": "ProcessData.Assembly", "description": "Target takt time" },
-    { "name": "Line_Speed_Pct", "dataType": "Float", "unit": "%", "category": "ProcessData.Assembly", "description": "Line speed as percentage of max" },
-    { "name": "Buffer_Level", "dataType": "Int32", "category": "ProcessData.Assembly", "description": "Inter-station buffer fill level" },
-    { "name": "Feeder_Status", "dataType": "String", "category": "ProcessData.Assembly", "description": "Overall feeder status (OK/LOW/EMPTY)" },
-    { "name": "Stations_Running", "dataType": "Int32", "category": "ProcessData.Assembly", "description": "Number of stations currently producing" },
-    { "name": "Stations_Starving", "dataType": "Int32", "category": "ProcessData.Assembly", "description": "Number of stations waiting for material" }
+    {
+      "name": "Station_Count",
+      "dataType": "Int32",
+      "category": "ProcessData.Assembly",
+      "description": "Number of active stations",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Takt_Time_Actual",
+      "dataType": "Float",
+      "unit": "s",
+      "category": "ProcessData.Assembly",
+      "description": "Actual takt time",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Takt_Time_Set",
+      "dataType": "Float",
+      "unit": "s",
+      "category": "ProcessData.Assembly",
+      "description": "Target takt time",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Line_Speed_Pct",
+      "dataType": "Float",
+      "unit": "%",
+      "category": "ProcessData.Assembly",
+      "description": "Line speed as percentage of max",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Buffer_Level",
+      "dataType": "Int32",
+      "category": "ProcessData.Assembly",
+      "description": "Inter-station buffer fill level",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Feeder_Status",
+      "dataType": "String",
+      "category": "ProcessData.Assembly",
+      "description": "Overall feeder status (OK/LOW/EMPTY)",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Stations_Running",
+      "dataType": "Int32",
+      "category": "ProcessData.Assembly",
+      "description": "Number of stations currently producing",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Stations_Starving",
+      "dataType": "Int32",
+      "category": "ProcessData.Assembly",
+      "description": "Number of stations waiting for material",
+      "polling": "subscribe"
+    }
   ],
   "relationships": [
-    { "type": "ASSEMBLES", "target": "Article", "description": "Finished assembly product" },
-    { "type": "CONSUMES", "target": "Article", "description": "BOM components consumed during assembly" }
+    {
+      "type": "ASSEMBLES",
+      "target": "Article",
+      "description": "Finished assembly product"
+    },
+    {
+      "type": "CONSUMES",
+      "target": "Article",
+      "description": "BOM components consumed during assembly"
+    }
   ],
   "kgNodeLabel": "AssemblyLine",
   "kgIdProperty": "machine_id",

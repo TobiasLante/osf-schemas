@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-Machine",
-  "version": "1.2.0",
+  "version": "1.4.0",
   "standard": "CESMII",
   "displayName": "Machine (Abstract Parent)",
   "description": "Abstract parent profile for all machine types — defines common BDE attributes inherited by CNC, Milling, Lathe, Grinding, IMM, FFS, Assembly",
@@ -26,80 +26,94 @@
         3,
         4,
         5
-      ]
+      ],
+      "polling": "scan"
     },
     {
       "name": "Machine_Status_Text",
       "dataType": "String",
       "category": "BDE",
-      "description": "Human-readable status"
+      "description": "Human-readable status",
+      "polling": "scan"
     },
     {
       "name": "Good_Parts",
       "dataType": "Int32",
       "category": "BDE",
-      "description": "Good parts produced per cycle"
+      "description": "Good parts produced per cycle",
+      "polling": "scan"
     },
     {
       "name": "Scrap_Parts",
       "dataType": "Int32",
       "category": "BDE",
-      "description": "Scrap parts per cycle"
+      "description": "Scrap parts per cycle",
+      "polling": "scan"
     },
     {
       "name": "Rework_Parts",
       "dataType": "Int32",
       "category": "BDE",
-      "description": "Rework parts per cycle"
+      "description": "Rework parts per cycle",
+      "polling": "scan"
     },
     {
       "name": "Cycle_Time_Planned",
       "dataType": "Float",
       "category": "BDE",
-      "unit": "s"
+      "unit": "s",
+      "polling": "scan"
     },
     {
       "name": "Cycle_Time_Actual",
       "dataType": "Float",
       "category": "BDE",
-      "unit": "s"
+      "unit": "s",
+      "polling": "scan"
     },
     {
       "name": "Power_kW",
       "dataType": "Float",
       "category": "BDE",
-      "unit": "kW"
+      "unit": "kW",
+      "polling": "scan"
     },
     {
       "name": "Energy_kWh",
       "dataType": "Float",
       "category": "BDE",
-      "unit": "kWh"
+      "unit": "kWh",
+      "polling": "scan"
     },
     {
       "name": "Production_Order",
       "dataType": "String",
-      "category": "BDE"
+      "category": "BDE",
+      "polling": "scan"
     },
     {
       "name": "Article_ID",
       "dataType": "String",
-      "category": "BDE"
+      "category": "BDE",
+      "polling": "scan"
     },
     {
       "name": "Tool_ID",
       "dataType": "String",
-      "category": "BDE"
+      "category": "BDE",
+      "polling": "scan"
     },
     {
       "name": "Shift_Number",
       "dataType": "Int32",
-      "category": "BDE"
+      "category": "BDE",
+      "polling": "scan"
     },
     {
       "name": "Operator_ID",
       "dataType": "String",
-      "category": "BDE"
+      "category": "BDE",
+      "polling": "scan"
     }
   ],
   "relationships": [

@@ -1,27 +1,100 @@
 {
   "profileId": "SMProfile-ProductionOrder",
-  "version": "1.2.0",
+  "version": "1.4.0",
   "standard": "CESMII",
   "displayName": "Production Order (Fertigungsauftrag)",
   "description": "Manufacturing work order — planned, released, in-progress, or completed",
   "parentType": "Order",
   "attributes": [
-    { "name": "status", "dataType": "Int32", "category": "Core", "description": "1=Planned,2=Released,3=Active,4=Complete,5=Shipped", "enum": [1, 2, 3, 4, 5] },
-    { "name": "machine_no", "dataType": "String", "category": "Core" },
-    { "name": "article_no", "dataType": "String", "category": "Core" },
-    { "name": "article_name", "dataType": "String", "category": "Core" },
-    { "name": "planned_qty", "dataType": "Int32", "category": "Planning" },
-    { "name": "produced_qty", "dataType": "Int32", "category": "Planning" },
-    { "name": "planned_start", "dataType": "String", "category": "Planning" },
-    { "name": "planned_end", "dataType": "String", "category": "Planning" },
-    { "name": "tool_no", "dataType": "String", "category": "Tooling" },
-    { "name": "routing", "dataType": "String", "category": "Routing" },
-    { "name": "bom", "dataType": "String", "category": "BOM" }
+    {
+      "name": "status",
+      "dataType": "Int32",
+      "category": "Core",
+      "description": "1=Planned,2=Released,3=Active,4=Complete,5=Shipped",
+      "enum": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "polling": "subscribe"
+    },
+    {
+      "name": "machine_no",
+      "dataType": "String",
+      "category": "Core",
+      "polling": "subscribe"
+    },
+    {
+      "name": "article_no",
+      "dataType": "String",
+      "category": "Core",
+      "polling": "subscribe"
+    },
+    {
+      "name": "article_name",
+      "dataType": "String",
+      "category": "Core",
+      "polling": "subscribe"
+    },
+    {
+      "name": "planned_qty",
+      "dataType": "Int32",
+      "category": "Planning",
+      "polling": "subscribe"
+    },
+    {
+      "name": "produced_qty",
+      "dataType": "Int32",
+      "category": "Planning",
+      "polling": "subscribe"
+    },
+    {
+      "name": "planned_start",
+      "dataType": "String",
+      "category": "Planning",
+      "polling": "subscribe"
+    },
+    {
+      "name": "planned_end",
+      "dataType": "String",
+      "category": "Planning",
+      "polling": "subscribe"
+    },
+    {
+      "name": "tool_no",
+      "dataType": "String",
+      "category": "Tooling",
+      "polling": "subscribe"
+    },
+    {
+      "name": "routing",
+      "dataType": "String",
+      "category": "Routing",
+      "polling": "subscribe"
+    },
+    {
+      "name": "bom",
+      "dataType": "String",
+      "category": "BOM",
+      "polling": "subscribe"
+    }
   ],
   "relationships": [
-    { "type": "RUNS_ON", "target": "Machine", "description": "Assigned machine" },
-    { "type": "PRODUCES", "target": "Article" },
-    { "type": "HAS_BOM", "target": "BOMEntry" }
+    {
+      "type": "RUNS_ON",
+      "target": "Machine",
+      "description": "Assigned machine"
+    },
+    {
+      "type": "PRODUCES",
+      "target": "Article"
+    },
+    {
+      "type": "HAS_BOM",
+      "target": "BOMEntry"
+    }
   ],
   "kgNodeLabel": "ProductionOrder",
   "kgIdProperty": "order_no"

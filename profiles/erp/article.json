@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-Article",
-  "version": "1.1.0",
+  "version": "1.4.0",
   "standard": "CESMII",
   "displayName": "Article (Artikel)",
   "description": "Manufactured or purchased item in the ERP system",
@@ -9,44 +9,52 @@
     {
       "name": "article_no",
       "dataType": "String",
-      "category": "Core"
+      "category": "Core",
+      "polling": "subscribe"
     },
     {
       "name": "name",
       "dataType": "String",
-      "category": "Core"
+      "category": "Core",
+      "polling": "subscribe"
     },
     {
       "name": "type",
       "dataType": "String",
       "category": "Core",
-      "description": "FERT/HALB/ROH/KAUF"
+      "description": "FERT/HALB/ROH/KAUF",
+      "polling": "subscribe"
     },
     {
       "name": "unit",
       "dataType": "String",
-      "category": "Core"
+      "category": "Core",
+      "polling": "subscribe"
     },
     {
       "name": "lead_time_days",
       "dataType": "Int32",
-      "category": "Planning"
+      "category": "Planning",
+      "polling": "subscribe"
     },
     {
       "name": "machine_group",
       "dataType": "String",
-      "category": "Routing"
+      "category": "Routing",
+      "polling": "subscribe"
     },
     {
       "name": "weight_kg",
       "dataType": "Float",
       "category": "Physical",
-      "unit": "kg"
+      "unit": "kg",
+      "polling": "subscribe"
     },
     {
       "name": "abc_class",
       "dataType": "String",
-      "category": "Classification"
+      "category": "Classification",
+      "polling": "subscribe"
     }
   ],
   "relationships": [

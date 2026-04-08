@@ -1,14 +1,35 @@
 {
   "profileId": "SMProfile-MillingMachine",
-  "version": "2.0.0",
+  "version": "1.4.0",
   "standard": "CESMII",
   "displayName": "Milling Machine (Fräsmaschine)",
   "description": "Fräsmaschine — 3-axis milling for prismatic parts, pockets, contours. Inherits CNC process data + milling-specific attributes.",
   "parentType": "CNC_Machine",
   "attributes": [
-    { "name": "Cutter_Diameter_mm", "dataType": "Float", "unit": "mm", "category": "ProcessData.Milling", "description": "Active cutter diameter" },
-    { "name": "Depth_Of_Cut_mm", "dataType": "Float", "unit": "mm", "category": "ProcessData.Milling", "description": "Depth of cut per pass" },
-    { "name": "Width_Of_Cut_mm", "dataType": "Float", "unit": "mm", "category": "ProcessData.Milling", "description": "Radial width of cut" }
+    {
+      "name": "Cutter_Diameter_mm",
+      "dataType": "Float",
+      "unit": "mm",
+      "category": "ProcessData.Milling",
+      "description": "Active cutter diameter",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Depth_Of_Cut_mm",
+      "dataType": "Float",
+      "unit": "mm",
+      "category": "ProcessData.Milling",
+      "description": "Depth of cut per pass",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Width_Of_Cut_mm",
+      "dataType": "Float",
+      "unit": "mm",
+      "category": "ProcessData.Milling",
+      "description": "Radial width of cut",
+      "polling": "subscribe"
+    }
   ],
   "relationships": [],
   "kgNodeLabel": "MillingMachine",

@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-Sensor",
-  "version": "1.1.0",
+  "version": "1.4.0",
   "standard": "CESMII",
   "displayName": "Sensor / Variable",
   "description": "Maschinengebundene Sensorvariable (aus BDE oder MQTT UNS)",
@@ -9,33 +9,39 @@
     {
       "name": "name",
       "dataType": "String",
-      "category": "Master"
+      "category": "Master",
+      "polling": "subscribe"
     },
     {
       "name": "machine",
       "dataType": "String",
-      "category": "Reference"
+      "category": "Reference",
+      "polling": "subscribe"
     },
     {
       "name": "category",
       "dataType": "String",
       "category": "Master",
-      "description": "BDE or ProcessData"
+      "description": "BDE or ProcessData",
+      "polling": "subscribe"
     },
     {
       "name": "unit",
       "dataType": "String",
-      "category": "Master"
+      "category": "Master",
+      "polling": "subscribe"
     },
     {
       "name": "last_value",
       "dataType": "Float",
-      "category": "Live"
+      "category": "Live",
+      "polling": "subscribe"
     },
     {
       "name": "last_seen",
       "dataType": "String",
-      "category": "Live"
+      "category": "Live",
+      "polling": "subscribe"
     }
   ],
   "relationships": [

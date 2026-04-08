@@ -1,28 +1,121 @@
 {
   "profileId": "SMProfile-FrequencyConverter",
-  "version": "1.0.0",
+  "version": "1.4.0",
   "standard": "CESMII",
   "displayName": "Frequency Converter (Frequenzumrichter)",
   "description": "Frequenzumrichter / VFD — motor drive control via Modbus TCP (Siemens, ABB, Danfoss, SEW)",
   "parentType": null,
   "attributes": [
-    { "name": "Frequency_Actual", "dataType": "Float", "unit": "Hz", "category": "Drive", "description": "Actual output frequency" },
-    { "name": "Frequency_Set", "dataType": "Float", "unit": "Hz", "category": "Drive" },
-    { "name": "Speed_Actual", "dataType": "Float", "unit": "rpm", "category": "Drive", "description": "Motor speed" },
-    { "name": "Speed_Set", "dataType": "Float", "unit": "rpm", "category": "Drive" },
-    { "name": "Current_Motor", "dataType": "Float", "unit": "A", "category": "Drive", "description": "Motor current" },
-    { "name": "Torque_Actual", "dataType": "Float", "unit": "%", "category": "Drive", "description": "Motor torque (% of nominal)" },
-    { "name": "Power_Motor", "dataType": "Float", "unit": "kW", "category": "Drive" },
-    { "name": "Voltage_DC_Bus", "dataType": "Float", "unit": "V", "category": "Drive", "description": "DC bus voltage" },
-    { "name": "Temperature_Motor", "dataType": "Float", "unit": "°C", "category": "Thermal" },
-    { "name": "Temperature_Heatsink", "dataType": "Float", "unit": "°C", "category": "Thermal" },
-    { "name": "Status_Word", "dataType": "Int32", "category": "Status", "description": "Drive status word (bit-coded)" },
-    { "name": "Fault_Code", "dataType": "Int32", "category": "Status", "description": "Active fault code" },
-    { "name": "Energy_Total", "dataType": "Float", "unit": "kWh", "category": "Energy" },
-    { "name": "Operating_Hours", "dataType": "Float", "unit": "h", "category": "Lifecycle" }
+    {
+      "name": "Frequency_Actual",
+      "dataType": "Float",
+      "unit": "Hz",
+      "category": "Drive",
+      "description": "Actual output frequency",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Frequency_Set",
+      "dataType": "Float",
+      "unit": "Hz",
+      "category": "Drive",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Speed_Actual",
+      "dataType": "Float",
+      "unit": "rpm",
+      "category": "Drive",
+      "description": "Motor speed",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Speed_Set",
+      "dataType": "Float",
+      "unit": "rpm",
+      "category": "Drive",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Current_Motor",
+      "dataType": "Float",
+      "unit": "A",
+      "category": "Drive",
+      "description": "Motor current",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Torque_Actual",
+      "dataType": "Float",
+      "unit": "%",
+      "category": "Drive",
+      "description": "Motor torque (% of nominal)",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Power_Motor",
+      "dataType": "Float",
+      "unit": "kW",
+      "category": "Drive",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Voltage_DC_Bus",
+      "dataType": "Float",
+      "unit": "V",
+      "category": "Drive",
+      "description": "DC bus voltage",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Temperature_Motor",
+      "dataType": "Float",
+      "unit": "°C",
+      "category": "Thermal",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Temperature_Heatsink",
+      "dataType": "Float",
+      "unit": "°C",
+      "category": "Thermal",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Status_Word",
+      "dataType": "Int32",
+      "category": "Status",
+      "description": "Drive status word (bit-coded)",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Fault_Code",
+      "dataType": "Int32",
+      "category": "Status",
+      "description": "Active fault code",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Energy_Total",
+      "dataType": "Float",
+      "unit": "kWh",
+      "category": "Energy",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Operating_Hours",
+      "dataType": "Float",
+      "unit": "h",
+      "category": "Lifecycle",
+      "polling": "subscribe"
+    }
   ],
   "relationships": [
-    { "type": "DRIVES", "target": "Machine", "description": "Machine driven by this VFD" }
+    {
+      "type": "DRIVES",
+      "target": "Machine",
+      "description": "Machine driven by this VFD"
+    }
   ],
   "kgNodeLabel": "FrequencyConverter",
   "kgIdProperty": "machine_id",

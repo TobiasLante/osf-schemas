@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-QualityNotification",
-  "version": "1.1.0",
+  "version": "1.4.0",
   "standard": "CESMII",
   "displayName": "Quality Notification (Qualitätsmeldung)",
   "description": "Defect report — customer complaint, supplier defect, or internal defect",
@@ -9,47 +9,56 @@
     {
       "name": "notification_no",
       "dataType": "String",
-      "category": "Core"
+      "category": "Core",
+      "polling": "subscribe"
     },
     {
       "name": "notification_type",
       "dataType": "String",
-      "category": "Core"
+      "category": "Core",
+      "polling": "subscribe"
     },
     {
       "name": "reference_no",
       "dataType": "String",
-      "category": "Link"
+      "category": "Link",
+      "polling": "subscribe"
     },
     {
       "name": "article_no",
       "dataType": "String",
-      "category": "Core"
+      "category": "Core",
+      "polling": "subscribe"
     },
     {
       "name": "defect_quantity",
       "dataType": "Int32",
-      "category": "Core"
+      "category": "Core",
+      "polling": "subscribe"
     },
     {
       "name": "priority",
       "dataType": "String",
-      "category": "Core"
+      "category": "Core",
+      "polling": "subscribe"
     },
     {
       "name": "status",
       "dataType": "String",
-      "category": "Core"
+      "category": "Core",
+      "polling": "subscribe"
     },
     {
       "name": "description",
       "dataType": "String",
-      "category": "Detail"
+      "category": "Detail",
+      "polling": "subscribe"
     },
     {
       "name": "root_cause",
       "dataType": "String",
-      "category": "Detail"
+      "category": "Detail",
+      "polling": "subscribe"
     }
   ],
   "relationships": [

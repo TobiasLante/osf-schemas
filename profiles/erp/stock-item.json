@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-StockItem",
-  "version": "1.1.0",
+  "version": "1.4.0",
   "standard": "CESMII",
   "displayName": "Stock Item (Lagerbestand)",
   "description": "Current inventory level for an article",
@@ -9,47 +9,56 @@
     {
       "name": "teil_id",
       "dataType": "String",
-      "category": "Core"
+      "category": "Core",
+      "polling": "subscribe"
     },
     {
       "name": "name",
       "dataType": "String",
-      "category": "Core"
+      "category": "Core",
+      "polling": "subscribe"
     },
     {
       "name": "type",
       "dataType": "String",
-      "category": "Core"
+      "category": "Core",
+      "polling": "subscribe"
     },
     {
       "name": "qty_free",
       "dataType": "Float",
-      "category": "Stock"
+      "category": "Stock",
+      "polling": "subscribe"
     },
     {
       "name": "qty_blocked",
       "dataType": "Float",
-      "category": "Stock"
+      "category": "Stock",
+      "polling": "subscribe"
     },
     {
       "name": "reserved",
       "dataType": "Float",
-      "category": "Stock"
+      "category": "Stock",
+      "polling": "subscribe"
     },
     {
       "name": "min_stock",
       "dataType": "Float",
-      "category": "Planning"
+      "category": "Planning",
+      "polling": "subscribe"
     },
     {
       "name": "location",
       "dataType": "String",
-      "category": "Warehouse"
+      "category": "Warehouse",
+      "polling": "subscribe"
     },
     {
       "name": "unit",
       "dataType": "String",
-      "category": "Core"
+      "category": "Core",
+      "polling": "subscribe"
     }
   ],
   "relationships": [

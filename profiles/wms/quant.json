@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-Quant",
-  "version": "1.1.0",
+  "version": "1.4.0",
   "standard": "CESMII",
   "displayName": "Quant (Lagerbestand-Einheit)",
   "description": "Stock quantity at a specific storage location — article + batch + location",
@@ -9,53 +9,63 @@
     {
       "name": "quant_id",
       "dataType": "Int32",
-      "category": "Core"
+      "category": "Core",
+      "polling": "subscribe"
     },
     {
       "name": "article_no",
       "dataType": "String",
-      "category": "Core"
+      "category": "Core",
+      "polling": "subscribe"
     },
     {
       "name": "article_name",
       "dataType": "String",
-      "category": "Core"
+      "category": "Core",
+      "polling": "subscribe"
     },
     {
       "name": "batch",
       "dataType": "String",
-      "category": "Core"
+      "category": "Core",
+      "polling": "subscribe"
     },
     {
       "name": "location_key",
       "dataType": "String",
-      "category": "Location"
+      "category": "Location",
+      "polling": "subscribe"
     },
     {
       "name": "quantity",
       "dataType": "Float",
-      "category": "Stock"
+      "category": "Stock",
+      "polling": "subscribe"
     },
     {
       "name": "unit",
       "dataType": "String",
-      "category": "Core"
+      "category": "Core",
+      "polling": "subscribe"
     },
     {
       "name": "quality_status",
       "dataType": "String",
       "category": "Quality",
-      "description": "FREI, GESPERRT, PRUEFUNG"
+      "description": "FREI, GESPERRT, PRUEFUNG",
+      "polling": "subscribe"
     },
     {
       "name": "origin_type",
       "dataType": "String",
-      "category": "Traceability"
+      "category": "Traceability",
+      "polling": "subscribe"
     },
     {
       "name": "origin_ref",
       "dataType": "String",
-      "category": "Traceability"
+      "category": "Traceability",
+      "polling": "subscribe"
     }
   ],
   "relationships": [

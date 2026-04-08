@@ -1,28 +1,119 @@
 {
   "profileId": "SMProfile-Pump",
-  "version": "1.0.0",
+  "version": "1.4.0",
   "standard": "CESMII",
   "displayName": "Pump (Pumpe)",
   "description": "Pumpe — fluid handling with Modbus TCP monitoring (Grundfos, KSB, Wilo)",
   "parentType": null,
   "attributes": [
-    { "name": "Pressure_Inlet", "dataType": "Float", "unit": "bar", "category": "Process", "description": "Inlet pressure" },
-    { "name": "Pressure_Outlet", "dataType": "Float", "unit": "bar", "category": "Process", "description": "Outlet/discharge pressure" },
-    { "name": "Flow_Rate", "dataType": "Float", "unit": "m³/h", "category": "Process", "description": "Volume flow rate" },
-    { "name": "Speed_Actual", "dataType": "Float", "unit": "rpm", "category": "Drive" },
-    { "name": "Speed_Set", "dataType": "Float", "unit": "rpm", "category": "Drive" },
-    { "name": "Power_Motor", "dataType": "Float", "unit": "kW", "category": "Drive" },
-    { "name": "Current_Motor", "dataType": "Float", "unit": "A", "category": "Drive" },
-    { "name": "Temperature_Fluid", "dataType": "Float", "unit": "°C", "category": "Process" },
-    { "name": "Temperature_Motor", "dataType": "Float", "unit": "°C", "category": "Thermal" },
-    { "name": "Temperature_Bearing", "dataType": "Float", "unit": "°C", "category": "Thermal" },
-    { "name": "Vibration", "dataType": "Float", "unit": "mm/s", "category": "Condition" },
-    { "name": "Operating_Hours", "dataType": "Float", "unit": "h", "category": "Lifecycle" },
-    { "name": "Status", "dataType": "Int32", "category": "Status", "description": "Running/Stopped/Fault" },
-    { "name": "Energy_Total", "dataType": "Float", "unit": "kWh", "category": "Energy" }
+    {
+      "name": "Pressure_Inlet",
+      "dataType": "Float",
+      "unit": "bar",
+      "category": "Process",
+      "description": "Inlet pressure",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Pressure_Outlet",
+      "dataType": "Float",
+      "unit": "bar",
+      "category": "Process",
+      "description": "Outlet/discharge pressure",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Flow_Rate",
+      "dataType": "Float",
+      "unit": "m³/h",
+      "category": "Process",
+      "description": "Volume flow rate",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Speed_Actual",
+      "dataType": "Float",
+      "unit": "rpm",
+      "category": "Drive",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Speed_Set",
+      "dataType": "Float",
+      "unit": "rpm",
+      "category": "Drive",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Power_Motor",
+      "dataType": "Float",
+      "unit": "kW",
+      "category": "Drive",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Current_Motor",
+      "dataType": "Float",
+      "unit": "A",
+      "category": "Drive",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Temperature_Fluid",
+      "dataType": "Float",
+      "unit": "°C",
+      "category": "Process",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Temperature_Motor",
+      "dataType": "Float",
+      "unit": "°C",
+      "category": "Thermal",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Temperature_Bearing",
+      "dataType": "Float",
+      "unit": "°C",
+      "category": "Thermal",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Vibration",
+      "dataType": "Float",
+      "unit": "mm/s",
+      "category": "Condition",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Operating_Hours",
+      "dataType": "Float",
+      "unit": "h",
+      "category": "Lifecycle",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Status",
+      "dataType": "Int32",
+      "category": "Status",
+      "description": "Running/Stopped/Fault",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Energy_Total",
+      "dataType": "Float",
+      "unit": "kWh",
+      "category": "Energy",
+      "polling": "subscribe"
+    }
   ],
   "relationships": [
-    { "type": "SUPPLIES", "target": "Machine", "description": "Machine supplied by this pump (coolant, hydraulic)" }
+    {
+      "type": "SUPPLIES",
+      "target": "Machine",
+      "description": "Machine supplied by this pump (coolant, hydraulic)"
+    }
   ],
   "kgNodeLabel": "Pump",
   "kgIdProperty": "machine_id",

@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-MachineType",
-  "version": "1.1.0",
+  "version": "1.4.0",
   "standard": "CESMII",
   "displayName": "Machine Type / Group",
   "description": "Maschinentyp/-gruppe (z.B. Spritzguss 1300kN)",
@@ -9,22 +9,26 @@
     {
       "name": "name",
       "dataType": "String",
-      "category": "Master"
+      "category": "Master",
+      "polling": "subscribe"
     },
     {
       "name": "description",
       "dataType": "String",
-      "category": "Master"
+      "category": "Master",
+      "polling": "subscribe"
     },
     {
       "name": "max_closing_force_kn",
       "dataType": "Int32",
-      "category": "Spec"
+      "category": "Spec",
+      "polling": "subscribe"
     },
     {
       "name": "min_closing_force_kn",
       "dataType": "Int32",
-      "category": "Spec"
+      "category": "Spec",
+      "polling": "subscribe"
     }
   ],
   "relationships": [

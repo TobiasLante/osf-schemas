@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-TransportOrder",
-  "version": "1.1.0",
+  "version": "1.4.0",
   "standard": "CESMII",
   "displayName": "Transport Order (Transportauftrag)",
   "description": "Warehouse material movement order — put-away, pick, replenishment",
@@ -9,54 +9,64 @@
     {
       "name": "ta_nr",
       "dataType": "String",
-      "category": "Core"
+      "category": "Core",
+      "polling": "subscribe"
     },
     {
       "name": "type",
       "dataType": "String",
       "category": "Core",
-      "description": "EINLAGERUNG, AUSLAGERUNG, UMLAGERUNG, NACHSCHUB"
+      "description": "EINLAGERUNG, AUSLAGERUNG, UMLAGERUNG, NACHSCHUB",
+      "polling": "subscribe"
     },
     {
       "name": "article_no",
       "dataType": "String",
-      "category": "Core"
+      "category": "Core",
+      "polling": "subscribe"
     },
     {
       "name": "quantity",
       "dataType": "Float",
-      "category": "Core"
+      "category": "Core",
+      "polling": "subscribe"
     },
     {
       "name": "from_location",
       "dataType": "String",
-      "category": "Movement"
+      "category": "Movement",
+      "polling": "subscribe"
     },
     {
       "name": "to_location",
       "dataType": "String",
-      "category": "Movement"
+      "category": "Movement",
+      "polling": "subscribe"
     },
     {
       "name": "status",
       "dataType": "String",
       "category": "Core",
-      "description": "OFFEN, IN_TRANSPORT, ERLEDIGT, STORNIERT"
+      "description": "OFFEN, IN_TRANSPORT, ERLEDIGT, STORNIERT",
+      "polling": "subscribe"
     },
     {
       "name": "priority",
       "dataType": "Int32",
-      "category": "Core"
+      "category": "Core",
+      "polling": "subscribe"
     },
     {
       "name": "reference_type",
       "dataType": "String",
-      "category": "Link"
+      "category": "Link",
+      "polling": "subscribe"
     },
     {
       "name": "reference_no",
       "dataType": "String",
-      "category": "Link"
+      "category": "Link",
+      "polling": "subscribe"
     }
   ],
   "relationships": [

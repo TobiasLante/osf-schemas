@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-KPIDef",
-  "version": "1.1.0",
+  "version": "1.4.0",
   "standard": "CESMII",
   "displayName": "KPI Definition (OTD per Customer)",
   "description": "Liefertreue-KPI pro Kunde",
@@ -9,27 +9,32 @@
     {
       "name": "customer_name",
       "dataType": "String",
-      "category": "Reference"
+      "category": "Reference",
+      "polling": "subscribe"
     },
     {
       "name": "orders_total",
       "dataType": "Int32",
-      "category": "Metric"
+      "category": "Metric",
+      "polling": "subscribe"
     },
     {
       "name": "orders_on_time",
       "dataType": "Int32",
-      "category": "Metric"
+      "category": "Metric",
+      "polling": "subscribe"
     },
     {
       "name": "orders_late",
       "dataType": "Int32",
-      "category": "Metric"
+      "category": "Metric",
+      "polling": "subscribe"
     },
     {
       "name": "otd_percentage",
       "dataType": "Float",
-      "category": "Metric"
+      "category": "Metric",
+      "polling": "subscribe"
     }
   ],
   "relationships": [],

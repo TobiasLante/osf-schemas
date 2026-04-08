@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-CorrectiveAction",
-  "version": "1.1.0",
+  "version": "1.4.0",
   "standard": "CESMII",
   "displayName": "Corrective Action (CAPA)",
   "description": "Corrective and Preventive Action linked to a quality notification",
@@ -9,43 +9,51 @@
     {
       "name": "action_no",
       "dataType": "String",
-      "category": "Core"
+      "category": "Core",
+      "polling": "subscribe"
     },
     {
       "name": "notification_no",
       "dataType": "String",
-      "category": "Link"
+      "category": "Link",
+      "polling": "subscribe"
     },
     {
       "name": "action_type",
       "dataType": "String",
       "category": "Core",
-      "description": "containment, corrective, preventive"
+      "description": "containment, corrective, preventive",
+      "polling": "subscribe"
     },
     {
       "name": "description",
       "dataType": "String",
-      "category": "Detail"
+      "category": "Detail",
+      "polling": "subscribe"
     },
     {
       "name": "responsible",
       "dataType": "String",
-      "category": "Core"
+      "category": "Core",
+      "polling": "subscribe"
     },
     {
       "name": "due_date",
       "dataType": "String",
-      "category": "Planning"
+      "category": "Planning",
+      "polling": "subscribe"
     },
     {
       "name": "status",
       "dataType": "String",
-      "category": "Core"
+      "category": "Core",
+      "polling": "subscribe"
     },
     {
       "name": "is_effective",
       "dataType": "Boolean",
-      "category": "Verification"
+      "category": "Verification",
+      "polling": "subscribe"
     }
   ],
   "relationships": [

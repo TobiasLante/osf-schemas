@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-FFS-Cell",
-  "version": "1.2.0",
+  "version": "1.4.0",
   "standard": "CESMII",
   "displayName": "FFS Cell (Flexible Fertigungszelle)",
   "description": "Flexible Manufacturing System cell — CNC machining with automatic part loading, G-code execution, tool management",
@@ -10,31 +10,36 @@
       "name": "Spindle_RPM",
       "dataType": "Float",
       "category": "ProcessData",
-      "unit": "rpm"
+      "unit": "rpm",
+      "polling": "subscribe"
     },
     {
       "name": "Feed_Rate",
       "dataType": "Float",
       "category": "ProcessData",
-      "unit": "mm/min"
+      "unit": "mm/min",
+      "polling": "subscribe"
     },
     {
       "name": "Tool_Wear_Pct",
       "dataType": "Float",
       "category": "ProcessData",
-      "unit": "%"
+      "unit": "%",
+      "polling": "subscribe"
     },
     {
       "name": "Active_GCode",
       "dataType": "String",
       "category": "ProcessData",
-      "description": "Current G-code line being executed"
+      "description": "Current G-code line being executed",
+      "polling": "subscribe"
     },
     {
       "name": "Program_Line",
       "dataType": "Int32",
       "category": "ProcessData",
-      "description": "Current line index in CNC program"
+      "description": "Current line index in CNC program",
+      "polling": "subscribe"
     }
   ],
   "relationships": [

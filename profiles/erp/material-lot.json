@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-MaterialLot",
-  "version": "1.1.0",
+  "version": "1.4.0",
   "standard": "CESMII",
   "displayName": "Material Lot (Produktions-Los)",
   "description": "Produktionslos — verknüpft Fertigungsauftrag mit Artikel und produzierter Menge",
@@ -9,37 +9,44 @@
     {
       "name": "order_no",
       "dataType": "String",
-      "category": "Reference"
+      "category": "Reference",
+      "polling": "subscribe"
     },
     {
       "name": "article_no",
       "dataType": "String",
-      "category": "Reference"
+      "category": "Reference",
+      "polling": "subscribe"
     },
     {
       "name": "article_name",
       "dataType": "String",
-      "category": "Master"
+      "category": "Master",
+      "polling": "subscribe"
     },
     {
       "name": "machine_no",
       "dataType": "String",
-      "category": "Reference"
+      "category": "Reference",
+      "polling": "subscribe"
     },
     {
       "name": "planned_qty",
       "dataType": "Int32",
-      "category": "Planning"
+      "category": "Planning",
+      "polling": "subscribe"
     },
     {
       "name": "produced_qty",
       "dataType": "Int32",
-      "category": "Actual"
+      "category": "Actual",
+      "polling": "subscribe"
     },
     {
       "name": "status",
       "dataType": "Int32",
-      "category": "Status"
+      "category": "Status",
+      "polling": "subscribe"
     }
   ],
   "relationships": [

@@ -1,18 +1,40 @@
 {
   "profileId": "SMProfile-Area",
-  "version": "1.0.0",
+  "version": "1.4.0",
   "standard": "CESMII",
   "displayName": "Area (Bereich)",
   "description": "ISA-95 Level 3 — functional area within a site (e.g. Fertigung, Montage, Lager)",
   "parentType": null,
   "attributes": [
-    { "name": "name", "dataType": "String", "category": "Core" },
-    { "name": "description", "dataType": "String", "category": "Core" },
-    { "name": "area_type", "dataType": "String", "category": "Classification", "description": "e.g. Production, Assembly, Storage, QualityControl" }
+    {
+      "name": "name",
+      "dataType": "String",
+      "category": "Core",
+      "polling": "subscribe"
+    },
+    {
+      "name": "description",
+      "dataType": "String",
+      "category": "Core",
+      "polling": "subscribe"
+    },
+    {
+      "name": "area_type",
+      "dataType": "String",
+      "category": "Classification",
+      "description": "e.g. Production, Assembly, Storage, QualityControl",
+      "polling": "subscribe"
+    }
   ],
   "relationships": [
-    { "type": "PART_OF", "target": "Site" },
-    { "type": "HAS_LINE", "target": "ProductionLine" }
+    {
+      "type": "PART_OF",
+      "target": "Site"
+    },
+    {
+      "type": "HAS_LINE",
+      "target": "ProductionLine"
+    }
   ],
   "kgNodeLabel": "Area",
   "kgIdProperty": "id"

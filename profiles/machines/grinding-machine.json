@@ -1,15 +1,42 @@
 {
   "profileId": "SMProfile-GrindingMachine",
-  "version": "2.0.0",
+  "version": "1.4.0",
   "standard": "CESMII",
   "displayName": "Grinding Machine (Schleifmaschine)",
   "description": "Schleifmaschine — precision surface and cylindrical grinding. Inherits CNC process data + grinding-specific attributes.",
   "parentType": "CNC_Machine",
   "attributes": [
-    { "name": "Wheel_Speed_RPM", "dataType": "Float", "unit": "rpm", "category": "ProcessData.Grinding", "description": "Grinding wheel speed" },
-    { "name": "Wheel_Diameter_mm", "dataType": "Float", "unit": "mm", "category": "ProcessData.Grinding", "description": "Current wheel diameter (decreases with dressing)" },
-    { "name": "Surface_Roughness_Ra", "dataType": "Float", "unit": "um", "category": "ProcessData.Grinding", "description": "Surface roughness Ra (measured or estimated)" },
-    { "name": "Dressing_Cycles", "dataType": "Int32", "category": "ProcessData.Grinding", "description": "Dressing cycle counter" }
+    {
+      "name": "Wheel_Speed_RPM",
+      "dataType": "Float",
+      "unit": "rpm",
+      "category": "ProcessData.Grinding",
+      "description": "Grinding wheel speed",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Wheel_Diameter_mm",
+      "dataType": "Float",
+      "unit": "mm",
+      "category": "ProcessData.Grinding",
+      "description": "Current wheel diameter (decreases with dressing)",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Surface_Roughness_Ra",
+      "dataType": "Float",
+      "unit": "um",
+      "category": "ProcessData.Grinding",
+      "description": "Surface roughness Ra (measured or estimated)",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Dressing_Cycles",
+      "dataType": "Int32",
+      "category": "ProcessData.Grinding",
+      "description": "Dressing cycle counter",
+      "polling": "subscribe"
+    }
   ],
   "relationships": [],
   "kgNodeLabel": "GrindingMachine",

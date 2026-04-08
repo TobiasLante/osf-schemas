@@ -1,14 +1,35 @@
 {
   "profileId": "SMProfile-Lathe",
-  "version": "2.0.0",
+  "version": "1.4.0",
   "standard": "CESMII",
   "displayName": "Lathe (Drehmaschine)",
   "description": "Drehmaschine — rotational symmetric part machining (turning, boring, threading). Inherits CNC process data + lathe-specific attributes.",
   "parentType": "CNC_Machine",
   "attributes": [
-    { "name": "Chuck_Pressure_Bar", "dataType": "Float", "unit": "bar", "category": "ProcessData.Lathe", "description": "Chuck clamping pressure" },
-    { "name": "Tailstock_Position_mm", "dataType": "Float", "unit": "mm", "category": "ProcessData.Lathe", "description": "Tailstock position" },
-    { "name": "Cutting_Depth_mm", "dataType": "Float", "unit": "mm", "category": "ProcessData.Lathe", "description": "Depth of cut" }
+    {
+      "name": "Chuck_Pressure_Bar",
+      "dataType": "Float",
+      "unit": "bar",
+      "category": "ProcessData.Lathe",
+      "description": "Chuck clamping pressure",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Tailstock_Position_mm",
+      "dataType": "Float",
+      "unit": "mm",
+      "category": "ProcessData.Lathe",
+      "description": "Tailstock position",
+      "polling": "subscribe"
+    },
+    {
+      "name": "Cutting_Depth_mm",
+      "dataType": "Float",
+      "unit": "mm",
+      "category": "ProcessData.Lathe",
+      "description": "Depth of cut",
+      "polling": "subscribe"
+    }
   ],
   "relationships": [],
   "kgNodeLabel": "Lathe",

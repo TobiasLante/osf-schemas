@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-InspectionLot",
-  "version": "1.1.0",
+  "version": "1.4.0",
   "standard": "CESMII",
   "displayName": "Inspection Lot (Prüflos)",
   "description": "Quality inspection batch linked to a production order",
@@ -9,53 +9,63 @@
     {
       "name": "lot_no",
       "dataType": "String",
-      "category": "Core"
+      "category": "Core",
+      "polling": "subscribe"
     },
     {
       "name": "lot_type",
       "dataType": "String",
       "category": "Core",
-      "description": "goods_receipt, in_process, final"
+      "description": "goods_receipt, in_process, final",
+      "polling": "subscribe"
     },
     {
       "name": "production_order_no",
       "dataType": "String",
-      "category": "Link"
+      "category": "Link",
+      "polling": "subscribe"
     },
     {
       "name": "article_no",
       "dataType": "String",
-      "category": "Core"
+      "category": "Core",
+      "polling": "subscribe"
     },
     {
       "name": "machine_no",
       "dataType": "String",
-      "category": "Core"
+      "category": "Core",
+      "polling": "subscribe"
     },
     {
       "name": "lot_quantity",
       "dataType": "Int32",
-      "category": "Core"
+      "category": "Core",
+      "polling": "subscribe"
     },
     {
       "name": "sample_size",
       "dataType": "Int32",
-      "category": "Core"
+      "category": "Core",
+      "polling": "subscribe"
     },
     {
       "name": "status",
       "dataType": "String",
-      "category": "Core"
+      "category": "Core",
+      "polling": "subscribe"
     },
     {
       "name": "inspection_start",
       "dataType": "String",
-      "category": "Timing"
+      "category": "Timing",
+      "polling": "subscribe"
     },
     {
       "name": "inspection_end",
       "dataType": "String",
-      "category": "Timing"
+      "category": "Timing",
+      "polling": "subscribe"
     }
   ],
   "relationships": [
