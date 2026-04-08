@@ -1,6 +1,6 @@
 {
   "sourceId": "Source-OpcUA-TEST-02",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "sourceType": "opcua",
   "profileRef": "SMProfile-CNCMachine",
   "endpoint": "opc.tcp://192.168.178.150:30841",
@@ -22,7 +22,8 @@
         "Machine_Status"
       ],
       "smAttribute": "Machine_Status",
-      "dataType": "ns=0;i=6"
+      "dataType": "ns=0;i=6",
+      "retain": true
     },
     {
       "opcuaNodeId": "ns=1;i=1059",
@@ -33,7 +34,8 @@
         "Machine_Status_Text"
       ],
       "smAttribute": "Machine_Status_Text",
-      "dataType": "ns=0;i=12"
+      "dataType": "ns=0;i=12",
+      "retain": true
     },
     {
       "opcuaNodeId": "ns=1;i=1060",
@@ -121,7 +123,8 @@
         "Production_Order"
       ],
       "smAttribute": "Production_Order",
-      "dataType": "ns=0;i=12"
+      "dataType": "ns=0;i=12",
+      "retain": true
     },
     {
       "opcuaNodeId": "ns=1;i=1068",
@@ -132,7 +135,8 @@
         "Article_ID"
       ],
       "smAttribute": "Article_ID",
-      "dataType": "ns=0;i=12"
+      "dataType": "ns=0;i=12",
+      "retain": true
     },
     {
       "opcuaNodeId": "ns=1;i=1069",
@@ -143,7 +147,8 @@
         "Tool_ID"
       ],
       "smAttribute": "Tool_ID",
-      "dataType": "ns=0;i=12"
+      "dataType": "ns=0;i=12",
+      "retain": true
     },
     {
       "opcuaNodeId": "ns=1;i=1070",
@@ -154,7 +159,8 @@
         "Shift_Number"
       ],
       "smAttribute": "Shift_Number",
-      "dataType": "ns=0;i=6"
+      "dataType": "ns=0;i=6",
+      "retain": true
     },
     {
       "opcuaNodeId": "ns=1;i=1071",
@@ -165,7 +171,8 @@
         "Operator_ID"
       ],
       "smAttribute": "Operator_ID",
-      "dataType": "ns=0;i=12"
+      "dataType": "ns=0;i=12",
+      "retain": true
     },
     {
       "opcuaNodeId": "ns=1;i=1074",
@@ -323,7 +330,8 @@
         "Tool_Number"
       ],
       "smAttribute": "Tool_Number",
-      "dataType": "ns=0;i=6"
+      "dataType": "ns=0;i=6",
+      "retain": true
     },
     {
       "opcuaNodeId": "ns=1;i=1117",
@@ -356,7 +364,8 @@
         "Active_Program"
       ],
       "smAttribute": "Active_Program",
-      "dataType": "ns=0;i=12"
+      "dataType": "ns=0;i=12",
+      "retain": true
     },
     {
       "opcuaNodeId": "ns=1;i=1125",
@@ -378,7 +387,8 @@
         "Program_Status"
       ],
       "smAttribute": "Program_Status",
-      "dataType": "ns=0;i=12"
+      "dataType": "ns=0;i=12",
+      "retain": true
     },
     {
       "opcuaNodeId": "ns=1;i=1128",
@@ -473,8 +483,8 @@
     "machineType": "CNC_Machine"
   },
   "polling": {
-    "mode": "scan",
-    "intervalMs": 5000
+    "mode": "subscribe",
+    "intervalMs": 1000
   },
   "security": {
     "mode": "None",

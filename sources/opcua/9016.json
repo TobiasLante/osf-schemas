@@ -1,20 +1,20 @@
 {
   "mappingId": "opcua-9016",
-  "version": "2.0.0",
+  "version": "1.2.0",
   "discoveredAt": "2026-03-18T22:00:00Z",
   "endpoint": "opc.tcp://192.168.178.150:30846",
   "machineId": "9016",
-  "machineName": "5-Achs-Fr\u00e4smaschine",
+  "machineName": "5-Achs-Fräsmaschine",
   "profileRef": "SMProfile-5AxisMillingMachine",
   "location": {
     "enterprise": "ZeroGuess",
     "site": "Homelab",
     "area": "Fertigung",
-    "line": "Fr\u00e4s-Linie"
+    "line": "Fräs-Linie"
   },
   "polling": {
-    "mode": "scan",
-    "intervalMs": 5000
+    "mode": "subscribe",
+    "intervalMs": 1000
   },
   "security": {
     "mode": "None",
@@ -26,29 +26,31 @@
       "opcuaNodeId": "ns=1;i=1058",
       "browsePath": [
         "Machines",
-        "5-Achs-Fr\u00e4smaschine",
+        "5-Achs-Fräsmaschine",
         "Monitoring",
         "Machine_Status"
       ],
       "smAttribute": "Machine_Status",
-      "dataType": "Int32"
+      "dataType": "Int32",
+      "retain": true
     },
     {
       "opcuaNodeId": "ns=1;i=1059",
       "browsePath": [
         "Machines",
-        "5-Achs-Fr\u00e4smaschine",
+        "5-Achs-Fräsmaschine",
         "Monitoring",
         "Machine_Status_Text"
       ],
       "smAttribute": "Machine_Status_Text",
-      "dataType": "String"
+      "dataType": "String",
+      "retain": true
     },
     {
       "opcuaNodeId": "ns=1;i=1060",
       "browsePath": [
         "Machines",
-        "5-Achs-Fr\u00e4smaschine",
+        "5-Achs-Fräsmaschine",
         "Monitoring",
         "Good_Parts"
       ],
@@ -59,7 +61,7 @@
       "opcuaNodeId": "ns=1;i=1061",
       "browsePath": [
         "Machines",
-        "5-Achs-Fr\u00e4smaschine",
+        "5-Achs-Fräsmaschine",
         "Monitoring",
         "Scrap_Parts"
       ],
@@ -70,7 +72,7 @@
       "opcuaNodeId": "ns=1;i=1062",
       "browsePath": [
         "Machines",
-        "5-Achs-Fr\u00e4smaschine",
+        "5-Achs-Fräsmaschine",
         "Monitoring",
         "Rework_Parts"
       ],
@@ -81,7 +83,7 @@
       "opcuaNodeId": "ns=1;i=1063",
       "browsePath": [
         "Machines",
-        "5-Achs-Fr\u00e4smaschine",
+        "5-Achs-Fräsmaschine",
         "Monitoring",
         "Cycle_Time_Planned"
       ],
@@ -92,7 +94,7 @@
       "opcuaNodeId": "ns=1;i=1066",
       "browsePath": [
         "Machines",
-        "5-Achs-Fr\u00e4smaschine",
+        "5-Achs-Fräsmaschine",
         "Monitoring",
         "Cycle_Time_Actual"
       ],
@@ -103,7 +105,7 @@
       "opcuaNodeId": "ns=1;i=1069",
       "browsePath": [
         "Machines",
-        "5-Achs-Fr\u00e4smaschine",
+        "5-Achs-Fräsmaschine",
         "Monitoring",
         "Power_kW"
       ],
@@ -114,7 +116,7 @@
       "opcuaNodeId": "ns=1;i=1072",
       "browsePath": [
         "Machines",
-        "5-Achs-Fr\u00e4smaschine",
+        "5-Achs-Fräsmaschine",
         "Monitoring",
         "Energy_kWh"
       ],
@@ -125,56 +127,61 @@
       "opcuaNodeId": "ns=1;i=1075",
       "browsePath": [
         "Machines",
-        "5-Achs-Fr\u00e4smaschine",
+        "5-Achs-Fräsmaschine",
         "Monitoring",
         "Production_Order"
       ],
       "smAttribute": "Production_Order",
-      "dataType": "String"
+      "dataType": "String",
+      "retain": true
     },
     {
       "opcuaNodeId": "ns=1;i=1076",
       "browsePath": [
         "Machines",
-        "5-Achs-Fr\u00e4smaschine",
+        "5-Achs-Fräsmaschine",
         "Monitoring",
         "Article_ID"
       ],
       "smAttribute": "Article_ID",
-      "dataType": "String"
+      "dataType": "String",
+      "retain": true
     },
     {
       "opcuaNodeId": "ns=1;i=1077",
       "browsePath": [
         "Machines",
-        "5-Achs-Fr\u00e4smaschine",
+        "5-Achs-Fräsmaschine",
         "Monitoring",
         "Tool_ID"
       ],
       "smAttribute": "Tool_ID",
-      "dataType": "String"
+      "dataType": "String",
+      "retain": true
     },
     {
       "opcuaNodeId": "ns=1;i=1078",
       "browsePath": [
         "Machines",
-        "5-Achs-Fr\u00e4smaschine",
+        "5-Achs-Fräsmaschine",
         "Monitoring",
         "Shift_Number"
       ],
       "smAttribute": "Shift_Number",
-      "dataType": "Int32"
+      "dataType": "Int32",
+      "retain": true
     },
     {
       "opcuaNodeId": "ns=1;i=1079",
       "browsePath": [
         "Machines",
-        "5-Achs-Fr\u00e4smaschine",
+        "5-Achs-Fräsmaschine",
         "Monitoring",
         "Operator_ID"
       ],
       "smAttribute": "Operator_ID",
-      "dataType": "String"
+      "dataType": "String",
+      "retain": true
     }
   ],
   "staticProperties": {}

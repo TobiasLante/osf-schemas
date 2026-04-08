@@ -1,6 +1,6 @@
 {
   "sourceId": "Source-OpcUA-IMM-017",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "sourceType": "opcua",
   "profileRef": "SMProfile-InjectionMoldingMachine",
   "endpoint": "opc.tcp://192.168.178.150:30840",
@@ -22,7 +22,8 @@
         "Machine_Status"
       ],
       "smAttribute": "Machine_Status",
-      "dataType": "Int32"
+      "dataType": "Int32",
+      "retain": true
     },
     {
       "opcuaNodeId": "ns=1;i=1059",
@@ -33,7 +34,8 @@
         "Machine_Status_Text"
       ],
       "smAttribute": "Machine_Status_Text",
-      "dataType": "String"
+      "dataType": "String",
+      "retain": true
     },
     {
       "opcuaNodeId": "ns=1;i=1060",
@@ -121,7 +123,8 @@
         "Production_Order"
       ],
       "smAttribute": "Production_Order",
-      "dataType": "String"
+      "dataType": "String",
+      "retain": true
     },
     {
       "opcuaNodeId": "ns=1;i=1076",
@@ -132,7 +135,8 @@
         "Article_ID"
       ],
       "smAttribute": "Article_ID",
-      "dataType": "String"
+      "dataType": "String",
+      "retain": true
     },
     {
       "opcuaNodeId": "ns=1;i=1077",
@@ -143,7 +147,8 @@
         "Tool_ID"
       ],
       "smAttribute": "Tool_ID",
-      "dataType": "String"
+      "dataType": "String",
+      "retain": true
     },
     {
       "opcuaNodeId": "ns=1;i=1078",
@@ -154,7 +159,8 @@
         "Shift_Number"
       ],
       "smAttribute": "Shift_Number",
-      "dataType": "Int32"
+      "dataType": "Int32",
+      "retain": true
     },
     {
       "opcuaNodeId": "ns=1;i=1079",
@@ -165,15 +171,16 @@
         "Operator_ID"
       ],
       "smAttribute": "Operator_ID",
-      "dataType": "String"
+      "dataType": "String",
+      "retain": true
     }
   ],
   "staticProperties": {
     "machineType": "InjectionMoldingMachine"
   },
   "polling": {
-    "mode": "scan",
-    "intervalMs": 5000
+    "mode": "subscribe",
+    "intervalMs": 1000
   },
   "security": {
     "mode": "None",
