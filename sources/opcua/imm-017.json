@@ -1,6 +1,6 @@
 {
   "sourceId": "Source-OpcUA-IMM-017",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "sourceType": "opcua",
   "profileRef": "SMProfile-InjectionMoldingMachine",
   "endpoint": "opc.tcp://192.168.178.150:30840",
@@ -172,8 +172,8 @@
     "machineType": "InjectionMoldingMachine"
   },
   "polling": {
-    "mode": "subscribe",
-    "intervalMs": 1000
+    "mode": "scan",
+    "intervalMs": 5000
   },
   "security": {
     "mode": "None",
