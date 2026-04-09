@@ -1,0 +1,37 @@
+{
+  "version": "1.0.0",
+  "description": "Schema for MachineSpec nodes in Knowledge Graph — stores manufacturer specs per machine model",
+  "machineSpec": {
+    "manufacturer": "string (required)",
+    "model": "string (required)",
+    "source": "web_lookup | companion_spec | manual",
+    "sourceUrl": "string (optional, URL of datasheet)",
+    "fetchedAt": "ISO timestamp",
+    "parameters": [
+      {
+        "name": "string — parameter name (e.g. SpindleSpeed)",
+        "unit": "string — display unit (e.g. RPM)",
+        "uneceCode": "string — UNECE N°20 code (e.g. RPM)",
+        "min": "number — spec minimum",
+        "max": "number — spec maximum",
+        "typical": "number — typical operating value (optional)",
+        "category": "string — ProcessData.Speed, ProcessData.Power, BDE, etc."
+      }
+    ]
+  },
+  "validationResult": {
+    "attribute": "string",
+    "reportedUnit": "string",
+    "verdict": "ok | warning | mismatch",
+    "confidence": "number 0-1",
+    "suggestedUnit": "string (if mismatch)",
+    "suggestedScale": "number (if scale error)",
+    "sources": [
+      {
+        "source": "companion_spec | datasheet | physical_rules | fleet_comparison | sm_profile",
+        "expectedUnit": "string",
+        "confidence": "number 0-1"
+      }
+    ]
+  }
+}
