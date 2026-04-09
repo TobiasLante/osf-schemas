@@ -1,0 +1,201 @@
+{
+  "version": "1.0.0",
+  "description": "Physical plausibility rules for unit validation",
+  "rules": [
+    {
+      "category": "temperature",
+      "keywords": [
+        "temp",
+        "temperatur",
+        "mold_temp",
+        "barrel_temp",
+        "nozzle_temp",
+        "coolant_temp"
+      ],
+      "validUnits": [
+        "CEL",
+        "FAH",
+        "KEL"
+      ],
+      "typicalRange": {
+        "min": -40,
+        "max": 500,
+        "unit": "CEL"
+      }
+    },
+    {
+      "category": "pressure",
+      "keywords": [
+        "press",
+        "druck",
+        "pressure",
+        "clamp",
+        "injection_pressure",
+        "back_pressure"
+      ],
+      "validUnits": [
+        "BAR",
+        "KPA",
+        "MPA",
+        "PAL",
+        "PSI"
+      ],
+      "typicalRange": {
+        "min": 0,
+        "max": 2500,
+        "unit": "BAR"
+      }
+    },
+    {
+      "category": "speed",
+      "keywords": [
+        "speed",
+        "drehzahl",
+        "rpm",
+        "spindle_speed",
+        "screw_speed"
+      ],
+      "validUnits": [
+        "RPM",
+        "HZ"
+      ],
+      "typicalRange": {
+        "min": 0,
+        "max": 40000,
+        "unit": "RPM"
+      }
+    },
+    {
+      "category": "power",
+      "keywords": [
+        "power",
+        "leistung",
+        "spindle_power",
+        "drive_power",
+        "motor_power"
+      ],
+      "validUnits": [
+        "KWT",
+        "WTT",
+        "MAW"
+      ],
+      "typicalRange": {
+        "min": 0,
+        "max": 500,
+        "unit": "KWT"
+      }
+    },
+    {
+      "category": "force",
+      "keywords": [
+        "force",
+        "kraft",
+        "clamp_force",
+        "closing_force",
+        "ejector_force"
+      ],
+      "validUnits": [
+        "KN",
+        "NEW",
+        "DAN"
+      ],
+      "typicalRange": {
+        "min": 0,
+        "max": 50000,
+        "unit": "KN"
+      }
+    },
+    {
+      "category": "torque",
+      "keywords": [
+        "torque",
+        "drehmoment",
+        "spindle_torque"
+      ],
+      "validUnits": [
+        "NMT"
+      ],
+      "typicalRange": {
+        "min": 0,
+        "max": 2000,
+        "unit": "NMT"
+      }
+    },
+    {
+      "category": "feed_rate",
+      "keywords": [
+        "feed",
+        "vorschub",
+        "feed_rate",
+        "rapid_traverse"
+      ],
+      "validUnits": [
+        "MMS",
+        "M4S",
+        "MTM"
+      ],
+      "typicalRange": {
+        "min": 0,
+        "max": 100000,
+        "unit": "M4S"
+      }
+    },
+    {
+      "category": "position",
+      "keywords": [
+        "position",
+        "pos",
+        "axis",
+        "travel",
+        "stroke"
+      ],
+      "validUnits": [
+        "MMT",
+        "CMT",
+        "MTR"
+      ],
+      "typicalRange": {
+        "min": -10000,
+        "max": 10000,
+        "unit": "MMT"
+      }
+    },
+    {
+      "category": "flow",
+      "keywords": [
+        "flow",
+        "durchfluss",
+        "volume_flow",
+        "injection_rate"
+      ],
+      "validUnits": [
+        "CMQ",
+        "MLT",
+        "LTR"
+      ],
+      "typicalRange": {
+        "min": 0,
+        "max": 10000,
+        "unit": "CMQ"
+      }
+    },
+    {
+      "category": "current",
+      "keywords": [
+        "current",
+        "strom",
+        "motor_current",
+        "drive_current"
+      ],
+      "validUnits": [
+        "AMP",
+        "MAM"
+      ],
+      "typicalRange": {
+        "min": 0,
+        "max": 500,
+        "unit": "AMP"
+      }
+    }
+  ]
+}
