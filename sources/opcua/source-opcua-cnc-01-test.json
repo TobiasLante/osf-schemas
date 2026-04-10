@@ -1,0 +1,42 @@
+{
+  "sourceId": "Source-OpcUA-CNC-01-test",
+  "version": "1.0.0",
+  "sourceType": "opcua",
+  "profileRef": "SMProfile-CNC-Machine",
+  "endpoint": "opc.tcp://192.168.178.150:30840",
+  "machineId": "CNC-01-test",
+  "machineName": "CNC Maschine 1",
+  "location": {},
+  "nodeMappings": [
+    {
+      "opcuaNodeId": "ns=1;i=1148",
+      "browsePath": [
+        "PowerUnit",
+        "Power_Spindle_kW"
+      ],
+      "smAttribute": "Power_Spindle_kW",
+      "dataType": "ns=0;i=10"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1151",
+      "browsePath": [
+        "PowerUnit",
+        "Energy_Cycle_kWh"
+      ],
+      "smAttribute": "Energy_Cycle_kWh",
+      "dataType": "ns=0;i=10"
+    }
+  ],
+  "staticProperties": {
+    "machineType": "CNC_Machine"
+  },
+  "polling": {
+    "mode": "subscribe",
+    "intervalMs": 1000
+  },
+  "security": {
+    "mode": "None",
+    "policy": "None",
+    "auth": "Anonymous"
+  }
+}
