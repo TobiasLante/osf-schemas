@@ -651,9 +651,9 @@
   "unitValidation": {
     "summary": {
       "total": 41,
-      "ok": 27,
-      "warnings": 7,
-      "mismatches": 7
+      "ok": 29,
+      "warnings": 8,
+      "mismatches": 4
     },
     "results": [
       {
@@ -827,24 +827,23 @@
             "source": "sm_profile",
             "expectedUnit": "rpm",
             "confidence": 0.5,
-            "explanation": "SM Profile expects \"rpm\", reported \"r/min\""
+            "explanation": "Matches SM Profile unit: rpm"
           },
           {
             "source": "physical_rules",
-            "expectedUnit": "RPM",
+            "expectedUnit": "r/min",
             "expectedRange": {
               "min": 0,
               "max": 40000,
               "unit": "RPM"
             },
             "confidence": 0.6,
-            "explanation": "Unit \"r/min\" is unusual for speed — expected RPM, Hz"
+            "explanation": "Unit \"r/min\" is valid for speed"
           }
         ],
-        "verdict": "mismatch",
+        "verdict": "ok",
         "confidence": 0.55,
-        "suggestedUnit": "RPM",
-        "explanation": "2 source(s) disagree: expected \"RPM\", got \"r/min\""
+        "explanation": "All 2 sources agree: \"r/min\" is correct"
       },
       {
         "attribute": "Spindle_Speed_Set",
@@ -854,24 +853,23 @@
             "source": "sm_profile",
             "expectedUnit": "rpm",
             "confidence": 0.5,
-            "explanation": "SM Profile expects \"rpm\", reported \"r/min\""
+            "explanation": "Matches SM Profile unit: rpm"
           },
           {
             "source": "physical_rules",
-            "expectedUnit": "RPM",
+            "expectedUnit": "r/min",
             "expectedRange": {
               "min": 0,
               "max": 40000,
               "unit": "RPM"
             },
             "confidence": 0.6,
-            "explanation": "Unit \"r/min\" is unusual for speed — expected RPM, Hz"
+            "explanation": "Unit \"r/min\" is valid for speed"
           }
         ],
-        "verdict": "mismatch",
+        "verdict": "ok",
         "confidence": 0.55,
-        "suggestedUnit": "RPM",
-        "explanation": "2 source(s) disagree: expected \"RPM\", got \"r/min\""
+        "explanation": "All 2 sources agree: \"r/min\" is correct"
       },
       {
         "attribute": "Spindle_Load_Pct",
@@ -1253,20 +1251,20 @@
           },
           {
             "source": "physical_rules",
-            "expectedUnit": "°C",
+            "expectedUnit": "kelvin",
             "expectedRange": {
               "min": -40,
               "max": 500,
               "unit": "CEL"
             },
             "confidence": 0.6,
-            "explanation": "Unit \"kelvin\" is unusual for temperature — expected °C, °F, K"
+            "explanation": "Unit \"kelvin\" is valid for temperature"
           }
         ],
-        "verdict": "mismatch",
+        "verdict": "warning",
         "confidence": 0.55,
         "suggestedUnit": "°C",
-        "explanation": "2 source(s) disagree: expected \"°C\", got \"kelvin\""
+        "explanation": "Possible issue: \"kelvin\" may not be correct for Coolant_Temp"
       },
       {
         "attribute": "Coolant_Pressure_Bar",
@@ -1360,12 +1358,12 @@
               "max": 500,
               "unit": "KWT"
             },
-            "confidence": 0.6,
-            "explanation": "Unit \"volt\" is unusual for power — expected kW, W, MW"
+            "confidence": 0.7,
+            "explanation": "Voltage reported as power unit"
           }
         ],
         "verdict": "mismatch",
-        "confidence": 0.55,
+        "confidence": 0.6,
         "suggestedUnit": "kW",
         "explanation": "2 source(s) disagree: expected \"kW\", got \"volt\""
       },
