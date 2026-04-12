@@ -1,6 +1,6 @@
 {
   "sourceId": "Source-OpcUA-TEST-CNC-01",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "sourceType": "opcua",
   "profileRef": "SMProfile-CNC-Machine",
   "endpoint": "opc.tcp://192.168.178.150:30840",
@@ -21,7 +21,7 @@
         "Monitoring",
         "Machine_Status"
       ],
-      "smAttribute": "Machine_Status",
+      "smAttribute": "Act_Status_Machine",
       "dataType": "ns=0;i=6"
     },
     {
@@ -32,7 +32,7 @@
         "Monitoring",
         "Machine_Status_Text"
       ],
-      "smAttribute": "Machine_Status_Text",
+      "smAttribute": "Act_Text_MachineMode",
       "dataType": "ns=0;i=12"
     },
     {
@@ -43,7 +43,7 @@
         "Monitoring",
         "Good_Parts"
       ],
-      "smAttribute": "Good_Parts",
+      "smAttribute": "Act_Amount_PartGood",
       "dataType": "ns=0;i=6"
     },
     {
@@ -76,7 +76,7 @@
         "Monitoring",
         "Cycle_Time_Planned"
       ],
-      "smAttribute": "Cycle_Time_Planned",
+      "smAttribute": "Act_Amount_PartScrap",
       "dataType": "ns=0;i=10"
     },
     {
@@ -87,7 +87,7 @@
         "Monitoring",
         "Cycle_Time_Actual"
       ],
-      "smAttribute": "Cycle_Time_Actual",
+      "smAttribute": "Act_Amount_PartRework",
       "dataType": "ns=0;i=10"
     },
     {
@@ -98,7 +98,7 @@
         "Monitoring",
         "Power_kW"
       ],
-      "smAttribute": "Power_kW",
+      "smAttribute": "Plan_Time_Cycle",
       "dataType": "ns=0;i=10"
     },
     {
@@ -109,7 +109,7 @@
         "Monitoring",
         "Energy_kWh"
       ],
-      "smAttribute": "Energy_kWh",
+      "smAttribute": "Act_Time_Cycle",
       "dataType": "ns=0;i=10"
     },
     {
@@ -120,7 +120,7 @@
         "Monitoring",
         "Production_Order"
       ],
-      "smAttribute": "Production_Order",
+      "smAttribute": "Act_Energy_Power",
       "dataType": "ns=0;i=12"
     },
     {
@@ -153,7 +153,7 @@
         "Monitoring",
         "Shift_Number"
       ],
-      "smAttribute": "Shift_Number",
+      "smAttribute": "Act_Energy_Total",
       "dataType": "ns=0;i=6"
     },
     {
@@ -177,14 +177,39 @@
       ],
       "smAttribute": "Program_Status",
       "dataType": "ns=0;i=21"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1081",
+      "smAttribute": "Act_Ref_ProductionOrder",
+      "dataType": "String"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1082",
+      "smAttribute": "Act_Ref_Article",
+      "dataType": "String"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1083",
+      "smAttribute": "Act_Ref_Tool",
+      "dataType": "String"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1084",
+      "smAttribute": "Act_Ref_Shift",
+      "dataType": "Int32"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1085",
+      "smAttribute": "Act_Ref_Operator",
+      "dataType": "String"
     }
   ],
   "staticProperties": {
     "machineType": "CNC_Machine"
   },
   "polling": {
-    "mode": "subscribe",
-    "intervalMs": 1000
+    "mode": "polling",
+    "intervalMs": 5000
   },
   "security": {
     "mode": "None",
