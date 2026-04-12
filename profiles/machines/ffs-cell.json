@@ -1,45 +1,105 @@
 {
   "profileId": "SMProfile-FFS-Cell",
-  "version": "1.4.0",
+  "version": "2.0.0",
   "standard": "CESMII",
   "displayName": "FFS Cell (Flexible Fertigungszelle)",
   "description": "Flexible Manufacturing System cell — CNC machining with automatic part loading, G-code execution, tool management",
   "parentType": "Machine",
   "attributes": [
     {
-      "name": "Spindle_RPM",
-      "dataType": "Float",
-      "category": "ProcessData",
-      "unit": "rpm",
-      "polling": "subscribe"
-    },
-    {
-      "name": "Feed_Rate",
-      "dataType": "Float",
-      "category": "ProcessData",
-      "unit": "mm/min",
-      "polling": "subscribe"
-    },
-    {
-      "name": "Tool_Wear_Pct",
-      "dataType": "Float",
-      "category": "ProcessData",
-      "unit": "%",
-      "polling": "subscribe"
-    },
-    {
-      "name": "Active_GCode",
-      "dataType": "String",
-      "category": "ProcessData",
-      "description": "Current G-code line being executed",
-      "polling": "subscribe"
-    },
-    {
-      "name": "Program_Line",
+      "name": "Act_Status_Machine",
       "dataType": "Int32",
-      "category": "ProcessData",
-      "description": "Current line index in CNC program",
-      "polling": "subscribe"
+      "required": false
+    },
+    {
+      "name": "Act_Text_MachineMode",
+      "dataType": "String",
+      "required": false
+    },
+    {
+      "name": "Act_Amount_PartGood",
+      "dataType": "Int32",
+      "required": false
+    },
+    {
+      "name": "Act_Amount_PartScrap",
+      "dataType": "Int32",
+      "required": false
+    },
+    {
+      "name": "Act_Amount_PartRework",
+      "dataType": "Int32",
+      "required": false
+    },
+    {
+      "name": "Plan_Time_Cycle",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Time_Cycle",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Energy_Power",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Energy_Total",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Ref_ProductionOrder",
+      "dataType": "String",
+      "required": false
+    },
+    {
+      "name": "Act_Ref_Article",
+      "dataType": "String",
+      "required": false
+    },
+    {
+      "name": "Act_Ref_Tool",
+      "dataType": "String",
+      "required": false
+    },
+    {
+      "name": "Act_Ref_Shift",
+      "dataType": "Int32",
+      "required": false
+    },
+    {
+      "name": "Act_Ref_Operator",
+      "dataType": "String",
+      "required": false
+    },
+    {
+      "name": "Act_Status_Cell",
+      "dataType": "String",
+      "required": false
+    },
+    {
+      "name": "Act_Amount_PalletInQueue",
+      "dataType": "Int32",
+      "required": false
+    },
+    {
+      "name": "Act_Ref_PalletCurrent",
+      "dataType": "String",
+      "required": false
+    },
+    {
+      "name": "Act_Time_BufferRemaining",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Pct_Utilization",
+      "dataType": "Float",
+      "required": false
     }
   ],
   "relationships": [
