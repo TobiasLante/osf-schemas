@@ -1,6 +1,6 @@
 {
   "sourceId": "Source-OpcUA-IMM-017",
-  "version": "1.5.0",
+  "version": "2.0.0",
   "sourceType": "opcua",
   "profileRef": "SMProfile-InjectionMoldingMachine",
   "endpoint": "opc.tcp://192.168.178.150:30840",
@@ -21,7 +21,7 @@
         "Monitoring",
         "Machine_Status"
       ],
-      "smAttribute": "Machine_Status",
+      "smAttribute": "Act_Amount_PartGood",
       "dataType": "Int32"
     },
     {
@@ -54,7 +54,7 @@
         "Monitoring",
         "Scrap_Parts"
       ],
-      "smAttribute": "Scrap_Parts",
+      "smAttribute": "Act_Amount_PartScrap",
       "dataType": "Int32"
     },
     {
@@ -87,7 +87,7 @@
         "Monitoring",
         "Cycle_Time_Actual"
       ],
-      "smAttribute": "Cycle_Time_Actual",
+      "smAttribute": "Act_Ref_ProductionOrder",
       "dataType": "Float"
     },
     {
@@ -98,7 +98,7 @@
         "Monitoring",
         "Power_kW"
       ],
-      "smAttribute": "Power_kW",
+      "smAttribute": "Act_Ref_Article",
       "dataType": "Float"
     },
     {
@@ -109,7 +109,7 @@
         "Monitoring",
         "Energy_kWh"
       ],
-      "smAttribute": "Energy_kWh",
+      "smAttribute": "Act_Ref_Mould",
       "dataType": "Float"
     },
     {
@@ -120,7 +120,7 @@
         "Monitoring",
         "Production_Order"
       ],
-      "smAttribute": "Production_Order",
+      "smAttribute": "Act_Pct_Quality",
       "dataType": "String"
     },
     {
@@ -166,14 +166,29 @@
       ],
       "smAttribute": "Operator_ID",
       "dataType": "String"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1055",
+      "smAttribute": "Act_Status_Machine",
+      "dataType": "String"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1157",
+      "smAttribute": "Act_Time_Cycle",
+      "dataType": "Double"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1160",
+      "smAttribute": "Plan_Time_Cycle",
+      "dataType": "Double"
     }
   ],
   "staticProperties": {
     "machineType": "InjectionMoldingMachine"
   },
   "polling": {
-    "mode": "subscribe",
-    "intervalMs": 1000
+    "mode": "polling",
+    "intervalMs": 5000
   },
   "security": {
     "mode": "None",
