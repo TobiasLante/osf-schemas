@@ -1,41 +1,235 @@
 {
   "profileId": "SMProfile-GrindingMachine",
-  "version": "1.4.0",
+  "version": "2.0.0",
   "standard": "CESMII",
   "displayName": "Grinding Machine (Schleifmaschine)",
   "description": "Schleifmaschine — precision surface and cylindrical grinding. Inherits CNC process data + grinding-specific attributes.",
   "parentType": "CNC_Machine",
   "attributes": [
     {
-      "name": "Wheel_Speed_RPM",
-      "dataType": "Float",
-      "unit": "rpm",
-      "category": "ProcessData.Grinding",
-      "description": "Grinding wheel speed",
-      "polling": "subscribe"
-    },
-    {
-      "name": "Wheel_Diameter_mm",
-      "dataType": "Float",
-      "unit": "mm",
-      "category": "ProcessData.Grinding",
-      "description": "Current wheel diameter (decreases with dressing)",
-      "polling": "subscribe"
-    },
-    {
-      "name": "Surface_Roughness_Ra",
-      "dataType": "Float",
-      "unit": "um",
-      "category": "ProcessData.Grinding",
-      "description": "Surface roughness Ra (measured or estimated)",
-      "polling": "subscribe"
-    },
-    {
-      "name": "Dressing_Cycles",
+      "name": "Act_Status_Machine",
       "dataType": "Int32",
-      "category": "ProcessData.Grinding",
-      "description": "Dressing cycle counter",
-      "polling": "subscribe"
+      "required": false
+    },
+    {
+      "name": "Act_Text_MachineMode",
+      "dataType": "String",
+      "required": false
+    },
+    {
+      "name": "Act_Amount_PartGood",
+      "dataType": "Int32",
+      "required": false
+    },
+    {
+      "name": "Act_Amount_PartScrap",
+      "dataType": "Int32",
+      "required": false
+    },
+    {
+      "name": "Act_Amount_PartRework",
+      "dataType": "Int32",
+      "required": false
+    },
+    {
+      "name": "Plan_Time_Cycle",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Time_Cycle",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Energy_Power",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Energy_Total",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Ref_ProductionOrder",
+      "dataType": "String",
+      "required": false
+    },
+    {
+      "name": "Act_Ref_Article",
+      "dataType": "String",
+      "required": false
+    },
+    {
+      "name": "Act_Ref_Tool",
+      "dataType": "String",
+      "required": false
+    },
+    {
+      "name": "Act_Ref_Shift",
+      "dataType": "Int32",
+      "required": false
+    },
+    {
+      "name": "Act_Ref_Operator",
+      "dataType": "String",
+      "required": false
+    },
+    {
+      "name": "Act_Speed_Spindle",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Set_Speed_Spindle",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Pct_SpindleLoad",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Torque_Spindle",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Rate_Feed",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Set_Rate_Feed",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Pct_FeedOverride",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Pos_AxisX",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Set_Pos_AxisX",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Pos_AxisY",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Set_Pos_AxisY",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Pos_AxisZ",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Set_Pos_AxisZ",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Ref_ToolNumber",
+      "dataType": "Int32",
+      "required": false
+    },
+    {
+      "name": "Act_Pct_ToolWear",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Time_ToolLifeRemaining",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Ref_Program",
+      "dataType": "String",
+      "required": false
+    },
+    {
+      "name": "Act_Ref_ProgramLine",
+      "dataType": "Int32",
+      "required": false
+    },
+    {
+      "name": "Act_Status_Program",
+      "dataType": "String",
+      "required": false
+    },
+    {
+      "name": "Act_Rate_CoolantFlow",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Temp_Coolant",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Pressure_Coolant",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Vibration_X",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Vibration_Y",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Vibration_Z",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Energy_PowerSpindle",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Energy_Cycle",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Speed_Wheel",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Set_Speed_Wheel",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Force_Grinding",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Rate_WheelDress",
+      "dataType": "Float",
+      "required": false
     }
   ],
   "relationships": [],
