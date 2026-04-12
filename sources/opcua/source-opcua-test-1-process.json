@@ -1,0 +1,162 @@
+{
+  "mappingId": "opcua-source-opcua-test-1-process",
+  "sourceId": "opcua-source-opcua-test-1-process",
+  "version": "2.0.0",
+  "discoveredAt": "2026-04-12T12:43:24Z",
+  "endpoint": "opc.tcp://192.168.178.150:30840",
+  "machineId": "Test-1",
+  "machineName": "Test-1",
+  "profileRef": "SMProfile-CNC-Machine",
+  "sourceType": "opcua",
+  "dataCategory": "ProcessData",
+  "location": {},
+  "polling": {
+    "mode": "subscribe",
+    "intervalMs": 1000
+  },
+  "security": {
+    "mode": "None",
+    "policy": "None",
+    "auth": "Anonymous"
+  },
+  "nodeMappings": [
+    {
+      "opcuaNodeId": "ns=1;i=1088",
+      "smAttribute": "Act_Speed_Spindle",
+      "dataType": "Float"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1091",
+      "smAttribute": "Set_Speed_Spindle",
+      "dataType": "Float"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1094",
+      "smAttribute": "Act_Pct_SpindleLoad",
+      "dataType": "Float"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1097",
+      "smAttribute": "Act_Torque_Spindle",
+      "dataType": "Float"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1101",
+      "smAttribute": "Act_Rate_Feed",
+      "dataType": "Float"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1104",
+      "smAttribute": "Set_Rate_Feed",
+      "dataType": "Float"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1107",
+      "smAttribute": "Act_Pct_FeedOverride",
+      "dataType": "Float"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1111",
+      "smAttribute": "Act_Pos_AxisX",
+      "dataType": "Float"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1114",
+      "smAttribute": "Set_Pos_AxisX",
+      "dataType": "Float"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1117",
+      "smAttribute": "Act_Pos_AxisY",
+      "dataType": "Float"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1120",
+      "smAttribute": "Set_Pos_AxisY",
+      "dataType": "Float"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1123",
+      "smAttribute": "Act_Pos_AxisZ",
+      "dataType": "Float"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1126",
+      "smAttribute": "Set_Pos_AxisZ",
+      "dataType": "Float"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1130",
+      "smAttribute": "Act_Ref_ToolNumber",
+      "dataType": "Int32"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1131",
+      "smAttribute": "Act_Pct_ToolWear",
+      "dataType": "Float"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1134",
+      "smAttribute": "Act_Time_ToolLifeRemaining",
+      "dataType": "Float"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1138",
+      "smAttribute": "Act_Ref_Program",
+      "dataType": "String"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1139",
+      "smAttribute": "Act_Ref_ProgramLine",
+      "dataType": "Int32"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1140",
+      "smAttribute": "Act_Status_Program",
+      "dataType": "String"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1142",
+      "smAttribute": "Act_Rate_CoolantFlow",
+      "dataType": "Float"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1145",
+      "smAttribute": "Act_Temp_Coolant",
+      "dataType": "Float"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1148",
+      "smAttribute": "Act_Pressure_Coolant",
+      "dataType": "Float"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1152",
+      "smAttribute": "Act_Vibration_X",
+      "dataType": "Float"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1155",
+      "smAttribute": "Act_Vibration_Y",
+      "dataType": "Float"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1158",
+      "smAttribute": "Act_Vibration_Z",
+      "dataType": "Float"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1162",
+      "smAttribute": "Act_Energy_PowerSpindle",
+      "dataType": "Float"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1165",
+      "smAttribute": "Act_Energy_Cycle",
+      "dataType": "Float"
+    }
+  ],
+  "staticProperties": {
+    "machineType": "CNC_Machine"
+  }
+}
