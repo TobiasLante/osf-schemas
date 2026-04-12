@@ -1,69 +1,120 @@
 {
   "profileId": "SMProfile-AssemblyLine",
-  "version": "1.4.0",
+  "version": "2.0.0",
   "standard": "CESMII",
   "displayName": "Assembly Line (Montage Linie)",
   "description": "Montage Linie — multi-station assembly with BOM material consumption, feeder management, takt time monitoring",
   "parentType": "Machine",
   "attributes": [
     {
-      "name": "Station_Count",
+      "name": "Act_Status_Machine",
       "dataType": "Int32",
-      "category": "ProcessData.Assembly",
-      "description": "Number of active stations",
-      "polling": "subscribe"
+      "required": false
     },
     {
-      "name": "Takt_Time_Actual",
-      "dataType": "Float",
-      "unit": "s",
-      "category": "ProcessData.Assembly",
-      "description": "Actual takt time",
-      "polling": "subscribe"
-    },
-    {
-      "name": "Takt_Time_Set",
-      "dataType": "Float",
-      "unit": "s",
-      "category": "ProcessData.Assembly",
-      "description": "Target takt time",
-      "polling": "subscribe"
-    },
-    {
-      "name": "Line_Speed_Pct",
-      "dataType": "Float",
-      "unit": "%",
-      "category": "ProcessData.Assembly",
-      "description": "Line speed as percentage of max",
-      "polling": "subscribe"
-    },
-    {
-      "name": "Buffer_Level",
-      "dataType": "Int32",
-      "category": "ProcessData.Assembly",
-      "description": "Inter-station buffer fill level",
-      "polling": "subscribe"
-    },
-    {
-      "name": "Feeder_Status",
+      "name": "Act_Text_MachineMode",
       "dataType": "String",
-      "category": "ProcessData.Assembly",
-      "description": "Overall feeder status (OK/LOW/EMPTY)",
-      "polling": "subscribe"
+      "required": false
     },
     {
-      "name": "Stations_Running",
+      "name": "Act_Amount_PartGood",
       "dataType": "Int32",
-      "category": "ProcessData.Assembly",
-      "description": "Number of stations currently producing",
-      "polling": "subscribe"
+      "required": false
     },
     {
-      "name": "Stations_Starving",
+      "name": "Act_Amount_PartScrap",
       "dataType": "Int32",
-      "category": "ProcessData.Assembly",
-      "description": "Number of stations waiting for material",
-      "polling": "subscribe"
+      "required": false
+    },
+    {
+      "name": "Act_Amount_PartRework",
+      "dataType": "Int32",
+      "required": false
+    },
+    {
+      "name": "Plan_Time_Cycle",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Time_Cycle",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Energy_Power",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Energy_Total",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Ref_ProductionOrder",
+      "dataType": "String",
+      "required": false
+    },
+    {
+      "name": "Act_Ref_Article",
+      "dataType": "String",
+      "required": false
+    },
+    {
+      "name": "Act_Ref_Tool",
+      "dataType": "String",
+      "required": false
+    },
+    {
+      "name": "Act_Ref_Shift",
+      "dataType": "Int32",
+      "required": false
+    },
+    {
+      "name": "Act_Ref_Operator",
+      "dataType": "String",
+      "required": false
+    },
+    {
+      "name": "Act_Status_Line",
+      "dataType": "String",
+      "required": false
+    },
+    {
+      "name": "Act_Speed_Conveyor",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Set_Speed_Conveyor",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Amount_StationActive",
+      "dataType": "Int32",
+      "required": false
+    },
+    {
+      "name": "Act_Time_Takt",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Plan_Time_Takt",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Pct_LineEfficiency",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Amount_BufferLevel",
+      "dataType": "Int32",
+      "required": false
     }
   ],
   "relationships": [
