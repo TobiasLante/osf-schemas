@@ -1,6 +1,6 @@
 {
   "mappingId": "opcua-sgm-011",
-  "version": "1.5.0",
+  "version": "2.0.0",
   "discoveredAt": "2026-03-18T22:00:00Z",
   "endpoint": "opc.tcp://192.168.178.150:30860",
   "machineId": "SGM-011",
@@ -13,8 +13,8 @@
     "line": "SGM-2500"
   },
   "polling": {
-    "mode": "subscribe",
-    "intervalMs": 1000
+    "mode": "polling",
+    "intervalMs": 5000
   },
   "security": {
     "mode": "None",
@@ -30,7 +30,7 @@
         "ProductionData",
         "Good_Parts"
       ],
-      "smAttribute": "Good_Parts",
+      "smAttribute": "Act_Amount_PartGood",
       "dataType": "Int32",
       "companionSpec": "EUROMAP77"
     },
@@ -66,7 +66,7 @@
         "ProductionData",
         "Article_ID"
       ],
-      "smAttribute": "Article_ID",
+      "smAttribute": "Act_Amount_PartScrap",
       "dataType": "String",
       "companionSpec": "EUROMAP77"
     },
@@ -92,6 +92,48 @@
       ],
       "smAttribute": "Quality",
       "dataType": "String",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1055",
+      "smAttribute": "Act_Status_Machine",
+      "dataType": "String",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1064",
+      "smAttribute": "Act_Ref_ProductionOrder",
+      "dataType": "String",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1065",
+      "smAttribute": "Act_Ref_Article",
+      "dataType": "String",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1066",
+      "smAttribute": "Act_Ref_Mould",
+      "dataType": "String",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1067",
+      "smAttribute": "Act_Pct_Quality",
+      "dataType": "String",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1157",
+      "smAttribute": "Act_Time_Cycle",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1160",
+      "smAttribute": "Plan_Time_Cycle",
+      "dataType": "Double",
       "companionSpec": "EUROMAP77"
     }
   ],
