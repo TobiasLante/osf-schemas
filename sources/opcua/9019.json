@@ -1,6 +1,6 @@
 {
   "mappingId": "opcua-9019",
-  "version": "1.5.0",
+  "version": "2.0.0",
   "discoveredAt": "2026-03-18T22:00:00Z",
   "endpoint": "opc.tcp://192.168.178.150:30849",
   "machineId": "9019",
@@ -13,8 +13,8 @@
     "line": "Fräs-Linie"
   },
   "polling": {
-    "mode": "subscribe",
-    "intervalMs": 1000
+    "mode": "polling",
+    "intervalMs": 5000
   },
   "security": {
     "mode": "None",
@@ -30,7 +30,7 @@
         "Monitoring",
         "Machine_Status"
       ],
-      "smAttribute": "Machine_Status",
+      "smAttribute": "Act_Status_Machine",
       "dataType": "Int32"
     },
     {
@@ -41,7 +41,7 @@
         "Monitoring",
         "Machine_Status_Text"
       ],
-      "smAttribute": "Machine_Status_Text",
+      "smAttribute": "Act_Text_MachineMode",
       "dataType": "String"
     },
     {
@@ -52,7 +52,7 @@
         "Monitoring",
         "Good_Parts"
       ],
-      "smAttribute": "Good_Parts",
+      "smAttribute": "Act_Amount_PartGood",
       "dataType": "Int32"
     },
     {
@@ -85,7 +85,7 @@
         "Monitoring",
         "Cycle_Time_Planned"
       ],
-      "smAttribute": "Cycle_Time_Planned",
+      "smAttribute": "Act_Amount_PartScrap",
       "dataType": "Float"
     },
     {
@@ -118,7 +118,7 @@
         "Monitoring",
         "Energy_kWh"
       ],
-      "smAttribute": "Energy_kWh",
+      "smAttribute": "Act_Amount_PartRework",
       "dataType": "Float"
     },
     {
@@ -151,7 +151,7 @@
         "Monitoring",
         "Tool_ID"
       ],
-      "smAttribute": "Tool_ID",
+      "smAttribute": "Plan_Time_Cycle",
       "dataType": "String"
     },
     {
@@ -174,6 +174,46 @@
         "Operator_ID"
       ],
       "smAttribute": "Operator_ID",
+      "dataType": "String"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1072",
+      "smAttribute": "Act_Time_Cycle",
+      "dataType": "Float"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1075",
+      "smAttribute": "Act_Energy_Power",
+      "dataType": "Float"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1078",
+      "smAttribute": "Act_Energy_Total",
+      "dataType": "Float"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1081",
+      "smAttribute": "Act_Ref_ProductionOrder",
+      "dataType": "String"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1082",
+      "smAttribute": "Act_Ref_Article",
+      "dataType": "String"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1083",
+      "smAttribute": "Act_Ref_Tool",
+      "dataType": "String"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1084",
+      "smAttribute": "Act_Ref_Shift",
+      "dataType": "Int32"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1085",
+      "smAttribute": "Act_Ref_Operator",
       "dataType": "String"
     }
   ],
