@@ -1,0 +1,562 @@
+{
+  "mappingId": "opcua-sgm-018-process",
+  "sourceId": "opcua-sgm-018-process",
+  "version": "2.0.0",
+  "discoveredAt": "2026-04-12T12:43:24Z",
+  "endpoint": "opc.tcp://192.168.178.150:30867",
+  "machineId": "SGM-018",
+  "machineName": "Spritzgussmaschine 18",
+  "profileRef": "SMProfile-InjectionMoldingMachine",
+  "sourceType": "opcua",
+  "dataCategory": "ProcessData",
+  "location": {
+    "enterprise": "ZeroGuess",
+    "site": "Homelab",
+    "area": "Spritzguss",
+    "line": "SGM-2500"
+  },
+  "polling": {
+    "mode": "subscribe",
+    "intervalMs": 1000
+  },
+  "security": {
+    "mode": "None",
+    "policy": "None",
+    "auth": "Anonymous"
+  },
+  "nodeMappings": [
+    {
+      "opcuaNodeId": "ns=1;i=1072",
+      "smAttribute": "Act_Temp_Melting",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1075",
+      "smAttribute": "Set_Temp_Melting",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1078",
+      "smAttribute": "Act_Temp_Zone1",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1081",
+      "smAttribute": "Set_Temp_Zone1",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1084",
+      "smAttribute": "Act_Temp_Zone2",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1087",
+      "smAttribute": "Set_Temp_Zone2",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1090",
+      "smAttribute": "Act_Temp_Zone3",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1093",
+      "smAttribute": "Set_Temp_Zone3",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1096",
+      "smAttribute": "Act_Temp_Zone4",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1099",
+      "smAttribute": "Set_Temp_Zone4",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1102",
+      "smAttribute": "Act_Temp_Zone5",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1105",
+      "smAttribute": "Set_Temp_Zone5",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1108",
+      "smAttribute": "Act_Temp_Zone6",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1111",
+      "smAttribute": "Set_Temp_Zone6",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1114",
+      "smAttribute": "Act_Temp_Nozzle",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1117",
+      "smAttribute": "Set_Temp_Nozzle",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1120",
+      "smAttribute": "Act_Temp_MouldFixed",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1123",
+      "smAttribute": "Set_Temp_MouldFixed",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1126",
+      "smAttribute": "Act_Temp_MouldMoving",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1129",
+      "smAttribute": "Set_Temp_MouldMoving",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1132",
+      "smAttribute": "Act_Temp_WaterInlet",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1135",
+      "smAttribute": "Set_Temp_WaterInlet",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1138",
+      "smAttribute": "Act_Temp_WaterOutlet",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1141",
+      "smAttribute": "Act_Temp_Oil",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1144",
+      "smAttribute": "Set_Temp_Oil",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1147",
+      "smAttribute": "Act_Temp_Dryer",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1150",
+      "smAttribute": "Set_Temp_Dryer",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1153",
+      "smAttribute": "Act_Temp_Ambient",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1163",
+      "smAttribute": "Act_Time_Dosing",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1166",
+      "smAttribute": "Set_Time_Dosing",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1169",
+      "smAttribute": "Act_Time_Filling",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1172",
+      "smAttribute": "Set_Time_Filling",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1175",
+      "smAttribute": "Act_Time_Holding",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1178",
+      "smAttribute": "Set_Time_Holding",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1181",
+      "smAttribute": "Act_Time_Cooling",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1184",
+      "smAttribute": "Set_Time_Cooling",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1187",
+      "smAttribute": "Act_Time_MouldOpen",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1190",
+      "smAttribute": "Act_Time_MouldClose",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1193",
+      "smAttribute": "Act_Time_Ejection",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1196",
+      "smAttribute": "Act_Time_Injection",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1199",
+      "smAttribute": "Act_Time_Plasticizing",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1202",
+      "smAttribute": "Act_Time_Pause",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1206",
+      "smAttribute": "Act_Pressure_Holding",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1209",
+      "smAttribute": "Set_Pressure_Holding",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1212",
+      "smAttribute": "Act_Pressure_InjectionMax",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1215",
+      "smAttribute": "Set_Pressure_InjectionMax",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1218",
+      "smAttribute": "Act_Pressure_InjectionSwitch",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1221",
+      "smAttribute": "Set_Pressure_InjectionSwitch",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1224",
+      "smAttribute": "Act_Pressure_Back",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1227",
+      "smAttribute": "Set_Pressure_Back",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1230",
+      "smAttribute": "Act_Pressure_Oil",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1233",
+      "smAttribute": "Act_Force_Closing",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1236",
+      "smAttribute": "Set_Force_Closing",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1239",
+      "smAttribute": "Act_Force_Ejector",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1242",
+      "smAttribute": "Set_Force_Ejector",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1245",
+      "smAttribute": "Act_Torque_Screw",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1249",
+      "smAttribute": "Act_Vol_Shot",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1252",
+      "smAttribute": "Set_Vol_Shot",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1255",
+      "smAttribute": "Act_Vol_Cushion",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1258",
+      "smAttribute": "Set_Vol_Cushion",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1262",
+      "smAttribute": "Act_Speed_Injection",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1263",
+      "smAttribute": "Set_Speed_Injection",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1264",
+      "smAttribute": "Act_Speed_ScrewRPM",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1267",
+      "smAttribute": "Set_Speed_ScrewRPM",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1270",
+      "smAttribute": "Act_Speed_MouldOpen",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1273",
+      "smAttribute": "Set_Speed_MouldOpen",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1276",
+      "smAttribute": "Act_Speed_MouldClose",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1279",
+      "smAttribute": "Set_Speed_MouldClose",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1282",
+      "smAttribute": "Act_Speed_Ejector",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1285",
+      "smAttribute": "Set_Speed_Ejector",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1289",
+      "smAttribute": "Act_Pos_ScrewDosing",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1292",
+      "smAttribute": "Set_Pos_ScrewDosing",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1295",
+      "smAttribute": "Act_Pos_ScrewSwitch",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1298",
+      "smAttribute": "Set_Pos_ScrewSwitch",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1301",
+      "smAttribute": "Act_Pos_ScrewDecompress",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1304",
+      "smAttribute": "Set_Pos_ScrewDecompress",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1307",
+      "smAttribute": "Act_Pos_MouldOpen",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1310",
+      "smAttribute": "Set_Pos_MouldOpen",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1313",
+      "smAttribute": "Act_Pos_Ejector",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1316",
+      "smAttribute": "Set_Pos_Ejector",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1321",
+      "smAttribute": "Act_Energy_Total",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1324",
+      "smAttribute": "Act_Energy_Heating",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1327",
+      "smAttribute": "Act_Energy_Drive",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1330",
+      "smAttribute": "Act_Energy_PowerCurrent",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1334",
+      "smAttribute": "Act_Humidity_Granulate",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1337",
+      "smAttribute": "Act_Humidity_Ambient",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1340",
+      "smAttribute": "Act_Weight_Shot",
+      "dataType": "Double",
+      "companionSpec": "EUROMAP77"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1343",
+      "smAttribute": "Act_Amount_Shot",
+      "dataType": "Int32",
+      "companionSpec": "EUROMAP77"
+    }
+  ],
+  "staticProperties": {
+    "closingForceKn": 2100,
+    "cavities": 64,
+    "mouldId": "2500_18"
+  }
+}
