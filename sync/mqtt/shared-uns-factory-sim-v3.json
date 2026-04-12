@@ -1,7 +1,7 @@
 {
   "syncId": "shared-uns-factory-sim-v3",
   "mappingId": "#shared.uns",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "syncType": "mqtt",
   "description": "#shared.uns — Flat MQTT topic structure with stable identity. Topic = machine/category/attribute only; all variable runtime context goes into the payload. One topic per attribute (both BDE and ProcessData), one JSON per topic, with full i3X-style VQT metadata (value, unit, quality/origin/processing qualifiers). Publishers must build the payload from this schema; nothing is hardcoded in code.",
   "broker": {
@@ -29,6 +29,14 @@
   "payloadSchema": {
     "format": "JSON",
     "timestampFormat": "ISO8601",
+    "valuePath": "$.Value",
+    "timestampPath": "$.timestamp",
+    "unitPath": "$.Unit",
+    "definitionPath": "$.Definition",
+    "datatypePath": "$.Datatype",
+    "qualityPath": "$.ValueQualityQualifier",
+    "originPath": "$.ValueOriginQualifier",
+    "processingPath": "$.ValueProcessingQualifier",
     "fields": {
       "timestamp": {
         "path": "$.timestamp",
@@ -79,14 +87,7 @@
         "description": "How the sample was selected within the publish interval"
       }
     },
-    "_legacyPaths": {
-      "note": "These field names were in v1.3.0 payloadSchema as top-level keys. Kept for one release so downstream code that reads them directly doesn't break. New code must use the `fields` map above.",
-      "valuePath": "$.Value",
-      "timestampPath": "$.timestamp",
-      "unitPath": "$.Unit",
-      "qualityPath": "$.ValueQualityQualifier",
-      "datatypePath": "$.Datatype"
-    }
+    "_note": "Top-level *Path keys are maintained alongside `fields` above for backwards compatibility with readers that predate v1.4.0. New code should prefer `fields` since it carries source/default metadata per entry."
   },
   "attributeMapping": {
     "strategy": "topic_segment",
