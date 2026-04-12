@@ -1,6 +1,6 @@
 {
   "sourceId": "Source-OpcUA-Test-1",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "sourceType": "opcua",
   "profileRef": "SMProfile-CNC-Machine",
   "endpoint": "opc.tcp://192.168.178.150:30840",
@@ -16,7 +16,7 @@
         "Monitoring",
         "Machine_Status"
       ],
-      "smAttribute": "Machine_Status",
+      "smAttribute": "Act_Status_Machine",
       "dataType": "ns=0;i=6",
       "unit": null,
       "engineeringRange": null
@@ -29,7 +29,7 @@
         "Monitoring",
         "Machine_Status_Text"
       ],
-      "smAttribute": "Machine_Status_Text",
+      "smAttribute": "Act_Text_MachineMode",
       "dataType": "ns=0;i=12",
       "unit": null,
       "engineeringRange": null
@@ -42,7 +42,7 @@
         "Monitoring",
         "Good_Parts"
       ],
-      "smAttribute": "Good_Parts",
+      "smAttribute": "Act_Amount_PartGood",
       "dataType": "ns=0;i=6",
       "unit": "pieces",
       "engineeringRange": {
@@ -58,7 +58,7 @@
         "Monitoring",
         "Scrap_Parts"
       ],
-      "smAttribute": "Scrap_Parts",
+      "smAttribute": "Act_Amount_PartScrap",
       "dataType": "ns=0;i=6",
       "unit": "pieces",
       "engineeringRange": {
@@ -74,7 +74,7 @@
         "Monitoring",
         "Rework_Parts"
       ],
-      "smAttribute": "Rework_Parts",
+      "smAttribute": "Act_Amount_PartRework",
       "dataType": "ns=0;i=6",
       "unit": "pieces",
       "engineeringRange": {
@@ -90,7 +90,7 @@
         "Monitoring",
         "Cycle_Time_Planned"
       ],
-      "smAttribute": "Cycle_Time_Planned",
+      "smAttribute": "Plan_Time_Cycle",
       "dataType": "ns=0;i=10",
       "unit": "s",
       "engineeringRange": {
@@ -106,7 +106,7 @@
         "Monitoring",
         "Cycle_Time_Actual"
       ],
-      "smAttribute": "Cycle_Time_Actual",
+      "smAttribute": "Act_Time_Cycle",
       "dataType": "ns=0;i=10",
       "unit": "s",
       "engineeringRange": {
@@ -122,7 +122,7 @@
         "Monitoring",
         "Power_kW"
       ],
-      "smAttribute": "Power_kW",
+      "smAttribute": "Act_Energy_Power",
       "dataType": "ns=0;i=10",
       "unit": "kW",
       "engineeringRange": {
@@ -138,7 +138,7 @@
         "Monitoring",
         "Energy_kWh"
       ],
-      "smAttribute": "Energy_kWh",
+      "smAttribute": "Act_Energy_Total",
       "dataType": "ns=0;i=10",
       "unit": "kWh",
       "engineeringRange": {
@@ -154,7 +154,7 @@
         "Monitoring",
         "Production_Order"
       ],
-      "smAttribute": "Production_Order",
+      "smAttribute": "Act_Ref_ProductionOrder",
       "dataType": "ns=0;i=12",
       "unit": null,
       "engineeringRange": null
@@ -167,7 +167,7 @@
         "Monitoring",
         "Article_ID"
       ],
-      "smAttribute": "Article_ID",
+      "smAttribute": "Act_Ref_Article",
       "dataType": "ns=0;i=12",
       "unit": null,
       "engineeringRange": null
@@ -180,7 +180,7 @@
         "Monitoring",
         "Tool_ID"
       ],
-      "smAttribute": "Tool_ID",
+      "smAttribute": "Act_Ref_Tool",
       "dataType": "ns=0;i=12",
       "unit": null,
       "engineeringRange": null
@@ -193,7 +193,7 @@
         "Monitoring",
         "Shift_Number"
       ],
-      "smAttribute": "Shift_Number",
+      "smAttribute": "Act_Ref_Shift",
       "dataType": "ns=0;i=6",
       "unit": null,
       "engineeringRange": null
@@ -206,7 +206,7 @@
         "Monitoring",
         "Operator_ID"
       ],
-      "smAttribute": "Operator_ID",
+      "smAttribute": "Act_Ref_Operator",
       "dataType": "ns=0;i=12",
       "unit": null,
       "engineeringRange": null
@@ -640,8 +640,8 @@
     "machineType": "CNC_Machine"
   },
   "polling": {
-    "mode": "subscribe",
-    "intervalMs": 1000
+    "mode": "polling",
+    "intervalMs": 5000
   },
   "security": {
     "mode": "None",
