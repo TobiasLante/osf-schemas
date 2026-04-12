@@ -1,40 +1,250 @@
 {
   "profileId": "SMProfile-5AxisMillingMachine",
-  "version": "1.4.0",
+  "version": "2.0.0",
   "standard": "CESMII",
   "displayName": "5-Axis Milling Machine (5-Achs-Fräsmaschine)",
   "description": "5-Achs-Fräsmaschine — simultaneous 5-axis machining for complex freeform surfaces. Inherits Milling + 2 rotary axes.",
   "parentType": "MillingMachine",
   "attributes": [
     {
-      "name": "Axis_A_Actual",
-      "dataType": "Float",
-      "unit": "deg",
-      "category": "ProcessData.Axes",
-      "description": "A rotary axis actual position",
-      "polling": "subscribe"
+      "name": "Act_Status_Machine",
+      "dataType": "Int32",
+      "required": false
     },
     {
-      "name": "Axis_A_Set",
-      "dataType": "Float",
-      "unit": "deg",
-      "category": "ProcessData.Axes",
-      "polling": "subscribe"
+      "name": "Act_Text_MachineMode",
+      "dataType": "String",
+      "required": false
     },
     {
-      "name": "Axis_C_Actual",
-      "dataType": "Float",
-      "unit": "deg",
-      "category": "ProcessData.Axes",
-      "description": "C rotary axis actual position",
-      "polling": "subscribe"
+      "name": "Act_Amount_PartGood",
+      "dataType": "Int32",
+      "required": false
     },
     {
-      "name": "Axis_C_Set",
+      "name": "Act_Amount_PartScrap",
+      "dataType": "Int32",
+      "required": false
+    },
+    {
+      "name": "Act_Amount_PartRework",
+      "dataType": "Int32",
+      "required": false
+    },
+    {
+      "name": "Plan_Time_Cycle",
       "dataType": "Float",
-      "unit": "deg",
-      "category": "ProcessData.Axes",
-      "polling": "subscribe"
+      "required": false
+    },
+    {
+      "name": "Act_Time_Cycle",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Energy_Power",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Energy_Total",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Ref_ProductionOrder",
+      "dataType": "String",
+      "required": false
+    },
+    {
+      "name": "Act_Ref_Article",
+      "dataType": "String",
+      "required": false
+    },
+    {
+      "name": "Act_Ref_Tool",
+      "dataType": "String",
+      "required": false
+    },
+    {
+      "name": "Act_Ref_Shift",
+      "dataType": "Int32",
+      "required": false
+    },
+    {
+      "name": "Act_Ref_Operator",
+      "dataType": "String",
+      "required": false
+    },
+    {
+      "name": "Act_Speed_Spindle",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Set_Speed_Spindle",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Pct_SpindleLoad",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Torque_Spindle",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Rate_Feed",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Set_Rate_Feed",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Pct_FeedOverride",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Pos_AxisX",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Set_Pos_AxisX",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Pos_AxisY",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Set_Pos_AxisY",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Pos_AxisZ",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Set_Pos_AxisZ",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Ref_ToolNumber",
+      "dataType": "Int32",
+      "required": false
+    },
+    {
+      "name": "Act_Pct_ToolWear",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Time_ToolLifeRemaining",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Ref_Program",
+      "dataType": "String",
+      "required": false
+    },
+    {
+      "name": "Act_Ref_ProgramLine",
+      "dataType": "Int32",
+      "required": false
+    },
+    {
+      "name": "Act_Status_Program",
+      "dataType": "String",
+      "required": false
+    },
+    {
+      "name": "Act_Rate_CoolantFlow",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Temp_Coolant",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Pressure_Coolant",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Vibration_X",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Vibration_Y",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Vibration_Z",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Energy_PowerSpindle",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Energy_Cycle",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Pos_AxisA",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Set_Pos_AxisA",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Pos_AxisB",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Set_Pos_AxisB",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Pos_AxisC",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Set_Pos_AxisC",
+      "dataType": "Float",
+      "required": false
+    },
+    {
+      "name": "Act_Pct_TCPAccuracy",
+      "dataType": "Float",
+      "required": false
     }
   ],
   "relationships": [],
