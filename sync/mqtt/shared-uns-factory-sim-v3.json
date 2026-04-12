@@ -1,9 +1,9 @@
 {
   "syncId": "shared-uns-factory-sim-v3",
   "mappingId": "#shared.uns",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "syncType": "mqtt",
-  "description": "#shared.uns — Flat MQTT topic structure with stable identity. Topic = machine/category/attribute only; all variable runtime context (workOrder, tool, etc.) goes into the payload. Subscribers can always fan out with a fixed depth.",
+  "description": "#shared.uns — Flat MQTT topic structure with stable identity. Topic = machine/category/attribute only; all variable runtime context goes into the payload. One topic per attribute (both BDE and ProcessData), one JSON per topic, with full i3X-style VQT metadata (value, unit, quality/origin/processing qualifiers). Publishers must build the payload from this schema; nothing is hardcoded in code.",
   "broker": {
     "host": "192.168.178.150",
     "port": 31883
@@ -28,12 +28,65 @@
   },
   "payloadSchema": {
     "format": "JSON",
-    "valuePath": "$.Value",
-    "timestampPath": "$.timestamp",
     "timestampFormat": "ISO8601",
-    "unitPath": "$.Unit",
-    "qualityPath": "$.ValueQualityQualifier",
-    "datatypePath": "$.Datatype"
+    "fields": {
+      "timestamp": {
+        "path": "$.timestamp",
+        "source": "runtime.iso8601",
+        "description": "Publish time of this message (ISO-8601 UTC)",
+        "required": true
+      },
+      "Value": {
+        "path": "$.Value",
+        "source": "runtime.value",
+        "description": "The sampled value itself",
+        "required": true
+      },
+      "Unit": {
+        "path": "$.Unit",
+        "source": "profile.attribute.unit",
+        "description": "Engineering unit (e.g. '°C', 'bar', 'rpm'). Empty string if dimensionless."
+      },
+      "Definition": {
+        "path": "$.Definition",
+        "source": "profile.attribute.description",
+        "description": "Human-readable description of what this attribute means"
+      },
+      "Datatype": {
+        "path": "$.Datatype",
+        "source": "profile.attribute.dataType",
+        "description": "SM Profile-declared data type (Float, Int32, Boolean, String, ...)"
+      },
+      "ValueQualityQualifier": {
+        "path": "$.ValueQualityQualifier",
+        "source": "const",
+        "default": "good",
+        "enum": ["good", "uncertain", "bad"],
+        "description": "OPC-UA-style quality — fresh samples default to 'good'"
+      },
+      "ValueOriginQualifier": {
+        "path": "$.ValueOriginQualifier",
+        "source": "const",
+        "default": "measured",
+        "enum": ["measured", "simulated", "calculated", "manual"],
+        "description": "Where the value originated. i-flow reads OPC-UA, so 'measured'."
+      },
+      "ValueProcessingQualifier": {
+        "path": "$.ValueProcessingQualifier",
+        "source": "const",
+        "default": "last",
+        "enum": ["last", "first", "averaged", "min", "max"],
+        "description": "How the sample was selected within the publish interval"
+      }
+    },
+    "_legacyPaths": {
+      "note": "These field names were in v1.3.0 payloadSchema as top-level keys. Kept for one release so downstream code that reads them directly doesn't break. New code must use the `fields` map above.",
+      "valuePath": "$.Value",
+      "timestampPath": "$.timestamp",
+      "unitPath": "$.Unit",
+      "qualityPath": "$.ValueQualityQualifier",
+      "datatypePath": "$.Datatype"
+    }
   },
   "attributeMapping": {
     "strategy": "topic_segment",
