@@ -1,15 +1,15 @@
 {
   "syncId": "isa95-uns-walker-reynolds",
   "mappingId": "ISA-95_Walker_Reynolds",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "syncType": "mqtt",
-  "description": "ISA-95_Walker_Reynolds — Full Unified Name Space (UNS) after Walker Reynolds, ISA-95 hierarchy with all domains: BDE, ProcessData, ERP, QMS, TMS, Maintenance, Energy",
+  "description": "ISA-95_Walker_Reynolds — Unified Name Space after Walker Reynolds. Machine-scoped domains (BDE, ProcessData, TMS, Maintenance, Energy) use a fixed 7-segment pattern so wildcard filters like '.../7533/+/+' work consistently. Sub-categories are flattened into the attribute name (e.g. 'Temperature_Melting_Actual' instead of 'Temperature/Melting_Actual'). Site-scoped domains (ERP, QMS) use a separate 6-segment pattern documented in their domain block.",
   "broker": {
     "host": "${MQTT_HOST}",
     "port": "${MQTT_PORT}"
   },
   "topicStructure": {
-    "pattern": "{enterprise}/{site}/{area}/{line}/{machine}/{domain}/{category}/{attribute}",
+    "pattern": "{enterprise}/{site}/{area}/{line}/{machine}/{domain}/{attribute}",
     "hierarchy": "ISA-95",
     "segments": {
       "enterprise": {
@@ -34,25 +34,21 @@
       },
       "domain": {
         "index": 5,
-        "description": "Data domain: BDE, ProcessData, ERP, QMS, TMS, Maintenance, Energy"
-      },
-      "category": {
-        "index": 6,
-        "description": "Sub-category within domain"
+        "description": "Data domain: BDE, ProcessData, TMS, Maintenance, Energy"
       },
       "attribute": {
-        "index": 7,
-        "description": "Attribute name"
+        "index": 6,
+        "description": "Attribute name (flattened, sub-categories joined with underscore)"
       }
     },
     "subscribeFilters": [
-      "+/+/+/+/+/BDE/#",
-      "+/+/+/+/+/ProcessData/#",
-      "+/+/+/+/+/ERP/#",
-      "+/+/+/+/+/QMS/#",
-      "+/+/+/+/+/TMS/#",
-      "+/+/+/+/+/Maintenance/#",
-      "+/+/+/+/+/Energy/#"
+      "+/+/+/+/+/BDE/+",
+      "+/+/+/+/+/ProcessData/+",
+      "+/+/+/+/+/TMS/+",
+      "+/+/+/+/+/Maintenance/+",
+      "+/+/+/+/+/Energy/+",
+      "+/+/ERP/#",
+      "+/+/QMS/#"
     ]
   },
   "payloadSchema": {
@@ -147,216 +143,66 @@
       ]
     },
     "ProcessData": {
-      "description": "Process parameters — temperatures, pressures, speeds, positions, volumes",
-      "topicPattern": "{enterprise}/{site}/{area}/{line}/{machine}/ProcessData/{category}/{attribute}",
-      "categories": [
-        "Temperature",
-        "Pressure",
-        "Speed",
-        "Time",
-        "Position",
-        "Volume",
-        "Force"
-      ],
+      "description": "Process parameters — temperatures, pressures, speeds, positions, volumes. Flattened: former sub-categories (Temperature/, Pressure/, …) are joined into the attribute name with underscore to keep topic depth fixed.",
+      "topicPattern": "{enterprise}/{site}/{area}/{line}/{machine}/ProcessData/{attribute}",
       "examples": [
-        "{enterprise}/{site}/{area}/{line}/SGM-004/ProcessData/Temperature/Melting_Actual",
-        "{enterprise}/{site}/{area}/{line}/SGM-004/ProcessData/Temperature/Melting_Set",
-        "{enterprise}/{site}/{area}/{line}/SGM-004/ProcessData/Pressure/Holding_Actual",
-        "{enterprise}/{site}/{area}/{line}/SGM-004/ProcessData/Speed/Injection_Actual",
-        "{enterprise}/{site}/{area}/{line}/SGM-004/ProcessData/Time/Dosing_Actual",
-        "{enterprise}/{site}/{area}/{line}/SGM-004/ProcessData/Position/Screw_Dosing",
-        "{enterprise}/{site}/{area}/{line}/SGM-004/ProcessData/Volume/Shot_Actual",
-        "{enterprise}/{site}/{area}/{line}/SGM-004/ProcessData/Force/Clamping_Actual"
+        "{enterprise}/{site}/{area}/{line}/SGM-004/ProcessData/Temperature_Melting_Actual",
+        "{enterprise}/{site}/{area}/{line}/SGM-004/ProcessData/Temperature_Melting_Set",
+        "{enterprise}/{site}/{area}/{line}/SGM-004/ProcessData/Pressure_Holding_Actual",
+        "{enterprise}/{site}/{area}/{line}/SGM-004/ProcessData/Speed_Injection_Actual",
+        "{enterprise}/{site}/{area}/{line}/SGM-004/ProcessData/Time_Dosing_Actual",
+        "{enterprise}/{site}/{area}/{line}/SGM-004/ProcessData/Position_Screw_Dosing",
+        "{enterprise}/{site}/{area}/{line}/SGM-004/ProcessData/Volume_Shot_Actual",
+        "{enterprise}/{site}/{area}/{line}/SGM-004/ProcessData/Force_Clamping_Actual"
       ],
       "attributeMappings": [
-        {
-          "topicAttribute": "Temperature/Melting_Actual",
-          "smAttribute": "Temp_Melting"
-        },
-        {
-          "topicAttribute": "Temperature/Melting_Set",
-          "smAttribute": "Temp_Melting_Set"
-        },
-        {
-          "topicAttribute": "Temperature/Zone1_Actual",
-          "smAttribute": "Temp_Zone_1"
-        },
-        {
-          "topicAttribute": "Temperature/Zone1_Set",
-          "smAttribute": "Temp_Zone_1_Set"
-        },
-        {
-          "topicAttribute": "Temperature/Zone2_Actual",
-          "smAttribute": "Temp_Zone_2"
-        },
-        {
-          "topicAttribute": "Temperature/Zone2_Set",
-          "smAttribute": "Temp_Zone_2_Set"
-        },
-        {
-          "topicAttribute": "Temperature/Nozzle_Actual",
-          "smAttribute": "Temp_Nozzle"
-        },
-        {
-          "topicAttribute": "Temperature/Nozzle_Set",
-          "smAttribute": "Temp_Nozzle_Set"
-        },
-        {
-          "topicAttribute": "Temperature/Mould_Fixed_Actual",
-          "smAttribute": "Temp_Mould_Fixed"
-        },
-        {
-          "topicAttribute": "Temperature/Mould_Moving_Actual",
-          "smAttribute": "Temp_Mould_Moving"
-        },
-        {
-          "topicAttribute": "Temperature/Water_Inlet",
-          "smAttribute": "Temp_Water_Inlet"
-        },
-        {
-          "topicAttribute": "Temperature/Water_Outlet",
-          "smAttribute": "Temp_Water_Outlet"
-        },
-        {
-          "topicAttribute": "Temperature/Oil_Actual",
-          "smAttribute": "Temp_Oil"
-        },
-        {
-          "topicAttribute": "Temperature/Ambient",
-          "smAttribute": "Temp_Ambient"
-        },
-        {
-          "topicAttribute": "Pressure/Holding_Actual",
-          "smAttribute": "Pressure_Holding"
-        },
-        {
-          "topicAttribute": "Pressure/Holding_Set",
-          "smAttribute": "Pressure_Holding_Set"
-        },
-        {
-          "topicAttribute": "Pressure/Injection_Max_Actual",
-          "smAttribute": "Pressure_Injection_Max"
-        },
-        {
-          "topicAttribute": "Pressure/Injection_Max_Set",
-          "smAttribute": "Pressure_Injection_Max_Set"
-        },
-        {
-          "topicAttribute": "Pressure/Switch_Actual",
-          "smAttribute": "Pressure_Injection_Switch"
-        },
-        {
-          "topicAttribute": "Pressure/Back_Actual",
-          "smAttribute": "Pressure_Back"
-        },
-        {
-          "topicAttribute": "Pressure/Oil",
-          "smAttribute": "Pressure_Oil"
-        },
-        {
-          "topicAttribute": "Speed/Injection_Actual",
-          "smAttribute": "Speed_Injection"
-        },
-        {
-          "topicAttribute": "Speed/Injection_Set",
-          "smAttribute": "Speed_Injection_Set"
-        },
-        {
-          "topicAttribute": "Speed/Screw_Actual",
-          "smAttribute": "Speed_Screw_RPM"
-        },
-        {
-          "topicAttribute": "Speed/Screw_Set",
-          "smAttribute": "Speed_Screw_RPM_Set"
-        },
-        {
-          "topicAttribute": "Speed/Mould_Open_Actual",
-          "smAttribute": "Speed_Mould_Open"
-        },
-        {
-          "topicAttribute": "Speed/Mould_Close_Actual",
-          "smAttribute": "Speed_Mould_Close"
-        },
-        {
-          "topicAttribute": "Speed/Ejector_Actual",
-          "smAttribute": "Speed_Ejector"
-        },
-        {
-          "topicAttribute": "Spindle_RPM",
-          "smAttribute": "Spindle_RPM"
-        },
-        {
-          "topicAttribute": "Feed_Rate",
-          "smAttribute": "Feed_Rate"
-        },
-        {
-          "topicAttribute": "Time/Dosing_Actual",
-          "smAttribute": "Time_Dosing"
-        },
-        {
-          "topicAttribute": "Time/Filling_Actual",
-          "smAttribute": "Time_Filling"
-        },
-        {
-          "topicAttribute": "Time/Holding_Actual",
-          "smAttribute": "Time_Holding"
-        },
-        {
-          "topicAttribute": "Time/Cooling_Actual",
-          "smAttribute": "Time_Cooling"
-        },
-        {
-          "topicAttribute": "Time/Mould_Open_Actual",
-          "smAttribute": "Time_Mould_Open"
-        },
-        {
-          "topicAttribute": "Time/Mould_Close_Actual",
-          "smAttribute": "Time_Mould_Close"
-        },
-        {
-          "topicAttribute": "Time/Ejection_Actual",
-          "smAttribute": "Time_Ejection"
-        },
-        {
-          "topicAttribute": "Time/Injection_Actual",
-          "smAttribute": "Time_Injection"
-        },
-        {
-          "topicAttribute": "Position/Screw_Dosing_Actual",
-          "smAttribute": "Position_Screw_Dosing"
-        },
-        {
-          "topicAttribute": "Position/Screw_Switch_Actual",
-          "smAttribute": "Position_Screw_Switch"
-        },
-        {
-          "topicAttribute": "Position/Mould_Open_Actual",
-          "smAttribute": "Position_Mould_Open"
-        },
-        {
-          "topicAttribute": "Position/Ejector_Actual",
-          "smAttribute": "Position_Ejector"
-        },
-        {
-          "topicAttribute": "Volume/Shot_Actual",
-          "smAttribute": "Volume_Shot"
-        },
-        {
-          "topicAttribute": "Volume/Cushion_Actual",
-          "smAttribute": "Volume_Cushion"
-        },
-        {
-          "topicAttribute": "Force/Clamping_Actual",
-          "smAttribute": "Force_Closing"
-        },
-        {
-          "topicAttribute": "Force/Ejector_Actual",
-          "smAttribute": "Force_Ejector"
-        },
-        {
-          "topicAttribute": "Force/Screw_Torque",
-          "smAttribute": "Torque_Screw"
-        }
+        { "topicAttribute": "Temperature_Melting_Actual", "smAttribute": "Temp_Melting" },
+        { "topicAttribute": "Temperature_Melting_Set", "smAttribute": "Temp_Melting_Set" },
+        { "topicAttribute": "Temperature_Zone1_Actual", "smAttribute": "Temp_Zone_1" },
+        { "topicAttribute": "Temperature_Zone1_Set", "smAttribute": "Temp_Zone_1_Set" },
+        { "topicAttribute": "Temperature_Zone2_Actual", "smAttribute": "Temp_Zone_2" },
+        { "topicAttribute": "Temperature_Zone2_Set", "smAttribute": "Temp_Zone_2_Set" },
+        { "topicAttribute": "Temperature_Nozzle_Actual", "smAttribute": "Temp_Nozzle" },
+        { "topicAttribute": "Temperature_Nozzle_Set", "smAttribute": "Temp_Nozzle_Set" },
+        { "topicAttribute": "Temperature_Mould_Fixed_Actual", "smAttribute": "Temp_Mould_Fixed" },
+        { "topicAttribute": "Temperature_Mould_Moving_Actual", "smAttribute": "Temp_Mould_Moving" },
+        { "topicAttribute": "Temperature_Water_Inlet", "smAttribute": "Temp_Water_Inlet" },
+        { "topicAttribute": "Temperature_Water_Outlet", "smAttribute": "Temp_Water_Outlet" },
+        { "topicAttribute": "Temperature_Oil_Actual", "smAttribute": "Temp_Oil" },
+        { "topicAttribute": "Temperature_Ambient", "smAttribute": "Temp_Ambient" },
+        { "topicAttribute": "Pressure_Holding_Actual", "smAttribute": "Pressure_Holding" },
+        { "topicAttribute": "Pressure_Holding_Set", "smAttribute": "Pressure_Holding_Set" },
+        { "topicAttribute": "Pressure_Injection_Max_Actual", "smAttribute": "Pressure_Injection_Max" },
+        { "topicAttribute": "Pressure_Injection_Max_Set", "smAttribute": "Pressure_Injection_Max_Set" },
+        { "topicAttribute": "Pressure_Switch_Actual", "smAttribute": "Pressure_Injection_Switch" },
+        { "topicAttribute": "Pressure_Back_Actual", "smAttribute": "Pressure_Back" },
+        { "topicAttribute": "Pressure_Oil", "smAttribute": "Pressure_Oil" },
+        { "topicAttribute": "Speed_Injection_Actual", "smAttribute": "Speed_Injection" },
+        { "topicAttribute": "Speed_Injection_Set", "smAttribute": "Speed_Injection_Set" },
+        { "topicAttribute": "Speed_Screw_Actual", "smAttribute": "Speed_Screw_RPM" },
+        { "topicAttribute": "Speed_Screw_Set", "smAttribute": "Speed_Screw_RPM_Set" },
+        { "topicAttribute": "Speed_Mould_Open_Actual", "smAttribute": "Speed_Mould_Open" },
+        { "topicAttribute": "Speed_Mould_Close_Actual", "smAttribute": "Speed_Mould_Close" },
+        { "topicAttribute": "Speed_Ejector_Actual", "smAttribute": "Speed_Ejector" },
+        { "topicAttribute": "Spindle_RPM", "smAttribute": "Spindle_RPM" },
+        { "topicAttribute": "Feed_Rate", "smAttribute": "Feed_Rate" },
+        { "topicAttribute": "Time_Dosing_Actual", "smAttribute": "Time_Dosing" },
+        { "topicAttribute": "Time_Filling_Actual", "smAttribute": "Time_Filling" },
+        { "topicAttribute": "Time_Holding_Actual", "smAttribute": "Time_Holding" },
+        { "topicAttribute": "Time_Cooling_Actual", "smAttribute": "Time_Cooling" },
+        { "topicAttribute": "Time_Mould_Open_Actual", "smAttribute": "Time_Mould_Open" },
+        { "topicAttribute": "Time_Mould_Close_Actual", "smAttribute": "Time_Mould_Close" },
+        { "topicAttribute": "Time_Ejection_Actual", "smAttribute": "Time_Ejection" },
+        { "topicAttribute": "Time_Injection_Actual", "smAttribute": "Time_Injection" },
+        { "topicAttribute": "Position_Screw_Dosing_Actual", "smAttribute": "Position_Screw_Dosing" },
+        { "topicAttribute": "Position_Screw_Switch_Actual", "smAttribute": "Position_Screw_Switch" },
+        { "topicAttribute": "Position_Mould_Open_Actual", "smAttribute": "Position_Mould_Open" },
+        { "topicAttribute": "Position_Ejector_Actual", "smAttribute": "Position_Ejector" },
+        { "topicAttribute": "Volume_Shot_Actual", "smAttribute": "Volume_Shot" },
+        { "topicAttribute": "Volume_Cushion_Actual", "smAttribute": "Volume_Cushion" },
+        { "topicAttribute": "Force_Clamping_Actual", "smAttribute": "Force_Closing" },
+        { "topicAttribute": "Force_Ejector_Actual", "smAttribute": "Force_Ejector" },
+        { "topicAttribute": "Force_Screw_Torque", "smAttribute": "Torque_Screw" }
       ]
     },
     "ERP": {
@@ -473,14 +319,14 @@
       ]
     },
     "TMS": {
-      "description": "Tool Management System — tool wear, location, availability",
-      "topicPattern": "{enterprise}/{site}/{area}/{line}/{machine}/TMS/{toolId}/{attribute}",
+      "description": "Tool Management System — tool wear, location, availability. Tool ID is part of the attribute segment (toolId_attribute) to keep 7-segment depth; tool master data goes into the payload.",
+      "topicPattern": "{enterprise}/{site}/{area}/{line}/{machine}/TMS/{attribute}",
       "examples": [
-        "{enterprise}/{site}/{area}/{line}/7533/TMS/WKZ-440/Wear_Pct",
-        "{enterprise}/{site}/{area}/{line}/7533/TMS/WKZ-440/Remaining_Life_Min",
-        "{enterprise}/{site}/{area}/{line}/7533/TMS/WKZ-440/Status",
-        "{enterprise}/{site}/{area}/{line}/SGM-004/TMS/Mould-1300A/Shot_Count",
-        "{enterprise}/{site}/{area}/{line}/SGM-004/TMS/Mould-1300A/Condition"
+        "{enterprise}/{site}/{area}/{line}/7533/TMS/WKZ-440_Wear_Pct",
+        "{enterprise}/{site}/{area}/{line}/7533/TMS/WKZ-440_Remaining_Life_Min",
+        "{enterprise}/{site}/{area}/{line}/7533/TMS/WKZ-440_Status",
+        "{enterprise}/{site}/{area}/{line}/SGM-004/TMS/Mould-1300A_Shot_Count",
+        "{enterprise}/{site}/{area}/{line}/SGM-004/TMS/Mould-1300A_Condition"
       ],
       "attributeMappings": [
         {

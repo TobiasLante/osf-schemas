@@ -1,35 +1,27 @@
 {
   "syncId": "shared-uns-factory-sim-v3",
   "mappingId": "#shared.uns",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "syncType": "mqtt",
-  "description": "#shared.uns — Factory Simulator v3 flat MQTT topic structure, covers all 35 machines (CNC, SGM, Assembly, FFS)",
+  "description": "#shared.uns — Flat MQTT topic structure with stable identity. Topic = machine/category/attribute only; all variable runtime context (workOrder, tool, etc.) goes into the payload. Subscribers can always fan out with a fixed depth.",
   "broker": {
     "host": "192.168.178.150",
     "port": 31883
   },
   "topicStructure": {
-    "pattern": "Factory/{machineId}/{workOrder}/{tool}/{category}/{attribute}",
+    "pattern": "Factory/{machineId}/{category}/{attribute}",
     "segments": {
       "machineId": {
         "index": 1,
-        "description": "Machine display name (e.g. 'CNC-01', 'SGM-002', 'BZ-1')"
-      },
-      "workOrder": {
-        "index": 2,
-        "description": "Production order number or '---' if idle"
-      },
-      "tool": {
-        "index": 3,
-        "description": "Tool ID (e.g. 'T01') or '---'"
+        "description": "Machine display name, resolved from the asset (source-schema.machineId or sourceId, e.g. 'CNC-01', 'SGM-002', '7533')"
       },
       "category": {
-        "index": 4,
-        "description": "BDE or ProcessData"
+        "index": 2,
+        "description": "BDE or ProcessData, derived from SM Profile attribute.category"
       },
       "attribute": {
-        "index": 5,
-        "description": "Attribute name as published by the simulator"
+        "index": 3,
+        "description": "Topic attribute name from attributeMapping.mappings[].topicAttribute"
       }
     },
     "subscribeFilter": "Factory/#"
@@ -45,8 +37,8 @@
   },
   "attributeMapping": {
     "strategy": "topic_segment",
-    "categorySegment": 4,
-    "attributeSegment": 5,
+    "categorySegment": 2,
+    "attributeSegment": 3,
     "mappings": [
       {
         "topicAttribute": "Machine_Status",
