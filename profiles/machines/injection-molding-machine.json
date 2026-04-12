@@ -1,663 +1,550 @@
 {
   "profileId": "SMProfile-InjectionMoldingMachine",
-  "version": "1.4.0",
+  "version": "2.0.0",
   "standard": "CESMII",
   "displayName": "Injection Molding Machine (Spritzgussmaschine)",
   "description": "Spritzgussmaschine with ISA-88 process parameters — temperature zones, pressures, speeds, positions, energy, cavity data. Note: uses Parts_Good/Parts_Scrap (not Good_Parts/Scrap_Parts) and Time_Cycle_* (not Cycle_Time_*) — normalization pending source schema update.",
   "parentType": "Machine",
   "attributes": [
     {
-      "name": "Parts_Good",
-      "dataType": "Int32",
-      "category": "BDE",
-      "polling": "scan"
-    },
-    {
-      "name": "Parts_Scrap",
-      "dataType": "Int32",
-      "category": "BDE",
-      "polling": "scan"
-    },
-    {
-      "name": "Shot_Counter",
-      "dataType": "Int32",
-      "category": "BDE",
-      "polling": "scan"
-    },
-    {
-      "name": "Mould_ID",
+      "name": "Act_Status_Machine",
       "dataType": "String",
-      "category": "BDE",
-      "polling": "scan"
+      "required": false
     },
     {
-      "name": "Quality",
+      "name": "Act_Amount_PartGood",
+      "dataType": "Int32",
+      "required": false
+    },
+    {
+      "name": "Act_Amount_PartScrap",
+      "dataType": "Int32",
+      "required": false
+    },
+    {
+      "name": "Act_Ref_ProductionOrder",
       "dataType": "String",
-      "category": "BDE",
-      "polling": "scan"
+      "required": false
     },
     {
-      "name": "Temp_Melting",
-      "dataType": "Float",
-      "unit": "°C",
-      "category": "ProcessData.Temperature",
-      "polling": "subscribe"
+      "name": "Act_Ref_Article",
+      "dataType": "String",
+      "required": false
     },
     {
-      "name": "Temp_Melting_Set",
-      "dataType": "Float",
-      "unit": "°C",
-      "category": "ProcessData.Temperature",
-      "polling": "subscribe"
+      "name": "Act_Ref_Mould",
+      "dataType": "String",
+      "required": false
     },
     {
-      "name": "Temp_Zone_1",
-      "dataType": "Float",
-      "unit": "°C",
-      "category": "ProcessData.Temperature",
-      "polling": "subscribe"
+      "name": "Act_Pct_Quality",
+      "dataType": "String",
+      "required": false
     },
     {
-      "name": "Temp_Zone_1_Set",
-      "dataType": "Float",
-      "unit": "°C",
-      "category": "ProcessData.Temperature",
-      "polling": "subscribe"
+      "name": "Act_Time_Cycle",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Temp_Zone_2",
-      "dataType": "Float",
-      "unit": "°C",
-      "category": "ProcessData.Temperature",
-      "polling": "subscribe"
+      "name": "Plan_Time_Cycle",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Temp_Zone_2_Set",
-      "dataType": "Float",
-      "unit": "°C",
-      "category": "ProcessData.Temperature",
-      "polling": "subscribe"
+      "name": "Act_Temp_Melting",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Temp_Zone_3",
-      "dataType": "Float",
-      "unit": "°C",
-      "category": "ProcessData.Temperature",
-      "polling": "subscribe"
+      "name": "Set_Temp_Melting",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Temp_Zone_3_Set",
-      "dataType": "Float",
-      "unit": "°C",
-      "category": "ProcessData.Temperature",
-      "polling": "subscribe"
+      "name": "Act_Temp_Zone1",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Temp_Zone_4",
-      "dataType": "Float",
-      "unit": "°C",
-      "category": "ProcessData.Temperature",
-      "polling": "subscribe"
+      "name": "Set_Temp_Zone1",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Temp_Zone_4_Set",
-      "dataType": "Float",
-      "unit": "°C",
-      "category": "ProcessData.Temperature",
-      "polling": "subscribe"
+      "name": "Act_Temp_Zone2",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Temp_Zone_5",
-      "dataType": "Float",
-      "unit": "°C",
-      "category": "ProcessData.Temperature",
-      "polling": "subscribe"
+      "name": "Set_Temp_Zone2",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Temp_Zone_5_Set",
-      "dataType": "Float",
-      "unit": "°C",
-      "category": "ProcessData.Temperature",
-      "polling": "subscribe"
+      "name": "Act_Temp_Zone3",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Temp_Zone_6",
-      "dataType": "Float",
-      "unit": "°C",
-      "category": "ProcessData.Temperature",
-      "polling": "subscribe"
+      "name": "Set_Temp_Zone3",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Temp_Zone_6_Set",
-      "dataType": "Float",
-      "unit": "°C",
-      "category": "ProcessData.Temperature",
-      "polling": "subscribe"
+      "name": "Act_Temp_Zone4",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Temp_Nozzle",
-      "dataType": "Float",
-      "unit": "°C",
-      "category": "ProcessData.Temperature",
-      "polling": "subscribe"
+      "name": "Set_Temp_Zone4",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Temp_Nozzle_Set",
-      "dataType": "Float",
-      "unit": "°C",
-      "category": "ProcessData.Temperature",
-      "polling": "subscribe"
+      "name": "Act_Temp_Zone5",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Temp_Mould_Fixed",
-      "dataType": "Float",
-      "unit": "°C",
-      "category": "ProcessData.Temperature",
-      "polling": "subscribe"
+      "name": "Set_Temp_Zone5",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Temp_Mould_Fixed_Set",
-      "dataType": "Float",
-      "unit": "°C",
-      "category": "ProcessData.Temperature",
-      "polling": "subscribe"
+      "name": "Act_Temp_Zone6",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Temp_Mould_Moving",
-      "dataType": "Float",
-      "unit": "°C",
-      "category": "ProcessData.Temperature",
-      "polling": "subscribe"
+      "name": "Set_Temp_Zone6",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Temp_Mould_Moving_Set",
-      "dataType": "Float",
-      "unit": "°C",
-      "category": "ProcessData.Temperature",
-      "polling": "subscribe"
+      "name": "Act_Temp_Nozzle",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Temp_Water_Inlet",
-      "dataType": "Float",
-      "unit": "°C",
-      "category": "ProcessData.Temperature",
-      "polling": "subscribe"
+      "name": "Set_Temp_Nozzle",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Temp_Water_Inlet_Set",
-      "dataType": "Float",
-      "unit": "°C",
-      "category": "ProcessData.Temperature",
-      "polling": "subscribe"
+      "name": "Act_Temp_MouldFixed",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Temp_Water_Outlet",
-      "dataType": "Float",
-      "unit": "°C",
-      "category": "ProcessData.Temperature",
-      "polling": "subscribe"
+      "name": "Set_Temp_MouldFixed",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Temp_Oil",
-      "dataType": "Float",
-      "unit": "°C",
-      "category": "ProcessData.Temperature",
-      "polling": "subscribe"
+      "name": "Act_Temp_MouldMoving",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Temp_Oil_Set",
-      "dataType": "Float",
-      "unit": "°C",
-      "category": "ProcessData.Temperature",
-      "polling": "subscribe"
+      "name": "Set_Temp_MouldMoving",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Temp_Dryer",
-      "dataType": "Float",
-      "unit": "°C",
-      "category": "ProcessData.Temperature",
-      "polling": "subscribe"
+      "name": "Act_Temp_WaterInlet",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Temp_Dryer_Set",
-      "dataType": "Float",
-      "unit": "°C",
-      "category": "ProcessData.Temperature",
-      "polling": "subscribe"
+      "name": "Set_Temp_WaterInlet",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Temp_Ambient",
-      "dataType": "Float",
-      "unit": "°C",
-      "category": "ProcessData.Temperature",
-      "polling": "subscribe"
+      "name": "Act_Temp_WaterOutlet",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Time_Cycle_Actual",
-      "dataType": "Float",
-      "unit": "s",
-      "category": "ProcessData.Time",
-      "polling": "subscribe"
+      "name": "Act_Temp_Oil",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Time_Cycle_Planned",
-      "dataType": "Float",
-      "unit": "s",
-      "category": "ProcessData.Time",
-      "polling": "subscribe"
+      "name": "Set_Temp_Oil",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Time_Dosing",
-      "dataType": "Float",
-      "unit": "s",
-      "category": "ProcessData.Time",
-      "polling": "subscribe"
+      "name": "Act_Temp_Dryer",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Time_Dosing_Set",
-      "dataType": "Float",
-      "unit": "s",
-      "category": "ProcessData.Time",
-      "polling": "subscribe"
+      "name": "Set_Temp_Dryer",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Time_Filling",
-      "dataType": "Float",
-      "unit": "s",
-      "category": "ProcessData.Time",
-      "polling": "subscribe"
+      "name": "Act_Temp_Ambient",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Time_Filling_Set",
-      "dataType": "Float",
-      "unit": "s",
-      "category": "ProcessData.Time",
-      "polling": "subscribe"
+      "name": "Act_Time_Dosing",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Time_Holding",
-      "dataType": "Float",
-      "unit": "s",
-      "category": "ProcessData.Time",
-      "polling": "subscribe"
+      "name": "Set_Time_Dosing",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Time_Holding_Set",
-      "dataType": "Float",
-      "unit": "s",
-      "category": "ProcessData.Time",
-      "polling": "subscribe"
+      "name": "Act_Time_Filling",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Time_Cooling",
-      "dataType": "Float",
-      "unit": "s",
-      "category": "ProcessData.Time",
-      "polling": "subscribe"
+      "name": "Set_Time_Filling",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Time_Cooling_Set",
-      "dataType": "Float",
-      "unit": "s",
-      "category": "ProcessData.Time",
-      "polling": "subscribe"
+      "name": "Act_Time_Holding",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Time_Mould_Open",
-      "dataType": "Float",
-      "unit": "s",
-      "category": "ProcessData.Time",
-      "polling": "subscribe"
+      "name": "Set_Time_Holding",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Time_Mould_Close",
-      "dataType": "Float",
-      "unit": "s",
-      "category": "ProcessData.Time",
-      "polling": "subscribe"
+      "name": "Act_Time_Cooling",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Time_Ejection",
-      "dataType": "Float",
-      "unit": "s",
-      "category": "ProcessData.Time",
-      "polling": "subscribe"
+      "name": "Set_Time_Cooling",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Time_Injection",
-      "dataType": "Float",
-      "unit": "s",
-      "category": "ProcessData.Time",
-      "polling": "subscribe"
+      "name": "Act_Time_MouldOpen",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Time_Plasticizing",
-      "dataType": "Float",
-      "unit": "s",
-      "category": "ProcessData.Time",
-      "polling": "subscribe"
+      "name": "Act_Time_MouldClose",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Time_Pause",
-      "dataType": "Float",
-      "unit": "s",
-      "category": "ProcessData.Time",
-      "polling": "subscribe"
+      "name": "Act_Time_Ejection",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Pressure_Holding",
-      "dataType": "Float",
-      "unit": "bar",
-      "category": "ProcessData.Pressure",
-      "polling": "subscribe"
+      "name": "Act_Time_Injection",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Pressure_Holding_Set",
-      "dataType": "Float",
-      "unit": "bar",
-      "category": "ProcessData.Pressure",
-      "polling": "subscribe"
+      "name": "Act_Time_Plasticizing",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Pressure_Injection_Max",
-      "dataType": "Float",
-      "unit": "bar",
-      "category": "ProcessData.Pressure",
-      "polling": "subscribe"
+      "name": "Act_Time_Pause",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Pressure_Injection_Max_Set",
-      "dataType": "Float",
-      "unit": "bar",
-      "category": "ProcessData.Pressure",
-      "polling": "subscribe"
+      "name": "Act_Pressure_Holding",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Pressure_Injection_Switch",
-      "dataType": "Float",
-      "unit": "bar",
-      "category": "ProcessData.Pressure",
-      "polling": "subscribe"
+      "name": "Set_Pressure_Holding",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Pressure_Injection_Switch_Set",
-      "dataType": "Float",
-      "unit": "bar",
-      "category": "ProcessData.Pressure",
-      "polling": "subscribe"
+      "name": "Act_Pressure_InjectionMax",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Pressure_Back",
-      "dataType": "Float",
-      "unit": "bar",
-      "category": "ProcessData.Pressure",
-      "polling": "subscribe"
+      "name": "Set_Pressure_InjectionMax",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Pressure_Back_Set",
-      "dataType": "Float",
-      "unit": "bar",
-      "category": "ProcessData.Pressure",
-      "polling": "subscribe"
+      "name": "Act_Pressure_InjectionSwitch",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Pressure_Oil",
-      "dataType": "Float",
-      "unit": "bar",
-      "category": "ProcessData.Pressure",
-      "polling": "subscribe"
+      "name": "Set_Pressure_InjectionSwitch",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Force_Closing",
-      "dataType": "Float",
-      "unit": "kN",
-      "category": "ProcessData.Pressure",
-      "polling": "subscribe"
+      "name": "Act_Pressure_Back",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Force_Closing_Set",
-      "dataType": "Float",
-      "unit": "kN",
-      "category": "ProcessData.Pressure",
-      "polling": "subscribe"
+      "name": "Set_Pressure_Back",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Force_Ejector",
-      "dataType": "Float",
-      "unit": "kN",
-      "category": "ProcessData.Pressure",
-      "polling": "subscribe"
+      "name": "Act_Pressure_Oil",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Force_Ejector_Set",
-      "dataType": "Float",
-      "unit": "kN",
-      "category": "ProcessData.Pressure",
-      "polling": "subscribe"
+      "name": "Act_Force_Closing",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Torque_Screw",
-      "dataType": "Float",
-      "unit": "Nm",
-      "category": "ProcessData.Pressure",
-      "polling": "subscribe"
+      "name": "Set_Force_Closing",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Volume_Shot",
-      "dataType": "Float",
-      "unit": "cm³",
-      "category": "ProcessData.Volume",
-      "polling": "subscribe"
+      "name": "Act_Force_Ejector",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Volume_Shot_Set",
-      "dataType": "Float",
-      "unit": "cm³",
-      "category": "ProcessData.Volume",
-      "polling": "subscribe"
+      "name": "Set_Force_Ejector",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Volume_Cushion",
-      "dataType": "Float",
-      "unit": "cm³",
-      "category": "ProcessData.Volume",
-      "polling": "subscribe"
+      "name": "Act_Torque_Screw",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Volume_Cushion_Set",
-      "dataType": "Float",
-      "unit": "cm³",
-      "category": "ProcessData.Volume",
-      "polling": "subscribe"
+      "name": "Act_Vol_Shot",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Speed_Injection",
-      "dataType": "Float",
-      "unit": "mm/s",
-      "category": "ProcessData.Speed",
-      "polling": "subscribe"
+      "name": "Set_Vol_Shot",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Speed_Injection_Set",
-      "dataType": "Float",
-      "unit": "mm/s",
-      "category": "ProcessData.Speed",
-      "polling": "subscribe"
+      "name": "Act_Vol_Cushion",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Speed_Screw_RPM",
-      "dataType": "Float",
-      "unit": "rpm",
-      "category": "ProcessData.Speed",
-      "polling": "subscribe"
+      "name": "Set_Vol_Cushion",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Speed_Screw_RPM_Set",
-      "dataType": "Float",
-      "unit": "rpm",
-      "category": "ProcessData.Speed",
-      "polling": "subscribe"
+      "name": "Act_Speed_Injection",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Speed_Mould_Open",
-      "dataType": "Float",
-      "unit": "mm/s",
-      "category": "ProcessData.Speed",
-      "polling": "subscribe"
+      "name": "Set_Speed_Injection",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Speed_Mould_Open_Set",
-      "dataType": "Float",
-      "unit": "mm/s",
-      "category": "ProcessData.Speed",
-      "polling": "subscribe"
+      "name": "Act_Speed_ScrewRPM",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Speed_Mould_Close",
-      "dataType": "Float",
-      "unit": "mm/s",
-      "category": "ProcessData.Speed",
-      "polling": "subscribe"
+      "name": "Set_Speed_ScrewRPM",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Speed_Mould_Close_Set",
-      "dataType": "Float",
-      "unit": "mm/s",
-      "category": "ProcessData.Speed",
-      "polling": "subscribe"
+      "name": "Act_Speed_MouldOpen",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Speed_Ejector",
-      "dataType": "Float",
-      "unit": "mm/s",
-      "category": "ProcessData.Speed",
-      "polling": "subscribe"
+      "name": "Set_Speed_MouldOpen",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Speed_Ejector_Set",
-      "dataType": "Float",
-      "unit": "mm/s",
-      "category": "ProcessData.Speed",
-      "polling": "subscribe"
+      "name": "Act_Speed_MouldClose",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Position_Screw_Dosing",
-      "dataType": "Float",
-      "unit": "mm",
-      "category": "ProcessData.Position",
-      "polling": "subscribe"
+      "name": "Set_Speed_MouldClose",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Position_Screw_Dosing_Set",
-      "dataType": "Float",
-      "unit": "mm",
-      "category": "ProcessData.Position",
-      "polling": "subscribe"
+      "name": "Act_Speed_Ejector",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Position_Screw_Switch",
-      "dataType": "Float",
-      "unit": "mm",
-      "category": "ProcessData.Position",
-      "polling": "subscribe"
+      "name": "Set_Speed_Ejector",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Position_Screw_Switch_Set",
-      "dataType": "Float",
-      "unit": "mm",
-      "category": "ProcessData.Position",
-      "polling": "subscribe"
+      "name": "Act_Pos_ScrewDosing",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Position_Screw_Decompress",
-      "dataType": "Float",
-      "unit": "mm",
-      "category": "ProcessData.Position",
-      "polling": "subscribe"
+      "name": "Set_Pos_ScrewDosing",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Position_Screw_Decompress_Set",
-      "dataType": "Float",
-      "unit": "mm",
-      "category": "ProcessData.Position",
-      "polling": "subscribe"
+      "name": "Act_Pos_ScrewSwitch",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Position_Mould_Open",
-      "dataType": "Float",
-      "unit": "mm",
-      "category": "ProcessData.Position",
-      "polling": "subscribe"
+      "name": "Set_Pos_ScrewSwitch",
+      "dataType": "Double",
+      "required": false
+    },
+    {
+      "name": "Act_Pos_ScrewDecompress",
+      "dataType": "Double",
+      "required": false
     },
     {
-      "name": "Position_Mould_Open_Set",
+      "name": "Set_Pos_ScrewDecompress",
+      "dataType": "Double",
+      "required": false
+    },
+    {
+      "name": "Act_Pos_MouldOpen",
+      "dataType": "Double",
+      "required": false
+    },
+    {
+      "name": "Set_Pos_MouldOpen",
+      "dataType": "Double",
+      "required": false
+    },
+    {
+      "name": "Act_Pos_Ejector",
+      "dataType": "Double",
+      "required": false
+    },
+    {
+      "name": "Set_Pos_Ejector",
+      "dataType": "Double",
+      "required": false
+    },
+    {
+      "name": "Act_Energy_Total",
+      "dataType": "Double",
+      "required": false
+    },
+    {
+      "name": "Act_Energy_Heating",
+      "dataType": "Double",
+      "required": false
+    },
+    {
+      "name": "Act_Energy_Drive",
+      "dataType": "Double",
+      "required": false
+    },
+    {
+      "name": "Act_Energy_PowerCurrent",
+      "dataType": "Double",
+      "required": false
+    },
+    {
+      "name": "Act_Humidity_Granulate",
+      "dataType": "Double",
+      "required": false
+    },
+    {
+      "name": "Act_Humidity_Ambient",
+      "dataType": "Double",
+      "required": false
+    },
+    {
+      "name": "Act_Weight_Shot",
+      "dataType": "Double",
+      "required": false
+    },
+    {
+      "name": "Act_Amount_Shot",
+      "dataType": "Int32",
+      "required": false
+    },
+    {
+      "name": "Act_Pct_OEE",
       "dataType": "Float",
-      "unit": "mm",
-      "category": "ProcessData.Position",
-      "polling": "subscribe"
+      "required": false
     },
     {
-      "name": "Position_Ejector",
+      "name": "Act_Pct_Availability",
       "dataType": "Float",
-      "unit": "mm",
-      "category": "ProcessData.Position",
-      "polling": "subscribe"
+      "required": false
     },
     {
-      "name": "Position_Ejector_Set",
+      "name": "Act_Pct_Performance",
       "dataType": "Float",
-      "unit": "mm",
-      "category": "ProcessData.Position",
-      "polling": "subscribe"
+      "required": false
     },
     {
-      "name": "Energy_Total_kWh",
+      "name": "Act_Time_MouldCycle",
       "dataType": "Float",
-      "unit": "kWh",
-      "category": "ProcessData.Energy",
-      "polling": "subscribe"
+      "required": false
+    },
+    {
+      "name": "Act_Amount_PartTotal",
+      "dataType": "Int32",
+      "required": false
     },
     {
-      "name": "Energy_Heating_kWh",
+      "name": "Act_Pct_ScrapRate",
       "dataType": "Float",
-      "unit": "kWh",
-      "category": "ProcessData.Energy",
-      "polling": "subscribe"
+      "required": false
     },
     {
-      "name": "Energy_Drive_kWh",
+      "name": "Act_Energy_SpecificPerPart",
       "dataType": "Float",
-      "unit": "kWh",
-      "category": "ProcessData.Energy",
-      "polling": "subscribe"
+      "required": false
     },
     {
-      "name": "Power_Current",
+      "name": "Act_Time_RunTotal",
       "dataType": "Float",
-      "unit": "kW",
-      "category": "ProcessData.Energy",
-      "polling": "subscribe"
+      "required": false
     },
     {
-      "name": "Humidity_Granulate",
+      "name": "Act_Time_DownTotal",
       "dataType": "Float",
-      "unit": "%",
-      "category": "ProcessData.Material",
-      "polling": "subscribe"
+      "required": false
     },
     {
-      "name": "Humidity_Ambient",
+      "name": "Act_Pct_CycleEfficiency",
       "dataType": "Float",
-      "unit": "%RH",
-      "category": "ProcessData.Material",
-      "polling": "subscribe"
+      "required": false
     },
     {
-      "name": "Weight_Shot_Total",
+      "name": "Act_Weight_PartNet",
       "dataType": "Float",
-      "unit": "g",
-      "category": "ProcessData.Material",
-      "polling": "subscribe"
+      "required": false
     }
   ],
   "relationships": [
