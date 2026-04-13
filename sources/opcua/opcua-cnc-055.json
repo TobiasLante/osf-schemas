@@ -1,65 +1,56 @@
 {
-  "mappingId": "opcua-9013",
+  "sourceId": "opcua-cnc-055",
   "version": "2.0.0",
-  "discoveredAt": "2026-03-18T22:00:00Z",
-  "endpoint": "opc.tcp://192.168.178.150:30843",
-  "machineId": "9013",
-  "machineName": "Fr\u00e4smaschine 1",
-  "profileRef": "SMProfile-MillingMachine",
+  "sourceType": "opcua",
+  "profileRef": "SMProfile-CNC-Machine",
+  "endpoint": "opc.tcp://192.168.178.150:30840",
+  "machineId": "CNC-055",
+  "machineName": "DMG Mori DMU 50 5-axis CNC milling machine",
   "location": {
-    "enterprise": "ZeroGuess",
-    "site": "Homelab",
-    "area": "Fertigung",
-    "line": "Fr\u00e4s-Linie"
-  },
-  "polling": {
-    "mode": "polling",
-    "intervalMs": 5000
-  },
-  "security": {
-    "mode": "None",
-    "policy": "None",
-    "auth": "Anonymous"
+    "enterprise": "",
+    "site": "Stuttgart plant",
+    "area": "Building A",
+    "line": "Line 4"
   },
   "nodeMappings": [
     {
       "opcuaNodeId": "ns=1;i=1058",
       "browsePath": [
         "Machines",
-        "Fr\u00e4smaschine 1",
+        "CNC Maschine 1",
         "Monitoring",
         "Machine_Status"
       ],
-      "smAttribute": "Machine_Status",
+      "smAttribute": "Act_Status_Machine",
       "dataType": "ns=0;i=6"
     },
     {
       "opcuaNodeId": "ns=1;i=1059",
       "browsePath": [
         "Machines",
-        "Fr\u00e4smaschine 1",
+        "CNC Maschine 1",
         "Monitoring",
         "Machine_Status_Text"
       ],
-      "smAttribute": "Machine_Status_Text",
+      "smAttribute": "Act_Text_MachineMode",
       "dataType": "ns=0;i=12"
     },
     {
       "opcuaNodeId": "ns=1;i=1060",
       "browsePath": [
         "Machines",
-        "Fr\u00e4smaschine 1",
+        "CNC Maschine 1",
         "Monitoring",
         "Good_Parts"
       ],
-      "smAttribute": "Good_Parts",
+      "smAttribute": "Act_Amount_PartGood",
       "dataType": "ns=0;i=6"
     },
     {
       "opcuaNodeId": "ns=1;i=1061",
       "browsePath": [
         "Machines",
-        "Fr\u00e4smaschine 1",
+        "CNC Maschine 1",
         "Monitoring",
         "Scrap_Parts"
       ],
@@ -70,7 +61,7 @@
       "opcuaNodeId": "ns=1;i=1062",
       "browsePath": [
         "Machines",
-        "Fr\u00e4smaschine 1",
+        "CNC Maschine 1",
         "Monitoring",
         "Rework_Parts"
       ],
@@ -81,62 +72,62 @@
       "opcuaNodeId": "ns=1;i=1063",
       "browsePath": [
         "Machines",
-        "Fr\u00e4smaschine 1",
+        "CNC Maschine 1",
         "Monitoring",
         "Cycle_Time_Planned"
       ],
-      "smAttribute": "Cycle_Time_Planned",
-      "dataType": "ns=0;i=10"
-    },
-    {
-      "opcuaNodeId": "ns=1;i=1064",
-      "browsePath": [
-        "Machines",
-        "Fr\u00e4smaschine 1",
-        "Monitoring",
-        "Cycle_Time_Actual"
-      ],
-      "smAttribute": "Cycle_Time_Actual",
-      "dataType": "ns=0;i=10"
-    },
-    {
-      "opcuaNodeId": "ns=1;i=1065",
-      "browsePath": [
-        "Machines",
-        "Fr\u00e4smaschine 1",
-        "Monitoring",
-        "Power_kW"
-      ],
-      "smAttribute": "Power_kW",
+      "smAttribute": "Act_Amount_PartScrap",
       "dataType": "ns=0;i=10"
     },
     {
       "opcuaNodeId": "ns=1;i=1066",
       "browsePath": [
         "Machines",
-        "Fr\u00e4smaschine 1",
+        "CNC Maschine 1",
         "Monitoring",
-        "Energy_kWh"
+        "Cycle_Time_Actual"
       ],
-      "smAttribute": "Energy_kWh",
+      "smAttribute": "Act_Amount_PartRework",
       "dataType": "ns=0;i=10"
     },
     {
-      "opcuaNodeId": "ns=1;i=1067",
+      "opcuaNodeId": "ns=1;i=1069",
       "browsePath": [
         "Machines",
-        "Fr\u00e4smaschine 1",
+        "CNC Maschine 1",
+        "Monitoring",
+        "Power_kW"
+      ],
+      "smAttribute": "Plan_Time_Cycle",
+      "dataType": "ns=0;i=10"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1072",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Monitoring",
+        "Energy_kWh"
+      ],
+      "smAttribute": "Act_Time_Cycle",
+      "dataType": "ns=0;i=10"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1075",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
         "Monitoring",
         "Production_Order"
       ],
-      "smAttribute": "Production_Order",
+      "smAttribute": "Act_Energy_Power",
       "dataType": "ns=0;i=12"
     },
     {
-      "opcuaNodeId": "ns=1;i=1068",
+      "opcuaNodeId": "ns=1;i=1076",
       "browsePath": [
         "Machines",
-        "Fr\u00e4smaschine 1",
+        "CNC Maschine 1",
         "Monitoring",
         "Article_ID"
       ],
@@ -144,10 +135,10 @@
       "dataType": "ns=0;i=12"
     },
     {
-      "opcuaNodeId": "ns=1;i=1069",
+      "opcuaNodeId": "ns=1;i=1077",
       "browsePath": [
         "Machines",
-        "Fr\u00e4smaschine 1",
+        "CNC Maschine 1",
         "Monitoring",
         "Tool_ID"
       ],
@@ -155,21 +146,21 @@
       "dataType": "ns=0;i=12"
     },
     {
-      "opcuaNodeId": "ns=1;i=1070",
+      "opcuaNodeId": "ns=1;i=1078",
       "browsePath": [
         "Machines",
-        "Fr\u00e4smaschine 1",
+        "CNC Maschine 1",
         "Monitoring",
         "Shift_Number"
       ],
-      "smAttribute": "Shift_Number",
+      "smAttribute": "Act_Energy_Total",
       "dataType": "ns=0;i=6"
     },
     {
-      "opcuaNodeId": "ns=1;i=1071",
+      "opcuaNodeId": "ns=1;i=1079",
       "browsePath": [
         "Machines",
-        "Fr\u00e4smaschine 1",
+        "CNC Maschine 1",
         "Monitoring",
         "Operator_ID"
       ],
@@ -177,29 +168,52 @@
       "dataType": "ns=0;i=12"
     },
     {
-      "opcuaNodeId": "ns=1;i=1126",
-      "browsePath": [
-        "Machines",
-        "Fr\u00e4smaschine 1",
-        "Program",
-        "Program_Status"
-      ],
-      "smAttribute": "Act_Status_Program",
-      "dataType": "ns=0;i=12"
-    },
-    {
       "opcuaNodeId": "ns=1;i=1055",
       "browsePath": [
         "Machines",
-        "Fr\u00e4smaschine 1",
+        "CNC Maschine 1",
         "MachineryItemState",
         "CurrentState"
       ],
-      "smAttribute": "Act_Status_Machine",
+      "smAttribute": "Program_Status",
       "dataType": "ns=0;i=21"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1081",
+      "smAttribute": "Act_Ref_ProductionOrder",
+      "dataType": "String"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1082",
+      "smAttribute": "Act_Ref_Article",
+      "dataType": "String"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1083",
+      "smAttribute": "Act_Ref_Tool",
+      "dataType": "String"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1084",
+      "smAttribute": "Act_Ref_Shift",
+      "dataType": "Int32"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1085",
+      "smAttribute": "Act_Ref_Operator",
+      "dataType": "String"
     }
   ],
-  "staticProperties": {},
-  "sourceType": "opcua",
-  "sourceId": "opcua-9013"
+  "staticProperties": {
+    "machineType": "CNC_Machine"
+  },
+  "polling": {
+    "mode": "polling",
+    "intervalMs": 5000
+  },
+  "security": {
+    "mode": "None",
+    "policy": "None",
+    "auth": "Anonymous"
+  }
 }

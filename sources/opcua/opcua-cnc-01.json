@@ -1,0 +1,519 @@
+{
+  "sourceId": "opcua-cnc-01",
+  "version": "2.0.0",
+  "sourceType": "opcua",
+  "profileRef": "SMProfile-CNC-Machine",
+  "endpoint": "opc.tcp://192.168.178.150:30840",
+  "machineId": "CNC-01",
+  "machineName": "CNC-01",
+  "location": {
+    "enterprise": "",
+    "site": "",
+    "area": "",
+    "line": ""
+  },
+  "nodeMappings": [
+    {
+      "opcuaNodeId": "ns=1;i=1058",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Monitoring",
+        "Machine_Status"
+      ],
+      "smAttribute": "Act_Status_Machine",
+      "dataType": "ns=0;i=6"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1059",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Monitoring",
+        "Machine_Status_Text"
+      ],
+      "smAttribute": "Act_Text_MachineMode",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1060",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Monitoring",
+        "Good_Parts"
+      ],
+      "smAttribute": "Act_Amount_PartGood",
+      "dataType": "ns=0;i=6"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1061",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Monitoring",
+        "Scrap_Parts"
+      ],
+      "smAttribute": "Scrap_Parts",
+      "dataType": "ns=0;i=6"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1062",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Monitoring",
+        "Rework_Parts"
+      ],
+      "smAttribute": "Rework_Parts",
+      "dataType": "ns=0;i=6"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1063",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Monitoring",
+        "Cycle_Time_Planned"
+      ],
+      "smAttribute": "Act_Amount_PartScrap",
+      "dataType": "ns=0;i=10"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1064",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Monitoring",
+        "Cycle_Time_Actual"
+      ],
+      "smAttribute": "Cycle_Time_Actual",
+      "dataType": "ns=0;i=10"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1065",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Monitoring",
+        "Power_kW"
+      ],
+      "smAttribute": "Power_kW",
+      "dataType": "ns=0;i=10"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1066",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Monitoring",
+        "Energy_kWh"
+      ],
+      "smAttribute": "Act_Amount_PartRework",
+      "dataType": "ns=0;i=10"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1067",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Monitoring",
+        "Production_Order"
+      ],
+      "smAttribute": "Production_Order",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1068",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Monitoring",
+        "Article_ID"
+      ],
+      "smAttribute": "Article_ID",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1069",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Monitoring",
+        "Tool_ID"
+      ],
+      "smAttribute": "Plan_Time_Cycle",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1070",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Monitoring",
+        "Shift_Number"
+      ],
+      "smAttribute": "Shift_Number",
+      "dataType": "ns=0;i=6"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1071",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Monitoring",
+        "Operator_ID"
+      ],
+      "smAttribute": "Operator_ID",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1074",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Spindles",
+        "Spindle_1",
+        "Spindle_Speed_Actual"
+      ],
+      "smAttribute": "Spindle_Speed_Actual",
+      "dataType": "ns=0;i=10"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1077",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Spindles",
+        "Spindle_1",
+        "Spindle_Speed_Set"
+      ],
+      "smAttribute": "Spindle_Speed_Set",
+      "dataType": "ns=0;i=10"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1080",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Spindles",
+        "Spindle_1",
+        "Spindle_Load_Pct"
+      ],
+      "smAttribute": "Spindle_Load_Pct",
+      "dataType": "ns=0;i=10"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1083",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Spindles",
+        "Spindle_1",
+        "Spindle_Torque"
+      ],
+      "smAttribute": "Act_Ref_Tool",
+      "dataType": "ns=0;i=10"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1087",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Feed",
+        "Feed_Rate_Actual"
+      ],
+      "smAttribute": "Feed_Rate_Actual",
+      "dataType": "ns=0;i=10"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1090",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Feed",
+        "Feed_Rate_Set"
+      ],
+      "smAttribute": "Feed_Rate_Set",
+      "dataType": "ns=0;i=10"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1093",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Feed",
+        "Feed_Override_Pct"
+      ],
+      "smAttribute": "Feed_Override_Pct",
+      "dataType": "ns=0;i=10"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1097",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Axes",
+        "Axis_X_Actual"
+      ],
+      "smAttribute": "Axis_X_Actual",
+      "dataType": "ns=0;i=10"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1100",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Axes",
+        "Axis_X_Set"
+      ],
+      "smAttribute": "Axis_X_Set",
+      "dataType": "ns=0;i=10"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1103",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Axes",
+        "Axis_Y_Actual"
+      ],
+      "smAttribute": "Axis_Y_Actual",
+      "dataType": "ns=0;i=10"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1106",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Axes",
+        "Axis_Y_Set"
+      ],
+      "smAttribute": "Axis_Y_Set",
+      "dataType": "ns=0;i=10"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1109",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Axes",
+        "Axis_Z_Actual"
+      ],
+      "smAttribute": "Axis_Z_Actual",
+      "dataType": "ns=0;i=10"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1112",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Axes",
+        "Axis_Z_Set"
+      ],
+      "smAttribute": "Axis_Z_Set",
+      "dataType": "ns=0;i=10"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1116",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "ToolManagement",
+        "Tool_Number"
+      ],
+      "smAttribute": "Tool_Number",
+      "dataType": "ns=0;i=6"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1117",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "ToolManagement",
+        "Tool_Wear_Pct"
+      ],
+      "smAttribute": "Tool_Wear_Pct",
+      "dataType": "ns=0;i=10"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1120",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "ToolManagement",
+        "Tool_Life_Remaining_Min"
+      ],
+      "smAttribute": "Tool_Life_Remaining_Min",
+      "dataType": "ns=0;i=10"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1124",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Program",
+        "Active_Program"
+      ],
+      "smAttribute": "Active_Program",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1125",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Program",
+        "Program_Line"
+      ],
+      "smAttribute": "Program_Line",
+      "dataType": "ns=0;i=6"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1126",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Program",
+        "Program_Status"
+      ],
+      "smAttribute": "Program_Status",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1128",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Coolant",
+        "Coolant_Flow_LPM"
+      ],
+      "smAttribute": "Coolant_Flow_LPM",
+      "dataType": "ns=0;i=10"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1131",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Coolant",
+        "Coolant_Temp"
+      ],
+      "smAttribute": "Coolant_Temp",
+      "dataType": "ns=0;i=10"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1134",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Coolant",
+        "Coolant_Pressure_Bar"
+      ],
+      "smAttribute": "Coolant_Pressure_Bar",
+      "dataType": "ns=0;i=10"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1138",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Vibration",
+        "Vibration_X"
+      ],
+      "smAttribute": "Vibration_X",
+      "dataType": "ns=0;i=10"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1141",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Vibration",
+        "Vibration_Y"
+      ],
+      "smAttribute": "Vibration_Y",
+      "dataType": "ns=0;i=10"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1144",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Vibration",
+        "Vibration_Z"
+      ],
+      "smAttribute": "Vibration_Z",
+      "dataType": "ns=0;i=10"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1148",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "PowerUnit",
+        "Power_Spindle_kW"
+      ],
+      "smAttribute": "Power_Spindle_kW",
+      "dataType": "ns=0;i=10"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1151",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "PowerUnit",
+        "Energy_Cycle_kWh"
+      ],
+      "smAttribute": "Energy_Cycle_kWh",
+      "dataType": "ns=0;i=10"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1072",
+      "smAttribute": "Act_Time_Cycle",
+      "dataType": "Float"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1075",
+      "smAttribute": "Act_Energy_Power",
+      "dataType": "Float"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1078",
+      "smAttribute": "Act_Energy_Total",
+      "dataType": "Float"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1081",
+      "smAttribute": "Act_Ref_ProductionOrder",
+      "dataType": "String"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1082",
+      "smAttribute": "Act_Ref_Article",
+      "dataType": "String"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1084",
+      "smAttribute": "Act_Ref_Shift",
+      "dataType": "Int32"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1085",
+      "smAttribute": "Act_Ref_Operator",
+      "dataType": "String"
+    }
+  ],
+  "staticProperties": {
+    "machineType": "CNC_Machine"
+  },
+  "polling": {
+    "mode": "polling",
+    "intervalMs": 5000
+  },
+  "security": {
+    "mode": "None",
+    "policy": "None",
+    "auth": "Anonymous"
+  }
+}
