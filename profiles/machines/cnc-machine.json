@@ -1,221 +1,5952 @@
 {
-  "profileId": "SMProfile-CNC-Machine",
-  "version": "2.0.0",
+  "profileId": "SMProfile-CNCMachine",
+  "version": "1.0.0",
   "standard": "CESMII",
-  "displayName": "CNC Machine",
-  "description": "CNC-Bearbeitungszentrum — OPC 40077 process data (spindle, feed, axes, tool, coolant, vibration)",
-  "parentType": "Machine",
+  "displayName": "CNC_Machine Profile",
+  "description": "Generated from OPC-UA Companion Spec OPC40077-CNC",
+  "parentType": "SMProfile-Machine",
+  "companionSpec": "OPC40077-CNC",
   "attributes": [
     {
-      "name": "Act_Status_Machine",
-      "dataType": "Int32",
-      "required": false
-    },
-    {
-      "name": "Act_Text_MachineMode",
+      "name": "EnumValues",
       "dataType": "String",
-      "required": false
+      "category": "ProcessData"
     },
     {
-      "name": "Act_Amount_PartGood",
-      "dataType": "Int32",
-      "required": false
-    },
-    {
-      "name": "Act_Amount_PartScrap",
-      "dataType": "Int32",
-      "required": false
-    },
-    {
-      "name": "Act_Amount_PartRework",
-      "dataType": "Int32",
-      "required": false
-    },
-    {
-      "name": "Plan_Time_Cycle",
-      "dataType": "Float",
-      "required": false
-    },
-    {
-      "name": "Act_Time_Cycle",
-      "dataType": "Float",
-      "required": false
-    },
-    {
-      "name": "Act_Energy_Power",
-      "dataType": "Float",
-      "required": false
-    },
-    {
-      "name": "Act_Energy_Total",
-      "dataType": "Float",
-      "required": false
-    },
-    {
-      "name": "Act_Ref_ProductionOrder",
+      "name": "EnumValues",
       "dataType": "String",
-      "required": false
+      "category": "ProcessData"
     },
     {
-      "name": "Act_Ref_Article",
+      "name": "EnumValues",
       "dataType": "String",
-      "required": false
+      "category": "ProcessData"
     },
     {
-      "name": "Act_Ref_Tool",
+      "name": "EnumStrings",
       "dataType": "String",
-      "required": false
+      "category": "ProcessData"
     },
     {
-      "name": "Act_Ref_Shift",
-      "dataType": "Int32",
-      "required": false
-    },
-    {
-      "name": "Act_Ref_Operator",
+      "name": "EnumValues",
       "dataType": "String",
-      "required": false
+      "category": "ProcessData"
     },
     {
-      "name": "Act_Speed_Spindle",
-      "dataType": "Float",
-      "required": false
-    },
-    {
-      "name": "Set_Speed_Spindle",
-      "dataType": "Float",
-      "required": false
-    },
-    {
-      "name": "Act_Pct_SpindleLoad",
-      "dataType": "Float",
-      "required": false
-    },
-    {
-      "name": "Act_Torque_Spindle",
-      "dataType": "Float",
-      "required": false
-    },
-    {
-      "name": "Act_Rate_Feed",
-      "dataType": "Float",
-      "required": false
-    },
-    {
-      "name": "Set_Rate_Feed",
-      "dataType": "Float",
-      "required": false
-    },
-    {
-      "name": "Act_Pct_FeedOverride",
-      "dataType": "Float",
-      "required": false
-    },
-    {
-      "name": "Act_Pos_AxisX",
-      "dataType": "Float",
-      "required": false
-    },
-    {
-      "name": "Set_Pos_AxisX",
-      "dataType": "Float",
-      "required": false
-    },
-    {
-      "name": "Act_Pos_AxisY",
-      "dataType": "Float",
-      "required": false
-    },
-    {
-      "name": "Set_Pos_AxisY",
-      "dataType": "Float",
-      "required": false
-    },
-    {
-      "name": "Act_Pos_AxisZ",
-      "dataType": "Float",
-      "required": false
-    },
-    {
-      "name": "Set_Pos_AxisZ",
-      "dataType": "Float",
-      "required": false
-    },
-    {
-      "name": "Act_Ref_ToolNumber",
-      "dataType": "Int32",
-      "required": false
-    },
-    {
-      "name": "Act_Pct_ToolWear",
-      "dataType": "Float",
-      "required": false
-    },
-    {
-      "name": "Act_Time_ToolLifeRemaining",
-      "dataType": "Float",
-      "required": false
-    },
-    {
-      "name": "Act_Ref_Program",
+      "name": "EnumValues",
       "dataType": "String",
-      "required": false
+      "category": "ProcessData"
     },
     {
-      "name": "Act_Ref_ProgramLine",
-      "dataType": "Int32",
-      "required": false
-    },
-    {
-      "name": "Act_Status_Program",
+      "name": "CncPositionDataType",
       "dataType": "String",
-      "required": false
+      "category": "ProcessData.Position"
     },
     {
-      "name": "Act_Rate_CoolantFlow",
-      "dataType": "Float",
-      "required": false
+      "name": "CncPositionDataType",
+      "dataType": "String",
+      "category": "ProcessData.Position"
     },
     {
-      "name": "Act_Temp_Coolant",
-      "dataType": "Float",
-      "required": false
+      "name": "CncSystems",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Collects the data type descriptions of http://opcfoundation.org/UA/CNC"
     },
     {
-      "name": "Act_Pressure_Coolant",
-      "dataType": "Float",
-      "required": false
+      "name": "NamespaceUri",
+      "dataType": "String",
+      "category": "ProcessData"
     },
     {
-      "name": "Act_Vibration_X",
-      "dataType": "Float",
-      "required": false
+      "name": "CncSystems",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Collects the data type descriptions of http://opcfoundation.org/UA/CNC"
     },
     {
-      "name": "Act_Vibration_Y",
-      "dataType": "Float",
-      "required": false
+      "name": "NamespaceUri",
+      "dataType": "String",
+      "category": "ProcessData"
     },
     {
-      "name": "Act_Vibration_Z",
-      "dataType": "Float",
-      "required": false
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
     },
     {
-      "name": "Act_Energy_PowerSpindle",
-      "dataType": "Float",
-      "required": false
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
     },
     {
-      "name": "Act_Energy_Cycle",
-      "dataType": "Float",
-      "required": false
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "AlarmIdentifier",
+      "dataType": "String",
+      "category": "Alarms",
+      "description": "Unique alarm number."
+    },
+    {
+      "name": "AuxParameters",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Array of auxiliary parameter for additional alarm description."
+    },
+    {
+      "name": "HelpSource",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Additional information to message giving information on how to solve problem that caused the alarm."
+    },
+    {
+      "name": "ActChannel",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "NodeId of the channel object (CncChannelType) that administrates this drive to expose drive’s channel affiliation."
+    },
+    {
+      "name": "ActLoad",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive load actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActPower",
+      "dataType": "Float64",
+      "category": "ProcessData.Energy",
+      "description": "Drive power actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActStatus",
+      "dataType": "String",
+      "category": "Status",
+      "description": "Actual axis state."
+    },
+    {
+      "name": "ActTorque",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive torque actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "CmdTorque",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive torque setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "IsInactive",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Drive inactive state (true in case of inactive drive, else false)."
+    },
+    {
+      "name": "IsReferenced",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Axis reference state (true in case of successfully refereneced axis, else false)."
+    },
+    {
+      "name": "IsRotational",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Axis type (true in case of rotational axis, in case of linear type or other false)."
+    },
+    {
+      "name": "IsVirtual",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Virtual axis (no hardware present; true in case of virtual axis, else fals)."
+    },
+    {
+      "name": "PosDirect",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Position actual value referring to axis' direct measurement system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosIndirect",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Position actual value referring to axis' indirect measurement system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "ZeroOffset",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Active axis zero offset."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActFeedrate",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Feedrate actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActGFunctions",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "Array of active G functions; there can be several G functions active at a time (modal and non-modal G functions)."
+    },
+    {
+      "name": "ActJogIncrement",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Active JOG increment."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActMainProgramFile",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Path of active CNC main program."
+    },
+    {
+      "name": "ActMainProgramFileOffset",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "File offset of active CNC main program file."
+    },
+    {
+      "name": "ActMainProgramLine",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Line number of active CNC main program."
+    },
+    {
+      "name": "ActMainProgramName",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Name of active CNC main program."
+    },
+    {
+      "name": "ActMFunctions",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "Array of active M functions: there can be several M functions active at a time (modal and non-modal M functions)."
+    },
+    {
+      "name": "ActModalOffsetFunction",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "Active zero offset function."
+    },
+    {
+      "name": "ActOperationMode",
+      "dataType": "String",
+      "category": "Control.Mode",
+      "description": "Channel's active mode of operation."
+    },
+    {
+      "name": "ActOverride",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Axis override actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActProgramBlock",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Block of lines containing the previous, actual and subsequent lines of a CNC part program."
+    },
+    {
+      "name": "ActProgramFile",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Path of active CNC program file (main or subprogram)."
+    },
+    {
+      "name": "ActProgramFileOffset",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "File offset of active CNC program file (main or subprogram)."
+    },
+    {
+      "name": "ActProgramLine",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Line number of active CNC program (main or subprogram)."
+    },
+    {
+      "name": "ActProgramName",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Name of active CNC program (main or subprogram)."
+    },
+    {
+      "name": "ActProgramStatus",
+      "dataType": "String",
+      "category": "Status",
+      "description": "Active channel program status"
+    },
+    {
+      "name": "ActStatus",
+      "dataType": "String",
+      "category": "Status",
+      "description": "Active status of channel."
+    },
+    {
+      "name": "BlockMode",
+      "dataType": "Boolean",
+      "category": "Control.Mode",
+      "description": "Block mode status (true in case of block mode is active, else false)."
+    },
+    {
+      "name": "CmdFeedrate",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Feedrate setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "CmdOperationMode",
+      "dataType": "String",
+      "category": "Control.Mode",
+      "description": "Channel’s mode of operation setpoint value."
+    },
+    {
+      "name": "CmdOverride",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Override setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "DryRunFeed",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Test feedrate."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "FeedHold",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Feed status (true in case of feed hold active, else false)."
+    },
+    {
+      "name": "Id",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "Unique numeric channel identifier."
+    },
+    {
+      "name": "PosTcpBcsA",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian base coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosTcpBcsB",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian base coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosTcpBcsC",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian base coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosTcpBcsX",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian base coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosTcpBcsY",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian base coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosTcpBcsZ",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian base coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosTcpWcsA",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian workpiece coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosTcpWcsB",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian workpiece coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosTcpWcsC",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian workpiece coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosTcpWcsX",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian workpiece coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosTcpWcsY",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian workpiece coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosTcpWcsZ",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian workpiece coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "ToolId",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "ID of active tool; returns zero if no tool is present."
+    },
+    {
+      "name": "ActChannel",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "NodeId of the channel object (CncChannelType) that administrates this drive to expose drive’s channel affiliation."
+    },
+    {
+      "name": "ActLoad",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive load actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActPower",
+      "dataType": "Float64",
+      "category": "ProcessData.Energy",
+      "description": "Drive power actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActStatus",
+      "dataType": "String",
+      "category": "Status",
+      "description": "Actual axis state."
+    },
+    {
+      "name": "ActTorque",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive torque actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "CmdTorque",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive torque setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "IsInactive",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Drive inactive state (true in case of inactive drive, else false)."
+    },
+    {
+      "name": "IsReferenced",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Axis reference state (true in case of successfully refereneced axis, else false)."
+    },
+    {
+      "name": "IsRotational",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Axis type (true in case of rotational axis, in case of linear type or other false)."
+    },
+    {
+      "name": "IsVirtual",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Virtual axis (no hardware present; true in case of virtual axis, else fals)."
+    },
+    {
+      "name": "PosDirect",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Position actual value referring to axis' direct measurement system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosIndirect",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Position actual value referring to axis' indirect measurement system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "ZeroOffset",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Active axis zero offset."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActChannel",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "NodeId of the channel object (CncChannelType) that administrates this drive to expose drive’s channel affiliation."
+    },
+    {
+      "name": "ActGear",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "Gear stage actual value."
+    },
+    {
+      "name": "ActLoad",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive load actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActOverride",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Override actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActPower",
+      "dataType": "Float64",
+      "category": "ProcessData.Energy",
+      "description": "Drive power actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActSpeed",
+      "dataType": "Float64",
+      "category": "ProcessData.Speed",
+      "description": "Speed actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActStatus",
+      "dataType": "String",
+      "category": "Status",
+      "description": "Actual spindle state."
+    },
+    {
+      "name": "ActTorque",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive torque actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActTurnDirection",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Turn direction actual value."
+    },
+    {
+      "name": "AnglePos",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Spindle angular position values in case of interpolated (position controlled) spindle movement. Returns zeros in case of regular spindle operation (velocity controlled)."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "CmdGear",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "Gear stage setpoint value."
+    },
+    {
+      "name": "CmdOverride",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Override setpoint value."
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "CmdSpeed",
+      "dataType": "Float64",
+      "category": "ProcessData.Speed",
+      "description": "Speed setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "CmdTorque",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive torque setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "IsInactive",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Drive inactive state (true in case of inactive drive, else false)."
+    },
+    {
+      "name": "IsVirtual",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Virtual axis (no hardware present; true in case of virtual axis, else fals)."
+    },
+    {
+      "name": "ActFeedrate",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Feedrate actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActGFunctions",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "Array of active G functions; there can be several G functions active at a time (modal and non-modal G functions)."
+    },
+    {
+      "name": "ActJogIncrement",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Active JOG increment."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActMainProgramFile",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Path of active CNC main program."
+    },
+    {
+      "name": "ActMainProgramFileOffset",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "File offset of active CNC main program file."
+    },
+    {
+      "name": "ActMainProgramLine",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Line number of active CNC main program."
+    },
+    {
+      "name": "ActMainProgramName",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Name of active CNC main program."
+    },
+    {
+      "name": "ActMFunctions",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "Array of active M functions: there can be several M functions active at a time (modal and non-modal M functions)."
+    },
+    {
+      "name": "ActModalOffsetFunction",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "Active zero offset function."
+    },
+    {
+      "name": "ActOperationMode",
+      "dataType": "String",
+      "category": "Control.Mode",
+      "description": "Channel's active mode of operation."
+    },
+    {
+      "name": "ActOverride",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Axis override actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActProgramBlock",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Block of lines containing the previous, actual and subsequent lines of a CNC part program."
+    },
+    {
+      "name": "ActProgramFile",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Path of active CNC program file (main or subprogram)."
+    },
+    {
+      "name": "ActProgramFileOffset",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "File offset of active CNC program file (main or subprogram)."
+    },
+    {
+      "name": "ActProgramLine",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Line number of active CNC program (main or subprogram)."
+    },
+    {
+      "name": "ActProgramName",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Name of active CNC program (main or subprogram)."
+    },
+    {
+      "name": "ActProgramStatus",
+      "dataType": "String",
+      "category": "Status",
+      "description": "Active channel program status"
+    },
+    {
+      "name": "ActStatus",
+      "dataType": "String",
+      "category": "Status",
+      "description": "Active status of channel."
+    },
+    {
+      "name": "BlockMode",
+      "dataType": "Boolean",
+      "category": "Control.Mode",
+      "description": "Block mode status (true in case of block mode is active, else false)."
+    },
+    {
+      "name": "CmdFeedrate",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Feedrate setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "CmdOperationMode",
+      "dataType": "String",
+      "category": "Control.Mode",
+      "description": "Channel’s mode of operation setpoint value."
+    },
+    {
+      "name": "CmdOverride",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Override setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "DryRunFeed",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Test feedrate."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "FeedHold",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Feed status (true in case of feed hold active, else false)."
+    },
+    {
+      "name": "Id",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "Unique numeric channel identifier."
+    },
+    {
+      "name": "PosTcpBcsA",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian base coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosTcpBcsB",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian base coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosTcpBcsC",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian base coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosTcpBcsX",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian base coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosTcpBcsY",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian base coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosTcpBcsZ",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian base coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosTcpWcsA",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian workpiece coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosTcpWcsB",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian workpiece coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosTcpWcsC",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian workpiece coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosTcpWcsX",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian workpiece coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosTcpWcsY",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian workpiece coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosTcpWcsZ",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian workpiece coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "ToolId",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "ID of active tool; returns zero if no tool is present."
+    },
+    {
+      "name": "ActChannel",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "NodeId of the channel object (CncChannelType) that administrates this drive to expose drive’s channel affiliation."
+    },
+    {
+      "name": "ActLoad",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive load actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActPower",
+      "dataType": "Float64",
+      "category": "ProcessData.Energy",
+      "description": "Drive power actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActTorque",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive torque actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "CmdTorque",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive torque setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "IsInactive",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Drive inactive state (true in case of inactive drive, else false)."
+    },
+    {
+      "name": "IsVirtual",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Virtual axis (no hardware present; true in case of virtual axis, else fals)."
+    },
+    {
+      "name": "ActStatus",
+      "dataType": "String",
+      "category": "Status",
+      "description": "Actual axis state."
+    },
+    {
+      "name": "IsReferenced",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Axis reference state (true in case of successfully refereneced axis, else false)."
+    },
+    {
+      "name": "IsRotational",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Axis type (true in case of rotational axis, in case of linear type or other false)."
+    },
+    {
+      "name": "PosDirect",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Position actual value referring to axis' direct measurement system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosIndirect",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Position actual value referring to axis' indirect measurement system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "ZeroOffset",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Active axis zero offset."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActGear",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "Gear stage actual value."
+    },
+    {
+      "name": "ActOverride",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Override actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActSpeed",
+      "dataType": "Float64",
+      "category": "ProcessData.Speed",
+      "description": "Speed actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActStatus",
+      "dataType": "String",
+      "category": "Status",
+      "description": "Actual spindle state."
+    },
+    {
+      "name": "ActTurnDirection",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Turn direction actual value."
+    },
+    {
+      "name": "AnglePos",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Spindle angular position values in case of interpolated (position controlled) spindle movement. Returns zeros in case of regular spindle operation (velocity controlled)."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "CmdGear",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "Gear stage setpoint value."
+    },
+    {
+      "name": "CmdOverride",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Override setpoint value."
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "CmdSpeed",
+      "dataType": "Float64",
+      "category": "ProcessData.Speed",
+      "description": "Speed setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "CncTypeName",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "Fix",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Version of CNC interface considering changes in implementation (Bug Fix)."
+    },
+    {
+      "name": "VendorName",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Name of CNC system vendor. Format and content may be chosen by vendor."
+    },
+    {
+      "name": "VendorRevision",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Vendor revision of CNC interface. Format and content may be chosen by vendor."
+    },
+    {
+      "name": "Version",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Version of CNC interface - corresponds to version of OPC UA companion standard."
+    },
+    {
+      "name": "ActChannel",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "NodeId of the channel object (CncChannelType) that administrates this drive to expose drive’s channel affiliation."
+    },
+    {
+      "name": "ActFeedrate",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Feedrate actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActGear",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "Gear stage actual value."
+    },
+    {
+      "name": "ActGFunctions",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "Active G function."
+    },
+    {
+      "name": "ActJogIncrement",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Active JOG increment."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActLoad",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive load actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActMainProgramFile",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Path of active CNC main program."
+    },
+    {
+      "name": "ActMainProgramFileOffset",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "File offset of active CNC main program file."
+    },
+    {
+      "name": "ActMainProgramLine",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Line number of active CNC main program."
+    },
+    {
+      "name": "ActMainProgramName",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Name of active CNC main program."
+    },
+    {
+      "name": "ActMFunctions",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "Active M function."
+    },
+    {
+      "name": "ActModalOffsetFunction",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "active zero offset function"
+    },
+    {
+      "name": "ActOperationMode",
+      "dataType": "String",
+      "category": "Control.Mode"
+    },
+    {
+      "name": "ActOverride",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Override actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActPower",
+      "dataType": "Float64",
+      "category": "ProcessData.Energy",
+      "description": "Drive power actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActProgramBlock",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "previous, actual and subsequent CNC program lines"
+    },
+    {
+      "name": "ActProgramFile",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Path of active CNC program file (main or subprogram)."
+    },
+    {
+      "name": "ActProgramFileOffset",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "File offset of active CNC program file (main or subprogram)."
+    },
+    {
+      "name": "ActProgramLine",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Line number of active CNC program (main or subprogram)."
+    },
+    {
+      "name": "ActProgramName",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Name of active CNC program (main or subprogram)."
+    },
+    {
+      "name": "ActProgStatus",
+      "dataType": "String",
+      "category": "Status",
+      "description": "Active channel program status"
+    },
+    {
+      "name": "ActSpeed",
+      "dataType": "Float64",
+      "category": "ProcessData.Speed",
+      "description": "Speed actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActStatus",
+      "dataType": "String",
+      "category": "Status",
+      "description": "Actual spindle state."
+    },
+    {
+      "name": "ActTorque",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive torque actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActTurnDirection",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Turn direction actual value."
+    },
+    {
+      "name": "AnglePos",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Spindle angular position values in case of interpolated (position controlled) spindle movement. Returns zeros in case of regular spindle operation (velocity controlled)."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "BlockMode",
+      "dataType": "Boolean",
+      "category": "Control.Mode",
+      "description": "block mode active"
+    },
+    {
+      "name": "CmdFeedrate",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "feedrate setpoint value"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "CmdGear",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "Gear stage setpoint value."
+    },
+    {
+      "name": "CmdOperationMode",
+      "dataType": "String",
+      "category": "Control.Mode"
+    },
+    {
+      "name": "CmdOverride",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Override setpoint value."
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "CmdSpeed",
+      "dataType": "Float64",
+      "category": "ProcessData.Speed",
+      "description": "Speed setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "CmdTorque",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive torque setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "DryRunFeed",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "test feedrate"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "FeedHold",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "feed hold active"
+    },
+    {
+      "name": "IsInactive",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Drive inactive state (true in case of inactive drive, else false)."
+    },
+    {
+      "name": "IsVirtual",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Virtual axis (no hardware present; true in case of virtual axis, else fals)."
+    },
+    {
+      "name": "ToolId",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "active tool ID"
+    },
+    {
+      "name": "VendorName",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Name of CNC system vendor. Format and content may be chosen by vendor."
+    },
+    {
+      "name": "VendorRevision",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Vendor revision of CNC interface. Format and content may be chosen by vendor."
+    },
+    {
+      "name": "Version",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Version of CNC interface - corresponds to version of OPC UA companion standard."
+    },
+    {
+      "name": "Id",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "Unique numeric channel identifier."
+    },
+    {
+      "name": "Id",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "Unique numeric channel identifier."
+    },
+    {
+      "name": "PosTcpBcsA",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian base coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosTcpBcsA",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian base coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdGear",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "Gear stage setpoint value."
+    },
+    {
+      "name": "ActTurnDirection",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Turn direction actual value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "ActMFunctions",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "Array of active M functions: there can be several M functions active at a time (modal and non-modal M functions)."
+    },
+    {
+      "name": "ActMFunctions",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "Array of active M functions: there can be several M functions active at a time (modal and non-modal M functions)."
+    },
+    {
+      "name": "IsReferenced",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Axis reference state (true in case of successfully refereneced axis, else false)."
+    },
+    {
+      "name": "IsReferenced",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Axis reference state (true in case of successfully refereneced axis, else false)."
+    },
+    {
+      "name": "IsReferenced",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Axis reference state (true in case of successfully refereneced axis, else false)."
+    },
+    {
+      "name": "IsVirtual",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Virtual axis (no hardware present; true in case of virtual axis, else fals)."
+    },
+    {
+      "name": "IsVirtual",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Virtual axis (no hardware present; true in case of virtual axis, else fals)."
+    },
+    {
+      "name": "IsVirtual",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Virtual axis (no hardware present; true in case of virtual axis, else fals)."
+    },
+    {
+      "name": "IsVirtual",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Virtual axis (no hardware present; true in case of virtual axis, else fals)."
+    },
+    {
+      "name": "IsInactive",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Drive inactive state (true in case of inactive drive, else false)."
+    },
+    {
+      "name": "IsInactive",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Drive inactive state (true in case of inactive drive, else false)."
+    },
+    {
+      "name": "IsInactive",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Drive inactive state (true in case of inactive drive, else false)."
+    },
+    {
+      "name": "IsInactive",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Drive inactive state (true in case of inactive drive, else false)."
+    },
+    {
+      "name": "IsRotational",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Axis type (true in case of rotational axis, in case of linear type or other false)."
+    },
+    {
+      "name": "IsRotational",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Axis type (true in case of rotational axis, in case of linear type or other false)."
+    },
+    {
+      "name": "IsRotational",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Axis type (true in case of rotational axis, in case of linear type or other false)."
+    },
+    {
+      "name": "ActProgramStatus",
+      "dataType": "String",
+      "category": "Status",
+      "description": "Active channel program status"
+    },
+    {
+      "name": "ActProgramStatus",
+      "dataType": "String",
+      "category": "Status",
+      "description": "Active channel program status"
+    },
+    {
+      "name": "ActStatus",
+      "dataType": "String",
+      "category": "Status",
+      "description": "Actual axis state."
+    },
+    {
+      "name": "IsReferenced",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Axis reference state (true in case of successfully refereneced axis, else false)."
+    },
+    {
+      "name": "IsRotational",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Axis type (true in case of rotational axis, in case of linear type or other false)."
+    },
+    {
+      "name": "ZeroOffset",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Active axis zero offset."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActChannel",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "NodeId of the channel object (CncChannelType) that administrates this drive to expose drive’s channel affiliation."
+    },
+    {
+      "name": "ActLoad",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive load actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActPower",
+      "dataType": "Float64",
+      "category": "ProcessData.Energy",
+      "description": "Drive power actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActTorque",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive torque actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "CmdTorque",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive torque setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "IsInactive",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Drive inactive state (true in case of inactive drive, else false)."
+    },
+    {
+      "name": "IsVirtual",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Virtual axis (no hardware present; true in case of virtual axis, else fals)."
+    },
+    {
+      "name": "PosDirect",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Position actual value referring to axis' direct measurement system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "ActStatus",
+      "dataType": "String",
+      "category": "Status",
+      "description": "Actual axis state."
+    },
+    {
+      "name": "IsReferenced",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Axis reference state (true in case of successfully refereneced axis, else false)."
+    },
+    {
+      "name": "IsRotational",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Axis type (true in case of rotational axis, in case of linear type or other false)."
+    },
+    {
+      "name": "ZeroOffset",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Active axis zero offset."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActChannel",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "NodeId of the channel object (CncChannelType) that administrates this drive to expose drive’s channel affiliation."
+    },
+    {
+      "name": "ActLoad",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive load actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActPower",
+      "dataType": "Float64",
+      "category": "ProcessData.Energy",
+      "description": "Drive power actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActTorque",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive torque actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "CmdTorque",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive torque setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "IsInactive",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Drive inactive state (true in case of inactive drive, else false)."
+    },
+    {
+      "name": "IsVirtual",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Virtual axis (no hardware present; true in case of virtual axis, else fals)."
+    },
+    {
+      "name": "PosIndirect",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Position actual value referring to axis' indirect measurement system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "ActStatus",
+      "dataType": "String",
+      "category": "Status",
+      "description": "Actual axis state."
+    },
+    {
+      "name": "IsReferenced",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Axis reference state (true in case of successfully refereneced axis, else false)."
+    },
+    {
+      "name": "IsRotational",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Axis type (true in case of rotational axis, in case of linear type or other false)."
+    },
+    {
+      "name": "ZeroOffset",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Active axis zero offset."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActChannel",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "NodeId of the channel object (CncChannelType) that administrates this drive to expose drive’s channel affiliation."
+    },
+    {
+      "name": "ActLoad",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive load actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActPower",
+      "dataType": "Float64",
+      "category": "ProcessData.Energy",
+      "description": "Drive power actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActTorque",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive torque actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "CmdTorque",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive torque setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "IsInactive",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Drive inactive state (true in case of inactive drive, else false)."
+    },
+    {
+      "name": "IsVirtual",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Virtual axis (no hardware present; true in case of virtual axis, else fals)."
+    },
+    {
+      "name": "PosDirect",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Position actual value referring to axis' direct measurement system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "ActStatus",
+      "dataType": "String",
+      "category": "Status",
+      "description": "Actual axis state."
+    },
+    {
+      "name": "IsReferenced",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Axis reference state (true in case of successfully refereneced axis, else false)."
+    },
+    {
+      "name": "IsRotational",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Axis type (true in case of rotational axis, in case of linear type or other false)."
+    },
+    {
+      "name": "ZeroOffset",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Active axis zero offset."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActChannel",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "NodeId of the channel object (CncChannelType) that administrates this drive to expose drive’s channel affiliation."
+    },
+    {
+      "name": "ActLoad",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive load actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActPower",
+      "dataType": "Float64",
+      "category": "ProcessData.Energy",
+      "description": "Drive power actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActTorque",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive torque actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "CmdTorque",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive torque setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "IsInactive",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Drive inactive state (true in case of inactive drive, else false)."
+    },
+    {
+      "name": "IsVirtual",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Virtual axis (no hardware present; true in case of virtual axis, else fals)."
+    },
+    {
+      "name": "PosIndirect",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Position actual value referring to axis' indirect measurement system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosDirect",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Position actual value referring to axis' direct measurement system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "ActStatus",
+      "dataType": "String",
+      "category": "Status",
+      "description": "Actual axis state."
+    },
+    {
+      "name": "ZeroOffset",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Active axis zero offset."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActChannel",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "NodeId of the channel object (CncChannelType) that administrates this drive to expose drive’s channel affiliation."
+    },
+    {
+      "name": "ActLoad",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive load actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActPower",
+      "dataType": "Float64",
+      "category": "ProcessData.Energy",
+      "description": "Drive power actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActTorque",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive torque actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "CmdTorque",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive torque setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "PosIndirect",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Position actual value referring to axis' indirect measurement system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "ActStatus",
+      "dataType": "String",
+      "category": "Status",
+      "description": "Actual axis state."
+    },
+    {
+      "name": "ZeroOffset",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Active axis zero offset."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActChannel",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "NodeId of the channel object (CncChannelType) that administrates this drive to expose drive’s channel affiliation."
+    },
+    {
+      "name": "ActLoad",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive load actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActPower",
+      "dataType": "Float64",
+      "category": "ProcessData.Energy",
+      "description": "Drive power actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActTorque",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive torque actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "CmdTorque",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive torque setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "PosDirect",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Position actual value referring to axis' direct measurement system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "ActStatus",
+      "dataType": "String",
+      "category": "Status",
+      "description": "Actual axis state."
+    },
+    {
+      "name": "ZeroOffset",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Active axis zero offset."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActChannel",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "NodeId of the channel object (CncChannelType) that administrates this drive to expose drive’s channel affiliation."
+    },
+    {
+      "name": "ActLoad",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive load actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActPower",
+      "dataType": "Float64",
+      "category": "ProcessData.Energy",
+      "description": "Drive power actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActTorque",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive torque actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "CmdTorque",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive torque setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActFeedrate",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Feedrate actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActProgramName",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Name of active CNC program (main or subprogram)."
+    },
+    {
+      "name": "ActProgramFileOffset",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "File offset of active CNC program file (main or subprogram)."
+    },
+    {
+      "name": "ActGFunctions",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "Array of active G functions; there can be several G functions active at a time (modal and non-modal G functions)."
+    },
+    {
+      "name": "ActJogIncrement",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Active JOG increment."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActMainProgramName",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Name of active CNC main program."
+    },
+    {
+      "name": "ActModalOffsetFunction",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "Active zero offset function."
+    },
+    {
+      "name": "ActOverride",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Axis override actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActProgramBlock",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Block of lines containing the previous, actual and subsequent lines of a CNC part program."
+    },
+    {
+      "name": "ActProgramLine",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Line number of active CNC program (main or subprogram)."
+    },
+    {
+      "name": "ActProgramFile",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Path of active CNC program file (main or subprogram)."
+    },
+    {
+      "name": "ActStatus",
+      "dataType": "String",
+      "category": "Status",
+      "description": "Active status of channel."
+    },
+    {
+      "name": "BlockMode",
+      "dataType": "Boolean",
+      "category": "Control.Mode",
+      "description": "Block mode status (true in case of block mode is active, else false)."
+    },
+    {
+      "name": "CmdFeedrate",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Feedrate setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "CmdOverride",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Override setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "DryRunFeed",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Test feedrate."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "FeedHold",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Feed status (true in case of feed hold active, else false)."
+    },
+    {
+      "name": "ToolId",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "ID of active tool; returns zero if no tool is present."
+    },
+    {
+      "name": "ActFeedrate",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Feedrate actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActStatus",
+      "dataType": "String",
+      "category": "Status",
+      "description": "Actual axis state."
+    },
+    {
+      "name": "ActProgramName",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Name of active CNC program (main or subprogram)."
+    },
+    {
+      "name": "ActProgramFileOffset",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "File offset of active CNC program file (main or subprogram)."
+    },
+    {
+      "name": "ActGFunctions",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "Array of active G functions; there can be several G functions active at a time (modal and non-modal G functions)."
+    },
+    {
+      "name": "ActJogIncrement",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Active JOG increment."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActMainProgramName",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Name of active CNC main program."
+    },
+    {
+      "name": "ActModalOffsetFunction",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "Active zero offset function."
+    },
+    {
+      "name": "ActOverride",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Axis override actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActProgramBlock",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Block of lines containing the previous, actual and subsequent lines of a CNC part program."
+    },
+    {
+      "name": "ActProgramLine",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Line number of active CNC program (main or subprogram)."
+    },
+    {
+      "name": "ActProgramFile",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Path of active CNC program file (main or subprogram)."
+    },
+    {
+      "name": "ActStatus",
+      "dataType": "String",
+      "category": "Status",
+      "description": "Active status of channel."
+    },
+    {
+      "name": "BlockMode",
+      "dataType": "Boolean",
+      "category": "Control.Mode",
+      "description": "Block mode status (true in case of block mode is active, else false)."
+    },
+    {
+      "name": "CmdFeedrate",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Feedrate setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "CmdOverride",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Override setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "DryRunFeed",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Test feedrate."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "FeedHold",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Feed status (true in case of feed hold active, else false)."
+    },
+    {
+      "name": "ToolId",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "ID of active tool; returns zero if no tool is present."
+    },
+    {
+      "name": "AnglePos",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Spindle angular position values in case of interpolated (position controlled) spindle movement. Returns zeros in case of regular spindle operation (velocity controlled)."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "ActGear",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "Gear stage actual value."
+    },
+    {
+      "name": "ActSpeed",
+      "dataType": "Float64",
+      "category": "ProcessData.Speed",
+      "description": "Speed actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActStatus",
+      "dataType": "String",
+      "category": "Status",
+      "description": "Actual spindle state."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "CmdSpeed",
+      "dataType": "Float64",
+      "category": "ProcessData.Speed",
+      "description": "Speed setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActChannel",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "NodeId of the channel object (CncChannelType) that administrates this drive to expose drive’s channel affiliation."
+    },
+    {
+      "name": "ActLoad",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive load actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActPower",
+      "dataType": "Float64",
+      "category": "ProcessData.Energy",
+      "description": "Drive power actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActTorque",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive torque actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "CmdTorque",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive torque setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "PosIndirect",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Position actual value referring to axis' indirect measurement system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosTcpBcsB",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian base coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosTcpBcsC",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian base coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "ActMainProgramFile",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Path of active CNC main program."
+    },
+    {
+      "name": "ActMainProgramFile",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Path of active CNC main program."
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosTcpBcsX",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian base coordinate system."
+    },
+    {
+      "name": "ActMainProgramLine",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Line number of active CNC main program."
+    },
+    {
+      "name": "ActMainProgramLine",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "Line number of active CNC main program."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "ActMainProgramFileOffset",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "File offset of active CNC main program file."
+    },
+    {
+      "name": "ActMainProgramFileOffset",
+      "dataType": "UInt32",
+      "category": "ProcessData",
+      "description": "File offset of active CNC main program file."
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosTcpBcsY",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian base coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "IsReferenced",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Axis reference state (true in case of successfully refereneced axis, else false)."
+    },
+    {
+      "name": "IsRotational",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Axis type (true in case of rotational axis, in case of linear type or other false)."
+    },
+    {
+      "name": "ZeroOffset",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Active axis zero offset."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActChannel",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "NodeId of the channel object (CncChannelType) that administrates this drive to expose drive’s channel affiliation."
+    },
+    {
+      "name": "ActLoad",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive load actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActPower",
+      "dataType": "Float64",
+      "category": "ProcessData.Energy",
+      "description": "Drive power actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActTorque",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive torque actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "CmdTorque",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive torque setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "IsInactive",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Drive inactive state (true in case of inactive drive, else false)."
+    },
+    {
+      "name": "IsVirtual",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Virtual axis (no hardware present; true in case of virtual axis, else fals)."
+    },
+    {
+      "name": "PosTcpBcsZ",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian base coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosTcpWcsA",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian workpiece coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosTcpWcsB",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian workpiece coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosTcpWcsC",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian workpiece coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosTcpWcsX",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian workpiece coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosTcpWcsY",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian workpiece coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosTcpWcsZ",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian workpiece coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosTcpBcsB",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian base coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosTcpBcsC",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian base coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosTcpBcsX",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian base coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosTcpBcsY",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian base coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosTcpBcsZ",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian base coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosTcpWcsA",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian workpiece coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosTcpWcsB",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian workpiece coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosTcpWcsC",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian workpiece coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosTcpWcsX",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian workpiece coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosTcpWcsY",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian workpiece coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosTcpWcsZ",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Actual position of the tool center point in machine’s Cartesian workpiece coordinate system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosDirect",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Position actual value referring to axis' direct measurement system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosIndirect",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Position actual value referring to axis' indirect measurement system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosDirect",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Position actual value referring to axis' direct measurement system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosIndirect",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Position actual value referring to axis' indirect measurement system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosDirect",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Position actual value referring to axis' direct measurement system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosIndirect",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Position actual value referring to axis' indirect measurement system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosDirect",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Position actual value referring to axis' direct measurement system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosIndirect",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Position actual value referring to axis' indirect measurement system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "ActOverride",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Override actual value."
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "CmdOverride",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Override setpoint value."
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActOperationMode",
+      "dataType": "String",
+      "category": "Control.Mode",
+      "description": "Channel's active mode of operation."
+    },
+    {
+      "name": "CmdOperationMode",
+      "dataType": "String",
+      "category": "Control.Mode",
+      "description": "Channel’s mode of operation setpoint value."
+    },
+    {
+      "name": "ActOperationMode",
+      "dataType": "String",
+      "category": "Control.Mode",
+      "description": "Channel's active mode of operation."
+    },
+    {
+      "name": "CmdOperationMode",
+      "dataType": "String",
+      "category": "Control.Mode",
+      "description": "Channel’s mode of operation setpoint value."
+    },
+    {
+      "name": "ActStatus",
+      "dataType": "String",
+      "category": "Status",
+      "description": "Actual axis state."
+    },
+    {
+      "name": "IsReferenced",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Axis reference state (true in case of successfully refereneced axis, else false)."
+    },
+    {
+      "name": "IsRotational",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Axis type (true in case of rotational axis, in case of linear type or other false)."
+    },
+    {
+      "name": "PosDirect",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Position actual value referring to axis' direct measurement system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosIndirect",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Position actual value referring to axis' indirect measurement system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "ZeroOffset",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Active axis zero offset."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActChannel",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "NodeId of the channel object (CncChannelType) that administrates this drive to expose drive’s channel affiliation."
+    },
+    {
+      "name": "ActLoad",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive load actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActPower",
+      "dataType": "Float64",
+      "category": "ProcessData.Energy",
+      "description": "Drive power actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActTorque",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive torque actual value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "CmdTorque",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive torque setpoint value."
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "IsInactive",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Drive inactive state (true in case of inactive drive, else false)."
+    },
+    {
+      "name": "IsVirtual",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Virtual axis (no hardware present; true in case of virtual axis, else fals)."
+    },
+    {
+      "name": "ActChannel",
+      "dataType": "String",
+      "category": "ProcessData",
+      "description": "NodeId of the channel object (CncChannelType) that administrates this drive to expose drive’s channel affiliation."
+    },
+    {
+      "name": "ActLoad",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive load actual value."
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActPower",
+      "dataType": "Float64",
+      "category": "ProcessData.Energy",
+      "description": "Drive power actual value."
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "ActStatus",
+      "dataType": "String",
+      "category": "Status",
+      "description": "Actual axis state."
+    },
+    {
+      "name": "ActTorque",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive torque actual value."
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "CmdTorque",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Drive torque setpoint value."
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "IsInactive",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Drive inactive state (true in case of inactive drive, else false)."
+    },
+    {
+      "name": "IsReferenced",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Axis reference state (true in case of successfully refereneced axis, else false)."
+    },
+    {
+      "name": "IsRotational",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Axis type (true in case of rotational axis, in case of linear type or other false)."
+    },
+    {
+      "name": "IsVirtual",
+      "dataType": "Boolean",
+      "category": "ProcessData",
+      "description": "Virtual axis (no hardware present; true in case of virtual axis, else fals)."
+    },
+    {
+      "name": "PosDirect",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Position actual value referring to axis' direct measurement system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "PosIndirect",
+      "dataType": "String",
+      "category": "ProcessData.Position",
+      "description": "Position actual value referring to axis' indirect measurement system."
+    },
+    {
+      "name": "ActPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position current value."
+    },
+    {
+      "name": "CmdPos",
+      "dataType": "Float64",
+      "category": "ProcessData.Position",
+      "description": "Position setpoint value."
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "RemDist",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Remaining distance to go."
+    },
+    {
+      "name": "ZeroOffset",
+      "dataType": "Float64",
+      "category": "ProcessData",
+      "description": "Active axis zero offset."
+    },
+    {
+      "name": "EURange",
+      "dataType": "String",
+      "category": "ProcessData"
+    },
+    {
+      "name": "EngineeringUnits",
+      "dataType": "String",
+      "category": "ProcessData"
     }
   ],
-  "relationships": [],
-  "kgNodeLabel": "CNC_Machine",
-  "kgIdProperty": "machine_id",
-  "companionSpec": "OPC40077-CNC",
-  "opcuaTypeDefinition": "CNC_MachineType",
-  "deviceClass": "CNC Machine"
+  "relationships": [
+    {
+      "type": "LOCATED_IN",
+      "target": "Area",
+      "description": "Physical location"
+    },
+    {
+      "type": "PART_OF",
+      "target": "ProductionLine",
+      "description": "Part of production line"
+    },
+    {
+      "type": "PRODUCES",
+      "target": "Article",
+      "description": "Produces articles"
+    }
+  ],
+  "kgNodeLabel": "CNCMachine",
+  "kgIdProperty": "machine_id"
 }
