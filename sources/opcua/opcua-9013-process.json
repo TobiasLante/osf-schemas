@@ -1,28 +1,15 @@
 {
-  "mappingId": "opcua-9013-process",
-  "sourceId": "opcua-9013-process",
+  "sourceId": "opcua-9013-processdata",
   "version": "2.0.0",
-  "discoveredAt": "2026-04-12T12:43:24Z",
+  "sourceType": "opcua",
+  "dataCategory": "ProcessData",
+  "profileRef": "SMProfile-CNC-Machine",
   "endpoint": "opc.tcp://192.168.178.150:30843",
   "machineId": "9013",
   "machineName": "Fr\u00e4smaschine 1",
-  "profileRef": "SMProfile-MillingMachine",
-  "sourceType": "opcua",
-  "dataCategory": "ProcessData",
   "location": {
-    "enterprise": "ZeroGuess",
-    "site": "Homelab",
-    "area": "Fertigung",
-    "line": "Fr\u00e4s-Linie"
-  },
-  "polling": {
-    "mode": "scan",
-    "intervalMs": 5000
-  },
-  "security": {
-    "mode": "None",
-    "policy": "None",
-    "auth": "Anonymous"
+    "site": "Kohlgrub",
+    "type": "CNC"
   },
   "nodeMappings": [
     {
@@ -339,5 +326,13 @@
       "dataType": "ns=0;i=12"
     }
   ],
-  "staticProperties": {}
+  "polling": {
+    "mode": "scan",
+    "intervalMs": 5000
+  },
+  "security": {
+    "mode": "None",
+    "policy": "None",
+    "auth": "Anonymous"
+  }
 }

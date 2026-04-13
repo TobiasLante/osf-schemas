@@ -1,23 +1,15 @@
 {
-  "mappingId": "opcua-source-opcua-8011-cnc-process",
-  "sourceId": "opcua-8011-cnc-process",
+  "sourceId": "opcua-8011-cnc-processdata",
   "version": "2.0.0",
-  "discoveredAt": "2026-04-12T12:43:24Z",
+  "sourceType": "opcua",
+  "dataCategory": "ProcessData",
+  "profileRef": "SMProfile-CNC-Machine",
   "endpoint": "opc.tcp://192.168.178.150:30841",
   "machineId": "8011-CNC",
   "machineName": "8011 CNC Machine",
-  "profileRef": "SMProfile-CNC-Machine",
-  "sourceType": "opcua",
-  "dataCategory": "ProcessData",
-  "location": {},
-  "polling": {
-    "mode": "scan",
-    "intervalMs": 5000
-  },
-  "security": {
-    "mode": "None",
-    "policy": "None",
-    "auth": "Anonymous"
+  "location": {
+    "site": "Kohlgrub",
+    "type": "CNC"
   },
   "nodeMappings": [
     {
@@ -334,7 +326,13 @@
       "dataType": "ns=0;i=12"
     }
   ],
-  "staticProperties": {
-    "machineType": "CNC_Machine"
+  "polling": {
+    "mode": "scan",
+    "intervalMs": 5000
+  },
+  "security": {
+    "mode": "None",
+    "policy": "None",
+    "auth": "Anonymous"
   }
 }

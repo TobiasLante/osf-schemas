@@ -1,0 +1,134 @@
+{
+  "sourceId": "opcua-sgm-015-bde",
+  "version": "2.0.0",
+  "sourceType": "opcua",
+  "dataCategory": "BDE",
+  "profileRef": "SMProfile-InjectionMoldingMachine",
+  "endpoint": "opc.tcp://192.168.178.150:30864",
+  "machineId": "SGM-015",
+  "machineName": "Spritzgussmaschine 15",
+  "location": {
+    "site": "Garmisch",
+    "type": "SGM"
+  },
+  "nodeMappings": [
+    {
+      "opcuaNodeId": "ns=1;i=1055",
+      "browsePath": [
+        "Machines",
+        "Spritzgussmaschine 1",
+        "MachineryItemState",
+        "CurrentState"
+      ],
+      "smAttribute": "Machine_Status",
+      "dataType": "ns=0;i=21"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1058",
+      "browsePath": [
+        "Machines",
+        "Spritzgussmaschine 1",
+        "ProductionData",
+        "Good_Parts"
+      ],
+      "smAttribute": "Good_Parts",
+      "dataType": "ns=0;i=6"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1059",
+      "browsePath": [
+        "Machines",
+        "Spritzgussmaschine 1",
+        "ProductionData",
+        "Scrap_Parts"
+      ],
+      "smAttribute": "Scrap_Parts",
+      "dataType": "ns=0;i=6"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1156",
+      "browsePath": [
+        "Machines",
+        "Spritzgussmaschine 1",
+        "InjectionUnits",
+        "InjectionUnit_1",
+        "CycleTime",
+        "Cycle_Planned"
+      ],
+      "smAttribute": "Cycle_Time_Planned",
+      "dataType": "ns=0;i=10",
+      "unit": "s"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1153",
+      "browsePath": [
+        "Machines",
+        "Spritzgussmaschine 1",
+        "InjectionUnits",
+        "InjectionUnit_1",
+        "CycleTime",
+        "Cycle_Actual"
+      ],
+      "smAttribute": "Cycle_Time_Actual",
+      "dataType": "ns=0;i=10",
+      "unit": "s"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1317",
+      "browsePath": [
+        "Machines",
+        "Spritzgussmaschine 1",
+        "PowerUnits",
+        "PowerUnit_1",
+        "Total_kWh"
+      ],
+      "smAttribute": "Energy_kWh",
+      "dataType": "ns=0;i=10",
+      "unit": "kWh"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1060",
+      "browsePath": [
+        "Machines",
+        "Spritzgussmaschine 1",
+        "ProductionData",
+        "Production_Order"
+      ],
+      "smAttribute": "Production_Order",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1061",
+      "browsePath": [
+        "Machines",
+        "Spritzgussmaschine 1",
+        "ProductionData",
+        "Article_ID"
+      ],
+      "smAttribute": "Article_ID",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1339",
+      "browsePath": [
+        "Machines",
+        "Spritzgussmaschine 1",
+        "InjectionUnits",
+        "InjectionUnit_1",
+        "MaterialHandling",
+        "Shot_Counter"
+      ],
+      "smAttribute": "Act_Amount_Shot",
+      "dataType": "ns=0;i=6"
+    }
+  ],
+  "polling": {
+    "mode": "scan",
+    "intervalMs": 5000
+  },
+  "security": {
+    "mode": "None",
+    "policy": "None",
+    "auth": "Anonymous"
+  }
+}

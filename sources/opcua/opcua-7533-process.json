@@ -1,28 +1,15 @@
 {
-  "mappingId": "opcua-7533-process",
-  "sourceId": "opcua-7533-process",
+  "sourceId": "opcua-7533-processdata",
   "version": "2.0.0",
-  "discoveredAt": "2026-04-12T12:43:24Z",
+  "sourceType": "opcua",
+  "dataCategory": "ProcessData",
+  "profileRef": "SMProfile-CNC-Machine",
   "endpoint": "opc.tcp://192.168.178.150:30840",
   "machineId": "7533",
   "machineName": "CNC Maschine 1",
-  "profileRef": "SMProfile-CNC-Machine",
-  "sourceType": "opcua",
-  "dataCategory": "ProcessData",
   "location": {
-    "enterprise": "ZeroGuess",
-    "site": "Homelab",
-    "area": "Fertigung",
-    "line": "CNC-Linie"
-  },
-  "polling": {
-    "mode": "scan",
-    "intervalMs": 5000
-  },
-  "security": {
-    "mode": "None",
-    "policy": "None",
-    "auth": "Anonymous"
+    "site": "Kohlgrub",
+    "type": "CNC"
   },
   "nodeMappings": [
     {
@@ -339,5 +326,13 @@
       "dataType": "ns=0;i=12"
     }
   ],
-  "staticProperties": {}
+  "polling": {
+    "mode": "scan",
+    "intervalMs": 5000
+  },
+  "security": {
+    "mode": "None",
+    "policy": "None",
+    "auth": "Anonymous"
+  }
 }

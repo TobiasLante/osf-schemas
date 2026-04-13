@@ -1,108 +1,81 @@
 {
-  "syncId": "Sync-UNS-9016",
+  "syncId": "sync-uns-9016",
+  "mappingId": "#shared.uns.9016",
   "version": "2.0.0",
   "syncType": "mqtt",
+  "machineId": "9016",
   "broker": {
     "host": "192.168.178.150",
-    "port": 31883
+    "port": 31883,
+    "tls": false
   },
   "topicStructure": {
-    "pattern": "ZeroGuess/Homelab/Fertigung/Fräs-Linie/9016/{category}/{attribute}",
+    "pattern": "Factory/Kohlgrub/CNC/9016/{category}/{attribute}",
     "segments": {
-      "enterprise": {
+      "factory": {
         "index": 0
       },
       "site": {
         "index": 1
       },
-      "area": {
+      "type": {
         "index": 2
       },
-      "line": {
+      "machineId": {
         "index": 3
       },
-      "machineId": {
+      "category": {
         "index": 4
       },
-      "domain": {
-        "index": 5
-      },
       "attribute": {
-        "index": 6
+        "index": 5
       }
     },
-    "subscribeFilter": "ZeroGuess/Homelab/Fertigung/Fräs-Linie/9016/#/#"
+    "subscribeFilter": "Factory/Kohlgrub/CNC/9016/+/+"
   },
   "payloadSchema": {
     "format": "json",
-    "valuePath": "$.value",
-    "timestampPath": "$.ts",
-    "timestampFormat": "ISO8601"
-  },
-  "attributeMapping": {
-    "strategy": "topic-segments",
-    "mappings": [
-      {
-        "topicAttribute": "Machine_Status",
-        "smAttribute": "Act_Status_Machine"
+    "fields": {
+      "timestamp": {
+        "path": "$.timestamp",
+        "source": "runtime.iso8601",
+        "required": true
       },
-      {
-        "topicAttribute": "Machine_Status_Text",
-        "smAttribute": "Act_Text_MachineMode"
+      "Value": {
+        "path": "$.Value",
+        "source": "runtime.value",
+        "required": true
       },
-      {
-        "topicAttribute": "Good_Parts",
-        "smAttribute": "Act_Amount_PartGood"
+      "Unit": {
+        "path": "$.Unit",
+        "source": "profile.attribute.unit",
+        "default": ""
       },
-      {
-        "topicAttribute": "Scrap_Parts",
-        "smAttribute": "Act_Amount_PartScrap"
+      "Definition": {
+        "path": "$.Definition",
+        "source": "profile.attribute.description",
+        "default": ""
       },
-      {
-        "topicAttribute": "Rework_Parts",
-        "smAttribute": "Act_Amount_PartRework"
+      "Datatype": {
+        "path": "$.Datatype",
+        "source": "profile.attribute.dataType",
+        "default": "String"
       },
-      {
-        "topicAttribute": "Cycle_Time_Planned",
-        "smAttribute": "Plan_Time_Cycle"
+      "ValueQualityQualifier": {
+        "path": "$.ValueQualityQualifier",
+        "source": "const",
+        "default": "good"
       },
-      {
-        "topicAttribute": "Cycle_Time_Actual",
-        "smAttribute": "Act_Time_Cycle"
+      "ValueOriginQualifier": {
+        "path": "$.ValueOriginQualifier",
+        "source": "const",
+        "default": "measured"
       },
-      {
-        "topicAttribute": "Power_kW",
-        "smAttribute": "Act_Energy_Power"
-      },
-      {
-        "topicAttribute": "Energy_kWh",
-        "smAttribute": "Act_Energy_Total"
-      },
-      {
-        "topicAttribute": "Production_Order",
-        "smAttribute": "Act_Ref_ProductionOrder"
-      },
-      {
-        "topicAttribute": "Article_ID",
-        "smAttribute": "Act_Ref_Article"
-      },
-      {
-        "topicAttribute": "Tool_ID",
-        "smAttribute": "Act_Ref_Tool"
-      },
-      {
-        "topicAttribute": "Shift_Number",
-        "smAttribute": "Act_Ref_Shift"
-      },
-      {
-        "topicAttribute": "Operator_ID",
-        "smAttribute": "Act_Ref_Operator"
+      "ValueProcessingQualifier": {
+        "path": "$.ValueProcessingQualifier",
+        "source": "const",
+        "default": "last"
       }
-    ]
-  },
-  "machineIdResolution": {
-    "strategy": "topic-segment",
-    "segment": 4
-  },
-  "profileRef": "SMProfile-5AxisMillingMachine"
+    }
+  }
 }

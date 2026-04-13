@@ -1,28 +1,15 @@
 {
-  "mappingId": "opcua-sgm-008-process",
-  "sourceId": "opcua-sgm-008-process",
+  "sourceId": "opcua-sgm-008-processdata",
   "version": "2.0.0",
-  "discoveredAt": "2026-04-12T12:43:24Z",
+  "sourceType": "opcua",
+  "dataCategory": "ProcessData",
+  "profileRef": "SMProfile-InjectionMoldingMachine",
   "endpoint": "opc.tcp://192.168.178.150:30857",
   "machineId": "SGM-008",
   "machineName": "Spritzgussmaschine 8",
-  "profileRef": "SMProfile-InjectionMoldingMachine",
-  "sourceType": "opcua",
-  "dataCategory": "ProcessData",
   "location": {
-    "enterprise": "ZeroGuess",
-    "site": "Homelab",
-    "area": "Spritzguss",
-    "line": "SGM-2500"
-  },
-  "polling": {
-    "mode": "scan",
-    "intervalMs": 5000
-  },
-  "security": {
-    "mode": "None",
-    "policy": "None",
-    "auth": "Anonymous"
+    "site": "Garmisch",
+    "type": "SGM"
   },
   "nodeMappings": [
     {
@@ -1305,9 +1292,13 @@
       ]
     }
   ],
-  "staticProperties": {
-    "closingForceKn": 1500,
-    "cavities": 12,
-    "mouldId": "1300_08"
+  "polling": {
+    "mode": "scan",
+    "intervalMs": 5000
+  },
+  "security": {
+    "mode": "None",
+    "policy": "None",
+    "auth": "Anonymous"
   }
 }
