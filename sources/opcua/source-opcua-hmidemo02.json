@@ -211,7 +211,7 @@
       "browsePath": "Machines/CNC Maschine 2/Coolant/Coolant_Temp",
       "smAttribute": "Act_Temp_Coolant",
       "dataType": "ns=0;i=10",
-      "unit": "°C"
+      "unit": "\u00b0C"
     },
     {
       "opcuaNodeId": "ns=1;i=1134",
@@ -293,8 +293,8 @@
     "machineType": "CNC_Machine"
   },
   "polling": {
-    "mode": "subscribe",
-    "intervalMs": 1000
+    "mode": "scan",
+    "intervalMs": 5000
   },
   "security": {
     "mode": "None",
@@ -534,7 +534,7 @@
               "unit": "M4S"
             },
             "confidence": 0.6,
-            "explanation": "Unit \"mm\" is unusual for feed_rate — expected mm/s, mm/min, m/min"
+            "explanation": "Unit \"mm\" is unusual for feed_rate \u2014 expected mm/s, mm/min, m/min"
           }
         ],
         "verdict": "warning",
@@ -555,7 +555,7 @@
               "unit": "M4S"
             },
             "confidence": 0.6,
-            "explanation": "Unit \"mm\" is unusual for feed_rate — expected mm/s, mm/min, m/min"
+            "explanation": "Unit \"mm\" is unusual for feed_rate \u2014 expected mm/s, mm/min, m/min"
           }
         ],
         "verdict": "warning",
@@ -576,7 +576,7 @@
               "unit": "M4S"
             },
             "confidence": 0.6,
-            "explanation": "Unit \"%\" is unusual for feed_rate — expected mm/s, mm/min, m/min"
+            "explanation": "Unit \"%\" is unusual for feed_rate \u2014 expected mm/s, mm/min, m/min"
           }
         ],
         "verdict": "warning",
@@ -706,23 +706,23 @@
       },
       {
         "attribute": "Act_Temp_Coolant",
-        "reportedUnit": "°C",
+        "reportedUnit": "\u00b0C",
         "sources": [
           {
             "source": "physical_rules",
-            "expectedUnit": "°C",
+            "expectedUnit": "\u00b0C",
             "expectedRange": {
               "min": -40,
               "max": 500,
               "unit": "CEL"
             },
             "confidence": 0.6,
-            "explanation": "Unit \"°C\" is valid for temperature"
+            "explanation": "Unit \"\u00b0C\" is valid for temperature"
           }
         ],
         "verdict": "ok",
         "confidence": 0.6,
-        "explanation": "All 1 sources agree: \"°C\" is correct"
+        "explanation": "All 1 sources agree: \"\u00b0C\" is correct"
       },
       {
         "attribute": "Act_Pressure_Coolant",
@@ -801,7 +801,7 @@
               "unit": "KWT"
             },
             "confidence": 0.6,
-            "explanation": "Unit \"kWh\" is unusual for power — expected kW, W, MW"
+            "explanation": "Unit \"kWh\" is unusual for power \u2014 expected kW, W, MW"
           }
         ],
         "verdict": "warning",
