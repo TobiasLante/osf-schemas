@@ -1,0 +1,343 @@
+{
+  "mappingId": "opcua-9018-process",
+  "sourceId": "opcua-9018-process",
+  "version": "2.0.0",
+  "discoveredAt": "2026-04-12T12:43:24Z",
+  "endpoint": "opc.tcp://192.168.178.150:30848",
+  "machineId": "9018",
+  "machineName": "Schleifmaschine 2",
+  "profileRef": "SMProfile-GrindingMachine",
+  "sourceType": "opcua",
+  "dataCategory": "ProcessData",
+  "location": {
+    "enterprise": "ZeroGuess",
+    "site": "Homelab",
+    "area": "Fertigung",
+    "line": "Schleif-Linie"
+  },
+  "polling": {
+    "mode": "subscribe",
+    "intervalMs": 1000
+  },
+  "security": {
+    "mode": "None",
+    "policy": "None",
+    "auth": "Anonymous"
+  },
+  "nodeMappings": [
+    {
+      "opcuaNodeId": "ns=1;i=1074",
+      "browsePath": [
+        "Machines",
+        "Schleifmaschine 2",
+        "Spindles",
+        "Spindle_1",
+        "Spindle_Speed_Actual"
+      ],
+      "smAttribute": "Act_Speed_Spindle",
+      "dataType": "ns=0;i=10",
+      "unit": "r/min"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1077",
+      "browsePath": [
+        "Machines",
+        "Schleifmaschine 2",
+        "Spindles",
+        "Spindle_1",
+        "Spindle_Speed_Set"
+      ],
+      "smAttribute": "Set_Speed_Spindle",
+      "dataType": "ns=0;i=10",
+      "unit": "r/min"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1080",
+      "browsePath": [
+        "Machines",
+        "Schleifmaschine 2",
+        "Spindles",
+        "Spindle_1",
+        "Spindle_Load_Pct"
+      ],
+      "smAttribute": "Act_Pct_SpindleLoad",
+      "dataType": "ns=0;i=10",
+      "unit": "%"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1083",
+      "browsePath": [
+        "Machines",
+        "Schleifmaschine 2",
+        "Spindles",
+        "Spindle_1",
+        "Spindle_Torque"
+      ],
+      "smAttribute": "Act_Torque_Spindle",
+      "dataType": "ns=0;i=10",
+      "unit": "newton metre"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1087",
+      "browsePath": [
+        "Machines",
+        "Schleifmaschine 2",
+        "Feed",
+        "Feed_Rate_Actual"
+      ],
+      "smAttribute": "Act_Rate_Feed",
+      "dataType": "ns=0;i=10",
+      "unit": "mm"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1090",
+      "browsePath": [
+        "Machines",
+        "Schleifmaschine 2",
+        "Feed",
+        "Feed_Rate_Set"
+      ],
+      "smAttribute": "Set_Rate_Feed",
+      "dataType": "ns=0;i=10",
+      "unit": "mm"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1093",
+      "browsePath": [
+        "Machines",
+        "Schleifmaschine 2",
+        "Feed",
+        "Feed_Override_Pct"
+      ],
+      "smAttribute": "Act_Pct_FeedOverride",
+      "dataType": "ns=0;i=10",
+      "unit": "%"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1100",
+      "browsePath": [
+        "Machines",
+        "Schleifmaschine 2",
+        "Axes",
+        "Axis_X_Set"
+      ],
+      "smAttribute": "Set_Pos_AxisX",
+      "dataType": "ns=0;i=10",
+      "unit": "mm"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1106",
+      "browsePath": [
+        "Machines",
+        "Schleifmaschine 2",
+        "Axes",
+        "Axis_Y_Set"
+      ],
+      "smAttribute": "Set_Pos_AxisY",
+      "dataType": "ns=0;i=10",
+      "unit": "mm"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1112",
+      "browsePath": [
+        "Machines",
+        "Schleifmaschine 2",
+        "Axes",
+        "Axis_Z_Set"
+      ],
+      "smAttribute": "Set_Pos_AxisZ",
+      "dataType": "ns=0;i=10",
+      "unit": "mm"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1116",
+      "browsePath": [
+        "Machines",
+        "Schleifmaschine 2",
+        "ToolManagement",
+        "Tool_Number"
+      ],
+      "smAttribute": "Act_Ref_ToolNumber",
+      "dataType": "ns=0;i=6"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1117",
+      "browsePath": [
+        "Machines",
+        "Schleifmaschine 2",
+        "ToolManagement",
+        "Tool_Wear_Pct"
+      ],
+      "smAttribute": "Act_Pct_ToolWear",
+      "dataType": "ns=0;i=10",
+      "unit": "%"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1120",
+      "browsePath": [
+        "Machines",
+        "Schleifmaschine 2",
+        "ToolManagement",
+        "Tool_Life_Remaining_Min"
+      ],
+      "smAttribute": "Act_Time_ToolLifeRemaining",
+      "dataType": "ns=0;i=10",
+      "unit": "min"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1125",
+      "browsePath": [
+        "Machines",
+        "Schleifmaschine 2",
+        "Program",
+        "Program_Line"
+      ],
+      "smAttribute": "Act_Ref_ProgramLine",
+      "dataType": "ns=0;i=6"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1128",
+      "browsePath": [
+        "Machines",
+        "Schleifmaschine 2",
+        "Coolant",
+        "Coolant_Flow_LPM"
+      ],
+      "smAttribute": "Act_Rate_CoolantFlow",
+      "dataType": "ns=0;i=10",
+      "unit": "l"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1131",
+      "browsePath": [
+        "Machines",
+        "Schleifmaschine 2",
+        "Coolant",
+        "Coolant_Temp"
+      ],
+      "smAttribute": "Act_Temp_Coolant",
+      "dataType": "ns=0;i=10",
+      "unit": "°C"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1134",
+      "browsePath": [
+        "Machines",
+        "Schleifmaschine 2",
+        "Coolant",
+        "Coolant_Pressure_Bar"
+      ],
+      "smAttribute": "Act_Pressure_Coolant",
+      "dataType": "ns=0;i=10",
+      "unit": "bar"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1138",
+      "browsePath": [
+        "Machines",
+        "Schleifmaschine 2",
+        "Vibration",
+        "Vibration_X"
+      ],
+      "smAttribute": "Act_Vibration_X",
+      "dataType": "ns=0;i=10",
+      "unit": "m/s"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1141",
+      "browsePath": [
+        "Machines",
+        "Schleifmaschine 2",
+        "Vibration",
+        "Vibration_Y"
+      ],
+      "smAttribute": "Act_Vibration_Y",
+      "dataType": "ns=0;i=10",
+      "unit": "m/s"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1144",
+      "browsePath": [
+        "Machines",
+        "Schleifmaschine 2",
+        "Vibration",
+        "Vibration_Z"
+      ],
+      "smAttribute": "Act_Vibration_Z",
+      "dataType": "ns=0;i=10",
+      "unit": "m/s"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1148",
+      "browsePath": [
+        "Machines",
+        "Schleifmaschine 2",
+        "PowerUnit",
+        "Power_Spindle_kW"
+      ],
+      "smAttribute": "Act_Energy_PowerSpindle",
+      "dataType": "ns=0;i=10",
+      "unit": "kW"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1151",
+      "browsePath": [
+        "Machines",
+        "Schleifmaschine 2",
+        "PowerUnit",
+        "Energy_Cycle_kWh"
+      ],
+      "smAttribute": "Act_Energy_Cycle",
+      "dataType": "ns=0;i=10",
+      "unit": "kWh"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1097",
+      "browsePath": [
+        "Machines",
+        "Schleifmaschine 2",
+        "Axes",
+        "Axis_X_Actual"
+      ],
+      "smAttribute": "Act_Pos_AxisX",
+      "dataType": "ns=0;i=10",
+      "unit": "mm"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1103",
+      "browsePath": [
+        "Machines",
+        "Schleifmaschine 2",
+        "Axes",
+        "Axis_Y_Actual"
+      ],
+      "smAttribute": "Act_Pos_AxisY",
+      "dataType": "ns=0;i=10",
+      "unit": "mm"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1109",
+      "browsePath": [
+        "Machines",
+        "Schleifmaschine 2",
+        "Axes",
+        "Axis_Z_Actual"
+      ],
+      "smAttribute": "Act_Pos_AxisZ",
+      "dataType": "ns=0;i=10",
+      "unit": "mm"
+    },
+    {
+      "opcuaNodeId": "ns=1;i=1124",
+      "browsePath": [
+        "Machines",
+        "Schleifmaschine 2",
+        "Program",
+        "Active_Program"
+      ],
+      "smAttribute": "Act_Ref_Program",
+      "dataType": "ns=0;i=12"
+    }
+  ],
+  "staticProperties": {}
+}
