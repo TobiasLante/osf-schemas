@@ -1,30 +1,38 @@
 {
   "syncId": "shared-uns-factory-sim-v3",
   "mappingId": "#shared.uns",
-  "version": "1.4.1",
+  "version": "2.0.0",
   "syncType": "mqtt",
-  "description": "#shared.uns — Flat MQTT topic structure with stable identity. Topic = machine/category/attribute only; all variable runtime context goes into the payload. One topic per attribute (both BDE and ProcessData), one JSON per topic, with full i3X-style VQT metadata (value, unit, quality/origin/processing qualifiers). Publishers must build the payload from this schema; nothing is hardcoded in code.",
+  "description": "#shared.uns — Unified MQTT topic structure (6 segments: Factory/site/type/machineId/category/attribute). Site + asset type come from source.location, machineId from source.machineId, category from source.dataCategory, attribute from nodeMappings[].smAttribute. Single source of truth for all exporters; per-machine overrides were removed in v2.0.0.",
   "broker": {
     "host": "192.168.178.150",
     "port": 31883
   },
   "topicStructure": {
-    "pattern": "Factory/{machineId}/{category}/{attribute}",
+    "pattern": "Factory/{site}/{type}/{machineId}/{category}/{attribute}",
     "segments": {
-      "machineId": {
+      "site": {
         "index": 1,
-        "description": "Machine display name, resolved from the asset (source-schema.machineId or sourceId, e.g. 'CNC-01', 'SGM-002', '7533')"
+        "description": "Location site from source.location.site (e.g. 'Kohlgrub', 'Garmisch')"
+      },
+      "type": {
+        "index": 2,
+        "description": "Asset type from source.location.type (e.g. 'CNC', 'SGM', 'IMM')"
+      },
+      "machineId": {
+        "index": 3,
+        "description": "Machine display name from source.machineId (e.g. 'CNC-01', 'SGM-002', '7533')"
       },
       "category": {
-        "index": 2,
-        "description": "BDE or ProcessData, derived from SM Profile attribute.category"
+        "index": 4,
+        "description": "Data category from source.dataCategory (BDE | ProcessData)"
       },
       "attribute": {
-        "index": 3,
-        "description": "Topic attribute name from attributeMapping.mappings[].topicAttribute"
+        "index": 5,
+        "description": "Topic attribute name; matches smAttribute from nodeMappings by default"
       }
     },
-    "subscribeFilter": "Factory/#"
+    "subscribeFilter": "Factory/+/+/+/+/+"
   },
   "payloadSchema": {
     "format": "JSON",
@@ -91,8 +99,8 @@
   },
   "attributeMapping": {
     "strategy": "topic_segment",
-    "categorySegment": 2,
-    "attributeSegment": 3,
+    "categorySegment": 4,
+    "attributeSegment": 5,
     "mappings": [
       {
         "topicAttribute": "Machine_Status",
@@ -514,7 +522,7 @@
   },
   "machineIdResolution": {
     "strategy": "topic_segment",
-    "segment": 1,
-    "description": "First topic segment after 'Factory/' is the machine display name, matches OPC-UA mapping machineId field"
+    "segment": 3,
+    "description": "Segment 3 (Factory/site/type/<machineId>/…) is the machine display name, matches source.machineId"
   }
 }
