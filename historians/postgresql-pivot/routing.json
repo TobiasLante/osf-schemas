@@ -1,0 +1,64 @@
+{
+  "$description": "Pivot-Transformer-Routing für die Wide-Tables in i3x_alpha. Der Generator (packages/exporters/src/historian-pivot.ts) liest dieses Schema, korreliert es mit allen sources/opcua/<source>.json und packages/profiles/machines/*.json, und leitet daraus für jede Regel ab: (a) das DDL der Ziel-Tabelle (Spalten = union der smAttributes aller passenden Sources, Typen aus OPC-UA dataType), (b) den NR-Flow der die Pivot-SQL alle refreshIntervalSec ausführt. Topic-Position-Routing: topic[2]=type, topic[4]=category sind der einzige Match-Key. Neue Maschine = automatischer Pivot ohne Schema-Edit. Neuer Profile-Attribute = idempotent ALTER TABLE ADD COLUMN. KEIN per-Tabelle-Schema, KEIN Hardcoded Spalten-Map.",
+  "syncId": "postgres-pivot-routing",
+  "syncType": "postgresql-pivot",
+  "version": "1.0.0",
+  "deployTarget": "it",
+  "rules": [
+    {
+      "match": { "category": "BDE" },
+      "table": "bde_data",
+      "timeColumn": "cycle_timestamp",
+      "bucketSeconds": null
+    },
+    {
+      "match": { "type": "CNC", "category": "ProcessData" },
+      "table": "cnc_process_data",
+      "timeColumn": "timestamp",
+      "bucketSeconds": 5
+    },
+    {
+      "match": { "type": "SGM", "category": "ProcessData" },
+      "table": "injection_molding_data",
+      "timeColumn": "timestamp",
+      "bucketSeconds": 5
+    },
+    {
+      "match": { "category": "CavityData" },
+      "table": "injection_molding_cavity_data",
+      "timeColumn": "timestamp",
+      "bucketSeconds": null
+    }
+  ],
+  "convention": {
+    "schema": "public",
+    "machineIdColumn": "machine_id",
+    "columnNaming": "snake_case_lower",
+    "hypertable": true,
+    "chunkInterval": "7 days",
+    "uniqueOn": ["machine_id", "{timeColumn}"],
+    "compress": "30 days",
+    "retention": "365 days",
+    "refreshIntervalSec": 30,
+    "windowMinutes": 1,
+    "upsertMode": "coalesce",
+    "$comment": "uniqueOn nutzt {timeColumn} als Platzhalter, der pro rule aufgelöst wird. compress segmentBy ist immer machine_id. coalesce-mode heißt: ON CONFLICT DO UPDATE SET col = COALESCE(EXCLUDED.col, table.col), damit eine spätere Pivot-Iteration mit fehlenden Werten keine vorherigen ueberschreibt."
+  },
+  "opcuaDataTypeMap": {
+    "ns=0;i=1":  "boolean",
+    "ns=0;i=2":  "smallint",
+    "ns=0;i=3":  "smallint",
+    "ns=0;i=4":  "smallint",
+    "ns=0;i=5":  "integer",
+    "ns=0;i=6":  "integer",
+    "ns=0;i=7":  "bigint",
+    "ns=0;i=8":  "bigint",
+    "ns=0;i=9":  "numeric(20,0)",
+    "ns=0;i=10": "double precision",
+    "ns=0;i=11": "double precision",
+    "ns=0;i=12": "text",
+    "ns=0;i=13": "timestamptz",
+    "ns=0;i=14": "uuid",
+    "ns=0;i=15": "bytea"
+  }
+}

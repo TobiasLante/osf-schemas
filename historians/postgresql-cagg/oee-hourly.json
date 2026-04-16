@@ -1,0 +1,32 @@
+{
+  "$description": "OEE Continuous Aggregate auf bde_data, refresh alle 5min. Math entspricht v1's public.calculate_oee_with_erp() Formel — 1:1 dieselbe Logik (quality * performance * availability), inline ins CAGG-SELECT statt als PL/pgSQL-Function aufgerufen. Vorteil: Postgres pflegt selbständig, kein externer LISTEN/NOTIFY-Service nötig. SSOT bleibt dieses Schema — Math, Bucket, Refresh-Policy alles hier. Generator (packages/exporters/src/historian-cagg.ts) liest und emittiert idempotent CREATE MATERIALIZED VIEW + add_continuous_aggregate_policy.",
+  "syncId": "oee-hourly-cagg",
+  "syncType": "postgresql-cagg",
+  "version": "1.0.0",
+  "deployTarget": "it",
+  "view": "oee_hourly_v5",
+  "schema": "public",
+  "sourceTable": "bde_data",
+  "bucketInterval": "1 hour",
+  "timeColumn": "cycle_timestamp",
+  "groupBy": ["machine_id"],
+  "select": {
+    "good_parts_produced":     "SUM(good_parts)::int",
+    "defective_parts":         "SUM(scrap_parts)::int",
+    "total_parts_produced":    "(SUM(good_parts) + SUM(scrap_parts))::int",
+    "actual_operating_time":   "SUM((good_parts + scrap_parts) * cycle_time_actual)::int",
+    "planned_production_time": "3600",
+    "downtime_minutes":        "COALESCE(SUM(downtime_duration_sec)::int, 0)",
+    "quality":      "CASE WHEN (SUM(good_parts) + SUM(scrap_parts)) > 0 THEN ROUND((SUM(good_parts)::numeric / NULLIF(SUM(good_parts) + SUM(scrap_parts), 0)), 4) ELSE 0::numeric END",
+    "performance":  "CASE WHEN SUM(cycle_time_actual) > 0 THEN LEAST(ROUND((SUM(cycle_time_planned)::numeric / NULLIF(SUM(cycle_time_actual), 0)), 4), 1::numeric) ELSE 0::numeric END",
+    "availability": "CASE WHEN SUM((good_parts + scrap_parts) * cycle_time_actual) > 0 THEN LEAST(ROUND((SUM((good_parts + scrap_parts) * cycle_time_actual)::numeric / 3600), 4), 1::numeric) ELSE 0::numeric END"
+  },
+  "$note": "OEE selbst (= quality * performance * availability) wird NICHT im CAGG materialisiert — ein nachgelagerter Plain-View oder die Grafana-Query rechnet das Produkt zur Read-Time. Begründung: würde nochmal die drei Aggregate referenzieren müssen, was im CAGG-SELECT mehr Verkomplizierung als Nutzen bringt. Drei Spalten statt einer ist billig.",
+  "refreshPolicy": {
+    "startOffset": "2 hours",
+    "endOffset":   "5 minutes",
+    "scheduleInterval": "5 minutes"
+  },
+  "compress": "30 days",
+  "retention": "365 days"
+}
