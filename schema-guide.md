@@ -7,6 +7,7 @@ No LLM is needed — the schemas are the single source of truth.
 
 ```
 osf-schemas/
+├── companion-specs/       ← OPC-UA Companion-Spec-Registry (NodeSet2.xml URLs)
 ├── profiles/              ← Schema 1: SM Profiles (type system)
 │   ├── enterprise/        ← ISA-95 hierarchy (Enterprise, Site, Area, ProductionLine, System)
 │   ├── machines/          ← Machine types (Machine*, CNC, IMM, FFS, Lathe, Milling, Mould, CNCProgram)
@@ -42,6 +43,35 @@ osf-schemas/
 | Sync (Webhook) | 1 | bde-webhook |
 | Sync (Manual) | 1 | csv-import |
 | Bridge (ref only) | 2 | mqtt-to-kafka, shared-uns-to-kafka |
+| Companion-Specs   | 1 | 12 OPC-UA Companion Specs (CNC, Machinery, Robotics, ...) |
+
+---
+
+## Companion-Spec-Registry (`companion-specs/index.json`)
+
+Flat registry of OPC-UA Companion-Spec NodeSet2.xml download URLs.
+Referenced by `companionSpec` field on SM-Profiles so the discovery
+pipeline can fetch the authoritative NodeSet on demand.
+
+**File:** `companion-specs/index.json`
+
+```json
+{
+  "version": "1.0.0",
+  "updated": "2026-04-16",
+  "specs": {
+    "<specName>": {
+      "url": "https://raw.githubusercontent.com/OPCFoundation/UA-Nodeset/latest/<path>",
+      "category": "machines | enterprise | lab | identification | weighing",
+      "description": "Human-readable description"
+    }
+  }
+}
+```
+
+i3X reads this at server startup from `${SCHEMA_LOCAL_PATH}/companion-specs/index.json`
+and flattens it to a `Record<specName, url>`. If the file is missing, the
+companion-spec feature disables itself (no hardcoded fallback in code).
 
 ---
 
