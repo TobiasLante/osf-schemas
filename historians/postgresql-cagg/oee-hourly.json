@@ -16,7 +16,7 @@
     "total_parts_produced":    "(SUM(good_parts) + SUM(scrap_parts))::int",
     "actual_operating_time":   "SUM((good_parts + scrap_parts) * cycle_time_actual)::int",
     "planned_production_time": "3600",
-    "downtime_minutes":        "COALESCE(SUM(downtime_duration_sec)::int, 0)",
+    "downtime_minutes":        "0",
     "quality":      "CASE WHEN (SUM(good_parts) + SUM(scrap_parts)) > 0 THEN ROUND((SUM(good_parts)::numeric / NULLIF(SUM(good_parts) + SUM(scrap_parts), 0)), 4) ELSE 0::numeric END",
     "performance":  "CASE WHEN SUM(cycle_time_actual) > 0 THEN LEAST(ROUND((SUM(cycle_time_planned)::numeric / NULLIF(SUM(cycle_time_actual), 0)), 4), 1::numeric) ELSE 0::numeric END",
     "availability": "CASE WHEN SUM((good_parts + scrap_parts) * cycle_time_actual) > 0 THEN LEAST(ROUND((SUM((good_parts + scrap_parts) * cycle_time_actual)::numeric / 3600), 4), 1::numeric) ELSE 0::numeric END"
