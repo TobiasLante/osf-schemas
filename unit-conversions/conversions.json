@@ -1,0 +1,74 @@
+{
+  "$description": "Unit-Conversion-Tabelle für die Discovery-Pipeline. Wenn Source-Unit ≠ Target-Unit, sucht der Discovery-Code hier nach einem Pair und schreibt `scale` + `offset` ins NodeMapping. Der Flow-Generator / profile-mapper wendet sie dann runtime-frei an: out = in * scale + offset. Keys sind UNECE N°20-Codes (siehe validation/unece-codes.json). Reverse-Pairs explizit eingetragen — keine auto-Inversion, damit die Tabelle komplett sichtbar ist.",
+  "version": "1.0.0",
+  "updated": "2026-04-16",
+  "conversions": [
+    { "from": "FAH", "to": "CEL", "scale": 0.5555555555555556, "offset": -17.77777777777778, "formula": "(F - 32) * 5/9" },
+    { "from": "CEL", "to": "FAH", "scale": 1.8,                "offset": 32,                "formula": "C * 9/5 + 32" },
+    { "from": "KEL", "to": "CEL", "scale": 1,                  "offset": -273.15,           "formula": "K - 273.15" },
+    { "from": "CEL", "to": "KEL", "scale": 1,                  "offset": 273.15,            "formula": "C + 273.15" },
+
+    { "from": "PSI", "to": "BAR", "scale": 0.0689476,          "offset": 0,                 "formula": "psi * 0.0689476" },
+    { "from": "BAR", "to": "PSI", "scale": 14.50377,           "offset": 0 },
+    { "from": "KPA", "to": "BAR", "scale": 0.01,               "offset": 0 },
+    { "from": "BAR", "to": "KPA", "scale": 100,                "offset": 0 },
+    { "from": "MPA", "to": "BAR", "scale": 10,                 "offset": 0 },
+    { "from": "BAR", "to": "MPA", "scale": 0.1,                "offset": 0 },
+    { "from": "PAL", "to": "BAR", "scale": 0.00001,            "offset": 0 },
+    { "from": "BAR", "to": "PAL", "scale": 100000,             "offset": 0 },
+
+    { "from": "MMT", "to": "MTR", "scale": 0.001,              "offset": 0 },
+    { "from": "MTR", "to": "MMT", "scale": 1000,               "offset": 0 },
+    { "from": "CMT", "to": "MTR", "scale": 0.01,               "offset": 0 },
+    { "from": "MTR", "to": "CMT", "scale": 100,                "offset": 0 },
+    { "from": "MMT", "to": "CMT", "scale": 0.1,                "offset": 0 },
+    { "from": "CMT", "to": "MMT", "scale": 10,                 "offset": 0 },
+
+    { "from": "MMS", "to": "MTS", "scale": 0.001,              "offset": 0, "formula": "mm/s → m/s" },
+    { "from": "MTS", "to": "MMS", "scale": 1000,               "offset": 0 },
+    { "from": "M4S", "to": "MMS", "scale": 0.01667,            "offset": 0, "formula": "mm/min → mm/s (÷60)" },
+    { "from": "MMS", "to": "M4S", "scale": 60,                 "offset": 0 },
+    { "from": "MTM", "to": "MTS", "scale": 0.01667,            "offset": 0, "formula": "m/min → m/s" },
+    { "from": "MTS", "to": "MTM", "scale": 60,                 "offset": 0 },
+
+    { "from": "GRM", "to": "KGM", "scale": 0.001,              "offset": 0 },
+    { "from": "KGM", "to": "GRM", "scale": 1000,               "offset": 0 },
+    { "from": "KGM", "to": "TNE", "scale": 0.001,              "offset": 0 },
+    { "from": "TNE", "to": "KGM", "scale": 1000,               "offset": 0 },
+
+    { "from": "MIN", "to": "SEC", "scale": 60,                 "offset": 0 },
+    { "from": "SEC", "to": "MIN", "scale": 0.01667,            "offset": 0 },
+    { "from": "HUR", "to": "SEC", "scale": 3600,               "offset": 0 },
+    { "from": "SEC", "to": "HUR", "scale": 0.000278,           "offset": 0 },
+    { "from": "HUR", "to": "MIN", "scale": 60,                 "offset": 0 },
+    { "from": "MIN", "to": "HUR", "scale": 0.01667,            "offset": 0 },
+
+    { "from": "MLT", "to": "LTR", "scale": 0.001,              "offset": 0 },
+    { "from": "LTR", "to": "MLT", "scale": 1000,               "offset": 0 },
+    { "from": "CMQ", "to": "MTQ", "scale": 0.000001,           "offset": 0, "formula": "cm³ → m³" },
+    { "from": "MTQ", "to": "CMQ", "scale": 1000000,            "offset": 0 },
+    { "from": "LTR", "to": "MTQ", "scale": 0.001,              "offset": 0 },
+    { "from": "MTQ", "to": "LTR", "scale": 1000,               "offset": 0 },
+
+    { "from": "WTT", "to": "KWT", "scale": 0.001,              "offset": 0 },
+    { "from": "KWT", "to": "WTT", "scale": 1000,               "offset": 0 },
+    { "from": "KWT", "to": "MAW", "scale": 0.001,              "offset": 0 },
+    { "from": "MAW", "to": "KWT", "scale": 1000,               "offset": 0 },
+    { "from": "WHR", "to": "KWH", "scale": 0.001,              "offset": 0 },
+    { "from": "KWH", "to": "WHR", "scale": 1000,               "offset": 0 },
+
+    { "from": "MAM", "to": "AMP", "scale": 0.001,              "offset": 0 },
+    { "from": "AMP", "to": "MAM", "scale": 1000,               "offset": 0 },
+    { "from": "KAM", "to": "AMP", "scale": 1000,               "offset": 0 },
+    { "from": "AMP", "to": "KAM", "scale": 0.001,              "offset": 0 },
+    { "from": "MVT", "to": "VLT", "scale": 0.001,              "offset": 0 },
+    { "from": "VLT", "to": "MVT", "scale": 1000,               "offset": 0 },
+    { "from": "KVT", "to": "VLT", "scale": 1000,               "offset": 0 },
+    { "from": "VLT", "to": "KVT", "scale": 0.001,              "offset": 0 },
+
+    { "from": "DAN", "to": "NEW", "scale": 10,                 "offset": 0, "formula": "daN → N" },
+    { "from": "NEW", "to": "DAN", "scale": 0.1,                "offset": 0 },
+    { "from": "KN",  "to": "NEW", "scale": 1000,               "offset": 0 },
+    { "from": "NEW", "to": "KN",  "scale": 0.001,              "offset": 0 }
+  ]
+}
