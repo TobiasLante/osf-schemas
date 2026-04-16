@@ -1,0 +1,109 @@
+{
+  "$description": "Per-Machine Detail Dashboard. Maschine-typ-agnostisch — alle BDE-Spalten existieren immer. $machine_id-Picker oben, alles unten reagiert. Drilldown zum Process-Deep-Dive macht der Generator je nach machine_type (CNC → process-cnc, SGM → process-sgm).",
+  "syncId": "dashboard-machine-detail",
+  "syncType": "grafana-dashboard",
+  "version": "1.0.0",
+  "deployTarget": "it",
+  "uid": "i3x-machine-detail",
+  "title": "Machine Detail",
+  "tags": ["i3x", "machine"],
+  "datasource": "i3x_alpha_postgres",
+  "variables": [
+    { "name": "machine_id", "type": "query", "query": "SELECT DISTINCT machine_id FROM bde_data ORDER BY 1", "multi": false, "includeAll": false }
+  ],
+  "rows": [
+    {
+      "title": "Header",
+      "panels": [
+        {
+          "type": "header-strip",
+          "queries": {
+            "status":          "SELECT machine_status, machine_status_text FROM bde_data WHERE machine_id='$machine_id' ORDER BY cycle_timestamp DESC LIMIT 1",
+            "production_order":"SELECT production_order FROM bde_data WHERE machine_id='$machine_id' AND production_order IS NOT NULL ORDER BY cycle_timestamp DESC LIMIT 1",
+            "article":         "SELECT article_id FROM bde_data WHERE machine_id='$machine_id' AND article_id IS NOT NULL ORDER BY cycle_timestamp DESC LIMIT 1",
+            "tool":            "SELECT tool_id FROM bde_data WHERE machine_id='$machine_id' AND tool_id IS NOT NULL ORDER BY cycle_timestamp DESC LIMIT 1",
+            "operator":        "SELECT operator_id FROM bde_data WHERE machine_id='$machine_id' AND operator_id IS NOT NULL ORDER BY cycle_timestamp DESC LIMIT 1",
+            "shift":           "SELECT shift_number FROM bde_data WHERE machine_id='$machine_id' AND shift_number IS NOT NULL ORDER BY cycle_timestamp DESC LIMIT 1"
+          }
+        }
+      ]
+    },
+    {
+      "title": "OEE Components",
+      "panels": [
+        {
+          "type": "gauge", "title": "OEE",
+          "query": "SELECT ROUND((quality*performance*availability*100)::numeric,1) AS value FROM oee_hourly_v5 WHERE machine_id='$machine_id' ORDER BY bucket DESC LIMIT 1",
+          "unit": "percent", "min": 0, "max": 100,
+          "thresholds": { "good": 80, "ok": 60 }
+        },
+        {
+          "type": "gauge", "title": "Quality",
+          "query": "SELECT ROUND((quality*100)::numeric,1) AS value FROM oee_hourly_v5 WHERE machine_id='$machine_id' ORDER BY bucket DESC LIMIT 1",
+          "unit": "percent", "min": 0, "max": 100,
+          "thresholds": { "good": 95, "ok": 90 }
+        },
+        {
+          "type": "gauge", "title": "Performance",
+          "query": "SELECT ROUND((performance*100)::numeric,1) AS value FROM oee_hourly_v5 WHERE machine_id='$machine_id' ORDER BY bucket DESC LIMIT 1",
+          "unit": "percent", "min": 0, "max": 100,
+          "thresholds": { "good": 85, "ok": 70 }
+        },
+        {
+          "type": "gauge", "title": "Availability",
+          "query": "SELECT ROUND((availability*100)::numeric,1) AS value FROM oee_hourly_v5 WHERE machine_id='$machine_id' ORDER BY bucket DESC LIMIT 1",
+          "unit": "percent", "min": 0, "max": 100,
+          "thresholds": { "good": 90, "ok": 75 }
+        }
+      ]
+    },
+    {
+      "title": "Today",
+      "panels": [
+        { "type": "stat", "title": "Good",   "query": "SELECT COALESCE(SUM(good_parts),0) FROM bde_data WHERE machine_id='$machine_id' AND cycle_timestamp::date = CURRENT_DATE", "color": "success" },
+        { "type": "stat", "title": "Scrap",  "query": "SELECT COALESCE(SUM(scrap_parts),0) FROM bde_data WHERE machine_id='$machine_id' AND cycle_timestamp::date = CURRENT_DATE", "color": "warning" },
+        { "type": "stat", "title": "Rework", "query": "SELECT COALESCE(SUM(rework_parts),0) FROM bde_data WHERE machine_id='$machine_id' AND cycle_timestamp::date = CURRENT_DATE", "color": "neutral" },
+        { "type": "stat", "title": "Cycle (avg)", "query": "SELECT ROUND(AVG(cycle_time_actual)::numeric,1) FROM bde_data WHERE machine_id='$machine_id' AND cycle_timestamp::date = CURRENT_DATE", "unit": "s" }
+      ]
+    },
+    {
+      "title": "Status Timeline (24h)",
+      "panels": [
+        {
+          "type": "state-timeline", "title": "Machine Status",
+          "query": "SELECT cycle_timestamp AS time, machine_status_text AS state FROM bde_data WHERE machine_id='$machine_id' AND cycle_timestamp > NOW() - INTERVAL '24 hours' ORDER BY cycle_timestamp",
+          "stateColors": "$.branding.machineStatusColors"
+        }
+      ]
+    },
+    {
+      "title": "Trends",
+      "panels": [
+        {
+          "type": "timeseries", "title": "OEE Trend (7d)",
+          "query": "SELECT bucket AS time, (quality*performance*availability*100) AS \"OEE %\", (quality*100) AS \"Quality %\", (performance*100) AS \"Performance %\", (availability*100) AS \"Availability %\" FROM oee_hourly_v5 WHERE machine_id='$machine_id' AND bucket > NOW() - INTERVAL '7 days' ORDER BY bucket",
+          "unit": "percent"
+        },
+        {
+          "type": "timeseries", "title": "Energy",
+          "query": "SELECT cycle_timestamp AS time, power_kw AS \"Power kW\" FROM bde_data WHERE machine_id='$machine_id' AND cycle_timestamp > NOW() - INTERVAL '24 hours' ORDER BY cycle_timestamp",
+          "unit": "kw"
+        }
+      ]
+    },
+    {
+      "title": "Tool",
+      "panels": [
+        { "type": "gauge", "title": "Tool Wear", "query": "SELECT act_pct_toolwear AS value FROM cnc_process_data WHERE machine_id='$machine_id' ORDER BY timestamp DESC LIMIT 1", "unit": "percent", "thresholds": { "good": 60, "ok": 80 }, "reverse": true },
+        { "type": "stat",  "title": "Life Remaining", "query": "SELECT act_time_toolliferemaining AS value FROM cnc_process_data WHERE machine_id='$machine_id' ORDER BY timestamp DESC LIMIT 1", "unit": "min" }
+      ]
+    }
+  ],
+  "drilldownButtons": [
+    {
+      "label": "Process Deep-Dive",
+      "computeUrl": "/d/i3x-process-${machine_type}?var-machine_id=$machine_id",
+      "fromVariable": "SELECT process_table FROM machine_index WHERE machine_id='$machine_id'"
+    }
+  ]
+}

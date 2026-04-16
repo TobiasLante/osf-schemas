@@ -1,0 +1,72 @@
+{
+  "$description": "Landing-Dashboard fuer das i3X Plant Cockpit. Wird vom Generator (packages/exporters/src/grafana-dashboards.ts) zu einem Grafana-JSON expandiert + Branding interpoliert. Die machine-Tiles repeat per $machine_id-Variable — neue Maschine erscheint zero-touch.",
+  "syncId": "dashboard-plant-cockpit",
+  "syncType": "grafana-dashboard",
+  "version": "1.0.0",
+  "deployTarget": "it",
+  "uid": "i3x-plant-cockpit",
+  "title": "Plant Cockpit",
+  "tags": ["i3x", "cockpit"],
+  "datasource": "i3x_alpha_postgres",
+  "variables": [
+    { "name": "machine_id", "type": "query", "query": "SELECT DISTINCT machine_id FROM bde_data ORDER BY 1", "multi": true, "includeAll": true, "current": "$__all" }
+  ],
+  "rows": [
+    {
+      "title": "Plant Stats (last 8h)",
+      "panels": [
+        {
+          "type": "stat", "title": "Plant OEE",
+          "query": "SELECT ROUND(AVG(quality * performance * availability * 100)::numeric, 1) AS value FROM oee_hourly_v5 WHERE bucket > NOW() - INTERVAL '8 hours'",
+          "unit": "percent",
+          "thresholds": { "good": 80, "ok": 60 }
+        },
+        {
+          "type": "stat", "title": "Active Machines",
+          "query": "SELECT COUNT(DISTINCT machine_id) AS value FROM bde_data WHERE cycle_timestamp > NOW() - INTERVAL '5 minutes' AND machine_status = 1",
+          "subquery": "SELECT COUNT(DISTINCT machine_id) AS total FROM bde_data WHERE cycle_timestamp > NOW() - INTERVAL '24 hours'",
+          "format": "{value} / {total}"
+        },
+        {
+          "type": "stat", "title": "Good Parts (8h)",
+          "query": "SELECT COALESCE(SUM(good_parts), 0) AS value FROM bde_data WHERE cycle_timestamp > NOW() - INTERVAL '8 hours'",
+          "color": "success"
+        },
+        {
+          "type": "stat", "title": "Scrap Parts (8h)",
+          "query": "SELECT COALESCE(SUM(scrap_parts), 0) AS value FROM bde_data WHERE cycle_timestamp > NOW() - INTERVAL '8 hours'",
+          "color": "warning"
+        }
+      ]
+    },
+    {
+      "title": "Machines",
+      "repeatBy": "machine_id",
+      "panels": [
+        {
+          "type": "machine-tile",
+          "title": "$machine_id",
+          "queries": {
+            "status":  "SELECT machine_status, machine_status_text FROM bde_data WHERE machine_id='$machine_id' ORDER BY cycle_timestamp DESC LIMIT 1",
+            "oee":     "SELECT ROUND((quality * performance * availability * 100)::numeric, 1) FROM oee_hourly_v5 WHERE machine_id='$machine_id' ORDER BY bucket DESC LIMIT 1",
+            "sparkline": "SELECT bucket AS time, (quality*performance*availability*100) AS oee FROM oee_hourly_v5 WHERE machine_id='$machine_id' AND bucket > NOW() - INTERVAL '24 hours' ORDER BY bucket",
+            "good":    "SELECT COALESCE(SUM(good_parts),0) FROM bde_data WHERE machine_id='$machine_id' AND cycle_timestamp > NOW() - INTERVAL '8 hours'",
+            "scrap":   "SELECT COALESCE(SUM(scrap_parts),0) FROM bde_data WHERE machine_id='$machine_id' AND cycle_timestamp > NOW() - INTERVAL '8 hours'"
+          },
+          "drilldown": "/d/i3x-machine-detail?var-machine_id=$machine_id"
+        }
+      ]
+    },
+    {
+      "title": "Worst Performers (last shift)",
+      "panels": [
+        {
+          "type": "table", "title": "OEE Ranking",
+          "query": "SELECT machine_id, ROUND((AVG(quality * performance * availability) * 100)::numeric, 1) AS oee_pct FROM oee_hourly_v5 WHERE bucket > NOW() - INTERVAL '8 hours' GROUP BY machine_id ORDER BY oee_pct ASC LIMIT 5",
+          "linkColumn": "machine_id",
+          "linkUrl": "/d/i3x-machine-detail?var-machine_id={machine_id}"
+        }
+      ]
+    }
+  ]
+}

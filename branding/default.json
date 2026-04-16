@@ -1,0 +1,33 @@
+{
+  "$description": "Customer-Branding fuer i3X Grafana-Dashboards. Die EINZIGEN Werte die der Kunde editieren darf — sonst alles gelockt. Werden vom Dashboard-Generator (packages/exporters/src/grafana-dashboards.ts) in alle generierten JSONs interpoliert. Pro Customer kann eine zweite Datei in branding/<customer>.json liegen — Standard ist diese hier.",
+  "syncId": "branding-default",
+  "syncType": "branding",
+  "version": "1.0.0",
+  "siteName": "Plant Alpha",
+  "logoUrl": "/public/img/grafana_icon.svg",
+  "colors": {
+    "primary":  "#0066cc",
+    "accent":   "#ff9900",
+    "success":  "#22c55e",
+    "warning":  "#facc15",
+    "error":    "#ef4444",
+    "neutral":  "#6b7280"
+  },
+  "machineStatusColors": {
+    "1": { "label": "Production",  "color": "#22c55e" },
+    "2": { "label": "Idle",        "color": "#facc15" },
+    "3": { "label": "Setup",       "color": "#3b82f6" },
+    "4": { "label": "Maintenance", "color": "#a855f7" },
+    "5": { "label": "Fault",       "color": "#ef4444" }
+  },
+  "thresholds": {
+    "oeeGood":   80,
+    "oeeOk":     60,
+    "qualityCriticalBelow":  95,
+    "toolWearCriticalAbove": 80
+  },
+  "timeRange": {
+    "default":  "now-8h",
+    "refresh":  "1m"
+  }
+}

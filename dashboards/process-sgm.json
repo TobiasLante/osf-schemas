@@ -1,0 +1,59 @@
+{
+  "$description": "Process Deep-Dive fuer SGM-Maschinen (Spritzguss). Stub fuer Alpha — wir haben aktuell keine SGM-Source. Generator legt Tabelle/Dashboard trotzdem an, Panels zeigen 'no data yet' bis der erste SGM-Source publisht. Cuts orientieren sich an v3 injection_molding_data.",
+  "syncId": "dashboard-process-sgm",
+  "syncType": "grafana-dashboard",
+  "version": "0.1.0-stub",
+  "deployTarget": "it",
+  "uid": "i3x-process-sgm",
+  "title": "Process Deep-Dive — SGM",
+  "tags": ["i3x", "process", "sgm"],
+  "datasource": "i3x_alpha_postgres",
+  "machineType": "SGM",
+  "table": "injection_molding_data",
+  "variables": [
+    { "name": "machine_id", "type": "query", "query": "SELECT DISTINCT machine_id FROM injection_molding_data ORDER BY 1", "multi": false }
+  ],
+  "sections": [
+    {
+      "title": "Temperatures",
+      "panels": [
+        { "type": "timeseries", "title": "Melting + Nozzle", "attrs": ["temp_melting","temp_nozzle"], "unit": "celsius" },
+        { "type": "timeseries", "title": "Zones 1-6",         "attrs": ["temp_zone_1","temp_zone_2","temp_zone_3","temp_zone_4","temp_zone_5","temp_zone_6"], "unit": "celsius" },
+        { "type": "timeseries", "title": "Mould",             "attrs": ["temp_mould_fixed","temp_mould_moving"], "unit": "celsius" }
+      ]
+    },
+    {
+      "title": "Times",
+      "panels": [
+        { "type": "timeseries", "title": "Cycle (act vs plan)", "attrs": ["time_cycle_actual","time_cycle_planned"], "unit": "s" },
+        { "type": "timeseries", "title": "Phase Times",         "attrs": ["time_dosing","time_filling","time_holding"], "unit": "s" }
+      ]
+    },
+    {
+      "title": "Pressures",
+      "panels": [
+        { "type": "timeseries", "title": "Holding",   "attrs": ["pressure_holding"], "unit": "bar" }
+      ]
+    },
+    {
+      "title": "Volumes",
+      "panels": [
+        { "type": "timeseries", "title": "Shot + Cushion", "attrs": ["volume_shot","volume_cushion"], "unit": "ccm" }
+      ]
+    },
+    {
+      "title": "Force",
+      "panels": [
+        { "type": "timeseries", "title": "Closing", "attrs": ["force_closing"], "unit": "kN" }
+      ]
+    },
+    {
+      "title": "Counters",
+      "panels": [
+        { "type": "stat", "title": "Shot Counter", "attrs": ["shot_counter"] },
+        { "type": "stat", "title": "Parts Good",   "attrs": ["parts_good"] },
+        { "type": "stat", "title": "Parts Scrap",  "attrs": ["parts_scrap"] }
+      ]
+    }
+  ]
+}

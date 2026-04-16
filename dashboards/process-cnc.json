@@ -1,0 +1,71 @@
+{
+  "$description": "Process Deep-Dive fuer CNC-Maschinen. Sectioned, kuratiert. Alle SMProfile-CNC ProcessData-Attribute in semantischen Gruppen. Generator emittiert die Grafana-Panels per section.",
+  "syncId": "dashboard-process-cnc",
+  "syncType": "grafana-dashboard",
+  "version": "1.0.0",
+  "deployTarget": "it",
+  "uid": "i3x-process-cnc",
+  "title": "Process Deep-Dive — CNC",
+  "tags": ["i3x", "process", "cnc"],
+  "datasource": "i3x_alpha_postgres",
+  "machineType": "CNC",
+  "table": "cnc_process_data",
+  "variables": [
+    { "name": "machine_id", "type": "query", "query": "SELECT DISTINCT machine_id FROM cnc_process_data ORDER BY 1", "multi": false }
+  ],
+  "sections": [
+    {
+      "title": "Spindle",
+      "panels": [
+        { "type": "timeseries", "title": "Speed (rpm)",  "attrs": ["act_speed_spindle","set_speed_spindle"], "unit": "rpm" },
+        { "type": "gauge",      "title": "Load",          "attrs": ["act_pct_spindleload"], "unit": "percent", "min": 0, "max": 100, "thresholds": { "ok": 70, "warn": 85 } },
+        { "type": "timeseries", "title": "Torque",        "attrs": ["act_torque_spindle"], "unit": "Nm" }
+      ]
+    },
+    {
+      "title": "Feed",
+      "panels": [
+        { "type": "timeseries", "title": "Rate",     "attrs": ["act_rate_feed","set_rate_feed"], "unit": "mm/min" },
+        { "type": "stat",       "title": "Override", "attrs": ["act_pct_feedoverride"], "unit": "percent" }
+      ]
+    },
+    {
+      "title": "Axes",
+      "panels": [
+        { "type": "timeseries", "title": "X (mm)", "attrs": ["act_pos_axisx","set_pos_axisx"], "unit": "mm" },
+        { "type": "timeseries", "title": "Y (mm)", "attrs": ["act_pos_axisy","set_pos_axisy"], "unit": "mm" },
+        { "type": "timeseries", "title": "Z (mm)", "attrs": ["act_pos_axisz","set_pos_axisz"], "unit": "mm" }
+      ]
+    },
+    {
+      "title": "Tool",
+      "panels": [
+        { "type": "stat",  "title": "Number",          "attrs": ["act_ref_toolnumber"] },
+        { "type": "gauge", "title": "Wear",            "attrs": ["act_pct_toolwear"], "unit": "percent", "min": 0, "max": 100, "thresholds": { "ok": 60, "warn": 80 }, "reverse": true },
+        { "type": "stat",  "title": "Life Remaining",  "attrs": ["act_time_toolliferemaining"], "unit": "min" }
+      ]
+    },
+    {
+      "title": "Coolant",
+      "panels": [
+        { "type": "timeseries", "title": "Flow",        "attrs": ["act_rate_coolantflow"], "unit": "L/min" },
+        { "type": "timeseries", "title": "Temperature", "attrs": ["act_temp_coolant"], "unit": "celsius" },
+        { "type": "timeseries", "title": "Pressure",    "attrs": ["act_pressure_coolant"], "unit": "bar" }
+      ]
+    },
+    {
+      "title": "Vibration",
+      "panels": [
+        { "type": "timeseries", "title": "X / Y / Z", "attrs": ["act_vibration_x","act_vibration_y","act_vibration_z"], "unit": "g" }
+      ]
+    },
+    {
+      "title": "Program",
+      "panels": [
+        { "type": "stat", "title": "Active Program",  "attrs": ["act_ref_program"] },
+        { "type": "stat", "title": "Line",            "attrs": ["act_ref_programline"] },
+        { "type": "stat", "title": "Status",          "attrs": ["act_status_program"] }
+      ]
+    }
+  ]
+}
