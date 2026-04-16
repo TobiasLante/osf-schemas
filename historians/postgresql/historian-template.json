@@ -1,8 +1,9 @@
 {
-  "$description": "Historian-Write-Template für Postgres / TimescaleDB via node-red-contrib-postgresql. Customer kopiert, ersetzt ${HISTORIAN_*} aus .env. Flow-Generator (packages/exporters/src/node-red.ts) liest den Schema und erzeugt die NR-Flow-Node-Verdrahtung.",
+  "$description": "Historian-Write-Template für Postgres / TimescaleDB via node-red-contrib-postgresql. Tabellen-Shape ist die uns_history aus bigdata_homelab (v1-erprobt, 1:1 zum 6-Segment-UNS-Topic). NR-Flow-Generator (packages/exporters/src/node-red-historian.ts) liest dieses Schema und baut: mqtt-in (Factory/#) → row-builder (parst Topic + Payload zu Spalten-Array) → batch (500/1s) → postgres-insert. Connection-Felder werden aus HISTORIAN_*-env interpoliert. Pusht zur IT-NR-Instanz (NODE_RED_IT_URL), nicht zum OT-NR.",
   "syncId": "postgres-historian",
-  "version": "1.0.0",
-  "syncType": "postgres",
+  "version": "2.0.0",
+  "syncType": "postgresql",
+  "deployTarget": "it",
   "nodeRedContrib": "node-red-contrib-postgresql",
   "connection": {
     "host": "${HISTORIAN_HOST}",
@@ -14,34 +15,35 @@
     "maxConnections": 10
   },
   "tableStructure": {
-    "defaultTable": "uns_events",
-    "createIfMissing": true,
-    "timescale": {
-      "enable": true,
-      "timeColumn": "ts",
-      "chunkTimeInterval": "7 days",
-      "compressAfter": "30 days",
-      "retention": "365 days"
-    },
+    "defaultTable": "uns_history",
+    "createIfMissing": false,
+    "$note": "Table is provisioned out-of-band (DDL aus diesem Schema, applied vom DBA / install-script). createIfMissing=false weil contrib-postgresql kein DDL-Privileg im Default haben soll und die Tabelle Hypertable + Compression-Policy braucht (kein plain CREATE TABLE).",
     "columns": [
-      { "name": "ts",         "type": "timestamptz",      "source": "$.ts",         "notNull": true, "primaryKeyPart": true },
-      { "name": "topic",      "type": "text",             "source": "msg.topic",    "notNull": true, "primaryKeyPart": true },
-      { "name": "machine_id", "type": "text",             "source": "$.machine_id", "index": true },
-      { "name": "domain",     "type": "text",             "source": "$.domain",     "index": true },
-      { "name": "attribute",  "type": "text",             "source": "$.attribute",  "index": true },
-      { "name": "value",      "type": "double precision", "source": "$.value" },
-      { "name": "value_text", "type": "text",             "source": "$.value_text" },
-      { "name": "unit",       "type": "text",             "source": "$.unit" },
-      { "name": "quality",    "type": "text",             "source": "$.quality" }
+      { "name": "ts",         "type": "timestamptz",      "source": "$.timestamp",   "notNull": true },
+      { "name": "machine",    "type": "text",             "source": "msg._machine",  "notNull": true, "index": true },
+      { "name": "category",   "type": "text",             "source": "msg._category", "notNull": true, "index": true },
+      { "name": "variable",   "type": "text",             "source": "msg._variable", "notNull": true, "index": true },
+      { "name": "value",      "type": "double precision", "source": "msg._valueNum" },
+      { "name": "value_text", "type": "text",             "source": "msg._valueText" },
+      { "name": "unit",       "type": "text",             "source": "$.Unit" },
+      { "name": "work_order", "type": "text",             "source": "$.WorkOrder" },
+      { "name": "tool_id",    "type": "text",             "source": "$.ToolID" },
+      { "name": "topic",      "type": "text",             "source": "msg.topic",     "notNull": true }
     ]
+  },
+  "topicParser": {
+    "$description": "Vor dem row-builder fügt der Generator einen Function-Node ein, der das 6-Segment-UNS-Topic parst (Factory/site/type/machineId/category/attribute) und msg._machine / _category / _variable setzt. Außerdem klassifiziert er payload.Value zahlsicher zu msg._valueNum / msg._valueText, damit beide Spalten korrekt gefüllt werden.",
+    "pattern": "Factory/{site}/{type}/{machineId}/{category}/{attribute}",
+    "machineSegment": 3,
+    "categorySegment": 4,
+    "variableSegment": 5
   },
   "insertStrategy": {
     "mode": "batch",
     "batchSize": 500,
     "batchIntervalMs": 1000,
-    "onConflict": "do_nothing",
-    "conflictColumns": ["ts", "topic"]
+    "onConflict": "none"
   },
-  "subscribeFilters": ["+/+/+/+/+/+/+"],
-  "description": "KMU-default: alle UNS-Events in eine Tabelle. Kunde kann mehrere dieser Sync-Instanzen anlegen (z.B. eine Tabelle pro Domain)."
+  "subscribeFilters": ["Factory/#"],
+  "description": "1:1 zur bigdata_homelab.public.uns_history-Shape. Schreibt jede UNS-Message als ein Row. Topic-Segmente werden zu machine/category/variable, payload.Value zahl/text-getrennt."
 }
