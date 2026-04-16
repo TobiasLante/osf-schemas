@@ -1,0 +1,47 @@
+{
+  "syncId": "shared-uns-alpha",
+  "mappingId": "#shared.uns",
+  "siteFilter": ["Alpha"],
+  "version": "0.3.0",
+  "syncType": "mqtt",
+  "description": "#shared.uns variant for the Alpha OT zone. Same topic/payload contract as the main #shared.uns, broker pinned to the Alpha mosquitto on .110:21883 (OT-side bridge to the Alpha IT stack on .150). Resolver picks this when a source's location.site == 'Alpha'.",
+  "broker": {
+    "host": "192.168.178.110",
+    "port": 21883
+  },
+  "topicStructure": {
+    "pattern": "Factory/{site}/{type}/{machineId}/{category}/{attribute}",
+    "segments": {
+      "site":      { "index": 1, "description": "source.location.site" },
+      "type":      { "index": 2, "description": "source.location.type" },
+      "machineId": { "index": 3, "description": "source.machineId" },
+      "category":  { "index": 4, "description": "source.dataCategory" },
+      "attribute": { "index": 5, "description": "smAttribute from nodeMappings" }
+    },
+    "subscribeFilter": "Factory/Alpha/+/+/+/+"
+  },
+  "payloadSchema": {
+    "format": "JSON",
+    "timestampFormat": "ISO8601",
+    "fields": {
+      "timestamp":                { "path": "$.timestamp",                "source": "runtime.iso8601",            "required": true },
+      "Value":                    { "path": "$.Value",                    "source": "runtime.value",              "required": true },
+      "Unit":                     { "path": "$.Unit",                     "source": "profile.attribute.unit" },
+      "Definition":               { "path": "$.Definition",               "source": "profile.attribute.description" },
+      "Datatype":                 { "path": "$.Datatype",                 "source": "profile.attribute.dataType" },
+      "ValueQualityQualifier":    { "path": "$.ValueQualityQualifier",    "source": "const", "default": "good" },
+      "ValueOriginQualifier":     { "path": "$.ValueOriginQualifier",     "source": "const", "default": "measured" },
+      "ValueProcessingQualifier": { "path": "$.ValueProcessingQualifier", "source": "const", "default": "last" }
+    }
+  },
+  "attributeMapping": {
+    "strategy": "topic_segment",
+    "categorySegment": 4,
+    "attributeSegment": 5,
+    "_note": "Identity mapping — topic segment 5 == smAttribute. Per-attribute renames live in the global #shared.uns; Alpha sources publish smAttribute as-is."
+  },
+  "machineIdResolution": {
+    "strategy": "topic_segment",
+    "segment": 3
+  }
+}
