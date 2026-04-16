@@ -1,0 +1,47 @@
+{
+  "$description": "Historian-Write-Template für Postgres / TimescaleDB via node-red-contrib-postgresql. Customer kopiert, ersetzt ${HISTORIAN_*} aus .env. Flow-Generator (packages/exporters/src/node-red.ts) liest den Schema und erzeugt die NR-Flow-Node-Verdrahtung.",
+  "syncId": "postgres-historian",
+  "version": "1.0.0",
+  "syncType": "postgres",
+  "nodeRedContrib": "node-red-contrib-postgresql",
+  "connection": {
+    "host": "${HISTORIAN_HOST}",
+    "port": "${HISTORIAN_PORT:-5432}",
+    "database": "${HISTORIAN_DB}",
+    "user": "${HISTORIAN_USER}",
+    "password": "${HISTORIAN_PASSWORD}",
+    "ssl": false,
+    "maxConnections": 10
+  },
+  "tableStructure": {
+    "defaultTable": "uns_events",
+    "createIfMissing": true,
+    "timescale": {
+      "enable": true,
+      "timeColumn": "ts",
+      "chunkTimeInterval": "7 days",
+      "compressAfter": "30 days",
+      "retention": "365 days"
+    },
+    "columns": [
+      { "name": "ts",         "type": "timestamptz",      "source": "$.ts",         "notNull": true, "primaryKeyPart": true },
+      { "name": "topic",      "type": "text",             "source": "msg.topic",    "notNull": true, "primaryKeyPart": true },
+      { "name": "machine_id", "type": "text",             "source": "$.machine_id", "index": true },
+      { "name": "domain",     "type": "text",             "source": "$.domain",     "index": true },
+      { "name": "attribute",  "type": "text",             "source": "$.attribute",  "index": true },
+      { "name": "value",      "type": "double precision", "source": "$.value" },
+      { "name": "value_text", "type": "text",             "source": "$.value_text" },
+      { "name": "unit",       "type": "text",             "source": "$.unit" },
+      { "name": "quality",    "type": "text",             "source": "$.quality" }
+    ]
+  },
+  "insertStrategy": {
+    "mode": "batch",
+    "batchSize": 500,
+    "batchIntervalMs": 1000,
+    "onConflict": "do_nothing",
+    "conflictColumns": ["ts", "topic"]
+  },
+  "subscribeFilters": ["+/+/+/+/+/+/+"],
+  "description": "KMU-default: alle UNS-Events in eine Tabelle. Kunde kann mehrere dieser Sync-Instanzen anlegen (z.B. eine Tabelle pro Domain)."
+}

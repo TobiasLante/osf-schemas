@@ -1,0 +1,41 @@
+{
+  "$description": "Historian-Write-Template für Microsoft SQL Server via node-red-contrib-mssql-plus. Customer kopiert, ersetzt ${HISTORIAN_*} aus .env.",
+  "syncId": "mssql-historian",
+  "version": "1.0.0",
+  "syncType": "mssql",
+  "nodeRedContrib": "node-red-contrib-mssql-plus",
+  "connection": {
+    "server": "${HISTORIAN_HOST}",
+    "port": "${HISTORIAN_PORT:-1433}",
+    "database": "${HISTORIAN_DB}",
+    "user": "${HISTORIAN_USER}",
+    "password": "${HISTORIAN_PASSWORD}",
+    "encrypt": true,
+    "trustServerCertificate": false,
+    "connectionTimeout": 15000,
+    "requestTimeout": 15000
+  },
+  "tableStructure": {
+    "defaultTable": "uns_events",
+    "schema": "dbo",
+    "createIfMissing": true,
+    "columns": [
+      { "name": "ts",         "type": "datetime2",     "source": "$.ts",         "notNull": true, "primaryKeyPart": true },
+      { "name": "topic",      "type": "nvarchar(500)", "source": "msg.topic",    "notNull": true, "primaryKeyPart": true },
+      { "name": "machine_id", "type": "nvarchar(100)", "source": "$.machine_id", "index": true },
+      { "name": "domain",     "type": "nvarchar(50)",  "source": "$.domain",     "index": true },
+      { "name": "attribute",  "type": "nvarchar(200)", "source": "$.attribute",  "index": true },
+      { "name": "value",      "type": "float",         "source": "$.value" },
+      { "name": "value_text", "type": "nvarchar(max)", "source": "$.value_text" },
+      { "name": "unit",       "type": "nvarchar(50)",  "source": "$.unit" },
+      { "name": "quality",    "type": "nvarchar(20)",  "source": "$.quality" }
+    ]
+  },
+  "insertStrategy": {
+    "mode": "batch",
+    "batchSize": 500,
+    "batchIntervalMs": 1000,
+    "onConflict": "ignore"
+  },
+  "subscribeFilters": ["+/+/+/+/+/+/+"]
+}

@@ -8,6 +8,7 @@ No LLM is needed — the schemas are the single source of truth.
 ```
 osf-schemas/
 ├── companion-specs/       ← OPC-UA Companion-Spec-Registry (NodeSet2.xml URLs)
+├── unit-conversions/      ← UNECE-Tabelle (Discovery-Zeit-Lookup für scale/offset)
 ├── profiles/              ← Schema 1: SM Profiles (type system)
 │   ├── enterprise/        ← ISA-95 hierarchy (Enterprise, Site, Area, ProductionLine, System)
 │   ├── machines/          ← Machine types (Machine*, CNC, IMM, FFS, Lathe, Milling, Mould, CNCProgram)
@@ -42,6 +43,9 @@ osf-schemas/
 | Sync (Kafka) | 1 | kafka-uns-factory (10 topics) |
 | Sync (Webhook) | 1 | bde-webhook |
 | Sync (Manual) | 1 | csv-import |
+| Sync (Postgres/Timescale) | 1 | postgres-historian-template |
+| Sync (MSSQL) | 1 | mssql-historian-template |
+| Sync (InfluxDB) | 1 | influxdb-historian-template |
 | Bridge (ref only) | 2 | mqtt-to-kafka, shared-uns-to-kafka |
 | Companion-Specs   | 1 | 12 OPC-UA Companion Specs (CNC, Machinery, Robotics, ...) |
 
