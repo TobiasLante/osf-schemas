@@ -9,6 +9,10 @@ No LLM is needed — the schemas are the single source of truth.
 osf-schemas/
 ├── companion-specs/       ← OPC-UA Companion-Spec-Registry (NodeSet2.xml URLs)
 ├── unit-conversions/      ← UNECE-Tabelle (Discovery-Zeit-Lookup für scale/offset)
+├── historians/            ← Historian-Sink-Templates (OUTPUT: UNS → Kunden-DB)
+│   ├── postgresql/        ← via node-red-contrib-postgresql (Timescale-aware)
+│   ├── mssql/             ← via node-red-contrib-mssql-plus
+│   └── influxdb/          ← via node-red-contrib-influxdb (2.x)
 ├── profiles/              ← Schema 1: SM Profiles (type system)
 │   ├── enterprise/        ← ISA-95 hierarchy (Enterprise, Site, Area, ProductionLine, System)
 │   ├── machines/          ← Machine types (Machine*, CNC, IMM, FFS, Lathe, Milling, Mould, CNCProgram)
@@ -43,11 +47,36 @@ osf-schemas/
 | Sync (Kafka) | 1 | kafka-uns-factory (10 topics) |
 | Sync (Webhook) | 1 | bde-webhook |
 | Sync (Manual) | 1 | csv-import |
-| Sync (Postgres/Timescale) | 1 | postgres-historian-template |
-| Sync (MSSQL) | 1 | mssql-historian-template |
-| Sync (InfluxDB) | 1 | influxdb-historian-template |
 | Bridge (ref only) | 2 | mqtt-to-kafka, shared-uns-to-kafka |
 | Companion-Specs   | 1 | 12 OPC-UA Companion Specs (CNC, Machinery, Robotics, ...) |
+| Historians (Postgres/Timescale) | 1 | postgres-historian-template |
+| Historians (MSSQL) | 1 | mssql-historian-template |
+| Historians (InfluxDB) | 1 | influxdb-historian-template |
+
+---
+
+## Historians (`historians/<db>/<template>.json`)
+
+Templates für Historian-Sinks. i3X liefert den Historian **nicht** mit —
+der Kunde bringt Postgres/Timescale, MSSQL oder InfluxDB. Diese Templates
+sagen dem Node-RED-Flow-Generator, welche `node-red-contrib-*`-Node
+benutzt werden muss und wie Verbindung / Tabelle / Insert-Strategie
+konfiguriert sind.
+
+**Richtung:** OUTPUT (UNS-Event → Historian-Write). Unterschied zu
+`sync/polling/` (das ist INPUT aus einer Kunden-DB).
+
+**Unterstützt:**
+- `historians/postgresql/historian-template.json` — `node-red-contrib-postgresql`, optional Timescale-Hypertable + Compression + Retention.
+- `historians/mssql/historian-template.json` — `node-red-contrib-mssql-plus`.
+- `historians/influxdb/historian-template.json` — `node-red-contrib-influxdb` 2.x, Measurement pro Domain.
+
+Template-Shape gemeinsam:
+- `nodeRedContrib` — welches contrib-Paket
+- `connection` — Env-Interpolation (`${HISTORIAN_*}`)
+- `tableStructure` / `pointStructure` — Spalten oder Tags/Fields
+- `insertStrategy` — Batch-Größe + Interval + Conflict-Handling
+- `subscribeFilters` — welche UNS-Topics bedient werden
 
 ---
 
