@@ -1,0 +1,52 @@
+{
+  "sourceId": "Source-PG-article-persist",
+  "version": "1.0.0",
+  "sourceType": "postgresql",
+  "profileRef": "SMProfile-Article",
+  "machineId": "article-persist",
+  "machineName": "Article Persist",
+  "location": {},
+  "connection": {
+    "host": "${ERP_DB_HOST}",
+    "port": "${ERP_DB_PORT}",
+    "database": "erpdb",
+    "schema": "public",
+    "table": "article"
+  },
+  "columnMappings": [
+    {
+      "column": "weight_g",
+      "smAttribute": "weight_kg",
+      "unit": "kg",
+      "uneceCode": "KGM",
+      "scale": 0.001,
+      "offset": 0
+    }
+  ],
+  "unitValidation": {
+    "summary": {
+      "total": 1,
+      "ok": 0,
+      "warnings": 1,
+      "mismatches": 0
+    },
+    "results": [
+      {
+        "attribute": "weight_kg",
+        "reportedUnit": "g",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "kg",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects \"kg\", reported \"g\""
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "kg",
+        "explanation": "Possible issue: \"g\" may not be correct for weight_kg"
+      }
+    ]
+  }
+}
