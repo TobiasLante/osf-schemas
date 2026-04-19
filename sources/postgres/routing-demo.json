@@ -15,77 +15,55 @@
   },
   "columnMappings": [
     {
-      "column": "routing_no",
-      "smAttribute": "routing_no"
-    },
-    {
-      "column": "operation_no",
-      "smAttribute": "operation_no"
-    },
-    {
-      "column": "cycle_time_sec",
+      "column": "cycle_time_min",
       "smAttribute": "cycle_time_sec",
-      "unit": "s"
+      "unit": "min"
     },
     {
-      "column": "setup_time_sec",
+      "column": "setup_time_ms",
       "smAttribute": "setup_time_sec",
-      "unit": "s"
+      "unit": "ms"
     }
   ],
   "unitValidation": {
     "summary": {
-      "total": 4,
-      "ok": 4,
-      "warnings": 0,
+      "total": 2,
+      "ok": 0,
+      "warnings": 2,
       "mismatches": 0
     },
     "results": [
       {
-        "attribute": "routing_no",
-        "reportedUnit": "",
-        "sources": [],
-        "verdict": "ok",
-        "confidence": 0.5,
-        "explanation": "No unit hint on column and none expected by profile"
-      },
-      {
-        "attribute": "operation_no",
-        "reportedUnit": "",
-        "sources": [],
-        "verdict": "ok",
-        "confidence": 0.5,
-        "explanation": "No unit hint on column and none expected by profile"
-      },
-      {
         "attribute": "cycle_time_sec",
-        "reportedUnit": "s",
+        "reportedUnit": "min",
         "sources": [
           {
             "source": "sm_profile",
             "expectedUnit": "s",
             "confidence": 0.5,
-            "explanation": "Matches SM Profile unit: s"
+            "explanation": "SM Profile expects \"s\", reported \"min\""
           }
         ],
-        "verdict": "ok",
+        "verdict": "warning",
         "confidence": 0.5,
-        "explanation": "All 1 sources agree: \"s\" is correct"
+        "suggestedUnit": "s",
+        "explanation": "Possible issue: \"min\" may not be correct for cycle_time_sec"
       },
       {
         "attribute": "setup_time_sec",
-        "reportedUnit": "s",
+        "reportedUnit": "ms",
         "sources": [
           {
             "source": "sm_profile",
             "expectedUnit": "s",
             "confidence": 0.5,
-            "explanation": "Matches SM Profile unit: s"
+            "explanation": "SM Profile expects \"s\", reported \"ms\""
           }
         ],
-        "verdict": "ok",
+        "verdict": "warning",
         "confidence": 0.5,
-        "explanation": "All 1 sources agree: \"s\" is correct"
+        "suggestedUnit": "s",
+        "explanation": "Possible issue: \"ms\" may not be correct for setup_time_sec"
       }
     ]
   }
