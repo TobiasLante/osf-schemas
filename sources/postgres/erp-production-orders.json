@@ -1,0 +1,178 @@
+{
+  "sourceId": "Source-PG-erp-production-orders",
+  "version": "1.0.0",
+  "sourceType": "postgresql",
+  "profileRef": "SMProfile-ProductionOrder",
+  "machineId": "erp-production-orders",
+  "machineName": "machineid_nodeid",
+  "location": {
+    "site": "",
+    "type": ""
+  },
+  "connection": {
+    "host": "${ERP_DB_HOST}",
+    "port": "${ERP_DB_PORT}",
+    "database": "erpdb",
+    "schema": "llm_test_v3",
+    "table": "machineid_nodeid"
+  },
+  "columnMappings": [
+    {
+      "column": "production_order_no",
+      "smAttribute": "order_no"
+    },
+    {
+      "column": "order_status",
+      "smAttribute": "status"
+    },
+    {
+      "column": "machine_no",
+      "smAttribute": "machine_no"
+    },
+    {
+      "column": "article_no",
+      "smAttribute": "article_no"
+    },
+    {
+      "column": "artikelbezeichnung",
+      "smAttribute": "article_name",
+      "unit": "mm",
+      "uneceCode": "MMT"
+    },
+    {
+      "column": "geplante_stueckzahl",
+      "smAttribute": "planned_qty"
+    },
+    {
+      "column": "produzierte_stueckzahl",
+      "smAttribute": "produced_qty"
+    },
+    {
+      "column": "geplantes_start_datum",
+      "smAttribute": "planned_start"
+    },
+    {
+      "column": "geplantes_end_datum",
+      "smAttribute": "planned_end"
+    },
+    {
+      "column": "tool_no",
+      "smAttribute": "tool_no"
+    },
+    {
+      "column": "arbeitsplan",
+      "smAttribute": "routing"
+    },
+    {
+      "column": "stueckliste",
+      "smAttribute": "bom"
+    }
+  ],
+  "unitValidation": {
+    "summary": {
+      "total": 12,
+      "ok": 12,
+      "warnings": 0,
+      "mismatches": 0
+    },
+    "results": [
+      {
+        "attribute": "order_no",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit hint on column and none expected by profile"
+      },
+      {
+        "attribute": "status",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit hint on column and none expected by profile"
+      },
+      {
+        "attribute": "machine_no",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit hint on column and none expected by profile"
+      },
+      {
+        "attribute": "article_no",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit hint on column and none expected by profile"
+      },
+      {
+        "attribute": "article_name",
+        "reportedUnit": "mm",
+        "reportedValue": 500,
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0,
+        "explanation": "No validation sources available"
+      },
+      {
+        "attribute": "planned_qty",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit hint on column and none expected by profile"
+      },
+      {
+        "attribute": "produced_qty",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit hint on column and none expected by profile"
+      },
+      {
+        "attribute": "planned_start",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit hint on column and none expected by profile"
+      },
+      {
+        "attribute": "planned_end",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit hint on column and none expected by profile"
+      },
+      {
+        "attribute": "tool_no",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit hint on column and none expected by profile"
+      },
+      {
+        "attribute": "routing",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit hint on column and none expected by profile"
+      },
+      {
+        "attribute": "bom",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit hint on column and none expected by profile"
+      }
+    ]
+  }
+}
