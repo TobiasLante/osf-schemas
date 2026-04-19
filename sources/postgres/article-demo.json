@@ -15,33 +15,34 @@
   },
   "columnMappings": [
     {
-      "column": "weight_kg",
+      "column": "weight_g",
       "smAttribute": "weight_kg",
-      "unit": "kg"
+      "unit": "g"
     }
   ],
   "unitValidation": {
     "summary": {
       "total": 1,
-      "ok": 1,
-      "warnings": 0,
+      "ok": 0,
+      "warnings": 1,
       "mismatches": 0
     },
     "results": [
       {
         "attribute": "weight_kg",
-        "reportedUnit": "kg",
+        "reportedUnit": "g",
         "sources": [
           {
             "source": "sm_profile",
             "expectedUnit": "kg",
             "confidence": 0.5,
-            "explanation": "Matches SM Profile unit: kg"
+            "explanation": "SM Profile expects \"kg\", reported \"g\""
           }
         ],
-        "verdict": "ok",
+        "verdict": "warning",
         "confidence": 0.5,
-        "explanation": "All 1 sources agree: \"kg\" is correct"
+        "suggestedUnit": "kg",
+        "explanation": "Possible issue: \"g\" may not be correct for weight_kg"
       }
     ]
   }
