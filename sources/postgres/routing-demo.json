@@ -1,0 +1,92 @@
+{
+  "sourceId": "Source-PG-routing-demo",
+  "version": "1.0.0",
+  "sourceType": "postgresql",
+  "profileRef": "SMProfile-Routing",
+  "machineId": "routing-demo",
+  "machineName": "Routing Demo",
+  "location": {},
+  "connection": {
+    "host": "${ERP_DB_HOST}",
+    "port": "${ERP_DB_PORT}",
+    "database": "erpdb",
+    "schema": "public",
+    "table": "routing"
+  },
+  "columnMappings": [
+    {
+      "column": "routing_no",
+      "smAttribute": "routing_no"
+    },
+    {
+      "column": "operation_no",
+      "smAttribute": "operation_no"
+    },
+    {
+      "column": "cycle_time_sec",
+      "smAttribute": "cycle_time_sec",
+      "unit": "s"
+    },
+    {
+      "column": "setup_time_sec",
+      "smAttribute": "setup_time_sec",
+      "unit": "s"
+    }
+  ],
+  "unitValidation": {
+    "summary": {
+      "total": 4,
+      "ok": 4,
+      "warnings": 0,
+      "mismatches": 0
+    },
+    "results": [
+      {
+        "attribute": "routing_no",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit hint on column and none expected by profile"
+      },
+      {
+        "attribute": "operation_no",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit hint on column and none expected by profile"
+      },
+      {
+        "attribute": "cycle_time_sec",
+        "reportedUnit": "s",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "s",
+            "confidence": 0.5,
+            "explanation": "Matches SM Profile unit: s"
+          }
+        ],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "All 1 sources agree: \"s\" is correct"
+      },
+      {
+        "attribute": "setup_time_sec",
+        "reportedUnit": "s",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "s",
+            "confidence": 0.5,
+            "explanation": "Matches SM Profile unit: s"
+          }
+        ],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "All 1 sources agree: \"s\" is correct"
+      }
+    ]
+  }
+}
