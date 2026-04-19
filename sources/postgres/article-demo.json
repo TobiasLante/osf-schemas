@@ -1,0 +1,48 @@
+{
+  "sourceId": "Source-PG-article-demo",
+  "version": "1.0.0",
+  "sourceType": "postgresql",
+  "profileRef": "SMProfile-Article",
+  "machineId": "article-demo",
+  "machineName": "Article",
+  "location": {},
+  "connection": {
+    "host": "${ERP_DB_HOST}",
+    "port": "${ERP_DB_PORT}",
+    "database": "erpdb",
+    "schema": "public",
+    "table": "article"
+  },
+  "columnMappings": [
+    {
+      "column": "weight_kg",
+      "smAttribute": "weight_kg",
+      "unit": "kg"
+    }
+  ],
+  "unitValidation": {
+    "summary": {
+      "total": 1,
+      "ok": 1,
+      "warnings": 0,
+      "mismatches": 0
+    },
+    "results": [
+      {
+        "attribute": "weight_kg",
+        "reportedUnit": "kg",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "kg",
+            "confidence": 0.5,
+            "explanation": "Matches SM Profile unit: kg"
+          }
+        ],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "All 1 sources agree: \"kg\" is correct"
+      }
+    ]
+  }
+}
