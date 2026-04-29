@@ -1,0 +1,720 @@
+{
+  "sourceId": "Source-OpcUA-Nürnberg_text-BDE",
+  "version": "1.0.0",
+  "sourceType": "opcua",
+  "dataCategory": "BDE",
+  "profileRef": "SMProfile-CNC-Machine",
+  "endpoint": "opc.tcp://192.168.178.150:30840",
+  "machineId": "Nürnberg_text",
+  "machineName": "CNC-01",
+  "location": {
+    "site": "",
+    "type": ""
+  },
+  "nodeMappings": [
+    {
+      "opcuaNodeId": "ns=1;s=Monitoring.Machine_Status",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Monitoring",
+        "Machine_Status"
+      ],
+      "smAttribute": "Machine_Status",
+      "dataType": "ns=0;i=6"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Monitoring.Machine_Status_Text",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Monitoring",
+        "Machine_Status_Text"
+      ],
+      "smAttribute": "Machine_Status_Text",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Monitoring.Good_Parts",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Monitoring",
+        "Good_Parts"
+      ],
+      "smAttribute": "Good_Parts",
+      "dataType": "ns=0;i=6",
+      "unit": "pieces"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Monitoring.Scrap_Parts",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Monitoring",
+        "Scrap_Parts"
+      ],
+      "smAttribute": "Scrap_Parts",
+      "dataType": "ns=0;i=6",
+      "unit": "pieces"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Monitoring.Rework_Parts",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Monitoring",
+        "Rework_Parts"
+      ],
+      "smAttribute": "Rework_Parts",
+      "dataType": "ns=0;i=6",
+      "unit": "pieces"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Monitoring.Cycle_Time_Planned",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Monitoring",
+        "Cycle_Time_Planned"
+      ],
+      "smAttribute": "Cycle_Time_Planned",
+      "dataType": "ns=0;i=10",
+      "unit": "s"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Monitoring.Cycle_Time_Actual",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Monitoring",
+        "Cycle_Time_Actual"
+      ],
+      "smAttribute": "Cycle_Time_Actual",
+      "dataType": "ns=0;i=10",
+      "unit": "s"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Monitoring.Power_kW",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Monitoring",
+        "Power_kW"
+      ],
+      "smAttribute": "Power_kW",
+      "dataType": "ns=0;i=10",
+      "unit": "kW"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Monitoring.Energy_kWh",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Monitoring",
+        "Energy_kWh"
+      ],
+      "smAttribute": "Energy_kWh",
+      "dataType": "ns=0;i=10",
+      "unit": "kWh"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Monitoring.Production_Order",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Monitoring",
+        "Production_Order"
+      ],
+      "smAttribute": "Production_Order",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Monitoring.Article_ID",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Monitoring",
+        "Article_ID"
+      ],
+      "smAttribute": "Article_ID",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Monitoring.Tool_ID",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Monitoring",
+        "Tool_ID"
+      ],
+      "smAttribute": "Tool_ID",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Monitoring.Shift_Number",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Monitoring",
+        "Shift_Number"
+      ],
+      "smAttribute": "Shift_Number",
+      "dataType": "ns=0;i=6"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Monitoring.Operator_ID",
+      "browsePath": [
+        "Machines",
+        "CNC Maschine 1",
+        "Monitoring",
+        "Operator_ID"
+      ],
+      "smAttribute": "Operator_ID",
+      "dataType": "ns=0;i=12"
+    }
+  ],
+  "staticProperties": {
+    "machineType": "CNC_Machine"
+  },
+  "polling": {
+    "mode": "subscribe",
+    "intervalMs": 1000
+  },
+  "security": {
+    "mode": "None",
+    "policy": "None",
+    "auth": "Anonymous"
+  },
+  "unitValidation": {
+    "summary": {
+      "total": 37,
+      "ok": 30,
+      "warnings": 6,
+      "mismatches": 1
+    },
+    "results": [
+      {
+        "attribute": "Machine_Status",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "Machine_Status_Text",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "Good_Parts",
+        "reportedUnit": "pieces",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0,
+        "explanation": "No validation sources available"
+      },
+      {
+        "attribute": "Scrap_Parts",
+        "reportedUnit": "pieces",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0,
+        "explanation": "No validation sources available"
+      },
+      {
+        "attribute": "Rework_Parts",
+        "reportedUnit": "pieces",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0,
+        "explanation": "No validation sources available"
+      },
+      {
+        "attribute": "Cycle_Time_Planned",
+        "reportedUnit": "s",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "s",
+            "confidence": 0.5,
+            "explanation": "Matches SM Profile unit: s"
+          }
+        ],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "All 1 sources agree: \"s\" is correct"
+      },
+      {
+        "attribute": "Cycle_Time_Actual",
+        "reportedUnit": "s",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "s",
+            "confidence": 0.5,
+            "explanation": "Matches SM Profile unit: s"
+          }
+        ],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "All 1 sources agree: \"s\" is correct"
+      },
+      {
+        "attribute": "Power_kW",
+        "reportedUnit": "kW",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "kW",
+            "confidence": 0.5,
+            "explanation": "Matches SM Profile unit: kW"
+          },
+          {
+            "source": "physical_rules",
+            "expectedUnit": "kW",
+            "expectedRange": {
+              "min": 0,
+              "max": 500,
+              "unit": "KWT"
+            },
+            "confidence": 0.6,
+            "explanation": "Unit \"kW\" is valid for power"
+          }
+        ],
+        "verdict": "ok",
+        "confidence": 0.55,
+        "explanation": "All 2 sources agree: \"kW\" is correct"
+      },
+      {
+        "attribute": "Energy_kWh",
+        "reportedUnit": "kWh",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "kWh",
+            "confidence": 0.5,
+            "explanation": "Matches SM Profile unit: kWh"
+          },
+          {
+            "source": "physical_rules",
+            "expectedUnit": "kW",
+            "expectedRange": {
+              "min": 0,
+              "max": 500,
+              "unit": "KWT"
+            },
+            "confidence": 0.6,
+            "explanation": "Unit \"kWh\" is unusual for power — expected kW, W, MW"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.55,
+        "suggestedUnit": "kW",
+        "explanation": "Possible issue: \"kWh\" may not be correct for Energy_kWh"
+      },
+      {
+        "attribute": "Production_Order",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "Article_ID",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "Tool_ID",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "Shift_Number",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "Operator_ID",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "Act_Speed_Spindle",
+        "reportedUnit": "r/min",
+        "sources": [
+          {
+            "source": "physical_rules",
+            "expectedUnit": "r/min",
+            "expectedRange": {
+              "min": 0,
+              "max": 40000,
+              "unit": "RPM"
+            },
+            "confidence": 0.6,
+            "explanation": "Unit \"r/min\" is valid for speed"
+          }
+        ],
+        "verdict": "ok",
+        "confidence": 0.6,
+        "explanation": "All 1 sources agree: \"r/min\" is correct"
+      },
+      {
+        "attribute": "Set_Speed_Spindle",
+        "reportedUnit": "r/min",
+        "sources": [
+          {
+            "source": "physical_rules",
+            "expectedUnit": "r/min",
+            "expectedRange": {
+              "min": 0,
+              "max": 40000,
+              "unit": "RPM"
+            },
+            "confidence": 0.6,
+            "explanation": "Unit \"r/min\" is valid for speed"
+          }
+        ],
+        "verdict": "ok",
+        "confidence": 0.6,
+        "explanation": "All 1 sources agree: \"r/min\" is correct"
+      },
+      {
+        "attribute": "Act_Pct_SpindleLoad",
+        "reportedUnit": "%",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0,
+        "explanation": "No validation sources available"
+      },
+      {
+        "attribute": "Act_Torque_Spindle",
+        "reportedUnit": "kg",
+        "sources": [
+          {
+            "source": "physical_rules",
+            "expectedUnit": "Nm",
+            "expectedRange": {
+              "min": 0,
+              "max": 2000,
+              "unit": "NMT"
+            },
+            "confidence": 0.6,
+            "explanation": "Unit \"kg\" is unusual for torque — expected Nm"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.6,
+        "suggestedUnit": "Nm",
+        "explanation": "Possible issue: \"kg\" may not be correct for Act_Torque_Spindle"
+      },
+      {
+        "attribute": "Act_Rate_Feed",
+        "reportedUnit": "mm",
+        "sources": [
+          {
+            "source": "physical_rules",
+            "expectedUnit": "mm/s",
+            "expectedRange": {
+              "min": 0,
+              "max": 100000,
+              "unit": "M4S"
+            },
+            "confidence": 0.6,
+            "explanation": "Unit \"mm\" is unusual for feed_rate — expected mm/s, mm/min, m/min"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.6,
+        "suggestedUnit": "mm/s",
+        "explanation": "Possible issue: \"mm\" may not be correct for Act_Rate_Feed"
+      },
+      {
+        "attribute": "Set_Rate_Feed",
+        "reportedUnit": "mm",
+        "sources": [
+          {
+            "source": "physical_rules",
+            "expectedUnit": "mm/s",
+            "expectedRange": {
+              "min": 0,
+              "max": 100000,
+              "unit": "M4S"
+            },
+            "confidence": 0.6,
+            "explanation": "Unit \"mm\" is unusual for feed_rate — expected mm/s, mm/min, m/min"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.6,
+        "suggestedUnit": "mm/s",
+        "explanation": "Possible issue: \"mm\" may not be correct for Set_Rate_Feed"
+      },
+      {
+        "attribute": "Act_Pct_FeedOverride",
+        "reportedUnit": "%",
+        "sources": [
+          {
+            "source": "physical_rules",
+            "expectedUnit": "mm/s",
+            "expectedRange": {
+              "min": 0,
+              "max": 100000,
+              "unit": "M4S"
+            },
+            "confidence": 0.6,
+            "explanation": "Unit \"%\" is unusual for feed_rate — expected mm/s, mm/min, m/min"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.6,
+        "suggestedUnit": "mm/s",
+        "explanation": "Possible issue: \"%\" may not be correct for Act_Pct_FeedOverride"
+      },
+      {
+        "attribute": "Set_Pos_AxisX",
+        "reportedUnit": "mm",
+        "sources": [
+          {
+            "source": "physical_rules",
+            "expectedUnit": "mm",
+            "expectedRange": {
+              "min": -10000,
+              "max": 10000,
+              "unit": "MMT"
+            },
+            "confidence": 0.6,
+            "explanation": "Unit \"mm\" is valid for position"
+          }
+        ],
+        "verdict": "ok",
+        "confidence": 0.6,
+        "explanation": "All 1 sources agree: \"mm\" is correct"
+      },
+      {
+        "attribute": "Set_Pos_AxisY",
+        "reportedUnit": "mm",
+        "sources": [
+          {
+            "source": "physical_rules",
+            "expectedUnit": "mm",
+            "expectedRange": {
+              "min": -10000,
+              "max": 10000,
+              "unit": "MMT"
+            },
+            "confidence": 0.6,
+            "explanation": "Unit \"mm\" is valid for position"
+          }
+        ],
+        "verdict": "ok",
+        "confidence": 0.6,
+        "explanation": "All 1 sources agree: \"mm\" is correct"
+      },
+      {
+        "attribute": "Set_Pos_AxisZ",
+        "reportedUnit": "mm",
+        "sources": [
+          {
+            "source": "physical_rules",
+            "expectedUnit": "mm",
+            "expectedRange": {
+              "min": -10000,
+              "max": 10000,
+              "unit": "MMT"
+            },
+            "confidence": 0.6,
+            "explanation": "Unit \"mm\" is valid for position"
+          }
+        ],
+        "verdict": "ok",
+        "confidence": 0.6,
+        "explanation": "All 1 sources agree: \"mm\" is correct"
+      },
+      {
+        "attribute": "Act_Ref_ToolNumber",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "Act_Pct_ToolWear",
+        "reportedUnit": "%",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0,
+        "explanation": "No validation sources available"
+      },
+      {
+        "attribute": "Act_Time_ToolLifeRemaining",
+        "reportedUnit": "min",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0,
+        "explanation": "No validation sources available"
+      },
+      {
+        "attribute": "Act_Ref_ProgramLine",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "Act_Status_Program",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "Act_Rate_CoolantFlow",
+        "reportedUnit": "l",
+        "sources": [
+          {
+            "source": "physical_rules",
+            "expectedUnit": "l",
+            "expectedRange": {
+              "min": 0,
+              "max": 10000,
+              "unit": "CMQ"
+            },
+            "confidence": 0.6,
+            "explanation": "Unit \"l\" is valid for flow"
+          }
+        ],
+        "verdict": "ok",
+        "confidence": 0.6,
+        "explanation": "All 1 sources agree: \"l\" is correct"
+      },
+      {
+        "attribute": "Act_Temp_Coolant",
+        "reportedUnit": "kelvin",
+        "sources": [
+          {
+            "source": "physical_rules",
+            "expectedUnit": "kelvin",
+            "expectedRange": {
+              "min": -40,
+              "max": 500,
+              "unit": "CEL"
+            },
+            "confidence": 0.6,
+            "explanation": "Unit \"kelvin\" is valid for temperature"
+          }
+        ],
+        "verdict": "ok",
+        "confidence": 0.6,
+        "explanation": "All 1 sources agree: \"kelvin\" is correct"
+      },
+      {
+        "attribute": "Act_Pressure_Coolant",
+        "reportedUnit": "bar",
+        "sources": [
+          {
+            "source": "physical_rules",
+            "expectedUnit": "bar",
+            "expectedRange": {
+              "min": 0,
+              "max": 2500,
+              "unit": "BAR"
+            },
+            "confidence": 0.6,
+            "explanation": "Unit \"bar\" is valid for pressure"
+          }
+        ],
+        "verdict": "ok",
+        "confidence": 0.6,
+        "explanation": "All 1 sources agree: \"bar\" is correct"
+      },
+      {
+        "attribute": "Act_Vibration_X",
+        "reportedUnit": "m/s",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0,
+        "explanation": "No validation sources available"
+      },
+      {
+        "attribute": "Act_Vibration_Y",
+        "reportedUnit": "m/s",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0,
+        "explanation": "No validation sources available"
+      },
+      {
+        "attribute": "Act_Vibration_Z",
+        "reportedUnit": "m/s",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0,
+        "explanation": "No validation sources available"
+      },
+      {
+        "attribute": "Act_Energy_PowerSpindle",
+        "reportedUnit": "volt",
+        "sources": [
+          {
+            "source": "physical_rules",
+            "expectedUnit": "kW",
+            "expectedRange": {
+              "min": 0,
+              "max": 500,
+              "unit": "KWT"
+            },
+            "confidence": 0.7,
+            "explanation": "Voltage reported as power unit"
+          }
+        ],
+        "verdict": "mismatch",
+        "confidence": 0.7,
+        "suggestedUnit": "kW",
+        "explanation": "1 source(s) disagree: expected \"kW\", got \"volt\""
+      },
+      {
+        "attribute": "Act_Energy_Cycle",
+        "reportedUnit": "kWh",
+        "sources": [
+          {
+            "source": "physical_rules",
+            "expectedUnit": "kW",
+            "expectedRange": {
+              "min": 0,
+              "max": 500,
+              "unit": "KWT"
+            },
+            "confidence": 0.6,
+            "explanation": "Unit \"kWh\" is unusual for power — expected kW, W, MW"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.6,
+        "suggestedUnit": "kW",
+        "explanation": "Possible issue: \"kWh\" may not be correct for Act_Energy_Cycle"
+      }
+    ]
+  }
+}
