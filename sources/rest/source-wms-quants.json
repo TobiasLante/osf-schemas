@@ -1,0 +1,37 @@
+{
+  "sourceId": "sim-v5-wms-quants",
+  "version": "1.0.0",
+  "sourceType": "rest",
+  "syncType": "polling",
+  "profileRef": "SMProfile-StockQuant",
+  "transport": ["nats"],
+  "connection": {
+    "baseUrl": "${WMS_BASE}",
+    "path": "/api/quants",
+    "method": "GET",
+    "auth": null,
+    "timeoutMs": 10000
+  },
+  "response": {
+    "format": "json",
+    "rootPath": "$.items",
+    "idProperty": "quant_id"
+  },
+  "polling": {
+    "changeDetection": "full_refresh",
+    "intervalMs": 60000,
+    "batchSize": 1000
+  },
+  "columnMappings": [
+    { "column": "quant_id",          "smAttribute": "quant_no",   "isId": true },
+    { "column": "article_id",        "smAttribute": "article_ref" },
+    { "column": "lager_id",          "smAttribute": "warehouse" },
+    { "column": "menge",             "smAttribute": "quantity" },
+    { "column": "einheit",           "smAttribute": "unit" },
+    { "column": "lot",               "smAttribute": "lot" }
+  ],
+  "natsSubject": "factory.${SITE_ID}.wms.quants",
+  "edges": [
+    { "from": "article_ref", "to": "sim-v5-erp-articles", "type": "STORED_AS" }
+  ]
+}

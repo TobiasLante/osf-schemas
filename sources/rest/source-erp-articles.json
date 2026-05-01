@@ -1,0 +1,31 @@
+{
+  "sourceId": "sim-v5-erp-articles",
+  "version": "1.0.0",
+  "sourceType": "rest",
+  "syncType": "polling",
+  "profileRef": "SMProfile-Article",
+  "transport": ["nats"],
+  "connection": {
+    "baseUrl": "${ERP_BASE}",
+    "path": "/api/articles",
+    "method": "GET",
+    "auth": null,
+    "timeoutMs": 10000
+  },
+  "response": {
+    "format": "json",
+    "rootPath": "$.items",
+    "idProperty": "artikel_id"
+  },
+  "columnMappings": [
+    { "column": "artikel_id",        "smAttribute": "article_no", "isId": true },
+    { "column": "bezeichnung",       "smAttribute": "name" },
+    { "column": "typ",               "smAttribute": "type" },
+    { "column": "einheit",           "smAttribute": "unit" },
+    { "column": "wbz_tage",          "smAttribute": "lead_time_days" },
+    { "column": "abc_klasse",        "smAttribute": "abc_class" }
+  ],
+  "natsSubject": "factory.${SITE_ID}.erp.articles",
+  "filter": null,
+  "edges": []
+}
