@@ -7,31 +7,35 @@
   "transport": ["nats"],
   "connection": {
     "baseUrl": "${QMS_BASE}",
-    "path": "/api/inspection-lots",
+    "path": "/api/qms/inspection-lots",
     "method": "GET",
     "auth": null,
     "timeoutMs": 10000
   },
   "response": {
     "format": "json",
-    "rootPath": "$.items",
-    "idProperty": "inspection_lot_id"
+    "rootPath": "$",
+    "idProperty": "lot_no"
   },
   "polling": {
     "changeDetection": "timestamp",
     "timestampQueryParam": "since",
-    "timestampField": "updated_at",
+    "timestampField": "created_at",
     "intervalMs": 30000,
     "batchSize": 200
   },
   "columnMappings": [
-    { "column": "inspection_lot_id", "smAttribute": "lot_no",       "isId": true },
-    { "column": "article_id",        "smAttribute": "article_ref" },
-    { "column": "production_order",  "smAttribute": "order_ref" },
-    { "column": "status",            "smAttribute": "status" },
-    { "column": "result",            "smAttribute": "result" },
-    { "column": "inspector",         "smAttribute": "inspector" },
-    { "column": "updated_at",        "smAttribute": "updated_at" }
+    { "column": "lot_no",                 "smAttribute": "lot_no",       "isId": true },
+    { "column": "article_no",             "smAttribute": "article_ref" },
+    { "column": "production_order_no",    "smAttribute": "order_ref" },
+    { "column": "status",                 "smAttribute": "status" },
+    { "column": "state",                  "smAttribute": "state" },
+    { "column": "lot_type",               "smAttribute": "lot_type" },
+    { "column": "decision",               "smAttribute": "decision" },
+    { "column": "machine_no",             "smAttribute": "machine_ref" },
+    { "column": "lot_quantity",           "smAttribute": "quantity" },
+    { "column": "sample_size",            "smAttribute": "sample_size" },
+    { "column": "created_at",             "smAttribute": "created_at" }
   ],
   "natsSubject": "factory.${SITE_ID}.qms.inspection-lots",
   "edges": []
