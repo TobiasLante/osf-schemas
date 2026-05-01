@@ -1,0 +1,40 @@
+{
+  "sourceId": "sim-v5-erp-orders",
+  "version": "1.0.0",
+  "sourceType": "rest",
+  "syncType": "polling",
+  "profileRef": "SMProfile-CustomerOrder",
+  "transport": ["nats"],
+  "connection": {
+    "baseUrl": "${ERP_BASE}",
+    "path": "/api/customer-orders",
+    "method": "GET",
+    "auth": null,
+    "timeoutMs": 10000
+  },
+  "response": {
+    "format": "json",
+    "rootPath": "$.items",
+    "idProperty": "order_id"
+  },
+  "polling": {
+    "changeDetection": "timestamp",
+    "timestampQueryParam": "since",
+    "timestampField": "last_updated_at",
+    "intervalMs": 30000,
+    "batchSize": 200
+  },
+  "columnMappings": [
+    { "column": "order_id",          "smAttribute": "order_no",   "isId": true },
+    { "column": "customer_id",       "smAttribute": "customer_ref" },
+    { "column": "article_id",        "smAttribute": "article_ref" },
+    { "column": "menge",             "smAttribute": "quantity" },
+    { "column": "lieferdatum",       "smAttribute": "due_date" },
+    { "column": "status",            "smAttribute": "status" },
+    { "column": "last_updated_at",   "smAttribute": "updated_at" }
+  ],
+  "natsSubject": "factory.${SITE_ID}.erp.customer-orders",
+  "edges": [
+    { "from": "article_ref", "to": "sim-v5-erp-articles", "type": "REFERENCES_ARTICLE" }
+  ]
+}

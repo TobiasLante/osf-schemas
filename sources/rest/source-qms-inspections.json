@@ -1,0 +1,38 @@
+{
+  "sourceId": "sim-v5-qms-inspections",
+  "version": "1.0.0",
+  "sourceType": "rest",
+  "syncType": "polling",
+  "profileRef": "SMProfile-InspectionLot",
+  "transport": ["nats"],
+  "connection": {
+    "baseUrl": "${QMS_BASE}",
+    "path": "/api/inspection-lots",
+    "method": "GET",
+    "auth": null,
+    "timeoutMs": 10000
+  },
+  "response": {
+    "format": "json",
+    "rootPath": "$.items",
+    "idProperty": "inspection_lot_id"
+  },
+  "polling": {
+    "changeDetection": "timestamp",
+    "timestampQueryParam": "since",
+    "timestampField": "updated_at",
+    "intervalMs": 30000,
+    "batchSize": 200
+  },
+  "columnMappings": [
+    { "column": "inspection_lot_id", "smAttribute": "lot_no",       "isId": true },
+    { "column": "article_id",        "smAttribute": "article_ref" },
+    { "column": "production_order",  "smAttribute": "order_ref" },
+    { "column": "status",            "smAttribute": "status" },
+    { "column": "result",            "smAttribute": "result" },
+    { "column": "inspector",         "smAttribute": "inspector" },
+    { "column": "updated_at",        "smAttribute": "updated_at" }
+  ],
+  "natsSubject": "factory.${SITE_ID}.qms.inspection-lots",
+  "edges": []
+}
