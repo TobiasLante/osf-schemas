@@ -5,14 +5,10 @@
   "syncType": "nats-jetstream",
   "streams": [
     {
-      "name": "UNS_EVENTS",
-      "$description": "Captures all per-attribute UNS messages — the bulk-stream. Used for: replay on consumer-restart, historian backfill, KG-builder catch-up after downtime.",
+      "name": "FACTORY",
+      "$description": "Captures all per-attribute UNS messages — the bulk-stream. Used for: replay on consumer-restart, historian backfill, KG-builder catch-up after downtime. Subject pattern factory.> covers BDE/ProcessData/TMS/Maintenance/Energy under the factory.* namespace used by sim-v5 + connector-it.",
       "subjects": [
-        "*.*.*.*.*.bde.>",
-        "*.*.*.*.*.processdata.>",
-        "*.*.*.*.*.tms.>",
-        "*.*.*.*.*.maintenance.>",
-        "*.*.*.*.*.energy.>"
+        "factory.>"
       ],
       "retention": "limits",
       "storage": "file",
@@ -72,14 +68,14 @@
   "consumers": {
     "$description": "Consumer-templates — concrete consumers are created by the connector or NR-flows at runtime, but the contract here defines naming + ack-policy convention.",
     "kg-builder": {
-      "stream": "UNS_EVENTS",
+      "stream": "FACTORY",
       "filter_subject": ">",
       "ack_policy": "explicit",
       "deliver_policy": "all",
       "$note": "kg-builder needs full history on first connect, then live tail. Durable consumer with explicit ack, max_ack_pending=1000."
     },
     "historian-write": {
-      "stream": "UNS_EVENTS",
+      "stream": "FACTORY",
       "filter_subject": ">",
       "ack_policy": "explicit",
       "deliver_policy": "new",
