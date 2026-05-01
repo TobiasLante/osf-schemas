@@ -1,0 +1,89 @@
+{
+  "$description": "JetStream stream declarations for the i3x v3 stack. Consumed by scripts/provision-jetstream.sh in the connector repo (idempotent create/update). Streams capture subjects from sync/nats/isa95-uns-walker-reynolds.json — pub/sub stays as ephemeral NATS, JetStream layers durable persistence + replay on top.",
+  "syncId": "jetstream-streams",
+  "version": "1.0.0",
+  "syncType": "nats-jetstream",
+  "streams": [
+    {
+      "name": "UNS_EVENTS",
+      "$description": "Captures all per-attribute UNS messages — the bulk-stream. Used for: replay on consumer-restart, historian backfill, KG-builder catch-up after downtime.",
+      "subjects": [
+        "*.*.*.*.*.bde.>",
+        "*.*.*.*.*.processdata.>",
+        "*.*.*.*.*.tms.>",
+        "*.*.*.*.*.maintenance.>",
+        "*.*.*.*.*.energy.>"
+      ],
+      "retention": "limits",
+      "storage": "file",
+      "replicas": 1,
+      "max_msgs": -1,
+      "max_bytes": 5368709120,
+      "max_age": "168h",
+      "discard": "old",
+      "$tunings": "5 GiB / 7 days at edge — Hot-Set sized to a typical week of one IPC. Adjust per-customer in deploy override."
+    },
+    {
+      "name": "UNS_ALERTS",
+      "$description": "Maintenance + quality alerts. Persistent because consumers (operator dashboard, escalation rules) must never miss one. Workqueue retention so each alert delivered once across competing consumers.",
+      "subjects": [
+        "*.*.*.*.*.maintenance.alert.>",
+        "*.*.*.*.alerts.>"
+      ],
+      "retention": "workqueue",
+      "storage": "file",
+      "replicas": 1,
+      "max_msgs": 100000,
+      "max_bytes": -1,
+      "max_age": "720h",
+      "discard": "old"
+    },
+    {
+      "name": "UNS_ACTIONS",
+      "$description": "Plant→Edge action requests (request/reply pattern). Consumers ack within configurable deadline; unacked = redelivered until expiry.",
+      "subjects": [
+        "*.*.*.*.*.action.>"
+      ],
+      "retention": "workqueue",
+      "storage": "file",
+      "replicas": 1,
+      "max_msgs": 10000,
+      "max_bytes": -1,
+      "max_age": "1h",
+      "discard": "old"
+    },
+    {
+      "name": "ERP_ENTITIES",
+      "$description": "Site-scoped ERP/QMS entity stream — articles, orders, customers, inspection lots etc. Lower volume than UNS_EVENTS, longer retention because some entity-types update rarely.",
+      "subjects": [
+        "*.*.erp.>",
+        "*.*.qms.>"
+      ],
+      "retention": "limits",
+      "storage": "file",
+      "replicas": 1,
+      "max_msgs": -1,
+      "max_bytes": 1073741824,
+      "max_age": "8760h",
+      "discard": "old",
+      "$tunings": "1 GiB / 1 year — entities matter long-term for KG context."
+    }
+  ],
+  "consumers": {
+    "$description": "Consumer-templates — concrete consumers are created by the connector or NR-flows at runtime, but the contract here defines naming + ack-policy convention.",
+    "kg-builder": {
+      "stream": "UNS_EVENTS",
+      "filter_subject": ">",
+      "ack_policy": "explicit",
+      "deliver_policy": "all",
+      "$note": "kg-builder needs full history on first connect, then live tail. Durable consumer with explicit ack, max_ack_pending=1000."
+    },
+    "historian-write": {
+      "stream": "UNS_EVENTS",
+      "filter_subject": ">",
+      "ack_policy": "explicit",
+      "deliver_policy": "new",
+      "$note": "Historian (TimescaleDB writer in NR) only cares about new messages — already-written history doesn't need replay."
+    }
+  }
+}

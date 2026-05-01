@@ -12,7 +12,8 @@ osf-schemas/
 ├── historians/            ← Historian-Sink-Templates (OUTPUT: UNS → Kunden-DB)
 │   ├── postgresql/        ← via node-red-contrib-postgresql (Timescale-aware)
 │   ├── mssql/             ← via node-red-contrib-mssql-plus
-│   └── influxdb/          ← via node-red-contrib-influxdb (2.x)
+│   ├── influxdb/          ← via node-red-contrib-influxdb (2.x)
+│   └── nats-jetstream/    ← via @i3x/nr-nats durable consumer (v3, additive)
 ├── profiles/              ← Schema 1: SM Profiles (type system)
 │   ├── enterprise/        ← ISA-95 hierarchy (Enterprise, Site, Area, ProductionLine, System)
 │   ├── machines/          ← Machine types (Machine*, CNC, IMM, FFS, Lathe, Milling, Mould, CNCProgram)
@@ -25,6 +26,7 @@ osf-schemas/
 │   └── opcua/             ← 35 OPC-UA endpoint → machine node mappings
 ├── sync/                  ← Schema 3: Live Sync (transport layer)
 │   ├── mqtt/              ← MQTT UNS subscriptions
+│   ├── nats/              ← NATS subjects + JetStream stream declarations (v3)
 │   ├── polling/           ← PostgreSQL polling (timestamp + full refresh)
 │   ├── kafka/             ← Kafka consumer configs
 │   ├── webhook/           ← REST webhook endpoints
@@ -70,6 +72,7 @@ konfiguriert sind.
 - `historians/postgresql/historian-template.json` — `node-red-contrib-postgresql`, optional Timescale-Hypertable + Compression + Retention.
 - `historians/mssql/historian-template.json` — `node-red-contrib-mssql-plus`.
 - `historians/influxdb/historian-template.json` — `node-red-contrib-influxdb` 2.x, Measurement pro Domain.
+- `historians/nats-jetstream/historian-template.json` (v3, additive) — `@i3x/nr-nats` durable consumer auf einem JetStream-Stream → Postgres-Insert in dieselbe `uns_history`-Tabelle. Wird verwendet wenn die Source `transport: ['nats']` setzt; bei `['mqtt','nats']` läuft der MQTT-Historian-Pfad parallel.
 
 Template-Shape gemeinsam:
 - `nodeRedContrib` — welches contrib-Paket
@@ -246,6 +249,8 @@ Defines **how to keep the KG updated** in real-time or near-real-time.
 | `kafka` | Apache Kafka consumer | Schema validated, handler pending | Planned |
 | `rest-webhook` | HTTP POST from external | Schema validated, handler pending | Planned |
 | `manual` | CSV/JSON upload via API/UI | Schema validated, handler pending | Planned |
+| `nats` | NATS pub/sub via leaf node | v3 additive — `@i3x/nr-nats` package | Active |
+| `nats-jetstream` | NATS JetStream durable streams | v3 additive — declares streams + consumers | Active |
 
 ### MQTT Sync
 
@@ -306,6 +311,50 @@ Defines **how to keep the KG updated** in real-time or near-real-time.
       }
     ]
   }
+}
+```
+
+### NATS Sync (v3, additive)
+
+**File:** `sync/nats/<sync-id>.json`
+
+NATS subjects mirror the MQTT topic hierarchy 1:1, dot-separated instead of slash-separated. Edge IPCs run a NATS Leaf Node which forwards subjects to the central cluster — `nats.url` typically points to `nats://nats:4222` inside the IPC compose network.
+
+```json
+{
+  "syncId": "isa95-uns-nats-walker-reynolds",
+  "syncType": "nats",
+  "nats": {
+    "url": "${NATS_URL}",
+    "leafNode": true
+  },
+  "subjectStructure": {
+    "pattern": "{enterprise}.{site}.{area}.{line}.{machine}.{domain}.{attribute}",
+    "separator": ".",
+    "subscribeFilters": ["*.*.*.*.*.bde.*", "*.*.*.*.*.processdata.*"]
+  },
+  "payloadSchema": {
+    "format": "JSON",
+    "headers": { "I3x-Machine": "{machine}", "I3x-Domain": "{domain}" }
+  }
+}
+```
+
+`syncType: "nats-jetstream"` declares JetStream streams + consumer-templates that capture these subjects for durable replay. The connector's `scripts/provision-jetstream.sh` reads such files and idempotently creates/updates streams on the cluster.
+
+```json
+{
+  "syncId": "jetstream-streams",
+  "syncType": "nats-jetstream",
+  "streams": [
+    {
+      "name": "UNS_EVENTS",
+      "subjects": ["*.*.*.*.*.bde.>", "*.*.*.*.*.processdata.>"],
+      "retention": "limits",
+      "storage": "file",
+      "max_age": "168h"
+    }
+  ]
 }
 ```
 
