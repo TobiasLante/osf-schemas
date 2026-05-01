@@ -7,14 +7,14 @@
   "transport": ["nats"],
   "connection": {
     "baseUrl": "${WMS_BASE}",
-    "path": "/api/quants",
+    "path": "/api/wms/quants",
     "method": "GET",
     "auth": null,
     "timeoutMs": 10000
   },
   "response": {
     "format": "json",
-    "rootPath": "$.items",
+    "rootPath": "$.rows",
     "idProperty": "quant_id"
   },
   "polling": {
@@ -23,12 +23,14 @@
     "batchSize": 1000
   },
   "columnMappings": [
-    { "column": "quant_id",          "smAttribute": "quant_no",   "isId": true },
-    { "column": "article_id",        "smAttribute": "article_ref" },
-    { "column": "lager_id",          "smAttribute": "warehouse" },
-    { "column": "menge",             "smAttribute": "quantity" },
-    { "column": "einheit",           "smAttribute": "unit" },
-    { "column": "lot",               "smAttribute": "lot" }
+    { "column": "quant_id",       "smAttribute": "quant_no",   "isId": true },
+    { "column": "artikel_nr",     "smAttribute": "article_ref" },
+    { "column": "lager_nr",       "smAttribute": "warehouse" },
+    { "column": "lagerplatz_id",  "smAttribute": "storage_location" },
+    { "column": "menge",          "smAttribute": "quantity" },
+    { "column": "charge_nr",      "smAttribute": "lot" },
+    { "column": "gesperrt",       "smAttribute": "blocked" },
+    { "column": "aktualisiert_am","smAttribute": "updated_at" }
   ],
   "natsSubject": "factory.${SITE_ID}.wms.quants",
   "edges": [

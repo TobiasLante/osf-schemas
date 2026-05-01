@@ -14,27 +14,27 @@
   },
   "response": {
     "format": "json",
-    "rootPath": "$.items",
+    "rootPath": "$",
     "idProperty": "order_id"
   },
   "polling": {
     "changeDetection": "timestamp",
     "timestampQueryParam": "since",
-    "timestampField": "last_updated_at",
+    "timestampField": "aktualisiert_am",
     "intervalMs": 30000,
     "batchSize": 200
   },
   "columnMappings": [
-    { "column": "order_id",          "smAttribute": "order_no",   "isId": true },
-    { "column": "customer_id",       "smAttribute": "customer_ref" },
-    { "column": "article_id",        "smAttribute": "article_ref" },
-    { "column": "menge",             "smAttribute": "quantity" },
+    { "column": "order_id",          "smAttribute": "order_no",     "isId": true },
+    { "column": "kunde_id",          "smAttribute": "customer_ref" },
+    { "column": "kunde_name",        "smAttribute": "customer_name" },
+    { "column": "gesamtbetrag",      "smAttribute": "total_amount" },
+    { "column": "waehrung",          "smAttribute": "currency" },
     { "column": "lieferdatum",       "smAttribute": "due_date" },
     { "column": "status",            "smAttribute": "status" },
-    { "column": "last_updated_at",   "smAttribute": "updated_at" }
+    { "column": "prioritaet",        "smAttribute": "priority" },
+    { "column": "aktualisiert_am",   "smAttribute": "updated_at" }
   ],
   "natsSubject": "factory.${SITE_ID}.erp.customer-orders",
-  "edges": [
-    { "from": "article_ref", "to": "sim-v5-erp-articles", "type": "REFERENCES_ARTICLE" }
-  ]
+  "edges": []
 }
