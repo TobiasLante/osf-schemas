@@ -1,340 +1,62 @@
 {
   "sourceId": "opcua-cnc-01-processdata",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "sourceType": "opcua",
+  "transport": ["nats"],
   "dataCategory": "ProcessData",
   "profileRef": "SMProfile-CNC-Machine",
   "endpoint": "opc.tcp://192.168.178.150:30840",
-  "machineId": "CNC-01",
+  "machineId": "cnc-001",
   "machineName": "CNC-01",
   "location": {
-    "site": "Kohlgrub",
+    "enterprise": "factory",
+    "site": "werk1",
+    "area": "cnc",
+    "line": "line-a",
     "type": "CNC"
   },
   "nodeMappings": [
     {
-      "opcuaNodeId": "ns=1;s=Spindle_1.Spindle_Speed_Actual",
-      "smAttribute": "Act_Speed_Spindle",
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/axes/[0]/positionMm",
+      "smAttribute": "position_x",
       "dataType": "ns=0;i=10",
-      "browsePath": [
-        "Machines",
-        "CNC Maschine 1",
-        "Spindles",
-        "Spindle_1",
-        "Spindle_Speed_Actual"
-      ],
-      "unit": "r/min"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Spindle_1.Spindle_Speed_Set",
-      "smAttribute": "Set_Speed_Spindle",
-      "dataType": "ns=0;i=10",
-      "browsePath": [
-        "Machines",
-        "CNC Maschine 1",
-        "Spindles",
-        "Spindle_1",
-        "Spindle_Speed_Set"
-      ],
-      "unit": "r/min"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Spindle_1.Spindle_Load_Pct",
-      "smAttribute": "Act_Pct_SpindleLoad",
-      "dataType": "ns=0;i=10",
-      "browsePath": [
-        "Machines",
-        "CNC Maschine 1",
-        "Spindles",
-        "Spindle_1",
-        "Spindle_Load_Pct"
-      ],
-      "unit": "%"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Spindle_1.Spindle_Torque",
-      "smAttribute": "Act_Torque_Spindle",
-      "dataType": "ns=0;i=10",
-      "browsePath": [
-        "Machines",
-        "CNC Maschine 1",
-        "Spindles",
-        "Spindle_1",
-        "Spindle_Torque"
-      ],
-      "unit": "newton metre"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Feed.Feed_Rate_Actual",
-      "smAttribute": "Act_Rate_Feed",
-      "dataType": "ns=0;i=10",
-      "browsePath": [
-        "Machines",
-        "CNC Maschine 1",
-        "Feed",
-        "Feed_Rate_Actual"
-      ],
       "unit": "mm"
     },
     {
-      "opcuaNodeId": "ns=1;s=Feed.Feed_Rate_Set",
-      "smAttribute": "Set_Rate_Feed",
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/axes/[1]/positionMm",
+      "smAttribute": "position_y",
       "dataType": "ns=0;i=10",
-      "browsePath": [
-        "Machines",
-        "CNC Maschine 1",
-        "Feed",
-        "Feed_Rate_Set"
-      ],
       "unit": "mm"
     },
     {
-      "opcuaNodeId": "ns=1;s=Feed.Feed_Override_Pct",
-      "smAttribute": "Act_Pct_FeedOverride",
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/axes/[2]/positionMm",
+      "smAttribute": "position_z",
       "dataType": "ns=0;i=10",
-      "browsePath": [
-        "Machines",
-        "CNC Maschine 1",
-        "Feed",
-        "Feed_Override_Pct"
-      ],
-      "unit": "%"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Axes.Axis_X_Actual",
-      "smAttribute": "Act_Pos_AxisX",
-      "dataType": "ns=0;i=10",
-      "browsePath": [
-        "Machines",
-        "CNC Maschine 1",
-        "Axes",
-        "Axis_X_Actual"
-      ],
       "unit": "mm"
     },
     {
-      "opcuaNodeId": "ns=1;s=Axes.Axis_X_Set",
-      "smAttribute": "Set_Pos_AxisX",
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/spindle/speedRpm",
+      "smAttribute": "spindle_speed",
       "dataType": "ns=0;i=10",
-      "browsePath": [
-        "Machines",
-        "CNC Maschine 1",
-        "Axes",
-        "Axis_X_Set"
-      ],
-      "unit": "mm"
+      "unit": "rpm"
     },
     {
-      "opcuaNodeId": "ns=1;s=Axes.Axis_Y_Actual",
-      "smAttribute": "Act_Pos_AxisY",
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/spindle/loadPercent",
+      "smAttribute": "spindle_load",
       "dataType": "ns=0;i=10",
-      "browsePath": [
-        "Machines",
-        "CNC Maschine 1",
-        "Axes",
-        "Axis_Y_Actual"
-      ],
-      "unit": "mm"
+      "unit": "pct"
     },
     {
-      "opcuaNodeId": "ns=1;s=Axes.Axis_Y_Set",
-      "smAttribute": "Set_Pos_AxisY",
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/spindle/temperatureC",
+      "smAttribute": "spindle_temp",
       "dataType": "ns=0;i=10",
-      "browsePath": [
-        "Machines",
-        "CNC Maschine 1",
-        "Axes",
-        "Axis_Y_Set"
-      ],
-      "unit": "mm"
+      "unit": "degC"
     },
     {
-      "opcuaNodeId": "ns=1;s=Axes.Axis_Z_Actual",
-      "smAttribute": "Act_Pos_AxisZ",
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cycle/cycleTimeSec",
+      "smAttribute": "cycle_time",
       "dataType": "ns=0;i=10",
-      "browsePath": [
-        "Machines",
-        "CNC Maschine 1",
-        "Axes",
-        "Axis_Z_Actual"
-      ],
-      "unit": "mm"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Axes.Axis_Z_Set",
-      "smAttribute": "Set_Pos_AxisZ",
-      "dataType": "ns=0;i=10",
-      "browsePath": [
-        "Machines",
-        "CNC Maschine 1",
-        "Axes",
-        "Axis_Z_Set"
-      ],
-      "unit": "mm"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=ToolManagement.Tool_Number",
-      "smAttribute": "Act_Ref_ToolNumber",
-      "dataType": "ns=0;i=6",
-      "browsePath": [
-        "Machines",
-        "CNC Maschine 1",
-        "ToolManagement",
-        "Tool_Number"
-      ]
-    },
-    {
-      "opcuaNodeId": "ns=1;s=ToolManagement.Tool_Wear_Pct",
-      "smAttribute": "Act_Pct_ToolWear",
-      "dataType": "ns=0;i=10",
-      "browsePath": [
-        "Machines",
-        "CNC Maschine 1",
-        "ToolManagement",
-        "Tool_Wear_Pct"
-      ],
-      "unit": "%"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=ToolManagement.Tool_Life_Remaining_Min",
-      "smAttribute": "Act_Time_ToolLifeRemaining",
-      "dataType": "ns=0;i=10",
-      "browsePath": [
-        "Machines",
-        "CNC Maschine 1",
-        "ToolManagement",
-        "Tool_Life_Remaining_Min"
-      ],
-      "unit": "min"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Program.Active_Program",
-      "smAttribute": "Act_Ref_Program",
-      "dataType": "ns=0;i=12",
-      "browsePath": [
-        "Machines",
-        "CNC Maschine 1",
-        "Program",
-        "Active_Program"
-      ]
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Program.Program_Line",
-      "smAttribute": "Act_Ref_ProgramLine",
-      "dataType": "ns=0;i=6",
-      "browsePath": [
-        "Machines",
-        "CNC Maschine 1",
-        "Program",
-        "Program_Line"
-      ]
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Program.Program_Status",
-      "smAttribute": "Act_Status_Program",
-      "dataType": "ns=0;i=12",
-      "browsePath": [
-        "Machines",
-        "CNC Maschine 1",
-        "Program",
-        "Program_Status"
-      ]
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Coolant.Coolant_Flow_LPM",
-      "smAttribute": "Act_Rate_CoolantFlow",
-      "dataType": "ns=0;i=10",
-      "browsePath": [
-        "Machines",
-        "CNC Maschine 1",
-        "Coolant",
-        "Coolant_Flow_LPM"
-      ],
-      "unit": "l"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Coolant.Coolant_Temp",
-      "smAttribute": "Act_Temp_Coolant",
-      "dataType": "ns=0;i=10",
-      "browsePath": [
-        "Machines",
-        "CNC Maschine 1",
-        "Coolant",
-        "Coolant_Temp"
-      ],
-      "unit": "\u00b0C"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Coolant.Coolant_Pressure_Bar",
-      "smAttribute": "Act_Pressure_Coolant",
-      "dataType": "ns=0;i=10",
-      "browsePath": [
-        "Machines",
-        "CNC Maschine 1",
-        "Coolant",
-        "Coolant_Pressure_Bar"
-      ],
-      "unit": "bar"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Vibration.Vibration_X",
-      "smAttribute": "Act_Vibration_X",
-      "dataType": "ns=0;i=10",
-      "browsePath": [
-        "Machines",
-        "CNC Maschine 1",
-        "Vibration",
-        "Vibration_X"
-      ],
-      "unit": "m/s"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Vibration.Vibration_Y",
-      "smAttribute": "Act_Vibration_Y",
-      "dataType": "ns=0;i=10",
-      "browsePath": [
-        "Machines",
-        "CNC Maschine 1",
-        "Vibration",
-        "Vibration_Y"
-      ],
-      "unit": "m/s"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Vibration.Vibration_Z",
-      "smAttribute": "Act_Vibration_Z",
-      "dataType": "ns=0;i=10",
-      "browsePath": [
-        "Machines",
-        "CNC Maschine 1",
-        "Vibration",
-        "Vibration_Z"
-      ],
-      "unit": "m/s"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=PowerUnit.Power_Spindle_kW",
-      "smAttribute": "Act_Energy_PowerSpindle",
-      "dataType": "ns=0;i=10",
-      "browsePath": [
-        "Machines",
-        "CNC Maschine 1",
-        "PowerUnit",
-        "Power_Spindle_kW"
-      ],
-      "unit": "kW"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=PowerUnit.Energy_Cycle_kWh",
-      "smAttribute": "Act_Energy_Cycle",
-      "dataType": "ns=0;i=10",
-      "browsePath": [
-        "Machines",
-        "CNC Maschine 1",
-        "PowerUnit",
-        "Energy_Cycle_kWh"
-      ],
-      "unit": "kWh"
+      "unit": "s"
     }
   ],
   "polling": {
