@@ -1,0 +1,57 @@
+{
+  "$description": "Historian-Sink-Template via NATS JetStream durable consumer + TimescaleDB. Parallel to historians/postgresql/historian-template.json — same target table (uns_history) but reading from a JetStream consumer instead of an MQTT subscription. Used when the IPC's transport is 'nats' (or 'both' with this as the historian path).",
+  "syncId": "nats-jetstream-historian",
+  "version": "1.0.0",
+  "syncType": "nats-jetstream",
+  "deployTarget": "it",
+  "nodeRedContrib": "@i3x/nr-nats",
+  "consumer": {
+    "stream": "UNS_EVENTS",
+    "durable_name": "historian-write",
+    "filter_subject": ">",
+    "ack_policy": "explicit",
+    "deliver_policy": "new",
+    "max_ack_pending": 1000,
+    "ack_wait": "30s",
+    "max_deliver": 5
+  },
+  "connection": {
+    "host": "${HISTORIAN_HOST}",
+    "port": "${HISTORIAN_PORT:-5432}",
+    "database": "${HISTORIAN_DB}",
+    "user": "${HISTORIAN_USER}",
+    "password": "${HISTORIAN_PASSWORD}",
+    "ssl": false,
+    "maxConnections": 10
+  },
+  "tableStructure": {
+    "defaultTable": "uns_history",
+    "createIfMissing": false,
+    "$note": "Same 1:1 shape as the postgresql historian template — fed by either MQTT or NATS, the historian table doesn't care.",
+    "columns": [
+      { "name": "ts",         "type": "timestamptz",      "source": "$.timestamp",   "notNull": true },
+      { "name": "machine",    "type": "text",             "source": "msg.headers.I3x-Machine",   "notNull": true, "index": true },
+      { "name": "category",   "type": "text",             "source": "msg.headers.I3x-Domain",    "notNull": true, "index": true },
+      { "name": "variable",   "type": "text",             "source": "msg.headers.I3x-Attribute", "notNull": true, "index": true },
+      { "name": "value",      "type": "double precision", "source": "msg._valueNum" },
+      { "name": "value_text", "type": "text",             "source": "msg._valueText" },
+      { "name": "unit",       "type": "text",             "source": "$.unit" },
+      { "name": "topic",      "type": "text",             "source": "msg.subject",   "notNull": true }
+    ]
+  },
+  "subjectParser": {
+    "$description": "If headers are missing (older publishers), fall back to subject parsing. Subjects are dot-separated, 7-segment ISA-95 hierarchy.",
+    "pattern": "{enterprise}.{site}.{area}.{line}.{machine}.{domain}.{attribute}",
+    "machineSegment": 4,
+    "domainSegment": 5,
+    "attributeSegment": 6
+  },
+  "insertStrategy": {
+    "mode": "batch",
+    "batchSize": 500,
+    "batchIntervalMs": 1000,
+    "onConflict": "none"
+  },
+  "subscribeFilters": [">"],
+  "description": "JetStream-backed historian write — durable, replayable, ack-on-insert. Writes to the same uns_history hypertable as the MQTT historian. NR-flow pattern: i3x-jetstream-sub-durable → row-builder → batch → postgres-insert → ack."
+}
