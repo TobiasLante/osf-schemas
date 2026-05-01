@@ -1,115 +1,48 @@
 {
   "sourceId": "opcua-cnc-01-bde",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "sourceType": "opcua",
+  "transport": ["nats"],
   "dataCategory": "BDE",
   "profileRef": "SMProfile-CNC-Machine",
   "endpoint": "opc.tcp://192.168.178.150:30840",
-  "machineId": "CNC-01",
+  "machineId": "cnc-001",
   "machineName": "CNC-01",
   "location": {
-    "site": "Kohlgrub",
+    "enterprise": "factory",
+    "site": "werk1",
+    "area": "cnc",
+    "line": "line-a",
     "type": "CNC"
   },
   "nodeMappings": [
     {
-      "opcuaNodeId": "ns=1;s=Program.Program_Status",
-      "smAttribute": "Act_Status_Program",
-      "dataType": "ns=0;i=12",
-      "browsePath": [
-        "Machines",
-        "CNC Maschine 1",
-        "Program",
-        "Program_Status"
-      ]
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Monitoring.Scrap_Parts",
-      "browsePath": [
-        "Machines",
-        "CNC Maschine 1",
-        "Monitoring",
-        "Scrap_Parts"
-      ],
-      "smAttribute": "Scrap_Parts",
-      "dataType": "ns=0;i=6"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Monitoring.Rework_Parts",
-      "browsePath": [
-        "Machines",
-        "CNC Maschine 1",
-        "Monitoring",
-        "Rework_Parts"
-      ],
-      "smAttribute": "Rework_Parts",
-      "dataType": "ns=0;i=6"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Monitoring.Cycle_Time_Actual",
-      "browsePath": [
-        "Machines",
-        "CNC Maschine 1",
-        "Monitoring",
-        "Cycle_Time_Actual"
-      ],
-      "smAttribute": "Cycle_Time_Actual",
-      "dataType": "ns=0;i=10"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Monitoring.Power_kW",
-      "browsePath": [
-        "Machines",
-        "CNC Maschine 1",
-        "Monitoring",
-        "Power_kW"
-      ],
-      "smAttribute": "Power_kW",
-      "dataType": "ns=0;i=10"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Monitoring.Production_Order",
-      "browsePath": [
-        "Machines",
-        "CNC Maschine 1",
-        "Monitoring",
-        "Production_Order"
-      ],
-      "smAttribute": "Production_Order",
+      "opcuaNodeId": "ns=1;s=Machine/status",
+      "smAttribute": "machine_status",
       "dataType": "ns=0;i=12"
     },
     {
-      "opcuaNodeId": "ns=1;s=Monitoring.Article_ID",
-      "browsePath": [
-        "Machines",
-        "CNC Maschine 1",
-        "Monitoring",
-        "Article_ID"
-      ],
-      "smAttribute": "Article_ID",
-      "dataType": "ns=0;i=12"
+      "opcuaNodeId": "ns=1;s=Machine/partsCount/good",
+      "smAttribute": "parts_good",
+      "dataType": "ns=0;i=6",
+      "unit": "count"
     },
     {
-      "opcuaNodeId": "ns=1;s=Monitoring.Shift_Number",
-      "browsePath": [
-        "Machines",
-        "CNC Maschine 1",
-        "Monitoring",
-        "Shift_Number"
-      ],
-      "smAttribute": "Shift_Number",
-      "dataType": "ns=0;i=6"
+      "opcuaNodeId": "ns=1;s=Machine/partsCount/scrap",
+      "smAttribute": "parts_scrap",
+      "dataType": "ns=0;i=6",
+      "unit": "count"
     },
     {
-      "opcuaNodeId": "ns=1;s=Monitoring.Operator_ID",
-      "browsePath": [
-        "Machines",
-        "CNC Maschine 1",
-        "Monitoring",
-        "Operator_ID"
-      ],
-      "smAttribute": "Operator_ID",
-      "dataType": "ns=0;i=12"
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cycle/inCycle",
+      "smAttribute": "in_cycle",
+      "dataType": "ns=0;i=1"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cycle/cycleCount",
+      "smAttribute": "cycle_count",
+      "dataType": "ns=0;i=6",
+      "unit": "count"
     }
   ],
   "polling": {
