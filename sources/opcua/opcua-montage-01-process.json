@@ -1,0 +1,65 @@
+{
+  "sourceId": "opcua-montage-01-processdata",
+  "version": "3.0.0",
+  "sourceType": "opcua",
+  "transport": ["nats"],
+  "dataCategory": "ProcessData",
+  "profileRef": "SMProfile-AssemblyLine",
+  "endpoint": "opc.tcp://192.168.178.150:30870",
+  "machineId": "montage-01",
+  "machineName": "Montage Linie 1",
+  "location": {
+    "enterprise": "factory",
+    "site": "werk1",
+    "area": "montage",
+    "line": "line-c",
+    "type": "Montage"
+  },
+  "nodeMappings": [
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/tonnage/currentTons",
+      "smAttribute": "tonnage",
+      "dataType": "ns=0;i=10",
+      "unit": "t"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/tonnage/peakLastStrokeTons",
+      "smAttribute": "tonnage_peak",
+      "dataType": "ns=0;i=10",
+      "unit": "t"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/ram/positionMm",
+      "smAttribute": "ram_position",
+      "dataType": "ns=0;i=10",
+      "unit": "mm"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/ram/velocityMmPerSec",
+      "smAttribute": "ram_velocity",
+      "dataType": "ns=0;i=10",
+      "unit": "mm/s"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/hydraulicPressureBar",
+      "smAttribute": "hyd_pressure",
+      "dataType": "ns=0;i=10",
+      "unit": "bar"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/powerKw",
+      "smAttribute": "power",
+      "dataType": "ns=0;i=10",
+      "unit": "kW"
+    }
+  ],
+  "polling": {
+    "mode": "scan",
+    "intervalMs": 5000
+  },
+  "security": {
+    "mode": "None",
+    "policy": "None",
+    "auth": "Anonymous"
+  }
+}
