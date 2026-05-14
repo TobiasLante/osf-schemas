@@ -1,0 +1,54 @@
+{
+  "sourceId": "it-oee-montage",
+  "version": "3.0.0",
+  "sourceType": "postgresql",
+  "displayName": "OEE-Montage — Assembly OEE Events (demo seed)",
+  "tenant": "demo",
+  "edgeId": "it-edge-oee-montage",
+  "category": "business",
+  "description": "IT-Edge poller binding for the OEE-Montage system (PostgreSQL). Pre-aggregated assembly OEE events — EVENT-world (not raw telemetry). Strict separation: no per-second machine pulses here, only finished events.",
+  "connection": {
+    "host": "${OEE_MONTAGE_DB_HOST}",
+    "port": "${OEE_MONTAGE_DB_PORT}",
+    "user": "${OEE_MONTAGE_DB_USER}",
+    "password": "${OEE_MONTAGE_DB_PASSWORD}",
+    "database": "${OEE_MONTAGE_DB_NAME}",
+    "defaults": {
+      "host": "oee-montage-postgres.default.svc.cluster.local",
+      "port": 5432,
+      "database": "oee_montage",
+      "user": "admin"
+    }
+  },
+  "tables": [
+    {
+      "name": "event",
+      "profileRef": "SMProfile-MontageEvent",
+      "primaryKey": "id",
+      "diffField": "ts",
+      "pollIntervalMs": 15000,
+      "changeDetection": "timestamp",
+      "columnMap": {
+        "id": "event_id",
+        "machine_id": "machine_id",
+        "event_type": "event_type",
+        "duration_s": "duration_s",
+        "oee": "oee",
+        "ts": "ts"
+      },
+      "edges": [
+        {
+          "type": "ON_MACHINE",
+          "fkColumn": "machine_id",
+          "targetIdProp": "machine_id"
+        }
+      ]
+    }
+  ],
+  "subjects": {
+    "eventPublish": "business.${tenant}.it-oee-montage.${entity}.${eventType}.${id}",
+    "heartbeat": "business.heartbeat.it-edge-oee-montage",
+    "kgSnapshot": "i3x.kg.snapshot.it-edge-oee-montage",
+    "schemaDeploy": "business.schema.deploy.it-oee-montage"
+  }
+}

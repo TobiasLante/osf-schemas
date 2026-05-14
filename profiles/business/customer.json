@@ -1,0 +1,51 @@
+{
+  "profileId": "SMProfile-Customer",
+  "version": "3.0.0",
+  "standard": "CESMII",
+  "displayName": "Customer",
+  "category": "business",
+  "description": "ERP customer master record. v3 demo-aligned.",
+  "parentType": null,
+  "attributes": [
+    {
+      "name": "customer_id",
+      "dataType": "String",
+      "category": "Core",
+      "isKey": true,
+      "description": "Unique customer ID (PK)"
+    },
+    {
+      "name": "name",
+      "dataType": "String",
+      "category": "Master",
+      "description": "Customer name"
+    },
+    {
+      "name": "country",
+      "dataType": "String",
+      "category": "Master",
+      "description": "ISO country code or name"
+    },
+    {
+      "name": "vat_id",
+      "dataType": "String",
+      "category": "Master",
+      "description": "VAT identification number"
+    },
+    {
+      "name": "active",
+      "dataType": "Boolean",
+      "category": "Master",
+      "description": "Customer active flag"
+    },
+    {
+      "name": "updated_at",
+      "dataType": "DateTime",
+      "category": "Audit",
+      "description": "Last modification timestamp (diff field)"
+    }
+  ],
+  "relationships": [],
+  "kgNodeLabel": "Customer",
+  "kgIdProperty": "customer_id"
+}

@@ -1,0 +1,57 @@
+{
+  "profileId": "SMProfile-StockItem",
+  "version": "3.0.0",
+  "standard": "CESMII",
+  "displayName": "Stock Item",
+  "category": "business",
+  "description": "Current inventory level for an article. v3 demo-aligned (ERP-side stock table).",
+  "parentType": null,
+  "attributes": [
+    {
+      "name": "article_no",
+      "dataType": "String",
+      "category": "Core",
+      "isKey": true,
+      "description": "Article number (PK)"
+    },
+    {
+      "name": "description",
+      "dataType": "String",
+      "category": "Core",
+      "description": "Article description"
+    },
+    {
+      "name": "qty_on_hand",
+      "dataType": "Int32",
+      "category": "Stock",
+      "description": "Current available quantity"
+    },
+    {
+      "name": "unit",
+      "dataType": "String",
+      "category": "Core",
+      "description": "Unit of measure (PCS, KG, M, ...)"
+    },
+    {
+      "name": "location",
+      "dataType": "String",
+      "category": "Warehouse",
+      "description": "Storage location code"
+    },
+    {
+      "name": "updated_at",
+      "dataType": "DateTime",
+      "category": "Audit",
+      "description": "Last modification timestamp (diff field)"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "FOR_ARTICLE",
+      "target": "Article",
+      "targetIdProp": "article_no"
+    }
+  ],
+  "kgNodeLabel": "StockItem",
+  "kgIdProperty": "article_no"
+}

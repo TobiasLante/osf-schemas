@@ -1,0 +1,58 @@
+{
+  "profileId": "SMProfile-QualityRecord",
+  "version": "3.0.0",
+  "standard": "CESMII",
+  "displayName": "Quality Record",
+  "category": "business",
+  "description": "Individual QMS inspection / quality event tied to a production order. v3 demo-aligned.",
+  "parentType": null,
+  "attributes": [
+    {
+      "name": "record_id",
+      "dataType": "String",
+      "category": "Core",
+      "isKey": true,
+      "description": "Unique quality record ID (PK)"
+    },
+    {
+      "name": "production_order_id",
+      "dataType": "String",
+      "category": "Link",
+      "description": "FK to ProductionOrder.order_id"
+    },
+    {
+      "name": "inspector",
+      "dataType": "String",
+      "category": "Core",
+      "description": "Inspector / operator who logged the record"
+    },
+    {
+      "name": "result",
+      "dataType": "String",
+      "category": "Quality",
+      "enum": ["ok", "nok", "rework", "scrap"],
+      "description": "Inspection verdict"
+    },
+    {
+      "name": "defect_count",
+      "dataType": "Int32",
+      "category": "Quality",
+      "description": "Number of defects found"
+    },
+    {
+      "name": "ts",
+      "dataType": "DateTime",
+      "category": "Audit",
+      "description": "Inspection timestamp (diff field)"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "FOR_ORDER",
+      "target": "ProductionOrder",
+      "targetIdProp": "order_id"
+    }
+  ],
+  "kgNodeLabel": "QualityRecord",
+  "kgIdProperty": "record_id"
+}
