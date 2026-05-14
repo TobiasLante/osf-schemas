@@ -1,0 +1,24 @@
+# i3x-it-fleet — IT-Edge Inventory entry
+edgeId: it-oee-montage
+sourceId: it-oee-montage
+tenant: demo
+customer: customer-x
+deployTarget: i3x-v3
+displayName: OEE-Montage - Assembly Events
+description: Schema-driven Postgres poller against oee_montage (event). Pre-aggregated assembly OEE events (EVENT-world, no raw telemetry).
+dbConnection:
+  type: postgresql
+  hostEnv: OEE_MONTAGE_DB_HOST
+  portEnv: OEE_MONTAGE_DB_PORT
+  userEnv: OEE_MONTAGE_DB_USER
+  passwordSecret: it-suite-secrets/OEE_MONTAGE_DB_PASSWORD
+  dbNameEnv: OEE_MONTAGE_DB_NAME
+pollIntervalMs: 15000
+enabled: true
+image:
+  repository: 192.168.178.150:32000/i3x-v3/it-edge-base
+  tag: "0.1.1"
+resources:
+  requests: { cpu: "50m", memory: "96Mi" }
+  limits:   { cpu: "500m", memory: "256Mi" }
+notes: "EVENT-world only - no per-second pulses."
