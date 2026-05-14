@@ -1,0 +1,25 @@
+# i3x-it-fleet — IT-Edge Inventory entry
+# Loaded by i3x-suite-it/packages/server (it-gateway) via /v1/fleet/it
+edgeId: it-erp-sap
+sourceId: it-erp-sap
+tenant: demo
+customer: customer-x
+deployTarget: i3x-v3
+displayName: ERP - SAP Production
+description: Schema-driven Postgres poller against erpdb (production_order, customer, stock).
+dbConnection:
+  type: postgresql
+  hostEnv: ERP_DB_HOST
+  portEnv: ERP_DB_PORT
+  userEnv: ERP_DB_USER
+  passwordSecret: it-suite-secrets/ERP_DB_PASSWORD
+  dbNameEnv: ERP_DB_NAME
+pollIntervalMs: 60000
+enabled: true
+image:
+  repository: 192.168.178.150:32000/i3x-v3/it-edge-base
+  tag: "0.1.1"
+resources:
+  requests: { cpu: "50m", memory: "96Mi" }
+  limits:   { cpu: "500m", memory: "256Mi" }
+notes: "Demo-seed on .150 erpdb. Welle-1 multi-table source."

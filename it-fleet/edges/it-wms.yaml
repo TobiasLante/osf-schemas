@@ -1,0 +1,24 @@
+# i3x-it-fleet — IT-Edge Inventory entry
+edgeId: it-wms
+sourceId: it-wms
+tenant: demo
+customer: customer-x
+deployTarget: i3x-v3
+displayName: WMS - Stock Movements
+description: Schema-driven Postgres poller against wmsdb (stock_movement). Additional warehousedb connection (empty) reserved for Welle-2 Auto-Explore.
+dbConnection:
+  type: postgresql
+  hostEnv: WMS_DB_HOST
+  portEnv: WMS_DB_PORT
+  userEnv: WMS_DB_USER
+  passwordSecret: it-suite-secrets/WMS_DB_PASSWORD
+  dbNameEnv: WMS_DB_NAME
+pollIntervalMs: 60000
+enabled: true
+image:
+  repository: 192.168.178.150:32000/i3x-v3/it-edge-base
+  tag: "0.1.1"
+resources:
+  requests: { cpu: "50m", memory: "96Mi" }
+  limits:   { cpu: "500m", memory: "256Mi" }
+notes: "wms-warehouse-postgres is empty in demo seed."
