@@ -1,0 +1,64 @@
+{
+  "profileId": "SMProfile-StockMovement",
+  "version": "3.0.0",
+  "standard": "CESMII",
+  "displayName": "Stock Movement",
+  "category": "business",
+  "description": "Inventory movement event (goods in/out/transfer). v3 demo-aligned (WMS side).",
+  "parentType": null,
+  "attributes": [
+    {
+      "name": "movement_id",
+      "dataType": "String",
+      "category": "Core",
+      "isKey": true,
+      "description": "Unique movement ID (PK)"
+    },
+    {
+      "name": "article_no",
+      "dataType": "String",
+      "category": "Link",
+      "description": "Article being moved"
+    },
+    {
+      "name": "qty",
+      "dataType": "Int32",
+      "category": "Movement",
+      "description": "Quantity moved (signed or absolute, see movement_type)"
+    },
+    {
+      "name": "movement_type",
+      "dataType": "String",
+      "category": "Movement",
+      "enum": ["receipt", "issue", "transfer", "adjustment", "scrap"],
+      "description": "Type of movement"
+    },
+    {
+      "name": "location_from",
+      "dataType": "String",
+      "category": "Warehouse",
+      "description": "Source location (null for receipts)"
+    },
+    {
+      "name": "location_to",
+      "dataType": "String",
+      "category": "Warehouse",
+      "description": "Destination location (null for issues)"
+    },
+    {
+      "name": "ts",
+      "dataType": "DateTime",
+      "category": "Audit",
+      "description": "Movement timestamp (diff field)"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "FOR_ARTICLE",
+      "target": "Article",
+      "targetIdProp": "article_no"
+    }
+  ],
+  "kgNodeLabel": "StockMovement",
+  "kgIdProperty": "movement_id"
+}
