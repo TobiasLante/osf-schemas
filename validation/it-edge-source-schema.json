@@ -1,0 +1,104 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/validation/it-edge-source-schema.json",
+  "title": "OSF IT-Edge PostgreSQL Source (v3, Welle 1)",
+  "description": "Schema for files under sources/postgresql/it-*.json. Multi-table source binding consumed by cap-it-edge-base (Welle 2) — describes which tables to poll, how to detect changes, how to map columns to SMProfile attributes, and which subjects to publish on.",
+  "type": "object",
+  "required": ["sourceId", "version", "sourceType", "tenant", "edgeId", "category", "connection", "tables", "subjects"],
+  "properties": {
+    "sourceId": {
+      "type": "string",
+      "pattern": "^it-[a-z0-9-]+$",
+      "description": "IT-Edge source IDs are prefixed it- and lower-kebab-case."
+    },
+    "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "sourceType": {"type": "string", "enum": ["postgresql"]},
+    "displayName": {"type": "string"},
+    "tenant": {"type": "string"},
+    "edgeId": {
+      "type": "string",
+      "pattern": "^it-edge-[a-z0-9-]+$",
+      "description": "Stable edge ID used in heartbeats and KG snapshots."
+    },
+    "category": {"type": "string", "enum": ["business"]},
+    "description": {"type": "string"},
+    "connection": {
+      "type": "object",
+      "required": ["host", "port", "user", "password", "database"],
+      "properties": {
+        "host": {"type": "string"},
+        "port": {"type": ["string", "integer"]},
+        "user": {"type": "string"},
+        "password": {"type": "string"},
+        "database": {"type": "string"},
+        "defaults": {"type": "object"}
+      }
+    },
+    "tables": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["name", "profileRef", "primaryKey", "columnMap"],
+        "properties": {
+          "name": {"type": "string"},
+          "profileRef": {"type": "string", "pattern": "^SMProfile-"},
+          "primaryKey": {"type": "string"},
+          "diffField": {"type": "string"},
+          "pollIntervalMs": {"type": "integer", "minimum": 1000},
+          "changeDetection": {
+            "type": "string",
+            "enum": ["timestamp", "full_refresh", "pg_notify", "cdc"]
+          },
+          "columnMap": {
+            "type": "object",
+            "additionalProperties": {"type": "string"},
+            "minProperties": 1
+          },
+          "edges": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["type", "fkColumn", "targetIdProp"],
+              "properties": {
+                "type": {"type": "string"},
+                "fkColumn": {"type": "string"},
+                "targetIdProp": {"type": "string"}
+              },
+              "additionalProperties": false
+            }
+          },
+          "filter": {"type": ["string", "null"]}
+        },
+        "additionalProperties": false
+      }
+    },
+    "additionalConnections": {
+      "type": "array",
+      "items": {"type": "object"}
+    },
+    "tablesAbsentInDemoSeed": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["expected", "note"],
+        "properties": {
+          "expected": {"type": "string"},
+          "profileRef": {"type": "string"},
+          "note": {"type": "string"}
+        }
+      }
+    },
+    "subjects": {
+      "type": "object",
+      "required": ["eventPublish", "heartbeat", "kgSnapshot", "schemaDeploy"],
+      "properties": {
+        "eventPublish": {"type": "string"},
+        "heartbeat": {"type": "string"},
+        "kgSnapshot": {"type": "string"},
+        "schemaDeploy": {"type": "string"}
+      }
+    }
+  },
+  "additionalProperties": false
+}
