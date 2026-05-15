@@ -12,50 +12,80 @@
       "dataType": "String",
       "category": "Core",
       "isKey": true,
-      "description": "Unique production order ID (Primary Key)"
+      "description": "Unique production order ID (Primary Key)",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "customer_id",
       "dataType": "String",
       "category": "Link",
-      "description": "FK to Customer.id"
+      "description": "FK to Customer.id",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "article_no",
       "dataType": "String",
       "category": "Core",
-      "description": "Article / material to produce"
+      "description": "Article / material to produce",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "qty_planned",
       "dataType": "Int32",
       "category": "Planning",
-      "description": "Planned production quantity"
+      "description": "Planned production quantity",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "qty_actual",
       "dataType": "Int32",
       "category": "Execution",
-      "description": "Actually produced quantity so far"
+      "description": "Actually produced quantity so far",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "status",
       "dataType": "String",
       "category": "Core",
-      "enum": ["planned", "released", "in_progress", "completed", "cancelled"],
-      "description": "Order status (string-coded in demo seed)"
+      "enum": [
+        "planned",
+        "released",
+        "in_progress",
+        "completed",
+        "cancelled"
+      ],
+      "description": "Order status (string-coded in demo seed)",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "due_date",
       "dataType": "DateTime",
       "category": "Planning",
-      "description": "Planned end date / delivery date"
+      "description": "Planned end date / delivery date",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "updated_at",
       "dataType": "DateTime",
       "category": "Audit",
-      "description": "Last modification timestamp (diff field)"
+      "description": "Last modification timestamp (diff field)",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     }
   ],
   "relationships": [

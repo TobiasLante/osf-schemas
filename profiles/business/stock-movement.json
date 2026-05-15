@@ -12,44 +12,71 @@
       "dataType": "String",
       "category": "Core",
       "isKey": true,
-      "description": "Unique movement ID (PK)"
+      "description": "Unique movement ID (PK)",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "article_no",
       "dataType": "String",
       "category": "Link",
-      "description": "Article being moved"
+      "description": "Article being moved",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "qty",
       "dataType": "Int32",
       "category": "Movement",
-      "description": "Quantity moved (signed or absolute, see movement_type)"
+      "description": "Quantity moved (signed or absolute, see movement_type)",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "movement_type",
       "dataType": "String",
       "category": "Movement",
-      "enum": ["receipt", "issue", "transfer", "adjustment", "scrap"],
-      "description": "Type of movement"
+      "enum": [
+        "receipt",
+        "issue",
+        "transfer",
+        "adjustment",
+        "scrap"
+      ],
+      "description": "Type of movement",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "location_from",
       "dataType": "String",
       "category": "Warehouse",
-      "description": "Source location (null for receipts)"
+      "description": "Source location (null for receipts)",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "location_to",
       "dataType": "String",
       "category": "Warehouse",
-      "description": "Destination location (null for issues)"
+      "description": "Destination location (null for issues)",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "ts",
       "dataType": "DateTime",
       "category": "Audit",
-      "description": "Movement timestamp (diff field)"
+      "description": "Movement timestamp (diff field)",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     }
   ],
   "relationships": [
