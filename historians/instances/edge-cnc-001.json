@@ -1,0 +1,51 @@
+{
+  "$description": "Edge-IPC TimescaleDB instance — Layer A Telemetry+Event topic-blob storage. Per-Metric rows in uns_history, scan-rate, no aggregation. Hot-cache, retention 7d, compression after 6h. Schema-driven: auto-generated for new IPCs via /opt/edge-ipcs/_template (one instance file per ipc-id).",
+  "instanceId": "edge-cnc-001",
+  "kind": "edge",
+  "tier": "A",
+  "displayName": "Edge TimescaleDB cnc-001",
+  "ipcId": "cnc-001",
+  "host": "192.168.178.99",
+  "internalHost": "timescale",
+  "internalPort": 5432,
+  "nodePort": 41432,
+  "database": "uns_history",
+  "user": "postgres",
+  "passwordSource": "TIMESCALE_PASSWORD env (default 'edge')",
+  "natsDomain": "edge_cnc001",
+  "queryRoute": {
+    "type": "nats-rr",
+    "subjects": {
+      "last":  "i3x.values.cnc-001.last",
+      "range": "i3x.values.cnc-001.range"
+    },
+    "handler": "edge-query-mcp"
+  },
+  "tables": [
+    {
+      "name": "uns_history",
+      "kind": "topic-blob",
+      "primaryKey": ["ts", "machine", "variable"],
+      "columns": [
+        { "name": "ts", "type": "timestamptz", "notNull": true },
+        { "name": "enterprise", "type": "text" },
+        { "name": "site", "type": "text" },
+        { "name": "area", "type": "text" },
+        { "name": "line", "type": "text" },
+        { "name": "machine", "type": "text", "notNull": true },
+        { "name": "domain", "type": "text" },
+        { "name": "variable", "type": "text", "notNull": true },
+        { "name": "value", "type": "double precision" },
+        { "name": "value_text", "type": "text" },
+        { "name": "unit", "type": "text" },
+        { "name": "topic", "type": "text", "notNull": true }
+      ],
+      "subjectFilter": "factory.*.*.*.cnc-001.>",
+      "domains": ["telemetry", "event", "kpi"]
+    }
+  ],
+  "retention": { "default": "7d" },
+  "compression": { "afterAge": "6h", "segmentBy": ["machine", "variable"], "orderBy": "ts DESC" },
+  "servedMachines": ["cnc-001"],
+  "machineTypes": ["CNC"]
+}
