@@ -12,38 +12,61 @@
       "dataType": "String",
       "category": "Core",
       "isKey": true,
-      "description": "Unique quality record ID (PK)"
+      "description": "Unique quality record ID (PK)",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "production_order_id",
       "dataType": "String",
       "category": "Link",
-      "description": "FK to ProductionOrder.order_id"
+      "description": "FK to ProductionOrder.order_id",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "inspector",
       "dataType": "String",
       "category": "Core",
-      "description": "Inspector / operator who logged the record"
+      "description": "Inspector / operator who logged the record",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "result",
       "dataType": "String",
       "category": "Quality",
-      "enum": ["ok", "nok", "rework", "scrap"],
-      "description": "Inspection verdict"
+      "enum": [
+        "ok",
+        "nok",
+        "rework",
+        "scrap"
+      ],
+      "description": "Inspection verdict",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "defect_count",
       "dataType": "Int32",
       "category": "Quality",
-      "description": "Number of defects found"
+      "description": "Number of defects found",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "ts",
       "dataType": "DateTime",
       "category": "Audit",
-      "description": "Inspection timestamp (diff field)"
+      "description": "Inspection timestamp (diff field)",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     }
   ],
   "relationships": [

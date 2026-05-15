@@ -12,7 +12,10 @@
       "unit": "bar",
       "category": "Process",
       "description": "Inlet pressure",
-      "polling": "subscribe"
+      "polling": "subscribe",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Pressure_Outlet",
@@ -20,7 +23,10 @@
       "unit": "bar",
       "category": "Process",
       "description": "Outlet/discharge pressure",
-      "polling": "subscribe"
+      "polling": "subscribe",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Flow_Rate",
@@ -28,84 +34,120 @@
       "unit": "m³/h",
       "category": "Process",
       "description": "Volume flow rate",
-      "polling": "subscribe"
+      "polling": "subscribe",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Speed_Actual",
       "dataType": "Float",
       "unit": "rpm",
       "category": "Drive",
-      "polling": "subscribe"
+      "polling": "subscribe",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Speed_Set",
       "dataType": "Float",
       "unit": "rpm",
       "category": "Drive",
-      "polling": "subscribe"
+      "polling": "subscribe",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Power_Motor",
       "dataType": "Float",
       "unit": "kW",
       "category": "Drive",
-      "polling": "subscribe"
+      "polling": "subscribe",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Current_Motor",
       "dataType": "Float",
       "unit": "A",
       "category": "Drive",
-      "polling": "subscribe"
+      "polling": "subscribe",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Temperature_Fluid",
       "dataType": "Float",
       "unit": "°C",
       "category": "Process",
-      "polling": "subscribe"
+      "polling": "subscribe",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Temperature_Motor",
       "dataType": "Float",
       "unit": "°C",
       "category": "Thermal",
-      "polling": "subscribe"
+      "polling": "subscribe",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Temperature_Bearing",
       "dataType": "Float",
       "unit": "°C",
       "category": "Thermal",
-      "polling": "subscribe"
+      "polling": "subscribe",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Vibration",
       "dataType": "Float",
       "unit": "mm/s",
       "category": "Condition",
-      "polling": "subscribe"
+      "polling": "subscribe",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Operating_Hours",
       "dataType": "Float",
       "unit": "h",
       "category": "Lifecycle",
-      "polling": "subscribe"
+      "polling": "subscribe",
+      "delivery": "telemetry",
+      "scope": "hub",
+      "promotion": "aggregate"
     },
     {
       "name": "Status",
       "dataType": "Int32",
       "category": "Status",
       "description": "Running/Stopped/Fault",
-      "polling": "subscribe"
+      "polling": "subscribe",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "Energy_Total",
       "dataType": "Float",
       "unit": "kWh",
       "category": "Energy",
-      "polling": "subscribe"
+      "polling": "subscribe",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     }
   ],
   "relationships": [
