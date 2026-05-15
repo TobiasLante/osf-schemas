@@ -1,0 +1,70 @@
+{
+  "$description": "Central TimescaleDB instance — Layer A' Cycle-Event + wide-Telemetry storage. Fed by services/historian (NATS FACTORY subscriber). Strict telemetry/event split: separate per-machine-type tables, no mixed bde_data. Hosts all machines via servedMachineTypes wildcard.",
+  "instanceId": "central-ts",
+  "kind": "central",
+  "tier": "A-prime",
+  "displayName": "Central TimescaleDB (k8sserv4 NVMe)",
+  "host": "central-ts.i3x-v3.svc.cluster.local",
+  "internalHost": "central-ts",
+  "internalPort": 5432,
+  "nodePort": 30543,
+  "database": "uns",
+  "user": "uns",
+  "passwordSource": "i3x-v3-secrets/UNS_DB_PASSWORD",
+  "storage": { "node": "k8sserv4", "path": "/mnt/raid0/i3x-central-ts", "media": "NVMe" },
+  "queryRoute": {
+    "type": "pgwire",
+    "endpoint": "central-ts.i3x-v3.svc.cluster.local:5432",
+    "ingressNodePort": "192.168.178.150:30543",
+    "handler": "central-ts-mcp"
+  },
+  "tables": [
+    {
+      "name": "cnc_event_data",
+      "kind": "wide-event",
+      "machineType": "CNC",
+      "primaryKey": ["timestamp", "machine_id"],
+      "subjectFilter": "factory.*.*.*.cnc-*.event.>"
+    },
+    {
+      "name": "cnc_telemetry_data",
+      "kind": "wide-telemetry",
+      "machineType": "CNC",
+      "primaryKey": ["timestamp", "machine_id"],
+      "subjectFilter": "factory.*.*.*.cnc-*.telemetry.>"
+    },
+    {
+      "name": "cnc_tool_magazine_event_data",
+      "kind": "wide-event-child",
+      "machineType": "CNC",
+      "primaryKey": ["timestamp", "machine_id", "slot_no"],
+      "childKey": "slot_no",
+      "subjectFilter": "factory.*.*.*.cnc-*.event.tool_magazine_slots_*"
+    },
+    {
+      "name": "sgm_event_data",
+      "kind": "wide-event",
+      "machineType": "SGM",
+      "primaryKey": ["timestamp", "machine_id"],
+      "subjectFilter": "factory.*.*.*.sgm-*.event.>"
+    },
+    {
+      "name": "sgm_telemetry_data",
+      "kind": "wide-telemetry",
+      "machineType": "SGM",
+      "primaryKey": ["timestamp", "machine_id"],
+      "subjectFilter": "factory.*.*.*.sgm-*.telemetry.>"
+    },
+    {
+      "name": "sgm_cavity_telemetry_data",
+      "kind": "wide-telemetry-child",
+      "machineType": "SGM",
+      "primaryKey": ["timestamp", "machine_id", "cavity_nr"],
+      "childKey": "cavity_nr",
+      "subjectFilter": "factory.*.*.*.sgm-*.telemetry.cavities_*"
+    }
+  ],
+  "retention": { "telemetry": "90d", "event": "365d", "child": "90d" },
+  "fedBy": { "service": "historian", "image": "i3x-zentral/historian:1.0.2", "natsConsumer": "central-ts-historian" },
+  "servedMachineTypes": ["CNC", "SGM"]
+}
