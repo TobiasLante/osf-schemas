@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-CNC-Machine",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "standard": "CESMII",
   "displayName": "CNC Machine",
   "description": "CNC-Bearbeitungszentrum — OPC 40077 process data (spindle, feed, axes, tool, coolant, vibration)",
@@ -266,6 +266,15 @@
       "name": "Act_Status_Program",
       "dataType": "String",
       "required": false,
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "Act_State_InCycle",
+      "dataType": "Boolean",
+      "required": false,
+      "description": "Maschine ist im Bearbeitungszyklus (TRUE/FALSE). Trigger fuer den Cycle-Detect-FSM auf der Edge.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
