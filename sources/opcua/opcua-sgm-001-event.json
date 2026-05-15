@@ -1,10 +1,10 @@
 {
-  "sourceId": "opcua-sgm-001-bde",
+  "sourceId": "opcua-sgm-001-event",
   "sourceType": "opcua",
   "transport": [
     "nats"
   ],
-  "version": "3.0.0",
+  "version": "4.0.0",
   "profileRef": "SMProfile-SGM",
   "endpoint": "opc.tcp://192.168.178.120:30880",
   "machineId": "sgm-001",
@@ -16,6 +16,7 @@
     "line": "line-a",
     "type": "SGM"
   },
+  "dataCategory": "event",
   "polling": {
     "mode": "scan",
     "intervalMs": 5000
@@ -25,7 +26,6 @@
     "policy": "None",
     "auth": "Anonymous"
   },
-  "dataCategory": "BDE",
   "nodeMappings": [
     {
       "opcuaNodeId": "ns=1;s=Machine/machineId",
@@ -50,32 +50,27 @@
     {
       "opcuaNodeId": "ns=1;s=Machine/partsCount/good",
       "smAttribute": "parts_good",
-      "dataType": "ns=0;i=11",
-      "unit": "count"
+      "dataType": "ns=0;i=11"
     },
     {
       "opcuaNodeId": "ns=1;s=Machine/partsCount/scrap",
       "smAttribute": "parts_scrap",
-      "dataType": "ns=0;i=11",
-      "unit": "count"
+      "dataType": "ns=0;i=11"
     },
     {
       "opcuaNodeId": "ns=1;s=Machine/partsCount/total",
       "smAttribute": "parts_total",
-      "dataType": "ns=0;i=11",
-      "unit": "count"
+      "dataType": "ns=0;i=11"
     },
     {
       "opcuaNodeId": "ns=1;s=Machine/alarms/_Count",
       "smAttribute": "alarms_count",
-      "dataType": "ns=0;i=6",
-      "unit": "count"
+      "dataType": "ns=0;i=6"
     },
     {
       "opcuaNodeId": "ns=1;s=Machine/uptimeSeconds",
       "smAttribute": "uptime_seconds",
-      "dataType": "ns=0;i=11",
-      "unit": "s"
+      "dataType": "ns=0;i=11"
     },
     {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shot/inCycle",
@@ -85,8 +80,7 @@
     {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shot/shotCount",
       "smAttribute": "shot_count",
-      "dataType": "ns=0;i=11",
-      "unit": "count"
+      "dataType": "ns=0;i=11"
     },
     {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shot/currentProgram",
@@ -101,8 +95,7 @@
     {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/_Count",
       "smAttribute": "cavities_count",
-      "dataType": "ns=0;i=6",
-      "unit": "count"
+      "dataType": "ns=0;i=6"
     },
     {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[0]/index",
@@ -127,8 +120,27 @@
     {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/_Count",
       "smAttribute": "barrel_zones_count",
-      "dataType": "ns=0;i=6",
-      "unit": "count"
+      "dataType": "ns=0;i=6"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/[0]/name",
+      "smAttribute": "barrel_zones_0_name",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/[1]/name",
+      "smAttribute": "barrel_zones_1_name",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/[2]/name",
+      "smAttribute": "barrel_zones_2_name",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/[3]/name",
+      "smAttribute": "barrel_zones_3_name",
+      "dataType": "ns=0;i=12"
     },
     {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/mould/mouldId",
@@ -136,21 +148,19 @@
       "dataType": "ns=0;i=12"
     },
     {
-      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/mould/lifePercent",
-      "smAttribute": "mould_life_percent",
-      "dataType": "ns=0;i=11",
-      "unit": "pct"
-    },
-    {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/mould/totalShots",
       "smAttribute": "mould_total_shots",
-      "dataType": "ns=0;i=11",
-      "unit": "count"
+      "dataType": "ns=0;i=11"
     },
     {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/phase/name",
       "smAttribute": "phase_name",
       "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/phase/elapsedSec",
+      "smAttribute": "phase_elapsed_sec",
+      "dataType": "ns=0;i=11"
     },
     {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/phase/switchoverReached",
@@ -160,8 +170,7 @@
     {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/setup/remainingSec",
       "smAttribute": "setup_remaining_sec",
-      "dataType": "ns=0;i=11",
-      "unit": "s"
+      "dataType": "ns=0;i=11"
     },
     {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shiftActive",
@@ -172,6 +181,16 @@
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/resin",
       "smAttribute": "material_resin",
       "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/hopperRefillCount",
+      "smAttribute": "material_hopper_refill_count",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/colourPurgeRemaining",
+      "smAttribute": "material_colour_purge_remaining",
+      "dataType": "ns=0;i=11"
     }
   ]
 }
