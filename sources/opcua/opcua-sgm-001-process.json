@@ -1,1297 +1,21 @@
 {
   "sourceId": "opcua-sgm-001-processdata",
-  "version": "2.0.0",
   "sourceType": "opcua",
-  "dataCategory": "ProcessData",
-  "profileRef": "SMProfile-InjectionMoldingMachine",
-  "endpoint": "opc.tcp://192.168.178.150:30850",
-  "machineId": "SGM-001",
-  "machineName": "Spritzgussmaschine 1",
+  "transport": [
+    "nats"
+  ],
+  "version": "3.0.0",
+  "profileRef": "SMProfile-SGM",
+  "endpoint": "opc.tcp://192.168.178.120:30880",
+  "machineId": "sgm-001",
+  "machineName": "SGM-01",
   "location": {
-    "site": "Garmisch",
+    "enterprise": "factory",
+    "site": "werk1",
+    "area": "sgm",
+    "line": "line-a",
     "type": "SGM"
   },
-  "nodeMappings": [
-    {
-      "opcuaNodeId": "ns=1;s=TemperatureZones.Melting_Actual",
-      "smAttribute": "Act_Temp_Melting",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "TemperatureZones",
-        "Melting_Actual"
-      ],
-      "unit": "\u00b0C"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=TemperatureZones.Melting_Set",
-      "smAttribute": "Set_Temp_Melting",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "TemperatureZones",
-        "Melting_Set"
-      ],
-      "unit": "\u00b0C"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=TemperatureZones.Zone1_Actual",
-      "smAttribute": "Act_Temp_Zone1",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "TemperatureZones",
-        "Zone1_Actual"
-      ],
-      "unit": "\u00b0C"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=TemperatureZones.Zone1_Set",
-      "smAttribute": "Set_Temp_Zone1",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "TemperatureZones",
-        "Zone1_Set"
-      ],
-      "unit": "\u00b0C"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=TemperatureZones.Zone2_Actual",
-      "smAttribute": "Act_Temp_Zone2",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "TemperatureZones",
-        "Zone2_Actual"
-      ],
-      "unit": "\u00b0C"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=TemperatureZones.Zone2_Set",
-      "smAttribute": "Set_Temp_Zone2",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "TemperatureZones",
-        "Zone2_Set"
-      ],
-      "unit": "\u00b0C"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=TemperatureZones.Zone3_Actual",
-      "smAttribute": "Act_Temp_Zone3",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "TemperatureZones",
-        "Zone3_Actual"
-      ],
-      "unit": "\u00b0C"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=TemperatureZones.Zone3_Set",
-      "smAttribute": "Set_Temp_Zone3",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "TemperatureZones",
-        "Zone3_Set"
-      ],
-      "unit": "\u00b0C"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=TemperatureZones.Zone4_Actual",
-      "smAttribute": "Act_Temp_Zone4",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "TemperatureZones",
-        "Zone4_Actual"
-      ],
-      "unit": "\u00b0C"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=TemperatureZones.Zone4_Set",
-      "smAttribute": "Set_Temp_Zone4",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "TemperatureZones",
-        "Zone4_Set"
-      ],
-      "unit": "\u00b0C"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=TemperatureZones.Zone5_Actual",
-      "smAttribute": "Act_Temp_Zone5",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "TemperatureZones",
-        "Zone5_Actual"
-      ],
-      "unit": "\u00b0C"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=TemperatureZones.Zone5_Set",
-      "smAttribute": "Set_Temp_Zone5",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "TemperatureZones",
-        "Zone5_Set"
-      ],
-      "unit": "\u00b0C"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=TemperatureZones.Zone6_Actual",
-      "smAttribute": "Act_Temp_Zone6",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "TemperatureZones",
-        "Zone6_Actual"
-      ],
-      "unit": "\u00b0C"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=TemperatureZones.Zone6_Set",
-      "smAttribute": "Set_Temp_Zone6",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "TemperatureZones",
-        "Zone6_Set"
-      ],
-      "unit": "\u00b0C"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=TemperatureZones.Nozzle_Actual",
-      "smAttribute": "Act_Temp_Nozzle",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "TemperatureZones",
-        "Nozzle_Actual"
-      ],
-      "unit": "\u00b0C"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=TemperatureZones.Nozzle_Set",
-      "smAttribute": "Set_Temp_Nozzle",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "TemperatureZones",
-        "Nozzle_Set"
-      ],
-      "unit": "\u00b0C"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=TemperatureZones.Mould_Fixed_Actual",
-      "smAttribute": "Act_Temp_MouldFixed",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "TemperatureZones",
-        "Mould_Fixed_Actual"
-      ],
-      "unit": "\u00b0C"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=TemperatureZones.Mould_Fixed_Set",
-      "smAttribute": "Set_Temp_MouldFixed",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "TemperatureZones",
-        "Mould_Fixed_Set"
-      ],
-      "unit": "\u00b0C"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=TemperatureZones.Mould_Moving_Actual",
-      "smAttribute": "Act_Temp_MouldMoving",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "TemperatureZones",
-        "Mould_Moving_Actual"
-      ],
-      "unit": "\u00b0C"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=TemperatureZones.Mould_Moving_Set",
-      "smAttribute": "Set_Temp_MouldMoving",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "TemperatureZones",
-        "Mould_Moving_Set"
-      ],
-      "unit": "\u00b0C"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=TemperatureZones.Water_Inlet_Actual",
-      "smAttribute": "Act_Temp_WaterInlet",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "TemperatureZones",
-        "Water_Inlet_Actual"
-      ],
-      "unit": "\u00b0C"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=TemperatureZones.Water_Inlet_Set",
-      "smAttribute": "Set_Temp_WaterInlet",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "TemperatureZones",
-        "Water_Inlet_Set"
-      ],
-      "unit": "\u00b0C"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=TemperatureZones.Water_Outlet",
-      "smAttribute": "Act_Temp_WaterOutlet",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "TemperatureZones",
-        "Water_Outlet"
-      ],
-      "unit": "\u00b0C"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=TemperatureZones.Oil_Actual",
-      "smAttribute": "Act_Temp_Oil",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "TemperatureZones",
-        "Oil_Actual"
-      ],
-      "unit": "\u00b0C"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=TemperatureZones.Oil_Set",
-      "smAttribute": "Set_Temp_Oil",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "TemperatureZones",
-        "Oil_Set"
-      ],
-      "unit": "\u00b0C"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=TemperatureZones.Dryer_Actual",
-      "smAttribute": "Act_Temp_Dryer",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "TemperatureZones",
-        "Dryer_Actual"
-      ],
-      "unit": "\u00b0C"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=TemperatureZones.Dryer_Set",
-      "smAttribute": "Set_Temp_Dryer",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "TemperatureZones",
-        "Dryer_Set"
-      ],
-      "unit": "\u00b0C"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=TemperatureZones.Ambient",
-      "smAttribute": "Act_Temp_Ambient",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "TemperatureZones",
-        "Ambient"
-      ],
-      "unit": "\u00b0C"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=CycleTime.Dosing_Actual",
-      "smAttribute": "Act_Time_Dosing",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "CycleTime",
-        "Dosing_Actual"
-      ],
-      "unit": "s"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=CycleTime.Dosing_Set",
-      "smAttribute": "Set_Time_Dosing",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "CycleTime",
-        "Dosing_Set"
-      ],
-      "unit": "s"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=CycleTime.Filling_Actual",
-      "smAttribute": "Act_Time_Filling",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "CycleTime",
-        "Filling_Actual"
-      ],
-      "unit": "s"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=CycleTime.Filling_Set",
-      "smAttribute": "Set_Time_Filling",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "CycleTime",
-        "Filling_Set"
-      ],
-      "unit": "s"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=CycleTime.Holding_Actual",
-      "smAttribute": "Act_Time_Holding",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "CycleTime",
-        "Holding_Actual"
-      ],
-      "unit": "s"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=CycleTime.Holding_Set",
-      "smAttribute": "Set_Time_Holding",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "CycleTime",
-        "Holding_Set"
-      ],
-      "unit": "s"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=CycleTime.Cooling_Actual",
-      "smAttribute": "Act_Time_Cooling",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "CycleTime",
-        "Cooling_Actual"
-      ],
-      "unit": "s"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=CycleTime.Cooling_Set",
-      "smAttribute": "Set_Time_Cooling",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "CycleTime",
-        "Cooling_Set"
-      ],
-      "unit": "s"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=CycleTime.Mould_Open",
-      "smAttribute": "Act_Time_MouldOpen",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "CycleTime",
-        "Mould_Open"
-      ],
-      "unit": "s"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=CycleTime.Mould_Close",
-      "smAttribute": "Act_Time_MouldClose",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "CycleTime",
-        "Mould_Close"
-      ],
-      "unit": "s"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=CycleTime.Ejection",
-      "smAttribute": "Act_Time_Ejection",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "CycleTime",
-        "Ejection"
-      ],
-      "unit": "s"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=CycleTime.Injection",
-      "smAttribute": "Act_Time_Injection",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "CycleTime",
-        "Injection"
-      ],
-      "unit": "s"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=CycleTime.Plasticizing",
-      "smAttribute": "Act_Time_Plasticizing",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "CycleTime",
-        "Plasticizing"
-      ],
-      "unit": "s"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=CycleTime.Pause",
-      "smAttribute": "Act_Time_Pause",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "CycleTime",
-        "Pause"
-      ],
-      "unit": "s"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Pressure.Holding_Actual",
-      "smAttribute": "Act_Pressure_Holding",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "Pressure",
-        "Holding_Actual"
-      ],
-      "unit": "s"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Pressure.Holding_Set",
-      "smAttribute": "Set_Pressure_Holding",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "Pressure",
-        "Holding_Set"
-      ],
-      "unit": "s"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Pressure.Injection_Max_Actual",
-      "smAttribute": "Act_Pressure_InjectionMax",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "Pressure",
-        "Injection_Max_Actual"
-      ],
-      "unit": "bar"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Pressure.Injection_Max_Set",
-      "smAttribute": "Set_Pressure_InjectionMax",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "Pressure",
-        "Injection_Max_Set"
-      ],
-      "unit": "bar"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Pressure.Injection_Switch_Actual",
-      "smAttribute": "Act_Pressure_InjectionSwitch",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "Pressure",
-        "Injection_Switch_Actual"
-      ],
-      "unit": "bar"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Pressure.Injection_Switch_Set",
-      "smAttribute": "Set_Pressure_InjectionSwitch",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "Pressure",
-        "Injection_Switch_Set"
-      ],
-      "unit": "bar"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Pressure.Back_Actual",
-      "smAttribute": "Act_Pressure_Back",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "Pressure",
-        "Back_Actual"
-      ],
-      "unit": "bar"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Pressure.Back_Set",
-      "smAttribute": "Set_Pressure_Back",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "Pressure",
-        "Back_Set"
-      ],
-      "unit": "bar"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Pressure.Oil",
-      "smAttribute": "Act_Pressure_Oil",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "Pressure",
-        "Oil"
-      ],
-      "unit": "bar"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Pressure.Force_Closing_Actual",
-      "smAttribute": "Act_Force_Closing",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "Pressure",
-        "Force_Closing_Actual"
-      ],
-      "unit": "kilonewton"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Pressure.Force_Closing_Set",
-      "smAttribute": "Set_Force_Closing",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "Pressure",
-        "Force_Closing_Set"
-      ],
-      "unit": "kilonewton"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Pressure.Force_Ejector_Actual",
-      "smAttribute": "Act_Force_Ejector",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "Pressure",
-        "Force_Ejector_Actual"
-      ],
-      "unit": "kilonewton"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Pressure.Force_Ejector_Set",
-      "smAttribute": "Set_Force_Ejector",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "Pressure",
-        "Force_Ejector_Set"
-      ],
-      "unit": "kilonewton"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Pressure.Torque_Screw",
-      "smAttribute": "Act_Torque_Screw",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "Pressure",
-        "Torque_Screw"
-      ],
-      "unit": "newton metre"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Volume.Shot_Actual",
-      "smAttribute": "Act_Vol_Shot",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "Volume",
-        "Shot_Actual"
-      ],
-      "unit": "cm\u00b3"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Volume.Shot_Set",
-      "smAttribute": "Set_Vol_Shot",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "Volume",
-        "Shot_Set"
-      ],
-      "unit": "cm\u00b3"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Volume.Cushion_Actual",
-      "smAttribute": "Act_Vol_Cushion",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "Volume",
-        "Cushion_Actual"
-      ],
-      "unit": "cm\u00b3"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Volume.Cushion_Set",
-      "smAttribute": "Set_Vol_Cushion",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "Volume",
-        "Cushion_Set"
-      ],
-      "unit": "cm\u00b3"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Speed.Injection_Actual",
-      "smAttribute": "Act_Speed_Injection",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "Speed",
-        "Injection_Actual"
-      ]
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Speed.Injection_Set",
-      "smAttribute": "Set_Speed_Injection",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "Speed",
-        "Injection_Set"
-      ]
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Speed.Screw_RPM_Actual",
-      "smAttribute": "Act_Speed_ScrewRPM",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "Speed",
-        "Screw_RPM_Actual"
-      ],
-      "unit": "r/min"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Speed.Screw_RPM_Set",
-      "smAttribute": "Set_Speed_ScrewRPM",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "Speed",
-        "Screw_RPM_Set"
-      ],
-      "unit": "r/min"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Speed.Mould_Open_Actual",
-      "smAttribute": "Act_Speed_MouldOpen",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "Speed",
-        "Mould_Open_Actual"
-      ],
-      "unit": "m/s"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Speed.Mould_Open_Set",
-      "smAttribute": "Set_Speed_MouldOpen",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "Speed",
-        "Mould_Open_Set"
-      ],
-      "unit": "m/s"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Speed.Mould_Close_Actual",
-      "smAttribute": "Act_Speed_MouldClose",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "Speed",
-        "Mould_Close_Actual"
-      ],
-      "unit": "m/s"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Speed.Mould_Close_Set",
-      "smAttribute": "Set_Speed_MouldClose",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "Speed",
-        "Mould_Close_Set"
-      ],
-      "unit": "m/s"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Speed.Ejector_Actual",
-      "smAttribute": "Act_Speed_Ejector",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "Speed",
-        "Ejector_Actual"
-      ],
-      "unit": "m/s"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Speed.Ejector_Set",
-      "smAttribute": "Set_Speed_Ejector",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "Speed",
-        "Ejector_Set"
-      ],
-      "unit": "m/s"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=ClampingUnit.Screw_Dosing_Actual",
-      "smAttribute": "Act_Pos_ScrewDosing",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "ClampingUnit",
-        "Screw_Dosing_Actual"
-      ],
-      "unit": "mm"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=ClampingUnit.Screw_Dosing_Set",
-      "smAttribute": "Set_Pos_ScrewDosing",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "ClampingUnit",
-        "Screw_Dosing_Set"
-      ],
-      "unit": "mm"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=ClampingUnit.Screw_Switch_Actual",
-      "smAttribute": "Act_Pos_ScrewSwitch",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "ClampingUnit",
-        "Screw_Switch_Actual"
-      ],
-      "unit": "mm"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=ClampingUnit.Screw_Switch_Set",
-      "smAttribute": "Set_Pos_ScrewSwitch",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "ClampingUnit",
-        "Screw_Switch_Set"
-      ],
-      "unit": "mm"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=ClampingUnit.Screw_Decompress_Actual",
-      "smAttribute": "Act_Pos_ScrewDecompress",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "ClampingUnit",
-        "Screw_Decompress_Actual"
-      ],
-      "unit": "mm"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=ClampingUnit.Screw_Decompress_Set",
-      "smAttribute": "Set_Pos_ScrewDecompress",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "ClampingUnit",
-        "Screw_Decompress_Set"
-      ],
-      "unit": "mm"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=ClampingUnit.Mould_Open_Actual",
-      "smAttribute": "Act_Pos_MouldOpen",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "ClampingUnit",
-        "Mould_Open_Actual"
-      ],
-      "unit": "m/s"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=ClampingUnit.Mould_Open_Set",
-      "smAttribute": "Set_Pos_MouldOpen",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "ClampingUnit",
-        "Mould_Open_Set"
-      ],
-      "unit": "m/s"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=ClampingUnit.Ejector_Actual",
-      "smAttribute": "Act_Pos_Ejector",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "ClampingUnit",
-        "Ejector_Actual"
-      ],
-      "unit": "m/s"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=ClampingUnit.Ejector_Set",
-      "smAttribute": "Set_Pos_Ejector",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "ClampingUnit",
-        "Ejector_Set"
-      ],
-      "unit": "m/s"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=PowerUnit_1.Heating_kWh",
-      "smAttribute": "Act_Energy_Heating",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "PowerUnits",
-        "PowerUnit_1",
-        "Heating_kWh"
-      ],
-      "unit": "kWh"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=PowerUnit_1.Drive_kWh",
-      "smAttribute": "Act_Energy_Drive",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "PowerUnits",
-        "PowerUnit_1",
-        "Drive_kWh"
-      ],
-      "unit": "kWh"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=PowerUnit_1.Power_Current",
-      "smAttribute": "Act_Energy_PowerCurrent",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "PowerUnits",
-        "PowerUnit_1",
-        "Power_Current"
-      ],
-      "unit": "kW"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=MaterialHandling.Humidity_Granulate",
-      "smAttribute": "Act_Humidity_Granulate",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "MaterialHandling",
-        "Humidity_Granulate"
-      ],
-      "unit": "%"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=MaterialHandling.Humidity_Ambient",
-      "smAttribute": "Act_Humidity_Ambient",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "MaterialHandling",
-        "Humidity_Ambient"
-      ],
-      "unit": "%"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=MaterialHandling.Weight_Shot",
-      "smAttribute": "Act_Weight_Shot",
-      "dataType": "ns=0;i=10",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "MaterialHandling",
-        "Weight_Shot"
-      ],
-      "unit": "kg"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=MaterialHandling.Shot_Counter",
-      "smAttribute": "Act_Amount_Shot",
-      "dataType": "ns=0;i=6",
-      "companionSpec": "EUROMAP77",
-      "browsePath": [
-        "Machines",
-        "Spritzgussmaschine 1",
-        "InjectionUnits",
-        "InjectionUnit_1",
-        "MaterialHandling",
-        "Shot_Counter"
-      ]
-    }
-  ],
   "polling": {
     "mode": "scan",
     "intervalMs": 5000
@@ -1300,5 +24,303 @@
     "mode": "None",
     "policy": "None",
     "auth": "Anonymous"
-  }
+  },
+  "dataCategory": "ProcessData",
+  "nodeMappings": [
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shot/cycleTimeSec",
+      "smAttribute": "cycle_time_sec",
+      "dataType": "ns=0;i=11",
+      "unit": "s"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[0]/hotrunnerTempC",
+      "smAttribute": "cavities_0_hotrunner_temp_c",
+      "dataType": "ns=0;i=11",
+      "unit": "degC"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[0]/cavityPressureBar",
+      "smAttribute": "cavities_0_pressure_bar",
+      "dataType": "ns=0;i=11",
+      "unit": "bar"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[0]/mouldPressureBar",
+      "smAttribute": "cavities_0_mould_pressure_bar",
+      "dataType": "ns=0;i=11",
+      "unit": "bar"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[0]/partMass_g",
+      "smAttribute": "cavities_0_part_mass_g",
+      "dataType": "ns=0;i=11",
+      "unit": "g"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[1]/hotrunnerTempC",
+      "smAttribute": "cavities_1_hotrunner_temp_c",
+      "dataType": "ns=0;i=11",
+      "unit": "degC"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[1]/cavityPressureBar",
+      "smAttribute": "cavities_1_pressure_bar",
+      "dataType": "ns=0;i=11",
+      "unit": "bar"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[1]/mouldPressureBar",
+      "smAttribute": "cavities_1_mould_pressure_bar",
+      "dataType": "ns=0;i=11",
+      "unit": "bar"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[1]/partMass_g",
+      "smAttribute": "cavities_1_part_mass_g",
+      "dataType": "ns=0;i=11",
+      "unit": "g"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[2]/hotrunnerTempC",
+      "smAttribute": "cavities_2_hotrunner_temp_c",
+      "dataType": "ns=0;i=11",
+      "unit": "degC"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[2]/cavityPressureBar",
+      "smAttribute": "cavities_2_pressure_bar",
+      "dataType": "ns=0;i=11",
+      "unit": "bar"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[2]/mouldPressureBar",
+      "smAttribute": "cavities_2_mould_pressure_bar",
+      "dataType": "ns=0;i=11",
+      "unit": "bar"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[2]/partMass_g",
+      "smAttribute": "cavities_2_part_mass_g",
+      "dataType": "ns=0;i=11",
+      "unit": "g"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[3]/hotrunnerTempC",
+      "smAttribute": "cavities_3_hotrunner_temp_c",
+      "dataType": "ns=0;i=11",
+      "unit": "degC"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[3]/cavityPressureBar",
+      "smAttribute": "cavities_3_pressure_bar",
+      "dataType": "ns=0;i=11",
+      "unit": "bar"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[3]/mouldPressureBar",
+      "smAttribute": "cavities_3_mould_pressure_bar",
+      "dataType": "ns=0;i=11",
+      "unit": "bar"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[3]/partMass_g",
+      "smAttribute": "cavities_3_part_mass_g",
+      "dataType": "ns=0;i=11",
+      "unit": "g"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/[0]/name",
+      "smAttribute": "barrel_zones_0_name",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/[0]/tempC",
+      "smAttribute": "barrel_zones_0_temp_c",
+      "dataType": "ns=0;i=11",
+      "unit": "degC"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/[0]/setpointC",
+      "smAttribute": "barrel_zones_0_setpoint_c",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/[1]/name",
+      "smAttribute": "barrel_zones_1_name",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/[1]/tempC",
+      "smAttribute": "barrel_zones_1_temp_c",
+      "dataType": "ns=0;i=11",
+      "unit": "degC"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/[1]/setpointC",
+      "smAttribute": "barrel_zones_1_setpoint_c",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/[2]/name",
+      "smAttribute": "barrel_zones_2_name",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/[2]/tempC",
+      "smAttribute": "barrel_zones_2_temp_c",
+      "dataType": "ns=0;i=11",
+      "unit": "degC"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/[2]/setpointC",
+      "smAttribute": "barrel_zones_2_setpoint_c",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/[3]/name",
+      "smAttribute": "barrel_zones_3_name",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/[3]/tempC",
+      "smAttribute": "barrel_zones_3_temp_c",
+      "dataType": "ns=0;i=11",
+      "unit": "degC"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/[3]/setpointC",
+      "smAttribute": "barrel_zones_3_setpoint_c",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/nozzleTempC",
+      "smAttribute": "barrel_nozzle_temp_c",
+      "dataType": "ns=0;i=11",
+      "unit": "degC"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/injection/peakPressureBar",
+      "smAttribute": "injection_peak_pressure_bar",
+      "dataType": "ns=0;i=11",
+      "unit": "bar"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/injection/holdPressureBar",
+      "smAttribute": "injection_hold_pressure_bar",
+      "dataType": "ns=0;i=11",
+      "unit": "bar"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/injection/backPressureBar",
+      "smAttribute": "injection_back_pressure_bar",
+      "dataType": "ns=0;i=11",
+      "unit": "bar"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/injection/injectionSpeedMmPerSec",
+      "smAttribute": "injection_speed_mm_per_sec",
+      "dataType": "ns=0;i=11",
+      "unit": "mm/s"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/injection/shotVolumeCm3",
+      "smAttribute": "injection_shot_volume_cm3",
+      "dataType": "ns=0;i=11",
+      "unit": "cm3"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/mould/tempC",
+      "smAttribute": "mould_temp_c",
+      "dataType": "ns=0;i=11",
+      "unit": "degC"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/mould/coolingFlowLMin",
+      "smAttribute": "mould_cooling_flow_l_min",
+      "dataType": "ns=0;i=11",
+      "unit": "L/min"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/powerKw",
+      "smAttribute": "power_kw",
+      "dataType": "ns=0;i=11",
+      "unit": "kW"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/phase/elapsedSec",
+      "smAttribute": "phase_elapsed_sec",
+      "dataType": "ns=0;i=11",
+      "unit": "s"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/phase/plastProgress",
+      "smAttribute": "phase_plast_progress",
+      "dataType": "ns=0;i=11",
+      "unit": "ratio"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/phase/cushionMm",
+      "smAttribute": "phase_cushion_mm",
+      "dataType": "ns=0;i=11",
+      "unit": "mm"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/dryerTempC",
+      "smAttribute": "material_dryer_temp_c",
+      "dataType": "ns=0;i=11",
+      "unit": "degC"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/dryerSetpointC",
+      "smAttribute": "material_dryer_setpoint_c",
+      "dataType": "ns=0;i=11",
+      "unit": "degC"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/dryerResidenceMin",
+      "smAttribute": "material_dryer_residence_min",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/dryerResidenceTargetMin",
+      "smAttribute": "material_dryer_residence_target_min",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/hopperFillPct",
+      "smAttribute": "material_hopper_fill_pct",
+      "dataType": "ns=0;i=11",
+      "unit": "pct"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/hopperRefillThresholdPct",
+      "smAttribute": "material_hopper_refill_threshold_pct",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/hopperRefillCount",
+      "smAttribute": "material_hopper_refill_count",
+      "dataType": "ns=0;i=11",
+      "unit": "count"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/regrindRatioPct",
+      "smAttribute": "material_regrind_ratio_pct",
+      "dataType": "ns=0;i=11",
+      "unit": "pct"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/colourMasterbatchPct",
+      "smAttribute": "material_colour_masterbatch_pct",
+      "dataType": "ns=0;i=11",
+      "unit": "pct"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/colourPurgeRemaining",
+      "smAttribute": "material_colour_purge_remaining",
+      "dataType": "ns=0;i=11",
+      "unit": "count"
+    }
+  ]
 }

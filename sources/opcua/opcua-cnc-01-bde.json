@@ -1,9 +1,10 @@
 {
-  "sourceId": "opcua-cnc-01-bde",
-  "version": "3.0.0",
+  "sourceId": "opcua-cnc-001-bde",
   "sourceType": "opcua",
-  "transport": ["nats"],
-  "dataCategory": "BDE",
+  "transport": [
+    "nats"
+  ],
+  "version": "3.0.0",
   "profileRef": "SMProfile-CNC-Machine",
   "endpoint": "opc.tcp://192.168.178.120:30840",
   "machineId": "cnc-001",
@@ -15,36 +16,6 @@
     "line": "line-a",
     "type": "CNC"
   },
-  "nodeMappings": [
-    {
-      "opcuaNodeId": "ns=1;s=Machine/status",
-      "smAttribute": "machine_status",
-      "dataType": "ns=0;i=12"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Machine/partsCount/good",
-      "smAttribute": "parts_good",
-      "dataType": "ns=0;i=6",
-      "unit": "count"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Machine/partsCount/scrap",
-      "smAttribute": "parts_scrap",
-      "dataType": "ns=0;i=6",
-      "unit": "count"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cycle/inCycle",
-      "smAttribute": "in_cycle",
-      "dataType": "ns=0;i=1"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cycle/cycleCount",
-      "smAttribute": "cycle_count",
-      "dataType": "ns=0;i=6",
-      "unit": "count"
-    }
-  ],
   "polling": {
     "mode": "scan",
     "intervalMs": 5000
@@ -53,5 +24,546 @@
     "mode": "None",
     "policy": "None",
     "auth": "Anonymous"
-  }
+  },
+  "dataCategory": "BDE",
+  "nodeMappings": [
+    {
+      "opcuaNodeId": "ns=1;s=Machine/machineId",
+      "smAttribute": "machine_id",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/machineType",
+      "smAttribute": "machine_type",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/status",
+      "smAttribute": "status",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/mode",
+      "smAttribute": "mode",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/partsCount/good",
+      "smAttribute": "parts_good",
+      "dataType": "ns=0;i=11",
+      "unit": "count"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/partsCount/scrap",
+      "smAttribute": "parts_scrap",
+      "dataType": "ns=0;i=11",
+      "unit": "count"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/partsCount/total",
+      "smAttribute": "parts_total",
+      "dataType": "ns=0;i=11",
+      "unit": "count"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/alarms/_Count",
+      "smAttribute": "alarms_count",
+      "dataType": "ns=0;i=6",
+      "unit": "count"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/uptimeSeconds",
+      "smAttribute": "uptime_seconds",
+      "dataType": "ns=0;i=11",
+      "unit": "s"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cycle/inCycle",
+      "smAttribute": "in_cycle",
+      "dataType": "ns=0;i=1"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cycle/currentProgram",
+      "smAttribute": "current_program",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cycle/cycleCount",
+      "smAttribute": "cycle_count",
+      "dataType": "ns=0;i=11",
+      "unit": "count"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/axes/_Count",
+      "smAttribute": "axes_count",
+      "dataType": "ns=0;i=6",
+      "unit": "count"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/axes/[0]/name",
+      "smAttribute": "axes_0_name",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/axes/[1]/name",
+      "smAttribute": "axes_1_name",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/axes/[2]/name",
+      "smAttribute": "axes_2_name",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/currentMaterial",
+      "smAttribute": "current_material",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/nc/currentBlockN",
+      "smAttribute": "nc_current_block_n",
+      "dataType": "ns=0;i=11",
+      "unit": "count"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/nc/currentGCode",
+      "smAttribute": "nc_current_g_code",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/nc/currentMCode",
+      "smAttribute": "nc_current_m_code",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/nc/totalBlocks",
+      "smAttribute": "nc_total_blocks",
+      "dataType": "ns=0;i=11",
+      "unit": "count"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/setup/remainingSec",
+      "smAttribute": "setup_remaining_sec",
+      "dataType": "ns=0;i=11",
+      "unit": "s"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/setup/reason",
+      "smAttribute": "setup_reason",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shiftActive",
+      "smAttribute": "shift_active",
+      "dataType": "ns=0;i=1"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/_Count",
+      "smAttribute": "tool_magazine_slots_count",
+      "dataType": "ns=0;i=6",
+      "unit": "count"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[0]/slotNo",
+      "smAttribute": "tool_magazine_slots_0_slot_no",
+      "dataType": "ns=0;i=11",
+      "unit": "count"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[0]/toolId",
+      "smAttribute": "tool_magazine_slots_0_id",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[0]/toolType",
+      "smAttribute": "tool_magazine_slots_0_type",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[1]/slotNo",
+      "smAttribute": "tool_magazine_slots_1_slot_no",
+      "dataType": "ns=0;i=11",
+      "unit": "count"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[1]/toolId",
+      "smAttribute": "tool_magazine_slots_1_id",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[1]/toolType",
+      "smAttribute": "tool_magazine_slots_1_type",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[2]/slotNo",
+      "smAttribute": "tool_magazine_slots_2_slot_no",
+      "dataType": "ns=0;i=11",
+      "unit": "count"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[2]/toolId",
+      "smAttribute": "tool_magazine_slots_2_id",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[2]/toolType",
+      "smAttribute": "tool_magazine_slots_2_type",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[3]/slotNo",
+      "smAttribute": "tool_magazine_slots_3_slot_no",
+      "dataType": "ns=0;i=11",
+      "unit": "count"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[3]/toolId",
+      "smAttribute": "tool_magazine_slots_3_id",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[3]/toolType",
+      "smAttribute": "tool_magazine_slots_3_type",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[4]/slotNo",
+      "smAttribute": "tool_magazine_slots_4_slot_no",
+      "dataType": "ns=0;i=11",
+      "unit": "count"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[4]/toolId",
+      "smAttribute": "tool_magazine_slots_4_id",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[4]/toolType",
+      "smAttribute": "tool_magazine_slots_4_type",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[5]/slotNo",
+      "smAttribute": "tool_magazine_slots_5_slot_no",
+      "dataType": "ns=0;i=11",
+      "unit": "count"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[5]/toolId",
+      "smAttribute": "tool_magazine_slots_5_id",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[5]/toolType",
+      "smAttribute": "tool_magazine_slots_5_type",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[6]/slotNo",
+      "smAttribute": "tool_magazine_slots_6_slot_no",
+      "dataType": "ns=0;i=11",
+      "unit": "count"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[6]/toolId",
+      "smAttribute": "tool_magazine_slots_6_id",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[6]/toolType",
+      "smAttribute": "tool_magazine_slots_6_type",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[7]/slotNo",
+      "smAttribute": "tool_magazine_slots_7_slot_no",
+      "dataType": "ns=0;i=11",
+      "unit": "count"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[7]/toolId",
+      "smAttribute": "tool_magazine_slots_7_id",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[7]/toolType",
+      "smAttribute": "tool_magazine_slots_7_type",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[8]/slotNo",
+      "smAttribute": "tool_magazine_slots_8_slot_no",
+      "dataType": "ns=0;i=11",
+      "unit": "count"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[8]/toolId",
+      "smAttribute": "tool_magazine_slots_8_id",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[8]/toolType",
+      "smAttribute": "tool_magazine_slots_8_type",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[9]/slotNo",
+      "smAttribute": "tool_magazine_slots_9_slot_no",
+      "dataType": "ns=0;i=11",
+      "unit": "count"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[9]/toolId",
+      "smAttribute": "tool_magazine_slots_9_id",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[9]/toolType",
+      "smAttribute": "tool_magazine_slots_9_type",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[10]/slotNo",
+      "smAttribute": "tool_magazine_slots_10_slot_no",
+      "dataType": "ns=0;i=11",
+      "unit": "count"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[10]/toolId",
+      "smAttribute": "tool_magazine_slots_10_id",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[10]/toolType",
+      "smAttribute": "tool_magazine_slots_10_type",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[11]/slotNo",
+      "smAttribute": "tool_magazine_slots_11_slot_no",
+      "dataType": "ns=0;i=11",
+      "unit": "count"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[11]/toolId",
+      "smAttribute": "tool_magazine_slots_11_id",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[11]/toolType",
+      "smAttribute": "tool_magazine_slots_11_type",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[12]/slotNo",
+      "smAttribute": "tool_magazine_slots_12_slot_no",
+      "dataType": "ns=0;i=11",
+      "unit": "count"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[12]/toolId",
+      "smAttribute": "tool_magazine_slots_12_id",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[12]/toolType",
+      "smAttribute": "tool_magazine_slots_12_type",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[13]/slotNo",
+      "smAttribute": "tool_magazine_slots_13_slot_no",
+      "dataType": "ns=0;i=11",
+      "unit": "count"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[13]/toolId",
+      "smAttribute": "tool_magazine_slots_13_id",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[13]/toolType",
+      "smAttribute": "tool_magazine_slots_13_type",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[14]/slotNo",
+      "smAttribute": "tool_magazine_slots_14_slot_no",
+      "dataType": "ns=0;i=11",
+      "unit": "count"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[14]/toolId",
+      "smAttribute": "tool_magazine_slots_14_id",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[14]/toolType",
+      "smAttribute": "tool_magazine_slots_14_type",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[15]/slotNo",
+      "smAttribute": "tool_magazine_slots_15_slot_no",
+      "dataType": "ns=0;i=11",
+      "unit": "count"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[15]/toolId",
+      "smAttribute": "tool_magazine_slots_15_id",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[15]/toolType",
+      "smAttribute": "tool_magazine_slots_15_type",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[16]/slotNo",
+      "smAttribute": "tool_magazine_slots_16_slot_no",
+      "dataType": "ns=0;i=11",
+      "unit": "count"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[16]/toolId",
+      "smAttribute": "tool_magazine_slots_16_id",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[16]/toolType",
+      "smAttribute": "tool_magazine_slots_16_type",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[17]/slotNo",
+      "smAttribute": "tool_magazine_slots_17_slot_no",
+      "dataType": "ns=0;i=11",
+      "unit": "count"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[17]/toolId",
+      "smAttribute": "tool_magazine_slots_17_id",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[17]/toolType",
+      "smAttribute": "tool_magazine_slots_17_type",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[18]/slotNo",
+      "smAttribute": "tool_magazine_slots_18_slot_no",
+      "dataType": "ns=0;i=11",
+      "unit": "count"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[18]/toolId",
+      "smAttribute": "tool_magazine_slots_18_id",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[18]/toolType",
+      "smAttribute": "tool_magazine_slots_18_type",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[19]/slotNo",
+      "smAttribute": "tool_magazine_slots_19_slot_no",
+      "dataType": "ns=0;i=11",
+      "unit": "count"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[19]/toolId",
+      "smAttribute": "tool_magazine_slots_19_id",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[19]/toolType",
+      "smAttribute": "tool_magazine_slots_19_type",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[20]/slotNo",
+      "smAttribute": "tool_magazine_slots_20_slot_no",
+      "dataType": "ns=0;i=11",
+      "unit": "count"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[20]/toolId",
+      "smAttribute": "tool_magazine_slots_20_id",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[20]/toolType",
+      "smAttribute": "tool_magazine_slots_20_type",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[21]/slotNo",
+      "smAttribute": "tool_magazine_slots_21_slot_no",
+      "dataType": "ns=0;i=11",
+      "unit": "count"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[21]/toolId",
+      "smAttribute": "tool_magazine_slots_21_id",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[21]/toolType",
+      "smAttribute": "tool_magazine_slots_21_type",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[22]/slotNo",
+      "smAttribute": "tool_magazine_slots_22_slot_no",
+      "dataType": "ns=0;i=11",
+      "unit": "count"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[22]/toolId",
+      "smAttribute": "tool_magazine_slots_22_id",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[22]/toolType",
+      "smAttribute": "tool_magazine_slots_22_type",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[23]/slotNo",
+      "smAttribute": "tool_magazine_slots_23_slot_no",
+      "dataType": "ns=0;i=11",
+      "unit": "count"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[23]/toolId",
+      "smAttribute": "tool_magazine_slots_23_id",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[23]/toolType",
+      "smAttribute": "tool_magazine_slots_23_type",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slotCount",
+      "smAttribute": "tool_magazine_slot_count",
+      "dataType": "ns=0;i=11",
+      "unit": "count"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/activeSlotNo",
+      "smAttribute": "tool_magazine_active_slot_no",
+      "dataType": "ns=0;i=11",
+      "unit": "count"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/sisterSlotsAvailable",
+      "smAttribute": "tool_magazine_sister_slots_available",
+      "dataType": "ns=0;i=11",
+      "unit": "count"
+    }
+  ]
 }
