@@ -1,0 +1,251 @@
+{
+  "sourceId": "opcua-cnc-001-telemetry",
+  "sourceType": "opcua",
+  "transport": [
+    "nats"
+  ],
+  "version": "4.0.0",
+  "profileRef": "SMProfile-CNC-Machine",
+  "endpoint": "opc.tcp://192.168.178.120:30840",
+  "machineId": "cnc-001",
+  "machineName": "CNC-01",
+  "location": {
+    "enterprise": "factory",
+    "site": "werk1",
+    "area": "cnc",
+    "line": "line-a",
+    "type": "CNC"
+  },
+  "dataCategory": "telemetry",
+  "polling": {
+    "mode": "scan",
+    "intervalMs": 5000
+  },
+  "security": {
+    "mode": "None",
+    "policy": "None",
+    "auth": "Anonymous"
+  },
+  "nodeMappings": [
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cycle/cycleTimeSec",
+      "smAttribute": "cycle_time_sec",
+      "dataType": "ns=0;i=11",
+      "unit": "s"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/spindle/speedRpm",
+      "smAttribute": "spindle_speed_rpm",
+      "dataType": "ns=0;i=11",
+      "unit": "rpm"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/spindle/loadPercent",
+      "smAttribute": "spindle_load_percent",
+      "dataType": "ns=0;i=11",
+      "unit": "pct"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/spindle/temperatureC",
+      "smAttribute": "spindle_temperature_c",
+      "dataType": "ns=0;i=11",
+      "unit": "degC"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/axes/[0]/positionMm",
+      "smAttribute": "axes_0_position_mm",
+      "dataType": "ns=0;i=11",
+      "unit": "mm"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/axes/[0]/feedRateMmMin",
+      "smAttribute": "axes_0_feed_rate_mm_min",
+      "dataType": "ns=0;i=11",
+      "unit": "mm/min"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/axes/[1]/positionMm",
+      "smAttribute": "axes_1_position_mm",
+      "dataType": "ns=0;i=11",
+      "unit": "mm"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/axes/[1]/feedRateMmMin",
+      "smAttribute": "axes_1_feed_rate_mm_min",
+      "dataType": "ns=0;i=11",
+      "unit": "mm/min"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/axes/[2]/positionMm",
+      "smAttribute": "axes_2_position_mm",
+      "dataType": "ns=0;i=11",
+      "unit": "mm"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/axes/[2]/feedRateMmMin",
+      "smAttribute": "axes_2_feed_rate_mm_min",
+      "dataType": "ns=0;i=11",
+      "unit": "mm/min"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/tool/toolLifePercent",
+      "smAttribute": "tool_life_percent",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/coolant/flowRateLmin",
+      "smAttribute": "coolant_flow_rate_lmin",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/powerKw",
+      "smAttribute": "power_kw",
+      "dataType": "ns=0;i=11",
+      "unit": "kW"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[0]/lifePercent",
+      "smAttribute": "tool_magazine_slots_0_life_percent",
+      "dataType": "ns=0;i=11",
+      "unit": "pct"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[1]/lifePercent",
+      "smAttribute": "tool_magazine_slots_1_life_percent",
+      "dataType": "ns=0;i=11",
+      "unit": "pct"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[2]/lifePercent",
+      "smAttribute": "tool_magazine_slots_2_life_percent",
+      "dataType": "ns=0;i=11",
+      "unit": "pct"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[3]/lifePercent",
+      "smAttribute": "tool_magazine_slots_3_life_percent",
+      "dataType": "ns=0;i=11",
+      "unit": "pct"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[4]/lifePercent",
+      "smAttribute": "tool_magazine_slots_4_life_percent",
+      "dataType": "ns=0;i=11",
+      "unit": "pct"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[5]/lifePercent",
+      "smAttribute": "tool_magazine_slots_5_life_percent",
+      "dataType": "ns=0;i=11",
+      "unit": "pct"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[6]/lifePercent",
+      "smAttribute": "tool_magazine_slots_6_life_percent",
+      "dataType": "ns=0;i=11",
+      "unit": "pct"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[7]/lifePercent",
+      "smAttribute": "tool_magazine_slots_7_life_percent",
+      "dataType": "ns=0;i=11",
+      "unit": "pct"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[8]/lifePercent",
+      "smAttribute": "tool_magazine_slots_8_life_percent",
+      "dataType": "ns=0;i=11",
+      "unit": "pct"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[9]/lifePercent",
+      "smAttribute": "tool_magazine_slots_9_life_percent",
+      "dataType": "ns=0;i=11",
+      "unit": "pct"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[10]/lifePercent",
+      "smAttribute": "tool_magazine_slots_10_life_percent",
+      "dataType": "ns=0;i=11",
+      "unit": "pct"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[11]/lifePercent",
+      "smAttribute": "tool_magazine_slots_11_life_percent",
+      "dataType": "ns=0;i=11",
+      "unit": "pct"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[12]/lifePercent",
+      "smAttribute": "tool_magazine_slots_12_life_percent",
+      "dataType": "ns=0;i=11",
+      "unit": "pct"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[13]/lifePercent",
+      "smAttribute": "tool_magazine_slots_13_life_percent",
+      "dataType": "ns=0;i=11",
+      "unit": "pct"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[14]/lifePercent",
+      "smAttribute": "tool_magazine_slots_14_life_percent",
+      "dataType": "ns=0;i=11",
+      "unit": "pct"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[15]/lifePercent",
+      "smAttribute": "tool_magazine_slots_15_life_percent",
+      "dataType": "ns=0;i=11",
+      "unit": "pct"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[16]/lifePercent",
+      "smAttribute": "tool_magazine_slots_16_life_percent",
+      "dataType": "ns=0;i=11",
+      "unit": "pct"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[17]/lifePercent",
+      "smAttribute": "tool_magazine_slots_17_life_percent",
+      "dataType": "ns=0;i=11",
+      "unit": "pct"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[18]/lifePercent",
+      "smAttribute": "tool_magazine_slots_18_life_percent",
+      "dataType": "ns=0;i=11",
+      "unit": "pct"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[19]/lifePercent",
+      "smAttribute": "tool_magazine_slots_19_life_percent",
+      "dataType": "ns=0;i=11",
+      "unit": "pct"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[20]/lifePercent",
+      "smAttribute": "tool_magazine_slots_20_life_percent",
+      "dataType": "ns=0;i=11",
+      "unit": "pct"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[21]/lifePercent",
+      "smAttribute": "tool_magazine_slots_21_life_percent",
+      "dataType": "ns=0;i=11",
+      "unit": "pct"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[22]/lifePercent",
+      "smAttribute": "tool_magazine_slots_22_life_percent",
+      "dataType": "ns=0;i=11",
+      "unit": "pct"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/toolMagazine/slots/[23]/lifePercent",
+      "smAttribute": "tool_magazine_slots_23_life_percent",
+      "dataType": "ns=0;i=11",
+      "unit": "pct"
+    }
+  ]
+}

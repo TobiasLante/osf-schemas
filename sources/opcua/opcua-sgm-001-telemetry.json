@@ -1,10 +1,10 @@
 {
-  "sourceId": "opcua-sgm-001-processdata",
+  "sourceId": "opcua-sgm-001-telemetry",
   "sourceType": "opcua",
   "transport": [
     "nats"
   ],
-  "version": "3.0.0",
+  "version": "4.0.0",
   "profileRef": "SMProfile-SGM",
   "endpoint": "opc.tcp://192.168.178.120:30880",
   "machineId": "sgm-001",
@@ -16,6 +16,7 @@
     "line": "line-a",
     "type": "SGM"
   },
+  "dataCategory": "telemetry",
   "polling": {
     "mode": "scan",
     "intervalMs": 5000
@@ -25,7 +26,6 @@
     "policy": "None",
     "auth": "Anonymous"
   },
-  "dataCategory": "ProcessData",
   "nodeMappings": [
     {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shot/cycleTimeSec",
@@ -130,11 +130,6 @@
       "unit": "g"
     },
     {
-      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/[0]/name",
-      "smAttribute": "barrel_zones_0_name",
-      "dataType": "ns=0;i=12"
-    },
-    {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/[0]/tempC",
       "smAttribute": "barrel_zones_0_temp_c",
       "dataType": "ns=0;i=11",
@@ -143,12 +138,8 @@
     {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/[0]/setpointC",
       "smAttribute": "barrel_zones_0_setpoint_c",
-      "dataType": "ns=0;i=11"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/[1]/name",
-      "smAttribute": "barrel_zones_1_name",
-      "dataType": "ns=0;i=12"
+      "dataType": "ns=0;i=11",
+      "unit": "degC"
     },
     {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/[1]/tempC",
@@ -159,12 +150,8 @@
     {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/[1]/setpointC",
       "smAttribute": "barrel_zones_1_setpoint_c",
-      "dataType": "ns=0;i=11"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/[2]/name",
-      "smAttribute": "barrel_zones_2_name",
-      "dataType": "ns=0;i=12"
+      "dataType": "ns=0;i=11",
+      "unit": "degC"
     },
     {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/[2]/tempC",
@@ -175,12 +162,8 @@
     {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/[2]/setpointC",
       "smAttribute": "barrel_zones_2_setpoint_c",
-      "dataType": "ns=0;i=11"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/[3]/name",
-      "smAttribute": "barrel_zones_3_name",
-      "dataType": "ns=0;i=12"
+      "dataType": "ns=0;i=11",
+      "unit": "degC"
     },
     {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/[3]/tempC",
@@ -191,7 +174,8 @@
     {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/[3]/setpointC",
       "smAttribute": "barrel_zones_3_setpoint_c",
-      "dataType": "ns=0;i=11"
+      "dataType": "ns=0;i=11",
+      "unit": "degC"
     },
     {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/nozzleTempC",
@@ -230,6 +214,12 @@
       "unit": "cm3"
     },
     {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/mould/lifePercent",
+      "smAttribute": "mould_life_percent",
+      "dataType": "ns=0;i=11",
+      "unit": "pct"
+    },
+    {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/mould/tempC",
       "smAttribute": "mould_temp_c",
       "dataType": "ns=0;i=11",
@@ -246,12 +236,6 @@
       "smAttribute": "power_kw",
       "dataType": "ns=0;i=11",
       "unit": "kW"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/phase/elapsedSec",
-      "smAttribute": "phase_elapsed_sec",
-      "dataType": "ns=0;i=11",
-      "unit": "s"
     },
     {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/phase/plastProgress",
@@ -299,12 +283,6 @@
       "dataType": "ns=0;i=11"
     },
     {
-      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/hopperRefillCount",
-      "smAttribute": "material_hopper_refill_count",
-      "dataType": "ns=0;i=11",
-      "unit": "count"
-    },
-    {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/regrindRatioPct",
       "smAttribute": "material_regrind_ratio_pct",
       "dataType": "ns=0;i=11",
@@ -315,12 +293,6 @@
       "smAttribute": "material_colour_masterbatch_pct",
       "dataType": "ns=0;i=11",
       "unit": "pct"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/colourPurgeRemaining",
-      "smAttribute": "material_colour_purge_remaining",
-      "dataType": "ns=0;i=11",
-      "unit": "count"
     }
   ]
 }
