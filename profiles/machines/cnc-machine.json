@@ -1,9 +1,9 @@
 {
   "profileId": "SMProfile-CNC-Machine",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "standard": "CESMII",
   "displayName": "CNC Machine",
-  "description": "CNC-Bearbeitungszentrum — OPC 40077 process data (spindle, feed, axes, tool, coolant, vibration)",
+  "description": "CNC-Bearbeitungszentrum \u2014 OPC 40077 process data (spindle, feed, axes, tool, coolant, vibration)",
   "parentType": "Machine",
   "attributes": [
     {
@@ -40,6 +40,14 @@
     },
     {
       "name": "Act_Amount_PartRework",
+      "dataType": "Int32",
+      "required": false,
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "Act_Amount_Alarm",
       "dataType": "Int32",
       "required": false,
       "delivery": "transactional",
@@ -339,6 +347,15 @@
       "name": "Act_Energy_Cycle",
       "dataType": "Float",
       "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
+    },
+    {
+      "name": "Act_Temp_Spindle",
+      "dataType": "Float",
+      "required": false,
+      "unit": "degC",
       "delivery": "telemetry",
       "scope": "edge",
       "promotion": "raw"
