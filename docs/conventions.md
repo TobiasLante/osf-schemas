@@ -4,20 +4,46 @@ Single source of truth for NATS subjects across the i3x v3 stack. The IT-Edges (
 
 ## Two worlds, one bus
 
-| World     | Producer                           | Subject root | Payload shape           |
-|-----------|------------------------------------|--------------|-------------------------|
-| Telemetry | OPC-UA / OT Edges (Cap-Telemetry)  | `factory.*`  | per-attribute pulses    |
-| Events    | PostgreSQL IT-Edges (Cap-IT-Edge-Base) | `business.*` | per-entity change rows  |
+| World     | Producer                           | Subject roots          | Payload shape           |
+|-----------|------------------------------------|------------------------|-------------------------|
+| Telemetry | OPC-UA / OT Edges (Cap-Telemetry)  | `factory.*` `aggregate.*` `cpp.*` | class-aware (see table below) |
+| Events    | PostgreSQL IT-Edges (Cap-IT-Edge-Base) | `business.*`       | per-entity change rows  |
 
-No IT-Edge ever publishes to `factory.*`. No Telemetry-Edge ever publishes to `business.*`.
+No IT-Edge ever publishes to `factory.*` / `aggregate.*` / `cpp.*`. No Telemetry-Edge ever publishes to `business.*`.
 
-## Telemetry subjects (existing — unchanged)
+The OT (Telemetry) world is **not a single subject shape** — the shape is decided by the variable's telemetry class. See the class-aware table below.
+
+## Telemetry-world subjects — class-aware (CAPT-V3-SUBJECT-SCHEME-FIX)
+
+The `factory.*` world is **not one subject shape**. The shape depends on the variable's telemetry class (`delivery` / `scope` / `promotion` on the SMProfile attribute). The `nats-bridge` consumer routes purely by **root token + segment count** — a wrong shape is silently dropped. The NR-Codegen subject-builder and the bridge classifier **must agree on this table**:
+
+| Class | `delivery` / `scope` / `promotion` | Subject shape | Segs | Bridge route |
+|-------|-----------------------------------|---------------|------|--------------|
+| **A** Roh-Telemetry | `telemetry` / `edge` / `raw` | `factory.<site>.<area>.<line>.<machine>.<category>.<attribute>` | 7 | `telemetry_raw` → **drop** (edge-only by design — Edge-TS is the canonical store; must NOT reach the central DB) |
+| **A'** Aggregate | `telemetry` / `hub` / `aggregate` | `aggregate.<site>.<machine>.<window>.<metric>` | 5 | `aggregate` → `uns_aggregates` writer |
+| **B** Cycle-Snapshot | `transactional` / `hub` / `on_cycle_end` | `cpp.<site>.<machine>.<op_id>.snapshot` | 5 | `cpp` → cpp-vault consumer |
+| **C** Event | `transactional` / `hub` / `on_change` | `factory.<site>.<machine>.<category>.<attribute>` | 5 | `entity` → events-writer + kg-builder |
+
+### Why Class A (raw telemetry) is 7-seg / dropped
+
+Class-A raw samples stay on the edge (`scope=edge`). The 7-segment `factory.*` shape is *deliberately* classified `telemetry_raw` by the bridge and dropped — the bridge will never persist raw telemetry to the `.150` central DB. The Edge-Timescale on the IPC is the canonical store. This is correct, not a bug.
+
+### Why Class C events are 5-seg `factory.*` and NOT 7-seg
+
+`scope=hub` Class-C events (`Act_Status_Machine`, `Act_Amount_Alarm`, …) **must reach the central DB**. The bridge keeps `factory.*` subjects of **4–6 segments** as the `entity` shape and writes them to the central `events` table + KG. A 7-segment subject would be dropped as `telemetry_raw` and the compliance-critical event would be lost. Therefore Class-C drops the `area`/`line` segments:
 
 ```
-factory.<site>.<area>.<line>.<machine>.<category>.<attribute>
+factory.<site>.<machine>.<category>.<attribute>
 ```
 
-Defined in `sources/opcua/*.json` and the OT `#shared.uns` topic pattern. Already live in 0.4.x.
+The bridge's `events-writer` derives `event_type = "<machine>.<category>"` and the per-event id from the `<attribute>` tail. The producing edge **must also put `machine` in the payload** (`{ machine, variable, value, ts, … }`) — the events-writer prefers the payload `machine`/`machine_id`/`machineId` field over the subject, because the 5-seg subject's id segment is the attribute, not the machine.
+
+### A' / B subject details
+
+* **A' aggregate** — `<window>` is a duration token the bridge `aggregates-writer.parseWindowSeconds` understands (`300s`, `5min`, `1h`, …). Payload: `{ ts, value, sample_count }`. `<metric>` is the variable token. Exactly 5 segments.
+* **B cycle snapshot** — `<op_id>` is the per-cycle operation id (runtime value). The codegen emits the static `cpp.<site>.<machine>` prefix; the cycle-detect FSM appends `.<op_id>.snapshot`. Exactly 5 segments.
+
+Defined in `sources/opcua/*.json` (location + machineId + dataCategory) and the SMProfile attribute class. The legacy uniform 7-seg `#shared.uns` pattern (0.4.x) applies to Class A only.
 
 ## Event subjects (NEW — IT-Edges, Welle 1)
 
