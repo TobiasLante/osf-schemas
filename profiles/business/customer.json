@@ -12,37 +12,55 @@
       "dataType": "String",
       "category": "Core",
       "isKey": true,
-      "description": "Unique customer ID (PK)"
+      "description": "Unique customer ID (PK)",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "name",
       "dataType": "String",
       "category": "Master",
-      "description": "Customer name"
+      "description": "Customer name",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "country",
       "dataType": "String",
       "category": "Master",
-      "description": "ISO country code or name"
+      "description": "ISO country code or name",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "vat_id",
       "dataType": "String",
       "category": "Master",
-      "description": "VAT identification number"
+      "description": "VAT identification number",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "active",
       "dataType": "Boolean",
       "category": "Master",
-      "description": "Customer active flag"
+      "description": "Customer active flag",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "updated_at",
       "dataType": "DateTime",
       "category": "Audit",
-      "description": "Last modification timestamp (diff field)"
+      "description": "Last modification timestamp (diff field)",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     }
   ],
   "relationships": [],

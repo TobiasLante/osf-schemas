@@ -445,3 +445,55 @@ Phase 6: Sensor Discovery
 2. Create `sources/postgresql/<source>.json` with `profileRef` and `columnMappings`
 3. Add `edges` if the entity references other entities (e.g. `article_no` → Article)
 4. Optionally add to polling sync for live updates
+
+---
+
+## Appendix: v3 Variable Contract — `delivery` / `scope` / `promotion`
+
+> CAPT-V3-PROFILE-PROPS — required since osf-schemas v3.
+
+In v3 every variable in an SM Profile carries a three-property contract that
+declares how its data is wired, where it is allowed to land, and what triggers
+a publish. These are **required** on every attribute in
+`profiles/machines/*.json` (validated by `validation/machine-profile-schema.json`)
+and `profiles/business/*.json` (validated by `validation/business-profile-schema.json`).
+
+### `delivery` — wire class
+
+| Value | Meaning |
+|-------|---------|
+| `telemetry` | Best-effort. NATS JetStream publish, sample loss on disconnect is acceptable. |
+| `transactional` | JetStream Pub-Ack + Outbox-Retry. The record is never lost. |
+
+### `scope` — destination world
+
+| Value | Meaning |
+|-------|---------|
+| `edge` | Stays on the `.99` edge Timescale. **Never** reaches the `.150` central. |
+| `hub` | **Must** arrive on the `.150` central (`uns_history` Postgres / KG). |
+
+### `promotion` — publish trigger
+
+| Value | Meaning |
+|-------|---------|
+| `raw` | Every OPC-UA sample. Only meaningful with `scope: edge`. |
+| `aggregate` | Edge computes a 5-minute bucket — durations and counts only, **no quotas/percentages**. |
+| `on_change` | OPC-UA Subscribe `DataChangeFilter` — edge publishes only when the value changes. |
+| `on_cycle_end` | Edge publishes once per completed machine cycle (Class-B snapshot). |
+
+### Rules — which combinations are valid
+
+1. `promotion: raw` requires `scope: edge`. Raw samples are never promoted to the central.
+2. The edge **cannot compute quotas or percentages** — it has no shift plan, no
+   article ideal-cycle-time, no QMS quality verdict. Therefore variables such as
+   `oee`, `availability_pct`, `performance`, `quality_pct` **must not exist** as
+   machine output variables. Only raw durations (`runtime_5min_sec`,
+   `downtime_5min_sec`, `state_*_5min_sec`) and counts (`parts_total_inc_5min`)
+   are allowed as `aggregate`. OEE and friends are composed at-query-time on the
+   central — they live in `kpiRefs`, never in `attributes`.
+3. Business profiles (IT-Edge): by convention `scope` is always `hub` and
+   `delivery` is always `transactional`. The fields are still required on every
+   attribute for consistency — there is no default.
+4. `aggregate` implies `scope: hub` — an edge bucket only exists to be promoted.
+
+See `docs/example-variable-shapes.md` for concrete snippets.

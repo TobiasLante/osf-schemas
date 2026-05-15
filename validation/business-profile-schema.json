@@ -32,7 +32,7 @@
       "minItems": 1,
       "items": {
         "type": "object",
-        "required": ["name", "dataType", "category"],
+        "required": ["name", "dataType", "category", "delivery", "scope", "promotion"],
         "properties": {
           "name": {"type": "string"},
           "dataType": {
@@ -43,7 +43,22 @@
           "isKey": {"type": "boolean"},
           "description": {"type": "string"},
           "enum": {"type": "array"},
-          "unit": {"type": "string"}
+          "unit": {"type": "string"},
+          "delivery": {
+            "type": "string",
+            "enum": ["telemetry", "transactional"],
+            "description": "Wire-Klasse. Bei business-Profilen per Konvention immer 'transactional' (JetStream Pub-Ack + Outbox-Retry) — trotzdem required, kein Default."
+          },
+          "scope": {
+            "type": "string",
+            "enum": ["edge", "hub"],
+            "description": "Scope. Bei business-Profilen per Konvention immer 'hub' (Event-Welt landet auf der .150) — trotzdem required, kein Default."
+          },
+          "promotion": {
+            "type": "string",
+            "enum": ["raw", "aggregate", "on_change", "on_cycle_end"],
+            "description": "Promotion-Trigger. IT-Edge-Attribute sind typ. on_change (Poller erkennt Aenderung) — required, kein Default."
+          }
         },
         "additionalProperties": false
       }
