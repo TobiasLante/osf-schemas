@@ -1,0 +1,67 @@
+{
+  "classId": "automotive-iatf",
+  "version": "1.0.0",
+  "displayName": "Automotive IATF 16949",
+  "description": "Article-Klasse für Sicherheits- und sicherheitsrelevante Bauteile nach IATF 16949. Drift-Detection und optional volle Lot-Telemetrie für PPAP-relevante Artikel.",
+  "applies_when": "article.regulatory_class == 'automotive_safety' OR article.ppap_level >= 3",
+  "expected_promotion_share": "5-8%",
+
+  "telemetry_promotion": {
+    "always": {
+      "setup_params_at_start": {
+        "window": "op_start_first_5s",
+        "attrs": [
+          "Act_Ref_Tool",
+          "Act_Ref_Article",
+          "Act_Ref_ProductionOrder",
+          "Act_Ref_Operator",
+          "Act_Ref_Shift",
+          "nc_program_hash",
+          "Set_Speed_Spindle",
+          "Set_Rate_Feed"
+        ],
+        "subject": "cpp.<site>.<machine>.<op_id>.setup"
+      },
+      "cycle_summary_per_unit": {
+        "window": "op_start..op_end",
+        "attrs": {
+          "Act_Energy_Power":    ["avg", "max", "min", "p95"],
+          "Act_Speed_Spindle":   ["avg", "max"],
+          "Act_Pct_SpindleLoad": ["avg", "max", "p99"],
+          "Act_Torque_Spindle":  ["avg", "max"],
+          "Act_Rate_Feed":       ["avg", "max"]
+        },
+        "subject": "cpp.<site>.<machine>.<op_id>.snapshot"
+      }
+    },
+    "on_event": {
+      "order_boundary_pre_post": {
+        "trigger": "Act_Ref_ProductionOrder.changed",
+        "window": ["-30s", "+30s"],
+        "sample_rate": "1s",
+        "attrs": [
+          "Act_Energy_Power",
+          "Act_Speed_Spindle",
+          "Act_Pct_SpindleLoad",
+          "Act_Status_Machine",
+          "Act_Text_MachineMode"
+        ],
+        "subject": "cpp.<site>.<machine>.<op_id>.boundary"
+      }
+    },
+    "on_drift": {
+      "full_detail_window": {
+        "trigger": {
+          "metric": "Act_Pct_SpindleLoad",
+          "baseline": "rolling_30min_mean_stddev",
+          "condition": "abs(value - mean) > 2 * stddev",
+          "debounce": "10s"
+        },
+        "window": ["-60s", "+60s"],
+        "sample_rate": "1s",
+        "attrs": "*",
+        "subject": "cpp.<site>.<machine>.<op_id>.drift"
+      }
+    }
+  }
+}
