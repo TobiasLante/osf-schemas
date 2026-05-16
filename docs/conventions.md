@@ -144,10 +144,39 @@ i3x.kg.snapshot.it-edge-erp
 i3x.kg.snapshot.it-edge-qms
 ```
 
+## Operations subjects — alerts & actions (`uns.*`)
+
+Operational signals are a **third world**, distinct from telemetry (`factory.*`) and IT-events (`business.*`). They live under the fixed leading token `uns.` (Unified-Namespace operations root) and are captured by the hub JetStream streams `UNS_ALERTS` / `UNS_ACTIONS` (`sync/nats/jetstream-streams.json`).
+
+```
+uns.alert.<source>.<severity>.<id>
+uns.action.<target-edge>.<action-type>.<id>
+```
+
+| Token         | Example                              | Meaning                                            |
+|---------------|--------------------------------------|----------------------------------------------------|
+| `source`      | `it-qms`, `cnc-001`, `oee-montage`  | Edge / service that raised the alert               |
+| `severity`    | `info`, `warning`, `critical`        | Alert severity                                     |
+| `target-edge` | `cnc-001`, `it-erp-sap`              | Edge the action request is addressed to            |
+| `action-type` | `acknowledge`, `setpoint`, `restart` | Requested operation                                |
+| `id`          | unique alert / action id             | Correlation id (request/reply for actions)         |
+
+Examples:
+
+```
+uns.alert.it-qms.critical.AL-5501          # quality alert
+uns.alert.cnc-001.warning.AL-7720          # maintenance alert from an OT edge
+uns.action.cnc-001.acknowledge.AC-3300     # plant→edge action request
+```
+
+**Why a fixed `uns.` leading token (CAPT-V3-STREAM-SUBJECT-FIX):** the previous filters used a wildcard *leading* token (`*.*.*.*.alerts.>`, `*.*.*.*.*.action.>`). A wildcard first token overlaps the JetStream API namespace `$JS.>`; NATS then refuses to create the stream (error 10052) unless `no_ack:true` is set — which would break the workqueue ack contract. A fixed leading token is mandatory for every JetStream-captured subject. No producer publishes `uns.*` yet — this scheme is **reserved**; the first alert/action producer adopts it.
+
 ## Reserved / forbidden
 
-- IT-Edges **must not** publish under `factory.*`
+- IT-Edges **must not** publish under `factory.*` / `aggregate.*` / `cpp.*`
 - Telemetry-Edges **must not** publish under `business.*`
+- No producer publishes under `uns.*` yet — reserved for the alerts/actions wave (see above).
+- Every JetStream-captured subject **must have a fixed (non-wildcard) leading token** — a leading wildcard overlaps `$JS.>` and the stream cannot be created.
 - KPI wave (separate, distributed-execution per `feedback_kpi_distributed_execution.md`) gets its own subject tree — not defined in Welle 1.
 
 ## File map
