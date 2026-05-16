@@ -1,7 +1,7 @@
 {
   "$description": "JetStream stream declarations for the i3x v3 stack — the SINGLE SOURCE OF TRUTH for stream names, subject filters and the edge→hub source topology. Consumed by: (1) scripts/provision-jetstream.sh in the connector/edge repos (idempotent create/update of streams + sources), (2) nr-codegen (resolves which stream a transactional/telemetry NR-node publishes into — see services/nr-codegen/src/streams.ts), (3) the nats-bridge consumer config. No stream name is hardcoded in code — it is resolved against this file. CAPT-V3-HUB-EVENT-PATH.",
   "syncId": "jetstream-streams",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "syncType": "nats-jetstream",
   "$topology": "Two JetStream tiers. EDGE tier: one NATS per Edge-IPC, JetStream domain edge_<ipc>. HUB tier: central NATS on .150, default JetStream domain. The hub does NOT capture factory.*/cpp.*/aggregate.* by core-NATS leaf propagation alone for the durable path — it SOURCES the per-edge EDGE_EXPORT stream cross-domain ($JS.edge_<ipc>.API). A transactional NR-node publishes durably into its LOCAL edge EDGE_EXPORT stream (honest ack in the edge domain); the hub FACTORY stream pulls it via the declared source. This is why a transactional publish uses expectStream=EDGE_EXPORT, not FACTORY: the edge cannot address the domain-less hub JetStream over the leaf.",
   "tiers": {
@@ -63,10 +63,9 @@
         },
         {
           "name": "UNS_ALERTS",
-          "$description": "Maintenance + quality alerts. Persistent because consumers (operator dashboard, escalation rules) must never miss one. Workqueue retention so each alert delivered once across competing consumers.",
+          "$description": "Maintenance + quality alerts. Persistent because consumers (operator dashboard, escalation rules) must never miss one. Workqueue retention so each alert delivered once across competing consumers. CAPT-V3-STREAM-SUBJECT-FIX: the former filters `*.*.*.*.*.maintenance.alert.>` / `*.*.*.*.alerts.>` had a wildcard LEADING token — those overlap the JetStream API namespace `$JS.>`, so NATS deterministically rejects stream creation with error 10052 ('subjects that overlap with jetstream api require no-ack'). `no_ack:true` would silence the rejection but break the workqueue ack contract — not done. Fixed with the dedicated fixed leading token `uns.alert.>`: a clean UNS (Unified-Namespace) operations root, sibling of `uns.action.*`, kept strictly out of the telemetry (`factory.*`/`aggregate.*`/`cpp.*`) and IT-event (`business.*`) worlds. No producer publishes alerts yet — the subject scheme is reserved here and documented in docs/conventions.md so the first alert producer adopts it.",
           "subjectsCapture": [
-            "*.*.*.*.*.maintenance.alert.>",
-            "*.*.*.*.alerts.>"
+            "uns.alert.>"
           ],
           "retention": "workqueue",
           "storage": "file",
@@ -78,9 +77,9 @@
         },
         {
           "name": "UNS_ACTIONS",
-          "$description": "Plant→Edge action requests (request/reply pattern). Consumers ack within configurable deadline; unacked = redelivered until expiry.",
+          "$description": "Plant→Edge action requests (request/reply pattern). Consumers ack within configurable deadline; unacked = redelivered until expiry. CAPT-V3-STREAM-SUBJECT-FIX: the former filter `*.*.*.*.*.action.>` had a wildcard LEADING token overlapping `$JS.>` — same error 10052 as UNS_ALERTS. Fixed with the dedicated fixed leading token `uns.action.>`, the operations-world sibling of `uns.alert.*`. No producer publishes actions yet — the subject scheme is reserved here and documented in docs/conventions.md.",
           "subjectsCapture": [
-            "*.*.*.*.*.action.>"
+            "uns.action.>"
           ],
           "retention": "workqueue",
           "storage": "file",
