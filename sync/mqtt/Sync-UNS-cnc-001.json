@@ -1,0 +1,98 @@
+{
+  "syncId": "Sync-UNS-cnc-001",
+  "version": "1.0.0",
+  "syncType": "mqtt",
+  "description": "Per-machine MQTT sync override for cnc-001 — used by the i3x-central middleware deploy (i-flow / Ignition / Highbyte). The i-flow RS-deploy picks `Sync-UNS-<machineId>` ahead of the global #shared.uns; this file pins cnc-001's middleware output to the live UNS broker 192.168.178.150:31883. Created because the stale shared-uns-alpha broker (192.168.178.110:21883) is decommissioned. Deliberately NOT mappingId '#shared.uns' so it never affects global #shared.uns resolution for other machines. Read-only for the .99 edge pipeline: the schema-publisher only consumes sources/opcua + profiles, never sync/.",
+  "broker": {
+    "host": "192.168.178.150",
+    "port": 31883
+  },
+  "topicStructure": {
+    "pattern": "Factory/{site}/{type}/{machineId}/{category}/{attribute}",
+    "segments": {
+      "site": {
+        "index": 1,
+        "description": "Location site from source.location.site"
+      },
+      "type": {
+        "index": 2,
+        "description": "Asset type from source.location.type"
+      },
+      "machineId": {
+        "index": 3,
+        "description": "Machine display name from source.machineId"
+      },
+      "category": {
+        "index": 4,
+        "description": "Data category from source.dataCategory"
+      },
+      "attribute": {
+        "index": 5,
+        "description": "Topic attribute name; matches smAttribute from nodeMappings"
+      }
+    },
+    "subscribeFilter": "Factory/+/+/+/+/+"
+  },
+  "payloadSchema": {
+    "format": "JSON",
+    "timestampFormat": "ISO8601",
+    "valuePath": "$.Value",
+    "timestampPath": "$.timestamp",
+    "unitPath": "$.Unit",
+    "definitionPath": "$.Definition",
+    "datatypePath": "$.Datatype",
+    "qualityPath": "$.ValueQualityQualifier",
+    "originPath": "$.ValueOriginQualifier",
+    "processingPath": "$.ValueProcessingQualifier",
+    "fields": {
+      "timestamp": {
+        "path": "$.timestamp",
+        "source": "runtime.iso8601",
+        "description": "Publish time of this message (ISO-8601 UTC)",
+        "required": true
+      },
+      "Value": {
+        "path": "$.Value",
+        "source": "runtime.value",
+        "description": "The sampled value itself",
+        "required": true
+      },
+      "Unit": {
+        "path": "$.Unit",
+        "source": "profile.attribute.unit",
+        "description": "Engineering unit. Empty string if dimensionless."
+      },
+      "Definition": {
+        "path": "$.Definition",
+        "source": "profile.attribute.description",
+        "description": "Human-readable description of what this attribute means"
+      },
+      "Datatype": {
+        "path": "$.Datatype",
+        "source": "profile.attribute.dataType",
+        "description": "SM Profile-declared data type"
+      },
+      "ValueQualityQualifier": {
+        "path": "$.ValueQualityQualifier",
+        "source": "const",
+        "default": "good",
+        "enum": ["good", "uncertain", "bad"],
+        "description": "OPC-UA-style quality — fresh samples default to 'good'"
+      },
+      "ValueOriginQualifier": {
+        "path": "$.ValueOriginQualifier",
+        "source": "const",
+        "default": "measured",
+        "enum": ["measured", "simulated", "calculated", "manual"],
+        "description": "Where the value originated"
+      },
+      "ValueProcessingQualifier": {
+        "path": "$.ValueProcessingQualifier",
+        "source": "const",
+        "default": "last",
+        "enum": ["last", "first", "averaged", "min", "max"],
+        "description": "How the sample was selected within the publish interval"
+      }
+    }
+  }
+}
