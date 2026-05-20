@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-Quant",
-  "version": "1.4.0",
+  "version": "3.0.0",
   "standard": "CESMII",
   "displayName": "Quant (Lagerbestand-Einheit)",
   "description": "Stock quantity at a specific storage location — article + batch + location",
@@ -10,62 +10,82 @@
       "name": "quant_id",
       "dataType": "Int32",
       "category": "Core",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "article_no",
       "dataType": "String",
       "category": "Core",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "article_name",
       "dataType": "String",
       "category": "Core",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "batch",
       "dataType": "String",
       "category": "Core",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "location_key",
       "dataType": "String",
       "category": "Location",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "quantity",
       "dataType": "Float",
       "category": "Stock",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "unit",
       "dataType": "String",
       "category": "Core",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "quality_status",
       "dataType": "String",
       "category": "Quality",
       "description": "FREI, GESPERRT, PRUEFUNG",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "origin_type",
       "dataType": "String",
       "category": "Traceability",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "origin_ref",
       "dataType": "String",
       "category": "Traceability",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     }
   ],
   "relationships": [
@@ -79,5 +99,6 @@
     }
   ],
   "kgNodeLabel": "Quant",
-  "kgIdProperty": "quant_id"
+  "kgIdProperty": "quant_id",
+  "category": "business"
 }

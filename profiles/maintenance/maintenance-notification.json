@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-MaintenanceNotification",
-  "version": "1.4.0",
+  "version": "3.0.0",
   "standard": "CESMII",
   "displayName": "Maintenance Notification",
   "description": "Instandhaltungsmeldung (Störung/Wartung/Inspektion)",
@@ -10,49 +10,65 @@
       "name": "machine_no",
       "dataType": "String",
       "category": "Reference",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "notification_type",
       "dataType": "String",
       "category": "Master",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "priority",
       "dataType": "String",
       "category": "Master",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "status",
       "dataType": "String",
       "category": "Status",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "description",
       "dataType": "String",
       "category": "Master",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "downtime_minutes",
       "dataType": "Int32",
       "category": "Impact",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "root_cause",
       "dataType": "String",
       "category": "Analysis",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "reported_by",
       "dataType": "String",
       "category": "Master",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     }
   ],
   "relationships": [
@@ -62,5 +78,6 @@
     }
   ],
   "kgNodeLabel": "MaintenanceNotification",
-  "kgIdProperty": "notification_no"
+  "kgIdProperty": "notification_no",
+  "category": "business"
 }

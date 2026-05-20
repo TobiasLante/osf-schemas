@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-CustomerOrder",
-  "version": "1.4.0",
+  "version": "3.0.0",
   "standard": "CESMII",
   "displayName": "Customer Order (Kundenauftrag)",
   "description": "Sales order from customer with delivery commitment",
@@ -10,44 +10,58 @@
       "name": "customer",
       "dataType": "String",
       "category": "Core",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "article_no",
       "dataType": "String",
       "category": "Core",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "article_name",
       "dataType": "String",
       "category": "Core",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "quantity",
       "dataType": "Float",
       "category": "Core",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "unit_price",
       "dataType": "Float",
       "category": "Commercial",
       "unit": "EUR",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "due_date",
       "dataType": "String",
       "category": "Planning",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "production_order_no",
       "dataType": "String",
       "category": "Link",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     }
   ],
   "relationships": [
@@ -61,5 +75,6 @@
     }
   ],
   "kgNodeLabel": "CustomerOrder",
-  "kgIdProperty": "order_no"
+  "kgIdProperty": "order_no",
+  "category": "business"
 }
