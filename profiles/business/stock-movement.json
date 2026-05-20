@@ -1,0 +1,91 @@
+{
+  "profileId": "SMProfile-StockMovement",
+  "version": "3.0.0",
+  "standard": "CESMII",
+  "displayName": "Stock Movement",
+  "category": "business",
+  "description": "Inventory movement event (goods in/out/transfer). v3 demo-aligned (WMS side).",
+  "parentType": null,
+  "attributes": [
+    {
+      "name": "movement_id",
+      "dataType": "String",
+      "category": "Core",
+      "isKey": true,
+      "description": "Unique movement ID (PK)",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "article_no",
+      "dataType": "String",
+      "category": "Link",
+      "description": "Article being moved",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "qty",
+      "dataType": "Int32",
+      "category": "Movement",
+      "description": "Quantity moved (signed or absolute, see movement_type)",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "movement_type",
+      "dataType": "String",
+      "category": "Movement",
+      "enum": [
+        "receipt",
+        "issue",
+        "transfer",
+        "adjustment",
+        "scrap"
+      ],
+      "description": "Type of movement",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "location_from",
+      "dataType": "String",
+      "category": "Warehouse",
+      "description": "Source location (null for receipts)",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "location_to",
+      "dataType": "String",
+      "category": "Warehouse",
+      "description": "Destination location (null for issues)",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "ts",
+      "dataType": "DateTime",
+      "category": "Audit",
+      "description": "Movement timestamp (diff field)",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "FOR_ARTICLE",
+      "target": "Article",
+      "targetIdProp": "article_no"
+    }
+  ],
+  "kgNodeLabel": "StockMovement",
+  "kgIdProperty": "movement_id"
+}

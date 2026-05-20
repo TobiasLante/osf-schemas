@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-Machine",
-  "version": "1.4.0",
+  "version": "3.0.0",
   "standard": "CESMII",
   "displayName": "Machine (Abstract Parent)",
   "description": "Abstract parent profile for all machine types — defines common BDE attributes inherited by CNC, Milling, Lathe, Grinding, IMM, FFS, Assembly",
@@ -27,93 +27,135 @@
         4,
         5
       ],
-      "polling": "scan"
+      "polling": "scan",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "Machine_Status_Text",
       "dataType": "String",
       "category": "BDE",
       "description": "Human-readable status",
-      "polling": "scan"
+      "polling": "scan",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "Good_Parts",
       "dataType": "Int32",
       "category": "BDE",
       "description": "Good parts produced per cycle",
-      "polling": "scan"
+      "polling": "scan",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "Scrap_Parts",
       "dataType": "Int32",
       "category": "BDE",
       "description": "Scrap parts per cycle",
-      "polling": "scan"
+      "polling": "scan",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "Rework_Parts",
       "dataType": "Int32",
       "category": "BDE",
       "description": "Rework parts per cycle",
-      "polling": "scan"
+      "polling": "scan",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "Cycle_Time_Planned",
       "dataType": "Float",
       "category": "BDE",
       "unit": "s",
-      "polling": "scan"
+      "polling": "scan",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Cycle_Time_Actual",
       "dataType": "Float",
       "category": "BDE",
       "unit": "s",
-      "polling": "scan"
+      "polling": "scan",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Power_kW",
       "dataType": "Float",
       "category": "BDE",
       "unit": "kW",
-      "polling": "scan"
+      "polling": "scan",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Energy_kWh",
       "dataType": "Float",
       "category": "BDE",
       "unit": "kWh",
-      "polling": "scan"
+      "polling": "scan",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Production_Order",
       "dataType": "String",
       "category": "BDE",
-      "polling": "scan"
+      "polling": "scan",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "Article_ID",
       "dataType": "String",
       "category": "BDE",
-      "polling": "scan"
+      "polling": "scan",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "Tool_ID",
       "dataType": "String",
       "category": "BDE",
-      "polling": "scan"
+      "polling": "scan",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "Shift_Number",
       "dataType": "Int32",
       "category": "BDE",
-      "polling": "scan"
+      "polling": "scan",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "Operator_ID",
       "dataType": "String",
       "category": "BDE",
-      "polling": "scan"
+      "polling": "scan",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     }
   ],
   "relationships": [

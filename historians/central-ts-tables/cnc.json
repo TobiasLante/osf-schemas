@@ -1,0 +1,99 @@
+{
+  "$description": "Central-TS DDL spec for SMProfile-CNC. Declarative table-shape per MachineType — used by central-ts-init renderer to emit CREATE TABLE + hypertable + indexes + retention idempotently. Each table strictly telemetry XOR event XOR child.",
+  "machineType": "CNC",
+  "profileRef": "SMProfile-CNC-Machine",
+  "tables": [
+    {
+      "name": "cnc_event_data",
+      "kind": "wide-event",
+      "primaryKey": ["timestamp", "machine_id"],
+      "timeColumn": "timestamp",
+      "retention": "365d",
+      "indexes": [
+        { "name": "cnc_event_machine_ts_idx", "columns": "(machine_id, \"timestamp\" DESC)" },
+        { "name": "cnc_event_order_idx",      "columns": "(production_order_id)" }
+      ],
+      "columns": [
+        { "name": "timestamp",               "type": "timestamptz", "notNull": true, "default": "now()" },
+        { "name": "machine_id",              "type": "varchar(40)", "notNull": true },
+        { "name": "machine_type",            "type": "varchar(40)" },
+        { "name": "status",                  "type": "varchar(40)" },
+        { "name": "mode",                    "type": "varchar(40)" },
+        { "name": "in_cycle",                "type": "boolean" },
+        { "name": "shift_active",            "type": "boolean" },
+        { "name": "current_material",        "type": "varchar(50)" },
+        { "name": "current_program",         "type": "varchar(80)" },
+        { "name": "parts_good",              "type": "numeric" },
+        { "name": "parts_scrap",             "type": "numeric" },
+        { "name": "parts_total",             "type": "numeric" },
+        { "name": "cycle_count",             "type": "numeric" },
+        { "name": "alarms_count",            "type": "numeric" },
+        { "name": "uptime_seconds",          "type": "numeric" },
+        { "name": "nc_current_g_code",       "type": "varchar(30)" },
+        { "name": "nc_current_m_code",       "type": "varchar(30)" },
+        { "name": "nc_current_block_n",      "type": "numeric" },
+        { "name": "nc_total_blocks",         "type": "numeric" },
+        { "name": "setup_reason",            "type": "varchar(80)" },
+        { "name": "setup_remaining_sec",     "type": "numeric" },
+        { "name": "tool_active_slot_no",     "type": "numeric" },
+        { "name": "tool_active_id",          "type": "varchar(50)" },
+        { "name": "tool_active_type",        "type": "varchar(50)" },
+        { "name": "tool_sister_slots_avail", "type": "numeric" },
+        { "name": "tool_slot_count",         "type": "numeric" },
+        { "name": "production_order_id",     "type": "varchar(50)" },
+        { "name": "article_id",              "type": "varchar(50)" },
+        { "name": "operator_id",             "type": "varchar(40)" }
+      ]
+    },
+    {
+      "name": "cnc_telemetry_data",
+      "kind": "wide-telemetry",
+      "primaryKey": ["timestamp", "machine_id"],
+      "timeColumn": "timestamp",
+      "retention": "90d",
+      "indexes": [
+        { "name": "cnc_telem_machine_ts_idx", "columns": "(machine_id, \"timestamp\" DESC)" }
+      ],
+      "columns": [
+        { "name": "timestamp",               "type": "timestamptz", "notNull": true, "default": "now()" },
+        { "name": "machine_id",              "type": "varchar(40)", "notNull": true },
+        { "name": "spindle_speed_rpm",       "type": "double precision" },
+        { "name": "spindle_load_percent",    "type": "double precision" },
+        { "name": "spindle_temperature_c",   "type": "double precision" },
+        { "name": "cycle_time_sec",          "type": "double precision" },
+        { "name": "axis_x_position_mm",      "type": "double precision" },
+        { "name": "axis_x_feed_rate_mm_min", "type": "double precision" },
+        { "name": "axis_y_position_mm",      "type": "double precision" },
+        { "name": "axis_y_feed_rate_mm_min", "type": "double precision" },
+        { "name": "axis_z_position_mm",      "type": "double precision" },
+        { "name": "axis_z_feed_rate_mm_min", "type": "double precision" },
+        { "name": "power_kw",                "type": "double precision" },
+        { "name": "coolant_flow_rate_lmin",  "type": "double precision" },
+        { "name": "tool_life_percent",       "type": "double precision" }
+      ]
+    },
+    {
+      "name": "cnc_tool_magazine_event_data",
+      "kind": "wide-event-child",
+      "primaryKey": ["timestamp", "machine_id", "slot_no"],
+      "childKey": "slot_no",
+      "timeColumn": "timestamp",
+      "retention": "365d",
+      "indexes": [
+        { "name": "cnc_toolmag_machine_ts_idx", "columns": "(machine_id, \"timestamp\" DESC)" },
+        { "name": "cnc_toolmag_tool_idx",       "columns": "(tool_id)" }
+      ],
+      "columns": [
+        { "name": "timestamp",       "type": "timestamptz", "notNull": true },
+        { "name": "machine_id",      "type": "varchar(40)", "notNull": true },
+        { "name": "slot_no",         "type": "integer",     "notNull": true },
+        { "name": "tool_id",         "type": "varchar(50)" },
+        { "name": "tool_type",       "type": "varchar(50)" },
+        { "name": "is_sister",       "type": "boolean" },
+        { "name": "needs_resharpen", "type": "boolean" },
+        { "name": "mother_slot_no",  "type": "numeric" },
+        { "name": "last_used_at",    "type": "timestamptz" }
+      ]
+    }
+  ]
+}

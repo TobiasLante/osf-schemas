@@ -1,0 +1,111 @@
+{
+  "$description": "ISA-95 UNS via NATS — dot-separated subject mirror of sync/mqtt/isa95-uns-walker-reynolds.json. Same 7-segment hierarchy and same per-attribute payload, only the transport differs. NATS wildcards: '*' = single token, '>' = remaining tokens. Subjects are normalized to lowercase to follow NATS convention; the segment values themselves remain case-preserving so downstream KG can still distinguish 'SGM-004' from 'sgm-004' if needed.",
+  "syncId": "isa95-uns-nats-walker-reynolds",
+  "mappingId": "ISA-95_Walker_Reynolds_NATS",
+  "version": "1.0.0",
+  "syncType": "nats",
+  "nats": {
+    "url": "${NATS_URL}",
+    "credentials": "${NATS_CREDENTIALS_FILE:-}",
+    "tls": "${NATS_TLS:-false}",
+    "leafNode": true,
+    "$note": "leafNode=true means this Edge IPC connects via NATS Leaf Node which forwards subjects to the central cluster. Connector publishes to nats://nats:4222 inside the IPC compose network."
+  },
+  "subjectStructure": {
+    "pattern": "{enterprise}.{site}.{area}.{line}.{machine}.{domain}.{attribute}",
+    "hierarchy": "ISA-95",
+    "separator": ".",
+    "segments": {
+      "enterprise": { "index": 0, "description": "Enterprise name (e.g. 'ZeroGuess')" },
+      "site":       { "index": 1, "description": "Plant/Site (e.g. 'Hauptwerk')" },
+      "area":       { "index": 2, "description": "Production area (e.g. 'Spritzgusshalle', 'CNC-Fertigung')" },
+      "line":       { "index": 3, "description": "Production line/cell (e.g. 'SGM-1300', 'CNC-Pool')" },
+      "machine":    { "index": 4, "description": "Machine ID (e.g. 'SGM-004', '7533')" },
+      "domain":     { "index": 5, "description": "Data domain: BDE, ProcessData, TMS, Maintenance, Energy" },
+      "attribute":  { "index": 6, "description": "Attribute name (flattened, sub-categories joined with underscore)" }
+    },
+    "subscribeFilters": [
+      "*.*.*.*.*.bde.*",
+      "*.*.*.*.*.processdata.*",
+      "*.*.*.*.*.tms.*",
+      "*.*.*.*.*.maintenance.*",
+      "*.*.*.*.*.energy.*",
+      "*.*.erp.>",
+      "*.*.qms.>"
+    ]
+  },
+  "payloadSchema": {
+    "format": "JSON",
+    "valuePath": "$.value",
+    "timestampPath": "$.ts",
+    "timestampFormat": "ISO8601",
+    "unitPath": "$.unit",
+    "qualityPath": "$.quality",
+    "headers": {
+      "$description": "NATS supports message headers (since 2.2). i3x sets these on every publish for fast-path consumer routing without payload parsing.",
+      "I3x-Machine":  "{machine}",
+      "I3x-Domain":   "{domain}",
+      "I3x-Attribute":"{attribute}",
+      "Content-Type": "application/json"
+    },
+    "example": {
+      "value": 234.5,
+      "ts": "2026-05-01T08:30:00.000Z",
+      "unit": "°C",
+      "quality": "good"
+    }
+  },
+  "machineIdResolution": {
+    "strategy": "subject_segment",
+    "segment": 4,
+    "description": "Segment 4 is the machine ID, resolved against SM Profile kgIdProperty 'machine_id'"
+  },
+  "domains": {
+    "BDE": {
+      "description": "Betriebsdatenerfassung — real-time production counters and status",
+      "subjectPattern": "{enterprise}.{site}.{area}.{line}.{machine}.bde.{attribute}",
+      "examples": [
+        "zeroguess.hauptwerk.spritzgusshalle.sgm-1300.sgm-004.bde.machine_status",
+        "zeroguess.hauptwerk.spritzgusshalle.sgm-1300.sgm-004.bde.parts_good",
+        "zeroguess.hauptwerk.spritzgusshalle.sgm-1300.sgm-004.bde.parts_scrap"
+      ]
+    },
+    "ProcessData": {
+      "description": "Process variables — temperatures, pressures, speeds",
+      "subjectPattern": "{enterprise}.{site}.{area}.{line}.{machine}.processdata.{attribute}",
+      "examples": [
+        "zeroguess.hauptwerk.spritzgusshalle.sgm-1300.sgm-004.processdata.temperature_melting_actual",
+        "zeroguess.hauptwerk.spritzgusshalle.sgm-1300.sgm-004.processdata.pressure_holding"
+      ]
+    },
+    "TMS": {
+      "description": "Tool Management — tool ID, wear, lifetime",
+      "subjectPattern": "{enterprise}.{site}.{area}.{line}.{machine}.tms.{attribute}"
+    },
+    "Maintenance": {
+      "description": "Maintenance signals — running hours, alerts, service-due",
+      "subjectPattern": "{enterprise}.{site}.{area}.{line}.{machine}.maintenance.{attribute}"
+    },
+    "Energy": {
+      "description": "Energy consumption — power, kWh, peak",
+      "subjectPattern": "{enterprise}.{site}.{area}.{line}.{machine}.energy.{attribute}"
+    },
+    "ERP": {
+      "description": "ERP entities (site-scoped, not machine-scoped) — Articles, Orders, Customers, Suppliers, BOM, Stock",
+      "subjectPattern": "{enterprise}.{site}.erp.{entity}.{id}",
+      "$note": "5-segment ERP namespace, parallel to the 7-segment machine namespace."
+    },
+    "QMS": {
+      "description": "Quality entities (site-scoped) — InspectionLot, InspectionResult, QualityNotification, SPC, CorrectiveAction",
+      "subjectPattern": "{enterprise}.{site}.qms.{entity}.{id}"
+    }
+  },
+  "compatibility": {
+    "$description": "Semantic equivalence with sync/mqtt/isa95-uns-walker-reynolds.json. A bridge can translate slash-topics to dot-subjects and vice versa.",
+    "mqttCounterpart": "isa95-uns-walker-reynolds",
+    "translation": {
+      "mqttToNats": "topic.replaceAll('/', '.').toLowerCase()",
+      "natsToMqtt": "subject.replaceAll('.', '/')"
+    }
+  }
+}

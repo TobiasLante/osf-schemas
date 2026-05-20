@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-StorageLocation",
-  "version": "1.4.0",
+  "version": "3.0.0",
   "standard": "CESMII",
   "displayName": "Storage Location (Lagerplatz)",
   "description": "Physical warehouse bin — zone/aisle/rack/shelf",
@@ -10,51 +10,67 @@
       "name": "location_key",
       "dataType": "String",
       "category": "Core",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "warehouse",
       "dataType": "String",
       "category": "Core",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "zone",
       "dataType": "String",
       "category": "Core",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "zone_name",
       "dataType": "String",
       "category": "Core",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "capacity_max",
       "dataType": "Float",
       "category": "Capacity",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "capacity_used",
       "dataType": "Float",
       "category": "Capacity",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "type",
       "dataType": "String",
       "category": "Core",
       "description": "STANDARD, BLOCK, KOMMISSION, PUFFER",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "status",
       "dataType": "String",
       "category": "Core",
       "description": "FREI, BELEGT, TEILBELEGT, GESPERRT",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     }
   ],
   "relationships": [
@@ -68,5 +84,6 @@
     }
   ],
   "kgNodeLabel": "StorageLocation",
-  "kgIdProperty": "location_key"
+  "kgIdProperty": "location_key",
+  "category": "business"
 }

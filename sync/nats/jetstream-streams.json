@@ -1,0 +1,147 @@
+{
+  "$description": "JetStream stream declarations for the i3x v3 stack — the SINGLE SOURCE OF TRUTH for stream names, subject filters and the edge→hub source topology. Consumed by: (1) scripts/provision-jetstream.sh in the connector/edge repos (idempotent create/update of streams + sources), (2) nr-codegen (resolves which stream a transactional/telemetry NR-node publishes into — see services/nr-codegen/src/streams.ts), (3) the nats-bridge consumer config. No stream name is hardcoded in code — it is resolved against this file. CAPT-V3-HUB-EVENT-PATH.",
+  "syncId": "jetstream-streams",
+  "version": "1.3.0",
+  "syncType": "nats-jetstream",
+  "$topology": "Two JetStream tiers. EDGE tier: one NATS per Edge-IPC, JetStream domain edge_<ipc>. HUB tier: central NATS on .150, default JetStream domain. The hub does NOT capture factory.*/cpp.*/aggregate.* by core-NATS leaf propagation alone for the durable path — it SOURCES the per-edge EDGE_EXPORT stream cross-domain ($JS.edge_<ipc>.API). A transactional NR-node publishes durably into its LOCAL edge EDGE_EXPORT stream (honest ack in the edge domain); the hub FACTORY stream pulls it via the declared source. This is why a transactional publish uses expectStream=EDGE_EXPORT, not FACTORY: the edge cannot address the domain-less hub JetStream over the leaf.",
+  "tiers": {
+    "edge": {
+      "$description": "Streams provisioned on every Edge-IPC NATS (JetStream domain edge_<ipc>). nr-codegen resolves the publish-target stream for each NR JetStream node against this list by matching the node's subject against subjectsCapture.",
+      "streams": [
+        {
+          "name": "EDGE_EXPORT",
+          "$description": "Durable export buffer on the edge. Every message the edge must hand to the Hub durably lands here first: Class-A' aggregates (aggregate.*), Class-B cycle snapshots (cpp.*) and Class-C transactional events (factory.* 4-6 segs). The Hub FACTORY stream sources this stream cross-domain. A transactional NR-node (i3x-jetstream-transactional-out) publishes here with expectStream=EDGE_EXPORT — the ack is honest because this stream really captures the subject; on a real failure the NR outbox row stays and the retry-loop owns it.",
+          "subjectsCapture": [
+            "factory.>",
+            "aggregate.>",
+            "cpp.>"
+          ],
+          "retention": "limits",
+          "storage": "file",
+          "replicas": 1,
+          "max_msgs": -1,
+          "max_bytes": 524288000,
+          "max_age": "168h",
+          "discard": "old",
+          "$tunings": "500 MiB / 7 days on the edge — sized to one IPC's export backlog if the leaf is down for a week."
+        }
+      ]
+    },
+    "hub": {
+      "$description": "Streams provisioned on the central Hub NATS (.150, default JetStream domain).",
+      "streams": [
+        {
+          "name": "FACTORY",
+          "$description": "Central durable telemetry/event stream. Fed two ways: (1) direct subjectsCapture for any producer connected straight to the hub, (2) cross-domain SOURCES that pull each edge's EDGE_EXPORT stream. nats-bridge + cpp-vault consume FACTORY.",
+          "subjectsCapture": [
+            "factory.>",
+            "cpp.>",
+            "aggregate.>"
+          ],
+          "sources": [
+            {
+              "name": "EDGE_EXPORT",
+              "$description": "Cross-domain source of every Edge-IPC EDGE_EXPORT stream. provision-jetstream.sh expands one source entry per registered edge domain (edge_<ipc>) from the fleet inventory, each with api=$JS.edge_<ipc>.API. filterSubjects scopes WHICH subjects the hub pulls — all three telemetry-world roots so Class-C events reach the bridge events-writer.",
+              "fromTier": "edge",
+              "perEdgeDomain": true,
+              "apiPrefixTemplate": "$JS.edge_${ipcCompact}.API",
+              "filterSubjects": [
+                "factory.>",
+                "cpp.>",
+                "aggregate.>"
+              ]
+            }
+          ],
+          "retention": "limits",
+          "storage": "file",
+          "replicas": 1,
+          "max_msgs": -1,
+          "max_bytes": 5368709120,
+          "max_age": "168h",
+          "discard": "old",
+          "$tunings": "5 GiB / 7 days — Hot-Set sized to a typical week. Adjust per-customer in deploy override."
+        },
+        {
+          "name": "UNS_ALERTS",
+          "$description": "Maintenance + quality alerts. Persistent because consumers (operator dashboard, escalation rules) must never miss one. Workqueue retention so each alert delivered once across competing consumers. CAPT-V3-STREAM-SUBJECT-FIX: the former filters `*.*.*.*.*.maintenance.alert.>` / `*.*.*.*.alerts.>` had a wildcard LEADING token — those overlap the JetStream API namespace `$JS.>`, so NATS deterministically rejects stream creation with error 10052 ('subjects that overlap with jetstream api require no-ack'). `no_ack:true` would silence the rejection but break the workqueue ack contract — not done. Fixed with the dedicated fixed leading token `uns.alert.>`: a clean UNS (Unified-Namespace) operations root, sibling of `uns.action.*`, kept strictly out of the telemetry (`factory.*`/`aggregate.*`/`cpp.*`) and IT-event (`business.*`) worlds. No producer publishes alerts yet — the subject scheme is reserved here and documented in docs/conventions.md so the first alert producer adopts it.",
+          "subjectsCapture": [
+            "uns.alert.>"
+          ],
+          "retention": "workqueue",
+          "storage": "file",
+          "replicas": 1,
+          "max_msgs": 100000,
+          "max_bytes": -1,
+          "max_age": "720h",
+          "discard": "old"
+        },
+        {
+          "name": "UNS_ACTIONS",
+          "$description": "Plant→Edge action requests (request/reply pattern). Consumers ack within configurable deadline; unacked = redelivered until expiry. CAPT-V3-STREAM-SUBJECT-FIX: the former filter `*.*.*.*.*.action.>` had a wildcard LEADING token overlapping `$JS.>` — same error 10052 as UNS_ALERTS. Fixed with the dedicated fixed leading token `uns.action.>`, the operations-world sibling of `uns.alert.*`. No producer publishes actions yet — the subject scheme is reserved here and documented in docs/conventions.md.",
+          "subjectsCapture": [
+            "uns.action.>"
+          ],
+          "retention": "workqueue",
+          "storage": "file",
+          "replicas": 1,
+          "max_msgs": 10000,
+          "max_bytes": -1,
+          "max_age": "1h",
+          "discard": "old"
+        },
+        {
+          "name": "BUSINESS",
+          "$description": "Central durable IT business-event stream (CAPT-V3-IT-EVENT-PERSISTENCE). Captures the it-server's business.<tenant>.<source>.<entity>.<event-type>.<id> publishes — ERP/QMS/WMS/OEE entity create/update/delete facts. The it-server is connected straight to the hub NATS (NodePort 30422 / nats.nats.svc:4222), so a single hub stream with a clean leading-token subject filter `business.>` captures the core-NATS publishes durably — no cross-domain source needed (IT services are hub-local, unlike the per-edge OT producers). nats-bridge consumes BUSINESS on a dedicated durable and appends to the hub-vault `business_events` log, the sibling of `machine_events`. This stream REPLACES the never-provisioned ERP_ENTITIES, whose `*.*.erp.>` filter had a wildcard leading token (collision-prone, overlaps $JS, and never matched the actual `business.*` subject scheme).",
+          "subjectsCapture": [
+            "business.>"
+          ],
+          "retention": "limits",
+          "storage": "file",
+          "replicas": 1,
+          "max_msgs": -1,
+          "max_bytes": 1073741824,
+          "max_age": "8760h",
+          "discard": "old",
+          "$tunings": "1 GiB / 1 year — IT business entities matter long-term: the central OEE/Hybrid-KPI computation needs queryable historical shift-plan, ideal-cycle-time, order and QMS-quality facts."
+        }
+      ]
+    }
+  },
+  "deliveryClassRouting": {
+    "$description": "Maps an SMProfile attribute's delivery class to the JetStream stream a generated NR-node publishes into. nr-codegen reads THIS — there is no expect-stream literal in generate.ts. The stream named here must exist in tiers.edge.streams (the NR-node always publishes into its own edge domain; the hub pulls via the declared source).",
+    "transactional": {
+      "$description": "delivery=transactional (Class-B cycle snapshots, Class-C events). Outbox-backed durable publish.",
+      "expectStream": "EDGE_EXPORT",
+      "tier": "edge"
+    },
+    "telemetry": {
+      "$description": "delivery=telemetry, scope=hub (Class-A' aggregates). Fire-and-forget pub-ack. scope=edge telemetry is never published — it only lands in the Edge-Timescale.",
+      "expectStream": "EDGE_EXPORT",
+      "tier": "edge"
+    }
+  },
+  "consumers": {
+    "$description": "Consumer-templates — concrete consumers are created by the connector or NR-flows at runtime, but the contract here defines naming + ack-policy convention.",
+    "kg-builder": {
+      "stream": "FACTORY",
+      "filter_subject": ">",
+      "ack_policy": "explicit",
+      "deliver_policy": "all",
+      "$note": "kg-builder needs full history on first connect, then live tail. Durable consumer with explicit ack, max_ack_pending=1000."
+    },
+    "historian-write": {
+      "stream": "FACTORY",
+      "filter_subject": ">",
+      "ack_policy": "explicit",
+      "deliver_policy": "new",
+      "$note": "Historian (TimescaleDB writer in NR) only cares about new messages — already-written history doesn't need replay."
+    },
+    "business-events-write": {
+      "stream": "BUSINESS",
+      "filter_subject": "business.>",
+      "ack_policy": "explicit",
+      "deliver_policy": "all",
+      "$note": "CAPT-V3-IT-EVENT-PERSISTENCE — nats-bridge durable consumer that appends business.* events to the hub-vault append-only business_events log. deliver_policy=all so a fresh consumer backfills the full business-event history that already accumulated on the stream."
+    }
+  }
+}

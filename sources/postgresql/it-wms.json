@@ -1,0 +1,66 @@
+{
+  "sourceId": "it-wms",
+  "version": "3.0.0",
+  "sourceType": "postgresql",
+  "displayName": "WMS — Stock Movements (demo seed)",
+  "tenant": "demo",
+  "edgeId": "it-edge-wms",
+  "category": "business",
+  "description": "IT-Edge poller binding for the WMS (PostgreSQL). Demo seed contains only stock_movement; wms-warehouse-postgres on .150 has warehousedb but no tables yet (empty). Listed as additional connection for Welle 2 Auto-Explore.",
+  "connection": {
+    "host": "${WMS_DB_HOST}",
+    "port": "${WMS_DB_PORT}",
+    "user": "${WMS_DB_USER}",
+    "password": "${WMS_DB_PASSWORD}",
+    "database": "${WMS_DB_NAME}",
+    "defaults": {
+      "host": "wms-postgres.default.svc.cluster.local",
+      "port": 5432,
+      "database": "wmsdb",
+      "user": "admin"
+    }
+  },
+  "additionalConnections": [
+    {
+      "name": "wms-warehouse",
+      "host": "wms-warehouse-postgres.default.svc.cluster.local",
+      "port": 5432,
+      "database": "warehousedb",
+      "user": "admin",
+      "tables": [],
+      "note": "Empty in demo seed (2026-05-14, 0 tables). Auto-Explore (Welle 2) will populate tables[] when warehouse data appears."
+    }
+  ],
+  "tables": [
+    {
+      "name": "stock_movement",
+      "profileRef": "SMProfile-StockMovement",
+      "primaryKey": "id",
+      "diffField": "ts",
+      "pollIntervalMs": 30000,
+      "changeDetection": "timestamp",
+      "columnMap": {
+        "id": "movement_id",
+        "article_no": "article_no",
+        "qty": "qty",
+        "movement_type": "movement_type",
+        "location_from": "location_from",
+        "location_to": "location_to",
+        "ts": "ts"
+      },
+      "edges": [
+        {
+          "type": "FOR_ARTICLE",
+          "fkColumn": "article_no",
+          "targetIdProp": "article_no"
+        }
+      ]
+    }
+  ],
+  "subjects": {
+    "eventPublish": "business.${tenant}.it-wms.${entity}.${eventType}.${id}",
+    "heartbeat": "business.heartbeat.it-edge-wms",
+    "kgSnapshot": "i3x.kg.snapshot.it-edge-wms",
+    "schemaDeploy": "business.schema.deploy.it-wms"
+  }
+}

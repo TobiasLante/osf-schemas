@@ -1,0 +1,113 @@
+{
+  "$description": "Central-TS DDL spec for SMProfile-SGM (Spritzguss / Injection-Molding). Declarative table-shape per MachineType — used by central-ts-init renderer to emit CREATE TABLE + hypertable + indexes + retention idempotently.",
+  "machineType": "SGM",
+  "profileRef": "SMProfile-InjectionMoldingMachine",
+  "tables": [
+    {
+      "name": "sgm_event_data",
+      "kind": "wide-event",
+      "primaryKey": ["timestamp", "machine_id"],
+      "timeColumn": "timestamp",
+      "retention": "365d",
+      "indexes": [
+        { "name": "sgm_event_machine_ts_idx", "columns": "(machine_id, \"timestamp\" DESC)" },
+        { "name": "sgm_event_order_idx",      "columns": "(production_order_no)" }
+      ],
+      "columns": [
+        { "name": "timestamp",                "type": "timestamptz", "notNull": true, "default": "now()" },
+        { "name": "machine_id",               "type": "varchar(40)", "notNull": true },
+        { "name": "machine_type",             "type": "varchar(40)" },
+        { "name": "status",                   "type": "varchar(40)" },
+        { "name": "mode",                     "type": "varchar(40)" },
+        { "name": "in_cycle",                 "type": "boolean" },
+        { "name": "shift_active",             "type": "boolean" },
+        { "name": "current_program",          "type": "varchar(80)" },
+        { "name": "last_shot_at",             "type": "timestamptz" },
+        { "name": "phase_name",               "type": "varchar(40)" },
+        { "name": "phase_switchover_reached", "type": "boolean" },
+        { "name": "material_resin",           "type": "varchar(50)" },
+        { "name": "mould_id",                 "type": "varchar(50)" },
+        { "name": "parts_good",               "type": "numeric" },
+        { "name": "parts_scrap",              "type": "numeric" },
+        { "name": "parts_total",              "type": "numeric" },
+        { "name": "shot_count",               "type": "numeric" },
+        { "name": "mould_total_shots",        "type": "numeric" },
+        { "name": "alarms_count",             "type": "numeric" },
+        { "name": "uptime_seconds",           "type": "numeric" },
+        { "name": "cavities_count",           "type": "integer" },
+        { "name": "barrel_zones_count",       "type": "integer" },
+        { "name": "setup_remaining_sec",      "type": "numeric" },
+        { "name": "production_order_no",      "type": "varchar(50)" },
+        { "name": "article_no",               "type": "varchar(50)" }
+      ]
+    },
+    {
+      "name": "sgm_telemetry_data",
+      "kind": "wide-telemetry",
+      "primaryKey": ["timestamp", "machine_id"],
+      "timeColumn": "timestamp",
+      "retention": "90d",
+      "indexes": [
+        { "name": "sgm_telem_machine_ts_idx", "columns": "(machine_id, \"timestamp\" DESC)" }
+      ],
+      "columns": [
+        { "name": "timestamp",                               "type": "timestamptz", "notNull": true, "default": "now()" },
+        { "name": "machine_id",                              "type": "varchar(40)", "notNull": true },
+        { "name": "power_kw",                                "type": "double precision" },
+        { "name": "phase_elapsed_sec",                       "type": "double precision" },
+        { "name": "phase_plast_progress",                    "type": "double precision" },
+        { "name": "phase_cushion_mm",                        "type": "double precision" },
+        { "name": "cycle_time_sec",                          "type": "double precision" },
+        { "name": "injection_peak_pressure_bar",             "type": "double precision" },
+        { "name": "injection_hold_pressure_bar",             "type": "double precision" },
+        { "name": "injection_back_pressure_bar",             "type": "double precision" },
+        { "name": "injection_speed_mm_per_sec",              "type": "double precision" },
+        { "name": "injection_shot_volume_cm3",               "type": "double precision" },
+        { "name": "mould_temp_c",                            "type": "double precision" },
+        { "name": "mould_cooling_flow_l_min",                "type": "double precision" },
+        { "name": "mould_life_percent",                      "type": "double precision" },
+        { "name": "barrel_nozzle_temp_c",                    "type": "double precision" },
+        { "name": "barrel_zone_0_temp_c",                    "type": "double precision" },
+        { "name": "barrel_zone_0_setpoint_c",                "type": "double precision" },
+        { "name": "barrel_zone_1_temp_c",                    "type": "double precision" },
+        { "name": "barrel_zone_1_setpoint_c",                "type": "double precision" },
+        { "name": "barrel_zone_2_temp_c",                    "type": "double precision" },
+        { "name": "barrel_zone_2_setpoint_c",                "type": "double precision" },
+        { "name": "barrel_zone_3_temp_c",                    "type": "double precision" },
+        { "name": "barrel_zone_3_setpoint_c",                "type": "double precision" },
+        { "name": "material_dryer_temp_c",                   "type": "double precision" },
+        { "name": "material_dryer_setpoint_c",               "type": "double precision" },
+        { "name": "material_dryer_residence_min",            "type": "double precision" },
+        { "name": "material_dryer_residence_target_min",     "type": "double precision" },
+        { "name": "material_hopper_fill_pct",                "type": "double precision" },
+        { "name": "material_hopper_refill_threshold_pct",    "type": "double precision" },
+        { "name": "material_hopper_refill_count",            "type": "integer" },
+        { "name": "material_regrind_ratio_pct",              "type": "double precision" },
+        { "name": "material_colour_masterbatch_pct",         "type": "double precision" },
+        { "name": "material_colour_purge_remaining",         "type": "integer" }
+      ]
+    },
+    {
+      "name": "sgm_cavity_telemetry_data",
+      "kind": "wide-telemetry-child",
+      "primaryKey": ["timestamp", "machine_id", "cavity_nr"],
+      "childKey": "cavity_nr",
+      "timeColumn": "timestamp",
+      "retention": "90d",
+      "indexes": [
+        { "name": "sgm_cav_machine_ts_idx", "columns": "(machine_id, \"timestamp\" DESC)" },
+        { "name": "sgm_cav_mould_idx",      "columns": "(mould_id, cavity_nr, \"timestamp\" DESC)" }
+      ],
+      "columns": [
+        { "name": "timestamp",          "type": "timestamptz", "notNull": true },
+        { "name": "machine_id",         "type": "varchar(40)", "notNull": true },
+        { "name": "cavity_nr",          "type": "smallint",    "notNull": true },
+        { "name": "mould_id",           "type": "varchar(50)" },
+        { "name": "hotrunner_temp_c",   "type": "double precision" },
+        { "name": "cavity_pressure_bar","type": "double precision" },
+        { "name": "mould_pressure_bar", "type": "double precision" },
+        { "name": "part_mass_g",        "type": "double precision" }
+      ]
+    }
+  ]
+}

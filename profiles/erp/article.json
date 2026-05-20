@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-Article",
-  "version": "1.4.0",
+  "version": "3.0.0",
   "standard": "CESMII",
   "displayName": "Article (Artikel)",
   "description": "Manufactured or purchased item in the ERP system",
@@ -10,51 +10,67 @@
       "name": "article_no",
       "dataType": "String",
       "category": "Core",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "name",
       "dataType": "String",
       "category": "Core",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "type",
       "dataType": "String",
       "category": "Core",
       "description": "FERT/HALB/ROH/KAUF",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "unit",
       "dataType": "String",
       "category": "Core",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "lead_time_days",
       "dataType": "Int32",
       "category": "Planning",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "machine_group",
       "dataType": "String",
       "category": "Routing",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "weight_kg",
       "dataType": "Float",
       "category": "Physical",
       "unit": "kg",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "abc_class",
       "dataType": "String",
       "category": "Classification",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     }
   ],
   "relationships": [
@@ -72,5 +88,6 @@
     }
   ],
   "kgNodeLabel": "Article",
-  "kgIdProperty": "article_no"
+  "kgIdProperty": "article_no",
+  "category": "business"
 }

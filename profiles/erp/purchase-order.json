@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-PurchaseOrder",
-  "version": "1.4.0",
+  "version": "3.0.0",
   "standard": "CESMII",
   "displayName": "Purchase Order (Bestellung)",
   "description": "Order to external supplier for raw materials or components",
@@ -10,38 +10,50 @@
       "name": "supplier_id",
       "dataType": "String",
       "category": "Core",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "supplier_name",
       "dataType": "String",
       "category": "Core",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "order_date",
       "dataType": "String",
       "category": "Planning",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "delivery_date_planned",
       "dataType": "String",
       "category": "Planning",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "delivery_date_actual",
       "dataType": "String",
       "category": "Planning",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "total_value",
       "dataType": "Float",
       "category": "Commercial",
       "unit": "EUR",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     }
   ],
   "relationships": [
@@ -55,5 +67,6 @@
     }
   ],
   "kgNodeLabel": "PurchaseOrder",
-  "kgIdProperty": "order_no"
+  "kgIdProperty": "order_no",
+  "category": "business"
 }

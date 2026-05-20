@@ -1,0 +1,106 @@
+{
+  "sourceId": "it-erp-sap",
+  "version": "3.0.0",
+  "sourceType": "postgresql",
+  "displayName": "ERP — SAP Production (demo seed)",
+  "tenant": "demo",
+  "edgeId": "it-edge-erp",
+  "category": "business",
+  "description": "IT-Edge poller binding for the ERP (PostgreSQL). Schema-driven: cap-it-edge-base reads tables[] and runs one poller per table. Format: Welle-1 multi-table source — Auto-Explore (Welle 2) regenerates this file into the same directory.",
+  "connection": {
+    "host": "${ERP_DB_HOST}",
+    "port": "${ERP_DB_PORT}",
+    "user": "${ERP_DB_USER}",
+    "password": "${ERP_DB_PASSWORD}",
+    "database": "${ERP_DB_NAME}",
+    "defaults": {
+      "host": "postgress-erp-svc.default.svc.cluster.local",
+      "port": 5432,
+      "database": "erpdb"
+    }
+  },
+  "tables": [
+    {
+      "name": "production_order",
+      "profileRef": "SMProfile-ProductionOrder",
+      "primaryKey": "id",
+      "diffField": "updated_at",
+      "pollIntervalMs": 60000,
+      "changeDetection": "timestamp",
+      "columnMap": {
+        "id": "order_id",
+        "customer_id": "customer_id",
+        "article_no": "article_no",
+        "qty_planned": "qty_planned",
+        "qty_actual": "qty_actual",
+        "status": "status",
+        "due_date": "due_date",
+        "updated_at": "updated_at"
+      },
+      "edges": [
+        {
+          "type": "FOR_CUSTOMER",
+          "fkColumn": "customer_id",
+          "targetIdProp": "customer_id"
+        }
+      ]
+    },
+    {
+      "name": "customer",
+      "profileRef": "SMProfile-Customer",
+      "primaryKey": "id",
+      "diffField": "updated_at",
+      "pollIntervalMs": 600000,
+      "changeDetection": "timestamp",
+      "columnMap": {
+        "id": "customer_id",
+        "name": "name",
+        "country": "country",
+        "vat_id": "vat_id",
+        "active": "active",
+        "updated_at": "updated_at"
+      },
+      "edges": []
+    },
+    {
+      "name": "stock",
+      "profileRef": "SMProfile-StockItem",
+      "primaryKey": "article_no",
+      "diffField": "updated_at",
+      "pollIntervalMs": 300000,
+      "changeDetection": "timestamp",
+      "columnMap": {
+        "article_no": "article_no",
+        "description": "description",
+        "qty_on_hand": "qty_on_hand",
+        "unit": "unit",
+        "location": "location",
+        "updated_at": "updated_at"
+      },
+      "edges": []
+    }
+  ],
+  "tablesAbsentInDemoSeed": [
+    {
+      "expected": "material",
+      "profileRef": "SMProfile-Material",
+      "note": "Not in demo seed on .150 erpdb (2026-05-14). Cap-IT-Deploy did not insert this table. Skip on bootstrap; will appear if real ERP is connected."
+    },
+    {
+      "expected": "supplier",
+      "profileRef": "SMProfile-Supplier",
+      "note": "Not in demo seed on .150 erpdb (2026-05-14)."
+    },
+    {
+      "expected": "routing",
+      "profileRef": "SMProfile-Routing",
+      "note": "Not in demo seed on .150 erpdb (2026-05-14)."
+    }
+  ],
+  "subjects": {
+    "eventPublish": "business.${tenant}.it-erp-sap.${entity}.${eventType}.${id}",
+    "heartbeat": "business.heartbeat.it-edge-erp",
+    "kgSnapshot": "i3x.kg.snapshot.it-edge-erp",
+    "schemaDeploy": "business.schema.deploy.it-erp-sap"
+  }
+}

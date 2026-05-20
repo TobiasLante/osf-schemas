@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-Tool",
-  "version": "1.4.0",
+  "version": "3.0.0",
   "standard": "CESMII",
   "displayName": "Tool Instance",
   "description": "Werkzeuginstanz mit Verschleiß und Einsatzstatus",
@@ -10,43 +10,64 @@
       "name": "tool_type_id",
       "dataType": "String",
       "category": "Master",
-      "polling": "subscribe"
+      "polling": "subscribe",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "name",
       "dataType": "String",
       "category": "Master",
-      "polling": "subscribe"
+      "polling": "subscribe",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "type",
       "dataType": "String",
       "category": "Master",
-      "polling": "subscribe"
+      "polling": "subscribe",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "machine",
       "dataType": "String",
       "category": "Assignment",
-      "polling": "subscribe"
+      "polling": "subscribe",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "status",
       "dataType": "String",
       "category": "Status",
-      "polling": "subscribe"
+      "polling": "subscribe",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "wear_pct",
       "dataType": "Float",
       "category": "Condition",
-      "polling": "subscribe"
+      "polling": "subscribe",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "usage_minutes",
       "dataType": "Int32",
       "category": "Condition",
-      "polling": "subscribe"
+      "polling": "subscribe",
+      "delivery": "telemetry",
+      "scope": "hub",
+      "promotion": "aggregate"
     }
   ],
   "relationships": [

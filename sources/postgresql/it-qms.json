@@ -1,0 +1,54 @@
+{
+  "sourceId": "it-qms",
+  "version": "3.0.0",
+  "sourceType": "postgresql",
+  "displayName": "QMS — Quality Records (demo seed)",
+  "tenant": "demo",
+  "edgeId": "it-edge-qms",
+  "category": "business",
+  "description": "IT-Edge poller binding for the QMS (PostgreSQL). Single-table demo seed.",
+  "connection": {
+    "host": "${QMS_DB_HOST}",
+    "port": "${QMS_DB_PORT}",
+    "user": "${QMS_DB_USER}",
+    "password": "${QMS_DB_PASSWORD}",
+    "database": "${QMS_DB_NAME}",
+    "defaults": {
+      "host": "qms-postgres.default.svc.cluster.local",
+      "port": 5432,
+      "database": "qmsdb",
+      "user": "admin"
+    }
+  },
+  "tables": [
+    {
+      "name": "quality_record",
+      "profileRef": "SMProfile-QualityRecord",
+      "primaryKey": "id",
+      "diffField": "ts",
+      "pollIntervalMs": 30000,
+      "changeDetection": "timestamp",
+      "columnMap": {
+        "id": "record_id",
+        "production_order_id": "production_order_id",
+        "inspector": "inspector",
+        "result": "result",
+        "defect_count": "defect_count",
+        "ts": "ts"
+      },
+      "edges": [
+        {
+          "type": "FOR_ORDER",
+          "fkColumn": "production_order_id",
+          "targetIdProp": "order_id"
+        }
+      ]
+    }
+  ],
+  "subjects": {
+    "eventPublish": "business.${tenant}.it-qms.${entity}.${eventType}.${id}",
+    "heartbeat": "business.heartbeat.it-edge-qms",
+    "kgSnapshot": "i3x.kg.snapshot.it-edge-qms",
+    "schemaDeploy": "business.schema.deploy.it-qms"
+  }
+}
