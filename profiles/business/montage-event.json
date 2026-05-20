@@ -1,0 +1,76 @@
+{
+  "profileId": "SMProfile-MontageEvent",
+  "version": "3.0.0",
+  "standard": "CESMII",
+  "displayName": "Montage Event",
+  "category": "business",
+  "description": "Pre-aggregated assembly-line OEE event from the OEE-Montage system. Event-world (not raw telemetry). v3 demo-aligned.",
+  "parentType": null,
+  "attributes": [
+    {
+      "name": "event_id",
+      "dataType": "String",
+      "category": "Core",
+      "isKey": true,
+      "description": "Unique event ID (PK)",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "machine_id",
+      "dataType": "String",
+      "category": "Link",
+      "description": "Assembly line / station identifier",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "event_type",
+      "dataType": "String",
+      "category": "Core",
+      "description": "Event type (downtime, micro_stop, changeover, run, ...)",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "duration_s",
+      "dataType": "Int32",
+      "category": "Metric",
+      "unit": "s",
+      "description": "Event duration in seconds",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "oee",
+      "dataType": "Float",
+      "category": "Metric",
+      "description": "OEE value at event close (0..1)",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "ts",
+      "dataType": "DateTime",
+      "category": "Audit",
+      "description": "Event timestamp (diff field)",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "ON_MACHINE",
+      "target": "Machine",
+      "targetIdProp": "machine_id"
+    }
+  ],
+  "kgNodeLabel": "MontageEvent",
+  "kgIdProperty": "event_id"
+}

@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-MaterialLot",
-  "version": "1.4.0",
+  "version": "3.0.0",
   "standard": "CESMII",
   "displayName": "Material Lot (Produktions-Los)",
   "description": "Produktionslos — verknüpft Fertigungsauftrag mit Artikel und produzierter Menge",
@@ -10,43 +10,57 @@
       "name": "order_no",
       "dataType": "String",
       "category": "Reference",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "article_no",
       "dataType": "String",
       "category": "Reference",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "article_name",
       "dataType": "String",
       "category": "Master",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "machine_no",
       "dataType": "String",
       "category": "Reference",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "planned_qty",
       "dataType": "Int32",
       "category": "Planning",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "produced_qty",
       "dataType": "Int32",
       "category": "Actual",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "status",
       "dataType": "Int32",
       "category": "Status",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     }
   ],
   "relationships": [
@@ -64,5 +78,6 @@
     }
   ],
   "kgNodeLabel": "MaterialLot",
-  "kgIdProperty": "lot_id"
+  "kgIdProperty": "lot_id",
+  "category": "business"
 }

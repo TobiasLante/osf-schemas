@@ -1,8 +1,9 @@
 {
   "profileId": "SMProfile-Order",
-  "version": "1.4.0",
+  "version": "3.0.0",
   "standard": "CESMII",
   "displayName": "Order (Abstract Parent)",
+  "category": "business",
   "description": "Abstract parent profile for all order types — defines common order attributes inherited by CustomerOrder, ProductionOrder, PurchaseOrder, MaintenanceOrder",
   "parentType": null,
   "abstract": true,
@@ -11,15 +12,20 @@
       "name": "order_no",
       "dataType": "String",
       "category": "Core",
+      "isKey": true,
       "description": "Unique order number",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "status",
       "dataType": "String",
       "category": "Core",
       "description": "Current order status",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     }
   ],
   "relationships": [],

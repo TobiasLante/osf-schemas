@@ -1,0 +1,105 @@
+{
+  "profileId": "SMProfile-ProductionOrder",
+  "version": "3.0.0",
+  "standard": "CESMII",
+  "displayName": "Production Order",
+  "category": "business",
+  "description": "Manufacturing work order — planned, in-progress, or completed. v3 demo-aligned (ERP SAP seed schema on .150).",
+  "parentType": null,
+  "attributes": [
+    {
+      "name": "order_id",
+      "dataType": "String",
+      "category": "Core",
+      "isKey": true,
+      "description": "Unique production order ID (Primary Key)",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "customer_id",
+      "dataType": "String",
+      "category": "Link",
+      "description": "FK to Customer.id",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "article_no",
+      "dataType": "String",
+      "category": "Core",
+      "description": "Article / material to produce",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "qty_planned",
+      "dataType": "Int32",
+      "category": "Planning",
+      "description": "Planned production quantity",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "qty_actual",
+      "dataType": "Int32",
+      "category": "Execution",
+      "description": "Actually produced quantity so far",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "status",
+      "dataType": "String",
+      "category": "Core",
+      "enum": [
+        "planned",
+        "released",
+        "in_progress",
+        "completed",
+        "cancelled"
+      ],
+      "description": "Order status (string-coded in demo seed)",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "due_date",
+      "dataType": "DateTime",
+      "category": "Planning",
+      "description": "Planned end date / delivery date",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "updated_at",
+      "dataType": "DateTime",
+      "category": "Audit",
+      "description": "Last modification timestamp (diff field)",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "FOR_CUSTOMER",
+      "target": "Customer",
+      "targetIdProp": "customer_id"
+    },
+    {
+      "type": "PRODUCES",
+      "target": "Article",
+      "targetIdProp": "article_no"
+    }
+  ],
+  "kgNodeLabel": "ProductionOrder",
+  "kgIdProperty": "order_id"
+}

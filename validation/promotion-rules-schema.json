@@ -1,0 +1,116 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/TobiasLante/osf-schemas/validation/promotion-rules-schema.json",
+  "title": "Telemetry-Promotion-Rules",
+  "description": "Konfiguration welche Telemetrie-Slices als Klasse B/A' promoted werden — pro SMProfile (Default) und pro Article-Klasse (Override). Validiert das `telemetry_promotion`-Objekt SELBST, nicht den Envelope drumherum. Konsumenten extrahieren `.telemetry_promotion` und validieren das. Siehe i3x-zentral/docs/TELEMETRY-SPEC.md §13.4.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "always":        { "$ref": "#/definitions/triggerGroup" },
+    "on_event":      { "$ref": "#/definitions/triggerGroup" },
+    "on_drift":      { "$ref": "#/definitions/triggerGroup" },
+    "on_compliance": { "$ref": "#/definitions/triggerGroup" }
+  },
+
+  "definitions": {
+    "triggerGroup": {
+      "type": "object",
+      "additionalProperties": { "$ref": "#/definitions/rule" },
+      "description": "Map von Regel-Name (free-form, z.B. 'setup_params_at_start') auf Rule-Spec."
+    },
+
+    "rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["window", "subject"],
+      "properties": {
+        "trigger": {
+          "oneOf": [
+            {
+              "type": "string",
+              "description": "Einfacher Trigger-Ausdruck, z.B. 'Act_Ref_ProductionOrder.changed' oder 'article.compliance_required == true'."
+            },
+            { "$ref": "#/definitions/driftTrigger" }
+          ]
+        },
+        "window": {
+          "oneOf": [
+            {
+              "type": "string",
+              "enum": [
+                "op_start_first_5s",
+                "op_start..op_end"
+              ]
+            },
+            {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 2,
+              "items": {
+                "type": "string",
+                "pattern": "^[-+]?[0-9]+s$",
+                "description": "Relative offset, z.B. '-30s' / '+30s'."
+              }
+            }
+          ]
+        },
+        "sample_rate": {
+          "type": "string",
+          "pattern": "^[0-9]+s$",
+          "description": "Sample-Intervall für Window-Capture, z.B. '1s'. Default: profile-default (typ. 5s)."
+        },
+        "attrs": {
+          "oneOf": [
+            { "type": "string", "enum": ["*"] },
+            { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+            {
+              "type": "object",
+              "additionalProperties": {
+                "type": "array",
+                "items": { "type": "string", "enum": ["avg", "max", "min", "p50", "p95", "p99", "count", "first", "last"] },
+                "minItems": 1
+              },
+              "description": "Map von Attribut-Name auf gewünschte Aggregat-Funktionen."
+            }
+          ]
+        },
+        "subject": {
+          "type": "string",
+          "pattern": "^cpp\\.<site>\\.<machine>\\.<op_id>\\.(setup|snapshot|boundary|drift|full)$",
+          "description": "NATS-Subject-Template — Platzhalter werden zur Laufzeit ersetzt."
+        }
+      }
+    },
+
+    "driftTrigger": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["metric", "baseline", "condition"],
+      "properties": {
+        "metric": {
+          "type": "string",
+          "description": "Attribut-Name (muss im SMProfile existieren)."
+        },
+        "baseline": {
+          "type": "string",
+          "enum": [
+            "rolling_5min_mean_stddev",
+            "rolling_30min_mean_stddev",
+            "rolling_shift_mean_stddev",
+            "operation_mean_stddev"
+          ]
+        },
+        "condition": {
+          "type": "string",
+          "pattern": "^abs\\(value - mean\\) > [0-9.]+ \\* stddev$",
+          "description": "Drift-Bedingung, z.B. 'abs(value - mean) > 2 * stddev'."
+        },
+        "debounce": {
+          "type": "string",
+          "pattern": "^[0-9]+s$",
+          "description": "Mindest-Abstand zwischen aufeinanderfolgenden Drift-Auslösungen."
+        }
+      }
+    }
+  }
+}

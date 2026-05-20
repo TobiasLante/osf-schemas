@@ -12,7 +12,8 @@ osf-schemas/
 ├── historians/            ← Historian-Sink-Templates (OUTPUT: UNS → Kunden-DB)
 │   ├── postgresql/        ← via node-red-contrib-postgresql (Timescale-aware)
 │   ├── mssql/             ← via node-red-contrib-mssql-plus
-│   └── influxdb/          ← via node-red-contrib-influxdb (2.x)
+│   ├── influxdb/          ← via node-red-contrib-influxdb (2.x)
+│   └── nats-jetstream/    ← via @i3x/nr-nats durable consumer (v3, additive)
 ├── profiles/              ← Schema 1: SM Profiles (type system)
 │   ├── enterprise/        ← ISA-95 hierarchy (Enterprise, Site, Area, ProductionLine, System)
 │   ├── machines/          ← Machine types (Machine*, CNC, IMM, FFS, Lathe, Milling, Mould, CNCProgram)
@@ -25,6 +26,7 @@ osf-schemas/
 │   └── opcua/             ← 35 OPC-UA endpoint → machine node mappings
 ├── sync/                  ← Schema 3: Live Sync (transport layer)
 │   ├── mqtt/              ← MQTT UNS subscriptions
+│   ├── nats/              ← NATS subjects + JetStream stream declarations (v3)
 │   ├── polling/           ← PostgreSQL polling (timestamp + full refresh)
 │   ├── kafka/             ← Kafka consumer configs
 │   ├── webhook/           ← REST webhook endpoints
@@ -70,6 +72,7 @@ konfiguriert sind.
 - `historians/postgresql/historian-template.json` — `node-red-contrib-postgresql`, optional Timescale-Hypertable + Compression + Retention.
 - `historians/mssql/historian-template.json` — `node-red-contrib-mssql-plus`.
 - `historians/influxdb/historian-template.json` — `node-red-contrib-influxdb` 2.x, Measurement pro Domain.
+- `historians/nats-jetstream/historian-template.json` (v3, additive) — `@i3x/nr-nats` durable consumer auf einem JetStream-Stream → Postgres-Insert in dieselbe `uns_history`-Tabelle. Wird verwendet wenn die Source `transport: ['nats']` setzt; bei `['mqtt','nats']` läuft der MQTT-Historian-Pfad parallel.
 
 Template-Shape gemeinsam:
 - `nodeRedContrib` — welches contrib-Paket
@@ -246,6 +249,8 @@ Defines **how to keep the KG updated** in real-time or near-real-time.
 | `kafka` | Apache Kafka consumer | Schema validated, handler pending | Planned |
 | `rest-webhook` | HTTP POST from external | Schema validated, handler pending | Planned |
 | `manual` | CSV/JSON upload via API/UI | Schema validated, handler pending | Planned |
+| `nats` | NATS pub/sub via leaf node | v3 additive — `@i3x/nr-nats` package | Active |
+| `nats-jetstream` | NATS JetStream durable streams | v3 additive — declares streams + consumers | Active |
 
 ### MQTT Sync
 
@@ -306,6 +311,50 @@ Defines **how to keep the KG updated** in real-time or near-real-time.
       }
     ]
   }
+}
+```
+
+### NATS Sync (v3, additive)
+
+**File:** `sync/nats/<sync-id>.json`
+
+NATS subjects mirror the MQTT topic hierarchy 1:1, dot-separated instead of slash-separated. Edge IPCs run a NATS Leaf Node which forwards subjects to the central cluster — `nats.url` typically points to `nats://nats:4222` inside the IPC compose network.
+
+```json
+{
+  "syncId": "isa95-uns-nats-walker-reynolds",
+  "syncType": "nats",
+  "nats": {
+    "url": "${NATS_URL}",
+    "leafNode": true
+  },
+  "subjectStructure": {
+    "pattern": "{enterprise}.{site}.{area}.{line}.{machine}.{domain}.{attribute}",
+    "separator": ".",
+    "subscribeFilters": ["*.*.*.*.*.bde.*", "*.*.*.*.*.processdata.*"]
+  },
+  "payloadSchema": {
+    "format": "JSON",
+    "headers": { "I3x-Machine": "{machine}", "I3x-Domain": "{domain}" }
+  }
+}
+```
+
+`syncType: "nats-jetstream"` declares JetStream streams + consumer-templates that capture these subjects for durable replay. The connector's `scripts/provision-jetstream.sh` reads such files and idempotently creates/updates streams on the cluster.
+
+```json
+{
+  "syncId": "jetstream-streams",
+  "syncType": "nats-jetstream",
+  "streams": [
+    {
+      "name": "UNS_EVENTS",
+      "subjects": ["*.*.*.*.*.bde.>", "*.*.*.*.*.processdata.>"],
+      "retention": "limits",
+      "storage": "file",
+      "max_age": "168h"
+    }
+  ]
 }
 ```
 
@@ -396,3 +445,55 @@ Phase 6: Sensor Discovery
 2. Create `sources/postgresql/<source>.json` with `profileRef` and `columnMappings`
 3. Add `edges` if the entity references other entities (e.g. `article_no` → Article)
 4. Optionally add to polling sync for live updates
+
+---
+
+## Appendix: v3 Variable Contract — `delivery` / `scope` / `promotion`
+
+> CAPT-V3-PROFILE-PROPS — required since osf-schemas v3.
+
+In v3 every variable in an SM Profile carries a three-property contract that
+declares how its data is wired, where it is allowed to land, and what triggers
+a publish. These are **required** on every attribute in
+`profiles/machines/*.json` (validated by `validation/machine-profile-schema.json`)
+and `profiles/business/*.json` (validated by `validation/business-profile-schema.json`).
+
+### `delivery` — wire class
+
+| Value | Meaning |
+|-------|---------|
+| `telemetry` | Best-effort. NATS JetStream publish, sample loss on disconnect is acceptable. |
+| `transactional` | JetStream Pub-Ack + Outbox-Retry. The record is never lost. |
+
+### `scope` — destination world
+
+| Value | Meaning |
+|-------|---------|
+| `edge` | Stays on the `.99` edge Timescale. **Never** reaches the `.150` central. |
+| `hub` | **Must** arrive on the `.150` central (`uns_history` Postgres / KG). |
+
+### `promotion` — publish trigger
+
+| Value | Meaning |
+|-------|---------|
+| `raw` | Every OPC-UA sample. Only meaningful with `scope: edge`. |
+| `aggregate` | Edge computes a 5-minute bucket — durations and counts only, **no quotas/percentages**. |
+| `on_change` | OPC-UA Subscribe `DataChangeFilter` — edge publishes only when the value changes. |
+| `on_cycle_end` | Edge publishes once per completed machine cycle (Class-B snapshot). |
+
+### Rules — which combinations are valid
+
+1. `promotion: raw` requires `scope: edge`. Raw samples are never promoted to the central.
+2. The edge **cannot compute quotas or percentages** — it has no shift plan, no
+   article ideal-cycle-time, no QMS quality verdict. Therefore variables such as
+   `oee`, `availability_pct`, `performance`, `quality_pct` **must not exist** as
+   machine output variables. Only raw durations (`runtime_5min_sec`,
+   `downtime_5min_sec`, `state_*_5min_sec`) and counts (`parts_total_inc_5min`)
+   are allowed as `aggregate`. OEE and friends are composed at-query-time on the
+   central — they live in `kpiRefs`, never in `attributes`.
+3. Business profiles (IT-Edge): by convention `scope` is always `hub` and
+   `delivery` is always `transactional`. The fields are still required on every
+   attribute for consistency — there is no default.
+4. `aggregate` implies `scope: hub` — an edge bucket only exists to be promoted.
+
+See `docs/example-variable-shapes.md` for concrete snippets.

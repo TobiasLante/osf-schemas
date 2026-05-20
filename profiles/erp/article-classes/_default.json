@@ -1,0 +1,48 @@
+{
+  "classId": "default",
+  "version": "1.0.0",
+  "displayName": "Default (Discrete Standard)",
+  "description": "Default-Promotion-Profil für Discrete-Manufacturing ohne Compliance-Anforderungen. Erwarteter Hoch-Anteil 2-5% des Edge-Volumens.",
+  "applies_when": "article has no explicit class assignment",
+  "expected_promotion_share": "2-5%",
+
+  "telemetry_promotion": {
+    "always": {
+      "setup_params_at_start": {
+        "window": "op_start_first_5s",
+        "attrs": [
+          "Act_Ref_Tool",
+          "Act_Ref_Article",
+          "Act_Ref_ProductionOrder",
+          "nc_program_hash",
+          "Set_Speed_Spindle",
+          "Set_Rate_Feed"
+        ],
+        "subject": "cpp.<site>.<machine>.<op_id>.setup"
+      },
+      "cycle_summary_per_unit": {
+        "window": "op_start..op_end",
+        "attrs": {
+          "Act_Energy_Power":    ["avg", "max", "p95"],
+          "Act_Speed_Spindle":   ["avg", "max"],
+          "Act_Pct_SpindleLoad": ["avg", "max"]
+        },
+        "subject": "cpp.<site>.<machine>.<op_id>.snapshot"
+      }
+    },
+    "on_event": {
+      "order_boundary_pre_post": {
+        "trigger": "Act_Ref_ProductionOrder.changed",
+        "window": ["-30s", "+30s"],
+        "sample_rate": "1s",
+        "attrs": [
+          "Act_Energy_Power",
+          "Act_Speed_Spindle",
+          "Act_Pct_SpindleLoad",
+          "Act_Status_Machine"
+        ],
+        "subject": "cpp.<site>.<machine>.<op_id>.boundary"
+      }
+    }
+  }
+}

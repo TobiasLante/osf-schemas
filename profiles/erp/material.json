@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-Material",
-  "version": "1.4.0",
+  "version": "3.0.0",
   "standard": "CESMII",
   "displayName": "Material / Stock Item",
   "description": "Material- und Lagerbestandsdaten (Rohmaterial, Halbzeug, Fertigware)",
@@ -10,67 +10,89 @@
       "name": "name",
       "dataType": "String",
       "category": "Master",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "type",
       "dataType": "String",
       "category": "Master",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "unit",
       "dataType": "String",
       "category": "Master",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "free_stock",
       "dataType": "Float",
       "category": "Stock",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "blocked_stock",
       "dataType": "Float",
       "category": "Stock",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "reserved",
       "dataType": "Float",
       "category": "Stock",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "safety_stock",
       "dataType": "Float",
       "category": "Stock",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "location",
       "dataType": "String",
       "category": "Stock",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "abc_class",
       "dataType": "String",
       "category": "Master",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "lead_time_days",
       "dataType": "Int32",
       "category": "Master",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "supplier",
       "dataType": "String",
       "category": "Master",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     }
   ],
   "relationships": [
@@ -80,5 +102,6 @@
     }
   ],
   "kgNodeLabel": "Material",
-  "kgIdProperty": "material_id"
+  "kgIdProperty": "material_id",
+  "category": "business"
 }

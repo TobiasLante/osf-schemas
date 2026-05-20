@@ -1,0 +1,31 @@
+{
+  "syncId": "sim-v5-poll",
+  "version": "1.0.0",
+  "syncType": "polling",
+  "transport": ["nats"],
+  "pollIntervalMs": 30000,
+  "sources": [
+    {
+      "sourceRef": "sim-v5-erp-articles",
+      "changeDetection": "full_refresh",
+      "refreshIntervalMs": 300000
+    },
+    {
+      "sourceRef": "sim-v5-erp-orders",
+      "changeDetection": "timestamp",
+      "timestampColumn": "last_updated_at",
+      "batchSize": 200
+    },
+    {
+      "sourceRef": "sim-v5-qms-inspections",
+      "changeDetection": "timestamp",
+      "timestampColumn": "updated_at",
+      "batchSize": 200
+    },
+    {
+      "sourceRef": "sim-v5-wms-quants",
+      "changeDetection": "full_refresh",
+      "refreshIntervalMs": 60000
+    }
+  ]
+}

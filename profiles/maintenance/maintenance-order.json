@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-MaintenanceOrder",
-  "version": "1.4.0",
+  "version": "3.0.0",
   "standard": "CESMII",
   "displayName": "Maintenance Order",
   "description": "Instandhaltungsauftrag (präventiv/korrektiv)",
@@ -10,49 +10,65 @@
       "name": "notification_no",
       "dataType": "String",
       "category": "Reference",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "machine_no",
       "dataType": "String",
       "category": "Reference",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "order_type",
       "dataType": "String",
       "category": "Master",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "priority",
       "dataType": "String",
       "category": "Master",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "description",
       "dataType": "String",
       "category": "Master",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "planned_start",
       "dataType": "String",
       "category": "Schedule",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "planned_end",
       "dataType": "String",
       "category": "Schedule",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "planned_hours",
       "dataType": "Float",
       "category": "Schedule",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     }
   ],
   "relationships": [
@@ -66,5 +82,6 @@
     }
   ],
   "kgNodeLabel": "MaintenanceOrder",
-  "kgIdProperty": "order_no"
+  "kgIdProperty": "order_no",
+  "category": "business"
 }

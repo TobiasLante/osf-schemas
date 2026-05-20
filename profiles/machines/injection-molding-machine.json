@@ -9,542 +9,818 @@
     {
       "name": "Act_Status_Machine",
       "dataType": "String",
-      "required": false
+      "required": false,
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "Act_Amount_PartGood",
       "dataType": "Int32",
-      "required": false
+      "required": false,
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "Act_Amount_PartScrap",
       "dataType": "Int32",
-      "required": false
+      "required": false,
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "Act_Ref_ProductionOrder",
       "dataType": "String",
-      "required": false
+      "required": false,
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "Act_Ref_Article",
       "dataType": "String",
-      "required": false
+      "required": false,
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "Act_Ref_Mould",
       "dataType": "String",
-      "required": false
-    },
-    {
-      "name": "Act_Pct_Quality",
-      "dataType": "String",
-      "required": false
+      "required": false,
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "Act_Time_Cycle",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Plan_Time_Cycle",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Temp_Melting",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Set_Temp_Melting",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Temp_Zone1",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Set_Temp_Zone1",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Temp_Zone2",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Set_Temp_Zone2",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Temp_Zone3",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Set_Temp_Zone3",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Temp_Zone4",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Set_Temp_Zone4",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Temp_Zone5",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Set_Temp_Zone5",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Temp_Zone6",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Set_Temp_Zone6",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Temp_Nozzle",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Set_Temp_Nozzle",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Temp_MouldFixed",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Set_Temp_MouldFixed",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Temp_MouldMoving",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Set_Temp_MouldMoving",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Temp_WaterInlet",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Set_Temp_WaterInlet",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Temp_WaterOutlet",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Temp_Oil",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Set_Temp_Oil",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Temp_Dryer",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Set_Temp_Dryer",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Temp_Ambient",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Time_Dosing",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Set_Time_Dosing",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Time_Filling",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Set_Time_Filling",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Time_Holding",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Set_Time_Holding",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Time_Cooling",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Set_Time_Cooling",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Time_MouldOpen",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Time_MouldClose",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Time_Ejection",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Time_Injection",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Time_Plasticizing",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Time_Pause",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Pressure_Holding",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Set_Pressure_Holding",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Pressure_InjectionMax",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Set_Pressure_InjectionMax",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Pressure_InjectionSwitch",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Set_Pressure_InjectionSwitch",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Pressure_Back",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Set_Pressure_Back",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Pressure_Oil",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Force_Closing",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Set_Force_Closing",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Force_Ejector",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Set_Force_Ejector",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Torque_Screw",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Vol_Shot",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Set_Vol_Shot",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Vol_Cushion",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Set_Vol_Cushion",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Speed_Injection",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Set_Speed_Injection",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Speed_ScrewRPM",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Set_Speed_ScrewRPM",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Speed_MouldOpen",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Set_Speed_MouldOpen",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Speed_MouldClose",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Set_Speed_MouldClose",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Speed_Ejector",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Set_Speed_Ejector",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Pos_ScrewDosing",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Set_Pos_ScrewDosing",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Pos_ScrewSwitch",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Set_Pos_ScrewSwitch",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Pos_ScrewDecompress",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Set_Pos_ScrewDecompress",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Pos_MouldOpen",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Set_Pos_MouldOpen",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Pos_Ejector",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Set_Pos_Ejector",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Energy_Total",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Energy_Heating",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Energy_Drive",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Energy_PowerCurrent",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Humidity_Granulate",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Humidity_Ambient",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Weight_Shot",
       "dataType": "Double",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Amount_Shot",
       "dataType": "Int32",
-      "required": false
-    },
-    {
-      "name": "Act_Pct_OEE",
-      "dataType": "Float",
-      "required": false
-    },
-    {
-      "name": "Act_Pct_Availability",
-      "dataType": "Float",
-      "required": false
-    },
-    {
-      "name": "Act_Pct_Performance",
-      "dataType": "Float",
-      "required": false
+      "required": false,
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "Act_Time_MouldCycle",
       "dataType": "Float",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Amount_PartTotal",
       "dataType": "Int32",
-      "required": false
-    },
-    {
-      "name": "Act_Pct_ScrapRate",
-      "dataType": "Float",
-      "required": false
+      "required": false,
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "Act_Energy_SpecificPerPart",
       "dataType": "Float",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     },
     {
       "name": "Act_Time_RunTotal",
       "dataType": "Float",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "hub",
+      "promotion": "aggregate"
     },
     {
       "name": "Act_Time_DownTotal",
       "dataType": "Float",
-      "required": false
-    },
-    {
-      "name": "Act_Pct_CycleEfficiency",
-      "dataType": "Float",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "hub",
+      "promotion": "aggregate"
     },
     {
       "name": "Act_Weight_PartNet",
       "dataType": "Float",
-      "required": false
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
     }
   ],
   "relationships": [
@@ -557,5 +833,13 @@
   "kgIdProperty": "machine_id",
   "companionSpec": "EUROMAP77",
   "opcuaTypeDefinition": "InjectionMouldingMachineType",
-  "deviceClass": "Injection Moulding Machine"
+  "deviceClass": "Injection Moulding Machine",
+  "kpiRefs": [
+    "KPI-Quality-Rate",
+    "KPI-OEE",
+    "KPI-Availability",
+    "KPI-Performance",
+    "KPI-Scrap-Rate",
+    "KPI-Cycle-Efficiency"
+  ]
 }

@@ -1,0 +1,69 @@
+{
+  "profileId": "SMProfile-Customer",
+  "version": "3.0.0",
+  "standard": "CESMII",
+  "displayName": "Customer",
+  "category": "business",
+  "description": "ERP customer master record. v3 demo-aligned.",
+  "parentType": null,
+  "attributes": [
+    {
+      "name": "customer_id",
+      "dataType": "String",
+      "category": "Core",
+      "isKey": true,
+      "description": "Unique customer ID (PK)",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "name",
+      "dataType": "String",
+      "category": "Master",
+      "description": "Customer name",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "country",
+      "dataType": "String",
+      "category": "Master",
+      "description": "ISO country code or name",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "vat_id",
+      "dataType": "String",
+      "category": "Master",
+      "description": "VAT identification number",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "active",
+      "dataType": "Boolean",
+      "category": "Master",
+      "description": "Customer active flag",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "updated_at",
+      "dataType": "DateTime",
+      "category": "Audit",
+      "description": "Last modification timestamp (diff field)",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    }
+  ],
+  "relationships": [],
+  "kgNodeLabel": "Customer",
+  "kgIdProperty": "customer_id"
+}

@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-Pool",
-  "version": "1.4.0",
+  "version": "3.0.0",
   "standard": "CESMII",
   "displayName": "Machine Pool",
   "description": "Maschinenpool — Gruppe austauschbarer Maschinen",
@@ -10,13 +10,19 @@
       "name": "name",
       "dataType": "String",
       "category": "Master",
-      "polling": "subscribe"
+      "polling": "subscribe",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "description",
       "dataType": "String",
       "category": "Master",
-      "polling": "subscribe"
+      "polling": "subscribe",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     }
   ],
   "relationships": [],

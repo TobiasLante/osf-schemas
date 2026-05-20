@@ -1,0 +1,39 @@
+{
+  "sourceId": "sim-v5-erp-orders",
+  "version": "1.0.0",
+  "sourceType": "rest",
+  "syncType": "polling",
+  "profileRef": "SMProfile-CustomerOrder",
+  "transport": ["nats"],
+  "connection": {
+    "baseUrl": "http://192.168.178.154:38260",
+    "path": "/api/customer-orders",
+    "method": "GET",
+    "auth": null,
+    "timeoutMs": 10000
+  },
+  "response": {
+    "format": "json",
+    "rootPath": "$",
+    "idProperty": "order_id"
+  },
+  "polling": {
+    "changeDetection": "timestamp",
+    "timestampQueryParam": "since",
+    "timestampField": "aktualisiert_am",
+    "intervalMs": 30000,
+    "batchSize": 200
+  },
+  "columnMappings": [
+    { "column": "order_id",          "smAttribute": "order_no",     "isId": true },
+    { "column": "kunde_id",          "smAttribute": "customer_ref" },
+    { "column": "kunde_name",        "smAttribute": "customer_name" },
+    { "column": "gesamtbetrag",      "smAttribute": "total_amount" },
+    { "column": "waehrung",          "smAttribute": "currency" },
+    { "column": "lieferdatum",       "smAttribute": "due_date" },
+    { "column": "status",            "smAttribute": "status" },
+    { "column": "prioritaet",        "smAttribute": "priority" },
+    { "column": "aktualisiert_am",   "smAttribute": "updated_at" }
+  ],
+  "edges": []
+}
