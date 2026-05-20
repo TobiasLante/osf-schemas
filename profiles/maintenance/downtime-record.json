@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-DowntimeRecord",
-  "version": "1.4.0",
+  "version": "3.0.0",
   "standard": "CESMII",
   "displayName": "Downtime Record",
   "description": "Stillstandsereignis einer Maschine aus BDE-Daten",
@@ -10,37 +10,49 @@
       "name": "machine_id",
       "dataType": "String",
       "category": "Reference",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "machine_name",
       "dataType": "String",
       "category": "Reference",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "reason",
       "dataType": "String",
       "category": "Master",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "duration_sec",
       "dataType": "Int32",
       "category": "Metric",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "shift_number",
       "dataType": "Int32",
       "category": "Context",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "recorded_at",
       "dataType": "String",
       "category": "Time",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     }
   ],
   "relationships": [
@@ -50,5 +62,6 @@
     }
   ],
   "kgNodeLabel": "DowntimeRecord",
-  "kgIdProperty": "downtime_id"
+  "kgIdProperty": "downtime_id",
+  "category": "business"
 }

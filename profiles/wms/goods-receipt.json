@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-GoodsReceipt",
-  "version": "1.4.0",
+  "version": "3.0.0",
   "standard": "CESMII",
   "displayName": "Goods Receipt (Wareneingangsavis)",
   "description": "Notification of incoming goods from production or procurement",
@@ -10,57 +10,75 @@
       "name": "avis_nr",
       "dataType": "String",
       "category": "Core",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "article_no",
       "dataType": "String",
       "category": "Core",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "article_name",
       "dataType": "String",
       "category": "Core",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "quantity",
       "dataType": "Float",
       "category": "Core",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "origin_type",
       "dataType": "String",
       "category": "Traceability",
       "description": "FERTIGUNG or EINKAUF",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "origin_ref",
       "dataType": "String",
       "category": "Traceability",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "origin_machine",
       "dataType": "String",
       "category": "Traceability",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "status",
       "dataType": "String",
       "category": "Core",
       "description": "OFFEN, IN_BEARBEITUNG, EINGELAGERT",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "target_warehouse",
       "dataType": "String",
       "category": "Location",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     }
   ],
   "relationships": [
@@ -74,5 +92,6 @@
     }
   ],
   "kgNodeLabel": "GoodsReceipt",
-  "kgIdProperty": "avis_nr"
+  "kgIdProperty": "avis_nr",
+  "category": "business"
 }

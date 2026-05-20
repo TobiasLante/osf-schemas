@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-TransportOrder",
-  "version": "1.4.0",
+  "version": "3.0.0",
   "standard": "CESMII",
   "displayName": "Transport Order (Transportauftrag)",
   "description": "Warehouse material movement order — put-away, pick, replenishment",
@@ -10,63 +10,83 @@
       "name": "ta_nr",
       "dataType": "String",
       "category": "Core",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "type",
       "dataType": "String",
       "category": "Core",
       "description": "EINLAGERUNG, AUSLAGERUNG, UMLAGERUNG, NACHSCHUB",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "article_no",
       "dataType": "String",
       "category": "Core",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "quantity",
       "dataType": "Float",
       "category": "Core",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "from_location",
       "dataType": "String",
       "category": "Movement",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "to_location",
       "dataType": "String",
       "category": "Movement",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "status",
       "dataType": "String",
       "category": "Core",
       "description": "OFFEN, IN_TRANSPORT, ERLEDIGT, STORNIERT",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "priority",
       "dataType": "Int32",
       "category": "Core",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "reference_type",
       "dataType": "String",
       "category": "Link",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "reference_no",
       "dataType": "String",
       "category": "Link",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     }
   ],
   "relationships": [
@@ -84,5 +104,6 @@
     }
   ],
   "kgNodeLabel": "TransportOrder",
-  "kgIdProperty": "ta_nr"
+  "kgIdProperty": "ta_nr",
+  "category": "business"
 }

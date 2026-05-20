@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-CorrectiveAction",
-  "version": "1.4.0",
+  "version": "3.0.0",
   "standard": "CESMII",
   "displayName": "Corrective Action (CAPA)",
   "description": "Corrective and Preventive Action linked to a quality notification",
@@ -10,50 +10,66 @@
       "name": "action_no",
       "dataType": "String",
       "category": "Core",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "notification_no",
       "dataType": "String",
       "category": "Link",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "action_type",
       "dataType": "String",
       "category": "Core",
       "description": "containment, corrective, preventive",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "description",
       "dataType": "String",
       "category": "Detail",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "responsible",
       "dataType": "String",
       "category": "Core",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "due_date",
       "dataType": "String",
       "category": "Planning",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "status",
       "dataType": "String",
       "category": "Core",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "is_effective",
       "dataType": "Boolean",
       "category": "Verification",
-      "polling": "subscribe"
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     }
   ],
   "relationships": [
@@ -63,5 +79,6 @@
     }
   ],
   "kgNodeLabel": "CorrectiveAction",
-  "kgIdProperty": "action_no"
+  "kgIdProperty": "action_no",
+  "category": "business"
 }
