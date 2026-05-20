@@ -1,0 +1,59 @@
+# osf-schemas validation pipeline
+# Self-hosted runner on .120 (llmserv0). Label `osf-schemas-120` is added when
+# we register the runner against this repo (see /opt/i3x-v4/ci/README.md).
+#
+# Target repo: TobiasLante/osf-schemas
+# Drop into: .github/workflows/validate.yml
+name: validate
+
+on:
+  push:
+    branches: [main, v3]
+  pull_request:
+    branches: [main, v3]
+  workflow_dispatch:
+
+jobs:
+  ajv-validate:
+    name: ajv validate (profiles + sources + sync)
+    runs-on: [self-hosted, Linux, X64, osf-schemas-120]
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # need history for breaking-change diff
+
+      - name: Set up Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install ajv toolchain
+        run: |
+          npm i -g ajv@8 ajv-cli@5 ajv-formats@3 ajv-keywords@5
+
+      - name: Run validator
+        id: validate
+        run: |
+          node .github/scripts/validate-all.mjs | tee validation-report.txt
+        # the script exits non-zero on any failure
+
+      - name: Detect breaking schema changes vs main
+        if: github.event_name == 'pull_request'
+        run: |
+          node .github/scripts/breaking-change-check.mjs \
+            --base "origin/${{ github.base_ref }}" \
+            --head "HEAD" | tee breaking-change-report.txt
+
+      - name: Upload validation report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: validation-report-${{ github.run_id }}
+          path: |
+            validation-report.txt
+            breaking-change-report.txt
+          if-no-files-found: ignore
+          retention-days: 30
