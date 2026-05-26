@@ -1,0 +1,16 @@
+{
+  "profileId": "SMProfile-LossPart",
+  "version": "0.1.0",
+  "standard": "OSF",
+  "displayName": "Loss Part",
+  "category": "intelligence",
+  "description": "Parts lost and never booked anywhere — e.g. the worker note '3 teile sind mir runtergefallen' (Konzept §6). LLM-extractable entity. Inherits provenance + links from ProductionPart.",
+  "parentType": "ProductionPart",
+  "abstract": false,
+  "attributes": [
+    { "name": "loss_type", "dataType": "String", "category": "Core", "enum": ["dropped", "missing", "sample", "unrecorded"], "description": "Nature of the loss" }
+  ],
+  "relationships": [],
+  "kgNodeLabel": "LossPart",
+  "kgIdProperty": "part_event_id"
+}
