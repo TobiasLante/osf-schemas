@@ -1,0 +1,17 @@
+{
+  "profileId": "SMProfile-BookingClaim",
+  "version": "0.1.0",
+  "standard": "OSF",
+  "displayName": "Booking Claim",
+  "category": "intelligence",
+  "description": "A source system's booking assertion — e.g. SAP 'fertig gemeldet 100' with stock reduced and order closed (Konzept §6). Distinct from physically produced parts; the claim is itself an entity so the gap between booked and real is first-class. Inherits provenance + links from ProductionPart; quantity = claimed amount.",
+  "parentType": "ProductionPart",
+  "abstract": false,
+  "attributes": [
+    { "name": "booked_system", "dataType": "String", "category": "Core", "description": "System that made the booking (e.g. sap)" },
+    { "name": "posting_doc", "dataType": "String", "category": "Core", "description": "Reference to the posting document / transaction" }
+  ],
+  "relationships": [],
+  "kgNodeLabel": "BookingClaim",
+  "kgIdProperty": "part_event_id"
+}

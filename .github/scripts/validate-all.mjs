@@ -5,6 +5,7 @@
 // Route table (path-prefix → validator schema in validation/):
 //   profiles/machines/      → machine-profile-schema.json
 //   profiles/business/      → business-profile-schema.json
+//   profiles/intelligence/  → intelligence-profile-schema.json
 //   sources/postgresql/it-* → it-edge-source-schema.json
 //
 // Files outside these prefixes are loaded + JSON-parsed only ("smoke" check)
@@ -27,6 +28,11 @@ const VALIDATORS = [
     name: 'business-profile',
     schemaFile: 'validation/business-profile-schema.json',
     match: (rel) => rel.startsWith('profiles/business/') && rel.endsWith('.json'),
+  },
+  {
+    name: 'intelligence-profile',
+    schemaFile: 'validation/intelligence-profile-schema.json',
+    match: (rel) => rel.startsWith('profiles/intelligence/') && rel.endsWith('.json'),
   },
   {
     name: 'it-edge-source',

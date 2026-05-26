@@ -1,0 +1,75 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/validation/intelligence-profile-schema.json",
+  "title": "OSF Intelligence Profile (v7, Multi-Truth / Golden / SetupMode)",
+  "description": "Schema for files under profiles/intelligence/*.json — central-computed knowledge entities (Discrepancy, ProductionPart lineage, SetupMode, GoldenProcessParameters + GoldenOutcome + ConditioningEffect, AutoResolveRule). A THIRD class beyond edge telemetry (profiles/machines/) and IT business events (profiles/business/, erp/qms/wms): these nodes are produced by the central intelligence engines (discrepancy-engine, golden-engine, view-engine) and written straight into the KG — they are NOT edge-sourced, so they deliberately carry NO delivery/scope/promotion wire-contract.",
+  "type": "object",
+  "required": ["profileId", "version", "displayName", "category", "attributes", "kgNodeLabel", "kgIdProperty"],
+  "properties": {
+    "profileId": {
+      "type": "string",
+      "pattern": "^SMProfile-[A-Z][A-Za-z0-9]+$",
+      "description": "Globally unique profile ID, prefix SMProfile-"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "standard": {
+      "type": "string",
+      "enum": ["CESMII", "OSF", "ISA-95"]
+    },
+    "displayName": { "type": "string" },
+    "category": {
+      "type": "string",
+      "enum": ["intelligence"],
+      "description": "Intelligence profiles only — telemetry lives in profiles/machines/, business events in profiles/business|erp|qms|wms/."
+    },
+    "description": { "type": "string" },
+    "parentType": { "type": ["string", "null"] },
+    "abstract": {
+      "type": "boolean",
+      "description": "Abstract parent profiles (e.g. SMProfile-Discrepancy, SMProfile-ProductionPart) are not instantiated directly; concrete children declare parentType to inherit attributes + relationships. Same flag semantics as machine/business schemas."
+    },
+    "attributes": {
+      "type": "array",
+      "minItems": 0,
+      "description": "Structural properties of the node. Concrete children may declare 0 attributes and rely entirely on inherited ones. No delivery/scope/promotion — intelligence entities are not wired from edges.",
+      "items": {
+        "type": "object",
+        "required": ["name", "dataType", "category"],
+        "properties": {
+          "name": { "type": "string" },
+          "dataType": {
+            "type": "string",
+            "enum": ["String", "Int32", "Int64", "Float", "Double", "Boolean", "DateTime", "Json"]
+          },
+          "category": { "type": "string" },
+          "isKey": { "type": "boolean" },
+          "description": { "type": "string" },
+          "enum": { "type": "array" },
+          "unit": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "relationships": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type", "target"],
+        "properties": {
+          "type": { "type": "string" },
+          "target": { "type": "string" },
+          "targetIdProp": { "type": "string" },
+          "timeBounded": { "type": "boolean" },
+          "description": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "kgNodeLabel": { "type": "string" },
+    "kgIdProperty": { "type": "string" }
+  },
+  "additionalProperties": false
+}

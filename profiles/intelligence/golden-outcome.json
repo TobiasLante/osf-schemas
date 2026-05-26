@@ -1,0 +1,25 @@
+{
+  "profileId": "SMProfile-GoldenOutcome",
+  "version": "0.1.0",
+  "standard": "OSF",
+  "displayName": "Golden Outcome (per dimension)",
+  "category": "intelligence",
+  "description": "One outcome dimension's Bayesian posterior under a GoldenProcessParameters head — Achse 1 of the two-axis Golden model. Default dimensions: output (cycle-time, OEE-input), energy (kWh/part), scrap, cpk, tool_life, stability (sigma within lot) + customer-specific (dimension=custom, metric_name set). Each dimension is estimated SEPARATELY so trade-offs between modes are visible (Konzept §16.1, §16.2). Every quantitative view reads mean as expected_real alongside the planned value, with ci_low/ci_high as the confidence interval (Golden-First, §5).",
+  "parentType": null,
+  "abstract": false,
+  "attributes": [
+    { "name": "outcome_id", "dataType": "String", "category": "Core", "isKey": true, "description": "Unique outcome id (golden_id + dimension)" },
+    { "name": "dimension", "dataType": "String", "category": "Core", "enum": ["output", "energy", "scrap", "cpk", "tool_life", "stability", "custom"], "description": "Outcome dimension; 'custom' carries a customer-specific metric via metric_name" },
+    { "name": "metric_name", "dataType": "String", "category": "Core", "description": "Concrete metric name for custom dimensions (e.g. compliance_depth)" },
+    { "name": "mean", "dataType": "Float", "category": "Posterior", "description": "Posterior mean — exposed as expected_real" },
+    { "name": "ci_low", "dataType": "Float", "category": "Posterior", "description": "Lower credible-interval bound" },
+    { "name": "ci_high", "dataType": "Float", "category": "Posterior", "description": "Upper credible-interval bound" },
+    { "name": "sigma", "dataType": "Float", "category": "Posterior", "description": "Posterior standard deviation — the drift-detection unit" },
+    { "name": "n_obs", "dataType": "Int64", "category": "Posterior", "description": "Observations for this dimension" },
+    { "name": "unit", "dataType": "String", "category": "Core", "description": "Unit of the metric (e.g. kWh/part, %, ratio)" },
+    { "name": "posterior", "dataType": "Json", "category": "Posterior", "description": "Full posterior params (distribution family + hyperparameters) for resumable Bayesian update" }
+  ],
+  "relationships": [],
+  "kgNodeLabel": "GoldenOutcome",
+  "kgIdProperty": "outcome_id"
+}

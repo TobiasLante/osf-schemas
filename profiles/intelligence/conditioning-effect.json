@@ -1,0 +1,26 @@
+{
+  "profileId": "SMProfile-ConditioningEffect",
+  "version": "0.1.0",
+  "standard": "OSF",
+  "displayName": "Conditioning Effect (random effect)",
+  "category": "intelligence",
+  "description": "A hierarchical random-effect offset for a structural covariate (shift, program) on a Golden outcome — Achse 2 of the two-axis Golden model. Partial-pooling: sparse levels shrink toward the population mean, so 'Schicht 2 +1.2% aber innerhalb der Streuung — keine Schicht ist besser' falls out naturally (statistically honest answers, §5). Decision-rule: deliberate setpoints are NOT here (they are SetupModes); exploratory/sparse factors (best hour, operator) are NOT here either (at-query-time views in Layer C). threshold_activated gates promotion to this Stufe-2 conditioning granularity (Konzept Open Question §27.4).",
+  "parentType": null,
+  "abstract": false,
+  "attributes": [
+    { "name": "effect_id", "dataType": "String", "category": "Core", "isKey": true, "description": "Unique effect id (golden_id + dimension + covariate + level)" },
+    { "name": "covariate", "dataType": "String", "category": "Core", "description": "Structural covariate (e.g. shift, program)" },
+    { "name": "level", "dataType": "String", "category": "Core", "description": "Covariate level (e.g. S1, S2)" },
+    { "name": "dimension", "dataType": "String", "category": "Core", "enum": ["output", "energy", "scrap", "cpk", "tool_life", "stability", "custom"], "description": "Which outcome dimension this effect modifies" },
+    { "name": "offset", "dataType": "Float", "category": "Posterior", "description": "Shrunk offset vs the population (base Golden) mean" },
+    { "name": "ci_low", "dataType": "Float", "category": "Posterior", "description": "Lower credible-interval bound of the offset" },
+    { "name": "ci_high", "dataType": "Float", "category": "Posterior", "description": "Upper credible-interval bound of the offset" },
+    { "name": "n_obs", "dataType": "Int64", "category": "Posterior", "description": "Observations for this covariate level" },
+    { "name": "pooled", "dataType": "Boolean", "category": "Posterior", "description": "True while fully shrunk (too few obs to separate from the population)" },
+    { "name": "significant", "dataType": "Boolean", "category": "Posterior", "description": "Whether the offset's CI excludes zero — drives statistically honest answers (no pseudo-ranking)" },
+    { "name": "threshold_activated", "dataType": "Boolean", "category": "Core", "description": "Whether this covariate has crossed the activation threshold for Stufe-2 conditioning" }
+  ],
+  "relationships": [],
+  "kgNodeLabel": "ConditioningEffect",
+  "kgIdProperty": "effect_id"
+}
