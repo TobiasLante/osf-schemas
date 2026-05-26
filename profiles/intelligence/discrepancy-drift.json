@@ -1,0 +1,24 @@
+{
+  "profileId": "SMProfile-DriftDiscrepancy",
+  "version": "0.1.0",
+  "standard": "OSF",
+  "displayName": "Drift Discrepancy",
+  "category": "intelligence",
+  "description": "Live reality deviates from the Golden Data Set — e.g. spindle runs 2.3 sigma under Golden (§17.1). Detected at the edge against the Edge-Golden-Snapshot of the active SetupMode. Inherits the full lifecycle from Discrepancy.",
+  "parentType": "Discrepancy",
+  "abstract": false,
+  "attributes": [
+    { "name": "metric", "dataType": "String", "category": "Evidence", "description": "Telemetry metric that drifted (e.g. spindle_rpm)" },
+    { "name": "observed_value", "dataType": "Float", "category": "Evidence", "description": "Observed value in the drift window" },
+    { "name": "expected_value", "dataType": "Float", "category": "Evidence", "description": "Golden posterior mean for the active SetupMode" },
+    { "name": "sigma_shift", "dataType": "Float", "category": "Evidence", "description": "Shift in sigma units vs the Golden posterior — drives the adaptive mode-switch (§16)" },
+    { "name": "window_start", "dataType": "DateTime", "category": "Evidence", "description": "Start of the drift detail-window" },
+    { "name": "window_end", "dataType": "DateTime", "category": "Evidence", "description": "End of the drift detail-window" }
+  ],
+  "relationships": [
+    { "type": "AGAINST_GOLDEN", "target": "GoldenProcessParameters", "targetIdProp": "golden_id", "description": "Golden posterior the drift was measured against" },
+    { "type": "AGAINST_MODE", "target": "SetupMode", "targetIdProp": "setup_mode_id", "description": "Active SetupMode at the time of the drift" }
+  ],
+  "kgNodeLabel": "DriftDiscrepancy",
+  "kgIdProperty": "discrepancy_id"
+}

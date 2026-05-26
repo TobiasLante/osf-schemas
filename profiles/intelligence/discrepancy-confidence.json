@@ -1,0 +1,19 @@
+{
+  "profileId": "SMProfile-ConfidenceDiscrepancy",
+  "version": "0.1.0",
+  "standard": "OSF",
+  "displayName": "Confidence Discrepancy",
+  "category": "intelligence",
+  "description": "An estimate became too uncertain to answer reliably; triggers cycle-count, measurement action or steward-review (§17.1). Connects Restunsicherheit-as-a-feature (§8) to the steward queue. Inherits the full lifecycle from Discrepancy.",
+  "parentType": "Discrepancy",
+  "abstract": false,
+  "attributes": [
+    { "name": "metric", "dataType": "String", "category": "Evidence", "description": "Which estimate degraded (e.g. inventory_per_article)" },
+    { "name": "confidence_level", "dataType": "String", "category": "Evidence", "enum": ["low", "medium", "high"], "description": "Current confidence bucket" },
+    { "name": "sigma", "dataType": "Float", "category": "Evidence", "description": "Estimate spread (sigma_drift for inventory)" },
+    { "name": "threshold", "dataType": "Float", "category": "Evidence", "description": "Threshold that was crossed (customer-tunable, §8)" }
+  ],
+  "relationships": [],
+  "kgNodeLabel": "ConfidenceDiscrepancy",
+  "kgIdProperty": "discrepancy_id"
+}

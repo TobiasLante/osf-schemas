@@ -1,0 +1,22 @@
+{
+  "profileId": "SMProfile-AutoResolveRule",
+  "version": "0.1.0",
+  "standard": "OSF",
+  "displayName": "Auto-Resolve Rule",
+  "category": "intelligence",
+  "description": "A steward-approved pattern -> classification rule mined from repeated discrepancy resolutions (Konzept §17.3 learning path 1). NOT background ML — pattern-mining with EXPLICIT human confirmation, auditable, deactivatable (important for Pharma/Aerospace compliance). When a steward makes the same classification ~50 times, the system proposes a rule; the steward approves it explicitly; resolved discrepancies link back via RESOLVED_BY_RULE.",
+  "parentType": null,
+  "abstract": false,
+  "attributes": [
+    { "name": "rule_id", "dataType": "String", "category": "Core", "isKey": true, "description": "Unique rule id" },
+    { "name": "pattern", "dataType": "Json", "category": "Rule", "description": "Match condition, e.g. { class: multi_source, source_a: bde, source_b: plc, abs_delta_lt: 5, has_worker_note: true }" },
+    { "name": "action", "dataType": "String", "category": "Rule", "description": "Classification to apply (e.g. accept_as_loss_event)" },
+    { "name": "status", "dataType": "String", "category": "Lifecycle", "enum": ["proposed", "active", "disabled"], "description": "proposed = awaiting steward approval; disabled = retired without deletion (audit-preserving)" },
+    { "name": "approved_by", "dataType": "String", "category": "Lifecycle", "description": "Steward who approved the rule" },
+    { "name": "hit_count", "dataType": "Int64", "category": "Stats", "description": "How often the rule auto-resolved a discrepancy" },
+    { "name": "created_at", "dataType": "DateTime", "category": "Core", "description": "When the rule was proposed" }
+  ],
+  "relationships": [],
+  "kgNodeLabel": "AutoResolveRule",
+  "kgIdProperty": "rule_id"
+}
