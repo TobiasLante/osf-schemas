@@ -1,0 +1,26 @@
+{
+  "profileId": "SMProfile-ProductionPart",
+  "version": "0.1.0",
+  "standard": "OSF",
+  "displayName": "Production Part Event (Abstract Parent)",
+  "category": "intelligence",
+  "description": "Abstract parent for the part-lineage entities. Each is its OWN entity with own provenance, timestamp, source and confidence — NOT a property on an Order (Konzept §14). Models the Multi-Truth part counts of PO-12345 (produced/scrap/loss/ghost + booking claims) so divergence is first-class instead of being collapsed into one order field.",
+  "parentType": null,
+  "abstract": true,
+  "attributes": [
+    { "name": "part_event_id", "dataType": "String", "category": "Core", "isKey": true, "description": "Unique part-event id (uuid)" },
+    { "name": "quantity", "dataType": "Int32", "category": "Core", "description": "Number of parts in this event" },
+    { "name": "source", "dataType": "String", "category": "Provenance", "description": "Originating source (sap | plc_counter | bde | worker_note | inferred)" },
+    { "name": "confidence", "dataType": "Float", "category": "Provenance", "description": "0..1 confidence in this count" },
+    { "name": "provenance", "dataType": "Json", "category": "Provenance", "description": "Structured provenance (raw refs, extractor, evidence)" },
+    { "name": "recorded_at", "dataType": "DateTime", "category": "Core", "description": "When the event was recorded" },
+    { "name": "recorded_by", "dataType": "String", "category": "Provenance", "description": "Actor/system that recorded it" }
+  ],
+  "relationships": [
+    { "type": "FOR_ORDER", "target": "Order", "targetIdProp": "order_no", "description": "Order this part-event belongs to" },
+    { "type": "ON_MACHINE", "target": "Machine", "targetIdProp": "machine_id", "description": "Machine that produced it" },
+    { "type": "OF_ARTICLE", "target": "Article", "targetIdProp": "article_no", "description": "Article produced" }
+  ],
+  "kgNodeLabel": "ProductionPart",
+  "kgIdProperty": "part_event_id"
+}
