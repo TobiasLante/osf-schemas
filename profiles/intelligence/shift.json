@@ -1,0 +1,20 @@
+{
+  "profileId": "SMProfile-Shift",
+  "version": "0.1.0",
+  "standard": "OSF",
+  "displayName": "Shift",
+  "category": "intelligence",
+  "description": "Shift master-data / calendar (S1/S2/S3 windows + active weekdays) used to attribute ProductionRuns and telemetry to shifts for shift_comparison (View 4). A structural covariate that the golden-engine conditions on (ConditioningEffect), NOT a SetupMode.",
+  "parentType": null,
+  "abstract": false,
+  "attributes": [
+    { "name": "shift_id", "dataType": "String", "category": "Core", "isKey": true, "description": "Shift id (e.g. S1)" },
+    { "name": "name", "dataType": "String", "category": "Core", "description": "Human name, e.g. Frühschicht" },
+    { "name": "start_time", "dataType": "String", "category": "Core", "description": "Local start, e.g. 06:00" },
+    { "name": "end_time", "dataType": "String", "category": "Core", "description": "Local end, e.g. 14:00" },
+    { "name": "weekdays", "dataType": "Json", "category": "Core", "description": "Active weekdays, e.g. [Mo,Di,Mi,Do,Fr]" }
+  ],
+  "relationships": [],
+  "kgNodeLabel": "Shift",
+  "kgIdProperty": "shift_id"
+}
