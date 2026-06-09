@@ -16,8 +16,10 @@
 #                           parentType inheritance); predicate.value type matches
 #                           attribute.dataType; enum membership checked.
 #
-# Future PRs will add:
-#   - JSON -> SHACL transpiler -> next/build/shacl/*.ttl   (PR-3b)
+#   4. build-shacl        — JSON -> SHACL transpiler (next/ci/json-to-shacl.mjs):
+#                           tests (n3 parse check) + emits next/build/shacl/*.ttl
+#                           as a CI artifact (Option C: JSON is SSOT, SHACL is a
+#                           build artifact — never hand-edited, never committed)
 
 name: validate-next
 
@@ -184,3 +186,34 @@ jobs:
 
       - name: Run cross-reference linter
         run: node next/ci/lint-constraints.mjs
+
+  build-shacl:
+    name: JSON -> SHACL transpiler (next/ci/json-to-shacl.mjs)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: lint-constraints
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install n3 (Turtle parse check in tests)
+        run: npm i n3@1
+
+      - name: Run transpiler tests
+        run: node next/ci/test-json-to-shacl.mjs
+
+      - name: Emit SHACL build artifacts
+        run: node next/ci/json-to-shacl.mjs
+
+      - name: Upload next/build/shacl
+        uses: actions/upload-artifact@v4
+        with:
+          name: shacl
+          path: next/build/shacl/*.ttl
+          if-no-files-found: warn
