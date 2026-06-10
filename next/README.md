@@ -43,8 +43,11 @@ next/
 
 Pilot one base profile and the discrepancy enum — not all 45 profiles:
 
-- `next/profiles/machines/cnc-machine.json` (when added) — copy of canonical + constraints
-- `next/profiles/intelligence/discrepancy.json` (when added) — copy + `'constraint'`
+- `next/profiles/machines/cnc-machine.json` — copy of canonical + constraints
+- `next/profiles/intelligence/discrepancy.json` — copy + `'constraint'` in the
+  `discrepancy_class` enum (0.1.0 → 0.2.0); validated against the **canonical**
+  `validation/intelligence-profile-schema.json` (the enum value is profile data,
+  no meta-schema change needed)
 - Pilot edge: cnc-009 (env flag `OSF_SCHEMA_TIER=next`)
 - cnc-001 / cnc-002 stay on canonical `profiles/`
 
