@@ -1,0 +1,70 @@
+# Validation for the SDC-inspired augmentation staging tree under next/.
+# Runs ONLY on changes touching next/** — never blocks PRs that modify only
+# canonical paths (profiles/, sources/, sync/, validation/).
+#
+# Scope of THIS PR (PR-1, scaffold-only):
+#   - meta-schema compile check (next/validation/constraint-schema.json)
+#
+# Future PRs will add:
+#   - sample-constraint validation (PR-2, once cnc-machine.json copy lands)
+#   - cross-reference linter (PR-2): predicate.attr resolves to a real attribute,
+#     predicate.value matches attribute.dataType
+#   - JSON -> SHACL transpiler (PR-3): emits next/build/shacl/*.ttl
+
+name: validate-next
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'next/**'
+      - '.github/workflows/validate-next.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'next/**'
+      - '.github/workflows/validate-next.yml'
+  workflow_dispatch:
+
+jobs:
+  schema-compile:
+    name: ajv compile (next/validation/*.json)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install ajv
+        run: npm i -g ajv@8
+
+      - name: Compile next/validation/*.json
+        run: |
+          set -e
+          shopt -s nullglob
+          schemas=(next/validation/*.json)
+          if [ ${#schemas[@]} -eq 0 ]; then
+            echo "No schemas yet — scaffold-only PR. Skipping."
+            exit 0
+          fi
+          for s in "${schemas[@]}"; do
+            echo "Compiling $s"
+            node -e "
+              const Ajv = require('ajv');
+              const schema = require('$PWD/$s');
+              const ajv = new Ajv({strict: false});
+              try {
+                ajv.compile(schema);
+                console.log('  OK');
+              } catch (e) {
+                console.error('  FAIL:', e.message);
+                process.exit(1);
+              }
+            "
+          done
