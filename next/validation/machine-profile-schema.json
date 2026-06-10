@@ -1,0 +1,96 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/validation/machine-profile-schema.json",
+  "title": "OSF Machine SM Profile — next/ pilot (constraints facet added)",
+  "description": "Validator for files under next/profiles/machines/*.json. Mirror of validation/machine-profile-schema.json with one additive property: 'constraints' (cross-reference to next/validation/constraint-schema.json). The canonical validator is unchanged. Cross-reference resolution (predicate.attr -> attributes[].name; predicate.value type vs attribute.dataType) is enforced separately by next/ci/lint-constraints.mjs — JSON Schema cannot express it.",
+  "type": "object",
+  "required": ["profileId", "version", "displayName", "attributes"],
+  "properties": {
+    "profileId": {
+      "type": "string",
+      "pattern": "^SMProfile-[A-Za-z0-9][A-Za-z0-9-]+$"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "standard": {
+      "type": "string",
+      "enum": ["CESMII", "OSF", "ISA-95"]
+    },
+    "displayName": {"type": "string"},
+    "description": {"type": "string"},
+    "parentType": {"type": ["string", "null"]},
+    "abstract": {"type": "boolean"},
+    "kpiRefs": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "attributes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["name", "dataType", "delivery", "scope", "promotion"],
+        "properties": {
+          "name": {"type": "string"},
+          "dataType": {
+            "type": "string",
+            "enum": ["String", "Int32", "Int64", "Float", "Double", "Boolean", "DateTime", "Json"]
+          },
+          "category": {"type": "string"},
+          "required": {"type": "boolean"},
+          "description": {"type": "string"},
+          "enum": {"type": "array"},
+          "unit": {"type": "string"},
+          "polling": {"type": "string"},
+          "delivery": {
+            "type": "string",
+            "enum": ["telemetry", "transactional"]
+          },
+          "scope": {
+            "type": "string",
+            "enum": ["edge", "hub"]
+          },
+          "promotion": {
+            "type": "string",
+            "enum": ["raw", "aggregate", "on_change", "on_cycle_end"]
+          }
+        },
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "if": {"properties": {"promotion": {"const": "raw"}}},
+            "then": {
+              "properties": {"scope": {"const": "edge"}}
+            }
+          }
+        ]
+      }
+    },
+    "relationships": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type", "target"],
+        "properties": {
+          "type": {"type": "string"},
+          "target": {"type": "string"},
+          "targetIdProp": {"type": "string"},
+          "description": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "constraints": {
+      "$ref": "constraint-schema.json",
+      "description": "Optional next/-only facet. Object keyed by constraint id (snake_case). Each value typed by constraint-schema.json. Empty/absent is valid."
+    },
+    "kgNodeLabel": {"type": "string"},
+    "kgIdProperty": {"type": "string"},
+    "companionSpec": {"type": "string"},
+    "opcuaTypeDefinition": {"type": "string"},
+    "deviceClass": {"type": "string"}
+  },
+  "additionalProperties": false
+}
