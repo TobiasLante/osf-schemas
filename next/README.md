@@ -36,7 +36,7 @@ next/
 │   └── intelligence/  ← discrepancy.json copy with 'constraint' added to enum
 ├── build/
 │   └── shacl/         ← CI-generated, .gitignored beyond .gitkeep
-└── ci/                ← lint-constraints.mjs + json-to-shacl.mjs (later PRs)
+└── ci/                ← lint-constraints.mjs + json-to-shacl.mjs (+ tests)
 ```
 
 ## Pilot scope (v1)
