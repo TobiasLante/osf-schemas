@@ -1,0 +1,291 @@
+{
+  "sourceId": "Source-OpcUA-sgm-004-ProcessData",
+  "version": "1.0.0",
+  "sourceType": "opcua",
+  "dataCategory": "ProcessData",
+  "profileRef": "SMProfile-InjectionMoldingMachine",
+  "endpoint": "opc.tcp://192.168.178.154:36063",
+  "machineId": "sgm-004",
+  "machineName": "Spritzgussmaschine sgm-04",
+  "location": {
+    "enterprise": "factory",
+    "site": "werk1",
+    "area": "sgm",
+    "line": "line-a",
+    "type": "SGM"
+  },
+  "nodeMappings": [
+    {
+      "opcuaNodeId": "ns=1;s=Machine/machineId",
+      "smAttribute": "machineId",
+      "dataType": "String"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/machineType",
+      "smAttribute": "machineType",
+      "dataType": "String"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/status",
+      "smAttribute": "status",
+      "dataType": "String"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/mode",
+      "smAttribute": "mode",
+      "dataType": "String"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/partsCount/good",
+      "smAttribute": "good",
+      "dataType": "Float64"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/partsCount/scrap",
+      "smAttribute": "scrap",
+      "dataType": "Float64"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/partsCount/total",
+      "smAttribute": "total",
+      "dataType": "Float64"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/uptimeSeconds",
+      "smAttribute": "uptimeSeconds",
+      "dataType": "Float64"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shot/inCycle",
+      "smAttribute": "inCycle",
+      "dataType": "Boolean"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shot/shotCount",
+      "smAttribute": "shotCount",
+      "dataType": "Float64"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shot/cycleTimeSec",
+      "smAttribute": "cycleTimeSec",
+      "dataType": "Float64"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shot/currentProgram",
+      "smAttribute": "currentProgram",
+      "dataType": "String"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shot/lastShotAt",
+      "smAttribute": "lastShotAt",
+      "dataType": "String"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/_Count",
+      "smAttribute": "_Count",
+      "dataType": "Int32"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[0]/index",
+      "smAttribute": "index",
+      "dataType": "Float64"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[0]/hotrunnerTempC",
+      "smAttribute": "hotrunnerTempC",
+      "dataType": "Float64"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[0]/cavityPressureBar",
+      "smAttribute": "cavityPressureBar",
+      "dataType": "Float64"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[0]/mouldPressureBar",
+      "smAttribute": "mouldPressureBar",
+      "dataType": "Float64"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[0]/partMass_g",
+      "smAttribute": "partMass_g",
+      "dataType": "Float64"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/[0]/name",
+      "smAttribute": "name",
+      "dataType": "String"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/[0]/tempC",
+      "smAttribute": "tempC",
+      "dataType": "Float64"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/[0]/setpointC",
+      "smAttribute": "setpointC",
+      "dataType": "Float64"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/nozzleTempC",
+      "smAttribute": "nozzleTempC",
+      "dataType": "Float64"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/injection/peakPressureBar",
+      "smAttribute": "peakPressureBar",
+      "dataType": "Float64"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/injection/holdPressureBar",
+      "smAttribute": "holdPressureBar",
+      "dataType": "Float64"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/injection/backPressureBar",
+      "smAttribute": "backPressureBar",
+      "dataType": "Float64"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/injection/injectionSpeedMmPerSec",
+      "smAttribute": "injectionSpeedMmPerSec",
+      "dataType": "Float64"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/injection/shotVolumeCm3",
+      "smAttribute": "shotVolumeCm3",
+      "dataType": "Float64"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/mould/mouldId",
+      "smAttribute": "mouldId",
+      "dataType": "String"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/mould/lifePercent",
+      "smAttribute": "lifePercent",
+      "dataType": "Float64"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/mould/totalShots",
+      "smAttribute": "totalShots",
+      "dataType": "Float64"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/mould/coolingFlowLMin",
+      "smAttribute": "coolingFlowLMin",
+      "dataType": "Float64"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/powerKw",
+      "smAttribute": "powerKw",
+      "dataType": "Float64"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/phase/elapsedSec",
+      "smAttribute": "elapsedSec",
+      "dataType": "Float64"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/phase/switchoverReached",
+      "smAttribute": "switchoverReached",
+      "dataType": "Boolean"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/phase/plastProgress",
+      "smAttribute": "plastProgress",
+      "dataType": "Float64"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/phase/cushionMm",
+      "smAttribute": "cushionMm",
+      "dataType": "Float64"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/setup/remainingSec",
+      "smAttribute": "remainingSec",
+      "dataType": "Float64"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/setup/reason",
+      "smAttribute": "reason",
+      "dataType": "String"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shiftActive",
+      "smAttribute": "shiftActive",
+      "dataType": "Boolean"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/resin",
+      "smAttribute": "resin",
+      "dataType": "String"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/dryerTempC",
+      "smAttribute": "dryerTempC",
+      "dataType": "Float64"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/dryerSetpointC",
+      "smAttribute": "dryerSetpointC",
+      "dataType": "Float64"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/dryerResidenceMin",
+      "smAttribute": "dryerResidenceMin",
+      "dataType": "Float64"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/dryerResidenceTargetMin",
+      "smAttribute": "dryerResidenceTargetMin",
+      "dataType": "Float64"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/hopperFillPct",
+      "smAttribute": "hopperFillPct",
+      "dataType": "Float64"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/hopperRefillThresholdPct",
+      "smAttribute": "hopperRefillThresholdPct",
+      "dataType": "Float64"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/hopperRefillCount",
+      "smAttribute": "hopperRefillCount",
+      "dataType": "Float64"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/regrindRatioPct",
+      "smAttribute": "regrindRatioPct",
+      "dataType": "Float64"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/colourMasterbatchPct",
+      "smAttribute": "colourMasterbatchPct",
+      "dataType": "Float64"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/colourPurgeRemaining",
+      "smAttribute": "colourPurgeRemaining",
+      "dataType": "Float64"
+    }
+  ],
+  "staticProperties": {
+    "machineType": "injection molding machine"
+  },
+  "polling": {
+    "mode": "subscribe",
+    "intervalMs": 1000
+  },
+  "security": {
+    "mode": "None",
+    "policy": "None",
+    "auth": "Anonymous"
+  },
+  "export": {
+    "targets": [
+      "edge-ipc"
+    ]
+  }
+}
