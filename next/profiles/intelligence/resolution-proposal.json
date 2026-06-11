@@ -1,0 +1,129 @@
+{
+  "profileId": "SMProfile-ResolutionProposal",
+  "version": "0.1.0",
+  "standard": "OSF",
+  "displayName": "Resolution Proposal",
+  "category": "intelligence",
+  "description": "Ein dokumentierter Loesungsvorschlag fuer eine Discrepancy, der VOR der Lifecycle-Transition steht und die User-Freigabe traegt (SDC-Sichtbarkeits-Konzept 2026-06-11). Kernidee: eine Discrepancy ist symmetrische Evidenz — entweder weicht die Realitaet von der Vorgabe ab (target=fix_reality) oder die Vorgabe von der Realitaet (target=fix_charter). fix_charter-Proposals tragen den konkreten Diff des Constraint-Blocks; ihre Freigabe ist der daraus generierte osf-schemas-PR (SSOT-as-Git: PR-Review = auditierte Vier-Augen-Freigabe, CI validiert, gen-flow rollt aus) — die Engine baut dafuer KEINE eigene Governance. Producer sind Mensch (Steward-Formular), AutoResolveRule oder Agent (v7 Intelligence, advisory-only — ein Agent proposed, transitioniert aber nie selbst). Vier-Augen-Invariante: decided_by MUSS != proposed_by sein (von der Engine erzwungen, nicht vom Schema ausdrueckbar). Die Discrepancy-Transition referenziert die proposal_id, damit die Freigabe als 'User X hat Vorschlag Y von Z freigegeben' in der Audit-Kette steht. Owner des Stores ist die discrepancy-engine (System of Record).",
+  "parentType": null,
+  "abstract": false,
+  "attributes": [
+    {
+      "name": "proposal_id",
+      "dataType": "String",
+      "category": "Core",
+      "isKey": true,
+      "description": "Unique proposal id (uuid)"
+    },
+    {
+      "name": "target",
+      "dataType": "String",
+      "category": "Core",
+      "enum": ["fix_reality", "fix_charter"],
+      "description": "Was der Vorschlag aendert: fix_reality = Massnahme an Maschine/Prozess/Daten, die Vorgabe bleibt; fix_charter = die Vorgabe selbst ist falsch und wird als Profil-Aenderung in osf-schemas angepasst"
+    },
+    {
+      "name": "proposed_mode",
+      "dataType": "String",
+      "category": "Core",
+      "enum": ["resolved", "accepted_known_divergence", "escalated", "superseded"],
+      "description": "Lifecycle-Closure, die der Vorschlag fuer die Discrepancy impliziert. fix_charter-Proposals implizieren superseded (die Episode wird durch die Regelaenderung ueberholt, Link via resolved_by_rule_change auf den osf-schemas-Commit)"
+    },
+    {
+      "name": "rationale",
+      "dataType": "String",
+      "category": "Core",
+      "description": "Begruendung des Vorschlags — fuer fix_charter typischerweise die Recurrence-Evidenz (N Episoden ohne echte Massnahme)"
+    },
+    {
+      "name": "proposed_by_kind",
+      "dataType": "String",
+      "category": "Provenance",
+      "enum": ["human", "rule", "agent"],
+      "description": "Producer-Klasse: human = Steward-Formular, rule = AutoResolveRule, agent = v7-Intelligence-Discussion (advisory-only)"
+    },
+    {
+      "name": "proposed_by",
+      "dataType": "String",
+      "category": "Provenance",
+      "description": "Konkreter Producer: User-Id, rule_id oder Agent-Id"
+    },
+    {
+      "name": "confidence",
+      "dataType": "Float",
+      "category": "Provenance",
+      "description": "Optionale 0..1-Konfidenz des Producers (vor allem fuer agent-Proposals)"
+    },
+    {
+      "name": "evidence_refs",
+      "dataType": "String",
+      "category": "Evidence",
+      "description": "Serialisiertes JSON-Array von Evidenz-Referenzen: discrepancy_ids der Recurrence-Historie, audit_refs, KG-Node-Refs, Query-Ergebnisse"
+    },
+    {
+      "name": "constraint_diff",
+      "dataType": "String",
+      "category": "Charter",
+      "description": "Nur target=fix_charter: serialisiertes JSON {profileId, constraintId, before, after} — after=null bedeutet Regel loeschen. Wird 1:1 zum Inhalt des osf-schemas-PRs"
+    },
+    {
+      "name": "charter_pr_url",
+      "dataType": "String",
+      "category": "Charter",
+      "description": "Nur target=fix_charter: URL des generierten osf-schemas-PRs, sobald eroeffnet — der PR IST die Freigabe-Instanz"
+    },
+    {
+      "name": "status",
+      "dataType": "String",
+      "category": "Lifecycle",
+      "enum": ["proposed", "approved", "rejected", "withdrawn"],
+      "description": "proposed -> approved | rejected | withdrawn. approved loest fuer fix_reality die Discrepancy-Transition mit proposal_id-Referenz aus; fuer fix_charter wird approved erst gesetzt, wenn der osf-schemas-PR gemerged ist (PR-Merge = Freigabe)"
+    },
+    {
+      "name": "decided_by",
+      "dataType": "String",
+      "category": "Lifecycle",
+      "description": "Wer approved/rejected hat. Vier-Augen-Invariante: MUSS != proposed_by (Engine erzwingt das); fuer fix_charter der PR-Merger"
+    },
+    {
+      "name": "decided_at",
+      "dataType": "DateTime",
+      "category": "Lifecycle",
+      "description": "Zeitpunkt der Entscheidung"
+    },
+    {
+      "name": "decision_note",
+      "dataType": "String",
+      "category": "Lifecycle",
+      "description": "Begruendung der Entscheidung (vor allem bei rejected)"
+    },
+    {
+      "name": "created_at",
+      "dataType": "DateTime",
+      "category": "Core",
+      "description": "Wann der Vorschlag erstellt wurde"
+    },
+    {
+      "name": "audit_ref",
+      "dataType": "String",
+      "category": "Audit",
+      "description": "Hash-chain ref (vault-hashchain) fuer das Proposal-Ereignis — gleiche Ed25519-Kette wie die Discrepancy-Lifecycle-Events"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "PROPOSES_FOR",
+      "target": "Discrepancy",
+      "targetIdProp": "discrepancy_id",
+      "description": "Die Discrepancy, die dieser Vorschlag loesen wuerde"
+    },
+    {
+      "type": "PROPOSED_BY_RULE",
+      "target": "AutoResolveRule",
+      "targetIdProp": "rule_id",
+      "description": "Nur proposed_by_kind=rule: die AutoResolveRule, die den Vorschlag erzeugt hat"
+    }
+  ],
+  "kgNodeLabel": "ResolutionProposal",
+  "kgIdProperty": "proposal_id"
+}
