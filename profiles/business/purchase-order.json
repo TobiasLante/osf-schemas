@@ -1,0 +1,105 @@
+{
+  "profileId": "SMProfile-PurchaseOrder",
+  "version": "1.0.0",
+  "standard": "CESMII",
+  "displayName": "Purchase Order",
+  "category": "business",
+  "description": "Bestellung beim Lieferanten (ERP). Soll-/Ist-Liefertermine sind der Materialeingangs-Anker für präskriptive Planungsfragen (Auftrag startet frühestens, wenn das Material da ist).",
+  "parentType": null,
+  "attributes": [
+    {
+      "name": "po_number",
+      "dataType": "String",
+      "category": "Core",
+      "isKey": true,
+      "description": "Bestellnummer (Primary Key)",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "supplier_id",
+      "dataType": "String",
+      "category": "Link",
+      "description": "Lieferanten-ID",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "supplier_name",
+      "dataType": "String",
+      "category": "Detail",
+      "description": "Lieferantenname",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "status",
+      "dataType": "String",
+      "category": "Core",
+      "description": "Bestellstatus (z.B. ORDERED | CONFIRMED | DELIVERED)",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "ordered_at",
+      "dataType": "DateTime",
+      "category": "Detail",
+      "description": "Bestelldatum",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "due_date",
+      "dataType": "DateTime",
+      "category": "Core",
+      "description": "Soll-Liefertermin (lieferdatum_soll)",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "delivered_at",
+      "dataType": "DateTime",
+      "category": "Core",
+      "description": "Ist-Liefertermin (lieferdatum_ist) — null solange unterwegs",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "confirmed_due_date",
+      "dataType": "DateTime",
+      "category": "Detail",
+      "description": "Vom Lieferanten bestätigter Liefertermin (bestaetigte_lieferung)",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "total_amount",
+      "dataType": "Double",
+      "category": "Detail",
+      "description": "Bestellwert",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "currency",
+      "dataType": "String",
+      "category": "Detail",
+      "description": "Währung",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    }
+  ],
+  "relationships": [],
+  "kgNodeLabel": "PurchaseOrder",
+  "kgIdProperty": "po_number"
+}
