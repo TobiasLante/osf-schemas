@@ -8,27 +8,147 @@
   "parentType": null,
   "abstract": true,
   "attributes": [
-    { "name": "discrepancy_id", "dataType": "String", "category": "Core", "isKey": true, "description": "Unique discrepancy id (uuid)" },
-    { "name": "discrepancy_class", "dataType": "String", "category": "Core", "enum": ["multi_source", "drift", "confidence", "constraint"], "description": "Which detector class produced it (§17.1; 'constraint' = edge constraint-detector, next/ pilot)" },
-    { "name": "lifecycle_state", "dataType": "String", "category": "Lifecycle", "enum": ["open", "resolved", "accepted_known_divergence", "escalated", "superseded"], "description": "Current lifecycle state (§17.2)" },
-    { "name": "resolution_mode", "dataType": "String", "category": "Lifecycle", "enum": ["resolved", "accepted_known_divergence", "escalated", "superseded"], "description": "Closure mode once terminal; null while open" },
-    { "name": "resolution_note", "dataType": "String", "category": "Lifecycle", "description": "Steward rationale for the closure decision" },
-    { "name": "steward_domain", "dataType": "String", "category": "Stewardship", "enum": ["master_data", "quality", "process"], "description": "Owning steward domain — domain-separation enforced for MVP (§16)" },
-    { "name": "assigned_to", "dataType": "String", "category": "Stewardship", "description": "Person/role the discrepancy is assigned to" },
-    { "name": "due_at", "dataType": "DateTime", "category": "Stewardship", "description": "Deadline when escalated (§17.2 escalated)" },
-    { "name": "business_impact", "dataType": "Float", "category": "Prioritization", "description": "Estimated business impact for steward prioritization (§17.4)" },
-    { "name": "recurrence_key", "dataType": "String", "category": "Learning", "description": "Stable signature for pattern-mining of repeated discrepancies — feeds auto-resolve-rule suggestion (§17.3 path 1). For class 'constraint': <machine_id>:<constraint_id>" },
-    { "name": "detected_at", "dataType": "DateTime", "category": "Core", "description": "When the detector first raised it" },
-    { "name": "resolved_at", "dataType": "DateTime", "category": "Lifecycle", "description": "When it reached a terminal state" },
-    { "name": "audit_ref", "dataType": "String", "category": "Audit", "description": "Hash-chain ref into the vault (vault-hashchain) for the resolution event" }
+    {
+      "name": "discrepancy_id",
+      "dataType": "String",
+      "category": "Core",
+      "isKey": true,
+      "description": "Unique discrepancy id (uuid)"
+    },
+    {
+      "name": "discrepancy_class",
+      "dataType": "String",
+      "category": "Core",
+      "enum": [
+        "multi_source",
+        "drift",
+        "confidence",
+        "constraint"
+      ],
+      "description": "Which detector class produced it (§17.1; 'constraint' = edge constraint-detector, next/ pilot)"
+    },
+    {
+      "name": "lifecycle_state",
+      "dataType": "String",
+      "category": "Lifecycle",
+      "enum": [
+        "open",
+        "resolved",
+        "accepted_known_divergence",
+        "escalated",
+        "superseded"
+      ],
+      "description": "Current lifecycle state (§17.2)"
+    },
+    {
+      "name": "resolution_mode",
+      "dataType": "String",
+      "category": "Lifecycle",
+      "enum": [
+        "resolved",
+        "accepted_known_divergence",
+        "escalated",
+        "superseded"
+      ],
+      "description": "Closure mode once terminal; null while open"
+    },
+    {
+      "name": "resolution_note",
+      "dataType": "String",
+      "category": "Lifecycle",
+      "description": "Steward rationale for the closure decision"
+    },
+    {
+      "name": "steward_domain",
+      "dataType": "String",
+      "category": "Stewardship",
+      "enum": [
+        "master_data",
+        "quality",
+        "process"
+      ],
+      "description": "Owning steward domain — domain-separation enforced for MVP (§16)"
+    },
+    {
+      "name": "assigned_to",
+      "dataType": "String",
+      "category": "Stewardship",
+      "description": "Person/role the discrepancy is assigned to"
+    },
+    {
+      "name": "due_at",
+      "dataType": "DateTime",
+      "category": "Stewardship",
+      "description": "Deadline when escalated (§17.2 escalated)"
+    },
+    {
+      "name": "business_impact",
+      "dataType": "Float",
+      "category": "Prioritization",
+      "description": "Estimated business impact for steward prioritization (§17.4)"
+    },
+    {
+      "name": "recurrence_key",
+      "dataType": "String",
+      "category": "Learning",
+      "description": "Stable signature for pattern-mining of repeated discrepancies — feeds auto-resolve-rule suggestion (§17.3 path 1). For class 'constraint': <machine_id>:<constraint_id>"
+    },
+    {
+      "name": "detected_at",
+      "dataType": "DateTime",
+      "category": "Core",
+      "description": "When the detector first raised it"
+    },
+    {
+      "name": "resolved_at",
+      "dataType": "DateTime",
+      "category": "Lifecycle",
+      "description": "When it reached a terminal state"
+    },
+    {
+      "name": "audit_ref",
+      "dataType": "String",
+      "category": "Audit",
+      "description": "Hash-chain ref into the vault (vault-hashchain) for the resolution event"
+    }
   ],
   "relationships": [
-    { "type": "ABOUT_ORDER", "target": "Order", "targetIdProp": "order_no", "description": "Order the discrepancy concerns (optional)" },
-    { "type": "ABOUT_MACHINE", "target": "Machine", "targetIdProp": "machine_id", "description": "Machine the discrepancy concerns (optional)" },
-    { "type": "ABOUT_ARTICLE", "target": "Article", "targetIdProp": "article_no", "description": "Article the discrepancy concerns (optional)" },
-    { "type": "SUPERSEDED_BY", "target": "Discrepancy", "targetIdProp": "discrepancy_id", "description": "Newer discrepancy that overtook this one (§17.2 superseded)" },
-    { "type": "RESOLVED_BY_RULE", "target": "AutoResolveRule", "targetIdProp": "rule_id", "description": "Auto-resolve rule that closed it, if any (§17.3 path 1)" }
+    {
+      "type": "ABOUT_ORDER",
+      "target": "Order",
+      "targetIdProp": "order_no",
+      "description": "Order the discrepancy concerns (optional)"
+    },
+    {
+      "type": "ABOUT_MACHINE",
+      "target": "Machine",
+      "targetIdProp": "machine_id",
+      "description": "Machine the discrepancy concerns (optional)"
+    },
+    {
+      "type": "ABOUT_ARTICLE",
+      "target": "Article",
+      "targetIdProp": "article_no",
+      "description": "Article the discrepancy concerns (optional)"
+    },
+    {
+      "type": "SUPERSEDED_BY",
+      "target": "Discrepancy",
+      "targetIdProp": "discrepancy_id",
+      "description": "Newer discrepancy that overtook this one (§17.2 superseded)"
+    },
+    {
+      "type": "RESOLVED_BY_RULE",
+      "target": "AutoResolveRule",
+      "targetIdProp": "rule_id",
+      "description": "Auto-resolve rule that closed it, if any (§17.3 path 1)"
+    }
   ],
   "kgNodeLabel": "Discrepancy",
-  "kgIdProperty": "discrepancy_id"
+  "kgIdProperty": "discrepancy_id",
+  "isa95": {
+    "objectModel": "Extension",
+    "extension": true,
+    "note": "Intelligence-Entität (Multi-Truth/SDC) — ISA-95-Extension"
+  }
 }

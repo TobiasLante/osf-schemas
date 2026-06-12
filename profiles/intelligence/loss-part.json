@@ -8,9 +8,26 @@
   "parentType": "ProductionPart",
   "abstract": false,
   "attributes": [
-    { "name": "loss_type", "dataType": "String", "category": "Core", "enum": ["dropped", "missing", "sample", "unrecorded"], "description": "Nature of the loss" }
+    {
+      "name": "loss_type",
+      "dataType": "String",
+      "category": "Core",
+      "enum": [
+        "dropped",
+        "missing",
+        "sample",
+        "unrecorded"
+      ],
+      "description": "Nature of the loss"
+    }
   ],
   "relationships": [],
   "kgNodeLabel": "LossPart",
-  "kgIdProperty": "part_event_id"
+  "kgIdProperty": "part_event_id",
+  "isa95": {
+    "objectModel": "Extension",
+    "extension": true,
+    "momDomain": "production",
+    "note": "Intelligence-Entität (Multi-Truth/SDC) — ISA-95-Extension"
+  }
 }

@@ -101,5 +101,17 @@
     }
   ],
   "kgNodeLabel": "ProductionOrder",
-  "kgIdProperty": "order_id"
+  "kgIdProperty": "order_id",
+  "isa95": {
+    "objectModel": "JobOrder",
+    "momDomain": "production",
+    "level": 3,
+    "propertyMap": {
+      "order_id": "JobOrder.ID",
+      "due_date": "JobOrder.PlannedFinishTime",
+      "qty_planned": "MaterialRequirement.Quantity",
+      "qty_actual": "MaterialActual.Quantity",
+      "status": "JobOrder.DispatchStatus"
+    }
+  }
 }

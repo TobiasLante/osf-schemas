@@ -76,5 +76,15 @@
   ],
   "kgNodeLabel": "CustomerOrder",
   "kgIdProperty": "order_no",
-  "category": "business"
+  "category": "business",
+  "isa95": {
+    "objectModel": "OperationsRequest",
+    "momDomain": "production",
+    "level": 4,
+    "propertyMap": {
+      "order_no": "OperationsRequest.ID",
+      "due_date": "OperationsRequest.EndTime",
+      "priority": "OperationsRequest.Priority"
+    }
+  }
 }

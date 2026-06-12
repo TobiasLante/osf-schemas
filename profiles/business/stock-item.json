@@ -71,5 +71,14 @@
     }
   ],
   "kgNodeLabel": "StockItem",
-  "kgIdProperty": "article_no"
+  "kgIdProperty": "article_no",
+  "isa95": {
+    "objectModel": "MaterialLot",
+    "momDomain": "inventory",
+    "propertyMap": {
+      "article_no": "MaterialDefinition.ID",
+      "qty_on_hand": "MaterialLot.Quantity",
+      "location": "MaterialLot.StorageLocation"
+    }
+  }
 }

@@ -20,7 +20,13 @@
       "dataType": "Int32",
       "category": "BDE",
       "description": "1=Produktion, 2=Stillstand, 3=Rüsten, 4=Wartung, 5=Störung",
-      "enum": [1, 2, 3, 4, 5],
+      "enum": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
       "polling": "scan",
       "delivery": "transactional",
       "scope": "hub",
@@ -153,15 +159,33 @@
     }
   ],
   "relationships": [
-    { "type": "PART_OF", "target": "ProductionLine", "description": "ISA-95 hierarchy" },
-    { "type": "PRODUCES", "target": "Article" },
-    { "type": "EXECUTES", "target": "ProductionOrder" }
+    {
+      "type": "PART_OF",
+      "target": "ProductionLine",
+      "description": "ISA-95 hierarchy"
+    },
+    {
+      "type": "PRODUCES",
+      "target": "Article"
+    },
+    {
+      "type": "EXECUTES",
+      "target": "ProductionOrder"
+    }
   ],
   "constraints": {
     "power_positive_when_running": {
       "description": "Maschine meldet Status=Produktion, liefert aber 0 kW — Sensor- oder Edge-Kommunikationsfehler. Inherited by every machine subtype.",
-      "when":    { "attr": "Machine_Status", "op": "eq", "value": 1 },
-      "require": { "attr": "Power_kW",       "op": "gt", "value": 0 },
+      "when": {
+        "attr": "Machine_Status",
+        "op": "eq",
+        "value": 1
+      },
+      "require": {
+        "attr": "Power_kW",
+        "op": "gt",
+        "value": 0
+      },
       "severity": "warning",
       "discrepancyClass": "constraint",
       "since": "2026-06-08"
@@ -171,5 +195,13 @@
   "kgIdProperty": "machine_id",
   "companionSpec": "OPC40001-1",
   "opcuaTypeDefinition": "MachineType",
-  "deviceClass": "Machine"
+  "deviceClass": "Machine",
+  "isa95": {
+    "objectModel": "Equipment",
+    "momDomain": "production",
+    "equipmentLevel": "WorkUnit",
+    "propertyMap": {
+      "machineId": "Equipment.ID"
+    }
+  }
 }

@@ -24,7 +24,10 @@
       "name": "constraint_severity",
       "dataType": "String",
       "category": "Evidence",
-      "enum": ["error", "warning"],
+      "enum": [
+        "error",
+        "warning"
+      ],
       "description": "Severity der Regel zum Raise-Zeitpunkt"
     },
     {
@@ -42,5 +45,10 @@
   ],
   "relationships": [],
   "kgNodeLabel": "ConstraintDiscrepancy",
-  "kgIdProperty": "discrepancy_id"
+  "kgIdProperty": "discrepancy_id",
+  "isa95": {
+    "objectModel": "Extension",
+    "extension": true,
+    "note": "Intelligence-Entität (Multi-Truth/SDC) — ISA-95-Extension"
+  }
 }

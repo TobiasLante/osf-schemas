@@ -8,10 +8,25 @@
   "parentType": "ProductionPart",
   "abstract": false,
   "attributes": [
-    { "name": "booked_system", "dataType": "String", "category": "Core", "description": "System that made the booking (e.g. sap)" },
-    { "name": "posting_doc", "dataType": "String", "category": "Core", "description": "Reference to the posting document / transaction" }
+    {
+      "name": "booked_system",
+      "dataType": "String",
+      "category": "Core",
+      "description": "System that made the booking (e.g. sap)"
+    },
+    {
+      "name": "posting_doc",
+      "dataType": "String",
+      "category": "Core",
+      "description": "Reference to the posting document / transaction"
+    }
   ],
   "relationships": [],
   "kgNodeLabel": "BookingClaim",
-  "kgIdProperty": "part_event_id"
+  "kgIdProperty": "part_event_id",
+  "isa95": {
+    "objectModel": "Extension",
+    "extension": true,
+    "note": "Intelligence-Entität (Multi-Truth/SDC) — ISA-95-Extension"
+  }
 }

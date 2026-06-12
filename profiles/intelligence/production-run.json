@@ -8,26 +8,117 @@
   "parentType": null,
   "abstract": false,
   "attributes": [
-    { "name": "run_id", "dataType": "String", "category": "Core", "isKey": true, "description": "Unique run id" },
-    { "name": "start", "dataType": "DateTime", "category": "Core", "description": "Run start" },
-    { "name": "end", "dataType": "DateTime", "category": "Core", "description": "Run end" },
-    { "name": "program", "dataType": "String", "category": "Core", "description": "CNC/part program that ran" },
-    { "name": "shift", "dataType": "String", "category": "Core", "description": "Shift id the run is attributed to (S1/S2/S3)" },
-    { "name": "sequence_index", "dataType": "Int32", "category": "Core", "description": "Position of this run in the shift's sequence" },
-    { "name": "setup_before", "dataType": "Boolean", "category": "Core", "description": "True if a changeover/setup preceded this run" },
-    { "name": "technical_output", "dataType": "Int32", "category": "Metric", "description": "Soll-/Standardmenge (ideal cycle time x runtime) — volume weight + planned baseline" },
-    { "name": "produced", "dataType": "Int32", "category": "Metric", "description": "Good parts produced in the run" },
-    { "name": "scrap", "dataType": "Int32", "category": "Metric", "description": "Scrap parts in the run" }
+    {
+      "name": "run_id",
+      "dataType": "String",
+      "category": "Core",
+      "isKey": true,
+      "description": "Unique run id"
+    },
+    {
+      "name": "start",
+      "dataType": "DateTime",
+      "category": "Core",
+      "description": "Run start"
+    },
+    {
+      "name": "end",
+      "dataType": "DateTime",
+      "category": "Core",
+      "description": "Run end"
+    },
+    {
+      "name": "program",
+      "dataType": "String",
+      "category": "Core",
+      "description": "CNC/part program that ran"
+    },
+    {
+      "name": "shift",
+      "dataType": "String",
+      "category": "Core",
+      "description": "Shift id the run is attributed to (S1/S2/S3)"
+    },
+    {
+      "name": "sequence_index",
+      "dataType": "Int32",
+      "category": "Core",
+      "description": "Position of this run in the shift's sequence"
+    },
+    {
+      "name": "setup_before",
+      "dataType": "Boolean",
+      "category": "Core",
+      "description": "True if a changeover/setup preceded this run"
+    },
+    {
+      "name": "technical_output",
+      "dataType": "Int32",
+      "category": "Metric",
+      "description": "Soll-/Standardmenge (ideal cycle time x runtime) — volume weight + planned baseline"
+    },
+    {
+      "name": "produced",
+      "dataType": "Int32",
+      "category": "Metric",
+      "description": "Good parts produced in the run"
+    },
+    {
+      "name": "scrap",
+      "dataType": "Int32",
+      "category": "Metric",
+      "description": "Scrap parts in the run"
+    }
   ],
   "relationships": [
-    { "type": "FOR_ORDER", "target": "Order", "targetIdProp": "order_no", "description": "Order produced in this run" },
-    { "type": "OF_ARTICLE", "target": "Article", "targetIdProp": "article_no", "description": "Article produced" },
-    { "type": "ON_MACHINE", "target": "Machine", "targetIdProp": "machine_id", "description": "Machine the run ran on" },
-    { "type": "USES_TOOL", "target": "Tool", "targetIdProp": "tool_id", "description": "Tool used" },
-    { "type": "USES_MODE", "target": "SetupMode", "targetIdProp": "setup_mode_id", "description": "Active SetupMode during the run" },
-    { "type": "IN_SHIFT", "target": "Shift", "targetIdProp": "shift_id", "description": "Shift the run is attributed to" },
-    { "type": "NEXT_RUN", "target": "ProductionRun", "targetIdProp": "run_id", "description": "Next run in the shift sequence (timeline link)" }
+    {
+      "type": "FOR_ORDER",
+      "target": "Order",
+      "targetIdProp": "order_no",
+      "description": "Order produced in this run"
+    },
+    {
+      "type": "OF_ARTICLE",
+      "target": "Article",
+      "targetIdProp": "article_no",
+      "description": "Article produced"
+    },
+    {
+      "type": "ON_MACHINE",
+      "target": "Machine",
+      "targetIdProp": "machine_id",
+      "description": "Machine the run ran on"
+    },
+    {
+      "type": "USES_TOOL",
+      "target": "Tool",
+      "targetIdProp": "tool_id",
+      "description": "Tool used"
+    },
+    {
+      "type": "USES_MODE",
+      "target": "SetupMode",
+      "targetIdProp": "setup_mode_id",
+      "description": "Active SetupMode during the run"
+    },
+    {
+      "type": "IN_SHIFT",
+      "target": "Shift",
+      "targetIdProp": "shift_id",
+      "description": "Shift the run is attributed to"
+    },
+    {
+      "type": "NEXT_RUN",
+      "target": "ProductionRun",
+      "targetIdProp": "run_id",
+      "description": "Next run in the shift sequence (timeline link)"
+    }
   ],
   "kgNodeLabel": "ProductionRun",
-  "kgIdProperty": "run_id"
+  "kgIdProperty": "run_id",
+  "isa95": {
+    "objectModel": "JobResponse",
+    "momDomain": "production",
+    "note": "Run-Istdaten eines Auftragslaufs = JobResponse"
+  }
 }

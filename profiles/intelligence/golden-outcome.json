@@ -8,18 +8,84 @@
   "parentType": null,
   "abstract": false,
   "attributes": [
-    { "name": "outcome_id", "dataType": "String", "category": "Core", "isKey": true, "description": "Unique outcome id (golden_id + dimension)" },
-    { "name": "dimension", "dataType": "String", "category": "Core", "enum": ["output", "energy", "scrap", "cpk", "tool_life", "stability", "custom"], "description": "Outcome dimension; 'custom' carries a customer-specific metric via metric_name" },
-    { "name": "metric_name", "dataType": "String", "category": "Core", "description": "Concrete metric name for custom dimensions (e.g. compliance_depth)" },
-    { "name": "mean", "dataType": "Float", "category": "Posterior", "description": "Posterior mean — exposed as expected_real" },
-    { "name": "ci_low", "dataType": "Float", "category": "Posterior", "description": "Lower credible-interval bound" },
-    { "name": "ci_high", "dataType": "Float", "category": "Posterior", "description": "Upper credible-interval bound" },
-    { "name": "sigma", "dataType": "Float", "category": "Posterior", "description": "Posterior standard deviation — the drift-detection unit" },
-    { "name": "n_obs", "dataType": "Int64", "category": "Posterior", "description": "Observations for this dimension" },
-    { "name": "unit", "dataType": "String", "category": "Core", "description": "Unit of the metric (e.g. kWh/part, %, ratio)" },
-    { "name": "posterior", "dataType": "Json", "category": "Posterior", "description": "Full posterior params (distribution family + hyperparameters) for resumable Bayesian update" }
+    {
+      "name": "outcome_id",
+      "dataType": "String",
+      "category": "Core",
+      "isKey": true,
+      "description": "Unique outcome id (golden_id + dimension)"
+    },
+    {
+      "name": "dimension",
+      "dataType": "String",
+      "category": "Core",
+      "enum": [
+        "output",
+        "energy",
+        "scrap",
+        "cpk",
+        "tool_life",
+        "stability",
+        "custom"
+      ],
+      "description": "Outcome dimension; 'custom' carries a customer-specific metric via metric_name"
+    },
+    {
+      "name": "metric_name",
+      "dataType": "String",
+      "category": "Core",
+      "description": "Concrete metric name for custom dimensions (e.g. compliance_depth)"
+    },
+    {
+      "name": "mean",
+      "dataType": "Float",
+      "category": "Posterior",
+      "description": "Posterior mean — exposed as expected_real"
+    },
+    {
+      "name": "ci_low",
+      "dataType": "Float",
+      "category": "Posterior",
+      "description": "Lower credible-interval bound"
+    },
+    {
+      "name": "ci_high",
+      "dataType": "Float",
+      "category": "Posterior",
+      "description": "Upper credible-interval bound"
+    },
+    {
+      "name": "sigma",
+      "dataType": "Float",
+      "category": "Posterior",
+      "description": "Posterior standard deviation — the drift-detection unit"
+    },
+    {
+      "name": "n_obs",
+      "dataType": "Int64",
+      "category": "Posterior",
+      "description": "Observations for this dimension"
+    },
+    {
+      "name": "unit",
+      "dataType": "String",
+      "category": "Core",
+      "description": "Unit of the metric (e.g. kWh/part, %, ratio)"
+    },
+    {
+      "name": "posterior",
+      "dataType": "Json",
+      "category": "Posterior",
+      "description": "Full posterior params (distribution family + hyperparameters) for resumable Bayesian update"
+    }
   ],
   "relationships": [],
   "kgNodeLabel": "GoldenOutcome",
-  "kgIdProperty": "outcome_id"
+  "kgIdProperty": "outcome_id",
+  "isa95": {
+    "objectModel": "Extension",
+    "extension": true,
+    "momDomain": "production",
+    "note": "Intelligence-Entität (Multi-Truth/SDC) — ISA-95-Extension"
+  }
 }

@@ -8,13 +8,43 @@
   "parentType": "Discrepancy",
   "abstract": false,
   "attributes": [
-    { "name": "source_a", "dataType": "String", "category": "Evidence", "description": "First source system (e.g. sap)" },
-    { "name": "value_a", "dataType": "Float", "category": "Evidence", "description": "Value claimed by source A" },
-    { "name": "source_b", "dataType": "String", "category": "Evidence", "description": "Second source system (e.g. plc_counter)" },
-    { "name": "value_b", "dataType": "Float", "category": "Evidence", "description": "Value claimed by source B" },
-    { "name": "delta", "dataType": "Float", "category": "Evidence", "description": "value_b minus value_a" }
+    {
+      "name": "source_a",
+      "dataType": "String",
+      "category": "Evidence",
+      "description": "First source system (e.g. sap)"
+    },
+    {
+      "name": "value_a",
+      "dataType": "Float",
+      "category": "Evidence",
+      "description": "Value claimed by source A"
+    },
+    {
+      "name": "source_b",
+      "dataType": "String",
+      "category": "Evidence",
+      "description": "Second source system (e.g. plc_counter)"
+    },
+    {
+      "name": "value_b",
+      "dataType": "Float",
+      "category": "Evidence",
+      "description": "Value claimed by source B"
+    },
+    {
+      "name": "delta",
+      "dataType": "Float",
+      "category": "Evidence",
+      "description": "value_b minus value_a"
+    }
   ],
   "relationships": [],
   "kgNodeLabel": "MultiSourceDiscrepancy",
-  "kgIdProperty": "discrepancy_id"
+  "kgIdProperty": "discrepancy_id",
+  "isa95": {
+    "objectModel": "Extension",
+    "extension": true,
+    "note": "Intelligence-Entität (Multi-Truth/SDC) — ISA-95-Extension"
+  }
 }

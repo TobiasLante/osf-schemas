@@ -8,9 +8,20 @@
   "parentType": "ProductionPart",
   "abstract": false,
   "attributes": [
-    { "name": "note", "dataType": "String", "category": "Core", "description": "Why this count is considered a ghost (no matching evidence)" }
+    {
+      "name": "note",
+      "dataType": "String",
+      "category": "Core",
+      "description": "Why this count is considered a ghost (no matching evidence)"
+    }
   ],
   "relationships": [],
   "kgNodeLabel": "GhostPart",
-  "kgIdProperty": "part_event_id"
+  "kgIdProperty": "part_event_id",
+  "isa95": {
+    "objectModel": "Extension",
+    "extension": true,
+    "momDomain": "production",
+    "note": "Intelligence-Entität (Multi-Truth/SDC) — ISA-95-Extension"
+  }
 }
