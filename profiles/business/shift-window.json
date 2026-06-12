@@ -1,0 +1,78 @@
+{
+  "profileId": "SMProfile-ShiftWindow",
+  "version": "1.0.0",
+  "standard": "CESMII",
+  "displayName": "Shift Window",
+  "category": "business",
+  "description": "Ein Schichtfenster aus dem ERP-Schichtkalender (week_pattern): Abteilung × Wochentag × Schicht mit Arbeitszeitfenster und Pausen. Stammdatum — Grundlage für Kapazitäts-Buckets in präskriptiven Planungsfragen (Auftrags-Staffelung).",
+  "parentType": null,
+  "attributes": [
+    {
+      "name": "shift_window_id",
+      "dataType": "String",
+      "category": "Core",
+      "isKey": true,
+      "description": "Synthetischer Schlüssel <department_id>:<day_of_week>:<shift_id>",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "department_id",
+      "dataType": "String",
+      "category": "Core",
+      "description": "Abteilung (LAGER | MECH | MONTAGE | SG)",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "day_of_week",
+      "dataType": "Int32",
+      "category": "Core",
+      "description": "ISO-Wochentag 1=Mo … 7=So",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "shift_id",
+      "dataType": "String",
+      "category": "Core",
+      "description": "Schichtkürzel (FS | SS | NS)",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "start_time",
+      "dataType": "String",
+      "category": "Detail",
+      "description": "Schichtbeginn HH:MM:SS (lokal)",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "end_time",
+      "dataType": "String",
+      "category": "Detail",
+      "description": "Schichtende HH:MM:SS (lokal)",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "break_minutes",
+      "dataType": "Int32",
+      "category": "Detail",
+      "description": "Pausenminuten innerhalb des Fensters (netto-Kapazität = Fenster − Pausen)",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    }
+  ],
+  "relationships": [],
+  "kgNodeLabel": "ShiftWindow",
+  "kgIdProperty": "shift_window_id"
+}

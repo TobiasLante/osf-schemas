@@ -1,0 +1,41 @@
+{
+  "sourceId": "sim-v5-erp-purchase-orders",
+  "version": "1.0.0",
+  "sourceType": "rest",
+  "syncType": "polling",
+  "profileRef": "SMProfile-PurchaseOrder",
+  "transport": ["nats"],
+  "description": "ERP-Bestellungen beim Lieferanten — Soll-/Ist-Liefertermine = Materialeingangs-Anker für präskriptive Planungsfragen.",
+  "connection": {
+    "baseUrl": "http://192.168.178.154:38260",
+    "path": "/api/purchase-orders",
+    "method": "GET",
+    "auth": null,
+    "timeoutMs": 10000
+  },
+  "response": {
+    "format": "json",
+    "rootPath": "$",
+    "idProperty": "po_number"
+  },
+  "polling": {
+    "changeDetection": "timestamp",
+    "timestampQueryParam": "since",
+    "timestampField": "erstellt_am",
+    "intervalMs": 60000,
+    "batchSize": 200
+  },
+  "columnMappings": [
+    { "column": "po_number", "smAttribute": "po_number", "isId": true },
+    { "column": "supplier_id", "smAttribute": "supplier_id" },
+    { "column": "supplier_name", "smAttribute": "supplier_name" },
+    { "column": "status", "smAttribute": "status" },
+    { "column": "bestelldatum", "smAttribute": "ordered_at" },
+    { "column": "lieferdatum_soll", "smAttribute": "due_date" },
+    { "column": "lieferdatum_ist", "smAttribute": "delivered_at" },
+    { "column": "bestaetigte_lieferung", "smAttribute": "confirmed_due_date" },
+    { "column": "gesamtbetrag", "smAttribute": "total_amount" },
+    { "column": "waehrung", "smAttribute": "currency" }
+  ],
+  "edges": []
+}
