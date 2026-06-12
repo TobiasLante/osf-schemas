@@ -8,19 +8,90 @@
   "parentType": null,
   "abstract": false,
   "attributes": [
-    { "name": "effect_id", "dataType": "String", "category": "Core", "isKey": true, "description": "Unique effect id (golden_id + dimension + covariate + level)" },
-    { "name": "covariate", "dataType": "String", "category": "Core", "description": "Structural covariate (e.g. shift, program)" },
-    { "name": "level", "dataType": "String", "category": "Core", "description": "Covariate level (e.g. S1, S2)" },
-    { "name": "dimension", "dataType": "String", "category": "Core", "enum": ["output", "energy", "scrap", "cpk", "tool_life", "stability", "custom"], "description": "Which outcome dimension this effect modifies" },
-    { "name": "offset", "dataType": "Float", "category": "Posterior", "description": "Shrunk offset vs the population (base Golden) mean" },
-    { "name": "ci_low", "dataType": "Float", "category": "Posterior", "description": "Lower credible-interval bound of the offset" },
-    { "name": "ci_high", "dataType": "Float", "category": "Posterior", "description": "Upper credible-interval bound of the offset" },
-    { "name": "n_obs", "dataType": "Int64", "category": "Posterior", "description": "Observations for this covariate level" },
-    { "name": "pooled", "dataType": "Boolean", "category": "Posterior", "description": "True while fully shrunk (too few obs to separate from the population)" },
-    { "name": "significant", "dataType": "Boolean", "category": "Posterior", "description": "Whether the offset's CI excludes zero — drives statistically honest answers (no pseudo-ranking)" },
-    { "name": "threshold_activated", "dataType": "Boolean", "category": "Core", "description": "Whether this covariate has crossed the activation threshold for Stufe-2 conditioning" }
+    {
+      "name": "effect_id",
+      "dataType": "String",
+      "category": "Core",
+      "isKey": true,
+      "description": "Unique effect id (golden_id + dimension + covariate + level)"
+    },
+    {
+      "name": "covariate",
+      "dataType": "String",
+      "category": "Core",
+      "description": "Structural covariate (e.g. shift, program)"
+    },
+    {
+      "name": "level",
+      "dataType": "String",
+      "category": "Core",
+      "description": "Covariate level (e.g. S1, S2)"
+    },
+    {
+      "name": "dimension",
+      "dataType": "String",
+      "category": "Core",
+      "enum": [
+        "output",
+        "energy",
+        "scrap",
+        "cpk",
+        "tool_life",
+        "stability",
+        "custom"
+      ],
+      "description": "Which outcome dimension this effect modifies"
+    },
+    {
+      "name": "offset",
+      "dataType": "Float",
+      "category": "Posterior",
+      "description": "Shrunk offset vs the population (base Golden) mean"
+    },
+    {
+      "name": "ci_low",
+      "dataType": "Float",
+      "category": "Posterior",
+      "description": "Lower credible-interval bound of the offset"
+    },
+    {
+      "name": "ci_high",
+      "dataType": "Float",
+      "category": "Posterior",
+      "description": "Upper credible-interval bound of the offset"
+    },
+    {
+      "name": "n_obs",
+      "dataType": "Int64",
+      "category": "Posterior",
+      "description": "Observations for this covariate level"
+    },
+    {
+      "name": "pooled",
+      "dataType": "Boolean",
+      "category": "Posterior",
+      "description": "True while fully shrunk (too few obs to separate from the population)"
+    },
+    {
+      "name": "significant",
+      "dataType": "Boolean",
+      "category": "Posterior",
+      "description": "Whether the offset's CI excludes zero — drives statistically honest answers (no pseudo-ranking)"
+    },
+    {
+      "name": "threshold_activated",
+      "dataType": "Boolean",
+      "category": "Core",
+      "description": "Whether this covariate has crossed the activation threshold for Stufe-2 conditioning"
+    }
   ],
   "relationships": [],
   "kgNodeLabel": "ConditioningEffect",
-  "kgIdProperty": "effect_id"
+  "kgIdProperty": "effect_id",
+  "isa95": {
+    "objectModel": "Extension",
+    "extension": true,
+    "momDomain": "production",
+    "note": "Intelligence-Entität (Multi-Truth/SDC) — ISA-95-Extension"
+  }
 }

@@ -8,16 +8,63 @@
   "parentType": null,
   "abstract": false,
   "attributes": [
-    { "name": "golden_id", "dataType": "String", "category": "Core", "isKey": true, "description": "Unique golden id, 1:1 with a SetupMode" },
-    { "name": "bootstrap_state", "dataType": "String", "category": "Maturity", "enum": ["yellow", "green", "rich"], "description": "yellow = engineering-default/learning, green = n_obs>50 & CI narrowed, rich = mature (§5, §24)" },
-    { "name": "n_obs_total", "dataType": "Int64", "category": "Stats", "description": "Total observations folded into the posteriors" },
-    { "name": "mode_active", "dataType": "Boolean", "category": "Stats", "description": "Whether this is the currently active mode's golden (live drift-detection target)" },
-    { "name": "updated_at", "dataType": "DateTime", "category": "Core", "description": "Last Bayesian update" }
+    {
+      "name": "golden_id",
+      "dataType": "String",
+      "category": "Core",
+      "isKey": true,
+      "description": "Unique golden id, 1:1 with a SetupMode"
+    },
+    {
+      "name": "bootstrap_state",
+      "dataType": "String",
+      "category": "Maturity",
+      "enum": [
+        "yellow",
+        "green",
+        "rich"
+      ],
+      "description": "yellow = engineering-default/learning, green = n_obs>50 & CI narrowed, rich = mature (§5, §24)"
+    },
+    {
+      "name": "n_obs_total",
+      "dataType": "Int64",
+      "category": "Stats",
+      "description": "Total observations folded into the posteriors"
+    },
+    {
+      "name": "mode_active",
+      "dataType": "Boolean",
+      "category": "Stats",
+      "description": "Whether this is the currently active mode's golden (live drift-detection target)"
+    },
+    {
+      "name": "updated_at",
+      "dataType": "DateTime",
+      "category": "Core",
+      "description": "Last Bayesian update"
+    }
   ],
   "relationships": [
-    { "type": "HAS_OUTCOME", "target": "GoldenOutcome", "targetIdProp": "outcome_id", "description": "Per-dimension posterior (Achse 1)" },
-    { "type": "HAS_EFFECT", "target": "ConditioningEffect", "targetIdProp": "effect_id", "description": "Hierarchical random-effect per structural covariate (Achse 2)" }
+    {
+      "type": "HAS_OUTCOME",
+      "target": "GoldenOutcome",
+      "targetIdProp": "outcome_id",
+      "description": "Per-dimension posterior (Achse 1)"
+    },
+    {
+      "type": "HAS_EFFECT",
+      "target": "ConditioningEffect",
+      "targetIdProp": "effect_id",
+      "description": "Hierarchical random-effect per structural covariate (Achse 2)"
+    }
   ],
   "kgNodeLabel": "GoldenProcessParameters",
-  "kgIdProperty": "golden_id"
+  "kgIdProperty": "golden_id",
+  "isa95": {
+    "objectModel": "Extension",
+    "extension": true,
+    "momDomain": "production",
+    "note": "Intelligence-Entität (Multi-Truth/SDC) — ISA-95-Extension"
+  }
 }

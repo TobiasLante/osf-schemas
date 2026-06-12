@@ -8,9 +8,20 @@
   "parentType": "ProductionPart",
   "abstract": false,
   "attributes": [
-    { "name": "scrap_reason", "dataType": "String", "category": "Quality", "description": "Reason / defect code for the scrap" }
+    {
+      "name": "scrap_reason",
+      "dataType": "String",
+      "category": "Quality",
+      "description": "Reason / defect code for the scrap"
+    }
   ],
   "relationships": [],
   "kgNodeLabel": "ScrapPart",
-  "kgIdProperty": "part_event_id"
+  "kgIdProperty": "part_event_id",
+  "isa95": {
+    "objectModel": "Extension",
+    "extension": true,
+    "momDomain": "production",
+    "note": "Intelligence-Entität (Multi-Truth/SDC) — ISA-95-Extension"
+  }
 }

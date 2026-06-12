@@ -8,12 +8,42 @@
   "parentType": "Discrepancy",
   "abstract": false,
   "attributes": [
-    { "name": "metric", "dataType": "String", "category": "Evidence", "description": "Which estimate degraded (e.g. inventory_per_article)" },
-    { "name": "confidence_level", "dataType": "String", "category": "Evidence", "enum": ["low", "medium", "high"], "description": "Current confidence bucket" },
-    { "name": "sigma", "dataType": "Float", "category": "Evidence", "description": "Estimate spread (sigma_drift for inventory)" },
-    { "name": "threshold", "dataType": "Float", "category": "Evidence", "description": "Threshold that was crossed (customer-tunable, §8)" }
+    {
+      "name": "metric",
+      "dataType": "String",
+      "category": "Evidence",
+      "description": "Which estimate degraded (e.g. inventory_per_article)"
+    },
+    {
+      "name": "confidence_level",
+      "dataType": "String",
+      "category": "Evidence",
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "description": "Current confidence bucket"
+    },
+    {
+      "name": "sigma",
+      "dataType": "Float",
+      "category": "Evidence",
+      "description": "Estimate spread (sigma_drift for inventory)"
+    },
+    {
+      "name": "threshold",
+      "dataType": "Float",
+      "category": "Evidence",
+      "description": "Threshold that was crossed (customer-tunable, §8)"
+    }
   ],
   "relationships": [],
   "kgNodeLabel": "ConfidenceDiscrepancy",
-  "kgIdProperty": "discrepancy_id"
+  "kgIdProperty": "discrepancy_id",
+  "isa95": {
+    "objectModel": "Extension",
+    "extension": true,
+    "note": "Intelligence-Entität (Multi-Truth/SDC) — ISA-95-Extension"
+  }
 }

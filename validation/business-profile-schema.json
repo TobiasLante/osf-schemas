@@ -4,7 +4,15 @@
   "title": "OSF Business Profile (v3, IT-Edge Welle 1)",
   "description": "Schema for files under profiles/business/*.json — used by IT-Edges (PostgreSQL pollers) to type event-world entities. Strict separation from telemetry (machine BDE/ProcessData).",
   "type": "object",
-  "required": ["profileId", "version", "displayName", "category", "attributes", "kgNodeLabel", "kgIdProperty"],
+  "required": [
+    "profileId",
+    "version",
+    "displayName",
+    "category",
+    "attributes",
+    "kgNodeLabel",
+    "kgIdProperty"
+  ],
   "properties": {
     "profileId": {
       "type": "string",
@@ -17,16 +25,31 @@
     },
     "standard": {
       "type": "string",
-      "enum": ["CESMII", "OSF", "ISA-95"]
+      "enum": [
+        "CESMII",
+        "OSF",
+        "ISA-95"
+      ]
     },
-    "displayName": {"type": "string"},
+    "displayName": {
+      "type": "string"
+    },
     "category": {
       "type": "string",
-      "enum": ["business"],
+      "enum": [
+        "business"
+      ],
       "description": "Business profiles only — telemetry profiles live in profiles/machines/."
     },
-    "description": {"type": "string"},
-    "parentType": {"type": ["string", "null"]},
+    "description": {
+      "type": "string"
+    },
+    "parentType": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
     "abstract": {
       "type": "boolean",
       "description": "Abstract parent profiles (e.g. SMProfile-Order) are not instantiated directly; concrete children declare parentType to inherit attributes. Mirrors the same flag on machine-profile-schema.json."
@@ -36,31 +59,70 @@
       "minItems": 1,
       "items": {
         "type": "object",
-        "required": ["name", "dataType", "category", "delivery", "scope", "promotion"],
+        "required": [
+          "name",
+          "dataType",
+          "category",
+          "delivery",
+          "scope",
+          "promotion"
+        ],
         "properties": {
-          "name": {"type": "string"},
+          "name": {
+            "type": "string"
+          },
           "dataType": {
             "type": "string",
-            "enum": ["String", "Int32", "Int64", "Float", "Double", "Boolean", "DateTime", "Json"]
+            "enum": [
+              "String",
+              "Int32",
+              "Int64",
+              "Float",
+              "Double",
+              "Boolean",
+              "DateTime",
+              "Json"
+            ]
           },
-          "category": {"type": "string"},
-          "isKey": {"type": "boolean"},
-          "description": {"type": "string"},
-          "enum": {"type": "array"},
-          "unit": {"type": "string"},
+          "category": {
+            "type": "string"
+          },
+          "isKey": {
+            "type": "boolean"
+          },
+          "description": {
+            "type": "string"
+          },
+          "enum": {
+            "type": "array"
+          },
+          "unit": {
+            "type": "string"
+          },
           "delivery": {
             "type": "string",
-            "enum": ["telemetry", "transactional"],
+            "enum": [
+              "telemetry",
+              "transactional"
+            ],
             "description": "Wire-Klasse. Bei business-Profilen per Konvention immer 'transactional' (JetStream Pub-Ack + Outbox-Retry) — trotzdem required, kein Default."
           },
           "scope": {
             "type": "string",
-            "enum": ["edge", "hub"],
+            "enum": [
+              "edge",
+              "hub"
+            ],
             "description": "Scope. Bei business-Profilen per Konvention immer 'hub' (Event-Welt landet auf der .150) — trotzdem required, kein Default."
           },
           "promotion": {
             "type": "string",
-            "enum": ["raw", "aggregate", "on_change", "on_cycle_end"],
+            "enum": [
+              "raw",
+              "aggregate",
+              "on_change",
+              "on_cycle_end"
+            ],
             "description": "Promotion-Trigger. IT-Edge-Attribute sind typ. on_change (Poller erkennt Aenderung) — required, kein Default."
           }
         },
@@ -71,19 +133,99 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["type", "target"],
+        "required": [
+          "type",
+          "target"
+        ],
         "properties": {
-          "type": {"type": "string"},
-          "target": {"type": "string"},
-          "targetIdProp": {"type": "string"},
-          "timeBounded": {"type": "boolean"},
-          "description": {"type": "string"}
+          "type": {
+            "type": "string"
+          },
+          "target": {
+            "type": "string"
+          },
+          "targetIdProp": {
+            "type": "string"
+          },
+          "timeBounded": {
+            "type": "boolean"
+          },
+          "description": {
+            "type": "string"
+          }
         },
         "additionalProperties": false
       }
     },
-    "kgNodeLabel": {"type": "string"},
-    "kgIdProperty": {"type": "string"}
+    "kgNodeLabel": {
+      "type": "string"
+    },
+    "kgIdProperty": {
+      "type": "string"
+    },
+    "isa95": {
+      "type": "object",
+      "description": "ISA-95/MOM-Alignment (additiv): Part-2-Objektmodell + Part-3-MOM-Domäne. objectModel 'Extension' = Standard kennt das Objekt nicht.",
+      "additionalProperties": false,
+      "required": [
+        "objectModel"
+      ],
+      "properties": {
+        "objectModel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "equipmentClass": {
+          "type": "string"
+        },
+        "equipmentLevel": {
+          "type": "string",
+          "enum": [
+            "Enterprise",
+            "Site",
+            "Area",
+            "ProcessCell",
+            "Unit",
+            "ProductionLine",
+            "WorkCell",
+            "ProductionUnit",
+            "StorageZone",
+            "StorageUnit",
+            "WorkCenter",
+            "WorkUnit"
+          ]
+        },
+        "level": {
+          "type": "integer",
+          "enum": [
+            2,
+            3,
+            4
+          ]
+        },
+        "momDomain": {
+          "type": "string",
+          "enum": [
+            "production",
+            "quality",
+            "inventory",
+            "maintenance"
+          ]
+        },
+        "extension": {
+          "type": "boolean"
+        },
+        "note": {
+          "type": "string"
+        },
+        "propertyMap": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    }
   },
   "additionalProperties": false
 }

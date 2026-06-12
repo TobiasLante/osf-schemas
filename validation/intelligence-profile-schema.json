@@ -4,7 +4,15 @@
   "title": "OSF Intelligence Profile (v7, Multi-Truth / Golden / SetupMode)",
   "description": "Schema for files under profiles/intelligence/*.json — central-computed knowledge entities (Discrepancy, ProductionPart lineage, SetupMode, GoldenProcessParameters + GoldenOutcome + ConditioningEffect, AutoResolveRule). A THIRD class beyond edge telemetry (profiles/machines/) and IT business events (profiles/business/, erp/qms/wms): these nodes are produced by the central intelligence engines (discrepancy-engine, golden-engine, view-engine) and written straight into the KG — they are NOT edge-sourced, so they deliberately carry NO delivery/scope/promotion wire-contract.",
   "type": "object",
-  "required": ["profileId", "version", "displayName", "category", "attributes", "kgNodeLabel", "kgIdProperty"],
+  "required": [
+    "profileId",
+    "version",
+    "displayName",
+    "category",
+    "attributes",
+    "kgNodeLabel",
+    "kgIdProperty"
+  ],
   "properties": {
     "profileId": {
       "type": "string",
@@ -17,16 +25,31 @@
     },
     "standard": {
       "type": "string",
-      "enum": ["CESMII", "OSF", "ISA-95"]
+      "enum": [
+        "CESMII",
+        "OSF",
+        "ISA-95"
+      ]
     },
-    "displayName": { "type": "string" },
+    "displayName": {
+      "type": "string"
+    },
     "category": {
       "type": "string",
-      "enum": ["intelligence"],
+      "enum": [
+        "intelligence"
+      ],
       "description": "Intelligence profiles only — telemetry lives in profiles/machines/, business events in profiles/business|erp|qms|wms/."
     },
-    "description": { "type": "string" },
-    "parentType": { "type": ["string", "null"] },
+    "description": {
+      "type": "string"
+    },
+    "parentType": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
     "abstract": {
       "type": "boolean",
       "description": "Abstract parent profiles (e.g. SMProfile-Discrepancy, SMProfile-ProductionPart) are not instantiated directly; concrete children declare parentType to inherit attributes + relationships. Same flag semantics as machine/business schemas."
@@ -37,18 +60,43 @@
       "description": "Structural properties of the node. Concrete children may declare 0 attributes and rely entirely on inherited ones. No delivery/scope/promotion — intelligence entities are not wired from edges.",
       "items": {
         "type": "object",
-        "required": ["name", "dataType", "category"],
+        "required": [
+          "name",
+          "dataType",
+          "category"
+        ],
         "properties": {
-          "name": { "type": "string" },
+          "name": {
+            "type": "string"
+          },
           "dataType": {
             "type": "string",
-            "enum": ["String", "Int32", "Int64", "Float", "Double", "Boolean", "DateTime", "Json"]
+            "enum": [
+              "String",
+              "Int32",
+              "Int64",
+              "Float",
+              "Double",
+              "Boolean",
+              "DateTime",
+              "Json"
+            ]
           },
-          "category": { "type": "string" },
-          "isKey": { "type": "boolean" },
-          "description": { "type": "string" },
-          "enum": { "type": "array" },
-          "unit": { "type": "string" }
+          "category": {
+            "type": "string"
+          },
+          "isKey": {
+            "type": "boolean"
+          },
+          "description": {
+            "type": "string"
+          },
+          "enum": {
+            "type": "array"
+          },
+          "unit": {
+            "type": "string"
+          }
         },
         "additionalProperties": false
       }
@@ -57,19 +105,99 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["type", "target"],
+        "required": [
+          "type",
+          "target"
+        ],
         "properties": {
-          "type": { "type": "string" },
-          "target": { "type": "string" },
-          "targetIdProp": { "type": "string" },
-          "timeBounded": { "type": "boolean" },
-          "description": { "type": "string" }
+          "type": {
+            "type": "string"
+          },
+          "target": {
+            "type": "string"
+          },
+          "targetIdProp": {
+            "type": "string"
+          },
+          "timeBounded": {
+            "type": "boolean"
+          },
+          "description": {
+            "type": "string"
+          }
         },
         "additionalProperties": false
       }
     },
-    "kgNodeLabel": { "type": "string" },
-    "kgIdProperty": { "type": "string" }
+    "kgNodeLabel": {
+      "type": "string"
+    },
+    "kgIdProperty": {
+      "type": "string"
+    },
+    "isa95": {
+      "type": "object",
+      "description": "ISA-95/MOM-Alignment (additiv): Part-2-Objektmodell + Part-3-MOM-Domäne. objectModel 'Extension' = Standard kennt das Objekt nicht.",
+      "additionalProperties": false,
+      "required": [
+        "objectModel"
+      ],
+      "properties": {
+        "objectModel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "equipmentClass": {
+          "type": "string"
+        },
+        "equipmentLevel": {
+          "type": "string",
+          "enum": [
+            "Enterprise",
+            "Site",
+            "Area",
+            "ProcessCell",
+            "Unit",
+            "ProductionLine",
+            "WorkCell",
+            "ProductionUnit",
+            "StorageZone",
+            "StorageUnit",
+            "WorkCenter",
+            "WorkUnit"
+          ]
+        },
+        "level": {
+          "type": "integer",
+          "enum": [
+            2,
+            3,
+            4
+          ]
+        },
+        "momDomain": {
+          "type": "string",
+          "enum": [
+            "production",
+            "quality",
+            "inventory",
+            "maintenance"
+          ]
+        },
+        "extension": {
+          "type": "boolean"
+        },
+        "note": {
+          "type": "string"
+        },
+        "propertyMap": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    }
   },
   "additionalProperties": false
 }

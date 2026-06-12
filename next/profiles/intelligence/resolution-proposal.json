@@ -19,14 +19,22 @@
       "name": "target",
       "dataType": "String",
       "category": "Core",
-      "enum": ["fix_reality", "fix_charter"],
+      "enum": [
+        "fix_reality",
+        "fix_charter"
+      ],
       "description": "Was der Vorschlag aendert: fix_reality = Massnahme an Maschine/Prozess/Daten, die Vorgabe bleibt; fix_charter = die Vorgabe selbst ist falsch und wird als Profil-Aenderung in osf-schemas angepasst"
     },
     {
       "name": "proposed_mode",
       "dataType": "String",
       "category": "Core",
-      "enum": ["resolved", "accepted_known_divergence", "escalated", "superseded"],
+      "enum": [
+        "resolved",
+        "accepted_known_divergence",
+        "escalated",
+        "superseded"
+      ],
       "description": "Lifecycle-Closure, die der Vorschlag fuer die Discrepancy impliziert. fix_charter-Proposals implizieren superseded (die Episode wird durch die Regelaenderung ueberholt, Link via resolved_by_rule_change auf den osf-schemas-Commit)"
     },
     {
@@ -39,7 +47,11 @@
       "name": "proposed_by_kind",
       "dataType": "String",
       "category": "Provenance",
-      "enum": ["human", "rule", "agent"],
+      "enum": [
+        "human",
+        "rule",
+        "agent"
+      ],
       "description": "Producer-Klasse: human = Steward-Formular, rule = AutoResolveRule, agent = v7-Intelligence-Discussion (advisory-only)"
     },
     {
@@ -76,7 +88,12 @@
       "name": "status",
       "dataType": "String",
       "category": "Lifecycle",
-      "enum": ["proposed", "approved", "rejected", "withdrawn"],
+      "enum": [
+        "proposed",
+        "approved",
+        "rejected",
+        "withdrawn"
+      ],
       "description": "proposed -> approved | rejected | withdrawn. approved loest fuer fix_reality die Discrepancy-Transition mit proposal_id-Referenz aus; fuer fix_charter wird approved erst gesetzt, wenn der osf-schemas-PR gemerged ist (PR-Merge = Freigabe)"
     },
     {
@@ -125,5 +142,10 @@
     }
   ],
   "kgNodeLabel": "ResolutionProposal",
-  "kgIdProperty": "proposal_id"
+  "kgIdProperty": "proposal_id",
+  "isa95": {
+    "objectModel": "Extension",
+    "extension": true,
+    "note": "Intelligence-Entität (Multi-Truth/SDC) — ISA-95-Extension"
+  }
 }
