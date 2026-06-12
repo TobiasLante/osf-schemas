@@ -1,39 +1,59 @@
 {
-  "sourceId": "sim-v5-erp-calendar",
-  "version": "1.0.0",
-  "sourceType": "rest",
-  "syncType": "polling",
-  "profileRef": "SMProfile-ShiftWindow",
-  "transport": ["nats"],
-  "description": "ERP-Schichtkalender (week_pattern): Schichtfenster pro Abteilung × Wochentag. Stammdatum für Kapazitäts-Buckets (Auftrags-Staffelung, Wartungsfenster, Personaleinsatz).",
-  "connection": {
-    "baseUrl": "http://192.168.178.154:38260",
-    "path": "/api/calendar",
-    "method": "GET",
-    "auth": null,
-    "timeoutMs": 10000
+ "sourceId": "sim-v5-erp-calendar",
+ "version": "1.0.0",
+ "sourceType": "rest",
+ "syncType": "polling",
+ "profileRef": "SMProfile-ShiftWindow",
+ "transport": [
+  "nats"
+ ],
+ "description": "ERP-Schichtkalender (week_pattern): pro department_id (LAGER|MECH|MONTAGE|SG) und day_of_week (1=Mo…7=So) die Schichten (shift_id FS/SS/NS) mit start_time/end_time/break_minutes. Netto-Kapazität pro Fenster = Dauer − Pausen. department matcht das department-Feld der customer-orders.",
+ "connection": {
+  "baseUrl": "http://192.168.178.154:38260",
+  "path": "/api/calendar",
+  "method": "GET",
+  "auth": null,
+  "timeoutMs": 10000
+ },
+ "response": {
+  "format": "json",
+  "rootPath": "$.week_pattern",
+  "idProperty": "shift_window_id"
+ },
+ "polling": {
+  "changeDetection": "full",
+  "intervalMs": 3600000,
+  "batchSize": 200
+ },
+ "columnMappings": [
+  {
+   "column": "department_id",
+   "smAttribute": "department_id"
   },
-  "response": {
-    "format": "json",
-    "rootPath": "$.week_pattern",
-    "idProperty": "shift_window_id"
+  {
+   "column": "day_of_week",
+   "smAttribute": "day_of_week"
   },
-  "polling": {
-    "changeDetection": "full",
-    "intervalMs": 3600000,
-    "batchSize": 200
+  {
+   "column": "shift_id",
+   "smAttribute": "shift_id"
   },
-  "columnMappings": [
-    { "column": "department_id", "smAttribute": "department_id" },
-    { "column": "day_of_week", "smAttribute": "day_of_week" },
-    { "column": "shift_id", "smAttribute": "shift_id" },
-    { "column": "start_time", "smAttribute": "start_time" },
-    { "column": "end_time", "smAttribute": "end_time" },
-    { "column": "break_minutes", "smAttribute": "break_minutes" }
-  ],
-  "syntheticId": {
-    "smAttribute": "shift_window_id",
-    "template": "{department_id}:{day_of_week}:{shift_id}"
+  {
+   "column": "start_time",
+   "smAttribute": "start_time"
   },
-  "edges": []
+  {
+   "column": "end_time",
+   "smAttribute": "end_time"
+  },
+  {
+   "column": "break_minutes",
+   "smAttribute": "break_minutes"
+  }
+ ],
+ "syntheticId": {
+  "smAttribute": "shift_window_id",
+  "template": "{department_id}:{day_of_week}:{shift_id}"
+ },
+ "edges": []
 }
