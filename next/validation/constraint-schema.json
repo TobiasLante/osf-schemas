@@ -44,8 +44,12 @@
     },
     "predicate": {
       "type": "object",
-      "required": ["attr", "op", "value"],
+      "required": ["attr", "op"],
       "additionalProperties": false,
+      "oneOf": [
+        { "required": ["value"] },
+        { "required": ["valueAttr"] }
+      ],
       "properties": {
         "attr": {
           "type": "string",
@@ -57,7 +61,11 @@
           "description": "Comparison operator. 'in' expects an array value. 'between' expects [lo, hi]."
         },
         "value": {
-          "description": "Comparison value. Type is checked at lint-time against the referenced attribute.dataType (Int32/Float -> number; String -> string; Boolean -> boolean). For op='in' must be array; for op='between' must be [lo, hi]."
+          "description": "Literal comparison value. Type is checked at lint-time against the referenced attribute.dataType (Int32/Float -> number; String -> string; Boolean -> boolean). For op='in' must be array; for op='between' must be [lo, hi]. Mutually exclusive with valueAttr."
+        },
+        "valueAttr": {
+          "type": "string",
+          "description": "Compare attr against ANOTHER attribute's live value instead of a literal (attr-vs-attr). The reserved token '$now' resolves to current time (temporal rules like overdue). Evaluated centrally by the it-evaluator; the edge OT detector uses literals only."
         }
       },
       "allOf": [

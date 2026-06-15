@@ -86,8 +86,36 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
+    },
+    {
+      "name": "state",
+      "dataType": "String",
+      "category": "Core",
+      "description": "Inspection workflow state, e.g. OPEN, IN_INSPECTION, DECIDED",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "decision",
+      "dataType": "String",
+      "category": "Core",
+      "description": "Usage decision: ACCEPT, REJECT, REWORK",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     }
   ],
+  "constraints": {
+    "lot_rejected": {
+      "description": "Entschiedenes Prüflos wurde abgelehnt (Usage Decision = REJECT)",
+      "when": { "attr": "state", "op": "eq", "value": "DECIDED" },
+      "require": { "attr": "decision", "op": "ne", "value": "REJECT" },
+      "severity": "error",
+      "discrepancyClass": "constraint",
+      "since": "2026-06-15"
+    }
+  },
   "relationships": [
     {
       "type": "FOR_ORDER",
