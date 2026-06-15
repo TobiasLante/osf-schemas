@@ -48,7 +48,8 @@
       "additionalProperties": false,
       "oneOf": [
         { "required": ["value"] },
-        { "required": ["valueAttr"] }
+        { "required": ["valueAttr"] },
+        { "required": ["valueFrom"] }
       ],
       "properties": {
         "attr": {
@@ -61,11 +62,16 @@
           "description": "Comparison operator. 'in' expects an array value. 'between' expects [lo, hi]."
         },
         "value": {
-          "description": "Literal comparison value. Type is checked at lint-time against the referenced attribute.dataType (Int32/Float -> number; String -> string; Boolean -> boolean). For op='in' must be array; for op='between' must be [lo, hi]. Mutually exclusive with valueAttr."
+          "description": "Literal comparison value. Type is checked at lint-time against the referenced attribute.dataType (Int32/Float -> number; String -> string; Boolean -> boolean). For op='in' must be array; for op='between' must be [lo, hi]. Mutually exclusive with valueAttr/valueFrom."
         },
         "valueAttr": {
           "type": "string",
           "description": "Compare attr against ANOTHER attribute's live value instead of a literal (attr-vs-attr). The reserved token '$now' resolves to current time (temporal rules like overdue). Evaluated centrally by the it-evaluator; the edge OT detector uses literals only."
+        },
+        "valueFrom": {
+          "type": "string",
+          "pattern": "^(recipe|definition)\\.[A-Za-z0-9_.-]+$",
+          "description": "Reference the RHS to an EXTERNAL spec value supplied at runtime — the active recipe / ISA-95 ProductDefinition for the entity. The recipe (Definition leg: Definition->Request->Response) carries product-specific setpoints + tolerance bands, so the SAME rule yields different limits per article (e.g. 'recipe.temp_z1_band' -> a [lo,hi] band for op='between', or a setpoint for op='lte'). Resolved CENTRALLY by the it-evaluator from the active-recipe binding (running FO -> Article x Machine x SetupMode); the edge OT detector ignores it (literals only). DORMANT until a recipe source binds the value (outcome 'unknown' -> no false raise). This RESERVES the hook only — recipe SOURCING/management is built when a MES/spec source exists, wherever the recipe comes from. Mutually exclusive with value/valueAttr."
         }
       },
       "allOf": [

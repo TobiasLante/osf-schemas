@@ -99,6 +99,21 @@ function effectiveAttrs(profile, profiles) {
 // ---- Predicate type-check --------------------------------------------------
 
 function checkPredicateValue(pred, attr, attrs, label, errors) {
+  // valueFrom: reference an EXTERNAL spec value (active recipe / ISA-95
+  // ProductDefinition) bound at runtime — resolved centrally by the it-evaluator,
+  // not against a profile attribute. We only validate the reserved namespace and
+  // mutual exclusivity here; the value's type is checked at bind time, not lint.
+  if (pred.valueFrom !== undefined) {
+    if (pred.value !== undefined || pred.valueAttr !== undefined) {
+      errors.push(`${label}: predicate 'valueFrom' is mutually exclusive with 'value'/'valueAttr'`);
+    }
+    if (!/^(recipe|definition)\.[A-Za-z0-9_.-]+$/.test(pred.valueFrom)) {
+      errors.push(
+        `${label}: valueFrom "${pred.valueFrom}" must be a reserved spec ref (recipe.<param> / definition.<param>)`
+      );
+    }
+    return;
+  }
   // valueAttr: compare `attr` against ANOTHER attribute's live value (attr-vs-attr),
   // or the reserved token '$now' (current time). Mutually exclusive with `value`.
   if (pred.valueAttr !== undefined) {
