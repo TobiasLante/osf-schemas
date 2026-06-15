@@ -86,6 +86,21 @@
       "$ref": "constraint-schema.json",
       "description": "Optional next/-only facet. Object keyed by constraint id (snake_case). Each value typed by constraint-schema.json. Empty/absent is valid."
     },
+    "isa95": {
+      "type": "object",
+      "description": "ISA-95/MOM mapping. Loosely typed on purpose — the equipment/operations model is evolving; deep semantics are reviewed, not schema-pinned (mirrors the constraints-via-lint pattern).",
+      "properties": {
+        "objectModel": {"type": "string"},
+        "momDomain": {"type": "string"},
+        "level": {"type": "integer"},
+        "extension": {"type": "boolean"},
+        "equipmentLevel": {"type": "string"},
+        "equipmentClass": {"type": "string"},
+        "note": {"type": "string"},
+        "propertyMap": {"type": "object"}
+      },
+      "additionalProperties": true
+    },
     "kgNodeLabel": {"type": "string"},
     "kgIdProperty": {"type": "string"},
     "companionSpec": {"type": "string"},
