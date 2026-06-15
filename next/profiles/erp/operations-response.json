@@ -1,0 +1,111 @@
+{
+  "profileId": "SMProfile-OperationsResponse",
+  "version": "1.0.0",
+  "standard": "CESMII",
+  "displayName": "Operations Response (Produktions-Ist / Rückmeldung)",
+  "description": "next/ v4 — Level-3 MOM OperationsResponse = das IST der Fertigung (B2MML OperationsPerformance / OperationsResponse). Die ISA-95-Gegenseite zur OperationsRequest (ProductionOrder = das PLAN/SOLL): produzierte Menge, tatsächlicher End-Zeitpunkt, Ist-Status. SONDERFALL SIM: der Sim crammt Plan UND Ist auf EINE Order-Zeile (sim-v5-erp-orders: geplante_/produzierte_stueckzahl, lieferdatum_soll/_ist). Dieses Profil ist daher eine ZWEITE Projektion derselben REST-Source (source sim-v5-mom-operations-response), die nur die Ist-Felder + die Join-Keys mappt — eine eigene Entität, kein neuer Producer-Code. Plan-vs-Ist + Cross-Domain-Deviations (late_delivery, qty_shortfall, material_unavailable) sind CROSS-SOURCE-Vergleiche (Request <-> Response <-> Quant) und werden NICHT über den single-entity 'constraints'-Block ausgewertet, sondern vom it-evaluator-Cross-Source-Reconcile (multi_source-Discrepancy, about_order_no). Daher trägt dieses Profil bewusst KEINEN constraints-Block.",
+  "parentType": null,
+  "attributes": [
+    {
+      "name": "production_order_no",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Join key — die OperationsRequest/ProductionOrder, die dieses Ist zurückmeldet (PERFORMS / RESPONDS_TO).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "article_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "Hergestellter Artikel (Join key auf Article / Quant für die Material-Verfügbarkeit).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "machine_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "Ausführende Maschine/Linie (machine_no).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "quantity_produced",
+      "dataType": "Int32",
+      "required": false,
+      "category": "Execution",
+      "description": "Tatsächlich produzierte Stückzahl (Ist). Gegenstück zur OperationsRequest.Quantity (geplante_stueckzahl).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "actual_end_time",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "Tatsächlicher Fertigstellungs-/Lieferzeitpunkt (Ist). Gegenstück zur OperationsRequest.EndTime (lieferdatum_soll). Im Sim oft null bis zum Abschluss.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "status",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Ist-Status der Rückmeldung, z.B. offen, fertig, storniert (status / status_raw der Order-Zeile).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "completed_at",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "Abschlusszeitpunkt der Rückmeldung (abgeschlossen_am), falls gesetzt.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "updated_at",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    }
+  ],
+  "relationships": [
+    { "type": "RESPONDS_TO", "target": "ProductionOrder" },
+    { "type": "FOR_ARTICLE", "target": "Article" },
+    { "type": "ON_MACHINE", "target": "Machine" }
+  ],
+  "kgNodeLabel": "OperationsResponse",
+  "kgIdProperty": "production_order_no",
+  "category": "business",
+  "isa95": {
+    "objectModel": "OperationsResponse",
+    "momDomain": "production",
+    "level": 3,
+    "note": "Level-3 MOM OperationsResponse (ISA-95 Part 4 / B2MML OperationsPerformance) = das IST. Gegenseite zur OperationsRequest (SMProfile-ProductionOrder = SOLL). Plan-vs-Ist (late_delivery, qty_shortfall) ist der Vergleich OperationsRequest.EndTime/Quantity gegen OperationsResponse.actual_end_time/quantity_produced — cross-entity, daher im it-evaluator-Cross-Source-Reconcile, nicht im single-entity constraints-Block.",
+    "propertyMap": {
+      "production_order_no": "OperationsResponse.OperationsRequestID",
+      "article_ref": "OperationsResponse.SegmentResponse.MaterialActual.MaterialDefinitionID",
+      "machine_ref": "OperationsResponse.SegmentResponse.EquipmentActual.EquipmentID",
+      "quantity_produced": "OperationsResponse.SegmentResponse.MaterialActual.Quantity",
+      "actual_end_time": "OperationsResponse.EndTime",
+      "status": "OperationsResponse.OperationsResponseState"
+    }
+  }
+}

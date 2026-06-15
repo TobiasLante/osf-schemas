@@ -1,0 +1,21 @@
+{
+  "crossConstraintId": "qty_shortfall",
+  "version": "1.0.0",
+  "standard": "OSF",
+  "displayName": "Mengen-Mindererfüllung (Plan-vs-Ist)",
+  "description": "Cross-Source-Facette (CAPT-B Phase 2 Baustein 3): vergleicht ZWEI Entitäten über einen Join-Key — was der single-entity 'constraints'-Block strukturell nicht kann. Hier: OperationsResponse.quantity_produced (IST) gegen OperationsRequest/ProductionOrder.qty_planned (SOLL), gejoint auf production_order_no. HÄLT (ok) wenn IST >= SOLL; VERLETZT (multi_source-Discrepancy, raised) bei IST < SOLL. Geprägt als echte multi_source-Klasse (source_a=Response, source_b=Request, delta=produced-planned). Geladen vom it-evaluator next/-first (loadCrossRules), keine Source-Literale — nur osf-schemas-profileRefs + Attribut-Namen (SSOT).",
+  "severity": "warning",
+  "discrepancyClass": "multi_source",
+  "left": {
+    "profileRef": "SMProfile-OperationsResponse",
+    "joinKey": "production_order_no",
+    "attr": "quantity_produced"
+  },
+  "right": {
+    "profileRef": "SMProfile-ProductionOrder",
+    "joinKey": "production_order_no",
+    "attr": "qty_planned"
+  },
+  "op": "gte",
+  "since": "2026-06-15"
+}

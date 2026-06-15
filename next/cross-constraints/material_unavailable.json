@@ -1,0 +1,26 @@
+{
+  "crossConstraintId": "material_unavailable",
+  "version": "1.0.0",
+  "standard": "OSF",
+  "displayName": "Material nicht verfügbar (Cross-Domain ERP↔WMS)",
+  "description": "Cross-Source-Facette (CAPT-B Phase 2 Baustein 3): aktive Fertigungs-Rückmeldung (OperationsResponse, status=offen) benötigt einen Artikel, dessen freier WMS-Bestand 0 ist. Die rechte Seite ist N:1 (viele Quants je Artikel) → 'aggregate' verdichtet den freien Bestand (quantity, gefiltert auf blocked==0) per sum. HÄLT (ok) wenn sum(free) > threshold(0); VERLETZT (raised) bei 0. Geprägt als echte multi_source-Klasse. SICHERHEIT: 0 Matches → 'unknown' (kein Raise bevor die WMS-Source überhaupt beobachtet wurde). HINWEIS: braucht eine next/-Quant-Projektion mit Attributen article_ref/quantity/blocked (article_ref-keyed) — siehe Bericht offene Frage WMS-Projektion.",
+  "severity": "error",
+  "discrepancyClass": "multi_source",
+  "when": { "leftAttr": "status", "eq": "offen" },
+  "left": {
+    "profileRef": "SMProfile-OperationsResponse",
+    "joinKey": "article_ref"
+  },
+  "right": {
+    "profileRef": "SMProfile-Quant",
+    "joinKey": "article_ref"
+  },
+  "aggregate": {
+    "attr": "quantity",
+    "fn": "sum",
+    "filter": { "attr": "blocked", "eq": 0 }
+  },
+  "op": "gt",
+  "threshold": 0,
+  "since": "2026-06-15"
+}
