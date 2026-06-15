@@ -1,0 +1,30 @@
+{
+  "sourceId": "sim-v5-erp-articles",
+  "version": "1.0.0",
+  "sourceType": "rest",
+  "syncType": "polling",
+  "profileRef": "SMProfile-Article",
+  "transport": ["nats"],
+  "connection": {
+    "baseUrl": "http://192.168.178.154:38260",
+    "path": "/api/articles",
+    "method": "GET",
+    "auth": null,
+    "timeoutMs": 10000
+  },
+  "response": {
+    "format": "json",
+    "rootPath": "$",
+    "idProperty": "teil_id"
+  },
+  "columnMappings": [
+    { "column": "teil_id",        "smAttribute": "article_no", "isId": true },
+    { "column": "bezeichnung",    "smAttribute": "name" },
+    { "column": "kategorie",      "smAttribute": "type" },
+    { "column": "einheit",        "smAttribute": "unit" },
+    { "column": "lieferzeit_tage","smAttribute": "lead_time_days" },
+    { "column": "abc_class",      "smAttribute": "abc_class" }
+  ],
+  "filter": null,
+  "edges": []
+}

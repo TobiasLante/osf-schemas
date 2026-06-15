@@ -1,0 +1,115 @@
+{
+  "profileId": "SMProfile-CustomerOrder",
+  "version": "1.0.0",
+  "standard": "CESMII",
+  "displayName": "Customer Order (Kundenauftrag / Sales Order)",
+  "description": "next/ v4 — Level-4 SALES order with a customer delivery commitment. Deliberately separated from the Level-3 OperationsRequest (ProductionOrder) it TRIGGERS: the sim currently conflates both onto one row (Sonderfall), but the clean MOM model keeps sales (L4) and production request/response (L3) apart. Plan-vs-actual deviations (late_delivery, qty_shortfall) are cross-entity OperationsRequest↔OperationsResponse checks and live in the cross-source phase, NOT here. Single-entity deviation: order_overdue (delivery commitment vs now).",
+  "parentType": null,
+  "attributes": [
+    {
+      "name": "order_no",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "customer_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "customer_name",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "total_amount",
+      "dataType": "Float",
+      "required": false,
+      "category": "Commercial",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "currency",
+      "dataType": "String",
+      "required": false,
+      "category": "Commercial",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "due_date",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Planning",
+      "description": "Customer delivery commitment (the promised date the sales order is due).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "status",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Sales-order status, e.g. offen, bestaetigt, fertig, storniert.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "priority",
+      "dataType": "String",
+      "required": false,
+      "category": "Planning",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    }
+  ],
+  "relationships": [
+    { "type": "FOR_CUSTOMER", "target": "Customer" },
+    { "type": "FOR_ARTICLE", "target": "Article" },
+    { "type": "TRIGGERS", "target": "ProductionOrder" }
+  ],
+  "constraints": {
+    "order_overdue": {
+      "description": "Offener Kundenauftrag mit überschrittenem Liefertermin (Lieferverzug gegen das Kunden-Commitment).",
+      "when": { "attr": "status", "op": "eq", "value": "offen" },
+      "require": { "attr": "due_date", "op": "gte", "valueAttr": "$now" },
+      "severity": "warning",
+      "discrepancyClass": "constraint",
+      "since": "2026-06-15"
+    }
+  },
+  "kgNodeLabel": "CustomerOrder",
+  "kgIdProperty": "order_no",
+  "category": "business",
+  "isa95": {
+    "objectModel": "SalesOrder",
+    "extension": true,
+    "momDomain": "business",
+    "level": 4,
+    "note": "Level-4 Sales-Order (B2MML/ERP, oberhalb der MOM-Grenze). Löst eine Level-3 OperationsRequest (ProductionOrder) aus — Relationship TRIGGERS. due_date = Kunden-Liefer-Commitment, nicht der Produktions-EndTime.",
+    "propertyMap": {
+      "order_no": "SalesOrder.ID",
+      "customer_ref": "SalesOrder.CustomerID",
+      "due_date": "SalesOrder.RequestedDeliveryDate",
+      "priority": "SalesOrder.Priority"
+    }
+  }
+}

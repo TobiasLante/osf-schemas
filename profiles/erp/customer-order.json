@@ -62,81 +62,8 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
-    },
-    {
-      "name": "status",
-      "dataType": "String",
-      "category": "Planning",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "priority",
-      "dataType": "String",
-      "category": "Planning",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "due_date_planned",
-      "dataType": "DateTime",
-      "category": "Planning",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "due_date_actual",
-      "dataType": "DateTime",
-      "category": "Planning",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "qty_planned",
-      "dataType": "Int32",
-      "category": "Planning",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "qty_produced",
-      "dataType": "Int32",
-      "category": "Planning",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
     }
   ],
-  "constraints": {
-    "order_overdue": {
-      "description": "Offener Auftrag mit überschrittenem Liefertermin (Lieferverzug)",
-      "when": { "attr": "status", "op": "eq", "value": "offen" },
-      "require": { "attr": "due_date", "op": "gte", "valueAttr": "$now" },
-      "severity": "warning",
-      "discrepancyClass": "constraint",
-      "since": "2026-06-15"
-    },
-    "late_delivery": {
-      "description": "Ist-Lieferdatum liegt nach dem Soll-Liefertermin (Terminverzug)",
-      "require": { "attr": "due_date_actual", "op": "lte", "valueAttr": "due_date_planned" },
-      "severity": "error",
-      "discrepancyClass": "constraint",
-      "since": "2026-06-15"
-    },
-    "qty_shortfall": {
-      "description": "Fertiggemeldeter Auftrag mit Mindermenge (produziert < geplant)",
-      "when": { "attr": "status", "op": "eq", "value": "fertig" },
-      "require": { "attr": "qty_produced", "op": "gte", "valueAttr": "qty_planned" },
-      "severity": "error",
-      "discrepancyClass": "constraint",
-      "since": "2026-06-15"
-    }
-  },
   "relationships": [
     {
       "type": "FOR_ARTICLE",

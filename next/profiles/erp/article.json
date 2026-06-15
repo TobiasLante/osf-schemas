@@ -1,0 +1,79 @@
+{
+  "profileId": "SMProfile-Article",
+  "version": "1.0.0",
+  "standard": "CESMII",
+  "displayName": "Article (Artikel / Teil)",
+  "description": "next/ v4 — product/material master. Attributes aligned to the LIVE projection of source sim-v5-erp-articles. ISA-95 MaterialDefinition (the definition; physical stock is MaterialLot). Reference entity — no single-entity deviation.",
+  "parentType": null,
+  "attributes": [
+    {
+      "name": "article_no",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "name",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "type",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "unit",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "lead_time_days",
+      "dataType": "Int32",
+      "required": false,
+      "category": "Planning",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "abc_class",
+      "dataType": "String",
+      "required": false,
+      "category": "Commercial",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    }
+  ],
+  "relationships": [],
+  "kgNodeLabel": "Article",
+  "kgIdProperty": "article_no",
+  "category": "business",
+  "isa95": {
+    "objectModel": "MaterialDefinition",
+    "momDomain": "inventory",
+    "level": 3,
+    "note": "Artikel/Teil = ISA-95 MaterialDefinition (Part 2). Physischer Bestand ist MaterialLot.",
+    "propertyMap": {
+      "article_no": "MaterialDefinition.ID",
+      "name": "MaterialDefinition.Description",
+      "unit": "MaterialDefinition.UnitOfMeasure"
+    }
+  }
+}
