@@ -122,6 +122,21 @@ function lint() {
       }
     }
 
+    if (c.when) {
+      const w = c.when;
+      if (!w.leftAttr) errors.push(`${label}: when.leftAttr required`);
+      const hasEq = w.eq !== undefined;
+      const hasNe = w.ne !== undefined;
+      if (hasEq === hasNe) errors.push(`${label}: when needs exactly one of "eq" or "ne"`);
+      const leftAttrs =
+        c.left?.profileRef && profiles.has(c.left.profileRef)
+          ? attrNames(c.left.profileRef, profiles)
+          : null;
+      if (leftAttrs && w.leftAttr && !leftAttrs.has(w.leftAttr)) {
+        soft.push(`${label}: when.leftAttr "${w.leftAttr}" not an attribute of ${c.left.profileRef}`);
+      }
+    }
+
     if (c.aggregate) {
       const agg = c.aggregate;
       if (!AGG_FNS.has(agg.fn)) errors.push(`${label}: aggregate.fn "${agg.fn}" not in ${[...AGG_FNS].join(",")}`);
