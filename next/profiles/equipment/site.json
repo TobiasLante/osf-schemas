@@ -1,0 +1,72 @@
+{
+  "profileId": "SMProfile-Site",
+  "version": "0.2.0",
+  "standard": "ISA-95",
+  "displayName": "Site (ISA-95 Equipment — Ebene 2, Werk/Standort)",
+  "description": "next/ v4 — Equipment-Hierarchie, Ebene 2. Ein Site (Werk/Standort) gehoert zu einem Enterprise und gruppiert Areas. UNS-Segment 1 (site). Master-Data-Entitaet. Site ist auch der Anker fuer site-scoped Domains (ERP, QMS). Instanz im Anker anchor-rockwool-vam5: site_id='VAM' (Vamdrup).",
+  "parentType": null,
+  "attributes": [
+    {
+      "name": "site_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Eindeutige Site-ID (UNS-Segment 1). VAM5-Modell: 'VAM' (Vamdrup).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "name",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Anzeigename des Werks/Standorts (VAM5: 'Vamdrup').",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "location",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Geografischer Standort (Stadt/Land), frei.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "enterprise_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "FK auf Enterprise.enterprise_id (PART_OF-Target).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "PART_OF",
+      "target": "Enterprise",
+      "targetIdProp": "enterprise_ref",
+      "description": "ISA-95-Hierarchie: Site gehoert zu genau einem Enterprise."
+    }
+  ],
+  "kgNodeLabel": "Site",
+  "kgIdProperty": "site_id",
+  "category": "equipment",
+  "isa95": {
+    "objectModel": "Equipment",
+    "momDomain": "production",
+    "level": 2,
+    "equipmentLevel": "Site",
+    "note": "ISA-95 Part 2 Equipment-Hierarchie, Ebene Werk/Standort. UNS-Segment 1 (site). Anker fuer site-scoped Domains ERP/QMS.",
+    "propertyMap": {
+      "site_id": "Equipment.ID",
+      "name": "Equipment.Description"
+    }
+  }
+}

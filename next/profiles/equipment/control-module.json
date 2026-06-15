@@ -1,0 +1,74 @@
+{
+  "profileId": "SMProfile-ControlModule",
+  "version": "0.1.0",
+  "standard": "ISA-95",
+  "displayName": "ControlModule (Equipment — Ebene 7, ISA-88 Control Module)",
+  "description": "next/ v4 — Equipment-Hierarchie, Ebene 7 (unterste) = ISA-88 'Control Module'. Im VAM5-Modell die SubUnitModuleName-Spalte: kleinste einzeln ansteuerbare Einheiten (z.B. einzelne Brenner unter einem Burner-Module, ein Spinner-Geraet). Nur ein Teil der EquipmentModules hat ControlModules — leere SubUnitModule-Zellen bedeuten 'kein Kind'. Ein ControlModule gehoert zu genau einem EquipmentModule. UNS-Segment 6. 34 distinkte Knoten im VAM5-Modell.",
+  "parentType": null,
+  "attributes": [
+    {
+      "name": "control_module_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Eindeutige ControlModule-ID (UNS-Segment 6). VAM5: pfad-praefixiert 'VAM5.<WCUnit>.<UnitModule>.<SubUnitModule>' (z.B. 'VAM5.SP.CO.SL'), da SubUnitModule-Codes (BU, C1, ...) mehrfach vorkommen. Roher Code in control_code.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "control_code",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Roher SubUnitModule-Code aus der xlsx (z.B. 'BU', 'SL', 'C1').",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "name",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Anzeigename des Control Modules (z.B. 'Spinner left', 'Burner', 'Bell hopper').",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "equipment_module_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "FK auf EquipmentModule.equipment_module_id (PART_OF-Target).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "PART_OF",
+      "target": "EquipmentModule",
+      "targetIdProp": "equipment_module_ref",
+      "description": "ISA-88-Hierarchie: ControlModule gehoert zu genau einem EquipmentModule."
+    }
+  ],
+  "kgNodeLabel": "ControlModule",
+  "kgIdProperty": "control_module_id",
+  "category": "equipment",
+  "isa95": {
+    "objectModel": "Equipment",
+    "momDomain": "production",
+    "level": 7,
+    "equipmentLevel": "ControlModule",
+    "equipmentClass": "ControlModule",
+    "note": "ISA-88 'Control Module', unterste Ebene der physischen Hierarchie. Kleinste einzeln steuerbare Einheit. UNS-Segment 6. Optionales Blatt: nur ein Teil der EquipmentModules hat ControlModules.",
+    "propertyMap": {
+      "control_module_id": "Equipment.ID",
+      "control_code": "Equipment.EquipmentClass",
+      "name": "Equipment.Description"
+    }
+  }
+}

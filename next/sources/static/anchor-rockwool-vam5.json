@@ -1,0 +1,3935 @@
+{
+  "sourceId": "anchor-rockwool-vam5",
+  "version": "0.1.0",
+  "sourceType": "static",
+  "syncType": "anchor",
+  "description": "ANKER-SOURCE — laedt die ECHTE Rockwool-VAM5-Equipment-Hierarchie (7-Level ISA-88-physisches-Modell genestet in ISA-95) als Master-Data in den KG. Datengetrieben generiert aus /tmp/vam5.xlsx (Sheets 'Equipment model names' + 'Equipment model descriptions') via /tmp/gen_anchor.py — NICHT von Hand. Jedes record == ein KG-Knoten (OT-Snapshot-Kontrakt: id=element_id, isa95_class->ExtraLabel in kg-builder Phase-2a, type->ObjectType). Die relationships[] ziehen die PART_OF-Kette ControlModule->EquipmentModule->Unit->ProcessCell->Area->Site->Enterprise. element_ids ab ProcessCell sind pfad-praefixiert (z.B. 'VAM5.SP.CO.SL'), da die Codes (CO/BU/...) ueber Units hinweg kollidieren.",
+  "transport": [
+    "nats"
+  ],
+  "profileRefs": [
+    "SMProfile-Enterprise",
+    "SMProfile-Site",
+    "SMProfile-Area",
+    "SMProfile-ProcessCell",
+    "SMProfile-EquipmentUnit",
+    "SMProfile-EquipmentModule",
+    "SMProfile-ControlModule"
+  ],
+  "snapshotSubject": "i3x.kg.snapshot.ot.anchor-rockwool-vam5",
+  "anchor": {
+    "kind": "equipment-hierarchy",
+    "source": "Rockwool VAM5 Equipmentmodell (echtes 7-Level S88/S95-Modell)",
+    "model": "7-Level: Enterprise(RW) > Site(VAM) > Area(WL) > ProcessCell(VAM5) > Unit(17) > EquipmentModule(174) > ControlModule(34)",
+    "counts": {
+      "enterprise": 1,
+      "site": 1,
+      "area": 1,
+      "process_cell": 1,
+      "unit": 17,
+      "equipment_module": 174,
+      "control_module": 34,
+      "total_nodes": 229
+    },
+    "note": "Board-Footer nennt '17 WorkCenter Units, 196 Unit Modules, 36 SubUnitModules'. Die 196/36 sind ZEILEN-Zaehlungen der xlsx (196 Datenzeilen, 34 davon mit SubUnitModule). Als KG-KNOTEN (unique Pfad) ergeben sich 17 Units, 174 EquipmentModules und 34 ControlModules — das ist die hier verankerte Wahrheit. 4 Units (BI/HP/TO/TS) sind Blatt-Units ohne UnitModule (leere Zelle = kein Kind). Diskrepanz 174 vs 196 und 34 vs 36 ist im Review zu bestaetigen."
+  },
+  "records": [
+    {
+      "element_id": "RW",
+      "kgNodeLabel": "Enterprise",
+      "isa95_class": "Enterprise",
+      "type": "type:Enterprise",
+      "profileRef": "SMProfile-Enterprise",
+      "enterprise_id": "RW",
+      "name": "Rockwool"
+    },
+    {
+      "element_id": "VAM",
+      "kgNodeLabel": "Site",
+      "isa95_class": "Site",
+      "type": "type:Site",
+      "profileRef": "SMProfile-Site",
+      "site_id": "VAM",
+      "name": "Vamdrup",
+      "enterprise_ref": "RW"
+    },
+    {
+      "element_id": "WL",
+      "kgNodeLabel": "Area",
+      "isa95_class": "Area",
+      "type": "type:Area",
+      "profileRef": "SMProfile-Area",
+      "area_id": "WL",
+      "name": "Wool production",
+      "site_ref": "VAM"
+    },
+    {
+      "element_id": "VAM5",
+      "kgNodeLabel": "ProcessCell",
+      "isa95_class": "ProcessCell",
+      "type": "type:ProcessCell",
+      "profileRef": "SMProfile-ProcessCell",
+      "process_cell_id": "VAM5",
+      "name": "Wool line 5",
+      "cell_class": "ProcessCell",
+      "area_ref": "WL"
+    },
+    {
+      "element_id": "VAM5.BD",
+      "kgNodeLabel": "EquipmentUnit",
+      "isa95_class": "Unit",
+      "type": "type:EquipmentUnit",
+      "profileRef": "SMProfile-EquipmentUnit",
+      "unit_id": "VAM5.BD",
+      "unit_code": "BD",
+      "name": "Binder Distribution",
+      "process_cell_ref": "VAM5"
+    },
+    {
+      "element_id": "VAM5.BD.BC1",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BD.BC1",
+      "module_code": "BC1",
+      "name": "Binder distrib.center",
+      "unit_ref": "VAM5.BD"
+    },
+    {
+      "element_id": "VAM5.BD.BC2",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BD.BC2",
+      "module_code": "BC2",
+      "name": "Binder flush.center",
+      "unit_ref": "VAM5.BD"
+    },
+    {
+      "element_id": "VAM5.BD.BD",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BD.BD",
+      "module_code": "BD",
+      "name": "Binder Dosing",
+      "unit_ref": "VAM5.BD"
+    },
+    {
+      "element_id": "VAM5.BD.BI",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BD.BI",
+      "module_code": "BI",
+      "name": "Binder",
+      "unit_ref": "VAM5.BD"
+    },
+    {
+      "element_id": "VAM5.BD.BL1",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BD.BL1",
+      "module_code": "BL1",
+      "name": "Binder distrib. Left",
+      "unit_ref": "VAM5.BD"
+    },
+    {
+      "element_id": "VAM5.BD.BL2",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BD.BL2",
+      "module_code": "BL2",
+      "name": "Binder flushing. Left",
+      "unit_ref": "VAM5.BD"
+    },
+    {
+      "element_id": "VAM5.BD.BR1",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BD.BR1",
+      "module_code": "BR1",
+      "name": "Binder distrib. right",
+      "unit_ref": "VAM5.BD"
+    },
+    {
+      "element_id": "VAM5.BD.BR2",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BD.BR2",
+      "module_code": "BR2",
+      "name": "Binder flush. right",
+      "unit_ref": "VAM5.BD"
+    },
+    {
+      "element_id": "VAM5.BD.CL",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BD.CL",
+      "module_code": "CL",
+      "name": "Cleaning",
+      "unit_ref": "VAM5.BD"
+    },
+    {
+      "element_id": "VAM5.BD.CO",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BD.CO",
+      "module_code": "CO",
+      "name": "Color",
+      "unit_ref": "VAM5.BD"
+    },
+    {
+      "element_id": "VAM5.BD.DX",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BD.DX",
+      "module_code": "DX",
+      "name": "Dextrose",
+      "unit_ref": "VAM5.BD"
+    },
+    {
+      "element_id": "VAM5.BD.FA",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BD.FA",
+      "module_code": "FA",
+      "name": "Fleece applicator",
+      "unit_ref": "VAM5.BD"
+    },
+    {
+      "element_id": "VAM5.BD.FE",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BD.FE",
+      "module_code": "FE",
+      "name": "FES",
+      "unit_ref": "VAM5.BD"
+    },
+    {
+      "element_id": "VAM5.BD.GC",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BD.GC",
+      "module_code": "GC",
+      "name": "Gutter cooling",
+      "unit_ref": "VAM5.BD"
+    },
+    {
+      "element_id": "VAM5.BD.GS",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BD.GS",
+      "module_code": "GS",
+      "name": "Glucose syrup",
+      "unit_ref": "VAM5.BD"
+    },
+    {
+      "element_id": "VAM5.BD.IO",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BD.IO",
+      "module_code": "IO",
+      "name": "Impregnating oil",
+      "unit_ref": "VAM5.BD"
+    },
+    {
+      "element_id": "VAM5.BD.PW",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BD.PW",
+      "module_code": "PW",
+      "name": "Process water",
+      "unit_ref": "VAM5.BD"
+    },
+    {
+      "element_id": "VAM5.BD.PW1",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BD.PW1",
+      "module_code": "PW1",
+      "name": "Process water filtering",
+      "unit_ref": "VAM5.BD"
+    },
+    {
+      "element_id": "VAM5.BD.PW2",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BD.PW2",
+      "module_code": "PW2",
+      "name": "Process water distribution",
+      "unit_ref": "VAM5.BD"
+    },
+    {
+      "element_id": "VAM5.BI",
+      "kgNodeLabel": "EquipmentUnit",
+      "isa95_class": "Unit",
+      "type": "type:EquipmentUnit",
+      "profileRef": "SMProfile-EquipmentUnit",
+      "unit_id": "VAM5.BI",
+      "unit_code": "BI",
+      "name": "Binder section",
+      "process_cell_ref": "VAM5"
+    },
+    {
+      "element_id": "VAM5.BP",
+      "kgNodeLabel": "EquipmentUnit",
+      "isa95_class": "Unit",
+      "type": "type:EquipmentUnit",
+      "profileRef": "SMProfile-EquipmentUnit",
+      "unit_id": "VAM5.BP",
+      "unit_code": "BP",
+      "name": "Binder production",
+      "process_cell_ref": "VAM5"
+    },
+    {
+      "element_id": "VAM5.BP.AB",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BP.AB",
+      "module_code": "AB",
+      "name": "Ammonium bicarbonate",
+      "unit_ref": "VAM5.BP"
+    },
+    {
+      "element_id": "VAM5.BP.AS",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BP.AS",
+      "module_code": "AS",
+      "name": "Ammonia sulphate",
+      "unit_ref": "VAM5.BP"
+    },
+    {
+      "element_id": "VAM5.BP.BI",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BP.BI",
+      "module_code": "BI",
+      "name": "Binder",
+      "unit_ref": "VAM5.BP"
+    },
+    {
+      "element_id": "VAM5.BP.BL",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BP.BL",
+      "module_code": "BL",
+      "name": "Burnt lime",
+      "unit_ref": "VAM5.BP"
+    },
+    {
+      "element_id": "VAM5.BP.CW",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BP.CW",
+      "module_code": "CW",
+      "name": "Cooling water",
+      "unit_ref": "VAM5.BP"
+    },
+    {
+      "element_id": "VAM5.BP.DX",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BP.DX",
+      "module_code": "DX",
+      "name": "Dextrose",
+      "unit_ref": "VAM5.BP"
+    },
+    {
+      "element_id": "VAM5.BP.FE",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BP.FE",
+      "module_code": "FE",
+      "name": "FES",
+      "unit_ref": "VAM5.BP"
+    },
+    {
+      "element_id": "VAM5.BP.FN",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BP.FN",
+      "module_code": "FN",
+      "name": "Formaline",
+      "unit_ref": "VAM5.BP"
+    },
+    {
+      "element_id": "VAM5.BP.GS",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BP.GS",
+      "module_code": "GS",
+      "name": "Glucose syrup",
+      "unit_ref": "VAM5.BP"
+    },
+    {
+      "element_id": "VAM5.BP.HL",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BP.HL",
+      "module_code": "HL",
+      "name": "Hydrated lime (Calcium hydroxide)",
+      "unit_ref": "VAM5.BP"
+    },
+    {
+      "element_id": "VAM5.BP.HU",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BP.HU",
+      "module_code": "HU",
+      "name": "Huygens",
+      "unit_ref": "VAM5.BP"
+    },
+    {
+      "element_id": "VAM5.BP.HW",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BP.HW",
+      "module_code": "HW",
+      "name": "Heating water/Hot water",
+      "unit_ref": "VAM5.BP"
+    },
+    {
+      "element_id": "VAM5.BP.HY",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BP.HY",
+      "module_code": "HY",
+      "name": "Hydrogen peroxide",
+      "unit_ref": "VAM5.BP"
+    },
+    {
+      "element_id": "VAM5.BP.IO",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BP.IO",
+      "module_code": "IO",
+      "name": "Impregnating oil",
+      "unit_ref": "VAM5.BP"
+    },
+    {
+      "element_id": "VAM5.BP.LA",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BP.LA",
+      "module_code": "LA",
+      "name": "Linear Alkyl Benzo-sulphate",
+      "unit_ref": "VAM5.BP"
+    },
+    {
+      "element_id": "VAM5.BP.LI",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BP.LI",
+      "module_code": "LI",
+      "name": "Lignin",
+      "unit_ref": "VAM5.BP"
+    },
+    {
+      "element_id": "VAM5.BP.MG",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BP.MG",
+      "module_code": "MG",
+      "name": "Mono Etylene Glycol",
+      "unit_ref": "VAM5.BP"
+    },
+    {
+      "element_id": "VAM5.BP.MI",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BP.MI",
+      "module_code": "MI",
+      "name": "Mixing",
+      "unit_ref": "VAM5.BP"
+    },
+    {
+      "element_id": "VAM5.BP.NH",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BP.NH",
+      "module_code": "NH",
+      "name": "Ammonia diluted",
+      "unit_ref": "VAM5.BP"
+    },
+    {
+      "element_id": "VAM5.BP.PE",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BP.PE",
+      "module_code": "PE",
+      "name": "PEG",
+      "unit_ref": "VAM5.BP"
+    },
+    {
+      "element_id": "VAM5.BP.PH",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BP.PH",
+      "module_code": "PH",
+      "name": "Pothassium hydroxide",
+      "unit_ref": "VAM5.BP"
+    },
+    {
+      "element_id": "VAM5.BP.PL",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BP.PL",
+      "module_code": "PL",
+      "name": "Phenol",
+      "unit_ref": "VAM5.BP"
+    },
+    {
+      "element_id": "VAM5.BP.PM",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BP.PM",
+      "module_code": "PM",
+      "name": "Primid",
+      "unit_ref": "VAM5.BP"
+    },
+    {
+      "element_id": "VAM5.BP.PR",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BP.PR",
+      "module_code": "PR",
+      "name": "Phenolic Resin",
+      "unit_ref": "VAM5.BP"
+    },
+    {
+      "element_id": "VAM5.BP.PW",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BP.PW",
+      "module_code": "PW",
+      "name": "Process water",
+      "unit_ref": "VAM5.BP"
+    },
+    {
+      "element_id": "VAM5.BP.RE",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BP.RE",
+      "module_code": "RE",
+      "name": "Rewopal",
+      "unit_ref": "VAM5.BP"
+    },
+    {
+      "element_id": "VAM5.BP.RW",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BP.RW",
+      "module_code": "RW",
+      "name": "Raw water",
+      "unit_ref": "VAM5.BP"
+    },
+    {
+      "element_id": "VAM5.BP.SI",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BP.SI",
+      "module_code": "SI",
+      "name": "Silane",
+      "unit_ref": "VAM5.BP"
+    },
+    {
+      "element_id": "VAM5.BP.SO",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BP.SO",
+      "module_code": "SO",
+      "name": "Silicone oil",
+      "unit_ref": "VAM5.BP"
+    },
+    {
+      "element_id": "VAM5.BP.SR",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BP.SR",
+      "module_code": "SR",
+      "name": "Silicone Resin",
+      "unit_ref": "VAM5.BP"
+    },
+    {
+      "element_id": "VAM5.BP.TE",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BP.TE",
+      "module_code": "TE",
+      "name": "Tenside",
+      "unit_ref": "VAM5.BP"
+    },
+    {
+      "element_id": "VAM5.BP.UL",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BP.UL",
+      "module_code": "UL",
+      "name": "Unloading",
+      "unit_ref": "VAM5.BP"
+    },
+    {
+      "element_id": "VAM5.BP.UR",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BP.UR",
+      "module_code": "UR",
+      "name": "Urea",
+      "unit_ref": "VAM5.BP"
+    },
+    {
+      "element_id": "VAM5.BP.VT",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.BP.VT",
+      "module_code": "VT",
+      "name": "Ventilation /Exhaust",
+      "unit_ref": "VAM5.BP"
+    },
+    {
+      "element_id": "VAM5.CH",
+      "kgNodeLabel": "EquipmentUnit",
+      "isa95_class": "Unit",
+      "type": "type:EquipmentUnit",
+      "profileRef": "SMProfile-EquipmentUnit",
+      "unit_id": "VAM5.CH",
+      "unit_code": "CH",
+      "name": "Charging section",
+      "process_cell_ref": "VAM5"
+    },
+    {
+      "element_id": "VAM5.CH.BH",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.CH.BH",
+      "module_code": "BH",
+      "name": "Bell hopper",
+      "unit_ref": "VAM5.CH"
+    },
+    {
+      "element_id": "VAM5.CH.BH.C1",
+      "kgNodeLabel": "ControlModule",
+      "isa95_class": "ControlModule",
+      "type": "type:ControlModule",
+      "profileRef": "SMProfile-ControlModule",
+      "control_module_id": "VAM5.CH.BH.C1",
+      "control_code": "C1",
+      "name": "Bell hopper",
+      "equipment_module_ref": "VAM5.CH.BH"
+    },
+    {
+      "element_id": "VAM5.CH.BH.C2",
+      "kgNodeLabel": "ControlModule",
+      "isa95_class": "ControlModule",
+      "type": "type:ControlModule",
+      "profileRef": "SMProfile-ControlModule",
+      "control_module_id": "VAM5.CH.BH.C2",
+      "control_code": "C2",
+      "name": "Cupola",
+      "equipment_module_ref": "VAM5.CH.BH"
+    },
+    {
+      "element_id": "VAM5.CH.CS",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.CH.CS",
+      "module_code": "CS",
+      "name": "Coal system",
+      "unit_ref": "VAM5.CH"
+    },
+    {
+      "element_id": "VAM5.CH.CS.RS",
+      "kgNodeLabel": "ControlModule",
+      "isa95_class": "ControlModule",
+      "type": "type:ControlModule",
+      "profileRef": "SMProfile-ControlModule",
+      "control_module_id": "VAM5.CH.CS.RS",
+      "control_code": "RS",
+      "name": "Receiving system",
+      "equipment_module_ref": "VAM5.CH.CS"
+    },
+    {
+      "element_id": "VAM5.CH.CS.TR",
+      "kgNodeLabel": "ControlModule",
+      "isa95_class": "ControlModule",
+      "type": "type:ControlModule",
+      "profileRef": "SMProfile-ControlModule",
+      "control_module_id": "VAM5.CH.CS.TR",
+      "control_code": "TR",
+      "name": "Transport system",
+      "equipment_module_ref": "VAM5.CH.CS"
+    },
+    {
+      "element_id": "VAM5.CH.CS.CI",
+      "kgNodeLabel": "ControlModule",
+      "isa95_class": "ControlModule",
+      "type": "type:ControlModule",
+      "profileRef": "SMProfile-ControlModule",
+      "control_module_id": "VAM5.CH.CS.CI",
+      "control_code": "CI",
+      "name": "Silo system",
+      "equipment_module_ref": "VAM5.CH.CS"
+    },
+    {
+      "element_id": "VAM5.CH.CS.N",
+      "kgNodeLabel": "ControlModule",
+      "isa95_class": "ControlModule",
+      "type": "type:ControlModule",
+      "profileRef": "SMProfile-ControlModule",
+      "control_module_id": "VAM5.CH.CS.N",
+      "control_code": "N",
+      "name": "Inert gas system",
+      "equipment_module_ref": "VAM5.CH.CS"
+    },
+    {
+      "element_id": "VAM5.CH.DF",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.CH.DF",
+      "module_code": "DF",
+      "name": "Dustfilter",
+      "unit_ref": "VAM5.CH"
+    },
+    {
+      "element_id": "VAM5.CH.FH",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.CH.FH",
+      "module_code": "FH",
+      "name": "Fines Handling",
+      "unit_ref": "VAM5.CH"
+    },
+    {
+      "element_id": "VAM5.CH.N",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.CH.N",
+      "module_code": "N",
+      "name": "Nitrogen",
+      "unit_ref": "VAM5.CH"
+    },
+    {
+      "element_id": "VAM5.CH.PH",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.CH.PH",
+      "module_code": "PH",
+      "name": "Pre heating",
+      "unit_ref": "VAM5.CH"
+    },
+    {
+      "element_id": "VAM5.CH.RS",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.CH.RS",
+      "module_code": "RS",
+      "name": "Raw materials  to silo´s",
+      "unit_ref": "VAM5.CH"
+    },
+    {
+      "element_id": "VAM5.CH.TR",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.CH.TR",
+      "module_code": "TR",
+      "name": "Transport to furnace",
+      "unit_ref": "VAM5.CH"
+    },
+    {
+      "element_id": "VAM5.CH.WS1",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.CH.WS1",
+      "module_code": "WS1",
+      "name": "Weighing silo 1",
+      "unit_ref": "VAM5.CH"
+    },
+    {
+      "element_id": "VAM5.CH.WS2",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.CH.WS2",
+      "module_code": "WS2",
+      "name": "Weighing silo 2",
+      "unit_ref": "VAM5.CH"
+    },
+    {
+      "element_id": "VAM5.CH.WS3",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.CH.WS3",
+      "module_code": "WS3",
+      "name": "Weighing silo 3",
+      "unit_ref": "VAM5.CH"
+    },
+    {
+      "element_id": "VAM5.CH.WS4",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.CH.WS4",
+      "module_code": "WS4",
+      "name": "Weighing silo 4",
+      "unit_ref": "VAM5.CH"
+    },
+    {
+      "element_id": "VAM5.CH.WS5",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.CH.WS5",
+      "module_code": "WS5",
+      "name": "Weighing silo 5",
+      "unit_ref": "VAM5.CH"
+    },
+    {
+      "element_id": "VAM5.CH.WS6",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.CH.WS6",
+      "module_code": "WS6",
+      "name": "Weighing silo 6",
+      "unit_ref": "VAM5.CH"
+    },
+    {
+      "element_id": "VAM5.CO",
+      "kgNodeLabel": "EquipmentUnit",
+      "isa95_class": "Unit",
+      "type": "type:EquipmentUnit",
+      "profileRef": "SMProfile-EquipmentUnit",
+      "unit_id": "VAM5.CO",
+      "unit_code": "CO",
+      "name": "Curing oven",
+      "process_cell_ref": "VAM5"
+    },
+    {
+      "element_id": "VAM5.CO.AB",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.CO.AB",
+      "module_code": "AB",
+      "name": "After burner",
+      "unit_ref": "VAM5.CO"
+    },
+    {
+      "element_id": "VAM5.CO.BH",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.CO.BH",
+      "module_code": "BH",
+      "name": "Upper belt heating",
+      "unit_ref": "VAM5.CO"
+    },
+    {
+      "element_id": "VAM5.CO.BH.BU",
+      "kgNodeLabel": "ControlModule",
+      "isa95_class": "ControlModule",
+      "type": "type:ControlModule",
+      "profileRef": "SMProfile-ControlModule",
+      "control_module_id": "VAM5.CO.BH.BU",
+      "control_code": "BU",
+      "name": "Burner",
+      "equipment_module_ref": "VAM5.CO.BH"
+    },
+    {
+      "element_id": "VAM5.CO.CE",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.CO.CE",
+      "module_code": "CE",
+      "name": "Curing Exhaust",
+      "unit_ref": "VAM5.CO"
+    },
+    {
+      "element_id": "VAM5.CO.CO",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.CO.CO",
+      "module_code": "CO",
+      "name": "Curing oven",
+      "unit_ref": "VAM5.CO"
+    },
+    {
+      "element_id": "VAM5.CO.CO.AC",
+      "kgNodeLabel": "ControlModule",
+      "isa95_class": "ControlModule",
+      "type": "type:ControlModule",
+      "profileRef": "SMProfile-ControlModule",
+      "control_module_id": "VAM5.CO.CO.AC",
+      "control_code": "AC",
+      "name": "Air controlling system",
+      "equipment_module_ref": "VAM5.CO.CO"
+    },
+    {
+      "element_id": "VAM5.CO.CS1",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.CO.CS1",
+      "module_code": "CS1",
+      "name": "Circulation system 1",
+      "unit_ref": "VAM5.CO"
+    },
+    {
+      "element_id": "VAM5.CO.CS1.BU",
+      "kgNodeLabel": "ControlModule",
+      "isa95_class": "ControlModule",
+      "type": "type:ControlModule",
+      "profileRef": "SMProfile-ControlModule",
+      "control_module_id": "VAM5.CO.CS1.BU",
+      "control_code": "BU",
+      "name": "Burner",
+      "equipment_module_ref": "VAM5.CO.CS1"
+    },
+    {
+      "element_id": "VAM5.CO.CS2",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.CO.CS2",
+      "module_code": "CS2",
+      "name": "Circulation system 2",
+      "unit_ref": "VAM5.CO"
+    },
+    {
+      "element_id": "VAM5.CO.CS2.BU",
+      "kgNodeLabel": "ControlModule",
+      "isa95_class": "ControlModule",
+      "type": "type:ControlModule",
+      "profileRef": "SMProfile-ControlModule",
+      "control_module_id": "VAM5.CO.CS2.BU",
+      "control_code": "BU",
+      "name": "Burner",
+      "equipment_module_ref": "VAM5.CO.CS2"
+    },
+    {
+      "element_id": "VAM5.CO.CZ",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.CO.CZ",
+      "module_code": "CZ",
+      "name": "Cooling zone",
+      "unit_ref": "VAM5.CO"
+    },
+    {
+      "element_id": "VAM5.CO.FW",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.CO.FW",
+      "module_code": "FW",
+      "name": "Fire water extinguishing",
+      "unit_ref": "VAM5.CO"
+    },
+    {
+      "element_id": "VAM5.CO.IC",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.CO.IC",
+      "module_code": "IC",
+      "name": "Inlet Cooling",
+      "unit_ref": "VAM5.CO"
+    },
+    {
+      "element_id": "VAM5.DR",
+      "kgNodeLabel": "EquipmentUnit",
+      "isa95_class": "Unit",
+      "type": "type:EquipmentUnit",
+      "profileRef": "SMProfile-EquipmentUnit",
+      "unit_id": "VAM5.DR",
+      "unit_code": "DR",
+      "name": "Drying raw materials",
+      "process_cell_ref": "VAM5"
+    },
+    {
+      "element_id": "VAM5.DR.BU",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.DR.BU",
+      "module_code": "BU",
+      "name": "Burner",
+      "unit_ref": "VAM5.DR"
+    },
+    {
+      "element_id": "VAM5.DR.BU.HE",
+      "kgNodeLabel": "ControlModule",
+      "isa95_class": "ControlModule",
+      "type": "type:ControlModule",
+      "profileRef": "SMProfile-ControlModule",
+      "control_module_id": "VAM5.DR.BU.HE",
+      "control_code": "HE",
+      "name": "Heat exchanger",
+      "equipment_module_ref": "VAM5.DR.BU"
+    },
+    {
+      "element_id": "VAM5.DR.HE",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.DR.HE",
+      "module_code": "HE",
+      "name": "Heat exchanger",
+      "unit_ref": "VAM5.DR"
+    },
+    {
+      "element_id": "VAM5.DR.W",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.DR.W",
+      "module_code": "W",
+      "name": "Transport",
+      "unit_ref": "VAM5.DR"
+    },
+    {
+      "element_id": "VAM5.HP",
+      "kgNodeLabel": "EquipmentUnit",
+      "isa95_class": "Unit",
+      "type": "type:EquipmentUnit",
+      "profileRef": "SMProfile-EquipmentUnit",
+      "unit_id": "VAM5.HP",
+      "unit_code": "HP",
+      "name": "High Pressure Pumps",
+      "process_cell_ref": "VAM5"
+    },
+    {
+      "element_id": "VAM5.LT",
+      "kgNodeLabel": "EquipmentUnit",
+      "isa95_class": "Unit",
+      "type": "type:EquipmentUnit",
+      "profileRef": "SMProfile-EquipmentUnit",
+      "unit_id": "VAM5.LT",
+      "unit_code": "LT",
+      "name": "Line transmission",
+      "process_cell_ref": "VAM5"
+    },
+    {
+      "element_id": "VAM5.LT.IS",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.LT.IS",
+      "module_code": "IS",
+      "name": "Isotops",
+      "unit_ref": "VAM5.LT"
+    },
+    {
+      "element_id": "VAM5.LT.DB",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.LT.DB",
+      "module_code": "DB",
+      "name": "Doubling section",
+      "unit_ref": "VAM5.LT"
+    },
+    {
+      "element_id": "VAM5.LT.DD",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.LT.DD",
+      "module_code": "DD",
+      "name": "Dual density",
+      "unit_ref": "VAM5.LT"
+    },
+    {
+      "element_id": "VAM5.LT.ET",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.LT.ET",
+      "module_code": "ET",
+      "name": "Edge Trimmer",
+      "unit_ref": "VAM5.LT"
+    },
+    {
+      "element_id": "VAM5.LT.FA",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.LT.FA",
+      "module_code": "FA",
+      "name": "Fleece application unit",
+      "unit_ref": "VAM5.LT"
+    },
+    {
+      "element_id": "VAM5.LT.PS",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.LT.PS",
+      "module_code": "PS",
+      "name": "Primary section",
+      "unit_ref": "VAM5.LT"
+    },
+    {
+      "element_id": "VAM5.LT.QS1",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.LT.QS1",
+      "module_code": "QS1",
+      "name": "Quality system",
+      "unit_ref": "VAM5.LT"
+    },
+    {
+      "element_id": "VAM5.LT.SE1",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.LT.SE1",
+      "module_code": "SE1",
+      "name": "Secondary section to CO",
+      "unit_ref": "VAM5.LT"
+    },
+    {
+      "element_id": "VAM5.LT.SE2",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.LT.SE2",
+      "module_code": "SE2",
+      "name": "Secondary section Curing oven drives",
+      "unit_ref": "VAM5.LT"
+    },
+    {
+      "element_id": "VAM5.LT.SE3",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.LT.SE3",
+      "module_code": "SE3",
+      "name": "Secondary section Drives after curing oven",
+      "unit_ref": "VAM5.LT"
+    },
+    {
+      "element_id": "VAM5.LT.SE4",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.LT.SE4",
+      "module_code": "SE4",
+      "name": "Secondary section Cold end",
+      "unit_ref": "VAM5.LT"
+    },
+    {
+      "element_id": "VAM5.LT.WS1",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.LT.WS1",
+      "module_code": "WS1",
+      "name": "Weighing system",
+      "unit_ref": "VAM5.LT"
+    },
+    {
+      "element_id": "VAM5.LT.WS2",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.LT.WS2",
+      "module_code": "WS2",
+      "name": "Weighing system",
+      "unit_ref": "VAM5.LT"
+    },
+    {
+      "element_id": "VAM5.ME",
+      "kgNodeLabel": "EquipmentUnit",
+      "isa95_class": "Unit",
+      "type": "type:EquipmentUnit",
+      "profileRef": "SMProfile-EquipmentUnit",
+      "unit_id": "VAM5.ME",
+      "unit_code": "ME",
+      "name": "Melting section",
+      "process_cell_ref": "VAM5"
+    },
+    {
+      "element_id": "VAM5.ME.BU",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.ME.BU",
+      "module_code": "BU",
+      "name": "Burner",
+      "unit_ref": "VAM5.ME"
+    },
+    {
+      "element_id": "VAM5.ME.CA",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.ME.CA",
+      "module_code": "CA",
+      "name": "Low pressure Air",
+      "unit_ref": "VAM5.ME"
+    },
+    {
+      "element_id": "VAM5.ME.CC",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.ME.CC",
+      "module_code": "CC",
+      "name": "Combustion Chamber",
+      "unit_ref": "VAM5.ME"
+    },
+    {
+      "element_id": "VAM5.ME.CC.BU1",
+      "kgNodeLabel": "ControlModule",
+      "isa95_class": "ControlModule",
+      "type": "type:ControlModule",
+      "profileRef": "SMProfile-ControlModule",
+      "control_module_id": "VAM5.ME.CC.BU1",
+      "control_code": "BU1",
+      "name": "Burner 1",
+      "equipment_module_ref": "VAM5.ME.CC"
+    },
+    {
+      "element_id": "VAM5.ME.CC.BU2",
+      "kgNodeLabel": "ControlModule",
+      "isa95_class": "ControlModule",
+      "type": "type:ControlModule",
+      "profileRef": "SMProfile-ControlModule",
+      "control_module_id": "VAM5.ME.CC.BU2",
+      "control_code": "BU2",
+      "name": "Burner 2",
+      "equipment_module_ref": "VAM5.ME.CC"
+    },
+    {
+      "element_id": "VAM5.ME.CS",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.ME.CS",
+      "module_code": "CS",
+      "name": "Coal system Dosing",
+      "unit_ref": "VAM5.ME"
+    },
+    {
+      "element_id": "VAM5.ME.CS.C1",
+      "kgNodeLabel": "ControlModule",
+      "isa95_class": "ControlModule",
+      "type": "type:ControlModule",
+      "profileRef": "SMProfile-ControlModule",
+      "control_module_id": "VAM5.ME.CS.C1",
+      "control_code": "C1",
+      "name": "Recieving silo",
+      "equipment_module_ref": "VAM5.ME.CS"
+    },
+    {
+      "element_id": "VAM5.ME.CS.BU1",
+      "kgNodeLabel": "ControlModule",
+      "isa95_class": "ControlModule",
+      "type": "type:ControlModule",
+      "profileRef": "SMProfile-ControlModule",
+      "control_module_id": "VAM5.ME.CS.BU1",
+      "control_code": "BU1",
+      "name": "Coal burner 1",
+      "equipment_module_ref": "VAM5.ME.CS"
+    },
+    {
+      "element_id": "VAM5.ME.CS.BU2",
+      "kgNodeLabel": "ControlModule",
+      "isa95_class": "ControlModule",
+      "type": "type:ControlModule",
+      "profileRef": "SMProfile-ControlModule",
+      "control_module_id": "VAM5.ME.CS.BU2",
+      "control_code": "BU2",
+      "name": "Coal burner 2",
+      "equipment_module_ref": "VAM5.ME.CS"
+    },
+    {
+      "element_id": "VAM5.ME.CW",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.ME.CW",
+      "module_code": "CW",
+      "name": "Cooling water system",
+      "unit_ref": "VAM5.ME"
+    },
+    {
+      "element_id": "VAM5.ME.CW.CW1",
+      "kgNodeLabel": "ControlModule",
+      "isa95_class": "ControlModule",
+      "type": "type:ControlModule",
+      "profileRef": "SMProfile-ControlModule",
+      "control_module_id": "VAM5.ME.CW.CW1",
+      "control_code": "CW1",
+      "name": "Cooling water circuits",
+      "equipment_module_ref": "VAM5.ME.CW"
+    },
+    {
+      "element_id": "VAM5.ME.CW.HE",
+      "kgNodeLabel": "ControlModule",
+      "isa95_class": "ControlModule",
+      "type": "type:ControlModule",
+      "profileRef": "SMProfile-ControlModule",
+      "control_module_id": "VAM5.ME.CW.HE",
+      "control_code": "HE",
+      "name": "Heatexchanger",
+      "equipment_module_ref": "VAM5.ME.CW"
+    },
+    {
+      "element_id": "VAM5.ME.DN",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.ME.DN",
+      "module_code": "DN",
+      "name": "DeNOx plant",
+      "unit_ref": "VAM5.ME"
+    },
+    {
+      "element_id": "VAM5.ME.DS",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.ME.DS",
+      "module_code": "DS",
+      "name": "DeSOx plant",
+      "unit_ref": "VAM5.ME"
+    },
+    {
+      "element_id": "VAM5.ME.DS.BI",
+      "kgNodeLabel": "ControlModule",
+      "isa95_class": "ControlModule",
+      "type": "type:ControlModule",
+      "profileRef": "SMProfile-ControlModule",
+      "control_module_id": "VAM5.ME.DS.BI",
+      "control_code": "BI",
+      "name": "Bicarbonate",
+      "equipment_module_ref": "VAM5.ME.DS"
+    },
+    {
+      "element_id": "VAM5.ME.FG",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.ME.FG",
+      "module_code": "FG",
+      "name": "Flue-Gas system",
+      "unit_ref": "VAM5.ME"
+    },
+    {
+      "element_id": "VAM5.ME.FG.FI",
+      "kgNodeLabel": "ControlModule",
+      "isa95_class": "ControlModule",
+      "type": "type:ControlModule",
+      "profileRef": "SMProfile-ControlModule",
+      "control_module_id": "VAM5.ME.FG.FI",
+      "control_code": "FI",
+      "name": "Filter",
+      "equipment_module_ref": "VAM5.ME.FG"
+    },
+    {
+      "element_id": "VAM5.ME.FG.FF",
+      "kgNodeLabel": "ControlModule",
+      "isa95_class": "ControlModule",
+      "type": "type:ControlModule",
+      "profileRef": "SMProfile-ControlModule",
+      "control_module_id": "VAM5.ME.FG.FF",
+      "control_code": "FF",
+      "name": "Filter fines",
+      "equipment_module_ref": "VAM5.ME.FG"
+    },
+    {
+      "element_id": "VAM5.ME.FG.EM",
+      "kgNodeLabel": "ControlModule",
+      "isa95_class": "ControlModule",
+      "type": "type:ControlModule",
+      "profileRef": "SMProfile-ControlModule",
+      "control_module_id": "VAM5.ME.FG.EM",
+      "control_code": "EM",
+      "name": "Emission & environmental measurement",
+      "equipment_module_ref": "VAM5.ME.FG"
+    },
+    {
+      "element_id": "VAM5.ME.FG.TO",
+      "kgNodeLabel": "ControlModule",
+      "isa95_class": "ControlModule",
+      "type": "type:ControlModule",
+      "profileRef": "SMProfile-ControlModule",
+      "control_module_id": "VAM5.ME.FG.TO",
+      "control_code": "TO",
+      "name": "Thermal oil system",
+      "equipment_module_ref": "VAM5.ME.FG"
+    },
+    {
+      "element_id": "VAM5.ME.FG.DS",
+      "kgNodeLabel": "ControlModule",
+      "isa95_class": "ControlModule",
+      "type": "type:ControlModule",
+      "profileRef": "SMProfile-ControlModule",
+      "control_module_id": "VAM5.ME.FG.DS",
+      "control_code": "DS",
+      "name": "Desulpharisation",
+      "equipment_module_ref": "VAM5.ME.FG"
+    },
+    {
+      "element_id": "VAM5.ME.FG.HL",
+      "kgNodeLabel": "ControlModule",
+      "isa95_class": "ControlModule",
+      "type": "type:ControlModule",
+      "profileRef": "SMProfile-ControlModule",
+      "control_module_id": "VAM5.ME.FG.HL",
+      "control_code": "HL",
+      "name": "Hydrated Lime",
+      "equipment_module_ref": "VAM5.ME.FG"
+    },
+    {
+      "element_id": "VAM5.ME.FG.RS",
+      "kgNodeLabel": "ControlModule",
+      "isa95_class": "ControlModule",
+      "type": "type:ControlModule",
+      "profileRef": "SMProfile-ControlModule",
+      "control_module_id": "VAM5.ME.FG.RS",
+      "control_code": "RS",
+      "name": "Residue Silo",
+      "equipment_module_ref": "VAM5.ME.FG"
+    },
+    {
+      "element_id": "VAM5.ME.FU",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.ME.FU",
+      "module_code": "FU",
+      "name": "Furnace",
+      "unit_ref": "VAM5.ME"
+    },
+    {
+      "element_id": "VAM5.ME.FU.OX",
+      "kgNodeLabel": "ControlModule",
+      "isa95_class": "ControlModule",
+      "type": "type:ControlModule",
+      "profileRef": "SMProfile-ControlModule",
+      "control_module_id": "VAM5.ME.FU.OX",
+      "control_code": "OX",
+      "name": "Oxygen plant",
+      "equipment_module_ref": "VAM5.ME.FU"
+    },
+    {
+      "element_id": "VAM5.ME.FU.BU",
+      "kgNodeLabel": "ControlModule",
+      "isa95_class": "ControlModule",
+      "type": "type:ControlModule",
+      "profileRef": "SMProfile-ControlModule",
+      "control_module_id": "VAM5.ME.FU.BU",
+      "control_code": "BU",
+      "name": "Burner",
+      "equipment_module_ref": "VAM5.ME.FU"
+    },
+    {
+      "element_id": "VAM5.ME.FZ",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.ME.FZ",
+      "module_code": "FZ",
+      "name": "Fluidization air",
+      "unit_ref": "VAM5.ME"
+    },
+    {
+      "element_id": "VAM5.ME.GR",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.ME.GR",
+      "module_code": "GR",
+      "name": "Melt granulator",
+      "unit_ref": "VAM5.ME"
+    },
+    {
+      "element_id": "VAM5.ME.HE",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.ME.HE",
+      "module_code": "HE",
+      "name": "Heat exchanger",
+      "unit_ref": "VAM5.ME"
+    },
+    {
+      "element_id": "VAM5.ME.HL",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.ME.HL",
+      "module_code": "HL",
+      "name": "Hydrated Lime",
+      "unit_ref": "VAM5.ME"
+    },
+    {
+      "element_id": "VAM5.ME.HW",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.ME.HW",
+      "module_code": "HW",
+      "name": "Hot water system",
+      "unit_ref": "VAM5.ME"
+    },
+    {
+      "element_id": "VAM5.ME.LU",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.ME.LU",
+      "module_code": "LU",
+      "name": "Lubrication",
+      "unit_ref": "VAM5.ME"
+    },
+    {
+      "element_id": "VAM5.ME.NG",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.ME.NG",
+      "module_code": "NG",
+      "name": "Natural gas",
+      "unit_ref": "VAM5.ME"
+    },
+    {
+      "element_id": "VAM5.ME.OX",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.ME.OX",
+      "module_code": "OX",
+      "name": "Oxygen",
+      "unit_ref": "VAM5.ME"
+    },
+    {
+      "element_id": "VAM5.ME.PG",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.ME.PG",
+      "module_code": "PG",
+      "name": "Plasma Generator",
+      "unit_ref": "VAM5.ME"
+    },
+    {
+      "element_id": "VAM5.ME.QS",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.ME.QS",
+      "module_code": "QS",
+      "name": "Quenching",
+      "unit_ref": "VAM5.ME"
+    },
+    {
+      "element_id": "VAM5.ME.SA",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.ME.SA",
+      "module_code": "SA",
+      "name": "Support air",
+      "unit_ref": "VAM5.ME"
+    },
+    {
+      "element_id": "VAM5.ME.TU",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.ME.TU",
+      "module_code": "TU",
+      "name": "Tapping Unit",
+      "unit_ref": "VAM5.ME"
+    },
+    {
+      "element_id": "VAM5.ME.TY",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.ME.TY",
+      "module_code": "TY",
+      "name": "Tuyeres",
+      "unit_ref": "VAM5.ME"
+    },
+    {
+      "element_id": "VAM5.ME.WS",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.ME.WS",
+      "module_code": "WS",
+      "name": "Weighing system",
+      "unit_ref": "VAM5.ME"
+    },
+    {
+      "element_id": "VAM5.RC",
+      "kgNodeLabel": "EquipmentUnit",
+      "isa95_class": "Unit",
+      "type": "type:EquipmentUnit",
+      "profileRef": "SMProfile-EquipmentUnit",
+      "unit_id": "VAM5.RC",
+      "unit_code": "RC",
+      "name": "Recycling,dust filter & (Rod mill)",
+      "process_cell_ref": "VAM5"
+    },
+    {
+      "element_id": "VAM5.RC.DF",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.RC.DF",
+      "module_code": "DF",
+      "name": "Dust filter",
+      "unit_ref": "VAM5.RC"
+    },
+    {
+      "element_id": "VAM5.RC.GR",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.RC.GR",
+      "module_code": "GR",
+      "name": "Line granulator and transport to silo",
+      "unit_ref": "VAM5.RC"
+    },
+    {
+      "element_id": "VAM5.RC.RM",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.RC.RM",
+      "module_code": "RM",
+      "name": "Rod mill",
+      "unit_ref": "VAM5.RC"
+    },
+    {
+      "element_id": "VAM5.RC.WS",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.RC.WS",
+      "module_code": "WS",
+      "name": "Waste silo",
+      "unit_ref": "VAM5.RC"
+    },
+    {
+      "element_id": "VAM5.RC.WT",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.RC.WT",
+      "module_code": "WT",
+      "name": "Weighing and transport to spinning chamber",
+      "unit_ref": "VAM5.RC"
+    },
+    {
+      "element_id": "VAM5.RM",
+      "kgNodeLabel": "EquipmentUnit",
+      "isa95_class": "Unit",
+      "type": "type:EquipmentUnit",
+      "profileRef": "SMProfile-EquipmentUnit",
+      "unit_id": "VAM5.RM",
+      "unit_code": "RM",
+      "name": "Rodmill",
+      "process_cell_ref": "VAM5"
+    },
+    {
+      "element_id": "VAM5.RM.HU",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.RM.HU",
+      "module_code": "HU",
+      "name": "Hydraulic unit",
+      "unit_ref": "VAM5.RM"
+    },
+    {
+      "element_id": "VAM5.RM.RH",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.RM.RH",
+      "module_code": "RH",
+      "name": "Rod handling",
+      "unit_ref": "VAM5.RM"
+    },
+    {
+      "element_id": "VAM5.SP",
+      "kgNodeLabel": "EquipmentUnit",
+      "isa95_class": "Unit",
+      "type": "type:EquipmentUnit",
+      "profileRef": "SMProfile-EquipmentUnit",
+      "unit_id": "VAM5.SP",
+      "unit_code": "SP",
+      "name": "Spinner section",
+      "process_cell_ref": "VAM5"
+    },
+    {
+      "element_id": "VAM5.SP.AC",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.SP.AC",
+      "module_code": "AC",
+      "name": "Air ring blower center",
+      "unit_ref": "VAM5.SP"
+    },
+    {
+      "element_id": "VAM5.SP.AL",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.SP.AL",
+      "module_code": "AL",
+      "name": "Air ring blower left",
+      "unit_ref": "VAM5.SP"
+    },
+    {
+      "element_id": "VAM5.SP.AR",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.SP.AR",
+      "module_code": "AR",
+      "name": "Air ring blower right",
+      "unit_ref": "VAM5.SP"
+    },
+    {
+      "element_id": "VAM5.SP.CO",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.SP.CO",
+      "module_code": "CO",
+      "name": "Spinner cooling",
+      "unit_ref": "VAM5.SP"
+    },
+    {
+      "element_id": "VAM5.SP.CO.SL",
+      "kgNodeLabel": "ControlModule",
+      "isa95_class": "ControlModule",
+      "type": "type:ControlModule",
+      "profileRef": "SMProfile-ControlModule",
+      "control_module_id": "VAM5.SP.CO.SL",
+      "control_code": "SL",
+      "name": "Spinner left",
+      "equipment_module_ref": "VAM5.SP.CO"
+    },
+    {
+      "element_id": "VAM5.SP.CO.SC",
+      "kgNodeLabel": "ControlModule",
+      "isa95_class": "ControlModule",
+      "type": "type:ControlModule",
+      "profileRef": "SMProfile-ControlModule",
+      "control_module_id": "VAM5.SP.CO.SC",
+      "control_code": "SC",
+      "name": "Spinner Center",
+      "equipment_module_ref": "VAM5.SP.CO"
+    },
+    {
+      "element_id": "VAM5.SP.CO.SR",
+      "kgNodeLabel": "ControlModule",
+      "isa95_class": "ControlModule",
+      "type": "type:ControlModule",
+      "profileRef": "SMProfile-ControlModule",
+      "control_module_id": "VAM5.SP.CO.SR",
+      "control_code": "SR",
+      "name": "Spinner Right",
+      "equipment_module_ref": "VAM5.SP.CO"
+    },
+    {
+      "element_id": "VAM5.SP.GS",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.SP.GS",
+      "module_code": "GS",
+      "name": "Balance and steering gutter system",
+      "unit_ref": "VAM5.SP"
+    },
+    {
+      "element_id": "VAM5.SP.MC",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.SP.MC",
+      "module_code": "MC",
+      "name": "Machine Cooling",
+      "unit_ref": "VAM5.SP"
+    },
+    {
+      "element_id": "VAM5.SP.SC",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.SP.SC",
+      "module_code": "SC",
+      "name": "Spinner Center",
+      "unit_ref": "VAM5.SP"
+    },
+    {
+      "element_id": "VAM5.SP.SL",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.SP.SL",
+      "module_code": "SL",
+      "name": "Spinner left",
+      "unit_ref": "VAM5.SP"
+    },
+    {
+      "element_id": "VAM5.SP.SR",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.SP.SR",
+      "module_code": "SR",
+      "name": "Spinner Right",
+      "unit_ref": "VAM5.SP"
+    },
+    {
+      "element_id": "VAM5.SS",
+      "kgNodeLabel": "EquipmentUnit",
+      "isa95_class": "Unit",
+      "type": "type:EquipmentUnit",
+      "profileRef": "SMProfile-EquipmentUnit",
+      "unit_id": "VAM5.SS",
+      "unit_code": "SS",
+      "name": "Slab Saving System / Outsorting",
+      "process_cell_ref": "VAM5"
+    },
+    {
+      "element_id": "VAM5.SS.PS",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.SS.PS",
+      "module_code": "PS",
+      "name": "Pusher",
+      "unit_ref": "VAM5.SS"
+    },
+    {
+      "element_id": "VAM5.SS.RB1",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.SS.RB1",
+      "module_code": "RB1",
+      "name": "Re-Introduction Belt",
+      "unit_ref": "VAM5.SS"
+    },
+    {
+      "element_id": "VAM5.SS.RJ1",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.SS.RJ1",
+      "module_code": "RJ1",
+      "name": "Reject belt 1",
+      "unit_ref": "VAM5.SS"
+    },
+    {
+      "element_id": "VAM5.SS.RJ2",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.SS.RJ2",
+      "module_code": "RJ2",
+      "name": "Reject belt 2",
+      "unit_ref": "VAM5.SS"
+    },
+    {
+      "element_id": "VAM5.SS.RJ3",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.SS.RJ3",
+      "module_code": "RJ3",
+      "name": "Reject belt 3",
+      "unit_ref": "VAM5.SS"
+    },
+    {
+      "element_id": "VAM5.SS.TS",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.SS.TS",
+      "module_code": "TS",
+      "name": "Transport system Outsorting",
+      "unit_ref": "VAM5.SS"
+    },
+    {
+      "element_id": "VAM5.SW",
+      "kgNodeLabel": "EquipmentUnit",
+      "isa95_class": "Unit",
+      "type": "type:EquipmentUnit",
+      "profileRef": "SMProfile-EquipmentUnit",
+      "unit_id": "VAM5.SW",
+      "unit_code": "SW",
+      "name": "Cutting section",
+      "process_cell_ref": "VAM5"
+    },
+    {
+      "element_id": "VAM5.SW.CE",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.SW.CE",
+      "module_code": "CE",
+      "name": "Pendulum Saw - electrical",
+      "unit_ref": "VAM5.SW"
+    },
+    {
+      "element_id": "VAM5.SW.CH",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.SW.CH",
+      "module_code": "CH",
+      "name": "Pendulum Saw - Hydraulic",
+      "unit_ref": "VAM5.SW"
+    },
+    {
+      "element_id": "VAM5.SW.CP",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.SW.CP",
+      "module_code": "CP",
+      "name": "Pendulum Saw-Pneumatic",
+      "unit_ref": "VAM5.SW"
+    },
+    {
+      "element_id": "VAM5.SW.CW",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.SW.CW",
+      "module_code": "CW",
+      "name": "Water Jet Cross Cutter",
+      "unit_ref": "VAM5.SW"
+    },
+    {
+      "element_id": "VAM5.SW.DS",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.SW.DS",
+      "module_code": "DS",
+      "name": "Dividing Saw",
+      "unit_ref": "VAM5.SW"
+    },
+    {
+      "element_id": "VAM5.SW.DW",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.SW.DW",
+      "module_code": "DW",
+      "name": "Water Jet Dividing Cutter",
+      "unit_ref": "VAM5.SW"
+    },
+    {
+      "element_id": "VAM5.SW.ED",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.SW.ED",
+      "module_code": "ED",
+      "name": "Edge trimmer and dividing saw",
+      "unit_ref": "VAM5.SW"
+    },
+    {
+      "element_id": "VAM5.SW.ET",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.SW.ET",
+      "module_code": "ET",
+      "name": "Edge Trimmer",
+      "unit_ref": "VAM5.SW"
+    },
+    {
+      "element_id": "VAM5.SW.EW",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.SW.EW",
+      "module_code": "EW",
+      "name": "Edge Trimmer & Water Jet Dividing Cutter",
+      "unit_ref": "VAM5.SW"
+    },
+    {
+      "element_id": "VAM5.SW.FA",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.SW.FA",
+      "module_code": "FA",
+      "name": "Fleece application unit",
+      "unit_ref": "VAM5.SW"
+    },
+    {
+      "element_id": "VAM5.SW.FC",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.SW.FC",
+      "module_code": "FC",
+      "name": "Format cutter",
+      "unit_ref": "VAM5.SW"
+    },
+    {
+      "element_id": "VAM5.SW.HD",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.SW.HD",
+      "module_code": "HD",
+      "name": "Heating Drum",
+      "unit_ref": "VAM5.SW"
+    },
+    {
+      "element_id": "VAM5.SW.LC",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.SW.LC",
+      "module_code": "LC",
+      "name": "Lamella Cutting",
+      "unit_ref": "VAM5.SW"
+    },
+    {
+      "element_id": "VAM5.SW.ME",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.SW.ME",
+      "module_code": "ME",
+      "name": "Marking, Electrical",
+      "unit_ref": "VAM5.SW"
+    },
+    {
+      "element_id": "VAM5.SW.MG",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.SW.MG",
+      "module_code": "MG",
+      "name": "Marking, Gas",
+      "unit_ref": "VAM5.SW"
+    },
+    {
+      "element_id": "VAM5.SW.ML",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.SW.ML",
+      "module_code": "ML",
+      "name": "Marking, Laser",
+      "unit_ref": "VAM5.SW"
+    },
+    {
+      "element_id": "VAM5.SW.ML.CA",
+      "kgNodeLabel": "ControlModule",
+      "isa95_class": "ControlModule",
+      "type": "type:ControlModule",
+      "profileRef": "SMProfile-ControlModule",
+      "control_module_id": "VAM5.SW.ML.CA",
+      "control_code": "CA",
+      "name": "Cooling air",
+      "equipment_module_ref": "VAM5.SW.ML"
+    },
+    {
+      "element_id": "VAM5.SW.ML.CW",
+      "kgNodeLabel": "ControlModule",
+      "isa95_class": "ControlModule",
+      "type": "type:ControlModule",
+      "profileRef": "SMProfile-ControlModule",
+      "control_module_id": "VAM5.SW.ML.CW",
+      "control_code": "CW",
+      "name": "Cooling water",
+      "equipment_module_ref": "VAM5.SW.ML"
+    },
+    {
+      "element_id": "VAM5.SW.PD",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.SW.PD",
+      "module_code": "PD",
+      "name": "Pressure Drum",
+      "unit_ref": "VAM5.SW"
+    },
+    {
+      "element_id": "VAM5.SW.QS1",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.SW.QS1",
+      "module_code": "QS1",
+      "name": "Quality system",
+      "unit_ref": "VAM5.SW"
+    },
+    {
+      "element_id": "VAM5.SW.SG",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.SW.SG",
+      "module_code": "SG",
+      "name": "Surface Grinder",
+      "unit_ref": "VAM5.SW"
+    },
+    {
+      "element_id": "VAM5.SW.SS1",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.SW.SS1",
+      "module_code": "SS1",
+      "name": "Splitting Band Saw 1",
+      "unit_ref": "VAM5.SW"
+    },
+    {
+      "element_id": "VAM5.SW.SS2",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.SW.SS2",
+      "module_code": "SS2",
+      "name": "Splitting Band Saw 2",
+      "unit_ref": "VAM5.SW"
+    },
+    {
+      "element_id": "VAM5.SW.SS3",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.SW.SS3",
+      "module_code": "SS3",
+      "name": "Splitting Band Saw 3",
+      "unit_ref": "VAM5.SW"
+    },
+    {
+      "element_id": "VAM5.TO",
+      "kgNodeLabel": "EquipmentUnit",
+      "isa95_class": "Unit",
+      "type": "type:EquipmentUnit",
+      "profileRef": "SMProfile-EquipmentUnit",
+      "unit_id": "VAM5.TO",
+      "unit_code": "TO",
+      "name": "Thermal Oxidizer",
+      "process_cell_ref": "VAM5"
+    },
+    {
+      "element_id": "VAM5.TS",
+      "kgNodeLabel": "EquipmentUnit",
+      "isa95_class": "Unit",
+      "type": "type:EquipmentUnit",
+      "profileRef": "SMProfile-EquipmentUnit",
+      "unit_id": "VAM5.TS",
+      "unit_code": "TS",
+      "name": "Test spinner",
+      "process_cell_ref": "VAM5"
+    },
+    {
+      "element_id": "VAM5.WC",
+      "kgNodeLabel": "EquipmentUnit",
+      "isa95_class": "Unit",
+      "type": "type:EquipmentUnit",
+      "profileRef": "SMProfile-EquipmentUnit",
+      "unit_id": "VAM5.WC",
+      "unit_code": "WC",
+      "name": "Wool collecting",
+      "process_cell_ref": "VAM5"
+    },
+    {
+      "element_id": "VAM5.WC.WT4",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.WC.WT4",
+      "module_code": "WT4",
+      "name": "Waste transport to waste plant and rod mill",
+      "unit_ref": "VAM5.WC"
+    },
+    {
+      "element_id": "VAM5.WC.CL",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.WC.CL",
+      "module_code": "CL",
+      "name": "Drum Cleaning",
+      "unit_ref": "VAM5.WC"
+    },
+    {
+      "element_id": "VAM5.WC.DF",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.WC.DF",
+      "module_code": "DF",
+      "name": "Dewatering Fan",
+      "unit_ref": "VAM5.WC"
+    },
+    {
+      "element_id": "VAM5.WC.DI",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.WC.DI",
+      "module_code": "DI",
+      "name": "Dry ice",
+      "unit_ref": "VAM5.WC"
+    },
+    {
+      "element_id": "VAM5.WC.HP",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.WC.HP",
+      "module_code": "HP",
+      "name": "High pressure pumps",
+      "unit_ref": "VAM5.WC"
+    },
+    {
+      "element_id": "VAM5.WC.LS",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.WC.LS",
+      "module_code": "LS",
+      "name": "Loading station for SPC filter matts",
+      "unit_ref": "VAM5.WC"
+    },
+    {
+      "element_id": "VAM5.WC.MC",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.WC.MC",
+      "module_code": "MC",
+      "name": "Machine Cooling",
+      "unit_ref": "VAM5.WC"
+    },
+    {
+      "element_id": "VAM5.WC.QS",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.WC.QS",
+      "module_code": "QS",
+      "name": "Quenching system",
+      "unit_ref": "VAM5.WC"
+    },
+    {
+      "element_id": "VAM5.WC.SC",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.WC.SC",
+      "module_code": "SC",
+      "name": "Spinning chamber",
+      "unit_ref": "VAM5.WC"
+    },
+    {
+      "element_id": "VAM5.WC.SE",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.WC.SE",
+      "module_code": "SE",
+      "name": "Spinning chamber exhauster",
+      "unit_ref": "VAM5.WC"
+    },
+    {
+      "element_id": "VAM5.WC.SF",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.WC.SF",
+      "module_code": "SF",
+      "name": "Spinning chamber filter",
+      "unit_ref": "VAM5.WC"
+    },
+    {
+      "element_id": "VAM5.WC.SF.AU",
+      "kgNodeLabel": "ControlModule",
+      "isa95_class": "ControlModule",
+      "type": "type:ControlModule",
+      "profileRef": "SMProfile-ControlModule",
+      "control_module_id": "VAM5.WC.SF.AU",
+      "control_code": "AU",
+      "name": "Aux. Unit for handling filter matts",
+      "equipment_module_ref": "VAM5.WC.SF"
+    },
+    {
+      "element_id": "VAM5.WC.WR",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.WC.WR",
+      "module_code": "WR",
+      "name": "Wool Raiser",
+      "unit_ref": "VAM5.WC"
+    },
+    {
+      "element_id": "VAM5.WC.WT1",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.WC.WT1",
+      "module_code": "WT1",
+      "name": "Waste transport from Drum",
+      "unit_ref": "VAM5.WC"
+    },
+    {
+      "element_id": "VAM5.WC.WT2",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.WC.WT2",
+      "module_code": "WT2",
+      "name": "Waste transport – filter slabs",
+      "unit_ref": "VAM5.WC"
+    },
+    {
+      "element_id": "VAM5.WC.WT3",
+      "kgNodeLabel": "EquipmentModule",
+      "isa95_class": "EquipmentModule",
+      "type": "type:EquipmentModule",
+      "profileRef": "SMProfile-EquipmentModule",
+      "equipment_module_id": "VAM5.WC.WT3",
+      "module_code": "WT3",
+      "name": "Waste transport from Process water filter",
+      "unit_ref": "VAM5.WC"
+    }
+  ],
+  "relationships": [
+    {
+      "from": "VAM",
+      "to": "RW",
+      "type": "PART_OF",
+      "description": "Site VAM PART_OF Enterprise RW"
+    },
+    {
+      "from": "WL",
+      "to": "VAM",
+      "type": "PART_OF",
+      "description": "Area WL PART_OF Site VAM"
+    },
+    {
+      "from": "VAM5",
+      "to": "WL",
+      "type": "PART_OF",
+      "description": "ProcessCell VAM5 PART_OF Area WL"
+    },
+    {
+      "from": "VAM5.BD",
+      "to": "VAM5",
+      "type": "PART_OF",
+      "description": "EquipmentUnit VAM5.BD PART_OF ProcessCell VAM5"
+    },
+    {
+      "from": "VAM5.BD.BC1",
+      "to": "VAM5.BD",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BD.BC1 PART_OF EquipmentUnit VAM5.BD"
+    },
+    {
+      "from": "VAM5.BD.BC2",
+      "to": "VAM5.BD",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BD.BC2 PART_OF EquipmentUnit VAM5.BD"
+    },
+    {
+      "from": "VAM5.BD.BD",
+      "to": "VAM5.BD",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BD.BD PART_OF EquipmentUnit VAM5.BD"
+    },
+    {
+      "from": "VAM5.BD.BI",
+      "to": "VAM5.BD",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BD.BI PART_OF EquipmentUnit VAM5.BD"
+    },
+    {
+      "from": "VAM5.BD.BL1",
+      "to": "VAM5.BD",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BD.BL1 PART_OF EquipmentUnit VAM5.BD"
+    },
+    {
+      "from": "VAM5.BD.BL2",
+      "to": "VAM5.BD",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BD.BL2 PART_OF EquipmentUnit VAM5.BD"
+    },
+    {
+      "from": "VAM5.BD.BR1",
+      "to": "VAM5.BD",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BD.BR1 PART_OF EquipmentUnit VAM5.BD"
+    },
+    {
+      "from": "VAM5.BD.BR2",
+      "to": "VAM5.BD",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BD.BR2 PART_OF EquipmentUnit VAM5.BD"
+    },
+    {
+      "from": "VAM5.BD.CL",
+      "to": "VAM5.BD",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BD.CL PART_OF EquipmentUnit VAM5.BD"
+    },
+    {
+      "from": "VAM5.BD.CO",
+      "to": "VAM5.BD",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BD.CO PART_OF EquipmentUnit VAM5.BD"
+    },
+    {
+      "from": "VAM5.BD.DX",
+      "to": "VAM5.BD",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BD.DX PART_OF EquipmentUnit VAM5.BD"
+    },
+    {
+      "from": "VAM5.BD.FA",
+      "to": "VAM5.BD",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BD.FA PART_OF EquipmentUnit VAM5.BD"
+    },
+    {
+      "from": "VAM5.BD.FE",
+      "to": "VAM5.BD",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BD.FE PART_OF EquipmentUnit VAM5.BD"
+    },
+    {
+      "from": "VAM5.BD.GC",
+      "to": "VAM5.BD",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BD.GC PART_OF EquipmentUnit VAM5.BD"
+    },
+    {
+      "from": "VAM5.BD.GS",
+      "to": "VAM5.BD",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BD.GS PART_OF EquipmentUnit VAM5.BD"
+    },
+    {
+      "from": "VAM5.BD.IO",
+      "to": "VAM5.BD",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BD.IO PART_OF EquipmentUnit VAM5.BD"
+    },
+    {
+      "from": "VAM5.BD.PW",
+      "to": "VAM5.BD",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BD.PW PART_OF EquipmentUnit VAM5.BD"
+    },
+    {
+      "from": "VAM5.BD.PW1",
+      "to": "VAM5.BD",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BD.PW1 PART_OF EquipmentUnit VAM5.BD"
+    },
+    {
+      "from": "VAM5.BD.PW2",
+      "to": "VAM5.BD",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BD.PW2 PART_OF EquipmentUnit VAM5.BD"
+    },
+    {
+      "from": "VAM5.BI",
+      "to": "VAM5",
+      "type": "PART_OF",
+      "description": "EquipmentUnit VAM5.BI PART_OF ProcessCell VAM5"
+    },
+    {
+      "from": "VAM5.BP",
+      "to": "VAM5",
+      "type": "PART_OF",
+      "description": "EquipmentUnit VAM5.BP PART_OF ProcessCell VAM5"
+    },
+    {
+      "from": "VAM5.BP.AB",
+      "to": "VAM5.BP",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BP.AB PART_OF EquipmentUnit VAM5.BP"
+    },
+    {
+      "from": "VAM5.BP.AS",
+      "to": "VAM5.BP",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BP.AS PART_OF EquipmentUnit VAM5.BP"
+    },
+    {
+      "from": "VAM5.BP.BI",
+      "to": "VAM5.BP",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BP.BI PART_OF EquipmentUnit VAM5.BP"
+    },
+    {
+      "from": "VAM5.BP.BL",
+      "to": "VAM5.BP",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BP.BL PART_OF EquipmentUnit VAM5.BP"
+    },
+    {
+      "from": "VAM5.BP.CW",
+      "to": "VAM5.BP",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BP.CW PART_OF EquipmentUnit VAM5.BP"
+    },
+    {
+      "from": "VAM5.BP.DX",
+      "to": "VAM5.BP",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BP.DX PART_OF EquipmentUnit VAM5.BP"
+    },
+    {
+      "from": "VAM5.BP.FE",
+      "to": "VAM5.BP",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BP.FE PART_OF EquipmentUnit VAM5.BP"
+    },
+    {
+      "from": "VAM5.BP.FN",
+      "to": "VAM5.BP",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BP.FN PART_OF EquipmentUnit VAM5.BP"
+    },
+    {
+      "from": "VAM5.BP.GS",
+      "to": "VAM5.BP",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BP.GS PART_OF EquipmentUnit VAM5.BP"
+    },
+    {
+      "from": "VAM5.BP.HL",
+      "to": "VAM5.BP",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BP.HL PART_OF EquipmentUnit VAM5.BP"
+    },
+    {
+      "from": "VAM5.BP.HU",
+      "to": "VAM5.BP",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BP.HU PART_OF EquipmentUnit VAM5.BP"
+    },
+    {
+      "from": "VAM5.BP.HW",
+      "to": "VAM5.BP",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BP.HW PART_OF EquipmentUnit VAM5.BP"
+    },
+    {
+      "from": "VAM5.BP.HY",
+      "to": "VAM5.BP",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BP.HY PART_OF EquipmentUnit VAM5.BP"
+    },
+    {
+      "from": "VAM5.BP.IO",
+      "to": "VAM5.BP",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BP.IO PART_OF EquipmentUnit VAM5.BP"
+    },
+    {
+      "from": "VAM5.BP.LA",
+      "to": "VAM5.BP",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BP.LA PART_OF EquipmentUnit VAM5.BP"
+    },
+    {
+      "from": "VAM5.BP.LI",
+      "to": "VAM5.BP",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BP.LI PART_OF EquipmentUnit VAM5.BP"
+    },
+    {
+      "from": "VAM5.BP.MG",
+      "to": "VAM5.BP",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BP.MG PART_OF EquipmentUnit VAM5.BP"
+    },
+    {
+      "from": "VAM5.BP.MI",
+      "to": "VAM5.BP",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BP.MI PART_OF EquipmentUnit VAM5.BP"
+    },
+    {
+      "from": "VAM5.BP.NH",
+      "to": "VAM5.BP",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BP.NH PART_OF EquipmentUnit VAM5.BP"
+    },
+    {
+      "from": "VAM5.BP.PE",
+      "to": "VAM5.BP",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BP.PE PART_OF EquipmentUnit VAM5.BP"
+    },
+    {
+      "from": "VAM5.BP.PH",
+      "to": "VAM5.BP",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BP.PH PART_OF EquipmentUnit VAM5.BP"
+    },
+    {
+      "from": "VAM5.BP.PL",
+      "to": "VAM5.BP",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BP.PL PART_OF EquipmentUnit VAM5.BP"
+    },
+    {
+      "from": "VAM5.BP.PM",
+      "to": "VAM5.BP",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BP.PM PART_OF EquipmentUnit VAM5.BP"
+    },
+    {
+      "from": "VAM5.BP.PR",
+      "to": "VAM5.BP",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BP.PR PART_OF EquipmentUnit VAM5.BP"
+    },
+    {
+      "from": "VAM5.BP.PW",
+      "to": "VAM5.BP",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BP.PW PART_OF EquipmentUnit VAM5.BP"
+    },
+    {
+      "from": "VAM5.BP.RE",
+      "to": "VAM5.BP",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BP.RE PART_OF EquipmentUnit VAM5.BP"
+    },
+    {
+      "from": "VAM5.BP.RW",
+      "to": "VAM5.BP",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BP.RW PART_OF EquipmentUnit VAM5.BP"
+    },
+    {
+      "from": "VAM5.BP.SI",
+      "to": "VAM5.BP",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BP.SI PART_OF EquipmentUnit VAM5.BP"
+    },
+    {
+      "from": "VAM5.BP.SO",
+      "to": "VAM5.BP",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BP.SO PART_OF EquipmentUnit VAM5.BP"
+    },
+    {
+      "from": "VAM5.BP.SR",
+      "to": "VAM5.BP",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BP.SR PART_OF EquipmentUnit VAM5.BP"
+    },
+    {
+      "from": "VAM5.BP.TE",
+      "to": "VAM5.BP",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BP.TE PART_OF EquipmentUnit VAM5.BP"
+    },
+    {
+      "from": "VAM5.BP.UL",
+      "to": "VAM5.BP",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BP.UL PART_OF EquipmentUnit VAM5.BP"
+    },
+    {
+      "from": "VAM5.BP.UR",
+      "to": "VAM5.BP",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BP.UR PART_OF EquipmentUnit VAM5.BP"
+    },
+    {
+      "from": "VAM5.BP.VT",
+      "to": "VAM5.BP",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.BP.VT PART_OF EquipmentUnit VAM5.BP"
+    },
+    {
+      "from": "VAM5.CH",
+      "to": "VAM5",
+      "type": "PART_OF",
+      "description": "EquipmentUnit VAM5.CH PART_OF ProcessCell VAM5"
+    },
+    {
+      "from": "VAM5.CH.BH",
+      "to": "VAM5.CH",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.CH.BH PART_OF EquipmentUnit VAM5.CH"
+    },
+    {
+      "from": "VAM5.CH.BH.C1",
+      "to": "VAM5.CH.BH",
+      "type": "PART_OF",
+      "description": "ControlModule VAM5.CH.BH.C1 PART_OF EquipmentModule VAM5.CH.BH"
+    },
+    {
+      "from": "VAM5.CH.BH.C2",
+      "to": "VAM5.CH.BH",
+      "type": "PART_OF",
+      "description": "ControlModule VAM5.CH.BH.C2 PART_OF EquipmentModule VAM5.CH.BH"
+    },
+    {
+      "from": "VAM5.CH.CS",
+      "to": "VAM5.CH",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.CH.CS PART_OF EquipmentUnit VAM5.CH"
+    },
+    {
+      "from": "VAM5.CH.CS.RS",
+      "to": "VAM5.CH.CS",
+      "type": "PART_OF",
+      "description": "ControlModule VAM5.CH.CS.RS PART_OF EquipmentModule VAM5.CH.CS"
+    },
+    {
+      "from": "VAM5.CH.CS.TR",
+      "to": "VAM5.CH.CS",
+      "type": "PART_OF",
+      "description": "ControlModule VAM5.CH.CS.TR PART_OF EquipmentModule VAM5.CH.CS"
+    },
+    {
+      "from": "VAM5.CH.CS.CI",
+      "to": "VAM5.CH.CS",
+      "type": "PART_OF",
+      "description": "ControlModule VAM5.CH.CS.CI PART_OF EquipmentModule VAM5.CH.CS"
+    },
+    {
+      "from": "VAM5.CH.CS.N",
+      "to": "VAM5.CH.CS",
+      "type": "PART_OF",
+      "description": "ControlModule VAM5.CH.CS.N PART_OF EquipmentModule VAM5.CH.CS"
+    },
+    {
+      "from": "VAM5.CH.DF",
+      "to": "VAM5.CH",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.CH.DF PART_OF EquipmentUnit VAM5.CH"
+    },
+    {
+      "from": "VAM5.CH.FH",
+      "to": "VAM5.CH",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.CH.FH PART_OF EquipmentUnit VAM5.CH"
+    },
+    {
+      "from": "VAM5.CH.N",
+      "to": "VAM5.CH",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.CH.N PART_OF EquipmentUnit VAM5.CH"
+    },
+    {
+      "from": "VAM5.CH.PH",
+      "to": "VAM5.CH",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.CH.PH PART_OF EquipmentUnit VAM5.CH"
+    },
+    {
+      "from": "VAM5.CH.RS",
+      "to": "VAM5.CH",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.CH.RS PART_OF EquipmentUnit VAM5.CH"
+    },
+    {
+      "from": "VAM5.CH.TR",
+      "to": "VAM5.CH",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.CH.TR PART_OF EquipmentUnit VAM5.CH"
+    },
+    {
+      "from": "VAM5.CH.WS1",
+      "to": "VAM5.CH",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.CH.WS1 PART_OF EquipmentUnit VAM5.CH"
+    },
+    {
+      "from": "VAM5.CH.WS2",
+      "to": "VAM5.CH",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.CH.WS2 PART_OF EquipmentUnit VAM5.CH"
+    },
+    {
+      "from": "VAM5.CH.WS3",
+      "to": "VAM5.CH",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.CH.WS3 PART_OF EquipmentUnit VAM5.CH"
+    },
+    {
+      "from": "VAM5.CH.WS4",
+      "to": "VAM5.CH",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.CH.WS4 PART_OF EquipmentUnit VAM5.CH"
+    },
+    {
+      "from": "VAM5.CH.WS5",
+      "to": "VAM5.CH",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.CH.WS5 PART_OF EquipmentUnit VAM5.CH"
+    },
+    {
+      "from": "VAM5.CH.WS6",
+      "to": "VAM5.CH",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.CH.WS6 PART_OF EquipmentUnit VAM5.CH"
+    },
+    {
+      "from": "VAM5.CO",
+      "to": "VAM5",
+      "type": "PART_OF",
+      "description": "EquipmentUnit VAM5.CO PART_OF ProcessCell VAM5"
+    },
+    {
+      "from": "VAM5.CO.AB",
+      "to": "VAM5.CO",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.CO.AB PART_OF EquipmentUnit VAM5.CO"
+    },
+    {
+      "from": "VAM5.CO.BH",
+      "to": "VAM5.CO",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.CO.BH PART_OF EquipmentUnit VAM5.CO"
+    },
+    {
+      "from": "VAM5.CO.BH.BU",
+      "to": "VAM5.CO.BH",
+      "type": "PART_OF",
+      "description": "ControlModule VAM5.CO.BH.BU PART_OF EquipmentModule VAM5.CO.BH"
+    },
+    {
+      "from": "VAM5.CO.CE",
+      "to": "VAM5.CO",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.CO.CE PART_OF EquipmentUnit VAM5.CO"
+    },
+    {
+      "from": "VAM5.CO.CO",
+      "to": "VAM5.CO",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.CO.CO PART_OF EquipmentUnit VAM5.CO"
+    },
+    {
+      "from": "VAM5.CO.CO.AC",
+      "to": "VAM5.CO.CO",
+      "type": "PART_OF",
+      "description": "ControlModule VAM5.CO.CO.AC PART_OF EquipmentModule VAM5.CO.CO"
+    },
+    {
+      "from": "VAM5.CO.CS1",
+      "to": "VAM5.CO",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.CO.CS1 PART_OF EquipmentUnit VAM5.CO"
+    },
+    {
+      "from": "VAM5.CO.CS1.BU",
+      "to": "VAM5.CO.CS1",
+      "type": "PART_OF",
+      "description": "ControlModule VAM5.CO.CS1.BU PART_OF EquipmentModule VAM5.CO.CS1"
+    },
+    {
+      "from": "VAM5.CO.CS2",
+      "to": "VAM5.CO",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.CO.CS2 PART_OF EquipmentUnit VAM5.CO"
+    },
+    {
+      "from": "VAM5.CO.CS2.BU",
+      "to": "VAM5.CO.CS2",
+      "type": "PART_OF",
+      "description": "ControlModule VAM5.CO.CS2.BU PART_OF EquipmentModule VAM5.CO.CS2"
+    },
+    {
+      "from": "VAM5.CO.CZ",
+      "to": "VAM5.CO",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.CO.CZ PART_OF EquipmentUnit VAM5.CO"
+    },
+    {
+      "from": "VAM5.CO.FW",
+      "to": "VAM5.CO",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.CO.FW PART_OF EquipmentUnit VAM5.CO"
+    },
+    {
+      "from": "VAM5.CO.IC",
+      "to": "VAM5.CO",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.CO.IC PART_OF EquipmentUnit VAM5.CO"
+    },
+    {
+      "from": "VAM5.DR",
+      "to": "VAM5",
+      "type": "PART_OF",
+      "description": "EquipmentUnit VAM5.DR PART_OF ProcessCell VAM5"
+    },
+    {
+      "from": "VAM5.DR.BU",
+      "to": "VAM5.DR",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.DR.BU PART_OF EquipmentUnit VAM5.DR"
+    },
+    {
+      "from": "VAM5.DR.BU.HE",
+      "to": "VAM5.DR.BU",
+      "type": "PART_OF",
+      "description": "ControlModule VAM5.DR.BU.HE PART_OF EquipmentModule VAM5.DR.BU"
+    },
+    {
+      "from": "VAM5.DR.HE",
+      "to": "VAM5.DR",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.DR.HE PART_OF EquipmentUnit VAM5.DR"
+    },
+    {
+      "from": "VAM5.DR.W",
+      "to": "VAM5.DR",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.DR.W PART_OF EquipmentUnit VAM5.DR"
+    },
+    {
+      "from": "VAM5.HP",
+      "to": "VAM5",
+      "type": "PART_OF",
+      "description": "EquipmentUnit VAM5.HP PART_OF ProcessCell VAM5"
+    },
+    {
+      "from": "VAM5.LT",
+      "to": "VAM5",
+      "type": "PART_OF",
+      "description": "EquipmentUnit VAM5.LT PART_OF ProcessCell VAM5"
+    },
+    {
+      "from": "VAM5.LT.IS",
+      "to": "VAM5.LT",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.LT.IS PART_OF EquipmentUnit VAM5.LT"
+    },
+    {
+      "from": "VAM5.LT.DB",
+      "to": "VAM5.LT",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.LT.DB PART_OF EquipmentUnit VAM5.LT"
+    },
+    {
+      "from": "VAM5.LT.DD",
+      "to": "VAM5.LT",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.LT.DD PART_OF EquipmentUnit VAM5.LT"
+    },
+    {
+      "from": "VAM5.LT.ET",
+      "to": "VAM5.LT",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.LT.ET PART_OF EquipmentUnit VAM5.LT"
+    },
+    {
+      "from": "VAM5.LT.FA",
+      "to": "VAM5.LT",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.LT.FA PART_OF EquipmentUnit VAM5.LT"
+    },
+    {
+      "from": "VAM5.LT.PS",
+      "to": "VAM5.LT",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.LT.PS PART_OF EquipmentUnit VAM5.LT"
+    },
+    {
+      "from": "VAM5.LT.QS1",
+      "to": "VAM5.LT",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.LT.QS1 PART_OF EquipmentUnit VAM5.LT"
+    },
+    {
+      "from": "VAM5.LT.SE1",
+      "to": "VAM5.LT",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.LT.SE1 PART_OF EquipmentUnit VAM5.LT"
+    },
+    {
+      "from": "VAM5.LT.SE2",
+      "to": "VAM5.LT",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.LT.SE2 PART_OF EquipmentUnit VAM5.LT"
+    },
+    {
+      "from": "VAM5.LT.SE3",
+      "to": "VAM5.LT",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.LT.SE3 PART_OF EquipmentUnit VAM5.LT"
+    },
+    {
+      "from": "VAM5.LT.SE4",
+      "to": "VAM5.LT",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.LT.SE4 PART_OF EquipmentUnit VAM5.LT"
+    },
+    {
+      "from": "VAM5.LT.WS1",
+      "to": "VAM5.LT",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.LT.WS1 PART_OF EquipmentUnit VAM5.LT"
+    },
+    {
+      "from": "VAM5.LT.WS2",
+      "to": "VAM5.LT",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.LT.WS2 PART_OF EquipmentUnit VAM5.LT"
+    },
+    {
+      "from": "VAM5.ME",
+      "to": "VAM5",
+      "type": "PART_OF",
+      "description": "EquipmentUnit VAM5.ME PART_OF ProcessCell VAM5"
+    },
+    {
+      "from": "VAM5.ME.BU",
+      "to": "VAM5.ME",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.ME.BU PART_OF EquipmentUnit VAM5.ME"
+    },
+    {
+      "from": "VAM5.ME.CA",
+      "to": "VAM5.ME",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.ME.CA PART_OF EquipmentUnit VAM5.ME"
+    },
+    {
+      "from": "VAM5.ME.CC",
+      "to": "VAM5.ME",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.ME.CC PART_OF EquipmentUnit VAM5.ME"
+    },
+    {
+      "from": "VAM5.ME.CC.BU1",
+      "to": "VAM5.ME.CC",
+      "type": "PART_OF",
+      "description": "ControlModule VAM5.ME.CC.BU1 PART_OF EquipmentModule VAM5.ME.CC"
+    },
+    {
+      "from": "VAM5.ME.CC.BU2",
+      "to": "VAM5.ME.CC",
+      "type": "PART_OF",
+      "description": "ControlModule VAM5.ME.CC.BU2 PART_OF EquipmentModule VAM5.ME.CC"
+    },
+    {
+      "from": "VAM5.ME.CS",
+      "to": "VAM5.ME",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.ME.CS PART_OF EquipmentUnit VAM5.ME"
+    },
+    {
+      "from": "VAM5.ME.CS.C1",
+      "to": "VAM5.ME.CS",
+      "type": "PART_OF",
+      "description": "ControlModule VAM5.ME.CS.C1 PART_OF EquipmentModule VAM5.ME.CS"
+    },
+    {
+      "from": "VAM5.ME.CS.BU1",
+      "to": "VAM5.ME.CS",
+      "type": "PART_OF",
+      "description": "ControlModule VAM5.ME.CS.BU1 PART_OF EquipmentModule VAM5.ME.CS"
+    },
+    {
+      "from": "VAM5.ME.CS.BU2",
+      "to": "VAM5.ME.CS",
+      "type": "PART_OF",
+      "description": "ControlModule VAM5.ME.CS.BU2 PART_OF EquipmentModule VAM5.ME.CS"
+    },
+    {
+      "from": "VAM5.ME.CW",
+      "to": "VAM5.ME",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.ME.CW PART_OF EquipmentUnit VAM5.ME"
+    },
+    {
+      "from": "VAM5.ME.CW.CW1",
+      "to": "VAM5.ME.CW",
+      "type": "PART_OF",
+      "description": "ControlModule VAM5.ME.CW.CW1 PART_OF EquipmentModule VAM5.ME.CW"
+    },
+    {
+      "from": "VAM5.ME.CW.HE",
+      "to": "VAM5.ME.CW",
+      "type": "PART_OF",
+      "description": "ControlModule VAM5.ME.CW.HE PART_OF EquipmentModule VAM5.ME.CW"
+    },
+    {
+      "from": "VAM5.ME.DN",
+      "to": "VAM5.ME",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.ME.DN PART_OF EquipmentUnit VAM5.ME"
+    },
+    {
+      "from": "VAM5.ME.DS",
+      "to": "VAM5.ME",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.ME.DS PART_OF EquipmentUnit VAM5.ME"
+    },
+    {
+      "from": "VAM5.ME.DS.BI",
+      "to": "VAM5.ME.DS",
+      "type": "PART_OF",
+      "description": "ControlModule VAM5.ME.DS.BI PART_OF EquipmentModule VAM5.ME.DS"
+    },
+    {
+      "from": "VAM5.ME.FG",
+      "to": "VAM5.ME",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.ME.FG PART_OF EquipmentUnit VAM5.ME"
+    },
+    {
+      "from": "VAM5.ME.FG.FI",
+      "to": "VAM5.ME.FG",
+      "type": "PART_OF",
+      "description": "ControlModule VAM5.ME.FG.FI PART_OF EquipmentModule VAM5.ME.FG"
+    },
+    {
+      "from": "VAM5.ME.FG.FF",
+      "to": "VAM5.ME.FG",
+      "type": "PART_OF",
+      "description": "ControlModule VAM5.ME.FG.FF PART_OF EquipmentModule VAM5.ME.FG"
+    },
+    {
+      "from": "VAM5.ME.FG.EM",
+      "to": "VAM5.ME.FG",
+      "type": "PART_OF",
+      "description": "ControlModule VAM5.ME.FG.EM PART_OF EquipmentModule VAM5.ME.FG"
+    },
+    {
+      "from": "VAM5.ME.FG.TO",
+      "to": "VAM5.ME.FG",
+      "type": "PART_OF",
+      "description": "ControlModule VAM5.ME.FG.TO PART_OF EquipmentModule VAM5.ME.FG"
+    },
+    {
+      "from": "VAM5.ME.FG.DS",
+      "to": "VAM5.ME.FG",
+      "type": "PART_OF",
+      "description": "ControlModule VAM5.ME.FG.DS PART_OF EquipmentModule VAM5.ME.FG"
+    },
+    {
+      "from": "VAM5.ME.FG.HL",
+      "to": "VAM5.ME.FG",
+      "type": "PART_OF",
+      "description": "ControlModule VAM5.ME.FG.HL PART_OF EquipmentModule VAM5.ME.FG"
+    },
+    {
+      "from": "VAM5.ME.FG.RS",
+      "to": "VAM5.ME.FG",
+      "type": "PART_OF",
+      "description": "ControlModule VAM5.ME.FG.RS PART_OF EquipmentModule VAM5.ME.FG"
+    },
+    {
+      "from": "VAM5.ME.FU",
+      "to": "VAM5.ME",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.ME.FU PART_OF EquipmentUnit VAM5.ME"
+    },
+    {
+      "from": "VAM5.ME.FU.OX",
+      "to": "VAM5.ME.FU",
+      "type": "PART_OF",
+      "description": "ControlModule VAM5.ME.FU.OX PART_OF EquipmentModule VAM5.ME.FU"
+    },
+    {
+      "from": "VAM5.ME.FU.BU",
+      "to": "VAM5.ME.FU",
+      "type": "PART_OF",
+      "description": "ControlModule VAM5.ME.FU.BU PART_OF EquipmentModule VAM5.ME.FU"
+    },
+    {
+      "from": "VAM5.ME.FZ",
+      "to": "VAM5.ME",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.ME.FZ PART_OF EquipmentUnit VAM5.ME"
+    },
+    {
+      "from": "VAM5.ME.GR",
+      "to": "VAM5.ME",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.ME.GR PART_OF EquipmentUnit VAM5.ME"
+    },
+    {
+      "from": "VAM5.ME.HE",
+      "to": "VAM5.ME",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.ME.HE PART_OF EquipmentUnit VAM5.ME"
+    },
+    {
+      "from": "VAM5.ME.HL",
+      "to": "VAM5.ME",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.ME.HL PART_OF EquipmentUnit VAM5.ME"
+    },
+    {
+      "from": "VAM5.ME.HW",
+      "to": "VAM5.ME",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.ME.HW PART_OF EquipmentUnit VAM5.ME"
+    },
+    {
+      "from": "VAM5.ME.LU",
+      "to": "VAM5.ME",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.ME.LU PART_OF EquipmentUnit VAM5.ME"
+    },
+    {
+      "from": "VAM5.ME.NG",
+      "to": "VAM5.ME",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.ME.NG PART_OF EquipmentUnit VAM5.ME"
+    },
+    {
+      "from": "VAM5.ME.OX",
+      "to": "VAM5.ME",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.ME.OX PART_OF EquipmentUnit VAM5.ME"
+    },
+    {
+      "from": "VAM5.ME.PG",
+      "to": "VAM5.ME",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.ME.PG PART_OF EquipmentUnit VAM5.ME"
+    },
+    {
+      "from": "VAM5.ME.QS",
+      "to": "VAM5.ME",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.ME.QS PART_OF EquipmentUnit VAM5.ME"
+    },
+    {
+      "from": "VAM5.ME.SA",
+      "to": "VAM5.ME",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.ME.SA PART_OF EquipmentUnit VAM5.ME"
+    },
+    {
+      "from": "VAM5.ME.TU",
+      "to": "VAM5.ME",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.ME.TU PART_OF EquipmentUnit VAM5.ME"
+    },
+    {
+      "from": "VAM5.ME.TY",
+      "to": "VAM5.ME",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.ME.TY PART_OF EquipmentUnit VAM5.ME"
+    },
+    {
+      "from": "VAM5.ME.WS",
+      "to": "VAM5.ME",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.ME.WS PART_OF EquipmentUnit VAM5.ME"
+    },
+    {
+      "from": "VAM5.RC",
+      "to": "VAM5",
+      "type": "PART_OF",
+      "description": "EquipmentUnit VAM5.RC PART_OF ProcessCell VAM5"
+    },
+    {
+      "from": "VAM5.RC.DF",
+      "to": "VAM5.RC",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.RC.DF PART_OF EquipmentUnit VAM5.RC"
+    },
+    {
+      "from": "VAM5.RC.GR",
+      "to": "VAM5.RC",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.RC.GR PART_OF EquipmentUnit VAM5.RC"
+    },
+    {
+      "from": "VAM5.RC.RM",
+      "to": "VAM5.RC",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.RC.RM PART_OF EquipmentUnit VAM5.RC"
+    },
+    {
+      "from": "VAM5.RC.WS",
+      "to": "VAM5.RC",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.RC.WS PART_OF EquipmentUnit VAM5.RC"
+    },
+    {
+      "from": "VAM5.RC.WT",
+      "to": "VAM5.RC",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.RC.WT PART_OF EquipmentUnit VAM5.RC"
+    },
+    {
+      "from": "VAM5.RM",
+      "to": "VAM5",
+      "type": "PART_OF",
+      "description": "EquipmentUnit VAM5.RM PART_OF ProcessCell VAM5"
+    },
+    {
+      "from": "VAM5.RM.HU",
+      "to": "VAM5.RM",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.RM.HU PART_OF EquipmentUnit VAM5.RM"
+    },
+    {
+      "from": "VAM5.RM.RH",
+      "to": "VAM5.RM",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.RM.RH PART_OF EquipmentUnit VAM5.RM"
+    },
+    {
+      "from": "VAM5.SP",
+      "to": "VAM5",
+      "type": "PART_OF",
+      "description": "EquipmentUnit VAM5.SP PART_OF ProcessCell VAM5"
+    },
+    {
+      "from": "VAM5.SP.AC",
+      "to": "VAM5.SP",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.SP.AC PART_OF EquipmentUnit VAM5.SP"
+    },
+    {
+      "from": "VAM5.SP.AL",
+      "to": "VAM5.SP",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.SP.AL PART_OF EquipmentUnit VAM5.SP"
+    },
+    {
+      "from": "VAM5.SP.AR",
+      "to": "VAM5.SP",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.SP.AR PART_OF EquipmentUnit VAM5.SP"
+    },
+    {
+      "from": "VAM5.SP.CO",
+      "to": "VAM5.SP",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.SP.CO PART_OF EquipmentUnit VAM5.SP"
+    },
+    {
+      "from": "VAM5.SP.CO.SL",
+      "to": "VAM5.SP.CO",
+      "type": "PART_OF",
+      "description": "ControlModule VAM5.SP.CO.SL PART_OF EquipmentModule VAM5.SP.CO"
+    },
+    {
+      "from": "VAM5.SP.CO.SC",
+      "to": "VAM5.SP.CO",
+      "type": "PART_OF",
+      "description": "ControlModule VAM5.SP.CO.SC PART_OF EquipmentModule VAM5.SP.CO"
+    },
+    {
+      "from": "VAM5.SP.CO.SR",
+      "to": "VAM5.SP.CO",
+      "type": "PART_OF",
+      "description": "ControlModule VAM5.SP.CO.SR PART_OF EquipmentModule VAM5.SP.CO"
+    },
+    {
+      "from": "VAM5.SP.GS",
+      "to": "VAM5.SP",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.SP.GS PART_OF EquipmentUnit VAM5.SP"
+    },
+    {
+      "from": "VAM5.SP.MC",
+      "to": "VAM5.SP",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.SP.MC PART_OF EquipmentUnit VAM5.SP"
+    },
+    {
+      "from": "VAM5.SP.SC",
+      "to": "VAM5.SP",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.SP.SC PART_OF EquipmentUnit VAM5.SP"
+    },
+    {
+      "from": "VAM5.SP.SL",
+      "to": "VAM5.SP",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.SP.SL PART_OF EquipmentUnit VAM5.SP"
+    },
+    {
+      "from": "VAM5.SP.SR",
+      "to": "VAM5.SP",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.SP.SR PART_OF EquipmentUnit VAM5.SP"
+    },
+    {
+      "from": "VAM5.SS",
+      "to": "VAM5",
+      "type": "PART_OF",
+      "description": "EquipmentUnit VAM5.SS PART_OF ProcessCell VAM5"
+    },
+    {
+      "from": "VAM5.SS.PS",
+      "to": "VAM5.SS",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.SS.PS PART_OF EquipmentUnit VAM5.SS"
+    },
+    {
+      "from": "VAM5.SS.RB1",
+      "to": "VAM5.SS",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.SS.RB1 PART_OF EquipmentUnit VAM5.SS"
+    },
+    {
+      "from": "VAM5.SS.RJ1",
+      "to": "VAM5.SS",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.SS.RJ1 PART_OF EquipmentUnit VAM5.SS"
+    },
+    {
+      "from": "VAM5.SS.RJ2",
+      "to": "VAM5.SS",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.SS.RJ2 PART_OF EquipmentUnit VAM5.SS"
+    },
+    {
+      "from": "VAM5.SS.RJ3",
+      "to": "VAM5.SS",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.SS.RJ3 PART_OF EquipmentUnit VAM5.SS"
+    },
+    {
+      "from": "VAM5.SS.TS",
+      "to": "VAM5.SS",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.SS.TS PART_OF EquipmentUnit VAM5.SS"
+    },
+    {
+      "from": "VAM5.SW",
+      "to": "VAM5",
+      "type": "PART_OF",
+      "description": "EquipmentUnit VAM5.SW PART_OF ProcessCell VAM5"
+    },
+    {
+      "from": "VAM5.SW.CE",
+      "to": "VAM5.SW",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.SW.CE PART_OF EquipmentUnit VAM5.SW"
+    },
+    {
+      "from": "VAM5.SW.CH",
+      "to": "VAM5.SW",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.SW.CH PART_OF EquipmentUnit VAM5.SW"
+    },
+    {
+      "from": "VAM5.SW.CP",
+      "to": "VAM5.SW",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.SW.CP PART_OF EquipmentUnit VAM5.SW"
+    },
+    {
+      "from": "VAM5.SW.CW",
+      "to": "VAM5.SW",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.SW.CW PART_OF EquipmentUnit VAM5.SW"
+    },
+    {
+      "from": "VAM5.SW.DS",
+      "to": "VAM5.SW",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.SW.DS PART_OF EquipmentUnit VAM5.SW"
+    },
+    {
+      "from": "VAM5.SW.DW",
+      "to": "VAM5.SW",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.SW.DW PART_OF EquipmentUnit VAM5.SW"
+    },
+    {
+      "from": "VAM5.SW.ED",
+      "to": "VAM5.SW",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.SW.ED PART_OF EquipmentUnit VAM5.SW"
+    },
+    {
+      "from": "VAM5.SW.ET",
+      "to": "VAM5.SW",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.SW.ET PART_OF EquipmentUnit VAM5.SW"
+    },
+    {
+      "from": "VAM5.SW.EW",
+      "to": "VAM5.SW",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.SW.EW PART_OF EquipmentUnit VAM5.SW"
+    },
+    {
+      "from": "VAM5.SW.FA",
+      "to": "VAM5.SW",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.SW.FA PART_OF EquipmentUnit VAM5.SW"
+    },
+    {
+      "from": "VAM5.SW.FC",
+      "to": "VAM5.SW",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.SW.FC PART_OF EquipmentUnit VAM5.SW"
+    },
+    {
+      "from": "VAM5.SW.HD",
+      "to": "VAM5.SW",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.SW.HD PART_OF EquipmentUnit VAM5.SW"
+    },
+    {
+      "from": "VAM5.SW.LC",
+      "to": "VAM5.SW",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.SW.LC PART_OF EquipmentUnit VAM5.SW"
+    },
+    {
+      "from": "VAM5.SW.ME",
+      "to": "VAM5.SW",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.SW.ME PART_OF EquipmentUnit VAM5.SW"
+    },
+    {
+      "from": "VAM5.SW.MG",
+      "to": "VAM5.SW",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.SW.MG PART_OF EquipmentUnit VAM5.SW"
+    },
+    {
+      "from": "VAM5.SW.ML",
+      "to": "VAM5.SW",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.SW.ML PART_OF EquipmentUnit VAM5.SW"
+    },
+    {
+      "from": "VAM5.SW.ML.CA",
+      "to": "VAM5.SW.ML",
+      "type": "PART_OF",
+      "description": "ControlModule VAM5.SW.ML.CA PART_OF EquipmentModule VAM5.SW.ML"
+    },
+    {
+      "from": "VAM5.SW.ML.CW",
+      "to": "VAM5.SW.ML",
+      "type": "PART_OF",
+      "description": "ControlModule VAM5.SW.ML.CW PART_OF EquipmentModule VAM5.SW.ML"
+    },
+    {
+      "from": "VAM5.SW.PD",
+      "to": "VAM5.SW",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.SW.PD PART_OF EquipmentUnit VAM5.SW"
+    },
+    {
+      "from": "VAM5.SW.QS1",
+      "to": "VAM5.SW",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.SW.QS1 PART_OF EquipmentUnit VAM5.SW"
+    },
+    {
+      "from": "VAM5.SW.SG",
+      "to": "VAM5.SW",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.SW.SG PART_OF EquipmentUnit VAM5.SW"
+    },
+    {
+      "from": "VAM5.SW.SS1",
+      "to": "VAM5.SW",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.SW.SS1 PART_OF EquipmentUnit VAM5.SW"
+    },
+    {
+      "from": "VAM5.SW.SS2",
+      "to": "VAM5.SW",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.SW.SS2 PART_OF EquipmentUnit VAM5.SW"
+    },
+    {
+      "from": "VAM5.SW.SS3",
+      "to": "VAM5.SW",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.SW.SS3 PART_OF EquipmentUnit VAM5.SW"
+    },
+    {
+      "from": "VAM5.TO",
+      "to": "VAM5",
+      "type": "PART_OF",
+      "description": "EquipmentUnit VAM5.TO PART_OF ProcessCell VAM5"
+    },
+    {
+      "from": "VAM5.TS",
+      "to": "VAM5",
+      "type": "PART_OF",
+      "description": "EquipmentUnit VAM5.TS PART_OF ProcessCell VAM5"
+    },
+    {
+      "from": "VAM5.WC",
+      "to": "VAM5",
+      "type": "PART_OF",
+      "description": "EquipmentUnit VAM5.WC PART_OF ProcessCell VAM5"
+    },
+    {
+      "from": "VAM5.WC.WT4",
+      "to": "VAM5.WC",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.WC.WT4 PART_OF EquipmentUnit VAM5.WC"
+    },
+    {
+      "from": "VAM5.WC.CL",
+      "to": "VAM5.WC",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.WC.CL PART_OF EquipmentUnit VAM5.WC"
+    },
+    {
+      "from": "VAM5.WC.DF",
+      "to": "VAM5.WC",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.WC.DF PART_OF EquipmentUnit VAM5.WC"
+    },
+    {
+      "from": "VAM5.WC.DI",
+      "to": "VAM5.WC",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.WC.DI PART_OF EquipmentUnit VAM5.WC"
+    },
+    {
+      "from": "VAM5.WC.HP",
+      "to": "VAM5.WC",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.WC.HP PART_OF EquipmentUnit VAM5.WC"
+    },
+    {
+      "from": "VAM5.WC.LS",
+      "to": "VAM5.WC",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.WC.LS PART_OF EquipmentUnit VAM5.WC"
+    },
+    {
+      "from": "VAM5.WC.MC",
+      "to": "VAM5.WC",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.WC.MC PART_OF EquipmentUnit VAM5.WC"
+    },
+    {
+      "from": "VAM5.WC.QS",
+      "to": "VAM5.WC",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.WC.QS PART_OF EquipmentUnit VAM5.WC"
+    },
+    {
+      "from": "VAM5.WC.SC",
+      "to": "VAM5.WC",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.WC.SC PART_OF EquipmentUnit VAM5.WC"
+    },
+    {
+      "from": "VAM5.WC.SE",
+      "to": "VAM5.WC",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.WC.SE PART_OF EquipmentUnit VAM5.WC"
+    },
+    {
+      "from": "VAM5.WC.SF",
+      "to": "VAM5.WC",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.WC.SF PART_OF EquipmentUnit VAM5.WC"
+    },
+    {
+      "from": "VAM5.WC.SF.AU",
+      "to": "VAM5.WC.SF",
+      "type": "PART_OF",
+      "description": "ControlModule VAM5.WC.SF.AU PART_OF EquipmentModule VAM5.WC.SF"
+    },
+    {
+      "from": "VAM5.WC.WR",
+      "to": "VAM5.WC",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.WC.WR PART_OF EquipmentUnit VAM5.WC"
+    },
+    {
+      "from": "VAM5.WC.WT1",
+      "to": "VAM5.WC",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.WC.WT1 PART_OF EquipmentUnit VAM5.WC"
+    },
+    {
+      "from": "VAM5.WC.WT2",
+      "to": "VAM5.WC",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.WC.WT2 PART_OF EquipmentUnit VAM5.WC"
+    },
+    {
+      "from": "VAM5.WC.WT3",
+      "to": "VAM5.WC",
+      "type": "PART_OF",
+      "description": "EquipmentModule VAM5.WC.WT3 PART_OF EquipmentUnit VAM5.WC"
+    }
+  ],
+  "bindings": {
+    "OPC": {
+      "description": "OT-Telemetrie bindet per id an den passenden Equipment-Knoten. Im VAM5-Modell sind die OT-relevanten 'Maschinen' die ISA-88-Units (Curing Oven, Spinning, Melting, ...) und teils die EquipmentModules; OPC-UA-Sources wuerden ihren machineId auf die unit_id (z.B. 'VAM5.CO') bzw. equipment_module_id mappen. Idempotenter Merge im kg-builder per (kgIdProperty) -> ein Knoten traegt Telemetrie UND Hierarchie. WICHTIG: Die Sim-Maschinen cnc-001/002/009 + sgm-004 sind ein ANDERER, eigenstaendiger Stack und KEIN Teil von VAM5 — sie haengen nicht an dieser Hierarchie. Es existiert (noch) keine OT-Source, die echte VAM5-Telemetrie liefert; dieser Anker ist zunaechst reine Master-Data.",
+      "joinKey": "machineId -> unit_id (bzw. equipment_module_id)",
+      "relTo": "EquipmentUnit/EquipmentModule via PART_OF (aufwaerts bis Enterprise)"
+    },
+    "POP": {
+      "description": "Werksauftraege/ProductionOrder (POP) referenzieren die Hierarchie, sind aber NICHT Teil davon. Eine Order -EXECUTED_AT-> EquipmentUnit (die ausfuehrende Prozessstufe) und transitiv an ProcessCell/Area/Site. Die Order selbst bleibt ihr eigenes Business-Objekt (SMProfile-ProductionOrder, Captain B) ausserhalb der Equipment-Domaene.",
+      "joinKey": "order.equipment_ref -> unit_id",
+      "relTo": "EquipmentUnit via EXECUTED_AT (Order-Seite)"
+    }
+  }
+}

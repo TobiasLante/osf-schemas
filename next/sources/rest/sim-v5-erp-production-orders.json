@@ -1,0 +1,45 @@
+{
+  "sourceId": "sim-v5-erp-production-orders",
+  "version": "1.0.0",
+  "sourceType": "rest",
+  "syncType": "polling",
+  "profileRef": "SMProfile-ProductionOrder",
+  "transport": ["nats"],
+  "connection": {
+    "baseUrl": "http://192.168.178.154:38260",
+    "path": "/api/customer-orders",
+    "method": "GET",
+    "auth": null,
+    "timeoutMs": 10000
+  },
+  "response": {
+    "format": "json",
+    "rootPath": "$",
+    "idProperty": "production_order_no"
+  },
+  "polling": {
+    "changeDetection": "timestamp",
+    "timestampQueryParam": "since",
+    "timestampField": "aktualisiert_am",
+    "intervalMs": 30000,
+    "batchSize": 200
+  },
+  "columnMappings": [
+    { "column": "production_order_no",  "smAttribute": "production_order_no", "isId": true },
+    { "column": "order_id",             "smAttribute": "sales_order_ref" },
+    { "column": "article_no",           "smAttribute": "article_ref" },
+    { "column": "machine_no",           "smAttribute": "machine_ref" },
+    { "column": "geplante_stueckzahl",  "smAttribute": "qty_planned" },
+    { "column": "lieferdatum_soll",     "smAttribute": "planned_end_time" },
+    { "column": "cycle_time_planned_sec", "smAttribute": "cycle_time_planned_sec" },
+    { "column": "material_verfuegbar_ab", "smAttribute": "material_ready_at" },
+    { "column": "status",               "smAttribute": "status" },
+    { "column": "prioritaet",           "smAttribute": "priority" },
+    { "column": "aktualisiert_am",      "smAttribute": "updated_at" }
+  ],
+  "edges": [
+    { "from": "sales_order_ref", "to": "sim-v5-erp-orders", "type": "TRIGGERED_BY" },
+    { "from": "article_ref", "to": "sim-v5-erp-articles", "type": "PRODUCES" }
+  ],
+  "description": "SONDERFALL SIM — DRITTE Projektion derselben REST-Quelle wie sim-v5-erp-orders (SalesOrder, L4) und sim-v5-mom-operations-response (OperationsResponse, IST). Mappt die PLAN/SOLL-Felder (geplante_stueckzahl, lieferdatum_soll, cycle_time_planned_sec, material_verfuegbar_ab, status) auf die Level-3 MOM OperationsRequest/ProductionOrder-Entität, geschluesselt auf production_order_no (Join-Key zur OperationsResponse). Liefert ueber den bestehenden it-edge/BUSINESS-Pfad einen dritten business.*-Stream (entity_type=production_order). Der it-evaluator joint OperationsRequest <-> OperationsResponse (qty_shortfall: qty_planned vs quantity_produced; late_delivery: planned_end_time vs actual_end_time) und raised multi_source-Discrepancies. IMMER mit query {\"status\":\"IN_PRODUCTION\"} pollen (aktive Auftraege), sonst kommen CANCELLED zurueck. HINWEIS Doppel-Poll: orders + operations-response + production-orders pollen dieselbe URL; sauberer waere edge-seitiges Fan-Out aus EINEM Poll (eine Source -> mehrere Entitaeten) — siehe Bericht Baustein 4, als Folge-Baustein dokumentiert, hier nicht erzwungen."
+}

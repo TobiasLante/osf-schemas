@@ -1,0 +1,24 @@
+{
+  "crossConstraintId": "late_delivery",
+  "version": "1.0.0",
+  "standard": "OSF",
+  "displayName": "Lieferverzug Plan-vs-Ist (GEPARKT)",
+  "description": "Cross-Source-Facette (CAPT-B Phase 2 Baustein 4 — VERTRAG, PARKED): OperationsResponse.actual_end_time (IST) später als OperationsRequest/ProductionOrder.planned_end_time (SOLL), gejoint auf production_order_no. PARKED weil der Sim 'lieferdatum_ist' (→ actual_end_time) NIE füllt → die Regel fände keinen IST-Wert → bliebe immer 'unknown' (kein Raise). Effektiv deckt das live order_overdue (single-entity constraint auf CustomerOrder.due_date vs $now) denselben Fall ab. Vertrag + Mapping sind hier bewusst vorbereitet: sobald der Sim das Ist-Datum liefert, 'parked' entfernen und die Regel wird scharf — OHNE Code-Änderung. op=lte: HÄLT (ok) wenn actual_end_time <= planned_end_time; VERLETZT bei Überschreitung. Geprägt als multi_source-Klasse.",
+  "parked": true,
+  "parkedReason": "Sim füllt lieferdatum_ist (actual_end_time) nie → effektiv = das live order_overdue. Scharf sobald der Sim das Ist-Datum liefert (parked entfernen).",
+  "severity": "warning",
+  "discrepancyClass": "multi_source",
+  "when": { "leftAttr": "status", "eq": "offen" },
+  "left": {
+    "profileRef": "SMProfile-OperationsResponse",
+    "joinKey": "production_order_no",
+    "attr": "actual_end_time"
+  },
+  "right": {
+    "profileRef": "SMProfile-ProductionOrder",
+    "joinKey": "production_order_no",
+    "attr": "planned_end_time"
+  },
+  "op": "lte",
+  "since": "2026-06-15"
+}

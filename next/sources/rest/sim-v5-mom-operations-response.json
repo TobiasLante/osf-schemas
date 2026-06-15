@@ -1,0 +1,42 @@
+{
+  "sourceId": "sim-v5-mom-operations-response",
+  "version": "1.0.0",
+  "sourceType": "rest",
+  "syncType": "polling",
+  "profileRef": "SMProfile-OperationsResponse",
+  "transport": ["nats"],
+  "connection": {
+    "baseUrl": "http://192.168.178.154:38260",
+    "path": "/api/customer-orders",
+    "method": "GET",
+    "auth": null,
+    "timeoutMs": 10000
+  },
+  "response": {
+    "format": "json",
+    "rootPath": "$",
+    "idProperty": "production_order_no"
+  },
+  "polling": {
+    "changeDetection": "timestamp",
+    "timestampQueryParam": "since",
+    "timestampField": "aktualisiert_am",
+    "intervalMs": 30000,
+    "batchSize": 200
+  },
+  "columnMappings": [
+    { "column": "production_order_no", "smAttribute": "production_order_no", "isId": true },
+    { "column": "article_no",          "smAttribute": "article_ref" },
+    { "column": "machine_no",          "smAttribute": "machine_ref" },
+    { "column": "produzierte_stueckzahl", "smAttribute": "quantity_produced" },
+    { "column": "lieferdatum_ist",     "smAttribute": "actual_end_time" },
+    { "column": "status",              "smAttribute": "status" },
+    { "column": "abgeschlossen_am",    "smAttribute": "completed_at" },
+    { "column": "aktualisiert_am",     "smAttribute": "updated_at" }
+  ],
+  "edges": [
+    { "from": "production_order_no", "to": "sim-v5-erp-orders", "type": "RESPONDS_TO" },
+    { "from": "article_ref", "to": "sim-v5-erp-articles", "type": "FOR_ARTICLE" }
+  ],
+  "description": "SONDERFALL SIM — zweite Projektion derselben REST-Quelle wie sim-v5-erp-orders. Mappt die IST-Felder (produzierte_stueckzahl, lieferdatum_ist, status, abgeschlossen_am) auf die Level-3 MOM OperationsResponse-Entität, geschlüsselt auf production_order_no (Join-Key zur OperationsRequest/ProductionOrder). Liefert über den bestehenden it-edge/BUSINESS-Pfad einen zweiten business.*-Stream (entity_type=operations_response). Der it-evaluator joint OperationsResponse <-> CustomerOrder/ProductionOrder (Plan-vs-Ist) und <-> Quant (Material) und raised multi_source-Discrepancies. IMMER mit query {\"status\":\"IN_PRODUCTION\"} pollen (aktive Aufträge), sonst kommen 500 CANCELLED zurück."
+}

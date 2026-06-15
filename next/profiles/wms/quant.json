@@ -1,0 +1,101 @@
+{
+  "profileId": "SMProfile-Quant",
+  "version": "1.0.0",
+  "standard": "CESMII",
+  "displayName": "Quant (Lagerbestand-Einheit / MaterialSublot)",
+  "description": "next/ v4 — WMS Bestandseinheit (Quant) am Lagerort, ausgerichtet auf die LIVE-Projektion der Source sim-v5-wms-quants (article_ref/quantity/blocked/warehouse/storage_location), NICHT das Legacy-base-Profil (article_no/quality_status). Geschlüsselt auf quant_no. Die Cross-Domain-Deviation material_unavailable (next/cross-constraints/material_unavailable.json) joint OperationsResponse <-> Quant auf article_ref und aggregiert den freien Bestand (quantity, gefiltert auf blocked==0). Reiner Bestands-Träger, kein constraints-Block (Cross-Source).",
+  "parentType": null,
+  "attributes": [
+    {
+      "name": "quant_no",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Eindeutige Quant-Id (quant_id der WMS-Zeile).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "article_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "Artikel (artikel_nr) — Join-Key auf Article / OperationsResponse für die Material-Verfügbarkeit.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "warehouse",
+      "dataType": "String",
+      "required": false,
+      "category": "Location",
+      "description": "Lager (lager_nr).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "storage_location",
+      "dataType": "String",
+      "required": false,
+      "category": "Location",
+      "description": "Lagerplatz (lagerplatz_id).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "quantity",
+      "dataType": "Float",
+      "required": false,
+      "category": "Stock",
+      "description": "Bestandsmenge (menge). Bei der Material-Verfügbarkeit wird über blocked==0 gefiltert summiert.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "lot",
+      "dataType": "String",
+      "required": false,
+      "category": "Traceability",
+      "description": "Charge (charge_nr).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "blocked",
+      "dataType": "Int32",
+      "required": false,
+      "category": "Quality",
+      "description": "Sperrkennzeichen (gesperrt): 0 = frei verfügbar, !=0 = gesperrt. Filter der material_unavailable-Aggregation (nur freier Bestand zählt).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "updated_at",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    }
+  ],
+  "relationships": [
+    { "type": "AT_LOCATION", "target": "StorageLocation" },
+    { "type": "FOR_ARTICLE", "target": "Article" }
+  ],
+  "kgNodeLabel": "Quant",
+  "kgIdProperty": "quant_no",
+  "category": "business",
+  "isa95": {
+    "objectModel": "MaterialSublot",
+    "momDomain": "inventory",
+    "note": "Bestandseinheit am Lagerort = MaterialSublot (ISA-95 Part 2). Frei/gesperrt (blocked) trennt verfuegbaren von gesperrtem Bestand fuer die Material-Verfuegbarkeit (Cross-Domain ERP<->WMS, material_unavailable)."
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/validation/equipment-profile-schema.json",
+  "title": "OSF Equipment SM Profile — next/ (ISA-88 physical model in ISA-95)",
+  "description": "Validator for next/profiles/equipment/*.json — the ISA-88 physical equipment hierarchy (Enterprise/Site/Area = ISA-95; ProcessCell/Unit/EquipmentModule/ControlModule = ISA-88) nested in ISA-95. Master-data anchor nodes (e.g. Rockwool VAM5) that telemetry (OPC) and orders (POP) bind to via PART_OF. 'isa95' is loosely typed: equipmentLevel/level span the full 7-level model; the evolving semantics are reviewed, not schema-pinned.",
+  "type": "object",
+  "required": ["profileId", "version", "displayName", "category", "attributes", "kgNodeLabel", "kgIdProperty"],
+  "properties": {
+    "profileId": { "type": "string", "pattern": "^SMProfile-[A-Z][A-Za-z0-9-]+$" },
+    "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "standard": { "type": "string", "enum": ["CESMII", "OSF", "ISA-95", "ISA-88"] },
+    "displayName": { "type": "string" },
+    "category": { "type": "string", "enum": ["equipment"] },
+    "description": { "type": "string" },
+    "parentType": { "type": ["string", "null"] },
+    "abstract": { "type": "boolean" },
+    "kpiRefs": { "type": "array", "items": { "type": "string" } },
+    "attributes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["name", "dataType", "delivery", "scope", "promotion"],
+        "properties": {
+          "name": { "type": "string" },
+          "dataType": { "type": "string", "enum": ["String", "Int32", "Int64", "Float", "Double", "Boolean", "DateTime", "Json"] },
+          "category": { "type": "string" },
+          "required": { "type": "boolean" },
+          "isKey": { "type": "boolean" },
+          "isId": { "type": "boolean" },
+          "description": { "type": "string" },
+          "enum": { "type": "array" },
+          "unit": { "type": "string" },
+          "delivery": { "type": "string", "enum": ["telemetry", "transactional"] },
+          "scope": { "type": "string", "enum": ["edge", "hub"] },
+          "promotion": { "type": "string", "enum": ["raw", "aggregate", "on_change", "on_cycle_end"] }
+        },
+        "additionalProperties": false
+      }
+    },
+    "relationships": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type", "target"],
+        "properties": {
+          "type": { "type": "string" },
+          "target": { "type": "string" },
+          "targetIdProp": { "type": "string" },
+          "timeBounded": { "type": "boolean" },
+          "description": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "constraints": {
+      "$ref": "constraint-schema.json",
+      "description": "Optional — equipment nodes normally carry no deviation rules, but the facet is allowed for uniformity."
+    },
+    "isa95": {
+      "type": "object",
+      "required": ["objectModel"],
+      "properties": {
+        "objectModel": { "type": "string", "minLength": 1 },
+        "equipmentLevel": { "type": "string" },
+        "equipmentClass": { "type": "string" },
+        "level": { "type": "integer", "minimum": 1, "maximum": 7 }
+      },
+      "additionalProperties": true,
+      "description": "ISA-95/ISA-88 mapping, loosely typed. equipmentLevel: Enterprise|Site|Area|ProcessCell|Unit|EquipmentModule|ControlModule (S88) + the ISA-95 work-center variants; level 1..7."
+    },
+    "kgNodeLabel": { "type": "string" },
+    "kgIdProperty": { "type": "string" }
+  },
+  "additionalProperties": false
+}
