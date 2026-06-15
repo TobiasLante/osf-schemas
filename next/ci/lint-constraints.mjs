@@ -98,7 +98,34 @@ function effectiveAttrs(profile, profiles) {
 
 // ---- Predicate type-check --------------------------------------------------
 
-function checkPredicateValue(pred, attr, label, errors) {
+function checkPredicateValue(pred, attr, attrs, label, errors) {
+  // valueAttr: compare `attr` against ANOTHER attribute's live value (attr-vs-attr),
+  // or the reserved token '$now' (current time). Mutually exclusive with `value`.
+  if (pred.valueAttr !== undefined) {
+    if (pred.value !== undefined) {
+      errors.push(`${label}: predicate has both 'value' and 'valueAttr' (mutually exclusive)`);
+    }
+    if (pred.valueAttr === "$now") {
+      if (attr.dataType !== "DateTime") {
+        errors.push(
+          `${label}: valueAttr "$now" requires attr "${attr.name}" dataType=DateTime (got ${attr.dataType})`
+        );
+      }
+      return;
+    }
+    const other = attrs.get(pred.valueAttr);
+    if (!other) {
+      errors.push(`${label}: valueAttr "${pred.valueAttr}" not found (parentType chain searched)`);
+      return;
+    }
+    if (other.dataType !== attr.dataType) {
+      errors.push(
+        `${label}: valueAttr "${pred.valueAttr}" dataType=${other.dataType} != attr "${attr.name}" dataType=${attr.dataType}`
+      );
+    }
+    return;
+  }
+
   const checker = TYPE_CHECK[attr.dataType];
   if (!checker) {
     errors.push(`${label}: unknown attribute.dataType "${attr.dataType}"`);
@@ -196,7 +223,7 @@ function lint() {
           );
           continue;
         }
-        checkPredicateValue(pred, attr, label, errors);
+        checkPredicateValue(pred, attr, attrs, label, errors);
       }
     }
   }
