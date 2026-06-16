@@ -39,6 +39,16 @@
           "type": "string",
           "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
           "description": "Date the constraint was introduced — used to gate alerts on legacy data"
+        },
+        "concern": {
+          "type": "string",
+          "enum": ["operations", "data"],
+          "description": "ISA-95-grounded nature of this constraint. 'operations' = a deviation in MOM execution (real-world: schedule slip, quality disposition, equipment rule) -> routed to the OT/Operations lane + own subject/store. 'data' = an inconsistency/staleness of an ISA-95 information object across systems/levels -> the data-steward cockpit (ZENTRAL). Optional during rollout (classified autonomously, see services/concern-classifier); engine treats an absent value as unclassified (stays in the data lane). Will become required once every constraint is classified."
+        },
+        "mom_category": {
+          "type": "string",
+          "enum": ["production", "quality", "maintenance", "inventory"],
+          "description": "For concern='operations' only — the ISA-95 Part 3 MOM operations category that owns the deviation. Defaults from the profile's isa95.momDomain when that is one of the four MOM categories; declared here when it differs (e.g. order_overdue lives in a Level-4 'business' SalesOrder profile but is a 'production' scheduling concern)."
         }
       }
     },
