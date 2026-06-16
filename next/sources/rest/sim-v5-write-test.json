@@ -1,0 +1,28 @@
+{
+  "sourceId": "sim-v5-write-test",
+  "version": "0.0.1",
+  "sourceType": "rest",
+  "syncType": "polling",
+  "profileRef": "SMProfile-Article",
+  "transport": [
+    "nats"
+  ],
+  "connection": {
+    "baseUrl": "http://192.168.178.154:38260",
+    "path": "/api/articles",
+    "method": "GET"
+  },
+  "response": {
+    "format": "json",
+    "rootPath": "$",
+    "idProperty": "teil_id"
+  },
+  "columnMappings": [
+    {
+      "column": "teil_id",
+      "smAttribute": "article_no",
+      "isId": true
+    }
+  ],
+  "description": "CRUD-WRITE E2E verification — safe to close"
+}
