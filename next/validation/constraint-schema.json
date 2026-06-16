@@ -49,6 +49,11 @@
           "type": "string",
           "enum": ["production", "quality", "maintenance", "inventory"],
           "description": "For concern='operations' only — the ISA-95 Part 3 MOM operations category that owns the deviation. Defaults from the profile's isa95.momDomain when that is one of the four MOM categories; declared here when it differs (e.g. order_overdue lives in a Level-4 'business' SalesOrder profile but is a 'production' scheduling concern)."
+        },
+        "accountable_role": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Organisationsrolle/-bereich, die für diese Art Abweichung VERANTWORTLICH ist (RACI: accountable). Vom Kunden in der SSOT gepflegt — wir definieren sie nicht, wir routen darauf. Die Episode landet in der Rollen-Queue dieses Werts; die konkrete Person wird (später) aus einem externen Org-/Schichtplan-System aufgelöst. Beispiele: 'Fertigungssteuerung', 'Qualitätssicherung', 'Arbeitsvorbereitung', 'Instandhaltung'. Optional während des Rollouts; absent → unassigned-Rollen-Queue."
         }
       }
     },
