@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-CustomerOrder",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "standard": "CESMII",
   "displayName": "Customer Order (Kundenauftrag / Sales Order)",
   "description": "next/ v4 — Level-4 SALES order with a customer delivery commitment. Deliberately separated from the Level-3 OperationsRequest (ProductionOrder) it TRIGGERS: the sim currently conflates both onto one row (Sonderfall), but the clean MOM model keeps sales (L4) and production request/response (L3) apart. Plan-vs-actual deviations (late_delivery, qty_shortfall) are cross-entity OperationsRequest↔OperationsResponse checks and live in the cross-source phase, NOT here. Single-entity deviation: order_overdue (delivery commitment vs now).",
@@ -34,10 +34,31 @@
       "promotion": "on_change"
     },
     {
+      "name": "quantity",
+      "dataType": "Int32",
+      "required": false,
+      "category": "Commercial",
+      "description": "Bestellte Stückzahl der Auftragszeile (menge). Mit unit_price die Quelle für total_amount — der reale ERP führt keine Auftragssumme: order value = menge × stueckpreis (vom it-evaluator abgeleitet).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "unit_price",
+      "dataType": "Float",
+      "required": false,
+      "category": "Commercial",
+      "description": "Stückpreis der Auftragszeile (stueckpreis). Mit quantity die Quelle für total_amount (= quantity × unit_price).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
       "name": "total_amount",
       "dataType": "Float",
       "required": false,
       "category": "Commercial",
+      "description": "Auftragswert. Direkt geliefert wo vorhanden; sonst vom it-evaluator als quantity × unit_price abgeleitet (der reale ERP hat keine Summen-Spalte). Treiber der €-Impact-Priorisierung (expected_impact).",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"

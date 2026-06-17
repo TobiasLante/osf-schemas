@@ -1,0 +1,41 @@
+{
+  "sourceId": "erp-production-orders",
+  "version": "1.0.0",
+  "sourceType": "postgresql",
+  "syncType": "polling",
+  "profileRef": "SMProfile-ProductionOrder",
+  "transport": ["nats"],
+  "connection": {
+    "host": "${ERP_DB_HOST}",
+    "port": "${ERP_DB_PORT}",
+    "database": "erpdb",
+    "schema": "llm_test_v3",
+    "table": "machineid_nodeid"
+  },
+  "columnMappings": [
+    { "column": "production_order_no", "smAttribute": "production_order_no", "isId": true },
+    { "column": "article_no", "smAttribute": "article_ref" },
+    { "column": "machine_no", "smAttribute": "machine_ref" },
+    { "column": "geplante_stueckzahl", "smAttribute": "qty_planned" },
+    { "column": "geplantes_end_datum", "smAttribute": "planned_end_time" },
+    { "column": "material_verfuegbar_ab", "smAttribute": "material_ready_at" },
+    {
+      "column": "order_status",
+      "smAttribute": "status",
+      "valueMap": {
+        "1": "offen",
+        "2": "freigegeben",
+        "3": "in_arbeit",
+        "4": "fertig",
+        "5": "abgeschlossen"
+      }
+    },
+    { "column": "last_updated_at", "smAttribute": "updated_at" }
+  ],
+  "filter": null,
+  "edges": [
+    { "type": "PRODUCES", "fkColumn": "article_no", "targetIdProp": "article_no" },
+    { "type": "EXECUTED_AT", "fkColumn": "machine_no", "targetIdProp": "machine_id" }
+  ],
+  "description": "next/ v4 — REAL ERP (erpdb.llm_test_v3.machineid_nodeid) projected onto the Level-3 MOM OperationsRequest = PLAN/SOLL (SMProfile-ProductionOrder). Replaces the sim-v5-erp-production-orders REST projection in the live cutover. order_status is a coded integer (1=angelegt/offen, 2=freigegeben, 3=in_arbeit, 4=rückgemeldet, 5=abgeschlossen — inferred from the produced-vs-planned correlation); the valueMap normalises it onto readable canonical tokens. NO filter (full real backlog per the cutover decision) — all lifecycle states ingested incl. the not-yet-released backlog (status 1) and the closed archive (status 5); the qty_shortfall cross-rule only joins the rows that have an OperationsResponse (confirmations exist for status 4+5). Maps ONLY the PLAN fields + join key — the IST (produzierte_stueckzahl) is the dedicated OperationsResponse entity (erp-operations-response, order_confirmations). cycle_time_planned_sec + sales_order_ref + priority have no column in machineid_nodeid → unmapped (optional attrs). Plan-vs-Ist (qty_shortfall) is the it-evaluator cross-source reconcile against OperationsResponse on production_order_no, NOT a single-entity constraint — this profile carries no constraints block."
+}
