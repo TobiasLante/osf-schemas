@@ -1,0 +1,62 @@
+{
+  "_comment": "EXAMPLE / DEMO — demonstrates the two optional next/ attribute+profile facets added alongside 'constraints': 'quality' (FR-SDC2, OPC-UA StatusCode propagation policy) and 'semantics' (FR-SDC3, IRI grounding for KG-Builder enrichment). NOT canonical and NOT a live profile — it is a worked example that VALIDATES against next/validation/machine-profile-schema.json so the facets are demonstrated, not merely 'allowed'. The facets are OPTIONAL everywhere; absent = legacy behaviour. See next/README.md (facets 2 + 3) and next/examples/README.md (Golden Rule).",
+  "_example": true,
+  "profileId": "SMProfile-FacetDemo-Machine",
+  "version": "0.1.0",
+  "standard": "OSF",
+  "displayName": "Facet Demo Machine (quality + semantics)",
+  "description": "Minimal machine TYPE that shows the optional 'quality' and 'semantics' facets on attributes, and a profile-level 'semantics' IRI. Each facet form is exercised: quality.onBad (drop|flag|hold) + nullFlavor; semantics as a single CURIE, as an array, and as the object form ({ $ref, sameAs, label }).",
+  "parentType": null,
+  "semantics": "cesmii:MachineType",
+  "attributes": [
+    {
+      "name": "Act_Temp_Spindle",
+      "dataType": "Float",
+      "required": false,
+      "unit": "degC",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw",
+      "quality": { "onBad": "hold" },
+      "semantics": "qudt:DegreeCelsius"
+    },
+    {
+      "name": "Act_Speed_Spindle",
+      "dataType": "Float",
+      "required": false,
+      "unit": "rpm",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw",
+      "quality": { "onBad": "drop", "nullFlavor": "UNK" },
+      "semantics": ["cesmii:RotationalSpeed", "iso:13399-SpindleSpeed"]
+    },
+    {
+      "name": "Act_Status_Machine",
+      "dataType": "Int32",
+      "required": false,
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "quality": { "onBad": "flag" },
+      "semantics": {
+        "$ref": "cesmii:MachineState",
+        "sameAs": ["https://reference.opcfoundation.org/MachineTool/v103/MachineStateType"],
+        "label": "machine operating state"
+      }
+    },
+    {
+      "name": "Act_Ref_ProductionOrder",
+      "dataType": "String",
+      "required": false,
+      "description": "No facets here on purpose — shows that 'quality' and 'semantics' are fully optional and may be omitted per attribute.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    }
+  ],
+  "relationships": [],
+  "kgNodeLabel": "FacetDemo_Machine",
+  "kgIdProperty": "machine_id",
+  "deviceClass": "Demo Machine"
+}
