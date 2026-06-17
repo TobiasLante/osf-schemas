@@ -1,0 +1,40 @@
+{
+  "sourceId": "erp-customer-orders",
+  "version": "1.0.0",
+  "sourceType": "postgresql",
+  "syncType": "polling",
+  "profileRef": "SMProfile-CustomerOrder",
+  "transport": ["nats"],
+  "connection": {
+    "host": "${ERP_DB_HOST}",
+    "port": "${ERP_DB_PORT}",
+    "database": "erpdb",
+    "schema": "llm_test_v3",
+    "table": "kundenauftraege"
+  },
+  "columnMappings": [
+    { "column": "kundenauftrag_nr", "smAttribute": "order_no", "isId": true },
+    { "column": "kunde_name", "smAttribute": "customer_name" },
+    { "column": "menge", "smAttribute": "quantity" },
+    { "column": "stueckpreis", "smAttribute": "unit_price" },
+    { "column": "waehrung", "smAttribute": "currency" },
+    { "column": "lieferdatum", "smAttribute": "due_date" },
+    {
+      "column": "status",
+      "smAttribute": "status",
+      "valueMap": {
+        "Offen": "offen",
+        "Bestätigt": "bestaetigt",
+        "In Produktion": "in_arbeit",
+        "Versandt": "versandt",
+        "Fertig": "fertig",
+        "Storniert": "storniert"
+      }
+    }
+  ],
+  "filter": "status IN ('Offen','Bestätigt','In Produktion','Fertig')",
+  "edges": [
+    { "type": "TRIGGERS", "fkColumn": "production_order_no", "targetIdProp": "production_order_no" }
+  ],
+  "description": "next/ v4 — REAL ERP (erpdb.llm_test_v3.kundenauftraege) projected onto the Level-4 SMProfile-CustomerOrder. Replaces the sim-v5-erp-orders REST projection in the live cutover (FA…-keyspace, real status vocab). status valueMap normalises the German title-case ERP dialect (Offen/Bestätigt/…) onto the canonical constraint vocabulary (offen/bestaetigt/…) so the single-entity order_overdue constraint (when status eq 'offen', require due_date gte $now) stays source-agnostic — no per-source casing in the profile. The real ERP carries NO order-total column: order value = menge × stueckpreis, so quantity (menge) + unit_price (stueckpreis) are mapped and the it-evaluator derives total_amount = quantity × unit_price for the deviation €-impact ranking. filter excludes the two terminal-closed states (Versandt/Storniert) → active order book. NOTE: in the real ERP the CustomerOrder→ProductionOrder TRIGGERS FK lives on kundenauftraege.production_order_no (inverse of the Sim, where ProductionOrder.sales_order_ref carried it) — the cross-source deviation joins (OperationsResponse↔ProductionOrder on production_order_no) don't depend on it; the KG TRIGGERS edge is built from the fkColumn above."
+}

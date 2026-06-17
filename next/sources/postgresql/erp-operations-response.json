@@ -1,0 +1,30 @@
+{
+  "sourceId": "erp-operations-response",
+  "version": "1.0.0",
+  "sourceType": "postgresql",
+  "syncType": "polling",
+  "profileRef": "SMProfile-OperationsResponse",
+  "transport": ["nats"],
+  "connection": {
+    "host": "${ERP_DB_HOST}",
+    "port": "${ERP_DB_PORT}",
+    "database": "erpdb",
+    "schema": "llm_test_v3",
+    "table": "order_confirmations"
+  },
+  "columnMappings": [
+    { "column": "production_order_no", "smAttribute": "production_order_no", "isId": true },
+    { "column": "article_no", "smAttribute": "article_ref" },
+    { "column": "machine_no", "smAttribute": "machine_ref" },
+    { "column": "confirmed_qty", "smAttribute": "quantity_produced" },
+    { "column": "confirmation_time", "smAttribute": "actual_end_time" },
+    { "column": "confirmation_time", "smAttribute": "completed_at" }
+  ],
+  "filter": null,
+  "edges": [
+    { "type": "RESPONDS_TO", "fkColumn": "production_order_no", "targetIdProp": "production_order_no" },
+    { "type": "FOR_ARTICLE", "fkColumn": "article_no", "targetIdProp": "article_no" },
+    { "type": "ON_MACHINE", "fkColumn": "machine_no", "targetIdProp": "machine_id" }
+  ],
+  "description": "next/ v4 — REAL ERP (erpdb.llm_test_v3.order_confirmations) projected onto the Level-3 MOM OperationsResponse = IST/Rückmeldung (SMProfile-OperationsResponse). This is the REAL Ist-source (replaces the sim-v5-mom-operations-response REST projection that re-read the order row). Keyed on production_order_no (1:1 with confirmations today; kgIdProperty + cross-rule join key). confirmed_qty → quantity_produced drives the qty_shortfall cross-rule against ProductionOrder.qty_planned. confirmation_time → actual_end_time/completed_at (the real Ist completion timestamp — late_delivery stays parked + is also gated on status eq 'offen'). NO status column in order_confirmations → OperationsResponse.status is undefined: qty_shortfall (gate status NE 'offen') runs for every confirmation (correct — a confirmation is a completion, not an open order); material_unavailable + late_delivery (gate status EQ 'offen') stay dormant (correct — and WMS edge is down anyway). NO filter — full real backlog (all confirmations, incl. the closed-order archive) per the cutover decision. scrap_qty/cycle_time_actual/operator_id unmapped (not in the profile contract)."
+}
