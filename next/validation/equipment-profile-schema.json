@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/validation/equipment-profile-schema.json",
   "title": "OSF Equipment SM Profile — next/ (ISA-88 physical model in ISA-95)",
-  "description": "Validator for next/profiles/equipment/*.json — the ISA-88 physical equipment hierarchy (Enterprise/Site/Area = ISA-95; ProcessCell/Unit/EquipmentModule/ControlModule = ISA-88) nested in ISA-95. Master-data anchor nodes (e.g. Rockwool VAM5) that telemetry (OPC) and orders (POP) bind to via PART_OF. 'isa95' is loosely typed: equipmentLevel/level span the full 7-level model; the evolving semantics are reviewed, not schema-pinned.",
+  "description": "Validator for next/profiles/equipment/*.json — the ISA-88 physical equipment hierarchy (Enterprise/Site/Area = ISA-95; ProcessCell/Unit/EquipmentModule/ControlModule = ISA-88) nested in ISA-95. Master-data anchor nodes that telemetry (OPC) and orders (POP) bind to via PART_OF. 'isa95' is loosely typed: equipmentLevel/level span the full 7-level model; the evolving semantics are reviewed, not schema-pinned.",
   "type": "object",
   "required": ["profileId", "version", "displayName", "category", "attributes", "kgNodeLabel", "kgIdProperty"],
   "properties": {

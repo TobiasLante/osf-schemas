@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "standard": "ISA-95",
   "displayName": "ControlModule (Equipment — Ebene 7, ISA-88 Control Module)",
-  "description": "next/ v4 — Equipment-Hierarchie, Ebene 7 (unterste) = ISA-88 'Control Module'. Im VAM5-Modell die SubUnitModuleName-Spalte: kleinste einzeln ansteuerbare Einheiten (z.B. einzelne Brenner unter einem Burner-Module, ein Spinner-Geraet). Nur ein Teil der EquipmentModules hat ControlModules — leere SubUnitModule-Zellen bedeuten 'kein Kind'. Ein ControlModule gehoert zu genau einem EquipmentModule. UNS-Segment 6. 34 distinkte Knoten im VAM5-Modell.",
+  "description": "next/ v4 — Equipment-Hierarchie, Ebene 7 (unterste) = ISA-88 'Control Module'. Kleinste einzeln ansteuerbare Einheiten (z.B. ein einzelner Brenner unter einem Brenner-Modul, ein einzelnes Stellglied). Nur ein Teil der EquipmentModules hat ControlModules (optionales Blatt). Ein ControlModule gehoert zu genau einem EquipmentModule. UNS-Segment 6.",
   "parentType": null,
   "attributes": [
     {
@@ -11,7 +11,7 @@
       "dataType": "String",
       "required": true,
       "category": "Core",
-      "description": "Eindeutige ControlModule-ID (UNS-Segment 6). VAM5: pfad-praefixiert 'VAM5.<WCUnit>.<UnitModule>.<SubUnitModule>' (z.B. 'VAM5.SP.CO.SL'), da SubUnitModule-Codes (BU, C1, ...) mehrfach vorkommen. Roher Code in control_code.",
+      "description": "Eindeutige ControlModule-ID (UNS-Segment 6). Empfehlung: pfad-praefixiert '<Linie>.<UnitCode>.<ModuleCode>.<ControlCode>', da Control-Codes mehrfach vorkommen. Roher Code in control_code.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -21,7 +21,7 @@
       "dataType": "String",
       "required": false,
       "category": "Core",
-      "description": "Roher SubUnitModule-Code aus der xlsx (z.B. 'BU', 'SL', 'C1').",
+      "description": "Roher ControlModule-Code (Stellglied-/Geraete-Kuerzel).",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -31,7 +31,7 @@
       "dataType": "String",
       "required": false,
       "category": "Core",
-      "description": "Anzeigename des Control Modules (z.B. 'Spinner left', 'Burner', 'Bell hopper').",
+      "description": "Anzeigename des Control Modules.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"

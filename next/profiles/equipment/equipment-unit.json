@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "standard": "ISA-95",
   "displayName": "Unit (Equipment — Ebene 5, ISA-88 Unit / Prozessstufe)",
-  "description": "next/ v4 — Equipment-Hierarchie, Ebene 5 = ISA-88 'Unit'. Im VAM5-Modell sind das die 17 geordneten Prozessstufen der Wool line (WorkCenterUnitName-Spalte): LT=Line Transmission, CO=Curing Oven, SW=Cutting Section, SS=Slab Sawing/Outsorting, RC=Recycling & Dust Filter, RM=Rod Mill + Support, BP=Binder Production, BI=Binder section, HP=High Pressure Pumps, TO=Thermal Oxidizer, TS=Test spinner, BD=Binder Distribution, CH=Charging, DR=Drying, ME=Melting, SP=Spinning, WC=Web Collection. Eine Unit gehoert zu genau einer ProcessCell und gruppiert EquipmentModules. UNS-Segment 4. Ersetzt das fruehere SMProfile-WorkUnit, das eine flache Maschinen-Ebene annahm — im VAM5-Modell ist die 'Maschine' aber eine Prozessstufe (ISA-88 Unit), keine einzelne CNC-Maschine.",
+  "description": "next/ v4 — Equipment-Hierarchie, Ebene 5 = ISA-88 'Unit'. Eine Unit ist eine geordnete Prozessstufe innerhalb einer Linie (z.B. eine einzelne Prozesszone wie Schmelzen, Spinnen oder Aushaerten). Eine Unit gehoert zu genau einer ProcessCell und gruppiert EquipmentModules. UNS-Segment 4. Ersetzt das fruehere SMProfile-WorkUnit, das eine flache Maschinen-Ebene annahm — in prozessfluss-orientierten Anlagen ist die 'Maschine' aber eine Prozessstufe (ISA-88 Unit), keine einzelne CNC-Maschine.",
   "parentType": null,
   "attributes": [
     {
@@ -11,7 +11,7 @@
       "dataType": "String",
       "required": true,
       "category": "Core",
-      "description": "Eindeutige Unit-ID (UNS-Segment 4). VAM5: pfad-praefixiert 'VAM5.<WCUnit>' (z.B. 'VAM5.CO'), da WCUnit-Codes pro Linie eindeutig sind. Der reine Code (z.B. 'CO') liegt zusaetzlich in unit_code.",
+      "description": "Eindeutige Unit-ID (UNS-Segment 4). Empfehlung: pfad-praefixiert '<Linie>.<UnitCode>', da die Codes pro Linie eindeutig sind. Der reine Code liegt zusaetzlich in unit_code.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -21,7 +21,7 @@
       "dataType": "String",
       "required": false,
       "category": "Core",
-      "description": "Roher WCUnit-Code aus der xlsx (z.B. 'CO', 'SP', 'ME').",
+      "description": "Roher Unit-Code (z.B. ein 2-Zeichen-Prozessstufen-Kuerzel).",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -31,7 +31,7 @@
       "dataType": "String",
       "required": false,
       "category": "Core",
-      "description": "Anzeigename der Prozessstufe (z.B. 'Curing Oven', 'Spinning', 'Melting').",
+      "description": "Anzeigename der Prozessstufe.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -64,7 +64,7 @@
     "level": 5,
     "equipmentLevel": "Unit",
     "equipmentClass": "Unit",
-    "note": "ISA-88 'Unit' (Prozessstufe), Ebene unterhalb ProcessCell. Im VAM5-Modell sind dies die OT-relevanten 'Maschinen' der Linie (eine Curing Oven, ein Spinner-Set, ein Melting-Ofen) — hier docken OT-Telemetrie und ProductionOrder-Bindung in der Regel an (siehe Anker-bindings). kgNodeLabel='EquipmentUnit' bewusst NICHT 'Machine': die Sim-Maschinen cnc/sgm sind ein anderer Stack, nicht VAM5.",
+    "note": "ISA-88 'Unit' (Prozessstufe), Ebene unterhalb ProcessCell. Dies sind in prozessfluss-orientierten Anlagen die OT-relevanten 'Maschinen' der Linie (eine einzelne Prozesszone) — hier docken OT-Telemetrie und ProductionOrder-Bindung in der Regel an. kgNodeLabel='EquipmentUnit' bewusst NICHT 'Machine', um diese Prozessstufen-Ebene von einzelnen diskreten Maschinen (eigener Stack) abzugrenzen.",
     "propertyMap": {
       "unit_id": "Equipment.ID",
       "unit_code": "Equipment.EquipmentClass",
