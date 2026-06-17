@@ -11,12 +11,21 @@
 #                           CANONICAL validation/intelligence-profile-schema.json
 #                           (no facet added there — only the discrepancy_class
 #                           enum VALUE 'constraint', which is profile data)
-#   3. lint-constraints   — cross-reference linter (next/ci/lint-constraints.mjs):
+#   3. source-sync-validate — ajv validate each next/sources/** against
+#                           next/validation/source-schema.json and each
+#                           next/sync/** against next/validation/sync-schema.json
+#                           (AC-1: cover sources/sync, not just profiles). Both
+#                           meta-schemas are permissive — coverage, not new
+#                           constraints — so existing files never false-fail.
+#   4. lint-constraints   — cross-reference linter (next/ci/lint-constraints.mjs):
 #                           predicate.attr resolves to a real attribute (via
 #                           parentType inheritance); predicate.value type matches
 #                           attribute.dataType; enum membership checked.
+#                           + delivery guardrail (next/ci/lint-delivery.mjs, FR-D2):
+#                           WARNS (never fails) on telemetry-on-setpoint and
+#                           transactional-fed-by-best-effort-poll smells.
 #
-#   4. build-shacl        — JSON -> SHACL transpiler (next/ci/json-to-shacl.mjs):
+#   5. build-shacl        — JSON -> SHACL transpiler (next/ci/json-to-shacl.mjs):
 #                           tests (n3 parse check) + emits next/build/shacl/*.ttl
 #                           as a CI artifact (Option C: JSON is SSOT, SHACL is a
 #                           build artifact — never hand-edited, never committed)
@@ -237,8 +246,86 @@ jobs:
             process.exit(fail ? 1 : 0);
           " ${profiles[@]}
 
+  source-sync-validate:
+    name: ajv validate (next/sources/** + next/sync/**)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: schema-compile
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install ajv
+        run: npm i ajv@8
+
+      - name: Validate sources (next/sources/**)
+        run: |
+          set -e
+          shopt -s nullglob globstar
+          files=(next/sources/**/*.json)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "No source descriptors yet — scaffold-only stage."
+            exit 0
+          fi
+          node -e "
+            const Ajv = require('ajv');
+            const fs = require('fs');
+            const ajv = new Ajv({ strict: false, allErrors: true });
+            const validate = ajv.compile(JSON.parse(fs.readFileSync(
+              'next/validation/source-schema.json', 'utf8')));
+            const files = process.argv.slice(1);
+            let fail = 0;
+            for (const f of files) {
+              const j = JSON.parse(fs.readFileSync(f, 'utf8'));
+              const ok = validate(j);
+              if (ok) console.log('  OK  ' + f);
+              else {
+                fail++;
+                console.error('  FAIL ' + f);
+                for (const e of validate.errors) console.error('       ' + e.instancePath + ' ' + e.message);
+              }
+            }
+            process.exit(fail ? 1 : 0);
+          " ${files[@]}
+
+      - name: Validate sync (next/sync/**)
+        run: |
+          set -e
+          shopt -s nullglob globstar
+          files=(next/sync/**/*.json)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "No sync descriptors under next/sync/ yet — schema in place for when they land (coverage ready)."
+            exit 0
+          fi
+          node -e "
+            const Ajv = require('ajv');
+            const fs = require('fs');
+            const ajv = new Ajv({ strict: false, allErrors: true });
+            const validate = ajv.compile(JSON.parse(fs.readFileSync(
+              'next/validation/sync-schema.json', 'utf8')));
+            const files = process.argv.slice(1);
+            let fail = 0;
+            for (const f of files) {
+              const j = JSON.parse(fs.readFileSync(f, 'utf8'));
+              const ok = validate(j);
+              if (ok) console.log('  OK  ' + f);
+              else {
+                fail++;
+                console.error('  FAIL ' + f);
+                for (const e of validate.errors) console.error('       ' + e.instancePath + ' ' + e.message);
+              }
+            }
+            process.exit(fail ? 1 : 0);
+          " ${files[@]}
+
   lint-constraints:
-    name: cross-reference linter (next/ci/lint-constraints.mjs)
+    name: cross-reference + delivery linters (next/ci/*.mjs)
     runs-on: ubuntu-latest
     timeout-minutes: 5
     needs: profile-validate
@@ -257,6 +344,9 @@ jobs:
 
       - name: Run cross-constraint linter
         run: node next/ci/lint-cross-constraints.mjs
+
+      - name: Run delivery guardrail linter (FR-D2, warnings only)
+        run: node next/ci/lint-delivery.mjs
 
   build-shacl:
     name: JSON -> SHACL transpiler (next/ci/json-to-shacl.mjs)

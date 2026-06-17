@@ -6,6 +6,8 @@
   "type": "object",
   "required": ["profileId", "version", "displayName", "attributes"],
   "properties": {
+    "_comment": {"type": "string", "description": "Optional doc/meta key (e.g. demo/example fixtures). Ignored by consumers."},
+    "_example": {"type": "boolean", "description": "Optional meta flag: marks this as an example/demo fixture, not a canonical profile."},
     "profileId": {
       "type": "string",
       "pattern": "^SMProfile-[A-Za-z0-9][A-Za-z0-9-]+$"
@@ -55,7 +57,9 @@
           "promotion": {
             "type": "string",
             "enum": ["raw", "aggregate", "on_change", "on_cycle_end"]
-          }
+          },
+          "quality": {"$ref": "#/definitions/quality"},
+          "semantics": {"$ref": "#/definitions/semantics"}
         },
         "additionalProperties": false,
         "allOf": [
@@ -101,11 +105,43 @@
       },
       "additionalProperties": true
     },
+    "semantics": {"$ref": "#/definitions/semantics"},
     "kgNodeLabel": {"type": "string"},
     "kgIdProperty": {"type": "string"},
     "companionSpec": {"type": "string"},
     "opcuaTypeDefinition": {"type": "string"},
     "deviceClass": {"type": "string"}
   },
-  "additionalProperties": false
+  "additionalProperties": false,
+  "definitions": {
+    "quality": {
+      "type": "object",
+      "description": "Optional next/-only attribute facet (FR-SDC2). OPC-UA StatusCode/Quality propagation policy — today the source StatusCode is discarded at the edge. 'onBad' = edge behaviour when the source quality is not Good: drop the sample, flag it (forward with a quality marker), or hold the last good value. 'nullFlavor' = HL7/ISO null-flavor token to emit when a value is absent/uncertain. Optional everywhere; absent = legacy forward-as-is behaviour.",
+      "properties": {
+        "onBad": {"type": "string", "enum": ["drop", "flag", "hold"]},
+        "nullFlavor": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "semantics": {
+      "description": "Optional next/-only facet (FR-SDC3). IRI reference(s) grounding this profile/attribute in an external vocabulary (CESMII SM, ISO/IEC, BFO, …) for KG-Builder node enrichment. Either a single prefixed IRI string, an array of them, or an object form ({ $ref, sameAs[] }). Prefixed CURIE form 'prefix:local' (cesmii:/iso:/iec:/bfo:/qudt:/unece:) or an absolute http(s) IRI.",
+      "oneOf": [
+        {"$ref": "#/definitions/iri"},
+        {"type": "array", "items": {"$ref": "#/definitions/iri"}, "minItems": 1},
+        {
+          "type": "object",
+          "properties": {
+            "$ref": {"$ref": "#/definitions/iri"},
+            "sameAs": {"type": "array", "items": {"$ref": "#/definitions/iri"}},
+            "label": {"type": "string"}
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "iri": {
+      "type": "string",
+      "pattern": "^(cesmii|iso|iec|bfo|qudt|unece|sosa|ssn|saref|om|skos|rdfs|owl):[A-Za-z0-9_./#-]+$|^https?://[^\\s]+$"
+    }
+  }
 }
