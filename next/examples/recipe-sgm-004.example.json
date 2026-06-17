@@ -1,0 +1,33 @@
+{
+  "$comment": "DEMO/EXAMPLE ARTIFACT (next/examples/, not loaded by it-edge, not bound to any source). Shows the FULL injection-molding recipe (Einstellparameter / SOLL) for the part currently produced on sgm-004, and marks which of these parameters are monitored live as SDC constraints on the edge. The 5 monitored params map 1:1 to the 'recipe_' constraints in next/profiles/machines/injection-molding-machine.json. The IST values are read from the live sim-v5 source (sources/opcua/opcua-sgm-004-processdata.json); out-of-band IST raises a 'recipe_' constraint deviation in the Quality MOM lane (/operations).",
+  "recipeId": "RECIPE-sgm-004-PA66GF30-housing-A",
+  "version": "1.0.0",
+  "machineId": "sgm-004",
+  "profileRef": "SMProfile-InjectionMoldingMachine",
+  "article": "housing-A (PA66-GF30)",
+  "mould": "mould-A",
+  "description": "Spritzguss-Rezept (Einstellparameter / SOLL) fuer das aktuell auf sgm-004 gefertigte Teil. Viele Parameter; die mit monitored=true markierten fuenf sind als SDC-Constraints live ueberwacht.",
+  "parameters": [
+    { "param": "resin", "soll": "PA66-GF30", "unit": "", "monitored": false },
+    { "param": "dryerTempC", "soll": 80, "unit": "degC", "monitored": false },
+    { "param": "dryerResidenceTargetMin", "soll": 240, "unit": "min", "monitored": false },
+    { "param": "barrelZone1TempC", "soll": 270, "unit": "degC", "monitored": false },
+    { "param": "barrelZone2TempC", "soll": 280, "unit": "degC", "monitored": false },
+    { "param": "nozzleTempC", "soll": 285, "unit": "degC", "monitored": false },
+
+    { "param": "hotrunnerTempC", "soll": 230, "tolerance": [225, 234], "unit": "degC", "monitored": true, "constraintId": "recipe_hotrunner_temp_band", "smAttribute": "hotrunnerTempC", "tsTopic": "ns=1;s=Machine/typeSpecific/cavities/[0]/hotrunnerTempC" },
+    { "param": "partMass_g", "soll": 10.35, "tolerance": [10.2, 10.45], "unit": "g", "monitored": true, "constraintId": "recipe_part_mass_band", "smAttribute": "partMass_g", "tsTopic": "ns=1;s=Machine/typeSpecific/cavities/[0]/partMass_g", "note": "Recipe-SOLL bewusst enger als aktueller Ist (Ist driftet bis ~10.52 g) gewaehlt — erkennt Ueberfuellung/Drift und garantiert die Demo-Deviation." },
+    { "param": "cushionMm", "soll": 6.0, "tolerance": [4.5, 7.0], "unit": "mm", "monitored": true, "constraintId": "recipe_cushion_band", "smAttribute": "cushionMm", "tsTopic": "ns=1;s=Machine/typeSpecific/phase/cushionMm" },
+    { "param": "peakPressureBar", "soll": 510, "tolerance": [450, 560], "unit": "bar", "monitored": true, "constraintId": "recipe_peak_pressure_band", "gate": "inCycle==true", "smAttribute": "peakPressureBar", "tsTopic": "ns=1;s=Machine/typeSpecific/injection/peakPressureBar" },
+    { "param": "holdPressureBar", "soll": 340, "tolerance": [300, 380], "unit": "bar", "monitored": true, "constraintId": "recipe_hold_pressure_band", "gate": "inCycle==true", "smAttribute": "holdPressureBar", "tsTopic": "ns=1;s=Machine/typeSpecific/injection/holdPressureBar" },
+
+    { "param": "injectionSpeedMmPerSec", "soll": 65, "unit": "mm/s", "monitored": false },
+    { "param": "backPressureBar", "soll": 120, "unit": "bar", "monitored": false },
+    { "param": "screwRPM", "soll": 180, "unit": "rpm", "monitored": false },
+    { "param": "coolingTimeSec", "soll": 12, "unit": "s", "monitored": false },
+    { "param": "clampForceKn", "soll": 1200, "unit": "kN", "monitored": false },
+    { "param": "shotVolumeCm3", "soll": 38, "unit": "cm3", "monitored": false }
+  ],
+  "monitoredCount": 5,
+  "note": "Gate-Attribut fuer Druck-Regeln ist smAttribute 'inCycle' (ns=1;s=Machine/typeSpecific/shot/inCycle, Boolean). Ausserhalb des Zyklus fallen peak/hold-Druck auf 0; das Gate verhindert ein False-Raise."
+}
