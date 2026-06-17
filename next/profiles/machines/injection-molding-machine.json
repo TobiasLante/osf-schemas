@@ -1,0 +1,174 @@
+{
+  "profileId": "SMProfile-InjectionMoldingMachine",
+  "version": "2.1.0",
+  "standard": "CESMII",
+  "displayName": "Injection Molding Machine (Spritzgussmaschine)",
+  "description": "next/ pilot — copy of profiles/machines/injection-molding-machine.json + SDC constraints facet. Declares the six live sim-v5 process attributes that the deployed source (sources/opcua/opcua-sgm-004-processdata.json) actually maps (hotrunnerTempC, partMass_g, cushionMm, peakPressureBar, holdPressureBar, inCycle) and carries a 'recipe_' constraints block: the active recipe / Einstellparameter (SOLL) of the injection-molding job, monitored on the edge against the live process values (IST). Out-of-band IST -> SDC constraint deviation in the Quality MOM lane. NOTE: this profile intentionally diverges from the EUROMAP77 canonical attribute names (Act_Temp_*, Act_Pressure_*) because the live sim source maps the generic shot/cavity smAttributes — the constraints MUST reference the names that are actually delivered (resolveProfileConstraints rejects unknown attrs at codegen).",
+  "parentType": "Machine",
+  "attributes": [
+    {
+      "name": "hotrunnerTempC",
+      "dataType": "Double",
+      "required": false,
+      "category": "Process",
+      "unit": "degC",
+      "description": "Ist-Heisskanal-Temperatur Kavitaet 0 (Recipe-Param: Heisskanal-Soll).",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
+    },
+    {
+      "name": "partMass_g",
+      "dataType": "Double",
+      "required": false,
+      "category": "Quality",
+      "unit": "g",
+      "description": "Ist-Teilgewicht Kavitaet 0 (Recipe-Param: Soll-Teilgewicht / Toleranzband).",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
+    },
+    {
+      "name": "cushionMm",
+      "dataType": "Double",
+      "required": false,
+      "category": "Process",
+      "unit": "mm",
+      "description": "Ist-Restmassepolster (Cushion) (Recipe-Param: Soll-Polster / Toleranzband).",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
+    },
+    {
+      "name": "peakPressureBar",
+      "dataType": "Double",
+      "required": false,
+      "category": "Process",
+      "unit": "bar",
+      "description": "Ist-Spitzeneinspritzdruck (Recipe-Param: Soll-Einspritzdruck-Band; nur im aktiven Zyklus geprueft).",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
+    },
+    {
+      "name": "holdPressureBar",
+      "dataType": "Double",
+      "required": false,
+      "category": "Process",
+      "unit": "bar",
+      "description": "Ist-Nachdruck (Recipe-Param: Soll-Nachdruck-Band; nur im aktiven Zyklus geprueft).",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
+    },
+    {
+      "name": "inCycle",
+      "dataType": "Boolean",
+      "required": false,
+      "category": "Process",
+      "description": "Maschine ist im Einspritz-/Bearbeitungszyklus (TRUE/FALSE). Zyklus-Gate fuer die druckbezogenen Recipe-Regeln — ausserhalb des Zyklus fallen die Druecke auf 0, dann darf das Band nicht feuern.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "USES_MOULD",
+      "target": "Mould"
+    }
+  ],
+  "constraints": {
+    "recipe_hotrunner_temp_band": {
+      "description": "Recipe/Einstellparameter: Heisskanal-Temperatur muss im Soll-Band [225,234] degC liegen. Ausserhalb -> Materialschaedigung / Massabweichung am Teil.",
+      "require": {
+        "attr": "hotrunnerTempC",
+        "op": "between",
+        "value": [225, 234]
+      },
+      "severity": "warning",
+      "discrepancyClass": "constraint",
+      "concern": "operations",
+      "mom_category": "quality",
+      "accountable_role": "Qualitaetssicherung",
+      "since": "2026-06-17"
+    },
+    "recipe_part_mass_band": {
+      "description": "Recipe/Einstellparameter: Teilgewicht muss im Soll-Band [10.2,10.45] g liegen (Recipe-SOLL bewusst enger als aktueller Ist gewaehlt, um Ueberfuellung/Drift frueh zu erkennen). Ausserhalb -> Ueber-/Unterspritzung, Ausschuss.",
+      "require": {
+        "attr": "partMass_g",
+        "op": "between",
+        "value": [10.2, 10.45]
+      },
+      "severity": "error",
+      "discrepancyClass": "constraint",
+      "concern": "operations",
+      "mom_category": "quality",
+      "accountable_role": "Qualitaetssicherung",
+      "since": "2026-06-17"
+    },
+    "recipe_cushion_band": {
+      "description": "Recipe/Einstellparameter: Restmassepolster (Cushion) muss im Soll-Band [4.5,7.0] mm liegen. Ausserhalb -> Schwankung im Nachdruckprofil, Massabweichung.",
+      "require": {
+        "attr": "cushionMm",
+        "op": "between",
+        "value": [4.5, 7.0]
+      },
+      "severity": "warning",
+      "discrepancyClass": "constraint",
+      "concern": "operations",
+      "mom_category": "quality",
+      "accountable_role": "Qualitaetssicherung",
+      "since": "2026-06-17"
+    },
+    "recipe_peak_pressure_band": {
+      "description": "Recipe/Einstellparameter: Spitzeneinspritzdruck muss im aktiven Zyklus im Soll-Band [450,560] bar liegen. Zyklus-Gate (inCycle==true), da der Druck zwischen den Schuessen auf 0 faellt.",
+      "when": {
+        "attr": "inCycle",
+        "op": "eq",
+        "value": true
+      },
+      "require": {
+        "attr": "peakPressureBar",
+        "op": "between",
+        "value": [450, 560]
+      },
+      "severity": "warning",
+      "discrepancyClass": "constraint",
+      "concern": "operations",
+      "mom_category": "quality",
+      "accountable_role": "Qualitaetssicherung",
+      "since": "2026-06-17"
+    },
+    "recipe_hold_pressure_band": {
+      "description": "Recipe/Einstellparameter: Nachdruck muss im aktiven Zyklus im Soll-Band [300,380] bar liegen. Zyklus-Gate (inCycle==true), da der Druck zwischen den Schuessen auf 0 faellt.",
+      "when": {
+        "attr": "inCycle",
+        "op": "eq",
+        "value": true
+      },
+      "require": {
+        "attr": "holdPressureBar",
+        "op": "between",
+        "value": [300, 380]
+      },
+      "severity": "warning",
+      "discrepancyClass": "constraint",
+      "concern": "operations",
+      "mom_category": "quality",
+      "accountable_role": "Qualitaetssicherung",
+      "since": "2026-06-17"
+    }
+  },
+  "kgNodeLabel": "InjectionMoldingMachine",
+  "kgIdProperty": "machine_id",
+  "companionSpec": "EUROMAP77",
+  "opcuaTypeDefinition": "InjectionMouldingMachineType",
+  "deviceClass": "Injection Moulding Machine",
+  "isa95": {
+    "objectModel": "Equipment",
+    "momDomain": "production",
+    "equipmentLevel": "WorkUnit",
+    "equipmentClass": "InjectionMoldingMachine"
+  }
+}
