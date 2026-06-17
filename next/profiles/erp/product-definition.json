@@ -1,0 +1,166 @@
+{
+  "profileId": "SMProfile-ProductDefinition",
+  "version": "1.0.0",
+  "standard": "ISA-95",
+  "displayName": "Product Definition (Rezept / Spezifikation — SOLL-Master)",
+  "description": "next/ v4 — ISA-95 Part 2 ProductDefinition: der SOLL/Spec-Master eines Produkts (Rezept/Spezifikation). Vervollstaendigt das ISA-95-Triple der Definition-Leg (ProductDefinition -> ProductionRequest/OperationsRequest -> OperationsResponse): die ProductDefinition traegt die produkt-SPEZIFISCHEN Sollwerte und Toleranzbaender (param_name/target_value/lo/hi/unit), gegen die der laufende Auftrag geprueft wird. EINE Regel liefert damit pro Artikel ANDERE Grenzen (z.B. 'between recipe:temp_z1_band'), aufgeloest zentral im it-evaluator aus dem aktiven Rezept-Binding (laufende OperationsRequest -> article_ref x equipment_class_ref x setup_ref -> ProductDefinition-Param). Kundenneutral — KEINE plant-/produkt-spezifischen Werte; die generischen Setpoint-/Toleranz-Felder sind die BEISPIEL-Struktur, instanziiert pro Kundenrezept. Referenz-Entitaet (Stammdaten) — KEINE single-entity Deviation; der constraints-Block bleibt bewusst leer, weil die Spec die RHS LIEFERT, nicht selbst verletzt. DORMANT bis eine reale Rezept-Stammdatenquelle bindet (offene Business-/Datenfrage) — bis dahin werden valueFrom-Constraints im it-evaluator sauber uebersprungen, nie falsch geraised.",
+  "parentType": null,
+  "attributes": [
+    {
+      "name": "product_definition_no",
+      "dataType": "String",
+      "required": true,
+      "isId": true,
+      "isKey": true,
+      "category": "Core",
+      "description": "Identitaet der ProductDefinition (Rezept-/Spez-Nr). Join-Anker fuer das aktive Rezept-Binding.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "name",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Bezeichnung der Spezifikation / des Rezepts.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "version_label",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Rezept-Versionsbezeichner (z.B. Freigabe-/Revisionsstand). Identitaet ist (product_definition_no, version_label) wenn das ERP Versionen fuehrt.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "status",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Lebenszyklus-/Freigabestatus der Spezifikation (z.B. draft, released, obsolete). Nur 'released' wird vom Resolver gebunden.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "article_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "Artikel/Material, fuer den diese Spezifikation gilt (article_no — SPEC_FOR Article). Erste Achse des Rezept-Bindings.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "equipment_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "Equipment-Klasse/-Linie, fuer die die Spec gilt (ISA-95 EquipmentClass — APPLIES_TO EquipmentClass). Zweite Achse des Rezept-Bindings; eine Spec kann pro Equipment-Klasse andere Baender tragen.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "setup_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "Ruest-/Setup-Modus, fuer den die Spec gilt (z.B. Werkzeug-/Programmsatz). Dritte Achse des Rezept-Bindings (article x equipment_class x setup).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "param_name",
+      "dataType": "String",
+      "required": false,
+      "category": "Spec",
+      "description": "BEISPIEL-Struktur eines Setpoint/Toleranz-Eintrags: Name des Spec-Parameters (z.B. 'temp_z1'). Im realen ERP ist die Parameterliste typ. eine 1:n-Kindtabelle (ein ProductSegment/ProcessSegment mit n Parametern); dieses Profil zeigt die generische Form EINES Parameters. Der valueFrom-Ref 'recipe:<param_name>' adressiert genau diesen Eintrag.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "target_value",
+      "dataType": "Double",
+      "required": false,
+      "category": "Spec",
+      "description": "BEISPIEL-Struktur: Sollwert (Setpoint) des Parameters — RHS fuer op=eq/lte/gte-Regeln (z.B. require Act_X lte recipe:cycle_time).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "lo",
+      "dataType": "Double",
+      "required": false,
+      "category": "Spec",
+      "description": "BEISPIEL-Struktur: untere Toleranzgrenze des Parameters. (lo, hi) bilden das [lo,hi]-Band, das eine between-Regel als RHS aufloest (recipe:<param>_band).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "hi",
+      "dataType": "Double",
+      "required": false,
+      "category": "Spec",
+      "description": "BEISPIEL-Struktur: obere Toleranzgrenze des Parameters (siehe lo).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "unit",
+      "dataType": "String",
+      "required": false,
+      "category": "Spec",
+      "description": "BEISPIEL-Struktur: Einheit von target_value/lo/hi (z.B. degC, s, mm).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "updated_at",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    }
+  ],
+  "relationships": [
+    { "type": "SPEC_FOR", "target": "Article", "targetIdProp": "article_no", "description": "Die Spezifikation gilt FUER diesen Artikel (article_ref -> Article.article_no). Erste Achse des Rezept-Bindings." },
+    { "type": "APPLIES_TO", "target": "EquipmentClass", "description": "Optional auf eine Equipment-Klasse/-Linie eingeschraenkt (equipment_class_ref). Zweite Achse des Bindings." }
+  ],
+  "kgNodeLabel": "ProductDefinition",
+  "kgIdProperty": "product_definition_no",
+  "category": "business",
+  "isa95": {
+    "objectModel": "ProductDefinition",
+    "momDomain": "production",
+    "level": 3,
+    "note": "ISA-95 Part 2 ProductDefinition = der produkt-spezifische Spec-/Rezept-Master (SOLL). Definition-Leg des ISA-95-Triples: ProductDefinition -> ProductionRequest/OperationsRequest (SMProfile-ProductionOrder) -> OperationsResponse (SMProfile-OperationsResponse). Die ProductDefinition liefert die per-Artikel-Setpoints/Baender, gegen die der laufende Auftrag geprueft wird; der it-evaluator loest sie zentral aus dem aktiven Rezept-Binding (OperationsRequest.article_ref x equipment_class_ref x setup_ref) als RHS einer valueFrom-Regel (recipe:<param>) auf. Ein ProductSegment/ProcessSegment der ProductDefinition traegt im Vollmodell die n Parameter (param_name/target_value/lo/hi/unit); hier als generische EINZEL-Parameter-Struktur gezeigt (kundenneutral).",
+    "propertyMap": {
+      "product_definition_no": "ProductDefinition.ID",
+      "name": "ProductDefinition.Description",
+      "version_label": "ProductDefinition.Version",
+      "article_ref": "ProductDefinition.ProductSegment.MaterialSpecification.MaterialDefinitionID",
+      "equipment_class_ref": "ProductDefinition.ProductSegment.EquipmentSpecification.EquipmentClassID",
+      "param_name": "ProductDefinition.ProductSegment.Parameter.ID",
+      "target_value": "ProductDefinition.ProductSegment.Parameter.Value",
+      "lo": "ProductDefinition.ProductSegment.Parameter.ValueLow",
+      "hi": "ProductDefinition.ProductSegment.Parameter.ValueHigh",
+      "unit": "ProductDefinition.ProductSegment.Parameter.UnitOfMeasure"
+    }
+  }
+}

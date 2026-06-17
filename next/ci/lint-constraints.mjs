@@ -107,9 +107,9 @@ function checkPredicateValue(pred, attr, attrs, label, errors) {
     if (pred.value !== undefined || pred.valueAttr !== undefined) {
       errors.push(`${label}: predicate 'valueFrom' is mutually exclusive with 'value'/'valueAttr'`);
     }
-    if (!/^(recipe|definition)\.[A-Za-z0-9_.-]+$/.test(pred.valueFrom)) {
+    if (!/^(recipe|definition):[A-Za-z0-9_.-]+$/.test(pred.valueFrom)) {
       errors.push(
-        `${label}: valueFrom "${pred.valueFrom}" must be a reserved spec ref (recipe.<param> / definition.<param>)`
+        `${label}: valueFrom "${pred.valueFrom}" must be a reserved spec ref (recipe:<param> / definition:<param>)`
       );
     }
     return;

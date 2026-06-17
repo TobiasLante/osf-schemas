@@ -1,0 +1,66 @@
+{
+  "profileId": "SMProfile-Example-RecipeOven",
+  "version": "1.0.0",
+  "standard": "ISA-95",
+  "displayName": "Example — recipe-driven process band (valueFrom demo, NOT live)",
+  "description": "DEMO/EXAMPLE ONLY (next/examples/, not loaded by it-edge, not bound to any source). Shows the AC-3c spec demo: a constraint whose RHS is the active recipe / ISA-95 ProductDefinition via valueFrom (colon form 'recipe:<param>', spec-conformant). EINE Regel, pro Artikel ANDERE Grenzen — das [lo,hi]-Band kommt aus der ProductDefinition (SMProfile-ProductDefinition), zentral im it-evaluator aus dem aktiven Rezept-Binding aufgeloest. DORMANT solange keine reale Rezept-Stammdatenquelle gebunden ist: der it-evaluator UEBERSPRINGT valueFrom-Constraints (kein Raise, kein Crash) — siehe RECIPE_SOURCE-Config im it-evaluator. Dieses Profil ist absichtlich NICHT unter next/profiles/ und an keine Source gebunden, damit es live nichts un-evaluierbar macht.",
+  "parentType": null,
+  "attributes": [
+    {
+      "name": "Act_Temp_Z1",
+      "dataType": "Double",
+      "required": false,
+      "category": "Process",
+      "unit": "degC",
+      "description": "Ist-Temperatur Zone 1 (Beispiel-Prozesswert).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "Act_State_Running",
+      "dataType": "Boolean",
+      "required": false,
+      "category": "Process",
+      "description": "Maschine laeuft (Precondition fuer die Band-Pruefung).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "article_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "Gefertigter Artikel (Bindungsachse fuer die aktive ProductDefinition).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    }
+  ],
+  "relationships": [
+    { "type": "SPEC_BOUND_TO", "target": "ProductDefinition", "description": "Das Toleranzband der untenstehenden Regel wird aus der aktiven ProductDefinition (article_ref x equipment x setup) aufgeloest." }
+  ],
+  "constraints": {
+    "temp_z1_in_recipe_band": {
+      "description": "Zone-1-Temperatur muss im aktiven Rezept-Band liegen (RHS aus ProductDefinition via valueFrom; DORMANT bis Rezeptquelle bindet).",
+      "when": { "attr": "Act_State_Running", "op": "eq", "value": true },
+      "require": { "attr": "Act_Temp_Z1", "op": "between", "valueFrom": "recipe:temp_z1_band" },
+      "severity": "error",
+      "discrepancyClass": "constraint",
+      "concern": "operations",
+      "mom_category": "quality",
+      "accountable_role": "Qualitaetssicherung",
+      "since": "2026-06-17"
+    }
+  },
+  "kgNodeLabel": "ExampleRecipeOven",
+  "kgIdProperty": "Act_State_Running",
+  "category": "business",
+  "isa95": {
+    "objectModel": "OperationsResponse",
+    "momDomain": "quality",
+    "level": 3,
+    "note": "Beispiel-Prozessentitaet (IST) deren Toleranzband aus der ProductDefinition (SOLL) via valueFrom kommt. DEMO ONLY — nicht kanonisch, an keine Source gebunden."
+  }
+}
