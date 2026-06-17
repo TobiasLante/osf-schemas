@@ -85,8 +85,8 @@
         },
         "valueFrom": {
           "type": "string",
-          "pattern": "^(recipe|definition)\\.[A-Za-z0-9_.-]+$",
-          "description": "Reference the RHS to an EXTERNAL spec value supplied at runtime — the active recipe / ISA-95 ProductDefinition for the entity. The recipe (Definition leg: Definition->Request->Response) carries product-specific setpoints + tolerance bands, so the SAME rule yields different limits per article (e.g. 'recipe.temp_z1_band' -> a [lo,hi] band for op='between', or a setpoint for op='lte'). Resolved CENTRALLY by the it-evaluator from the active-recipe binding (running FO -> Article x Machine x SetupMode); the edge OT detector ignores it (literals only). DORMANT until a recipe source binds the value (outcome 'unknown' -> no false raise). This RESERVES the hook only — recipe SOURCING/management is built when a MES/spec source exists, wherever the recipe comes from. Mutually exclusive with value/valueAttr."
+          "pattern": "^(recipe|definition):[A-Za-z0-9_.-]+$",
+          "description": "Reference the RHS to an EXTERNAL spec value supplied at runtime — the active recipe / ISA-95 ProductDefinition for the entity. The recipe (Definition leg: Definition->Request->Response) carries product-specific setpoints + tolerance bands, so the SAME rule yields different limits per article (e.g. 'recipe:temp_z1_band' -> a [lo,hi] band for op='between', or a setpoint for op='lte'). Resolved CENTRALLY by the it-evaluator from the active-recipe binding (running FO -> Article x Machine x SetupMode); the edge OT detector ignores it (literals only). DORMANT until a recipe source binds the value (outcome 'unknown' -> no false raise). This RESERVES the hook only — recipe SOURCING/management is built when a MES/spec source exists, wherever the recipe comes from. Mutually exclusive with value/valueAttr."
         }
       },
       "allOf": [
