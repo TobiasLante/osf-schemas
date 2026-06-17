@@ -3,7 +3,7 @@
   "version": "0.2.0",
   "standard": "ISA-95",
   "displayName": "Area (ISA-95 Equipment — Ebene 3, Fertigungsbereich)",
-  "description": "next/ v4 — Equipment-Hierarchie, Ebene 3. Eine Area (Fertigungsbereich) gehoert zu einem Site und gruppiert ProcessCells/WorkCenter. UNS-Segment 2 (area). Master-Data-Entitaet. Instanz im Anker anchor-rockwool-vam5: area_id='WL' (Wool production).",
+  "description": "next/ v4 — Equipment-Hierarchie, Ebene 3. Eine Area (Fertigungsbereich) gehoert zu einem Site und gruppiert ProcessCells/WorkCenter. UNS-Segment 2 (area). Master-Data-Entitaet. Kundenspezifische Instanzdaten kommen aus einem separaten Demo-Anker (siehe next/examples/).",
   "parentType": null,
   "attributes": [
     {
@@ -11,7 +11,7 @@
       "dataType": "String",
       "required": true,
       "category": "Core",
-      "description": "Eindeutige Area-ID (UNS-Segment 2). VAM5-Modell: 'WL' (Wool production).",
+      "description": "Eindeutige Area-ID (UNS-Segment 2).",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -21,7 +21,7 @@
       "dataType": "String",
       "required": false,
       "category": "Core",
-      "description": "Anzeigename des Fertigungsbereichs (VAM5: 'Wool production').",
+      "description": "Anzeigename des Fertigungsbereichs.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"

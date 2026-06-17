@@ -3,7 +3,7 @@
   "version": "0.2.0",
   "standard": "ISA-95",
   "displayName": "Site (ISA-95 Equipment — Ebene 2, Werk/Standort)",
-  "description": "next/ v4 — Equipment-Hierarchie, Ebene 2. Ein Site (Werk/Standort) gehoert zu einem Enterprise und gruppiert Areas. UNS-Segment 1 (site). Master-Data-Entitaet. Site ist auch der Anker fuer site-scoped Domains (ERP, QMS). Instanz im Anker anchor-rockwool-vam5: site_id='VAM' (Vamdrup).",
+  "description": "next/ v4 — Equipment-Hierarchie, Ebene 2. Ein Site (Werk/Standort) gehoert zu einem Enterprise und gruppiert Areas. UNS-Segment 1 (site). Master-Data-Entitaet. Site ist auch der Anker fuer site-scoped Domains (ERP, QMS). Kundenspezifische Instanzdaten kommen aus einem separaten Demo-Anker (siehe next/examples/).",
   "parentType": null,
   "attributes": [
     {
@@ -11,7 +11,7 @@
       "dataType": "String",
       "required": true,
       "category": "Core",
-      "description": "Eindeutige Site-ID (UNS-Segment 1). VAM5-Modell: 'VAM' (Vamdrup).",
+      "description": "Eindeutige Site-ID (UNS-Segment 1).",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -21,7 +21,7 @@
       "dataType": "String",
       "required": false,
       "category": "Core",
-      "description": "Anzeigename des Werks/Standorts (VAM5: 'Vamdrup').",
+      "description": "Anzeigename des Werks/Standorts.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"

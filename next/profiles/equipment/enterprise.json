@@ -3,7 +3,7 @@
   "version": "0.2.0",
   "standard": "ISA-95",
   "displayName": "Enterprise (ISA-95 Equipment — Ebene 1)",
-  "description": "next/ v4 — Equipment-Hierarchie, Ebene 1 (oberste). Das echte Rockwool-VAM5-Modell ist ein 7-stufiges physisches ISA-88-Modell, genestet in den oberen ISA-95-Ebenen: die Ebenen 1-3 (Enterprise/Site/Area) sind reine ISA-95-Rollenebenen, die Ebenen 4-7 (ProcessCell/Unit/EquipmentModule/ControlModule) sind das ISA-88-physische-Modell. Ein Enterprise gruppiert Sites via PART_OF (Kind-Seite). Master-Data-Entitaet (kein Telemetrie-Feed). Instanz im Anker anchor-rockwool-vam5: enterprise_id='RW' (Rockwool).",
+  "description": "next/ v4 — Equipment-Hierarchie, Ebene 1 (oberste). Das vollstaendige Modell ist ein 7-stufiges physisches ISA-88-Modell, genestet in den oberen ISA-95-Ebenen: die Ebenen 1-3 (Enterprise/Site/Area) sind reine ISA-95-Rollenebenen, die Ebenen 4-7 (ProcessCell/Unit/EquipmentModule/ControlModule) sind das ISA-88-physische-Modell. Ein Enterprise gruppiert Sites via PART_OF (Kind-Seite). Master-Data-Entitaet (kein Telemetrie-Feed). Kundenspezifische Instanzdaten kommen aus einem separaten Demo-Anker (siehe next/examples/), nicht aus diesem generischen TYP-Asset.",
   "parentType": null,
   "attributes": [
     {
@@ -11,7 +11,7 @@
       "dataType": "String",
       "required": true,
       "category": "Core",
-      "description": "Eindeutige Enterprise-ID (UNS-Segment 0). VAM5-Modell: 'RW' (Rockwool).",
+      "description": "Eindeutige Enterprise-ID (UNS-Segment 0).",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -21,7 +21,7 @@
       "dataType": "String",
       "required": false,
       "category": "Core",
-      "description": "Anzeigename des Unternehmens (VAM5: 'Rockwool').",
+      "description": "Anzeigename des Unternehmens.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "standard": "ISA-95",
   "displayName": "EquipmentModule (Equipment — Ebene 6, ISA-88 Equipment Module)",
-  "description": "next/ v4 — Equipment-Hierarchie, Ebene 6 = ISA-88 'Equipment Module'. Im VAM5-Modell die UnitModuleName-Spalte: funktionale Baugruppen innerhalb einer Prozessstufe (z.B. unter Spinning die Spinner-Gruppe, unter Melting die Filter-/Rauchgas-Module). Ein EquipmentModule gehoert zu genau einer Unit; manche tragen darunter ControlModules. UNS-Segment 5. 174 distinkte Knoten im VAM5-Modell (WCUnit-Codes wiederholen sich, daher pfad-praefixierte IDs).",
+  "description": "next/ v4 — Equipment-Hierarchie, Ebene 6 = ISA-88 'Equipment Module'. Funktionale Baugruppen innerhalb einer Prozessstufe (z.B. eine Brenner-Gruppe, ein Filter-/Abgas-Modul). Ein EquipmentModule gehoert zu genau einer Unit; manche tragen darunter ControlModules. UNS-Segment 5. Da Modul-Codes ueber Units hinweg wiederkehren, werden pfad-praefixierte IDs empfohlen.",
   "parentType": null,
   "attributes": [
     {
@@ -11,7 +11,7 @@
       "dataType": "String",
       "required": true,
       "category": "Core",
-      "description": "Eindeutige EquipmentModule-ID (UNS-Segment 5). VAM5: pfad-praefixiert 'VAM5.<WCUnit>.<UnitModule>' (z.B. 'VAM5.SP.CO'), da UnitModule-Codes ueber Units hinweg kollidieren. Roher Code in module_code.",
+      "description": "Eindeutige EquipmentModule-ID (UNS-Segment 5). Empfehlung: pfad-praefixiert '<Linie>.<UnitCode>.<ModuleCode>', da Modul-Codes ueber Units hinweg kollidieren. Roher Code in module_code.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -21,7 +21,7 @@
       "dataType": "String",
       "required": false,
       "category": "Core",
-      "description": "Roher UnitModule-Code aus der xlsx (z.B. 'CO', 'BU', 'FG').",
+      "description": "Roher EquipmentModule-Code (Baugruppen-Kuerzel).",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -31,7 +31,7 @@
       "dataType": "String",
       "required": false,
       "category": "Core",
-      "description": "Anzeigename der Baugruppe (z.B. 'Spinner left', 'Filter fines').",
+      "description": "Anzeigename der Baugruppe.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
