@@ -8,6 +8,9 @@
   "parkedReason": "Sim füllt lieferdatum_ist (actual_end_time) nie → effektiv = das live order_overdue. Scharf sobald der Sim das Ist-Datum liefert (parked entfernen).",
   "severity": "warning",
   "discrepancyClass": "multi_source",
+  "concern": "operations",
+  "mom_category": "production",
+  "accountable_role": "Fertigungssteuerung",
   "when": { "leftAttr": "status", "eq": "offen" },
   "left": {
     "profileRef": "SMProfile-OperationsResponse",

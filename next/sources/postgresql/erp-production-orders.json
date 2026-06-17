@@ -1,6 +1,6 @@
 {
   "sourceId": "erp-production-orders",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "sourceType": "postgresql",
   "syncType": "polling",
   "profileRef": "SMProfile-ProductionOrder",
@@ -19,6 +19,8 @@
     { "column": "geplante_stueckzahl", "smAttribute": "qty_planned" },
     { "column": "geplantes_end_datum", "smAttribute": "planned_end_time" },
     { "column": "material_verfuegbar_ab", "smAttribute": "material_ready_at" },
+    { "column": "kunde_bestellmenge", "smAttribute": "customer_order_qty" },
+    { "column": "kunde_lieferdatum", "smAttribute": "customer_due_date" },
     {
       "column": "order_status",
       "smAttribute": "status",
@@ -37,5 +39,5 @@
     { "type": "PRODUCES", "fkColumn": "article_no", "targetIdProp": "article_no" },
     { "type": "EXECUTED_AT", "fkColumn": "machine_no", "targetIdProp": "machine_id" }
   ],
-  "description": "next/ v4 — REAL ERP (erpdb.llm_test_v3.machineid_nodeid) projected onto the Level-3 MOM OperationsRequest = PLAN/SOLL (SMProfile-ProductionOrder). Replaces the sim-v5-erp-production-orders REST projection in the live cutover. order_status is a coded integer (1=angelegt/offen, 2=freigegeben, 3=in_arbeit, 4=rückgemeldet, 5=abgeschlossen — inferred from the produced-vs-planned correlation); the valueMap normalises it onto readable canonical tokens. NO filter (full real backlog per the cutover decision) — all lifecycle states ingested incl. the not-yet-released backlog (status 1) and the closed archive (status 5); the qty_shortfall cross-rule only joins the rows that have an OperationsResponse (confirmations exist for status 4+5). Maps ONLY the PLAN fields + join key — the IST (produzierte_stueckzahl) is the dedicated OperationsResponse entity (erp-operations-response, order_confirmations). cycle_time_planned_sec + sales_order_ref + priority have no column in machineid_nodeid → unmapped (optional attrs). Plan-vs-Ist (qty_shortfall) is the it-evaluator cross-source reconcile against OperationsResponse on production_order_no, NOT a single-entity constraint — this profile carries no constraints block."
+  "description": "next/ v4 — REAL ERP (erpdb.llm_test_v3.machineid_nodeid) projected onto the Level-3 MOM OperationsRequest = PLAN/SOLL (SMProfile-ProductionOrder). Replaces the sim-v5-erp-production-orders REST projection in the live cutover. order_status is a coded integer (1=angelegt/offen, 2=freigegeben, 3=in_arbeit, 4=rückgemeldet, 5=abgeschlossen — inferred from the produced-vs-planned correlation); the valueMap normalises it onto readable canonical tokens. NO filter (full real backlog per the cutover decision) — all lifecycle states ingested incl. the not-yet-released backlog (status 1) and the closed archive (status 5); the qty_shortfall cross-rule only joins the rows that have an OperationsResponse (confirmations exist for status 4+5). Maps ONLY the PLAN fields + join key — the IST (produzierte_stueckzahl) is the dedicated OperationsResponse entity (erp-operations-response, order_confirmations). cycle_time_planned_sec + priority have no column in machineid_nodeid → unmapped (optional attrs). sales_order_ref (the KA order-no) is NOT mappable here either: in the real ERP the link is inverse (kundenauftraege.production_order_no → FA) and the single-table edge poller cannot join; parent_order_no is an FA→FA production-order hierarchy (verified: all values FA-prefixed, 0 match a kundenauftrag_nr), NOT a sales order — so it stays unmapped and the KA↔FA link is carried by the customer-orders TRIGGERS edge. Instead the real denormalised customer demand IS mapped: kunde_bestellmenge → customer_order_qty + kunde_lieferdatum → customer_due_date, giving the Plan-vs-Ist deviation the customer quantity + due-date as context without an impossible reverse-join. Plan-vs-Ist (qty_shortfall) is the it-evaluator cross-source reconcile against OperationsResponse on production_order_no, NOT a single-entity constraint — this profile carries no constraints block."
 }

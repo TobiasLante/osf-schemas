@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-ProductionOrder",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "standard": "CESMII",
   "displayName": "Production Order (Fertigungsauftrag / OperationsRequest — PLAN/SOLL)",
   "description": "next/ v4 — Level-3 MOM OperationsRequest = der PLAN/SOLL der Fertigung (B2MML OperationsRequest / ISA-95 Part 4). Die ISA-95-Gegenseite zur OperationsResponse (SMProfile-OperationsResponse = das IST): geplante Menge, geplanter End-Zeitpunkt, Plan-Status. Eine Level-4 SalesOrder (SMProfile-CustomerOrder) TRIGGERS diese L3 OperationsRequest; die OperationsRequest wird EXECUTED_AT einer EquipmentUnit (Equipment-Hierarchie — Captain A; hier nur referenziert). SONDERFALL SIM: der Sim crammt Plan UND Ist auf EINE Order-Zeile (sim-v5-erp-orders: geplante_/produzierte_stueckzahl, lieferdatum_soll/_ist). Dieses Profil ist daher eine DRITTE Projektion derselben REST-Source (source sim-v5-erp-production-orders), die nur die PLAN-Felder + den Join-Key (production_order_no) mappt — eine eigene Entität, kein neuer Producer-Code. Plan-vs-Ist-Deviations (qty_shortfall, late_delivery) sind CROSS-SOURCE-Vergleiche OperationsRequest(qty_planned/planned_end_time) <-> OperationsResponse(quantity_produced/actual_end_time), gejoint auf production_order_no. Sie werden NICHT über den single-entity 'constraints'-Block ausgewertet, sondern vom it-evaluator-Cross-Source-Reconcile (multi_source-Discrepancy, about_order_no). Daher trägt dieses Profil bewusst KEINEN constraints-Block.",
@@ -82,6 +82,26 @@
       "required": false,
       "category": "Planning",
       "description": "Zeitpunkt ab dem das Material verfügbar ist (material_verfuegbar_ab) — Material-Ready-Constraint.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "customer_order_qty",
+      "dataType": "Int32",
+      "required": false,
+      "category": "Planning",
+      "description": "Kundenbestellmenge des auslösenden Auftrags (kunde_bestellmenge — denormalisiert auf der FA). Echtes Quellfeld; ersetzt den im realen ERP nicht beschaffbaren sales_order_ref (die KA-Nr liegt invers auf kundenauftraege.production_order_no, der Single-Table-Edge kann nicht joinen). Gibt der Plan-vs-Ist-Abweichung den Kundendemand als Kontext.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "customer_due_date",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "Kundenliefertermin des auslösenden Auftrags (kunde_lieferdatum — denormalisiert auf der FA). Echtes Quellfeld; gibt der Abweichung den Kundentermin ohne den im Edge unmöglichen Reverse-Join zur SalesOrder.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"

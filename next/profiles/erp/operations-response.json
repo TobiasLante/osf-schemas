@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-OperationsResponse",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "standard": "CESMII",
   "displayName": "Operations Response (Produktions-Ist / Rückmeldung)",
   "description": "next/ v4 — Level-3 MOM OperationsResponse = das IST der Fertigung (B2MML OperationsPerformance / OperationsResponse). Die ISA-95-Gegenseite zur OperationsRequest (ProductionOrder = das PLAN/SOLL): produzierte Menge, tatsächlicher End-Zeitpunkt, Ist-Status. SONDERFALL SIM: der Sim crammt Plan UND Ist auf EINE Order-Zeile (sim-v5-erp-orders: geplante_/produzierte_stueckzahl, lieferdatum_soll/_ist). Dieses Profil ist daher eine ZWEITE Projektion derselben REST-Source (source sim-v5-mom-operations-response), die nur die Ist-Felder + die Join-Keys mappt — eine eigene Entität, kein neuer Producer-Code. Plan-vs-Ist + Cross-Domain-Deviations (late_delivery, qty_shortfall, material_unavailable) sind CROSS-SOURCE-Vergleiche (Request <-> Response <-> Quant) und werden NICHT über den single-entity 'constraints'-Block ausgewertet, sondern vom it-evaluator-Cross-Source-Reconcile (multi_source-Discrepancy, about_order_no). Daher trägt dieses Profil bewusst KEINEN constraints-Block.",
@@ -42,6 +42,16 @@
       "required": false,
       "category": "Execution",
       "description": "Tatsächlich produzierte Stückzahl (Ist). Gegenstück zur OperationsRequest.Quantity (geplante_stueckzahl).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "cycle_time_actual_sec",
+      "dataType": "Double",
+      "required": false,
+      "category": "Execution",
+      "description": "Tatsächlich gemessene Zykluszeit je Stück (s, IST — order_confirmations.cycle_time_actual). Das reale Pendant zur OperationsRequest.cycle_time_planned_sec (SOLL): sobald der Plan-Wert eine echte Quelle bekommt, ist der Cycle-Time-Vergleich Plan-vs-Ist möglich. Im realen ERP existiert NUR der Ist-Wert (keine Plan-Zykluszeit-Spalte; eine Ableitung aus geplantes_start/end_datum ist wegen Datums-Platzhaltern — 86400s-Spans — unbrauchbar).",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
