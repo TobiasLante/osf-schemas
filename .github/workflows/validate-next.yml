@@ -324,6 +324,36 @@ jobs:
             process.exit(fail ? 1 : 0);
           " ${files[@]}
 
+      - name: Validate recipes (next/recipes/**)
+        run: |
+          set -e
+          shopt -s nullglob globstar
+          files=(next/recipes/**/*.json)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "No recipe master-data under next/recipes/ yet — schema in place for when they land (coverage ready)."
+            exit 0
+          fi
+          node -e "
+            const Ajv = require('ajv');
+            const fs = require('fs');
+            const ajv = new Ajv({ strict: false, allErrors: true });
+            const validate = ajv.compile(JSON.parse(fs.readFileSync(
+              'next/validation/recipe-schema.json', 'utf8')));
+            const files = process.argv.slice(1);
+            let fail = 0;
+            for (const f of files) {
+              const j = JSON.parse(fs.readFileSync(f, 'utf8'));
+              const ok = validate(j);
+              if (ok) console.log('  OK  ' + f);
+              else {
+                fail++;
+                console.error('  FAIL ' + f);
+                for (const e of validate.errors) console.error('       ' + e.instancePath + ' ' + e.message);
+              }
+            }
+            process.exit(fail ? 1 : 0);
+          " ${files[@]}
+
   lint-constraints:
     name: cross-reference + delivery linters (next/ci/*.mjs)
     runs-on: ubuntu-latest
@@ -347,6 +377,9 @@ jobs:
 
       - name: Run delivery guardrail linter (FR-D2, warnings only)
         run: node next/ci/lint-delivery.mjs
+
+      - name: Run recipe linter (next/recipes/ master data)
+        run: node next/ci/lint-recipes.mjs
 
   build-shacl:
     name: JSON -> SHACL transpiler (next/ci/json-to-shacl.mjs)

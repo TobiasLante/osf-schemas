@@ -1,0 +1,97 @@
+{
+  "sourceId": "opcua-cnc-001-telemetry",
+  "version": "4.1.0",
+  "sourceType": "opcua",
+  "syncType": "polling",
+  "transport": [
+    "nats"
+  ],
+  "connection": {
+    "endpoint": "opc.tcp://192.168.178.154:36000",
+    "securityMode": "None",
+    "securityPolicy": "None",
+    "auth": "Anonymous"
+  },
+  "dataCategory": "telemetry",
+  "profileRef": "SMProfile-CNC-Machine",
+  "endpoint": "opc.tcp://192.168.178.154:36000",
+  "machineId": "cnc-001",
+  "machineName": "CNC-01",
+  "location": {
+    "enterprise": "factory",
+    "site": "werk1",
+    "area": "cnc",
+    "line": "line-a",
+    "type": "CNC"
+  },
+  "nodeMappings": [
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cycle/cycleTimeSec",
+      "smAttribute": "Act_Time_Cycle",
+      "dataType": "ns=0;i=11",
+      "unit": "s"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/spindle/speedRpm",
+      "smAttribute": "Act_Speed_Spindle",
+      "dataType": "ns=0;i=11",
+      "unit": "rpm"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/spindle/loadPercent",
+      "smAttribute": "Act_Pct_SpindleLoad",
+      "dataType": "ns=0;i=11",
+      "unit": "pct"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/axes/[0]/positionMm",
+      "smAttribute": "Act_Pos_AxisX",
+      "dataType": "ns=0;i=11",
+      "unit": "mm"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/axes/[0]/feedRateMmMin",
+      "smAttribute": "Act_Rate_Feed",
+      "dataType": "ns=0;i=11",
+      "unit": "mm/min"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/axes/[1]/positionMm",
+      "smAttribute": "Act_Pos_AxisY",
+      "dataType": "ns=0;i=11",
+      "unit": "mm"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/axes/[2]/positionMm",
+      "smAttribute": "Act_Pos_AxisZ",
+      "dataType": "ns=0;i=11",
+      "unit": "mm"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/coolant/flowRateLmin",
+      "smAttribute": "Act_Rate_CoolantFlow",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/powerKw",
+      "smAttribute": "Act_Energy_Power",
+      "dataType": "ns=0;i=11",
+      "unit": "kW"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/spindle/temperatureC",
+      "smAttribute": "Act_Temp_Spindle",
+      "dataType": "ns=0;i=11",
+      "unit": "degC"
+    }
+  ],
+  "polling": {
+    "mode": "scan",
+    "intervalMs": 5000
+  },
+  "security": {
+    "mode": "None",
+    "policy": "None",
+    "auth": "Anonymous"
+  }
+}

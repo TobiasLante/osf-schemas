@@ -1,0 +1,24 @@
+{
+  "recipeId": "RECIPE-sgm-004-PA66GF30-bracket-B",
+  "version": "1.0.0",
+  "owner": "Process Engineering",
+  "profileRef": "SMProfile-InjectionMoldingMachine",
+  "displayName": "PA66-GF30 bracket-B on sgm-004 (mould-B)",
+  "description": "Second article on the SAME machine (sgm-004) with DIFFERENT bands — demonstrates the whole point of recipes: one rule (recipe_*_band), per-article limits. The it-evaluator resolves the active recipe from the running entity's (article x equipment x setup) key, so housing-A and bracket-B yield different tolerance bands from the identical constraints.",
+  "match": { "article": "bracket-B", "equipment": "sgm-004", "setup": "mould-B" },
+  "values": {
+    "recipe:hotrunner_temp_band": [238, 246],
+    "recipe:part_mass_band": [6.8, 7.05],
+    "recipe:cushion_band": [3.5, 5.5],
+    "recipe:peak_pressure_band": [520, 640],
+    "recipe:hold_pressure_band": [360, 440]
+  },
+  "parameters": [
+    { "param": "resin", "soll": "PA66-GF30", "unit": "", "monitored": false },
+    { "param": "hotrunnerTempC", "soll": 242, "tolerance": [238, 246], "unit": "degC", "monitored": true, "valueFrom": "recipe:hotrunner_temp_band" },
+    { "param": "partMass_g", "soll": 6.95, "tolerance": [6.8, 7.05], "unit": "g", "monitored": true, "valueFrom": "recipe:part_mass_band" },
+    { "param": "cushionMm", "soll": 4.5, "tolerance": [3.5, 5.5], "unit": "mm", "monitored": true, "valueFrom": "recipe:cushion_band" },
+    { "param": "peakPressureBar", "soll": 580, "tolerance": [520, 640], "unit": "bar", "monitored": true, "gate": "inCycle==true", "valueFrom": "recipe:peak_pressure_band" },
+    { "param": "holdPressureBar", "soll": 400, "tolerance": [360, 440], "unit": "bar", "monitored": true, "gate": "inCycle==true", "valueFrom": "recipe:hold_pressure_band" }
+  ]
+}
