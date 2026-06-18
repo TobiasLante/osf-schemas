@@ -137,9 +137,18 @@
     }
   ],
   "relationships": [
-    { "type": "TRIGGERED_BY", "target": "CustomerOrder" },
-    { "type": "PRODUCES", "target": "Article" },
-    { "type": "EXECUTED_AT", "target": "EquipmentUnit" }
+    {
+      "type": "TRIGGERED_BY",
+      "target": "CustomerOrder"
+    },
+    {
+      "type": "PRODUCES",
+      "target": "Article"
+    },
+    {
+      "type": "EXECUTED_AT",
+      "target": "EquipmentUnit"
+    }
   ],
   "kgNodeLabel": "ProductionOrder",
   "kgIdProperty": "production_order_no",
@@ -157,6 +166,20 @@
       "qty_planned": "OperationsRequest.SegmentRequirement.MaterialRequirement.Quantity",
       "planned_end_time": "OperationsRequest.EndTime",
       "status": "OperationsRequest.OperationsRequestState"
+    }
+  },
+  "constraints": {
+    "capt_wizard_verify_band": {
+      "require": {
+        "attr": "qty_planned",
+        "op": "gte",
+        "value": 0
+      },
+      "severity": "warning",
+      "discrepancyClass": "constraint",
+      "concern": "operations",
+      "mom_category": "production",
+      "accountable_role": "Production Control"
     }
   }
 }
