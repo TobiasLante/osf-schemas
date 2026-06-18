@@ -1,0 +1,305 @@
+{
+  "sourceId": "opcua-sgm-001-telemetry",
+  "version": "4.0.0",
+  "sourceType": "opcua",
+  "syncType": "polling",
+  "transport": [
+    "nats"
+  ],
+  "connection": {
+    "endpoint": "opc.tcp://192.168.178.154:36060",
+    "securityMode": "None",
+    "securityPolicy": "None",
+    "auth": "Anonymous"
+  },
+  "dataCategory": "telemetry",
+  "profileRef": "SMProfile-InjectionMoldingMachine",
+  "endpoint": "opc.tcp://192.168.178.154:36060",
+  "machineId": "sgm-001",
+  "machineName": "SGM-01",
+  "location": {
+    "enterprise": "factory",
+    "site": "werk1",
+    "area": "sgm",
+    "line": "line-a",
+    "type": "SGM"
+  },
+  "nodeMappings": [
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shot/cycleTimeSec",
+      "smAttribute": "cycle_time_sec",
+      "dataType": "ns=0;i=11",
+      "unit": "s"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[0]/hotrunnerTempC",
+      "smAttribute": "cavities_0_hotrunner_temp_c",
+      "dataType": "ns=0;i=11",
+      "unit": "degC"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[0]/cavityPressureBar",
+      "smAttribute": "cavities_0_pressure_bar",
+      "dataType": "ns=0;i=11",
+      "unit": "bar"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[0]/mouldPressureBar",
+      "smAttribute": "cavities_0_mould_pressure_bar",
+      "dataType": "ns=0;i=11",
+      "unit": "bar"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[0]/partMass_g",
+      "smAttribute": "cavities_0_part_mass_g",
+      "dataType": "ns=0;i=11",
+      "unit": "g"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[1]/hotrunnerTempC",
+      "smAttribute": "cavities_1_hotrunner_temp_c",
+      "dataType": "ns=0;i=11",
+      "unit": "degC"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[1]/cavityPressureBar",
+      "smAttribute": "cavities_1_pressure_bar",
+      "dataType": "ns=0;i=11",
+      "unit": "bar"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[1]/mouldPressureBar",
+      "smAttribute": "cavities_1_mould_pressure_bar",
+      "dataType": "ns=0;i=11",
+      "unit": "bar"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[1]/partMass_g",
+      "smAttribute": "cavities_1_part_mass_g",
+      "dataType": "ns=0;i=11",
+      "unit": "g"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[2]/hotrunnerTempC",
+      "smAttribute": "cavities_2_hotrunner_temp_c",
+      "dataType": "ns=0;i=11",
+      "unit": "degC"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[2]/cavityPressureBar",
+      "smAttribute": "cavities_2_pressure_bar",
+      "dataType": "ns=0;i=11",
+      "unit": "bar"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[2]/mouldPressureBar",
+      "smAttribute": "cavities_2_mould_pressure_bar",
+      "dataType": "ns=0;i=11",
+      "unit": "bar"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[2]/partMass_g",
+      "smAttribute": "cavities_2_part_mass_g",
+      "dataType": "ns=0;i=11",
+      "unit": "g"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[3]/hotrunnerTempC",
+      "smAttribute": "cavities_3_hotrunner_temp_c",
+      "dataType": "ns=0;i=11",
+      "unit": "degC"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[3]/cavityPressureBar",
+      "smAttribute": "cavities_3_pressure_bar",
+      "dataType": "ns=0;i=11",
+      "unit": "bar"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[3]/mouldPressureBar",
+      "smAttribute": "cavities_3_mould_pressure_bar",
+      "dataType": "ns=0;i=11",
+      "unit": "bar"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[3]/partMass_g",
+      "smAttribute": "cavities_3_part_mass_g",
+      "dataType": "ns=0;i=11",
+      "unit": "g"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/[0]/tempC",
+      "smAttribute": "barrel_zones_0_temp_c",
+      "dataType": "ns=0;i=11",
+      "unit": "degC"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/[0]/setpointC",
+      "smAttribute": "barrel_zones_0_setpoint_c",
+      "dataType": "ns=0;i=11",
+      "unit": "degC"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/[1]/tempC",
+      "smAttribute": "barrel_zones_1_temp_c",
+      "dataType": "ns=0;i=11",
+      "unit": "degC"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/[1]/setpointC",
+      "smAttribute": "barrel_zones_1_setpoint_c",
+      "dataType": "ns=0;i=11",
+      "unit": "degC"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/[2]/tempC",
+      "smAttribute": "barrel_zones_2_temp_c",
+      "dataType": "ns=0;i=11",
+      "unit": "degC"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/[2]/setpointC",
+      "smAttribute": "barrel_zones_2_setpoint_c",
+      "dataType": "ns=0;i=11",
+      "unit": "degC"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/[3]/tempC",
+      "smAttribute": "barrel_zones_3_temp_c",
+      "dataType": "ns=0;i=11",
+      "unit": "degC"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/[3]/setpointC",
+      "smAttribute": "barrel_zones_3_setpoint_c",
+      "dataType": "ns=0;i=11",
+      "unit": "degC"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/nozzleTempC",
+      "smAttribute": "barrel_nozzle_temp_c",
+      "dataType": "ns=0;i=11",
+      "unit": "degC"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/injection/peakPressureBar",
+      "smAttribute": "injection_peak_pressure_bar",
+      "dataType": "ns=0;i=11",
+      "unit": "bar"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/injection/holdPressureBar",
+      "smAttribute": "injection_hold_pressure_bar",
+      "dataType": "ns=0;i=11",
+      "unit": "bar"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/injection/backPressureBar",
+      "smAttribute": "injection_back_pressure_bar",
+      "dataType": "ns=0;i=11",
+      "unit": "bar"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/injection/injectionSpeedMmPerSec",
+      "smAttribute": "injection_speed_mm_per_sec",
+      "dataType": "ns=0;i=11",
+      "unit": "mm/s"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/injection/shotVolumeCm3",
+      "smAttribute": "injection_shot_volume_cm3",
+      "dataType": "ns=0;i=11",
+      "unit": "cm3"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/mould/lifePercent",
+      "smAttribute": "mould_life_percent",
+      "dataType": "ns=0;i=11",
+      "unit": "pct"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/mould/tempC",
+      "smAttribute": "mould_temp_c",
+      "dataType": "ns=0;i=11",
+      "unit": "degC"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/mould/coolingFlowLMin",
+      "smAttribute": "mould_cooling_flow_l_min",
+      "dataType": "ns=0;i=11",
+      "unit": "L/min"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/powerKw",
+      "smAttribute": "power_kw",
+      "dataType": "ns=0;i=11",
+      "unit": "kW"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/phase/plastProgress",
+      "smAttribute": "phase_plast_progress",
+      "dataType": "ns=0;i=11",
+      "unit": "ratio"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/phase/cushionMm",
+      "smAttribute": "phase_cushion_mm",
+      "dataType": "ns=0;i=11",
+      "unit": "mm"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/dryerTempC",
+      "smAttribute": "material_dryer_temp_c",
+      "dataType": "ns=0;i=11",
+      "unit": "degC"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/dryerSetpointC",
+      "smAttribute": "material_dryer_setpoint_c",
+      "dataType": "ns=0;i=11",
+      "unit": "degC"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/dryerResidenceMin",
+      "smAttribute": "material_dryer_residence_min",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/dryerResidenceTargetMin",
+      "smAttribute": "material_dryer_residence_target_min",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/hopperFillPct",
+      "smAttribute": "material_hopper_fill_pct",
+      "dataType": "ns=0;i=11",
+      "unit": "pct"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/hopperRefillThresholdPct",
+      "smAttribute": "material_hopper_refill_threshold_pct",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/regrindRatioPct",
+      "smAttribute": "material_regrind_ratio_pct",
+      "dataType": "ns=0;i=11",
+      "unit": "pct"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/colourMasterbatchPct",
+      "smAttribute": "material_colour_masterbatch_pct",
+      "dataType": "ns=0;i=11",
+      "unit": "pct"
+    }
+  ],
+  "polling": {
+    "mode": "scan",
+    "intervalMs": 5000
+  },
+  "security": {
+    "mode": "None",
+    "policy": "None",
+    "auth": "Anonymous"
+  }
+}
