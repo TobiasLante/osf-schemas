@@ -57,8 +57,8 @@
         },
         "deviation_class": {
           "type": "string",
-          "enum": ["recipe"],
-          "description": "Orthogonal sub-classification of an operations deviation by its functional KIND, independent of mom_category — lets a specific persona filter their slice. 'recipe' = a machine recipe / setpoint (Einstellparameter) band deviation (ISA-88 recipe management), surfaced as its own class on the Operations page and routed to the recipe-owning role (Process Engineering). Optional; absent -> a generic operations finding. Extend the enum to add further classes."
+          "enum": ["recipe", "equipment"],
+          "description": "Orthogonal sub-classification of an operations deviation by its functional KIND (WHAT the deviation is about), independent of mom_category AND of accountable_role — lets a specific persona filter their slice, and lets the SAME attribute carry two constraints that mean different things. Two classes: 'equipment' = a deviation of the ASSET PER SE — the machine's own operating envelope / capability / health (a static, product-independent band = the machine spec), owned by the equipment owner (Maintenance / Production); the value is wrong for the MACHINE regardless of what it produces. 'recipe' = a recipe-specific deviation — the value is inside the machine envelope but outside the ACTIVE recipe/article band (ISA-88 recipe management; a per-article band, typically resolved centrally and delivered), owned by Process Engineering; the machine is healthy but is not making THIS product to spec. The two are layered: one wide equipment-envelope constraint + one narrow recipe constraint on the same attribute produce two distinct deviations routed to two owners, each surfaced as its own section on the Operations page. Optional; absent -> a generic operations finding (default machine/process finding). Extend the enum to add further classes."
         }
       }
     },
