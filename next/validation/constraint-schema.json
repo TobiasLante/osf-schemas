@@ -53,7 +53,12 @@
         "accountable_role": {
           "type": "string",
           "minLength": 1,
-          "description": "Organisationsrolle/-bereich, die für diese Art Abweichung VERANTWORTLICH ist (RACI: accountable). Vom Kunden in der SSOT gepflegt — wir definieren sie nicht, wir routen darauf. Die Episode landet in der Rollen-Queue dieses Werts; die konkrete Person wird (später) aus einem externen Org-/Schichtplan-System aufgelöst. Beispiele: 'Fertigungssteuerung', 'Qualitätssicherung', 'Arbeitsvorbereitung', 'Instandhaltung'. Optional während des Rollouts; absent → unassigned-Rollen-Queue."
+          "description": "Organisational role/function ACCOUNTABLE for this kind of deviation (RACI: accountable). Customer-maintained in the SSOT — we do not define it, we route on it. The episode lands in this value's role queue; the concrete person is resolved (later) from an external org/shift-roster system. Examples: 'Production Control', 'Quality Assurance', 'Production Planning', 'Maintenance', 'Process Engineering'. Optional during rollout; absent -> unassigned role queue."
+        },
+        "deviation_class": {
+          "type": "string",
+          "enum": ["recipe"],
+          "description": "Orthogonal sub-classification of an operations deviation by its functional KIND, independent of mom_category — lets a specific persona filter their slice. 'recipe' = a machine recipe / setpoint (Einstellparameter) band deviation (ISA-88 recipe management), surfaced as its own class on the Operations page and routed to the recipe-owning role (Process Engineering). Optional; absent -> a generic operations finding. Extend the enum to add further classes."
         }
       }
     },
