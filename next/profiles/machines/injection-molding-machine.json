@@ -163,6 +163,41 @@
       "accountable_role": "Process Engineering",
       "deviation_class": "recipe",
       "since": "2026-06-17"
+    },
+    "equipment_hotrunner_temp_envelope": {
+      "description": "Equipment / asset-per-se: hot-runner temperature must stay within the machine's safe operating envelope, independent of the running recipe. Outside [180,270] degC -> heater / thermocouple / controller fault (a machine problem regardless of the article). Deliberately wider than the recipe band on the same attribute. Sensible default — adjust to the machine spec.",
+      "require": {
+        "attr": "hotrunnerTempC",
+        "op": "between",
+        "value": [180, 270]
+      },
+      "severity": "warning",
+      "discrepancyClass": "constraint",
+      "concern": "operations",
+      "mom_category": "maintenance",
+      "accountable_role": "Maintenance",
+      "deviation_class": "equipment",
+      "since": "2026-06-19"
+    },
+    "equipment_peak_pressure_limit": {
+      "description": "Equipment / asset-per-se: peak injection pressure must stay below the machine's safe mechanical/hydraulic limit during the active cycle, independent of the running recipe. Above [0,1000] bar -> overpressure / machine fault (not a recipe deviation). Cycle-gated (inCycle==true). Sensible default — adjust to the machine spec.",
+      "when": {
+        "attr": "inCycle",
+        "op": "eq",
+        "value": true
+      },
+      "require": {
+        "attr": "peakPressureBar",
+        "op": "between",
+        "value": [0, 1000]
+      },
+      "severity": "error",
+      "discrepancyClass": "constraint",
+      "concern": "operations",
+      "mom_category": "maintenance",
+      "accountable_role": "Maintenance",
+      "deviation_class": "equipment",
+      "since": "2026-06-19"
     }
   },
   "kgNodeLabel": "InjectionMoldingMachine",
