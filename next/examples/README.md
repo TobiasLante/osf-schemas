@@ -23,27 +23,23 @@ codes or node counts into these TYPE assets.
 
 A concrete, customer-specific instance of this hierarchy (Enterprise `RW` → Site `VAM` →
 Area `WL` → ProcessCell `VAM5` → 17 Units → 174 EquipmentModules → 34 ControlModules,
-229 nodes total) exists as a **demo fixture**:
+229 nodes total) lives here as a **demo fixture**:
 
-- File: **`next/sources/static/anchor-rockwool-vam5.json`**
+- File: **`next/examples/anchor-rockwool-vam5.json`**
 - Labeled in-file with `"_comment"` / `"_example": true`.
 
 It is an **example of how to populate** the neutral hierarchy for one real plant — it is
 **not** canonical and must not be treated as the contract.
 
-## Why the demo anchor still lives under `next/sources/static/` (variant "a", non-breaking)
+## How the live KG seed still works after the move (cross-repo coordinated)
 
-The live anchor-loader in the **i3x-v4** repo reads the anchor from its current path
-(`next/sources/static/anchor-rockwool-vam5.json`) to seed the live KG (229 master-data
-nodes). Physically moving the file here would break that live seed, and the loader is in a
-different repo that is out of scope for this change.
+The anchor-loader in the **i3x-v4** repo reads this file at runtime and publishes it as an
+OT KG-snapshot (`i3x.kg.snapshot.ot.anchor-rockwool-vam5`) so kg-builder MERGEs the 229
+master-data nodes + 228 `PART_OF` edges into Neo4j.
 
-Therefore the demo anchor is **kept at its existing path** and only *labeled* as an
-example (`_comment` / `_example`). Conceptually it belongs to this example/demo set.
-
-### Welle-2 follow-up (cross-repo, not done here)
-
-If the demo anchor is ever physically relocated into `next/examples/`, the
-anchor-loader's `SOURCE_PATH` in **i3x-v4** must be re-pointed to the new location in the
-**same** coordinated change — otherwise the live KG seed (229 nodes) breaks. Until then:
-keep the file where it is.
+The loader scans, in override order, **`next/examples` → `next/sources` → `sources`** for
+`sourceType:"static"` files (override via the `ANCHOR_SOURCE_DIRS` env). Because
+`next/examples` is now in the default scan set (and scanned *first*), relocating the demo
+anchor here keeps the live seed intact — no flag day, no `SOURCE_PATH` to re-point. The
+whole `next/` tree is baked into the loader image, so `next/examples/` is present at
+runtime.
