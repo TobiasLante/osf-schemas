@@ -112,21 +112,39 @@
     }
   ],
   "relationships": [
-    { "type": "FOR_ORDER", "target": "ProductionOrder" },
-    { "type": "FOR_ARTICLE", "target": "Article" },
-    { "type": "ON_MACHINE", "target": "Machine" }
+    {
+      "type": "FOR_ORDER",
+      "target": "ProductionOrder"
+    },
+    {
+      "type": "FOR_ARTICLE",
+      "target": "Article"
+    },
+    {
+      "type": "ON_MACHINE",
+      "target": "Machine"
+    }
   ],
   "constraints": {
     "lot_rejected": {
       "description": "Entschiedenes Prüflos wurde abgelehnt (Usage Decision = REJECT) — Qualitäts-Eskalation.",
-      "when": { "attr": "state", "op": "eq", "value": "DECIDED" },
-      "require": { "attr": "decision", "op": "ne", "value": "REJECT" },
+      "when": {
+        "attr": "state",
+        "op": "eq",
+        "value": "DECIDED"
+      },
+      "require": {
+        "attr": "decision",
+        "op": "ne",
+        "value": "REJECT"
+      },
       "severity": "error",
       "discrepancyClass": "constraint",
       "concern": "operations",
       "mom_category": "quality",
       "accountable_role": "Quality Assurance",
-      "since": "2026-06-15"
+      "since": "2026-06-15",
+      "impact_basis": "HK"
     }
   },
   "kgNodeLabel": "InspectionLot",

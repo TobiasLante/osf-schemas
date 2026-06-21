@@ -10,7 +10,10 @@
   "concern": "operations",
   "mom_category": "inventory",
   "accountable_role": "Materials Planning",
-  "when": { "leftAttr": "status", "eq": "offen" },
+  "when": {
+    "leftAttr": "status",
+    "eq": "offen"
+  },
   "left": {
     "profileRef": "SMProfile-OperationsResponse",
     "joinKey": "article_ref"
@@ -22,9 +25,13 @@
   "aggregate": {
     "attr": "quantity",
     "fn": "sum",
-    "filter": { "attr": "blocked", "eq": 0 }
+    "filter": {
+      "attr": "blocked",
+      "eq": 0
+    }
   },
   "op": "gt",
   "threshold": 0,
-  "since": "2026-06-15"
+  "since": "2026-06-15",
+  "impact_basis": "penalty"
 }

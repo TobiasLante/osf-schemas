@@ -103,21 +103,39 @@
     }
   ],
   "relationships": [
-    { "type": "FOR_CUSTOMER", "target": "Customer" },
-    { "type": "FOR_ARTICLE", "target": "Article" },
-    { "type": "TRIGGERS", "target": "ProductionOrder" }
+    {
+      "type": "FOR_CUSTOMER",
+      "target": "Customer"
+    },
+    {
+      "type": "FOR_ARTICLE",
+      "target": "Article"
+    },
+    {
+      "type": "TRIGGERS",
+      "target": "ProductionOrder"
+    }
   ],
   "constraints": {
     "order_overdue": {
       "description": "Offener Kundenauftrag mit überschrittenem Liefertermin (Lieferverzug gegen das Kunden-Commitment).",
-      "when": { "attr": "status", "op": "eq", "value": "offen" },
-      "require": { "attr": "due_date", "op": "gte", "valueAttr": "$now" },
+      "when": {
+        "attr": "status",
+        "op": "eq",
+        "value": "offen"
+      },
+      "require": {
+        "attr": "due_date",
+        "op": "gte",
+        "valueAttr": "$now"
+      },
       "severity": "warning",
       "discrepancyClass": "constraint",
       "concern": "operations",
       "mom_category": "production",
       "accountable_role": "Production Control",
-      "since": "2026-06-15"
+      "since": "2026-06-15",
+      "impact_basis": "penalty"
     }
   },
   "kgNodeLabel": "CustomerOrder",
