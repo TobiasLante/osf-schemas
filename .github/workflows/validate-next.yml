@@ -2,11 +2,20 @@
 # Runs ONLY on changes touching next/** — never blocks PRs that modify only
 # canonical paths (profiles/, sources/, sync/, validation/).
 #
+# Profile standard: ONE unified meta-schema (next/validation/profile-schema.json)
+# keyed on the now-REQUIRED 'category' (machine|equipment|business). The former
+# machine-/equipment-/business-profile-schema.json are kept as thin SHIMS (same
+# $id) that $ref the unified schema + pin the category — so consumers loading by
+# filename keep working. intelligence/ keeps its own canonical schema (out of scope).
+#
 # Jobs:
 #   1. schema-compile     — ajv compile of every next/validation/*.json
 #   2. profile-validate   — ajv validate each next/profiles/machines/*.json
 #                           against next/validation/machine-profile-schema.json
-#                           (resolves the sibling $ref to constraint-schema.json)
+#                           (the shim -> unified profile-schema.json -> constraint-schema.json)
+#                           + equipment/ + erp|qms|wms/ via their shims
+#                           + next/profiles/*.json top-level fixtures (skeleton
+#                           template) against the unified schema directly
 #                           + each next/profiles/intelligence/*.json against the
 #                           CANONICAL validation/intelligence-profile-schema.json
 #                           (no facet added there — only the discrepancy_class
@@ -21,6 +30,10 @@
 #                           predicate.attr resolves to a real attribute (via
 #                           parentType inheritance); predicate.value type matches
 #                           attribute.dataType; enum membership checked.
+#                           + category<->folder linter (next/ci/lint-category.mjs):
+#                           machines/->machine, equipment/->equipment,
+#                           erp|qms|wms/->business (intelligence/ + top-level
+#                           fixtures skipped).
 #                           + delivery guardrail (next/ci/lint-delivery.mjs, FR-D2):
 #                           WARNS (never fails) on telemetry-on-setpoint and
 #                           transactional-fed-by-best-effort-poll smells.
@@ -130,7 +143,12 @@ jobs:
               'next/validation/machine-profile-schema.json', 'utf8'));
             const constraintSchema = JSON.parse(fs.readFileSync(
               'next/validation/constraint-schema.json', 'utf8'));
+            const profileSchema = JSON.parse(fs.readFileSync(
+              'next/validation/profile-schema.json', 'utf8'));
             ajv.addSchema(constraintSchema, 'constraint-schema.json');
+            // The category shims now \$ref the unified profile-schema.json; register it
+            // so the sync compile() resolves the ref.
+            ajv.addSchema(profileSchema, 'profile-schema.json');
             const validate = ajv.compile(machineSchema);
             const files = process.argv.slice(1);
             let fail = 0;
@@ -195,7 +213,11 @@ jobs:
               'next/validation/business-profile-schema.json', 'utf8'));
             const constraintSchema = JSON.parse(fs.readFileSync(
               'next/validation/constraint-schema.json', 'utf8'));
+            const profileSchema = JSON.parse(fs.readFileSync(
+              'next/validation/profile-schema.json', 'utf8'));
             ajv.addSchema(constraintSchema, 'constraint-schema.json');
+            // The category shims now \$ref the unified profile-schema.json.
+            ajv.addSchema(profileSchema, 'profile-schema.json');
             const validate = ajv.compile(schema);
             const files = process.argv.slice(1);
             let fail = 0;
@@ -229,8 +251,48 @@ jobs:
               'next/validation/equipment-profile-schema.json', 'utf8'));
             const constraintSchema = JSON.parse(fs.readFileSync(
               'next/validation/constraint-schema.json', 'utf8'));
+            const profileSchema = JSON.parse(fs.readFileSync(
+              'next/validation/profile-schema.json', 'utf8'));
             ajv.addSchema(constraintSchema, 'constraint-schema.json');
+            // The category shims now \$ref the unified profile-schema.json.
+            ajv.addSchema(profileSchema, 'profile-schema.json');
             const validate = ajv.compile(schema);
+            const files = process.argv.slice(1);
+            let fail = 0;
+            for (const f of files) {
+              const j = JSON.parse(fs.readFileSync(f, 'utf8'));
+              const ok = validate(j);
+              if (ok) console.log('  OK  ' + f);
+              else {
+                fail++;
+                console.error('  FAIL ' + f);
+                for (const e of validate.errors) console.error('       ' + e.instancePath + ' ' + e.message);
+              }
+            }
+            process.exit(fail ? 1 : 0);
+          " ${profiles[@]}
+
+      - name: Validate top-level fixtures (skeleton template, unified schema directly)
+        run: |
+          set -e
+          shopt -s nullglob
+          profiles=(next/profiles/*.json)
+          if [ ${#profiles[@]} -eq 0 ]; then
+            echo "No top-level fixtures (e.g. _skeleton.template.json) — none to validate."
+            exit 0
+          fi
+          node -e "
+            const Ajv = require('ajv');
+            const fs = require('fs');
+            const ajv = new Ajv({ strict: false });
+            const constraintSchema = JSON.parse(fs.readFileSync(
+              'next/validation/constraint-schema.json', 'utf8'));
+            ajv.addSchema(constraintSchema, 'constraint-schema.json');
+            // Skeleton fixtures are category-agnostic copy-templates — validate
+            // against the unified meta-schema directly (no category const-pin shim).
+            const profileSchema = JSON.parse(fs.readFileSync(
+              'next/validation/profile-schema.json', 'utf8'));
+            const validate = ajv.compile(profileSchema);
             const files = process.argv.slice(1);
             let fail = 0;
             for (const f of files) {
@@ -371,6 +433,9 @@ jobs:
 
       - name: Run cross-reference linter
         run: node next/ci/lint-constraints.mjs
+
+      - name: Run category<->folder linter
+        run: node next/ci/lint-category.mjs
 
       - name: Run cross-constraint linter
         run: node next/ci/lint-cross-constraints.mjs
