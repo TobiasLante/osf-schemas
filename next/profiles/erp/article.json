@@ -59,6 +59,38 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
+    },
+    {
+      "name": "cost_hk",
+      "dataType": "Double",
+      "required": false,
+      "category": "Valuation",
+      "unit": "EUR",
+      "description": "Standard manufacturing/purchase cost (HK = Herstellkosten), from ERP std_kosten. The €-basis for scrap / quality impact.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "price_vk",
+      "dataType": "Double",
+      "required": false,
+      "category": "Valuation",
+      "unit": "EUR",
+      "description": "Standard sales price (VK = Verkaufspreis), from ERP std_verkaufspreis. The basis for margin / lost-sales impact. Null for non-sellable articles (RAW/CONSUMABLE/WIP).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "currency",
+      "dataType": "String",
+      "required": false,
+      "category": "Valuation",
+      "description": "ISO-4217 currency code for cost_hk / price_vk, from ERP waehrung (e.g. EUR).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     }
   ],
   "relationships": [],
