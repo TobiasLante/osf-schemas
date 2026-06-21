@@ -104,7 +104,8 @@
       "mom_category": "quality",
       "accountable_role": "Process Engineering",
       "deviation_class": "recipe",
-      "since": "2026-06-17"
+      "since": "2026-06-17",
+      "impact_basis": "HK"
     },
     "recipe_part_mass_band": {
       "description": "Recipe/Einstellparameter: Teilgewicht muss im Soll-Band liegen (resolved at runtime via valueFrom recipe:part_mass_band; Recipe-SOLL bewusst enger als aktueller Ist gewaehlt, um Ueberfuellung/Drift frueh zu erkennen). Ausserhalb -> Ueber-/Unterspritzung, Ausschuss.",
@@ -119,7 +120,8 @@
       "mom_category": "quality",
       "accountable_role": "Process Engineering",
       "deviation_class": "recipe",
-      "since": "2026-06-17"
+      "since": "2026-06-17",
+      "impact_basis": "HK"
     },
     "recipe_cushion_band": {
       "description": "Recipe/Einstellparameter: Restmassepolster (Cushion) muss im Soll-Band liegen (resolved at runtime via valueFrom recipe:cushion_band). Ausserhalb -> Schwankung im Nachdruckprofil, Massabweichung.",
@@ -134,7 +136,8 @@
       "mom_category": "quality",
       "accountable_role": "Process Engineering",
       "deviation_class": "recipe",
-      "since": "2026-06-17"
+      "since": "2026-06-17",
+      "impact_basis": "HK"
     },
     "recipe_peak_pressure_band": {
       "description": "Recipe/Einstellparameter: Spitzeneinspritzdruck muss im aktiven Zyklus im Soll-Band liegen (resolved at runtime via valueFrom recipe:peak_pressure_band). Zyklus-Gate (inCycle==true), da der Druck zwischen den Schuessen auf 0 faellt.",
@@ -154,7 +157,8 @@
       "mom_category": "quality",
       "accountable_role": "Process Engineering",
       "deviation_class": "recipe",
-      "since": "2026-06-17"
+      "since": "2026-06-17",
+      "impact_basis": "HK"
     },
     "recipe_hold_pressure_band": {
       "description": "Recipe/Einstellparameter: Nachdruck muss im aktiven Zyklus im Soll-Band liegen (resolved at runtime via valueFrom recipe:hold_pressure_band). Zyklus-Gate (inCycle==true), da der Druck zwischen den Schuessen auf 0 faellt.",
@@ -174,14 +178,18 @@
       "mom_category": "quality",
       "accountable_role": "Process Engineering",
       "deviation_class": "recipe",
-      "since": "2026-06-17"
+      "since": "2026-06-17",
+      "impact_basis": "HK"
     },
     "equipment_hotrunner_temp_envelope": {
       "description": "Equipment / asset-per-se: hot-runner temperature must stay within the machine's safe operating envelope, independent of the running recipe. Outside [180,270] degC -> heater / thermocouple / controller fault (a machine problem regardless of the article). Deliberately wider than the recipe band on the same attribute. LITERAL value = machine-spec SSOT — adjust to the machine spec.",
       "require": {
         "attr": "hotrunnerTempC",
         "op": "between",
-        "value": [180, 270]
+        "value": [
+          180,
+          270
+        ]
       },
       "severity": "warning",
       "discrepancyClass": "constraint",
@@ -189,7 +197,8 @@
       "mom_category": "maintenance",
       "accountable_role": "Maintenance",
       "deviation_class": "equipment",
-      "since": "2026-06-19"
+      "since": "2026-06-19",
+      "impact_basis": "HK"
     },
     "equipment_peak_pressure_limit": {
       "description": "Equipment / asset-per-se: peak injection pressure must stay below the machine's safe mechanical/hydraulic limit during the active cycle, independent of the running recipe. Above [0,1000] bar -> overpressure / machine fault (not a recipe deviation). Cycle-gated (inCycle==true). LITERAL value = machine-spec SSOT — adjust to the machine spec.",
@@ -201,7 +210,10 @@
       "require": {
         "attr": "peakPressureBar",
         "op": "between",
-        "value": [0, 1000]
+        "value": [
+          0,
+          1000
+        ]
       },
       "severity": "error",
       "discrepancyClass": "constraint",
@@ -209,7 +221,8 @@
       "mom_category": "maintenance",
       "accountable_role": "Maintenance",
       "deviation_class": "equipment",
-      "since": "2026-06-19"
+      "since": "2026-06-19",
+      "impact_basis": "HK"
     }
   }
 }
