@@ -3,8 +3,20 @@
   "version": "2.1.0",
   "standard": "CESMII",
   "displayName": "Injection Molding Machine (Spritzgussmaschine)",
-  "description": "next/ pilot — copy of profiles/machines/injection-molding-machine.json + SDC constraints facet. Declares the six live sim-v5 process attributes that the deployed source (sources/opcua/opcua-sgm-004-processdata.json) actually maps (hotrunnerTempC, partMass_g, cushionMm, peakPressureBar, holdPressureBar, inCycle) and carries a 'recipe_' constraints block: the active recipe / Einstellparameter (SOLL) of the injection-molding job, monitored on the edge against the live process values (IST). Out-of-band IST -> SDC constraint deviation in the Quality MOM lane. NOTE: this profile intentionally diverges from the EUROMAP77 canonical attribute names (Act_Temp_*, Act_Pressure_*) because the live sim source maps the generic shot/cavity smAttributes — the constraints MUST reference the names that are actually delivered (resolveProfileConstraints rejects unknown attrs at codegen).",
+  "category": "machine",
+  "description": "next/ pilot — copy of profiles/machines/injection-molding-machine.json + SDC constraints facet. Declares the six live sim-v5 process attributes that the deployed source (sources/opcua/opcua-sgm-004-processdata.json) actually maps (hotrunnerTempC, partMass_g, cushionMm, peakPressureBar, holdPressureBar, inCycle) and carries a 'recipe_' constraints block: the active recipe / Einstellparameter (SOLL) of the injection-molding job, monitored on the edge against the live process values (IST). Out-of-band IST -> SDC constraint deviation in the Quality MOM lane. The five recipe_* bands resolve their SOLL band at runtime via valueFrom 'recipe:<param>' (active-recipe binding, resolved centrally by the it-evaluator from next/recipes/recipe-sgm-004-default.json); the two equipment_* envelope constraints keep LITERAL values because they are the machine-spec SSOT (asset-per-se, recipe-independent). NOTE: this profile intentionally diverges from the EUROMAP77 canonical attribute names (Act_Temp_*, Act_Pressure_*) because the live sim source maps the generic shot/cavity smAttributes — the constraints MUST reference the names that are actually delivered (resolveProfileConstraints rejects unknown attrs at codegen).",
   "parentType": "Machine",
+  "isa95": {
+    "objectModel": "Equipment",
+    "momDomain": "production",
+    "equipmentLevel": "WorkUnit",
+    "equipmentClass": "InjectionMoldingMachine"
+  },
+  "kgNodeLabel": "InjectionMoldingMachine",
+  "kgIdProperty": "machine_id",
+  "companionSpec": "EUROMAP77",
+  "opcuaTypeDefinition": "InjectionMouldingMachineType",
+  "deviceClass": "Injection Moulding Machine",
   "attributes": [
     {
       "name": "hotrunnerTempC",
@@ -80,11 +92,11 @@
   ],
   "constraints": {
     "recipe_hotrunner_temp_band": {
-      "description": "Recipe/Einstellparameter: Heisskanal-Temperatur muss im Soll-Band [225,234] degC liegen. Ausserhalb -> Materialschaedigung / Massabweichung am Teil.",
+      "description": "Recipe/Einstellparameter: Heisskanal-Temperatur muss im Soll-Band liegen (resolved at runtime via valueFrom recipe:hotrunner_temp_band). Ausserhalb -> Materialschaedigung / Massabweichung am Teil.",
       "require": {
         "attr": "hotrunnerTempC",
         "op": "between",
-        "value": [225, 234]
+        "valueFrom": "recipe:hotrunner_temp_band"
       },
       "severity": "warning",
       "discrepancyClass": "constraint",
@@ -95,11 +107,11 @@
       "since": "2026-06-17"
     },
     "recipe_part_mass_band": {
-      "description": "Recipe/Einstellparameter: Teilgewicht muss im Soll-Band [10.2,10.45] g liegen (Recipe-SOLL bewusst enger als aktueller Ist gewaehlt, um Ueberfuellung/Drift frueh zu erkennen). Ausserhalb -> Ueber-/Unterspritzung, Ausschuss.",
+      "description": "Recipe/Einstellparameter: Teilgewicht muss im Soll-Band liegen (resolved at runtime via valueFrom recipe:part_mass_band; Recipe-SOLL bewusst enger als aktueller Ist gewaehlt, um Ueberfuellung/Drift frueh zu erkennen). Ausserhalb -> Ueber-/Unterspritzung, Ausschuss.",
       "require": {
         "attr": "partMass_g",
         "op": "between",
-        "value": [10.2, 10.45]
+        "valueFrom": "recipe:part_mass_band"
       },
       "severity": "error",
       "discrepancyClass": "constraint",
@@ -110,11 +122,11 @@
       "since": "2026-06-17"
     },
     "recipe_cushion_band": {
-      "description": "Recipe/Einstellparameter: Restmassepolster (Cushion) muss im Soll-Band [4.5,7.0] mm liegen. Ausserhalb -> Schwankung im Nachdruckprofil, Massabweichung.",
+      "description": "Recipe/Einstellparameter: Restmassepolster (Cushion) muss im Soll-Band liegen (resolved at runtime via valueFrom recipe:cushion_band). Ausserhalb -> Schwankung im Nachdruckprofil, Massabweichung.",
       "require": {
         "attr": "cushionMm",
         "op": "between",
-        "value": [4.5, 7.0]
+        "valueFrom": "recipe:cushion_band"
       },
       "severity": "warning",
       "discrepancyClass": "constraint",
@@ -125,7 +137,7 @@
       "since": "2026-06-17"
     },
     "recipe_peak_pressure_band": {
-      "description": "Recipe/Einstellparameter: Spitzeneinspritzdruck muss im aktiven Zyklus im Soll-Band [450,560] bar liegen. Zyklus-Gate (inCycle==true), da der Druck zwischen den Schuessen auf 0 faellt.",
+      "description": "Recipe/Einstellparameter: Spitzeneinspritzdruck muss im aktiven Zyklus im Soll-Band liegen (resolved at runtime via valueFrom recipe:peak_pressure_band). Zyklus-Gate (inCycle==true), da der Druck zwischen den Schuessen auf 0 faellt.",
       "when": {
         "attr": "inCycle",
         "op": "eq",
@@ -134,7 +146,7 @@
       "require": {
         "attr": "peakPressureBar",
         "op": "between",
-        "value": [450, 560]
+        "valueFrom": "recipe:peak_pressure_band"
       },
       "severity": "warning",
       "discrepancyClass": "constraint",
@@ -145,7 +157,7 @@
       "since": "2026-06-17"
     },
     "recipe_hold_pressure_band": {
-      "description": "Recipe/Einstellparameter: Nachdruck muss im aktiven Zyklus im Soll-Band [300,380] bar liegen. Zyklus-Gate (inCycle==true), da der Druck zwischen den Schuessen auf 0 faellt.",
+      "description": "Recipe/Einstellparameter: Nachdruck muss im aktiven Zyklus im Soll-Band liegen (resolved at runtime via valueFrom recipe:hold_pressure_band). Zyklus-Gate (inCycle==true), da der Druck zwischen den Schuessen auf 0 faellt.",
       "when": {
         "attr": "inCycle",
         "op": "eq",
@@ -154,7 +166,7 @@
       "require": {
         "attr": "holdPressureBar",
         "op": "between",
-        "value": [300, 380]
+        "valueFrom": "recipe:hold_pressure_band"
       },
       "severity": "warning",
       "discrepancyClass": "constraint",
@@ -165,7 +177,7 @@
       "since": "2026-06-17"
     },
     "equipment_hotrunner_temp_envelope": {
-      "description": "Equipment / asset-per-se: hot-runner temperature must stay within the machine's safe operating envelope, independent of the running recipe. Outside [180,270] degC -> heater / thermocouple / controller fault (a machine problem regardless of the article). Deliberately wider than the recipe band on the same attribute. Sensible default — adjust to the machine spec.",
+      "description": "Equipment / asset-per-se: hot-runner temperature must stay within the machine's safe operating envelope, independent of the running recipe. Outside [180,270] degC -> heater / thermocouple / controller fault (a machine problem regardless of the article). Deliberately wider than the recipe band on the same attribute. LITERAL value = machine-spec SSOT — adjust to the machine spec.",
       "require": {
         "attr": "hotrunnerTempC",
         "op": "between",
@@ -180,7 +192,7 @@
       "since": "2026-06-19"
     },
     "equipment_peak_pressure_limit": {
-      "description": "Equipment / asset-per-se: peak injection pressure must stay below the machine's safe mechanical/hydraulic limit during the active cycle, independent of the running recipe. Above [0,1000] bar -> overpressure / machine fault (not a recipe deviation). Cycle-gated (inCycle==true). Sensible default — adjust to the machine spec.",
+      "description": "Equipment / asset-per-se: peak injection pressure must stay below the machine's safe mechanical/hydraulic limit during the active cycle, independent of the running recipe. Above [0,1000] bar -> overpressure / machine fault (not a recipe deviation). Cycle-gated (inCycle==true). LITERAL value = machine-spec SSOT — adjust to the machine spec.",
       "when": {
         "attr": "inCycle",
         "op": "eq",
@@ -199,16 +211,5 @@
       "deviation_class": "equipment",
       "since": "2026-06-19"
     }
-  },
-  "kgNodeLabel": "InjectionMoldingMachine",
-  "kgIdProperty": "machine_id",
-  "companionSpec": "EUROMAP77",
-  "opcuaTypeDefinition": "InjectionMouldingMachineType",
-  "deviceClass": "Injection Moulding Machine",
-  "isa95": {
-    "objectModel": "Equipment",
-    "momDomain": "production",
-    "equipmentLevel": "WorkUnit",
-    "equipmentClass": "InjectionMoldingMachine"
   }
 }

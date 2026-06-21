@@ -3,17 +3,23 @@
   "version": "3.1.0",
   "standard": "CESMII",
   "displayName": "Machine (Abstract Parent)",
+  "category": "machine",
   "description": "next/ pilot — copy of profiles/machines/machine.json + constraints facet. Abstract parent for all machine types (CNC, Milling, Lathe, Grinding, IMM, FFS, Assembly). The constraint defined here is inherited by every machine subtype via parentType.",
   "parentType": null,
   "abstract": true,
-  "kpiRefs": [
-    "KPI-OEE",
-    "KPI-Availability",
-    "KPI-Performance",
-    "KPI-Quality-Rate",
-    "KPI-Energy-Per-Part",
-    "KPI-Scrap-Rate"
-  ],
+  "isa95": {
+    "objectModel": "Equipment",
+    "momDomain": "production",
+    "equipmentLevel": "WorkUnit",
+    "propertyMap": {
+      "machineId": "Equipment.ID"
+    }
+  },
+  "kgNodeLabel": "Machine",
+  "kgIdProperty": "machine_id",
+  "companionSpec": "OPC40001-1",
+  "opcuaTypeDefinition": "MachineType",
+  "deviceClass": "Machine",
   "attributes": [
     {
       "name": "Machine_Status",
@@ -195,17 +201,12 @@
       "since": "2026-06-08"
     }
   },
-  "kgNodeLabel": "Machine",
-  "kgIdProperty": "machine_id",
-  "companionSpec": "OPC40001-1",
-  "opcuaTypeDefinition": "MachineType",
-  "deviceClass": "Machine",
-  "isa95": {
-    "objectModel": "Equipment",
-    "momDomain": "production",
-    "equipmentLevel": "WorkUnit",
-    "propertyMap": {
-      "machineId": "Equipment.ID"
-    }
-  }
+  "kpiRefs": [
+    "KPI-OEE",
+    "KPI-Availability",
+    "KPI-Performance",
+    "KPI-Quality-Rate",
+    "KPI-Energy-Per-Part",
+    "KPI-Scrap-Rate"
+  ]
 }
