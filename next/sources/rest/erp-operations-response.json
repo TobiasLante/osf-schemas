@@ -7,7 +7,7 @@
   "transport": ["nats"],
   "connection": {
     "baseUrl": "http://192.168.178.154:38260",
-    "path": "/api/confirmations",
+    "path": "/api/confirmations?per_po=true",
     "method": "GET",
     "auth": null,
     "timeoutMs": 30000
@@ -20,7 +20,7 @@
   "polling": {
     "changeDetection": "full_refresh",
     "intervalMs": 300000,
-    "batchSize": 2000,
+    "batchSize": 5000,
     "paginate": true
   },
   "columnMappings": [
