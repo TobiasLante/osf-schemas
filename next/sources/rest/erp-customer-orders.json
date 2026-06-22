@@ -7,7 +7,7 @@
   "transport": ["nats"],
   "connection": {
     "baseUrl": "http://192.168.178.154:38260",
-    "path": "/api/customer-orders",
+    "path": "/api/customer-orders?exclude_status=CANCELLED,INVOICED,SHIPPED",
     "method": "GET",
     "auth": null,
     "timeoutMs": 10000
@@ -20,7 +20,8 @@
   "polling": {
     "changeDetection": "full_refresh",
     "intervalMs": 60000,
-    "batchSize": 1000
+    "batchSize": 1000,
+    "paginate": true
   },
   "columnMappings": [
     { "column": "kundenauftrag_nr", "smAttribute": "order_no", "isId": true },

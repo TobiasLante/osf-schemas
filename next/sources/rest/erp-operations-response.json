@@ -10,7 +10,7 @@
     "path": "/api/confirmations",
     "method": "GET",
     "auth": null,
-    "timeoutMs": 10000
+    "timeoutMs": 30000
   },
   "response": {
     "format": "json",
@@ -19,8 +19,9 @@
   },
   "polling": {
     "changeDetection": "full_refresh",
-    "intervalMs": 60000,
-    "batchSize": 1000
+    "intervalMs": 300000,
+    "batchSize": 2000,
+    "paginate": true
   },
   "columnMappings": [
     { "column": "production_order_no", "smAttribute": "production_order_no", "isId": true },
