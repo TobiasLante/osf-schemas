@@ -204,6 +204,20 @@ function opComponents(pred, attrs, label) {
         throw new Error(`${label}: op=in requires array value`);
       return [`sh:in ( ${pred.value.map(lit).join(" ")} ) ;`];
     }
+    case "within_limits": {
+      // Two-tier control band (Warngrenze + Eingriffsgrenze). The SHACL artifact
+      // is build-time + single-severity, so it mirrors the inner WARN band:
+      // leaving it is at least a warning. The outer action/error tier is a
+      // runtime (detector) escalation, not expressible in one SHACL shape.
+      // The recipe-sourced (valueFrom) form is central-only and skipped upstream.
+      const lim = pred.limits;
+      if (!lim || !Array.isArray(lim.warn) || lim.warn.length !== 2)
+        throw new Error(`${label}: op=within_limits requires limits.warn=[lo,hi]`);
+      return [
+        `sh:minInclusive ${lit(lim.warn[0])} ;`,
+        `sh:maxInclusive ${lit(lim.warn[1])} ;`,
+      ];
+    }
     default:
       throw new Error(`${label}: unknown op "${pred.op}"`);
   }

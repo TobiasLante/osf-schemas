@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-InjectionMoldingMachine",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "standard": "CESMII",
   "displayName": "Injection Molding Machine (Spritzgussmaschine)",
   "category": "machine",
@@ -222,6 +222,25 @@
       "accountable_role": "Maintenance",
       "deviation_class": "equipment",
       "since": "2026-06-19",
+      "impact_basis": "HK"
+    },
+    "hotrunner_control_limits": {
+      "description": "Control limits (Warngrenze + Eingriffsgrenze) for the hot-runner temperature — a two-tier escalation band on top of the recipe SOLL. Inside the warn band [225,234] degC = ok; outside warn -> 'warning'-tier alarm (watch); outside the action band [218,241] -> 'error'-tier alarm (intervene). Both tiers stay inside the equipment envelope [180,270] (equipment_hotrunner_temp_envelope). LITERAL bands = static SSOT for the pilot; switch to valueFrom 'recipe:hotrunner_limits' to source them per active recipe. Drives the OT alarm panel with a raise/clear lifecycle (auto-clears when the value returns inside the warn band).",
+      "require": {
+        "attr": "hotrunnerTempC",
+        "op": "within_limits",
+        "limits": {
+          "warn": [225, 234],
+          "action": [218, 241]
+        }
+      },
+      "severity": "warning",
+      "discrepancyClass": "control_limit",
+      "concern": "operations",
+      "mom_category": "quality",
+      "accountable_role": "Process Engineering",
+      "deviation_class": "recipe",
+      "since": "2026-06-23",
       "impact_basis": "HK"
     }
   }

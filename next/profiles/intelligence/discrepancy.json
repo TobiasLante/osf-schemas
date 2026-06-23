@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-Discrepancy",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "standard": "OSF",
   "displayName": "Discrepancy (Abstract Parent)",
   "category": "intelligence",
@@ -23,9 +23,10 @@
         "multi_source",
         "drift",
         "confidence",
-        "constraint"
+        "constraint",
+        "control_limit"
       ],
-      "description": "Which detector class produced it (§17.1; 'constraint' = edge constraint-detector, next/ pilot)"
+      "description": "Which detector class produced it (§17.1; 'constraint' = edge constraint-detector, next/ pilot; 'control_limit' = two-tier control-band breach (Warngrenze/Eingriffsgrenze, op within_limits) with a raise/clear (auto-clear) lifecycle, surfaced on the dedicated OT/IT alarm panels rather than the steward work-off queue)"
     },
     {
       "name": "lifecycle_state",
