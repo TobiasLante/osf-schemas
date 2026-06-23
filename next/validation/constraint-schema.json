@@ -28,12 +28,12 @@
         "severity": {
           "type": "string",
           "enum": ["error", "warning"],
-          "description": "error -> sh:Violation + opens steward queue; warning -> sh:Warning + telemetry-only"
+          "description": "error -> sh:Violation + opens steward queue; warning -> sh:Warning + telemetry-only. For discrepancyClass='control_limit' (op='within_limits') this is the BASE/floor severity (the warn tier); the action tier is escalated to 'error' by the detector/engine regardless of this value."
         },
         "discrepancyClass": {
           "type": "string",
-          "const": "constraint",
-          "description": "Pins the emitted discrepancy class. Requires 'constraint' in profiles/intelligence/discrepancy.json#discrepancy_class enum AND in services/discrepancy-engine/src/types.ts."
+          "enum": ["constraint", "control_limit"],
+          "description": "Pins the emitted discrepancy class. 'constraint' = single-predicate / single-band violation (severity error|warning as declared). 'control_limit' = two-tier control band (Warngrenze + Eingriffsgrenze) declared via op 'within_limits': the engine emits a 'warning'-tier alarm when the value leaves the inner (warn) band and an 'error'-tier alarm when it leaves the outer (action) band, with a raise/clear (auto-clear) lifecycle that drives the dedicated OT/IT alarm panels rather than the steward work-off queue. Requires the same value in next/profiles/intelligence/discrepancy.json#discrepancy_class enum AND in services/discrepancy-engine/src/types.ts (i3x-v4). Absent -> engine defaults to 'constraint'."
         },
         "since": {
           "type": "string",
@@ -53,7 +53,7 @@
         "accountable_role": {
           "type": "string",
           "minLength": 1,
-          "description": "Organisational role/function ACCOUNTABLE for this kind of deviation (RACI: accountable). Customer-maintained in the SSOT — we do not define it, we route on it. The episode lands in this value's role queue; the concrete person is resolved (later) from an external org/shift-roster system. Examples: 'Production Control', 'Quality Assurance', 'Production Planning', 'Maintenance', 'Process Engineering'. Optional during rollout; absent -> unassigned role queue."
+          "description": "Organisational role/function ACCOUNTABLE for this kind of deviation (RACI: accountable). Customer-maintained in the SSOT — we do not define it, we route on it. The episode lands in this value's role queue; the concrete person is resolved (later) from an external org/shift-roster system. Examples: 'Production Control', 'Quality Assurance', 'Production Planning', 'Maintenance', 'Process Engineering'. Optional during rollout; absent -> unassigned role queue. For control_limit it ALSO becomes the Grafana alert label that routes the notification policy to the owning contact point."
         },
         "deviation_class": {
           "type": "string",
@@ -74,7 +74,8 @@
       "oneOf": [
         { "required": ["value"] },
         { "required": ["valueAttr"] },
-        { "required": ["valueFrom"] }
+        { "required": ["valueFrom"] },
+        { "required": ["limits"] }
       ],
       "properties": {
         "attr": {
@@ -83,11 +84,11 @@
         },
         "op": {
           "type": "string",
-          "enum": ["eq", "ne", "gt", "gte", "lt", "lte", "in", "between"],
-          "description": "Comparison operator. 'in' expects an array value. 'between' expects [lo, hi]."
+          "enum": ["eq", "ne", "gt", "gte", "lt", "lte", "in", "between", "within_limits"],
+          "description": "Comparison operator. 'in' expects an array value. 'between' expects [lo, hi]. 'within_limits' declares a TWO-TIER control band (Warngrenze + Eingriffsgrenze) and takes its bands from 'limits' {warn:[lo,hi], action:[lo,hi]} (literal SSOT) OR 'valueFrom' (recipe-sourced, resolving to the same object). The warn band must lie inside the action band (next/ci/lint-constraints.mjs)."
         },
         "value": {
-          "description": "Literal comparison value. Type is checked at lint-time against the referenced attribute.dataType (Int32/Float -> number; String -> string; Boolean -> boolean). For op='in' must be array; for op='between' must be [lo, hi]. Mutually exclusive with valueAttr/valueFrom."
+          "description": "Literal comparison value. Type is checked at lint-time against the referenced attribute.dataType (Int32/Float -> number; String -> string; Boolean -> boolean). For op='in' must be array; for op='between' must be [lo, hi]. Mutually exclusive with valueAttr/valueFrom/limits."
         },
         "valueAttr": {
           "type": "string",
@@ -96,7 +97,17 @@
         "valueFrom": {
           "type": "string",
           "pattern": "^(recipe|definition):[A-Za-z0-9_.-]+$",
-          "description": "Reference the RHS to an EXTERNAL spec value supplied at runtime — the active recipe / ISA-95 ProductDefinition for the entity. The recipe (Definition leg: Definition->Request->Response) carries product-specific setpoints + tolerance bands, so the SAME rule yields different limits per article (e.g. 'recipe:temp_z1_band' -> a [lo,hi] band for op='between', or a setpoint for op='lte'). Resolved CENTRALLY by the it-evaluator from the active-recipe binding (running FO -> Article x Machine x SetupMode); the edge OT detector ignores it (literals only). DORMANT until a recipe source binds the value (outcome 'unknown' -> no false raise). This RESERVES the hook only — recipe SOURCING/management is built when a MES/spec source exists, wherever the recipe comes from. Mutually exclusive with value/valueAttr."
+          "description": "Reference the RHS to an EXTERNAL spec value supplied at runtime — the active recipe / ISA-95 ProductDefinition for the entity. The recipe (Definition leg: Definition->Request->Response) carries product-specific setpoints + tolerance bands, so the SAME rule yields different limits per article (e.g. 'recipe:temp_z1_band' -> a [lo,hi] band for op='between', or a setpoint for op='lte'). Resolved CENTRALLY by the it-evaluator from the active-recipe binding (running FO -> Article x Machine x SetupMode); the edge OT detector ignores it (literals only). DORMANT until a recipe source binds the value (outcome 'unknown' -> no false raise). This RESERVES the hook only — recipe SOURCING/management is built when a MES/spec source exists, wherever the recipe comes from. Mutually exclusive with value/valueAttr/limits. For op='within_limits' it resolves to a two-tier object {warn:[lo,hi], action:[lo,hi]}."
+        },
+        "limits": {
+          "type": "object",
+          "description": "Two-tier control band for op='within_limits' (Warngrenze + Eingriffsgrenze). 'warn' = inner band -> a 'warning'-tier alarm when the value leaves it; 'action' = outer band -> an 'error'-tier alarm when the value leaves it. The warn band MUST lie inside the action band (action.lo <= warn.lo <= warn.hi <= action.hi), enforced by next/ci/lint-constraints.mjs. Literal SSOT (machine-spec / static threshold, like an equipment envelope); for a recipe-sourced dynamic band use 'valueFrom' instead. Mutually exclusive with value/valueAttr/valueFrom.",
+          "required": ["warn", "action"],
+          "additionalProperties": false,
+          "properties": {
+            "warn": { "type": "array", "minItems": 2, "maxItems": 2, "description": "[lo, hi] inner Warngrenze band" },
+            "action": { "type": "array", "minItems": 2, "maxItems": 2, "description": "[lo, hi] outer Eingriffsgrenze band" }
+          }
         }
       },
       "allOf": [
@@ -115,6 +126,14 @@
               }
             }
           }
+        },
+        {
+          "if": { "required": ["op"], "properties": { "op": { "const": "within_limits" } } },
+          "then": { "oneOf": [ { "required": ["limits"] }, { "required": ["valueFrom"] } ] }
+        },
+        {
+          "if": { "required": ["limits"] },
+          "then": { "required": ["op"], "properties": { "op": { "const": "within_limits" } } }
         }
       ]
     }

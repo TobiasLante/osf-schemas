@@ -147,6 +147,48 @@ function checkPredicateValue(pred, attr, attrs, label, errors) {
     return;
   }
 
+  // within_limits: two-tier control band (Warngrenze + Eingriffsgrenze).
+  // The recipe-sourced (valueFrom) form is already handled above (returns early);
+  // here we validate the LITERAL 'limits' {warn:[lo,hi], action:[lo,hi]} form:
+  //   - both bands are numeric [lo,hi] of the attr dataType, lo <= hi
+  //   - the warn band lies INSIDE the action band (action.lo <= warn.lo <= warn.hi <= action.hi)
+  if (pred.op === "within_limits") {
+    const lim = pred.limits;
+    if (!lim || typeof lim !== "object" || Array.isArray(lim)) {
+      errors.push(`${label}: op=within_limits requires 'limits' {warn:[lo,hi],action:[lo,hi]} or 'valueFrom'`);
+      return;
+    }
+    for (const tier of ["warn", "action"]) {
+      const band = lim[tier];
+      if (!Array.isArray(band) || band.length !== 2) {
+        errors.push(`${label}: limits.${tier} must be [lo,hi]`);
+        return;
+      }
+      for (const v of band) {
+        if (!checker(v)) {
+          errors.push(
+            `${label}: limits.${tier} value ${JSON.stringify(v)} does not match attribute "${attr.name}" dataType=${attr.dataType}`
+          );
+        }
+      }
+      if (isNum(band[0]) && isNum(band[1]) && band[0] > band[1]) {
+        errors.push(`${label}: limits.${tier} lo>hi (${band[0]} > ${band[1]})`);
+      }
+    }
+    const w = lim.warn, a = lim.action;
+    if (
+      Array.isArray(w) && Array.isArray(a) && w.length === 2 && a.length === 2 &&
+      [w[0], w[1], a[0], a[1]].every(isNum)
+    ) {
+      if (!(a[0] <= w[0] && w[1] <= a[1])) {
+        errors.push(
+          `${label}: warn band [${w[0]},${w[1]}] must lie inside action band [${a[0]},${a[1]}] (Warngrenze ⊆ Eingriffsgrenze)`
+        );
+      }
+    }
+    return;
+  }
+
   // Range ops expect arrays of the underlying type
   if (pred.op === "between") {
     if (!Array.isArray(pred.value) || pred.value.length !== 2) {

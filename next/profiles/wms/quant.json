@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-Quant",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "standard": "CESMII",
   "displayName": "Quant (Lagerbestand-Einheit / MaterialSublot)",
   "description": "next/ v4 — WMS Bestandseinheit (Quant) am Lagerort, ausgerichtet auf die LIVE-Projektion der Source sim-v5-wms-quants (article_ref/quantity/blocked/warehouse/storage_location), NICHT das Legacy-base-Profil (article_no/quality_status). Geschlüsselt auf quant_no. Die Cross-Domain-Deviation material_unavailable (next/cross-constraints/material_unavailable.json) joint OperationsResponse <-> Quant auf article_ref und aggregiert den freien Bestand (quantity, gefiltert auf blocked==0). Reiner Bestands-Träger, kein constraints-Block (Cross-Source).",
@@ -90,6 +90,26 @@
     { "type": "AT_LOCATION", "target": "StorageLocation" },
     { "type": "FOR_ARTICLE", "target": "Article" }
   ],
+  "constraints": {
+    "stock_level_control_limits": {
+      "description": "IT/inventory control limits (Warngrenze + Eingriffsgrenze) on the free stock quantity (Meldebestand/Höchstbestand). Stock should stay inside the warn band [20,500]; below 20 or above 500 -> 'warning'-tier alarm (reorder / overstock watch); below the action band lower bound 5 or above 800 -> 'error'-tier alarm (stockout risk / hard overstock). Two-sided control band evaluated centrally by the it-evaluator (IT acquisition); drives the IT alarm panel with a raise/clear lifecycle. LITERAL band = static SSOT for the pilot.",
+      "require": {
+        "attr": "quantity",
+        "op": "within_limits",
+        "limits": {
+          "warn": [20, 500],
+          "action": [5, 800]
+        }
+      },
+      "severity": "warning",
+      "discrepancyClass": "control_limit",
+      "concern": "operations",
+      "mom_category": "inventory",
+      "accountable_role": "Production Planning",
+      "since": "2026-06-23",
+      "impact_basis": "margin"
+    }
+  },
   "kgNodeLabel": "Quant",
   "kgIdProperty": "quant_no",
   "category": "business",
