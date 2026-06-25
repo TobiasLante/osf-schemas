@@ -1,0 +1,64 @@
+{
+ "profileId": "SMProfile-Customer",
+ "version": "2.0.0",
+ "standard": "CESMII",
+ "category": "business",
+ "displayName": "Customer",
+ "description": "next/ v2.0 — Level-4 business partner (the customer a CustomerOrder is FOR). Minimal master node so the sales-order chain is self-contained.",
+ "parentType": null,
+ "abstract": false,
+ "attributes": [
+ {
+ "name": "customer_no",
+ "dataType": "String",
+ "required": true,
+ "category": "Core",
+ "description": "Customer number / key.",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "name",
+ "dataType": "String",
+ "required": false,
+ "category": "Core",
+ "description": "Customer name.",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "country",
+ "dataType": "String",
+ "required": false,
+ "category": "Core",
+ "description": "Customer country (ISO code recommended).",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "segment",
+ "dataType": "String",
+ "required": false,
+ "category": "Core",
+ "description": "Customer segment / classification.",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ }
+ ],
+ "relationships": [],
+ "constraints": {},
+ "semantics": [],
+ "kpiRefs": [],
+ "isa95": {
+ "objectModel": "Customer",
+ "momDomain": "production",
+ "level": 4,
+ "note": "Level-4 business partner. FOR_CUSTOMER target of CustomerOrder."
+ },
+ "kgNodeLabel": "Customer",
+ "kgIdProperty": "customer_no"
+}

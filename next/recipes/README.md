@@ -22,32 +22,32 @@ no crash) — exactly as with `RECIPE_SOURCE=none`.
 
 ```jsonc
 {
-  "recipeId": "RECIPE-sgm-004-PA66GF30-housing-A",
-  "version": "1.0.0",                       // bump on any value change
-  "owner": "Process Engineering",
-  "profileRef": "SMProfile-InjectionMoldingMachine",
-  "match": { "article": "housing-A", "equipment": "sgm-004", "setup": "mould-A" },
-  "values": {                               // recipe:<param> -> SpecValue
-    "recipe:hotrunner_temp_band": [225, 234],  // [lo,hi] for op=between
-    "recipe:cycle_time": 42                     // scalar for eq/lte/gte
-  },
-  "parameters": [ /* optional human doc — NOT read by the resolver */ ]
+ "recipeId": "RECIPE-sgm-004-PA66GF30-housing-A",
+ "version": "1.0.0", // bump on any value change
+ "owner": "Process Engineering",
+ "profileRef": "SMProfile-InjectionMoldingMachine",
+ "match": { "article": "housing-A", "equipment": "sgm-004", "setup": "mould-A" },
+ "values": { // recipe:<param> -> SpecValue
+ "recipe:hotrunner_temp_band": [225, 234], // [lo,hi] for op=between
+ "recipe:cycle_time": 42 // scalar for eq/lte/gte
+ },
+ "parameters": [ /* optional human doc — NOT read by the resolver */ ]
 }
 ```
 
 - **`match`** maps to the entity's binding axes. The evaluator pulls them from the entity
-  state via `RECIPE_KEY_ARTICLE_FIELD` / `RECIPE_KEY_EQUIPMENT_FIELD` / `RECIPE_KEY_SETUP_FIELD`
-  (defaults `article_ref` / `machine_ref` / `setup_ref`). An empty `match` is a catch-all.
+ state via `RECIPE_KEY_ARTICLE_FIELD` / `RECIPE_KEY_EQUIPMENT_FIELD` / `RECIPE_KEY_SETUP_FIELD`
+ (defaults `article_ref` / `machine_ref` / `setup_ref`). An empty `match` is a catch-all.
 - **`values`** keys are the reserved `recipe:<param>` refs the constraints address
-  (`constraint-schema.json` pattern `^(recipe|definition):[A-Za-z0-9_.-]+$`).
+ (`constraint-schema.json` pattern `^(recipe|definition):[A-Za-z0-9_.-]+$`).
 - The **first** recipe whose `match` is a subset of the entity key wins **per ref** (a later
-  recipe only fills refs an earlier one did not). Order across files is `recipeId`-sorted.
+ recipe only fills refs an earlier one did not). Order across files is `recipeId`-sorted.
 
 ## Validation
 
 - Structure: `next/validation/recipe-schema.json` (ajv).
 - Cross-ref + types: `node next/ci/lint-recipes.mjs` (band tuples numeric, ref namespace,
-  no duplicate match within a profile).
+ no duplicate match within a profile).
 
 ## Relation to the edge (sgm-004)
 

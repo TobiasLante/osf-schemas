@@ -1,54 +1,54 @@
 {
-  "profileId": "SMProfile-ConstraintDiscrepancy",
-  "version": "0.1.0",
-  "standard": "OSF",
-  "displayName": "Constraint Discrepancy",
-  "category": "intelligence",
-  "description": "Per-class evidence profile fuer discrepancy_class 'constraint' (SDC-next) — analog discrepancy-multi-source.json. Schliesst eine SSOT-Luecke: die constraint_*-Evidenzfelder existierten bisher nur in der Engine-Projektion (services/discrepancy-engine/src/types.ts). NEU constraint_rule: Pflicht-Snapshot der ausloesenden Regelfassung zum Raise-Zeitpunkt (SDC-Sichtbarkeits-Konzept 2026-06-11) — wenn Vorgaben als Folge von Discrepancies angepasst werden (fix_charter), ist die Historie sonst nach der ersten Anpassung nicht mehr interpretierbar.",
-  "parentType": "Discrepancy",
-  "abstract": false,
-  "attributes": [
-    {
-      "name": "constraint_id",
-      "dataType": "String",
-      "category": "Evidence",
-      "description": "Die verletzte Profil-Constraint-Id, z.B. spindle_when_in_cycle"
-    },
-    {
-      "name": "constraint_defined_in",
-      "dataType": "String",
-      "category": "Evidence",
-      "description": "profileId, in dem die Regel definiert ist (kann via parentType ein Ancestor sein)"
-    },
-    {
-      "name": "constraint_severity",
-      "dataType": "String",
-      "category": "Evidence",
-      "enum": [
-        "error",
-        "warning"
-      ],
-      "description": "Severity der Regel zum Raise-Zeitpunkt"
-    },
-    {
-      "name": "constraint_observed",
-      "dataType": "String",
-      "category": "Evidence",
-      "description": "Serialisierte Attributwerte zum Raise-Zeitpunkt (when-/require-Attribute)"
-    },
-    {
-      "name": "constraint_rule",
-      "dataType": "String",
-      "category": "Evidence",
-      "description": "Serialisierter Snapshot der ausloesenden Regelfassung ({when, require, severity}) zum Raise-Zeitpunkt. Der Live-Katalog-Lookup (/api/kg/schemas/profiles/:id) bleibt zusaetzlich bestehen und zeigt die AKTUELLE Fassung — Abweichung zwischen beiden ist selbst Evidenz (Vorgabe wurde seit dem Raise geaendert)."
-    }
-  ],
-  "relationships": [],
-  "kgNodeLabel": "ConstraintDiscrepancy",
-  "kgIdProperty": "discrepancy_id",
-  "isa95": {
-    "objectModel": "Extension",
-    "extension": true,
-    "note": "Intelligence-Entität (Multi-Truth/SDC) — ISA-95-Extension"
-  }
+ "profileId": "SMProfile-ConstraintDiscrepancy",
+ "version": "2.0.0",
+ "standard": "OSF",
+ "displayName": "Constraint Discrepancy",
+ "category": "intelligence",
+ "description": "Per-class evidence profile for discrepancy_class 'constraint' (SDC-next) — analogous to discrepancy-multi-source.json. Closes an SSOT gap: the constraint_* evidence fields previously existed only in the engine projection (services/discrepancy-engine/src/types.ts). NEW constraint_rule: mandatory snapshot of the triggering rule version at raise time (SDC visibility concept 2026-06-11) — when specifications are adjusted as a consequence of discrepancies (fix_charter), the history is otherwise no longer interpretable after the first adjustment.",
+ "parentType": "Discrepancy",
+ "abstract": false,
+ "attributes": [
+ {
+ "name": "constraint_id",
+ "dataType": "String",
+ "category": "Evidence",
+ "description": "The violated profile constraint id, e.g. spindle_when_in_cycle"
+ },
+ {
+ "name": "constraint_defined_in",
+ "dataType": "String",
+ "category": "Evidence",
+ "description": "profileId in which the rule is defined (may be an ancestor via parentType)"
+ },
+ {
+ "name": "constraint_severity",
+ "dataType": "String",
+ "category": "Evidence",
+ "enum": [
+ "error",
+ "warning"
+ ],
+ "description": "Severity of the rule at raise time"
+ },
+ {
+ "name": "constraint_observed",
+ "dataType": "String",
+ "category": "Evidence",
+ "description": "Serialized attribute values at raise time (when/require attributes)"
+ },
+ {
+ "name": "constraint_rule",
+ "dataType": "String",
+ "category": "Evidence",
+ "description": "Serialized snapshot of the triggering rule version ({when, require, severity}) at raise time. The live catalog lookup (/api/kg/schemas/profiles/:id) additionally remains in place and shows the CURRENT version — a divergence between the two is itself evidence (the specification was changed since the raise)."
+ }
+ ],
+ "relationships": [],
+ "kgNodeLabel": "ConstraintDiscrepancy",
+ "kgIdProperty": "discrepancy_id",
+ "isa95": {
+ "objectModel": "Extension",
+ "extension": true,
+ "note": "Intelligence entity (Multi-Truth/SDC) — ISA-95 extension"
+ }
 }

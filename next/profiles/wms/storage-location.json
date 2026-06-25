@@ -1,0 +1,81 @@
+{
+ "profileId": "SMProfile-StorageLocation",
+ "version": "2.0.0",
+ "standard": "ISA-95",
+ "category": "business",
+ "displayName": "Storage Location",
+ "description": "next/ v2.0 — ISA-95 storage location (a place where material lots/sublots are held). Referenced by MaterialLot and Quant via AT_LOCATION; rooted in the equipment hierarchy via PART_OF an Area.",
+ "parentType": null,
+ "abstract": false,
+ "attributes": [
+ {
+ "name": "storage_location_id",
+ "dataType": "String",
+ "required": true,
+ "category": "Core",
+ "description": "Storage location identity / key.",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "name",
+ "dataType": "String",
+ "required": false,
+ "category": "Core",
+ "description": "Display name of the location.",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "warehouse",
+ "dataType": "String",
+ "required": false,
+ "category": "Core",
+ "description": "Warehouse / building the location belongs to.",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "location_type",
+ "dataType": "String",
+ "required": false,
+ "category": "Core",
+ "description": "Type of location (e.g. rack, floor, buffer, silo).",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "area_ref",
+ "dataType": "String",
+ "required": false,
+ "category": "Link",
+ "description": "FK to Area.area_id (PART_OF) — roots the location in the site/area hierarchy.",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ }
+ ],
+ "relationships": [
+ {
+ "type": "PART_OF",
+ "target": "Area",
+ "targetIdProp": "area_id",
+ "description": "The area/site section this storage location sits in."
+ }
+ ],
+ "constraints": {},
+ "semantics": [],
+ "kpiRefs": [],
+ "isa95": {
+ "objectModel": "StorageLocation",
+ "momDomain": "inventory",
+ "level": 3,
+ "note": "ISA-95 storage location — the AT_LOCATION target for MaterialLot and Quant."
+ },
+ "kgNodeLabel": "StorageLocation",
+ "kgIdProperty": "storage_location_id"
+}

@@ -1,79 +1,100 @@
-# `next/` — SDC-inspired Augmentation Staging
+# `next/` — OSF Schemas 2.0 (ISA-95 Part 4 Operations + SDC)
 
-**Status:** experimental — **NOT for production deploys.**
+**Release:** 2.0 — big-bang. Every file under `next/` is at version 2.0.0.
+**Status:** staging tree for the unified, customer-neutral OSF schema standard. The live system still
+runs off the canonical roots; `next/` is where 2.0 is assembled and validated before promotion.
 
-This folder is a parallel staging tree for **additive** schema extensions inspired by the
-Semantic Data Charter (SDC) discussion (2026-05-28). The live system continues to use the
-canonical roots (`profiles/`, `sources/`, `sync/`, `validation/`) — **`next/` does not
-replace them.**
+## What 2.0 is
 
-## Why a parallel tree
+v2.0 closes the gap the pilot exposed: ISA-95 Part 4 had only a **flat order header**
+(ProductionOrder / OperationsResponse) with material+equipment squashed onto the order as refs (one
+implicit segment). 2.0 introduces the full **Operations layer** as first-class, customer-neutral profiles
+— Schedule→Request→**SegmentRequirement** (PLAN) ‖ Performance→Response→**SegmentResponse** (IST), grounded
+in **ProcessSegment**, with Material/Equipment specs that carry a **role** — and keeps the SDC facets
+(constraints / quality / semantics) that were already in the meta-schema.
 
-We want to evaluate four additive facets without risking the 30+ live edges that depend
-on the canonical profiles:
+Customer-neutral by construction: the profiles define the *shape*, never a customer's plant/line codes
+(those live only in `examples/`).
 
-1. **`constraints`** — 4th attribute facet: typed `{when, require, op, severity}` rules,
-   one representation read by both the build-time SHACL validator (KG-Builder Phase 1.5)
-   and the runtime Edge constraint-detector. Option C from the design discussion
-   (JSON as SSOT, SHACL falls out as a build artifact, no SHACL engine at the edge).
-2. **`quality`** — 5th attribute facet: OPC-UA StatusCode/Quality propagation
-   (`{onBad: drop|flag|hold, nullFlavor}`) — today thrown away at the edge.
-3. **`semantics`** — IRI references (cesmii:/iso:/bfo:) for KG-Builder node enrichment.
-4. **`cellRef`** + provenance — payload field for Vault hash-chain attestation.
+## Terminology law (ISA-95, binding)
 
-And to add a 4th `discrepancy_class`:
+- **ProcessSegment == "plant" (MES) == "Function" (the function naming standard).** A reusable production stage
+ (a forming, dosing, or curing stage …), `PERFORMED_AT` an `EquipmentUnit`.
+- **"batch" is forbidden** — not an ISA-95 term. The ERP word "batch" == **MaterialLot** (a *portion of
+ physical material*, never an activity).
+- **Production Request** is the umbrella (production / planned / process / fabrication order, work order,
+ job) → `ProductionOrder` (isa95 `OperationsRequest`).
+- **Order index == Workorder** = a time-slot subdivision of the order → `Workorder` (isa95 `WorkRequest`).
 
-5. **`'constraint'`** — alongside `multi_source | drift | confidence`. Requires
-   coordinated change in `services/discrepancy-engine/src/types.ts` on the i3x-v4 side.
+## The Operations model (new in 2.0, `profiles/operations/`, `category: business`)
 
-## Structure (mirrors the canonical root)
+```
+OperationsDefinition (master / Fertigungsweg) ProcessSegment (= plant = Function)
+ │ CONTAINS_SEGMENT │ PERFORMED_AT
+ ▼ ▼
+ProductionOrder ──INSTANTIATES──▶ OperationsDefinition EquipmentUnit (ISA-88)
+ (OperationsRequest, PLAN) ▲
+ │ HAS_SEGMENT_REQUIREMENT ┌── USES_EQUIPMENT ┘
+ ▼ │
+SegmentRequirement ──FOR_SEGMENT──▶ ProcessSegment FOR_MATERIAL──▶ Article
+ (PLAN per segment, material_use role) │ CORRESPONDS_TO
+ ▲ ▼
+ProductionOrder.HAS_WORKORDER ▶ Workorder SegmentResponse (IST per segment)
+ │ YIELDS │ PROCESSED_MATERIAL
+ ▼ ▼
+ MaterialLot ◀──── (Consumed / Produced) ──── MaterialLot
+OperationsResponse (IST) ──HAS_SEGMENT_RESPONSE──▶ SegmentResponse
+```
+
+| Profile | isa95.objectModel | role |
+|---|---|---|
+| `operations/operations-definition.json` | OperationsDefinition | master: ordered segments to make an article |
+| `operations/process-segment.json` | ProcessSegment | reusable stage = plant = Function; PERFORMED_AT EquipmentUnit |
+| `operations/segment-requirement.json` | SegmentRequirement | PLAN per segment: material(role)+equipment+qty+timing |
+| `operations/segment-response.json` | SegmentResponse | IST per segment: material actual(role)+equipment actual (quality facet) |
+| `operations/work-order.json` | WorkRequest | order time-slot subdivision (FO-index) |
+| `erp/production-order.json` | OperationsRequest | order header (PLAN), INSTANTIATES + decomposed by SegmentRequirement |
+| `erp/operations-response.json` | OperationsResponse | order header (IST), decomposed by SegmentResponse |
+| `wms/material-lot.json` | MaterialLot | the correct term for "batch"; between Article (MaterialDefinition) and Quant (MaterialSublot) |
+
+**`material_use`** (the ISA-95 role on material specs/actuals — the "Being Consumed/Produced/Tested/Moved"):
+`Consumed | Produced | Consumable | ByProduct | Sample | MovedFrom | MovedTo`.
+
+**`operations_type`** (the Mixed-schedule split): `production | inventory | quality | maintenance`.
+
+## SDC facets (additive, never required)
+
+- **semantics** — IRI grounding (`iso:62264-…`, `cesmii:…`) for KG-Builder enrichment.
+- **quality** — `{onBad: drop|flag|hold}` on measured *actual* attributes (SegmentResponse / OperationsResponse).
+- **constraints** — single-entity only (e.g. actual within recipe control-limits via `valueFrom:"recipe:…"`).
+ Plan-vs-Ist (qty_shortfall, late_delivery) stays a **cross-source reconcile** (it-evaluator), not a
+ single-entity constraint block.
+
+## Structure
 
 ```
 next/
-├── validation/        ← extended meta-schemas (constraints + quality)
+├── the design notes ← the 2.0 design SSOT (decisions + conventions)
+├── validation/ ← unified meta-schema (profile/constraint/source/sync/recipe) + naming-standard
 ├── profiles/
-│   ├── machines/      ← copies of pilot base profiles + constraint/quality blocks
-│   └── intelligence/  ← discrepancy.json copy with 'constraint' added to enum
-├── build/
-│   └── shacl/         ← CI-generated, .gitignored beyond .gitkeep
-└── ci/                ← lint-constraints.mjs + json-to-shacl.mjs (+ tests)
+│ ├── operations/ ← NEW: the ISA-95 Part 4 operations layer
+│ ├── equipment/ ← Enterprise → ControlModule (ISA-95/ISA-88)
+│ ├── erp/ qms/ wms/ ← business/MOM information objects
+│ ├── machines/ ← OT asset profiles (edge-polled OPC)
+│ └── intelligence/ ← discrepancy / resolution (own canonical schema)
+├── recipes/ ← ProductDefinition / control-limit master data
+├── sources/ examples/ ci/ build/
 ```
 
-## Pilot scope (v1)
+## Validation
 
-Pilot one base profile and the discrepancy enum — not all 45 profiles:
-
-- `next/profiles/machines/cnc-machine.json` — copy of canonical + constraints
-- `next/profiles/intelligence/discrepancy.json` — copy + `'constraint'` in the
-  `discrepancy_class` enum (0.1.0 → 0.2.0); validated against the **canonical**
-  `validation/intelligence-profile-schema.json` (the enum value is profile data,
-  no meta-schema change needed)
-- Pilot edge: cnc-009 (env flag `OSF_SCHEMA_TIER=next`)
-- cnc-001 / cnc-002 stay on canonical `profiles/`
-
-If the pilot is stable for ≥2 weeks with no drift and constraint violations flow cleanly
-into the steward queue → merge `next/*` into the canonical roots and delete `next/`.
-
-## CI
-
-- `.github/workflows/validate.yml` — canonical, unchanged
-- `.github/workflows/validate-next.yml` — separate workflow that **only** runs on
-  changes under `next/**`. Failures here do not block PRs that touch only canonical
-  paths.
-
-## Cross-repo coordination
-
-Adding the `'constraint'` discrepancy class requires a coordinated PR on
-`TobiasLante/i3x-v4` updating `services/discrepancy-engine/src/types.ts`. Do not merge
-the `next/profiles/intelligence/discrepancy.json` change until the engine is feature-
-flagged to accept it (otherwise it will reject incoming `class:constraint` events).
+- AJV against `validation/profile-schema.json` (+ `constraint-schema.json`); category↔folder by
+ `ci/lint-category.mjs` (now includes `operations/ → business`); guardrails by `ci/lint-delivery.mjs`;
+ constraint cross-refs by `ci/lint-constraints.mjs`; recipe refs by `ci/lint-recipes.mjs`.
+- 2.0 status: profiles/sources/recipes validate clean; all linters pass (delivery raises only the known
+ CNC-setpoint guardrail warnings).
 
 ## Decisions captured
 
-See the SDC strategy memo for the full reasoning. Short form:
-
-- **NOT** going SDC4-conformant (XSD/XML/sdc4.xsd is wrong fit for OT volume).
-- Additive in our own JSON SSOT. SHACL emitted as a build artifact, not authored.
-- Quality is the killer cherry-pick — would have caught the BadSessionIdInvalid
-  frozen-feed incident as `stale` instead of going silent.
-- Vault hash-chain (per-record Ed25519) stays — stronger than SDC's element metadata.
+See the design notes. Short form: pilot learnings → neutral repo; no customer shape enters
+`next/`. Plan/Ist separation confirmed; segment layer added; terminology law enforced; SDC facets carried.

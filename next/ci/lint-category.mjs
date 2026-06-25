@@ -13,6 +13,7 @@
 // Folder -> required category:
 //   profiles/machines/**        -> "machine"
 //   profiles/equipment/**       -> "equipment"
+//   profiles/operations/**      -> "business"
 //   profiles/{erp,qms,wms}/**   -> "business"
 //   profiles/intelligence/**    -> SKIPPED (own canonical schema, out of scope)
 //
@@ -33,6 +34,7 @@ const ROOT = process.env.PROFILES_ROOT
 const FOLDER_CATEGORY = {
   machines: "machine",
   equipment: "equipment",
+  operations: "business",
   erp: "business",
   qms: "business",
   wms: "business",

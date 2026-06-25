@@ -1,121 +1,156 @@
 {
-  "profileId": "SMProfile-OperationsResponse",
-  "version": "1.1.0",
-  "standard": "CESMII",
-  "displayName": "Operations Response (Produktions-Ist / Rückmeldung)",
-  "description": "next/ v4 — Level-3 MOM OperationsResponse = das IST der Fertigung (B2MML OperationsPerformance / OperationsResponse). Die ISA-95-Gegenseite zur OperationsRequest (ProductionOrder = das PLAN/SOLL): produzierte Menge, tatsächlicher End-Zeitpunkt, Ist-Status. SONDERFALL SIM: der Sim crammt Plan UND Ist auf EINE Order-Zeile (sim-v5-erp-orders: geplante_/produzierte_stueckzahl, lieferdatum_soll/_ist). Dieses Profil ist daher eine ZWEITE Projektion derselben REST-Source (source sim-v5-mom-operations-response), die nur die Ist-Felder + die Join-Keys mappt — eine eigene Entität, kein neuer Producer-Code. Plan-vs-Ist + Cross-Domain-Deviations (late_delivery, qty_shortfall, material_unavailable) sind CROSS-SOURCE-Vergleiche (Request <-> Response <-> Quant) und werden NICHT über den single-entity 'constraints'-Block ausgewertet, sondern vom it-evaluator-Cross-Source-Reconcile (multi_source-Discrepancy, about_order_no). Daher trägt dieses Profil bewusst KEINEN constraints-Block.",
-  "parentType": null,
-  "attributes": [
-    {
-      "name": "production_order_no",
-      "dataType": "String",
-      "required": true,
-      "category": "Core",
-      "description": "Join key — die OperationsRequest/ProductionOrder, die dieses Ist zurückmeldet (PERFORMS / RESPONDS_TO).",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "article_ref",
-      "dataType": "String",
-      "required": false,
-      "category": "Link",
-      "description": "Hergestellter Artikel (Join key auf Article / Quant für die Material-Verfügbarkeit).",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "machine_ref",
-      "dataType": "String",
-      "required": false,
-      "category": "Link",
-      "description": "Ausführende Maschine/Linie (machine_no).",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "quantity_produced",
-      "dataType": "Int32",
-      "required": false,
-      "category": "Execution",
-      "description": "Tatsächlich produzierte Stückzahl (Ist). Gegenstück zur OperationsRequest.Quantity (geplante_stueckzahl).",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "cycle_time_actual_sec",
-      "dataType": "Double",
-      "required": false,
-      "category": "Execution",
-      "description": "Tatsächlich gemessene Zykluszeit je Stück (s, IST — order_confirmations.cycle_time_actual). Das reale Pendant zur OperationsRequest.cycle_time_planned_sec (SOLL): sobald der Plan-Wert eine echte Quelle bekommt, ist der Cycle-Time-Vergleich Plan-vs-Ist möglich. Im realen ERP existiert NUR der Ist-Wert (keine Plan-Zykluszeit-Spalte; eine Ableitung aus geplantes_start/end_datum ist wegen Datums-Platzhaltern — 86400s-Spans — unbrauchbar).",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "actual_end_time",
-      "dataType": "DateTime",
-      "required": false,
-      "category": "Timing",
-      "description": "Tatsächlicher Fertigstellungs-/Lieferzeitpunkt (Ist). Gegenstück zur OperationsRequest.EndTime (lieferdatum_soll). Im Sim oft null bis zum Abschluss.",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "status",
-      "dataType": "String",
-      "required": false,
-      "category": "Core",
-      "description": "Ist-Status der Rückmeldung, z.B. offen, fertig, storniert (status / status_raw der Order-Zeile).",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "completed_at",
-      "dataType": "DateTime",
-      "required": false,
-      "category": "Timing",
-      "description": "Abschlusszeitpunkt der Rückmeldung (abgeschlossen_am), falls gesetzt.",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "updated_at",
-      "dataType": "DateTime",
-      "required": false,
-      "category": "Timing",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    }
-  ],
-  "relationships": [
-    { "type": "RESPONDS_TO", "target": "ProductionOrder" },
-    { "type": "FOR_ARTICLE", "target": "Article" },
-    { "type": "ON_MACHINE", "target": "Machine" }
-  ],
-  "kgNodeLabel": "OperationsResponse",
-  "kgIdProperty": "production_order_no",
-  "category": "business",
-  "isa95": {
-    "objectModel": "OperationsResponse",
-    "momDomain": "production",
-    "level": 3,
-    "note": "Level-3 MOM OperationsResponse (ISA-95 Part 4 / B2MML OperationsPerformance) = das IST. Gegenseite zur OperationsRequest (SMProfile-ProductionOrder = SOLL). Plan-vs-Ist (late_delivery, qty_shortfall) ist der Vergleich OperationsRequest.EndTime/Quantity gegen OperationsResponse.actual_end_time/quantity_produced — cross-entity, daher im it-evaluator-Cross-Source-Reconcile, nicht im single-entity constraints-Block.",
-    "propertyMap": {
-      "production_order_no": "OperationsResponse.OperationsRequestID",
-      "article_ref": "OperationsResponse.SegmentResponse.MaterialActual.MaterialDefinitionID",
-      "machine_ref": "OperationsResponse.SegmentResponse.EquipmentActual.EquipmentID",
-      "quantity_produced": "OperationsResponse.SegmentResponse.MaterialActual.Quantity",
-      "actual_end_time": "OperationsResponse.EndTime",
-      "status": "OperationsResponse.OperationsResponseState"
-    }
-  }
+ "profileId": "SMProfile-OperationsResponse",
+ "version": "2.0.0",
+ "standard": "CESMII",
+ "category": "business",
+ "displayName": "Operations Response (production actuals / confirmation)",
+ "description": "next/ v2.0 — Level-3 MOM OperationsResponse = the manufacturing actuals (B2MML OperationsPerformance). Opposite side to the OperationsRequest (ProductionOrder = PLAN/target). v2.0: the actuals per ProcessSegment are modeled out as a dedicated SMProfile-SegmentResponse (HAS_SEGMENT_RESPONSE, corresponds_to SegmentRequirement); measured actual fields carry the SDC quality facet. Plan-vs-actual + cross-domain deviations are Cross-Source (it-evaluator), not a single-entity constraints block.",
+ "parentType": null,
+ "abstract": false,
+ "attributes": [
+ {
+ "name": "production_order_no",
+ "dataType": "String",
+ "required": true,
+ "category": "Core",
+ "description": "Join key — the OperationsRequest whose actuals this confirms (RESPONDS_TO).",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "article_ref",
+ "dataType": "String",
+ "required": false,
+ "category": "Link",
+ "description": "Manufactured article (join key to Article).",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "machine_ref",
+ "dataType": "String",
+ "required": false,
+ "category": "Link",
+ "description": "Executing machine / line (machine_no).",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "quantity_produced",
+ "dataType": "Int32",
+ "required": false,
+ "category": "Execution",
+ "description": "Piece count actually produced (actual). Counterpart to qty_planned.",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change",
+ "quality": {
+ "onBad": "flag"
+ }
+ },
+ {
+ "name": "cycle_time_actual_sec",
+ "dataType": "Double",
+ "required": false,
+ "category": "Execution",
+ "description": "Actually measured cycle time per piece (s, actual).",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change",
+ "quality": {
+ "onBad": "flag"
+ }
+ },
+ {
+ "name": "actual_end_time",
+ "dataType": "DateTime",
+ "required": false,
+ "category": "Timing",
+ "description": "Actual completion time (actual). Counterpart to planned_end_time.",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change",
+ "quality": {
+ "onBad": "flag"
+ }
+ },
+ {
+ "name": "status",
+ "dataType": "String",
+ "required": false,
+ "category": "Core",
+ "description": "Actual status of the confirmation (offen (open), fertig (done), storniert (cancelled)).",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change",
+ "quality": {
+ "onBad": "flag"
+ }
+ },
+ {
+ "name": "completed_at",
+ "dataType": "DateTime",
+ "required": false,
+ "category": "Timing",
+ "description": "Completion timestamp of the confirmation, if set.",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "updated_at",
+ "dataType": "DateTime",
+ "required": false,
+ "category": "Timing",
+ "description": "Last change.",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ }
+ ],
+ "relationships": [
+ {
+ "type": "RESPONDS_TO",
+ "target": "ProductionOrder",
+ "targetIdProp": "production_order_no"
+ },
+ {
+ "type": "FOR_ARTICLE",
+ "target": "Article",
+ "targetIdProp": "article_no"
+ },
+ {
+ "type": "ON_MACHINE",
+ "target": "Machine",
+ "targetIdProp": "machine_id"
+ },
+ {
+ "type": "HAS_SEGMENT_RESPONSE",
+ "target": "SegmentResponse",
+ "description": "v2.0 — Inverse of SegmentResponse.PART_OF: the actuals per ProcessSegment.",
+ "targetIdProp": "segment_response_no"
+ }
+ ],
+ "constraints": {},
+ "semantics": [],
+ "kpiRefs": [],
+ "isa95": {
+ "objectModel": "OperationsResponse",
+ "momDomain": "production",
+ "level": 3,
+ "note": "Level-3 MOM OperationsResponse (B2MML) = the actuals. v2.0: the actuals per ProcessSegment are modeled out as a dedicated SMProfile-SegmentResponse (HAS_SEGMENT_RESPONSE); article_ref/machine_ref/quantity_produced remain a denormalized header shortcut, while material consumed/produced per segment lives as MaterialActual (MaterialLot) in the SegmentResponses. Plan-vs-actual = Cross-Source reconcile. SPEC-VS-ACTUAL: measured actual product property values (process-specific, e.g. line_speed/thickness/area_weight) hang off the Response (or SegmentResponse, delivery telemetry) and are checked against the ProductDefinition recipe bands. Process-specific measurement attributes live in customer profiles/examples, not in the neutral profile.",
+ "propertyMap": {
+ "production_order_no": "OperationsResponse.OperationsRequestID",
+ "article_ref": "OperationsResponse.SegmentResponse.MaterialActual.MaterialDefinitionID",
+ "machine_ref": "OperationsResponse.SegmentResponse.EquipmentActual.EquipmentID",
+ "quantity_produced": "OperationsResponse.SegmentResponse.MaterialActual.Quantity",
+ "actual_end_time": "OperationsResponse.EndTime",
+ "status": "OperationsResponse.OperationsResponseState"
+ }
+ },
+ "kgNodeLabel": "OperationsResponse",
+ "kgIdProperty": "production_order_no"
 }

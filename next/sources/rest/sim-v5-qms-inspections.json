@@ -1,93 +1,93 @@
 {
-  "sourceId": "sim-v5-qms-inspections",
-  "version": "1.0.0",
-  "sourceType": "rest",
-  "syncType": "polling",
-  "profileRef": "SMProfile-InspectionLot",
-  "transport": [
-    "nats"
-  ],
-  "connection": {
-    "baseUrl": "http://192.168.178.154:38261",
-    "path": "/api/qms/inspection-lots",
-    "method": "GET",
-    "auth": null,
-    "timeoutMs": 10000
-  },
-  "response": {
-    "format": "json",
-    "rootPath": "$",
-    "idProperty": "lot_no"
-  },
-  "polling": {
-    "changeDetection": "timestamp",
-    "timestampQueryParam": "since",
-    "timestampField": "created_at",
-    "intervalMs": 30000,
-    "batchSize": 200
-  },
-  "columnMappings": [
-    {
-      "column": "lot_no",
-      "smAttribute": "lot_no",
-      "isId": true
-    },
-    {
-      "column": "article_no",
-      "smAttribute": "article_ref"
-    },
-    {
-      "column": "production_order_no",
-      "smAttribute": "order_ref"
-    },
-    {
-      "column": "status",
-      "smAttribute": "status"
-    },
-    {
-      "column": "state",
-      "smAttribute": "state"
-    },
-    {
-      "column": "lot_type",
-      "smAttribute": "lot_type"
-    },
-    {
-      "column": "decision",
-      "smAttribute": "decision"
-    },
-    {
-      "column": "machine_no",
-      "smAttribute": "machine_ref"
-    },
-    {
-      "column": "lot_quantity",
-      "smAttribute": "quantity"
-    },
-    {
-      "column": "sample_size",
-      "smAttribute": "sample_size"
-    },
-    {
-      "column": "created_at",
-      "smAttribute": "created_at"
-    }
-  ],
-  "edges": [
-    {
-      "type": "FOR_ORDER",
-      "fkColumn": "production_order_no",
-      "targetIdProp": "production_order_no"
-    },
-    {
-      "type": "FOR_ARTICLE",
-      "fkColumn": "article_no",
-      "targetIdProp": "article_no"
-    },
-    {
-      "type": "ON_MACHINE",
-      "fkColumn": "machine_no",
-      "targetIdProp": "machine_id"
-    }
-  ]
+ "sourceId": "sim-v5-qms-inspections",
+ "version": "2.0.0",
+ "sourceType": "rest",
+ "syncType": "polling",
+ "profileRef": "SMProfile-InspectionLot",
+ "transport": [
+ "nats"
+ ],
+ "connection": {
+ "baseUrl": "http://192.168.178.154:38261",
+ "path": "/api/qms/inspection-lots",
+ "method": "GET",
+ "auth": null,
+ "timeoutMs": 10000
+ },
+ "response": {
+ "format": "json",
+ "rootPath": "$",
+ "idProperty": "lot_no"
+ },
+ "polling": {
+ "changeDetection": "timestamp",
+ "timestampQueryParam": "since",
+ "timestampField": "created_at",
+ "intervalMs": 30000,
+ "batchSize": 200
+ },
+ "columnMappings": [
+ {
+ "column": "lot_no",
+ "smAttribute": "lot_no",
+ "isId": true
+ },
+ {
+ "column": "article_no",
+ "smAttribute": "article_ref"
+ },
+ {
+ "column": "production_order_no",
+ "smAttribute": "order_ref"
+ },
+ {
+ "column": "status",
+ "smAttribute": "status"
+ },
+ {
+ "column": "state",
+ "smAttribute": "state"
+ },
+ {
+ "column": "lot_type",
+ "smAttribute": "lot_type"
+ },
+ {
+ "column": "decision",
+ "smAttribute": "decision"
+ },
+ {
+ "column": "machine_no",
+ "smAttribute": "machine_ref"
+ },
+ {
+ "column": "lot_quantity",
+ "smAttribute": "quantity"
+ },
+ {
+ "column": "sample_size",
+ "smAttribute": "sample_size"
+ },
+ {
+ "column": "created_at",
+ "smAttribute": "created_at"
+ }
+ ],
+ "edges": [
+ {
+ "type": "FOR_ORDER",
+ "fkColumn": "production_order_no",
+ "targetIdProp": "production_order_no"
+ },
+ {
+ "type": "FOR_ARTICLE",
+ "fkColumn": "article_no",
+ "targetIdProp": "article_no"
+ },
+ {
+ "type": "ON_MACHINE",
+ "fkColumn": "machine_no",
+ "targetIdProp": "machine_id"
+ }
+ ]
 }
