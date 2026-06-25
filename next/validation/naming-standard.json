@@ -1,90 +1,90 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://osf-schemas/next/validation/naming-standard.json",
-  "title": "OSF Naming Standard — customer-neutral identifier & token conventions (next/, DORMANT)",
-  "_status": "DORMANT — descriptive data table only. Nothing live reads or validates against this file. It documents the conventions already in use (element_id / kg_merge_key / kgNodeLabel / *_ref) and pins a single reserved forward-looking alias (`equipmentPath`). No canonical or next/ schema $refs this file, so adopting it is opt-in and reversible.",
-  "_purpose": "G-E naming standard. A single, plant-agnostic reference for how identifiers, labels, hierarchy-path keys and reference properties are named across SMProfiles, sources and the KG. Customer-neutral by construction: it defines the SHAPE of names, never a specific customer's plant/line/unit codes (those live only in next/examples/ demo fixtures).",
-  "version": "0.1.0",
-  "type": "object",
+ "$schema": "http://json-schema.org/draft-07/schema#",
+ "$id": "https://osf-schemas/next/validation/naming-standard.json",
+ "title": "OSF Naming Standard — customer-neutral identifier & token conventions (next/, DORMANT)",
+ "_status": "DORMANT — descriptive data table only. Nothing live reads or validates against this file. It documents the conventions already in use (element_id / kg_merge_key / kgNodeLabel / *_ref) and pins a single reserved forward-looking alias (`equipmentPath`). No canonical or next/ schema $refs this file, so adopting it is opt-in and reversible.",
+ "_purpose": "G-E naming standard. A single, plant-agnostic reference for how identifiers, labels, hierarchy-path keys and reference properties are named across SMProfiles, sources and the KG. Customer-neutral by construction: it defines the SHAPE of names, never a specific customer's plant/line/unit codes (those live only in next/examples/ demo fixtures).",
+ "version": "2.0.0",
+ "type": "object",
 
-  "x-naming-standard": {
-    "principles": [
-      "Customer-neutral: define the shape of a name, never a concrete plant/line/unit value. Concrete instance ids (e.g. 'VAM5.BD.BC1') belong only to demo fixtures under next/examples/.",
-      "One identity, one key: a KG node is MERGEd on its stable, owner-independent coalesce key (kg_merge_key), not on (id, owner). A telemetry source that later maps its machineId to the same key lands on the same node.",
-      "Hierarchy in the id: ISA-88/ISA-95 element ids are dot-delimited path-prefixed tokens that trace the containment chain (Enterprise -> Site -> Area -> ProcessCell -> Unit -> EquipmentModule -> ControlModule). This is the `equipmentPath` shape.",
-      "ASCII, stable, opaque-friendly: tokens are [A-Za-z0-9_-]; segments joined by '.'; no spaces, no locale-specific characters; treat ids as opaque keys, not as display text (use `name` for display).",
-      "Labels are PascalCase singular nouns (Enterprise, Site, Area, ProcessCell, EquipmentUnit, EquipmentModule, ControlModule, Machine, Equipment); relationship types are UPPER_SNAKE_CASE (PART_OF, EXECUTED_AT).",
-      "Reference properties end in `_ref` and carry the element_id of the parent/target (e.g. enterprise_ref, site_ref, process_cell_ref, equipment_module_ref); per-level identity properties end in `_id` (enterprise_id, unit_id, control_module_id)."
-    ],
+ "x-naming-standard": {
+ "principles": [
+ "Customer-neutral: define the shape of a name, never a concrete plant/line/unit value. Concrete instance ids (e.g. '<site>.<area>.<cell>') belong only to demo fixtures under next/examples/.",
+ "One identity, one key: a KG node is MERGEd on its stable, owner-independent coalesce key (kg_merge_key), not on (id, owner). A telemetry source that later maps its machineId to the same key lands on the same node.",
+ "Hierarchy in the id: ISA-88/ISA-95 element ids are dot-delimited path-prefixed tokens that trace the containment chain (Enterprise -> Site -> Area -> ProcessCell -> Unit -> EquipmentModule -> ControlModule). This is the `equipmentPath` shape.",
+ "ASCII, stable, opaque-friendly: tokens are [A-Za-z0-9_-]; segments joined by '.'; no spaces, no locale-specific characters; treat ids as opaque keys, not as display text (use `name` for display).",
+ "Labels are PascalCase singular nouns (Enterprise, Site, Area, ProcessCell, EquipmentUnit, EquipmentModule, ControlModule, Machine, Equipment); relationship types are UPPER_SNAKE_CASE (PART_OF, EXECUTED_AT).",
+ "Reference properties end in `_ref` and carry the element_id of the parent/target (e.g. enterprise_ref, site_ref, process_cell_ref, equipment_module_ref); per-level identity properties end in `_id` (enterprise_id, unit_id, control_module_id)."
+ ],
 
-    "tokens": [
-      {
-        "token": "element_id",
-        "role": "primary identifier",
-        "shape": "PATH_SEGMENT('.'PATH_SEGMENT)*  where PATH_SEGMENT = [A-Za-z0-9_-]+",
-        "neutralExample": "<cell>.<module>.<controlmodule>",
-        "description": "Stable, opaque MERGE key for a KG node. For ISA-88/ISA-95 equipment it is path-prefixed so codes that collide across siblings stay unique. kg-builder pickId() reads it.",
-        "status": "in-use"
-      },
-      {
-        "token": "kg_merge_key",
-        "role": "owner-independent coalesce key",
-        "shape": "= element_id (today)",
-        "neutralExample": "<cell>.<module>.<controlmodule>",
-        "description": "The cross-owner identity kg-builder coalesces on, so an OT telemetry source and the master-data anchor land on ONE node. The anchor-loader sets kg_merge_key = element_id.",
-        "status": "in-use"
-      },
-      {
-        "token": "equipmentPath",
-        "role": "RESERVED forward-looking ALIAS of element_id / kg_merge_key",
-        "shape": "PATH_SEGMENT('.'PATH_SEGMENT)*",
-        "neutralExample": "<enterprise>.<site>.<area>.<cell>.<unit>.<module>.<controlmodule>",
-        "aliasOf": ["element_id", "kg_merge_key"],
-        "description": "A named, self-documenting alias for the dot-delimited containment path. DORMANT: not emitted, not consumed, not validated anywhere today. When adopted it will be the canonical, human-meaningful name for the same value element_id/kg_merge_key already carry — purely additive, no migration of stored ids.",
-        "status": "dormant"
-      },
-      {
-        "token": "kgNodeLabel",
-        "role": "KG primary label (PascalCase singular noun)",
-        "shape": "PascalCase",
-        "neutralExample": "EquipmentUnit",
-        "description": "Primary Neo4j label the profile maps its instances to. Customer-neutral TYPE name, never an instance name.",
-        "status": "in-use"
-      },
-      {
-        "token": "kgIdProperty",
-        "role": "per-level identity property name (ends in _id)",
-        "shape": "lower_snake_case ending in '_id'",
-        "neutralExample": "unit_id",
-        "description": "The profile-level property that carries this node's identity within its level.",
-        "status": "in-use"
-      },
-      {
-        "token": "*_ref",
-        "role": "reference property to a parent/target node",
-        "shape": "lower_snake_case ending in '_ref'",
-        "neutralExample": "process_cell_ref",
-        "description": "Carries the element_id of the related node; used by relationships[].targetIdProp to draw PART_OF / EXECUTED_AT edges.",
-        "status": "in-use"
-      },
-      {
-        "token": "relationshipType",
-        "role": "KG relationship type (UPPER_SNAKE_CASE)",
-        "shape": "UPPER_SNAKE_CASE",
-        "neutralExample": "PART_OF",
-        "description": "Edge type stamped by kg-builder safeRelType(). PART_OF for containment, EXECUTED_AT for order->equipment.",
-        "status": "in-use"
-      }
-    ],
+ "tokens": [
+ {
+ "token": "element_id",
+ "role": "primary identifier",
+ "shape": "PATH_SEGMENT('.'PATH_SEGMENT)* where PATH_SEGMENT = [A-Za-z0-9_-]+",
+ "neutralExample": "<cell>.<module>.<controlmodule>",
+ "description": "Stable, opaque MERGE key for a KG node. For ISA-88/ISA-95 equipment it is path-prefixed so codes that collide across siblings stay unique. kg-builder pickId() reads it.",
+ "status": "in-use"
+ },
+ {
+ "token": "kg_merge_key",
+ "role": "owner-independent coalesce key",
+ "shape": "= element_id (today)",
+ "neutralExample": "<cell>.<module>.<controlmodule>",
+ "description": "The cross-owner identity kg-builder coalesces on, so an OT telemetry source and the master-data anchor land on ONE node. The anchor-loader sets kg_merge_key = element_id.",
+ "status": "in-use"
+ },
+ {
+ "token": "equipmentPath",
+ "role": "RESERVED forward-looking ALIAS of element_id / kg_merge_key",
+ "shape": "PATH_SEGMENT('.'PATH_SEGMENT)*",
+ "neutralExample": "<enterprise>.<site>.<area>.<cell>.<unit>.<module>.<controlmodule>",
+ "aliasOf": ["element_id", "kg_merge_key"],
+ "description": "A named, self-documenting alias for the dot-delimited containment path. DORMANT: not emitted, not consumed, not validated anywhere today. When adopted it will be the canonical, human-meaningful name for the same value element_id/kg_merge_key already carry — purely additive, no migration of stored ids.",
+ "status": "dormant"
+ },
+ {
+ "token": "kgNodeLabel",
+ "role": "KG primary label (PascalCase singular noun)",
+ "shape": "PascalCase",
+ "neutralExample": "EquipmentUnit",
+ "description": "Primary Neo4j label the profile maps its instances to. Customer-neutral TYPE name, never an instance name.",
+ "status": "in-use"
+ },
+ {
+ "token": "kgIdProperty",
+ "role": "per-level identity property name (ends in _id)",
+ "shape": "lower_snake_case ending in '_id'",
+ "neutralExample": "unit_id",
+ "description": "The profile-level property that carries this node's identity within its level.",
+ "status": "in-use"
+ },
+ {
+ "token": "*_ref",
+ "role": "reference property to a parent/target node",
+ "shape": "lower_snake_case ending in '_ref'",
+ "neutralExample": "process_cell_ref",
+ "description": "Carries the element_id of the related node; used by relationships[].targetIdProp to draw PART_OF / EXECUTED_AT edges.",
+ "status": "in-use"
+ },
+ {
+ "token": "relationshipType",
+ "role": "KG relationship type (UPPER_SNAKE_CASE)",
+ "shape": "UPPER_SNAKE_CASE",
+ "neutralExample": "PART_OF",
+ "description": "Edge type stamped by kg-builder safeRelType(). PART_OF for containment, EXECUTED_AT for order->equipment.",
+ "status": "in-use"
+ }
+ ],
 
-    "isa95Isa88PathLevels": [
-      { "level": 1, "model": "ISA-95", "label": "Enterprise",      "idProperty": "enterprise_id",      "parentRef": null },
-      { "level": 2, "model": "ISA-95", "label": "Site",            "idProperty": "site_id",            "parentRef": "enterprise_ref" },
-      { "level": 3, "model": "ISA-95", "label": "Area",            "idProperty": "area_id",            "parentRef": "site_ref" },
-      { "level": 4, "model": "ISA-88", "label": "ProcessCell",     "idProperty": "process_cell_id",    "parentRef": "area_ref" },
-      { "level": 5, "model": "ISA-88", "label": "EquipmentUnit",   "idProperty": "unit_id",            "parentRef": "process_cell_ref" },
-      { "level": 6, "model": "ISA-88", "label": "EquipmentModule", "idProperty": "equipment_module_id","parentRef": "unit_ref" },
-      { "level": 7, "model": "ISA-88", "label": "ControlModule",   "idProperty": "control_module_id",  "parentRef": "equipment_module_ref" }
-    ]
-  }
+ "isa95Isa88PathLevels": [
+ { "level": 1, "model": "ISA-95", "label": "Enterprise", "idProperty": "enterprise_id", "parentRef": null },
+ { "level": 2, "model": "ISA-95", "label": "Site", "idProperty": "site_id", "parentRef": "enterprise_ref" },
+ { "level": 3, "model": "ISA-95", "label": "Area", "idProperty": "area_id", "parentRef": "site_ref" },
+ { "level": 4, "model": "ISA-88", "label": "ProcessCell", "idProperty": "process_cell_id", "parentRef": "area_ref" },
+ { "level": 5, "model": "ISA-88", "label": "EquipmentUnit", "idProperty": "unit_id", "parentRef": "process_cell_ref" },
+ { "level": 6, "model": "ISA-88", "label": "EquipmentModule", "idProperty": "equipment_module_id","parentRef": "unit_ref" },
+ { "level": 7, "model": "ISA-88", "label": "ControlModule", "idProperty": "control_module_id", "parentRef": "equipment_module_ref" }
+ ]
+ }
 }

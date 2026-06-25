@@ -1,6 +1,6 @@
 {
   "sourceId": "opcua-sgm-003-bde",
-  "version": "3.0.0",
+  "version": "2.0.0",
   "sourceType": "opcua",
   "syncType": "polling",
   "transport": [
@@ -27,29 +27,29 @@
   "nodeMappings": [
     {
       "opcuaNodeId": "ns=1;s=Machine/status",
-      "smAttribute": "machine_status",
+      "smAttribute": "status",
       "dataType": "ns=0;i=12"
     },
     {
       "opcuaNodeId": "ns=1;s=Machine/partsCount/good",
-      "smAttribute": "parts_good",
+      "smAttribute": "good",
       "dataType": "ns=0;i=6",
       "unit": "count"
     },
     {
       "opcuaNodeId": "ns=1;s=Machine/partsCount/scrap",
-      "smAttribute": "parts_scrap",
+      "smAttribute": "scrap",
       "dataType": "ns=0;i=6",
       "unit": "count"
     },
     {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shot/inCycle",
-      "smAttribute": "in_cycle",
+      "smAttribute": "inCycle",
       "dataType": "ns=0;i=1"
     },
     {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shot/shotCount",
-      "smAttribute": "shot_count",
+      "smAttribute": "shotCount",
       "dataType": "ns=0;i=6",
       "unit": "count"
     }

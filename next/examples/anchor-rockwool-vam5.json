@@ -2,10 +2,10 @@
   "_comment": "EXAMPLE / DEMO FIXTURE — Rockwool VAM5 reference instance, NOT canonical. This is customer-specific master-data used to seed the live KG demo (229 nodes). The reusable, customer-NEUTRAL equipment TYPE assets are the SMProfile-* under next/profiles/equipment/. Golden Rule: generalize, don't copy — treat this only as a worked example of how to populate the hierarchy for a real plant. See next/examples/README.md. (G-A anchor isolation: relocated from next/sources/static/ into next/examples/ where it conceptually belongs; the anchor-loader scans next/examples FIRST so the live KG seed is preserved — see services/anchor-loader in i3x-v4.)",
   "_example": true,
   "sourceId": "anchor-rockwool-vam5",
-  "version": "0.1.0",
+  "version": "2.0.0",
   "sourceType": "static",
   "syncType": "anchor",
-  "description": "ANKER-SOURCE — laedt die ECHTE Rockwool-VAM5-Equipment-Hierarchie (7-Level ISA-88-physisches-Modell genestet in ISA-95) als Master-Data in den KG. Datengetrieben generiert aus /tmp/vam5.xlsx (Sheets 'Equipment model names' + 'Equipment model descriptions') via /tmp/gen_anchor.py — NICHT von Hand. Jedes record == ein KG-Knoten (OT-Snapshot-Kontrakt: id=element_id, isa95_class->ExtraLabel in kg-builder Phase-2a, type->ObjectType). Die relationships[] ziehen die PART_OF-Kette ControlModule->EquipmentModule->Unit->ProcessCell->Area->Site->Enterprise. element_ids ab ProcessCell sind pfad-praefixiert (z.B. 'VAM5.SP.CO.SL'), da die Codes (CO/BU/...) ueber Units hinweg kollidieren.",
+  "description": "ANCHOR SOURCE — loads the REAL Rockwool VAM5 equipment hierarchy (7-level ISA-88 physical model nested in ISA-95) as master data into the KG. Generated data-driven from /tmp/vam5.xlsx (sheets 'Equipment model names' + 'Equipment model descriptions') via /tmp/gen_anchor.py — NOT by hand. Each record == one KG node (OT snapshot contract: id=element_id, isa95_class->ExtraLabel in kg-builder phase-2a, type->ObjectType). The relationships[] draw the PART_OF chain ControlModule->EquipmentModule->Unit->ProcessCell->Area->Site->Enterprise. element_ids from ProcessCell upward are path-prefixed (e.g. 'VAM5.SP.CO.SL'), because the codes (CO/BU/...) collide across units.",
   "transport": [
     "nats"
   ],
@@ -21,7 +21,7 @@
   "snapshotSubject": "i3x.kg.snapshot.ot.anchor-rockwool-vam5",
   "anchor": {
     "kind": "equipment-hierarchy",
-    "source": "Rockwool VAM5 Equipmentmodell (echtes 7-Level S88/S95-Modell)",
+    "source": "Rockwool VAM5 equipment model (real 7-level S88/S95 model)",
     "model": "7-Level: Enterprise(RW) > Site(VAM) > Area(WL) > ProcessCell(VAM5) > Unit(17) > EquipmentModule(174) > ControlModule(34)",
     "counts": {
       "enterprise": 1,
@@ -33,7 +33,7 @@
       "control_module": 34,
       "total_nodes": 229
     },
-    "note": "Board-Footer nennt '17 WorkCenter Units, 196 Unit Modules, 36 SubUnitModules'. Die 196/36 sind ZEILEN-Zaehlungen der xlsx (196 Datenzeilen, 34 davon mit SubUnitModule). Als KG-KNOTEN (unique Pfad) ergeben sich 17 Units, 174 EquipmentModules und 34 ControlModules — das ist die hier verankerte Wahrheit. 4 Units (BI/HP/TO/TS) sind Blatt-Units ohne UnitModule (leere Zelle = kein Kind). Diskrepanz 174 vs 196 und 34 vs 36 ist im Review zu bestaetigen."
+    "note": "Board footer states '17 WorkCenter Units, 196 Unit Modules, 36 SubUnitModules'. The 196/36 are ROW counts of the xlsx (196 data rows, 34 of them with a SubUnitModule). As KG NODES (unique path) this yields 17 Units, 174 EquipmentModules and 34 ControlModules — that is the truth anchored here. 4 Units (BI/HP/TO/TS) are leaf units without a UnitModule (empty cell = no child). The discrepancy 174 vs 196 and 34 vs 36 is to be confirmed in review."
   },
   "records": [
     {
@@ -3924,12 +3924,12 @@
   ],
   "bindings": {
     "OPC": {
-      "description": "OT-Telemetrie bindet per id an den passenden Equipment-Knoten. Im VAM5-Modell sind die OT-relevanten 'Maschinen' die ISA-88-Units (Curing Oven, Spinning, Melting, ...) und teils die EquipmentModules; OPC-UA-Sources wuerden ihren machineId auf die unit_id (z.B. 'VAM5.CO') bzw. equipment_module_id mappen. Idempotenter Merge im kg-builder per (kgIdProperty) -> ein Knoten traegt Telemetrie UND Hierarchie. WICHTIG: Die Sim-Maschinen cnc-001/002/009 + sgm-004 sind ein ANDERER, eigenstaendiger Stack und KEIN Teil von VAM5 — sie haengen nicht an dieser Hierarchie. Es existiert (noch) keine OT-Source, die echte VAM5-Telemetrie liefert; dieser Anker ist zunaechst reine Master-Data.",
-      "joinKey": "machineId -> unit_id (bzw. equipment_module_id)",
+      "description": "OT telemetry binds by id to the matching equipment node. In the VAM5 model the OT-relevant 'machines' are the ISA-88 Units (Curing Oven, Spinning, Melting, ...) and partly the EquipmentModules; OPC-UA sources would map their machineId onto the unit_id (e.g. 'VAM5.CO') or the equipment_module_id. Idempotent merge in the kg-builder by (kgIdProperty) -> one node carries telemetry AND hierarchy. IMPORTANT: the sim machines cnc-001/002/009 + sgm-004 are a DIFFERENT, standalone stack and NOT part of VAM5 — they do not hang off this hierarchy. There is (as yet) no OT source delivering real VAM5 telemetry; this anchor is initially pure master data.",
+      "joinKey": "machineId -> unit_id (or equipment_module_id)",
       "relTo": "EquipmentUnit/EquipmentModule via PART_OF (aufwaerts bis Enterprise)"
     },
     "POP": {
-      "description": "Werksauftraege/ProductionOrder (POP) referenzieren die Hierarchie, sind aber NICHT Teil davon. Eine Order -EXECUTED_AT-> EquipmentUnit (die ausfuehrende Prozessstufe) und transitiv an ProcessCell/Area/Site. Die Order selbst bleibt ihr eigenes Business-Objekt (SMProfile-ProductionOrder, Captain B) ausserhalb der Equipment-Domaene.",
+      "description": "Production orders/ProductionOrder (POP) reference the hierarchy but are NOT part of it. An order -EXECUTED_AT-> EquipmentUnit (the executing process stage) and transitively to ProcessCell/Area/Site. The order itself remains its own business object (SMProfile-ProductionOrder, Captain B) outside the equipment domain.",
       "joinKey": "order.equipment_ref -> unit_id",
       "relTo": "EquipmentUnit via EXECUTED_AT (Order-Seite)"
     }

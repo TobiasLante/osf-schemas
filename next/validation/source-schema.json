@@ -1,63 +1,63 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://osf-schemas/next/validation/source-schema.json",
-  "title": "OSF Source descriptor — next/ (AC-1 coverage: sources alongside profiles)",
-  "description": "Permissive AJV meta-schema for files under next/sources/** (postgresql/, rest/, static/). AC-1 requires the next/ validation pipeline to cover sources AND sync (not just profiles). This schema is deliberately CONSERVATIVE/PERMISSIVE: 'additionalProperties': true everywhere it is not certain, so it adds COVERAGE without imposing new constraints that would false-fail the existing, varied source files (DB pollers with columnMappings/edges, REST pollers with response/polling, and the static/anchor source with records[]/relationships[]/profileRefs[]). It pins only the small, universally-present spine: sourceId, version, sourceType, syncType, and the SHAPE of columnMappings/edges WHEN present. Deeper, per-sourceType semantics (connection shapes, valueMap, anchor records) are reviewed, not schema-pinned — same 'loose facet' pattern as isa95/constraints in the profile schemas. The id-property check (exactly one isId per source) is enforced separately where needed, not here.",
-  "type": "object",
-  "required": ["sourceId", "version", "sourceType"],
-  "properties": {
-    "_comment": { "type": "string", "description": "Optional doc/meta key (example/demo fixtures)." },
-    "_example": { "type": "boolean", "description": "Optional meta flag: example/demo fixture, not canonical." },
-    "sourceId": { "type": "string", "minLength": 1 },
-    "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
-    "sourceType": { "type": "string", "enum": ["postgresql", "postgres", "rest", "static", "opcua", "mqtt", "file", "csv"] },
-    "syncType": { "type": "string", "enum": ["polling", "anchor", "webhook", "streaming", "manual", "full_refresh"] },
-    "profileRef": { "type": "string" },
-    "profileRefs": { "type": "array", "items": { "type": "string" } },
-    "transport": { "type": "array", "items": { "type": "string" } },
-    "description": { "type": "string" },
-    "connection": { "type": "object", "additionalProperties": true },
-    "response": { "type": "object", "additionalProperties": true },
-    "polling": { "type": "object", "additionalProperties": true },
-    "filter": { "type": ["string", "null"] },
-    "snapshotSubject": { "type": "string" },
-    "anchor": { "type": "object", "additionalProperties": true },
-    "records": { "type": "array", "items": { "type": "object", "additionalProperties": true } },
-    "relationships": { "type": "array", "items": { "type": "object", "additionalProperties": true } },
-    "columnMappings": {
-      "type": "array",
-      "description": "Column/field -> SM attribute projection. Each entry maps a source 'column' (or a literal 'const', or a template) onto an 'smAttribute'. Loosely typed: at least one of column/const must be present, smAttribute is required; optional isId/valueMap. additionalProperties allowed for forward-compat (e.g. template/transform).",
-      "items": {
-        "type": "object",
-        "required": ["smAttribute"],
-        "properties": {
-          "column": { "type": "string" },
-          "const": {},
-          "smAttribute": { "type": "string", "minLength": 1 },
-          "isId": { "type": "boolean" },
-          "valueMap": { "type": "object", "additionalProperties": true }
-        },
-        "anyOf": [
-          { "required": ["column"] },
-          { "required": ["const"] }
-        ],
-        "additionalProperties": true
-      }
-    },
-    "edges": {
-      "type": "array",
-      "description": "KG edges projected from this source (kg-builder / it-edge canonical KG projection). Loosely typed: 'type' is the relationship label; fkColumn/targetIdProp wire the join. additionalProperties allowed for forward-compat.",
-      "items": {
-        "type": "object",
-        "required": ["type"],
-        "properties": {
-          "type": { "type": "string", "minLength": 1 },
-          "fkColumn": { "type": "string" },
-          "targetIdProp": { "type": "string" }
-        },
-        "additionalProperties": true
-      }
-    }
-  },
-  "additionalProperties": true
+ "$schema": "http://json-schema.org/draft-07/schema#",
+ "$id": "https://osf-schemas/next/validation/source-schema.json",
+ "title": "OSF Source descriptor — next/ (AC-1 coverage: sources alongside profiles) — v2.0",
+ "description": "Permissive AJV meta-schema for files under next/sources/** (postgresql/, rest/, static/). AC-1 requires the next/ validation pipeline to cover sources AND sync (not just profiles). This schema is deliberately CONSERVATIVE/PERMISSIVE: 'additionalProperties': true everywhere it is not certain, so it adds COVERAGE without imposing new constraints that would false-fail the existing, varied source files (DB pollers with columnMappings/edges, REST pollers with response/polling, and the static/anchor source with records[]/relationships[]/profileRefs[]). It pins only the small, universally-present spine: sourceId, version, sourceType, syncType, and the SHAPE of columnMappings/edges WHEN present. Deeper, per-sourceType semantics (connection shapes, valueMap, anchor records) are reviewed, not schema-pinned — same 'loose facet' pattern as isa95/constraints in the profile schemas. The id-property check (exactly one isId per source) is enforced separately where needed, not here.",
+ "type": "object",
+ "required": ["sourceId", "version", "sourceType"],
+ "properties": {
+ "_comment": { "type": "string", "description": "Optional doc/meta key (example/demo fixtures)." },
+ "_example": { "type": "boolean", "description": "Optional meta flag: example/demo fixture, not canonical." },
+ "sourceId": { "type": "string", "minLength": 1 },
+ "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+ "sourceType": { "type": "string", "enum": ["postgresql", "postgres", "rest", "static", "opcua", "mqtt", "file", "csv"] },
+ "syncType": { "type": "string", "enum": ["polling", "anchor", "webhook", "streaming", "manual", "full_refresh"] },
+ "profileRef": { "type": "string" },
+ "profileRefs": { "type": "array", "items": { "type": "string" } },
+ "transport": { "type": "array", "items": { "type": "string" } },
+ "description": { "type": "string" },
+ "connection": { "type": "object", "additionalProperties": true },
+ "response": { "type": "object", "additionalProperties": true },
+ "polling": { "type": "object", "additionalProperties": true },
+ "filter": { "type": ["string", "null"] },
+ "snapshotSubject": { "type": "string" },
+ "anchor": { "type": "object", "additionalProperties": true },
+ "records": { "type": "array", "items": { "type": "object", "additionalProperties": true } },
+ "relationships": { "type": "array", "items": { "type": "object", "additionalProperties": true } },
+ "columnMappings": {
+ "type": "array",
+ "description": "Column/field -> SM attribute projection. Each entry maps a source 'column' (or a literal 'const', or a template) onto an 'smAttribute'. Loosely typed: at least one of column/const must be present, smAttribute is required; optional isId/valueMap. additionalProperties allowed for forward-compat (e.g. template/transform).",
+ "items": {
+ "type": "object",
+ "required": ["smAttribute"],
+ "properties": {
+ "column": { "type": "string" },
+ "const": {},
+ "smAttribute": { "type": "string", "minLength": 1 },
+ "isId": { "type": "boolean" },
+ "valueMap": { "type": "object", "additionalProperties": true }
+ },
+ "anyOf": [
+ { "required": ["column"] },
+ { "required": ["const"] }
+ ],
+ "additionalProperties": true
+ }
+ },
+ "edges": {
+ "type": "array",
+ "description": "KG edges projected from this source (kg-builder / it-edge canonical KG projection). Loosely typed: 'type' is the relationship label; fkColumn/targetIdProp wire the join. additionalProperties allowed for forward-compat.",
+ "items": {
+ "type": "object",
+ "required": ["type"],
+ "properties": {
+ "type": { "type": "string", "minLength": 1 },
+ "fkColumn": { "type": "string" },
+ "targetIdProp": { "type": "string" }
+ },
+ "additionalProperties": true
+ }
+ }
+ },
+ "additionalProperties": true
 }

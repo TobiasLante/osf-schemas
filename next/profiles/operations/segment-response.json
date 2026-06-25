@@ -1,0 +1,221 @@
+{
+ "profileId": "SMProfile-SegmentResponse",
+ "version": "2.0.0",
+ "standard": "ISA-95",
+ "category": "business",
+ "displayName": "Segment Response (segment actuals per order)",
+ "description": "next/ v2.0 — Level-3 MOM SegmentResponse (ISA-95 Part 4 / B2MML OperationsResponse.SegmentResponse) = the actuals per manufacturing stage. An OperationsResponse (the order actuals) decomposes into ONE SegmentResponse PER ProcessSegment executed. Each SegmentResponse reports the actual values of the stage: material actually consumed/produced (as MaterialLot, with ROLE), equipment used, actual quantity and actual times. 'corresponds to' the SegmentRequirement (target). The measured actual fields carry the SDC quality facet (OPC-UA StatusCode propagation). Plan-vs-actual deviations (qty_shortfall, late) are CROSS-source (it-evaluator), not a single-entity constraints block.",
+ "parentType": null,
+ "abstract": false,
+ "attributes": [
+ {
+ "name": "segment_response_no",
+ "dataType": "String",
+ "required": true,
+ "category": "Core",
+ "description": "Identity of the SegmentResponse (join key). Recommendation: <production_order_no>.<sequence>.",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "operations_response_ref",
+ "dataType": "String",
+ "required": true,
+ "category": "Link",
+ "description": "FK to OperationsResponse.production_order_no (PART_OF). The order actuals to which these segment actuals belong.",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "segment_requirement_ref",
+ "dataType": "String",
+ "required": false,
+ "category": "Link",
+ "description": "FK to SegmentRequirement.segment_requirement_no (CORRESPONDS_TO). The target segment whose actuals are reported here.",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "process_segment_ref",
+ "dataType": "String",
+ "required": false,
+ "category": "Link",
+ "description": "FK to ProcessSegment.process_segment_no (FOR_SEGMENT). Which manufacturing stage was executed.",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "sequence",
+ "dataType": "Int32",
+ "required": false,
+ "category": "Execution",
+ "description": "Sequence of this segment within the order.",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "material_lot_ref",
+ "dataType": "String",
+ "required": false,
+ "category": "Link",
+ "description": "FK to MaterialLot.material_lot_no (PROCESSED_MATERIAL) = MaterialActual.MaterialLotID. The material lot actually consumed/produced; role via material_use.",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "material_use",
+ "dataType": "String",
+ "required": false,
+ "category": "Execution",
+ "description": "ISA-95 MaterialActual.MaterialUse — the ROLE of the material (actual). Mirrors the SegmentRequirement role.",
+ "enum": [
+ "Consumed",
+ "Produced",
+ "Consumable",
+ "ByProduct",
+ "Sample",
+ "MovedFrom",
+ "MovedTo"
+ ],
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "qty_actual",
+ "dataType": "Double",
+ "required": false,
+ "category": "Execution",
+ "description": "Actual quantity of this material role (actual). Counterpart to SegmentRequirement.qty_planned.",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change",
+ "quality": {
+ "onBad": "flag"
+ }
+ },
+ {
+ "name": "unit_of_measure",
+ "dataType": "String",
+ "required": false,
+ "category": "Execution",
+ "description": "Unit of measure of qty_actual.",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "equipment_ref",
+ "dataType": "String",
+ "required": false,
+ "category": "Link",
+ "description": "FK to EquipmentUnit.unit_id (USED_EQUIPMENT) = EquipmentActual.EquipmentID. The equipment actually used.",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "actual_start_time",
+ "dataType": "DateTime",
+ "required": false,
+ "category": "Timing",
+ "description": "Actual stage start (actual).",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change",
+ "quality": {
+ "onBad": "flag"
+ }
+ },
+ {
+ "name": "actual_end_time",
+ "dataType": "DateTime",
+ "required": false,
+ "category": "Timing",
+ "description": "Actual stage end (actual).",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change",
+ "quality": {
+ "onBad": "flag"
+ }
+ },
+ {
+ "name": "status",
+ "dataType": "String",
+ "required": false,
+ "category": "Core",
+ "description": "Actual status of the stage (e.g. running, complete, aborted). Derived from the MES OrderState.",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change",
+ "quality": {
+ "onBad": "flag"
+ }
+ }
+ ],
+ "relationships": [
+ {
+ "type": "PART_OF",
+ "target": "OperationsResponse",
+ "targetIdProp": "production_order_no",
+ "description": "The order actuals that contain these segment actuals."
+ },
+ {
+ "type": "CORRESPONDS_TO",
+ "target": "SegmentRequirement",
+ "targetIdProp": "segment_requirement_no",
+ "description": "ISA-95 'corresponds to' — the target segment."
+ },
+ {
+ "type": "FOR_SEGMENT",
+ "target": "ProcessSegment",
+ "targetIdProp": "process_segment_no",
+ "description": "The executed manufacturing stage (= plant = Function)."
+ },
+ {
+ "type": "PROCESSED_MATERIAL",
+ "target": "MaterialLot",
+ "targetIdProp": "material_lot_no",
+ "description": "The material lot consumed/produced; role via material_use."
+ },
+ {
+ "type": "USED_EQUIPMENT",
+ "target": "EquipmentUnit",
+ "targetIdProp": "unit_id",
+ "description": "The equipment actually used."
+ }
+ ],
+ "constraints": {},
+ "semantics": [
+ "iso:62264-SegmentResponse"
+ ],
+ "kpiRefs": [],
+ "isa95": {
+ "objectModel": "SegmentResponse",
+ "momDomain": "production",
+ "level": 3,
+ "note": "ISA-95 Part 4 OperationsResponse.SegmentResponse = actuals per ProcessSegment, with MaterialActual (MaterialUse=role, MaterialLot) + EquipmentActual. 'corresponds to' SegmentRequirement. Plan-vs-actual is Cross-Source (it-evaluator), not a constraints block. SPEC-VS-ACTUAL: measured actual product properties per segment are checked against the recipe target bands (ProductDefinition / recipe valueFrom).",
+ "propertyMap": {
+ "segment_response_no": "OperationsResponse.SegmentResponse.ID",
+ "operations_response_ref": "OperationsResponse.ID",
+ "segment_requirement_ref": "OperationsResponse.SegmentResponse.SegmentRequirementID",
+ "process_segment_ref": "OperationsResponse.SegmentResponse.ProcessSegmentID",
+ "material_lot_ref": "OperationsResponse.SegmentResponse.MaterialActual.MaterialLotID",
+ "material_use": "OperationsResponse.SegmentResponse.MaterialActual.MaterialUse",
+ "qty_actual": "OperationsResponse.SegmentResponse.MaterialActual.Quantity",
+ "equipment_ref": "OperationsResponse.SegmentResponse.EquipmentActual.EquipmentID",
+ "actual_start_time": "OperationsResponse.SegmentResponse.ActualStartTime",
+ "actual_end_time": "OperationsResponse.SegmentResponse.ActualEndTime",
+ "status": "OperationsResponse.SegmentResponse.SegmentState"
+ }
+ },
+ "kgNodeLabel": "SegmentResponse",
+ "kgIdProperty": "segment_response_no"
+}

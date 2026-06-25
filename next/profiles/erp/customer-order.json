@@ -1,157 +1,163 @@
 {
-  "profileId": "SMProfile-CustomerOrder",
-  "version": "1.1.0",
-  "standard": "CESMII",
-  "displayName": "Customer Order (Kundenauftrag / Sales Order)",
-  "description": "next/ v4 — Level-4 SALES order with a customer delivery commitment. Deliberately separated from the Level-3 OperationsRequest (ProductionOrder) it TRIGGERS: the sim currently conflates both onto one row (Sonderfall), but the clean MOM model keeps sales (L4) and production request/response (L3) apart. Plan-vs-actual deviations (late_delivery, qty_shortfall) are cross-entity OperationsRequest↔OperationsResponse checks and live in the cross-source phase, NOT here. Single-entity deviation: order_overdue (delivery commitment vs now).",
-  "parentType": null,
-  "attributes": [
-    {
-      "name": "order_no",
-      "dataType": "String",
-      "required": true,
-      "category": "Core",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "customer_ref",
-      "dataType": "String",
-      "required": false,
-      "category": "Link",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "customer_name",
-      "dataType": "String",
-      "required": false,
-      "category": "Core",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "quantity",
-      "dataType": "Int32",
-      "required": false,
-      "category": "Commercial",
-      "description": "Bestellte Stückzahl der Auftragszeile (menge). Mit unit_price die Quelle für total_amount — der reale ERP führt keine Auftragssumme: order value = menge × stueckpreis (vom it-evaluator abgeleitet).",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "unit_price",
-      "dataType": "Float",
-      "required": false,
-      "category": "Commercial",
-      "description": "Stückpreis der Auftragszeile (stueckpreis). Mit quantity die Quelle für total_amount (= quantity × unit_price).",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "total_amount",
-      "dataType": "Float",
-      "required": false,
-      "category": "Commercial",
-      "description": "Auftragswert. Direkt geliefert wo vorhanden; sonst vom it-evaluator als quantity × unit_price abgeleitet (der reale ERP hat keine Summen-Spalte). Treiber der €-Impact-Priorisierung (expected_impact).",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "currency",
-      "dataType": "String",
-      "required": false,
-      "category": "Commercial",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "due_date",
-      "dataType": "DateTime",
-      "required": false,
-      "category": "Planning",
-      "description": "Customer delivery commitment (the promised date the sales order is due).",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "status",
-      "dataType": "String",
-      "required": false,
-      "category": "Core",
-      "description": "Sales-order status, e.g. offen, bestaetigt, fertig, storniert.",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "priority",
-      "dataType": "String",
-      "required": false,
-      "category": "Planning",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    }
-  ],
-  "relationships": [
-    {
-      "type": "FOR_CUSTOMER",
-      "target": "Customer"
-    },
-    {
-      "type": "FOR_ARTICLE",
-      "target": "Article"
-    },
-    {
-      "type": "TRIGGERS",
-      "target": "ProductionOrder"
-    }
-  ],
-  "constraints": {
-    "order_overdue": {
-      "description": "Offener Kundenauftrag mit überschrittenem Liefertermin (Lieferverzug gegen das Kunden-Commitment).",
-      "when": {
-        "attr": "status",
-        "op": "eq",
-        "value": "offen"
-      },
-      "require": {
-        "attr": "due_date",
-        "op": "gte",
-        "valueAttr": "$now"
-      },
-      "severity": "warning",
-      "discrepancyClass": "constraint",
-      "concern": "operations",
-      "mom_category": "production",
-      "accountable_role": "Production Control",
-      "since": "2026-06-15",
-      "impact_basis": "penalty"
-    }
-  },
-  "kgNodeLabel": "CustomerOrder",
-  "kgIdProperty": "order_no",
-  "category": "business",
-  "isa95": {
-    "objectModel": "SalesOrder",
-    "extension": true,
-    "momDomain": "business",
-    "level": 4,
-    "note": "Level-4 Sales-Order (B2MML/ERP, oberhalb der MOM-Grenze). Löst eine Level-3 OperationsRequest (ProductionOrder) aus — Relationship TRIGGERS. due_date = Kunden-Liefer-Commitment, nicht der Produktions-EndTime.",
-    "propertyMap": {
-      "order_no": "SalesOrder.ID",
-      "customer_ref": "SalesOrder.CustomerID",
-      "due_date": "SalesOrder.RequestedDeliveryDate",
-      "priority": "SalesOrder.Priority"
-    }
-  }
+ "profileId": "SMProfile-CustomerOrder",
+ "version": "2.0.0",
+ "standard": "CESMII",
+ "category": "business",
+ "displayName": "Customer Order (sales order)",
+ "description": "next/ v4 — Level-4 SALES order with a customer delivery commitment. Deliberately separated from the Level-3 OperationsRequest (ProductionOrder) it TRIGGERS: the sim currently conflates both onto one row (Sonderfall), but the clean MOM model keeps sales (L4) and production request/response (L3) apart. Plan-vs-actual deviations (late_delivery, qty_shortfall) are cross-entity OperationsRequest↔OperationsResponse checks and live in the cross-source phase, NOT here. Single-entity deviation: order_overdue (delivery commitment vs now).",
+ "parentType": null,
+ "abstract": false,
+ "attributes": [
+ {
+ "name": "order_no",
+ "dataType": "String",
+ "required": true,
+ "category": "Core",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "customer_ref",
+ "dataType": "String",
+ "required": false,
+ "category": "Link",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "customer_name",
+ "dataType": "String",
+ "required": false,
+ "category": "Core",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "quantity",
+ "dataType": "Int32",
+ "required": false,
+ "category": "Commercial",
+ "description": "Ordered piece count of the order line (menge). Together with unit_price the source for total_amount — the real ERP does not keep an order total: order value = quantity × unit_price (derived by the it-evaluator).",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "unit_price",
+ "dataType": "Float",
+ "required": false,
+ "category": "Commercial",
+ "description": "Unit price of the order line (stueckpreis). Together with quantity the source for total_amount (= quantity × unit_price).",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "total_amount",
+ "dataType": "Float",
+ "required": false,
+ "category": "Commercial",
+ "description": "Order value. Delivered directly where available; otherwise derived by the it-evaluator as quantity × unit_price (the real ERP has no total column). Driver of the €-impact prioritization (expected_impact).",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "currency",
+ "dataType": "String",
+ "required": false,
+ "category": "Commercial",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "due_date",
+ "dataType": "DateTime",
+ "required": false,
+ "category": "Planning",
+ "description": "Customer delivery commitment (the promised date the sales order is due).",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "status",
+ "dataType": "String",
+ "required": false,
+ "category": "Core",
+ "description": "Sales-order status, e.g. offen (open), bestaetigt (confirmed), fertig (done), storniert (cancelled).",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "priority",
+ "dataType": "String",
+ "required": false,
+ "category": "Planning",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ }
+ ],
+ "relationships": [
+ {
+ "type": "FOR_CUSTOMER",
+ "target": "Customer",
+ "targetIdProp": "customer_no"
+ },
+ {
+ "type": "FOR_ARTICLE",
+ "target": "Article",
+ "targetIdProp": "article_no"
+ },
+ {
+ "type": "TRIGGERS",
+ "target": "ProductionOrder",
+ "targetIdProp": "production_order_no"
+ }
+ ],
+ "constraints": {
+ "order_overdue": {
+ "description": "Open customer order past its due date (delivery delay against the customer commitment).",
+ "when": {
+ "attr": "status",
+ "op": "eq",
+ "value": "offen"
+ },
+ "require": {
+ "attr": "due_date",
+ "op": "gte",
+ "valueAttr": "$now"
+ },
+ "severity": "warning",
+ "discrepancyClass": "constraint",
+ "concern": "operations",
+ "mom_category": "production",
+ "accountable_role": "Production Control",
+ "since": "2026-06-15",
+ "impact_basis": "penalty"
+ }
+ },
+ "semantics": [],
+ "kpiRefs": [],
+ "isa95": {
+ "objectModel": "SalesOrder",
+ "extension": true,
+ "momDomain": "business",
+ "level": 4,
+ "note": "Level-4 sales order (B2MML/ERP, above the MOM boundary). Triggers a Level-3 OperationsRequest (ProductionOrder) — relationship TRIGGERS. due_date = customer delivery commitment, not the production EndTime.",
+ "propertyMap": {
+ "order_no": "SalesOrder.ID",
+ "customer_ref": "SalesOrder.CustomerID",
+ "due_date": "SalesOrder.RequestedDeliveryDate",
+ "priority": "SalesOrder.Priority"
+ }
+ },
+ "kgNodeLabel": "CustomerOrder",
+ "kgIdProperty": "order_no"
 }

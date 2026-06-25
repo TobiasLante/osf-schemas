@@ -1,0 +1,71 @@
+{
+ "profileId": "SMProfile-Tool",
+ "version": "2.0.0",
+ "standard": "ISA-95",
+ "category": "equipment",
+ "displayName": "Tool (tooling / physical asset, e.g. mould)",
+ "description": "next/ v2.0 — ISA-95 physical asset / tooling (e.g. an injection mould, die, fixture). Neutral generalization of 'mould'. USES_TOOL target of machine profiles; can be set up on an EquipmentUnit.",
+ "parentType": null,
+ "abstract": false,
+ "attributes": [
+ {
+ "name": "tool_id",
+ "dataType": "String",
+ "required": true,
+ "category": "Core",
+ "description": "Tool identity / key.",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "name",
+ "dataType": "String",
+ "required": false,
+ "category": "Core",
+ "description": "Display name of the tool.",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "tool_type",
+ "dataType": "String",
+ "required": false,
+ "category": "Core",
+ "description": "Type of tooling (e.g. mould, die, fixture).",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "unit_ref",
+ "dataType": "String",
+ "required": false,
+ "category": "Link",
+ "description": "FK to EquipmentUnit.unit_id (SET_UP_ON) — where the tool is currently set up.",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ }
+ ],
+ "relationships": [
+ {
+ "type": "SET_UP_ON",
+ "target": "EquipmentUnit",
+ "targetIdProp": "unit_id",
+ "description": "The unit/machine the tool is currently set up on."
+ }
+ ],
+ "constraints": {},
+ "semantics": [],
+ "kpiRefs": [],
+ "isa95": {
+ "objectModel": "PhysicalAsset",
+ "momDomain": "production",
+ "equipmentClass": "tooling",
+ "note": "ISA-95 PhysicalAsset (tooling). USES_TOOL target of machine profiles; neutral replacement for 'Mould'."
+ },
+ "kgNodeLabel": "Tool",
+ "kgIdProperty": "tool_id"
+}

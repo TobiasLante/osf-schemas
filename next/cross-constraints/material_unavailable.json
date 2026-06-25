@@ -1,37 +1,37 @@
 {
-  "crossConstraintId": "material_unavailable",
-  "version": "1.0.0",
-  "standard": "OSF",
-  "displayName": "Material unavailable (cross-domain ERP↔WMS)",
-  "description": "Material unavailable: an active production response requires an article whose free WMS stock is 0.",
-  "$comment": "Cross-source facet (CAPT-B Phase 2, building block 3): an active production response (OperationsResponse, status=offen) requires an article whose free WMS stock is 0. The right side is N:1 (many quants per article) → 'aggregate' condenses the free stock (quantity, filtered to blocked==0) via sum. HOLDS (ok) when sum(free) > threshold(0); VIOLATED (raised) at 0. Modeled as a true multi_source class. SAFETY: 0 matches → 'unknown' (no raise before the WMS source has been observed at all). NOTE: needs a next/ quant projection with attributes article_ref/quantity/blocked (article_ref-keyed) — see report open question 'WMS projection'.",
-  "severity": "error",
-  "discrepancyClass": "multi_source",
-  "concern": "operations",
-  "mom_category": "inventory",
-  "accountable_role": "Materials Planning",
-  "when": {
-    "leftAttr": "status",
-    "eq": "offen"
-  },
-  "left": {
-    "profileRef": "SMProfile-OperationsResponse",
-    "joinKey": "article_ref"
-  },
-  "right": {
-    "profileRef": "SMProfile-Quant",
-    "joinKey": "article_ref"
-  },
-  "aggregate": {
-    "attr": "quantity",
-    "fn": "sum",
-    "filter": {
-      "attr": "blocked",
-      "eq": 0
-    }
-  },
-  "op": "gt",
-  "threshold": 0,
-  "since": "2026-06-15",
-  "impact_basis": "penalty"
+ "crossConstraintId": "material_unavailable",
+ "version": "2.0.0",
+ "standard": "OSF",
+ "displayName": "Material unavailable (cross-domain ERP↔WMS)",
+ "description": "Material unavailable: an active production response requires an article whose free WMS stock is 0.",
+ "$comment": "Cross-source facet (CAPT-B Phase 2, building block 3): an active production response (OperationsResponse, status=offen) requires an article whose free WMS stock is 0. The right side is N:1 (many quants per article) → 'aggregate' condenses the free stock (quantity, filtered to blocked==0) via sum. HOLDS (ok) when sum(free) > threshold(0); VIOLATED (raised) at 0. Modeled as a true multi_source class. SAFETY: 0 matches → 'unknown' (no raise before the WMS source has been observed at all). NOTE: needs a next/ quant projection with attributes article_ref/quantity/blocked (article_ref-keyed) — see report open question 'WMS projection'.",
+ "severity": "error",
+ "discrepancyClass": "multi_source",
+ "concern": "operations",
+ "mom_category": "inventory",
+ "accountable_role": "Materials Planning",
+ "when": {
+ "leftAttr": "status",
+ "eq": "offen"
+ },
+ "left": {
+ "profileRef": "SMProfile-OperationsResponse",
+ "joinKey": "article_ref"
+ },
+ "right": {
+ "profileRef": "SMProfile-Quant",
+ "joinKey": "article_ref"
+ },
+ "aggregate": {
+ "attr": "quantity",
+ "fn": "sum",
+ "filter": {
+ "attr": "blocked",
+ "eq": 0
+ }
+ },
+ "op": "gt",
+ "threshold": 0,
+ "since": "2026-06-15",
+ "impact_basis": "penalty"
 }

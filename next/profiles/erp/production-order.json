@@ -1,162 +1,208 @@
 {
-  "profileId": "SMProfile-ProductionOrder",
-  "version": "1.1.0",
-  "standard": "CESMII",
-  "displayName": "Production Order (Fertigungsauftrag / OperationsRequest — PLAN/SOLL)",
-  "description": "next/ v4 — Level-3 MOM OperationsRequest = der PLAN/SOLL der Fertigung (B2MML OperationsRequest / ISA-95 Part 4). Die ISA-95-Gegenseite zur OperationsResponse (SMProfile-OperationsResponse = das IST): geplante Menge, geplanter End-Zeitpunkt, Plan-Status. Eine Level-4 SalesOrder (SMProfile-CustomerOrder) TRIGGERS diese L3 OperationsRequest; die OperationsRequest wird EXECUTED_AT einer EquipmentUnit (Equipment-Hierarchie — Captain A; hier nur referenziert). SONDERFALL SIM: der Sim crammt Plan UND Ist auf EINE Order-Zeile (sim-v5-erp-orders: geplante_/produzierte_stueckzahl, lieferdatum_soll/_ist). Dieses Profil ist daher eine DRITTE Projektion derselben REST-Source (source sim-v5-erp-production-orders), die nur die PLAN-Felder + den Join-Key (production_order_no) mappt — eine eigene Entität, kein neuer Producer-Code. Plan-vs-Ist-Deviations (qty_shortfall, late_delivery) sind CROSS-SOURCE-Vergleiche OperationsRequest(qty_planned/planned_end_time) <-> OperationsResponse(quantity_produced/actual_end_time), gejoint auf production_order_no. Sie werden NICHT über den single-entity 'constraints'-Block ausgewertet, sondern vom it-evaluator-Cross-Source-Reconcile (multi_source-Discrepancy, about_order_no). Daher trägt dieses Profil bewusst KEINEN constraints-Block.",
-  "parentType": null,
-  "attributes": [
-    {
-      "name": "production_order_no",
-      "dataType": "String",
-      "required": true,
-      "category": "Core",
-      "description": "Join key — Identität der OperationsRequest/ProductionOrder. Die OperationsResponse meldet ihr IST über denselben Schlüssel zurück (RESPONDS_TO).",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "sales_order_ref",
-      "dataType": "String",
-      "required": false,
-      "category": "Link",
-      "description": "Auslösender Level-4 Kundenauftrag (order_no der SalesOrder, TRIGGERED_BY). Im Sim identisch zur production_order_no (Sonderfall: eine Zeile).",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "article_ref",
-      "dataType": "String",
-      "required": false,
-      "category": "Link",
-      "description": "Zu fertigender Artikel (article_no, Join key auf Article / Quant für die Material-Verfügbarkeit).",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "machine_ref",
-      "dataType": "String",
-      "required": false,
-      "category": "Link",
-      "description": "Geplante ausführende Maschine/Linie (machine_no). EXECUTED_AT EquipmentUnit (Equipment-Hierarchie, Captain A).",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "qty_planned",
-      "dataType": "Int32",
-      "required": false,
-      "category": "Planning",
-      "description": "Geplante Stückzahl (SOLL). Gegenstück zur OperationsResponse.quantity_produced (IST). Treiber der qty_shortfall-Cross-Source-Regel.",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "planned_end_time",
-      "dataType": "DateTime",
-      "required": false,
-      "category": "Timing",
-      "description": "Geplanter Fertigstellungs-/Liefertermin (SOLL, lieferdatum_soll). Gegenstück zur OperationsResponse.actual_end_time (IST). Treiber der late_delivery-Cross-Source-Regel (geparkt bis der Sim das Ist-Datum liefert — siehe Bericht).",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "cycle_time_planned_sec",
-      "dataType": "Int32",
-      "required": false,
-      "category": "Planning",
-      "description": "Geplante Zykluszeit je Stück (s). Plan-Dauer = qty_planned * cycle_time_planned_sec.",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "material_ready_at",
-      "dataType": "DateTime",
-      "required": false,
-      "category": "Planning",
-      "description": "Zeitpunkt ab dem das Material verfügbar ist (material_verfuegbar_ab) — Material-Ready-Constraint.",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "customer_order_qty",
-      "dataType": "Int32",
-      "required": false,
-      "category": "Planning",
-      "description": "Kundenbestellmenge des auslösenden Auftrags (kunde_bestellmenge — denormalisiert auf der FA). Echtes Quellfeld; ersetzt den im realen ERP nicht beschaffbaren sales_order_ref (die KA-Nr liegt invers auf kundenauftraege.production_order_no, der Single-Table-Edge kann nicht joinen). Gibt der Plan-vs-Ist-Abweichung den Kundendemand als Kontext.",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "customer_due_date",
-      "dataType": "DateTime",
-      "required": false,
-      "category": "Timing",
-      "description": "Kundenliefertermin des auslösenden Auftrags (kunde_lieferdatum — denormalisiert auf der FA). Echtes Quellfeld; gibt der Abweichung den Kundentermin ohne den im Edge unmöglichen Reverse-Join zur SalesOrder.",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "status",
-      "dataType": "String",
-      "required": false,
-      "category": "Core",
-      "description": "Plan-Status der OperationsRequest, z.B. offen, freigegeben, in_arbeit, fertig, storniert (status / status_raw der Order-Zeile).",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "priority",
-      "dataType": "String",
-      "required": false,
-      "category": "Planning",
-      "description": "Auftragspriorität (prioritaet).",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "updated_at",
-      "dataType": "DateTime",
-      "required": false,
-      "category": "Timing",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    }
-  ],
-  "relationships": [
-    { "type": "TRIGGERED_BY", "target": "CustomerOrder" },
-    { "type": "PRODUCES", "target": "Article" },
-    { "type": "EXECUTED_AT", "target": "EquipmentUnit" }
-  ],
-  "kgNodeLabel": "ProductionOrder",
-  "kgIdProperty": "production_order_no",
-  "category": "business",
-  "isa95": {
-    "objectModel": "OperationsRequest",
-    "momDomain": "production",
-    "level": 3,
-    "note": "Level-3 MOM OperationsRequest (ISA-95 Part 4 / B2MML OperationsRequest) = das PLAN/SOLL. Gegenseite zur OperationsResponse (SMProfile-OperationsResponse = IST). Eine Level-4 SalesOrder (SMProfile-CustomerOrder, JobOrder oberhalb der MOM-Grenze) loest diese OperationsRequest aus — Relationship TRIGGERED_BY (Inverse von SalesOrder.TRIGGERS). EXECUTED_AT verbindet sie mit der EquipmentUnit (Equipment-Hierarchie, Captain A). Plan-vs-Ist (qty_shortfall, late_delivery) ist der Cross-Source-Vergleich OperationsRequest.qty_planned/planned_end_time gegen OperationsResponse.quantity_produced/actual_end_time, gejoint auf production_order_no — im it-evaluator-Cross-Source-Reconcile, nicht im single-entity constraints-Block.",
-    "propertyMap": {
-      "production_order_no": "OperationsRequest.ID",
-      "sales_order_ref": "OperationsRequest.SalesOrderID",
-      "article_ref": "OperationsRequest.SegmentRequirement.MaterialRequirement.MaterialDefinitionID",
-      "machine_ref": "OperationsRequest.SegmentRequirement.EquipmentRequirement.EquipmentID",
-      "qty_planned": "OperationsRequest.SegmentRequirement.MaterialRequirement.Quantity",
-      "planned_end_time": "OperationsRequest.EndTime",
-      "status": "OperationsRequest.OperationsRequestState"
-    }
-  }
+ "profileId": "SMProfile-ProductionOrder",
+ "version": "2.0.0",
+ "standard": "CESMII",
+ "category": "business",
+ "displayName": "Production Order (manufacturing order / OperationsRequest — PLAN/target)",
+ "description": "next/ v2.0 — Level-3 MOM OperationsRequest = the PLAN/target of manufacturing (B2MML OperationsRequest / ISA-95 Part 4). Opposite side to the OperationsResponse (the actuals). A Level-4 SalesOrder (SMProfile-CustomerOrder) TRIGGERS this L3 OperationsRequest; EXECUTED_AT an EquipmentUnit. v2.0: the order INSTANTIATES an OperationsDefinition (routing master) and decomposes per ProcessSegment into SegmentRequirements (HAS_SEGMENT_REQUIREMENT); temporal subdivisions (FO index) as Workorder (HAS_WORKORDER). Plan-vs-actual (qty_shortfall, late_delivery) is Cross-Source (it-evaluator), not a single-entity constraints block.",
+ "parentType": null,
+ "abstract": false,
+ "attributes": [
+ {
+ "name": "production_order_no",
+ "dataType": "String",
+ "required": true,
+ "category": "Core",
+ "description": "Join key — identity of the OperationsRequest. The OperationsResponse reports its actuals back via the same key (RESPONDS_TO).",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "sales_order_ref",
+ "dataType": "String",
+ "required": false,
+ "category": "Link",
+ "description": "Triggering Level-4 customer order (order_no, TRIGGERED_BY).",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "article_ref",
+ "dataType": "String",
+ "required": false,
+ "category": "Link",
+ "description": "Article to be manufactured (article_no, join key to Article).",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "machine_ref",
+ "dataType": "String",
+ "required": false,
+ "category": "Link",
+ "description": "Planned executing machine / line (machine_no). EXECUTED_AT EquipmentUnit.",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "qty_planned",
+ "dataType": "Int32",
+ "required": false,
+ "category": "Planning",
+ "description": "Planned piece count (target). Counterpart to OperationsResponse.quantity_produced. Driver of the qty_shortfall rule.",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "planned_end_time",
+ "dataType": "DateTime",
+ "required": false,
+ "category": "Timing",
+ "description": "Planned completion date (target). Counterpart to actual_end_time. Driver of the late_delivery rule.",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "cycle_time_planned_sec",
+ "dataType": "Int32",
+ "required": false,
+ "category": "Planning",
+ "description": "Planned cycle time per piece (s).",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "material_ready_at",
+ "dataType": "DateTime",
+ "required": false,
+ "category": "Planning",
+ "description": "Time from which material is available — material-ready constraint.",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "customer_order_qty",
+ "dataType": "Int32",
+ "required": false,
+ "category": "Planning",
+ "description": "Customer order quantity of the triggering order (denormalized).",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "customer_due_date",
+ "dataType": "DateTime",
+ "required": false,
+ "category": "Timing",
+ "description": "Customer delivery date of the triggering order (denormalized).",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "status",
+ "dataType": "String",
+ "required": false,
+ "category": "Core",
+ "description": "Plan status of the OperationsRequest (offen (open), freigegeben (released), in_arbeit (in progress), fertig (done), storniert (cancelled)).",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "priority",
+ "dataType": "String",
+ "required": false,
+ "category": "Planning",
+ "description": "Order priority.",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "operations_definition_ref",
+ "dataType": "String",
+ "required": false,
+ "category": "Link",
+ "description": "v2.0 — instantiated routing (operations_definition_no, INSTANTIATES).",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "updated_at",
+ "dataType": "DateTime",
+ "required": false,
+ "category": "Timing",
+ "description": "Last change.",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ }
+ ],
+ "relationships": [
+ {
+ "type": "TRIGGERED_BY",
+ "target": "CustomerOrder",
+ "targetIdProp": "order_no"
+ },
+ {
+ "type": "PRODUCES",
+ "target": "Article",
+ "targetIdProp": "article_no"
+ },
+ {
+ "type": "EXECUTED_AT",
+ "target": "EquipmentUnit",
+ "targetIdProp": "unit_id"
+ },
+ {
+ "type": "INSTANTIATES",
+ "target": "OperationsDefinition",
+ "targetIdProp": "operations_definition_no",
+ "description": "v2.0 — the instantiated routing (master)."
+ },
+ {
+ "type": "HAS_SEGMENT_REQUIREMENT",
+ "target": "SegmentRequirement",
+ "description": "v2.0 — Inverse of SegmentRequirement.PART_OF: the target segments per ProcessSegment.",
+ "targetIdProp": "segment_requirement_no"
+ },
+ {
+ "type": "HAS_WORKORDER",
+ "target": "Workorder",
+ "description": "v2.0 — Inverse of Workorder.PART_OF: temporal subdivisions (FO index).",
+ "targetIdProp": "workorder_no"
+ }
+ ],
+ "constraints": {},
+ "semantics": [],
+ "kpiRefs": [],
+ "isa95": {
+ "objectModel": "OperationsRequest",
+ "momDomain": "production",
+ "level": 3,
+ "note": "Level-3 MOM OperationsRequest (B2MML) = PLAN/target. v2.0: the earlier flat SegmentRequirement.MaterialRequirement projection (propertyMap) is now modeled out as a dedicated SMProfile-SegmentRequirement per ProcessSegment (HAS_SEGMENT_REQUIREMENT); the order INSTANTIATES an OperationsDefinition and can be subdivided via Workorder (FO index). article_ref/machine_ref remain a denormalized header shortcut. Plan-vs-actual = Cross-Source reconcile, not a constraints block. QUANTITY: qty_planned is optional and is omitted for continuous bulk/length-based goods (e.g. continuous web/strand goods, sold by length) — then only times/status drive the PLAN.",
+ "propertyMap": {
+ "production_order_no": "OperationsRequest.ID",
+ "sales_order_ref": "OperationsRequest.SalesOrderID",
+ "operations_definition_ref": "OperationsRequest.OperationsDefinitionID",
+ "article_ref": "OperationsRequest.SegmentRequirement.MaterialRequirement.MaterialDefinitionID",
+ "machine_ref": "OperationsRequest.SegmentRequirement.EquipmentRequirement.EquipmentID",
+ "qty_planned": "OperationsRequest.SegmentRequirement.MaterialRequirement.Quantity",
+ "planned_end_time": "OperationsRequest.EndTime",
+ "status": "OperationsRequest.OperationsRequestState"
+ }
+ },
+ "kgNodeLabel": "ProductionOrder",
+ "kgIdProperty": "production_order_no"
 }

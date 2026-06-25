@@ -1,121 +1,138 @@
 {
-  "profileId": "SMProfile-Quant",
-  "version": "1.1.0",
-  "standard": "CESMII",
-  "displayName": "Quant (Lagerbestand-Einheit / MaterialSublot)",
-  "description": "next/ v4 — WMS Bestandseinheit (Quant) am Lagerort, ausgerichtet auf die LIVE-Projektion der Source sim-v5-wms-quants (article_ref/quantity/blocked/warehouse/storage_location), NICHT das Legacy-base-Profil (article_no/quality_status). Geschlüsselt auf quant_no. Die Cross-Domain-Deviation material_unavailable (next/cross-constraints/material_unavailable.json) joint OperationsResponse <-> Quant auf article_ref und aggregiert den freien Bestand (quantity, gefiltert auf blocked==0). Reiner Bestands-Träger, kein constraints-Block (Cross-Source).",
-  "parentType": null,
-  "attributes": [
-    {
-      "name": "quant_no",
-      "dataType": "String",
-      "required": true,
-      "category": "Core",
-      "description": "Eindeutige Quant-Id (quant_id der WMS-Zeile).",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "article_ref",
-      "dataType": "String",
-      "required": false,
-      "category": "Link",
-      "description": "Artikel (artikel_nr) — Join-Key auf Article / OperationsResponse für die Material-Verfügbarkeit.",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "warehouse",
-      "dataType": "String",
-      "required": false,
-      "category": "Location",
-      "description": "Lager (lager_nr).",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "storage_location",
-      "dataType": "String",
-      "required": false,
-      "category": "Location",
-      "description": "Lagerplatz (lagerplatz_id).",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "quantity",
-      "dataType": "Float",
-      "required": false,
-      "category": "Stock",
-      "description": "Bestandsmenge (menge). Bei der Material-Verfügbarkeit wird über blocked==0 gefiltert summiert.",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "lot",
-      "dataType": "String",
-      "required": false,
-      "category": "Traceability",
-      "description": "Charge (charge_nr).",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "blocked",
-      "dataType": "Int32",
-      "required": false,
-      "category": "Quality",
-      "description": "Sperrkennzeichen (gesperrt): 0 = frei verfügbar, !=0 = gesperrt. Filter der material_unavailable-Aggregation (nur freier Bestand zählt).",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "updated_at",
-      "dataType": "DateTime",
-      "required": false,
-      "category": "Timing",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    }
-  ],
-  "relationships": [
-    { "type": "AT_LOCATION", "target": "StorageLocation" },
-    { "type": "FOR_ARTICLE", "target": "Article" }
-  ],
-  "constraints": {
-    "stock_level_control_limits": {
-      "description": "IT/inventory control limits (Warngrenze + Eingriffsgrenze) on the free stock quantity (Meldebestand/Höchstbestand). Stock should stay inside the warn band [20,500]; below 20 or above 500 -> 'warning'-tier alarm (reorder / overstock watch); below the action band lower bound 5 or above 800 -> 'error'-tier alarm (stockout risk / hard overstock). Two-sided control band evaluated centrally by the it-evaluator (IT acquisition); drives the IT alarm panel with a raise/clear lifecycle. LITERAL band = static SSOT for the pilot.",
-      "require": {
-        "attr": "quantity",
-        "op": "within_limits",
-        "limits": {
-          "warn": [20, 500],
-          "action": [5, 800]
-        }
-      },
-      "severity": "warning",
-      "discrepancyClass": "control_limit",
-      "concern": "operations",
-      "mom_category": "inventory",
-      "accountable_role": "Production Planning",
-      "since": "2026-06-23",
-      "impact_basis": "margin"
-    }
-  },
-  "kgNodeLabel": "Quant",
-  "kgIdProperty": "quant_no",
-  "category": "business",
-  "isa95": {
-    "objectModel": "MaterialSublot",
-    "momDomain": "inventory",
-    "note": "Bestandseinheit am Lagerort = MaterialSublot (ISA-95 Part 2). Frei/gesperrt (blocked) trennt verfuegbaren von gesperrtem Bestand fuer die Material-Verfuegbarkeit (Cross-Domain ERP<->WMS, material_unavailable)."
-  }
+ "profileId": "SMProfile-Quant",
+ "version": "2.0.0",
+ "standard": "CESMII",
+ "category": "business",
+ "displayName": "Quant (inventory stock unit / MaterialSublot)",
+ "description": "next/ v4 — WMS stock unit (Quant) at the storage location, aligned to the LIVE projection of source sim-v5-wms-quants (article_ref/quantity/blocked/warehouse/storage_location), NOT the legacy base profile (article_no/quality_status). Keyed on quant_no. The cross-domain deviation material_unavailable (next/cross-constraints/material_unavailable.json) joins OperationsResponse <-> Quant on article_ref and aggregates the free stock (quantity, filtered to blocked==0). Pure stock carrier, no constraints block (cross-source).",
+ "parentType": null,
+ "abstract": false,
+ "attributes": [
+ {
+ "name": "quant_no",
+ "dataType": "String",
+ "required": true,
+ "category": "Core",
+ "description": "Unique Quant id (quant_id of the WMS row).",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "article_ref",
+ "dataType": "String",
+ "required": false,
+ "category": "Link",
+ "description": "Article (artikel_nr) — join key to Article / OperationsResponse for material availability.",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "warehouse",
+ "dataType": "String",
+ "required": false,
+ "category": "Location",
+ "description": "Warehouse (lager_nr).",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "storage_location",
+ "dataType": "String",
+ "required": false,
+ "category": "Location",
+ "description": "Storage bin (lagerplatz_id).",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "quantity",
+ "dataType": "Float",
+ "required": false,
+ "category": "Stock",
+ "description": "Stock quantity (menge). For material availability it is summed filtered on blocked==0.",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "lot",
+ "dataType": "String",
+ "required": false,
+ "category": "Traceability",
+ "description": "Lot (charge_nr).",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "blocked",
+ "dataType": "Int32",
+ "required": false,
+ "category": "Quality",
+ "description": "Block flag (gesperrt): 0 = freely available, !=0 = blocked. Filter for the material_unavailable aggregation (only free stock counts).",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ },
+ {
+ "name": "updated_at",
+ "dataType": "DateTime",
+ "required": false,
+ "category": "Timing",
+ "delivery": "transactional",
+ "scope": "hub",
+ "promotion": "on_change"
+ }
+ ],
+ "relationships": [
+ {
+ "type": "AT_LOCATION",
+ "target": "StorageLocation",
+ "targetIdProp": "storage_location_id"
+ },
+ {
+ "type": "FOR_ARTICLE",
+ "target": "Article",
+ "targetIdProp": "article_no"
+ }
+ ],
+ "constraints": {
+ "stock_level_control_limits": {
+ "description": "IT/inventory control limits (Warngrenze (warning limit) + action limit) on the free stock quantity (reorder level / maximum stock level). Stock should stay inside the warn band [20,500]; below 20 or above 500 -> 'warning'-tier alarm (reorder / overstock watch); below the action band lower bound 5 or above 800 -> 'error'-tier alarm (stockout risk / hard overstock). Two-sided control band evaluated centrally by the it-evaluator (IT acquisition); drives the IT alarm panel with a raise/clear lifecycle. LITERAL band = static SSOT for the pilot.",
+ "require": {
+ "attr": "quantity",
+ "op": "within_limits",
+ "limits": {
+ "warn": [
+ 20,
+ 500
+ ],
+ "action": [
+ 5,
+ 800
+ ]
+ }
+ },
+ "severity": "warning",
+ "discrepancyClass": "control_limit",
+ "concern": "operations",
+ "mom_category": "inventory",
+ "accountable_role": "Production Planning",
+ "since": "2026-06-23",
+ "impact_basis": "margin"
+ }
+ },
+ "semantics": [],
+ "kpiRefs": [],
+ "isa95": {
+ "objectModel": "MaterialSublot",
+ "momDomain": "inventory",
+ "note": "Stock unit at the storage location = MaterialSublot (ISA-95 Part 2). Free/blocked (blocked) separates available from blocked stock for material availability (cross-domain ERP<->WMS, material_unavailable)."
+ },
+ "kgNodeLabel": "Quant",
+ "kgIdProperty": "quant_no"
 }

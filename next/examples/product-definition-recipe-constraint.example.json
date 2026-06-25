@@ -1,9 +1,9 @@
 {
   "profileId": "SMProfile-Example-RecipeOven",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "standard": "ISA-95",
-  "displayName": "Example — recipe-driven process band (valueFrom demo, NOT live)",
-  "description": "DEMO/EXAMPLE ONLY (next/examples/, not loaded by it-edge, not bound to any source). Shows the AC-3c spec demo: a constraint whose RHS is the active recipe / ISA-95 ProductDefinition via valueFrom (colon form 'recipe:<param>', spec-conformant). EINE Regel, pro Artikel ANDERE Grenzen — das [lo,hi]-Band kommt aus der ProductDefinition (SMProfile-ProductDefinition), zentral im it-evaluator aus dem aktiven Rezept-Binding aufgeloest. DORMANT solange keine reale Rezept-Stammdatenquelle gebunden ist: der it-evaluator UEBERSPRINGT valueFrom-Constraints (kein Raise, kein Crash) — siehe RECIPE_SOURCE-Config im it-evaluator. Dieses Profil ist absichtlich NICHT unter next/profiles/ und an keine Source gebunden, damit es live nichts un-evaluierbar macht.",
+  "displayName": "Example — recipe-driven two-tier control band (warn+action, NOT live)",
+  "description": "DEMO/EXAMPLE ONLY (next/examples/, not loaded by it-edge, not bound to any source). Shows the two-tier control-limit pattern: a measured process value must stay inside the recipe band, with a WARNING when it leaves the inner Warngrenze band and an ERROR/action alarm when it leaves the outer Eingriffsgrenze band (op=within_limits, discrepancyClass=control_limit). The literal limits below make the demo self-contained; in production the band is recipe-sourced via valueFrom 'recipe:<param>' (resolves to { warn:[lo,hi], action:[lo,hi] }) and differs per article. Deliberately NOT under next/profiles/ and bound to no source, so it never makes anything un-evaluable live.",
   "parentType": null,
   "attributes": [
     {
@@ -11,18 +11,18 @@
       "dataType": "Double",
       "required": false,
       "category": "Process",
-      "unit": "degC",
-      "description": "Ist-Temperatur Zone 1 (Beispiel-Prozesswert).",
+      "description": "Actual zone-1 temperature (example process value).",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "unit": "degC"
     },
     {
       "name": "Act_State_Running",
       "dataType": "Boolean",
       "required": false,
       "category": "Process",
-      "description": "Maschine laeuft (Precondition fuer die Band-Pruefung).",
+      "description": "Machine is running (precondition for the band check).",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -32,22 +32,43 @@
       "dataType": "String",
       "required": false,
       "category": "Link",
-      "description": "Gefertigter Artikel (Bindungsachse fuer die aktive ProductDefinition).",
+      "description": "Produced article (binding axis for the active ProductDefinition).",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
     }
   ],
   "relationships": [
-    { "type": "SPEC_BOUND_TO", "target": "ProductDefinition", "description": "Das Toleranzband der untenstehenden Regel wird aus der aktiven ProductDefinition (article_ref x equipment x setup) aufgeloest." }
+    {
+      "type": "SPEC_BOUND_TO",
+      "target": "ProductDefinition",
+      "description": "The tolerance band of the rule below is resolved from the active ProductDefinition (article_ref x equipment x setup)."
+    }
   ],
   "constraints": {
-    "temp_z1_in_recipe_band": {
-      "description": "Zone-1-Temperatur muss im aktiven Rezept-Band liegen (RHS aus ProductDefinition via valueFrom; DORMANT bis Rezeptquelle bindet).",
-      "when": { "attr": "Act_State_Running", "op": "eq", "value": true },
-      "require": { "attr": "Act_Temp_Z1", "op": "between", "valueFrom": "recipe:temp_z1_band" },
-      "severity": "error",
-      "discrepancyClass": "constraint",
+    "temp_z1_within_control_limits": {
+      "description": "Zone-1 temperature must stay within the two-tier control band: warning when it leaves the inner Warngrenze band, action/error when it leaves the outer Eingriffsgrenze band. Self-contained literal limits here; in production recipe-sourced via valueFrom 'recipe:temp_z1_band'.",
+      "when": {
+        "attr": "Act_State_Running",
+        "op": "eq",
+        "value": true
+      },
+      "require": {
+        "attr": "Act_Temp_Z1",
+        "op": "within_limits",
+        "limits": {
+          "warn": [
+            180,
+            200
+          ],
+          "action": [
+            175,
+            205
+          ]
+        }
+      },
+      "severity": "warning",
+      "discrepancyClass": "control_limit",
       "concern": "operations",
       "mom_category": "quality",
       "accountable_role": "Process Engineering",
@@ -62,6 +83,6 @@
     "objectModel": "OperationsResponse",
     "momDomain": "quality",
     "level": 3,
-    "note": "Beispiel-Prozessentitaet (IST) deren Toleranzband aus der ProductDefinition (SOLL) via valueFrom kommt. DEMO ONLY — nicht kanonisch, an keine Source gebunden."
+    "note": "Example process entity (ACTUAL) whose tolerance band comes from the ProductDefinition (SOLL) as a two-tier warn/action control limit. DEMO ONLY — not canonical, bound to no source."
   }
 }

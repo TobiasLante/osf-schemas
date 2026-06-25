@@ -1,141 +1,260 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://osf-schemas/next/validation/constraint-schema.json",
-  "title": "OSF Constraint Block (next/, Option C — JSON-as-SSOT)",
-  "description": "Meta-schema for the 'constraints' attribute facet added by the SDC-inspired augmentation track. Validates the STRUCTURE of constraint rules embedded in profiles/machines/*.json (or other profile categories). The actual TYPE-correctness of predicate values against the referenced attribute.dataType is enforced by next/ci/lint-constraints.mjs (separate lint step — JSON Schema cannot express the cross-reference). One meta-schema for all asset types; constraint instances live per profile and inherit via parentType.",
-  "type": "object",
-  "additionalProperties": {
-    "$ref": "#/$defs/constraint"
-  },
-  "$defs": {
-    "constraint": {
-      "type": "object",
-      "required": ["require", "severity"],
-      "additionalProperties": false,
-      "properties": {
-        "description": {
-          "type": "string",
-          "description": "Human-readable rule description (becomes sh:message in the SHACL build artifact)"
-        },
-        "when": {
-          "$ref": "#/$defs/predicate",
-          "description": "Optional precondition — if absent, 'require' is checked unconditionally"
-        },
-        "require": {
-          "$ref": "#/$defs/predicate",
-          "description": "Must hold when 'when' is true (or always, if 'when' is absent)"
-        },
-        "severity": {
-          "type": "string",
-          "enum": ["error", "warning"],
-          "description": "error -> sh:Violation + opens steward queue; warning -> sh:Warning + telemetry-only. For discrepancyClass='control_limit' (op='within_limits') this is the BASE/floor severity (the warn tier); the action tier is escalated to 'error' by the detector/engine regardless of this value."
-        },
-        "discrepancyClass": {
-          "type": "string",
-          "enum": ["constraint", "control_limit"],
-          "description": "Pins the emitted discrepancy class. 'constraint' = single-predicate / single-band violation (severity error|warning as declared). 'control_limit' = two-tier control band (Warngrenze + Eingriffsgrenze) declared via op 'within_limits': the engine emits a 'warning'-tier alarm when the value leaves the inner (warn) band and an 'error'-tier alarm when it leaves the outer (action) band, with a raise/clear (auto-clear) lifecycle that drives the dedicated OT/IT alarm panels rather than the steward work-off queue. Requires the same value in next/profiles/intelligence/discrepancy.json#discrepancy_class enum AND in services/discrepancy-engine/src/types.ts (i3x-v4). Absent -> engine defaults to 'constraint'."
-        },
-        "since": {
-          "type": "string",
-          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
-          "description": "Date the constraint was introduced — used to gate alerts on legacy data"
-        },
-        "concern": {
-          "type": "string",
-          "enum": ["operations", "data"],
-          "description": "ISA-95-grounded nature of this constraint. 'operations' = a deviation in MOM execution (real-world: schedule slip, quality disposition, equipment rule) -> routed to the OT/Operations lane + own subject/store. 'data' = an inconsistency/staleness of an ISA-95 information object across systems/levels -> the data-steward cockpit (ZENTRAL). Optional during rollout (classified autonomously, see services/concern-classifier); engine treats an absent value as unclassified (stays in the data lane). Will become required once every constraint is classified."
-        },
-        "mom_category": {
-          "type": "string",
-          "enum": ["production", "quality", "maintenance", "inventory"],
-          "description": "For concern='operations' only — the ISA-95 Part 3 MOM operations category that owns the deviation. Defaults from the profile's isa95.momDomain when that is one of the four MOM categories; declared here when it differs (e.g. order_overdue lives in a Level-4 'business' SalesOrder profile but is a 'production' scheduling concern)."
-        },
-        "accountable_role": {
-          "type": "string",
-          "minLength": 1,
-          "description": "Organisational role/function ACCOUNTABLE for this kind of deviation (RACI: accountable). Customer-maintained in the SSOT — we do not define it, we route on it. The episode lands in this value's role queue; the concrete person is resolved (later) from an external org/shift-roster system. Examples: 'Production Control', 'Quality Assurance', 'Production Planning', 'Maintenance', 'Process Engineering'. Optional during rollout; absent -> unassigned role queue. For control_limit it ALSO becomes the Grafana alert label that routes the notification policy to the owning contact point."
-        },
-        "deviation_class": {
-          "type": "string",
-          "enum": ["recipe", "equipment"],
-          "description": "Orthogonal sub-classification of an operations deviation by its functional KIND (WHAT the deviation is about), independent of mom_category AND of accountable_role — lets a specific persona filter their slice, and lets the SAME attribute carry two constraints that mean different things. Two classes: 'equipment' = a deviation of the ASSET PER SE — the machine's own operating envelope / capability / health (a static, product-independent band = the machine spec), owned by the equipment owner (Maintenance / Production); the value is wrong for the MACHINE regardless of what it produces. 'recipe' = a recipe-specific deviation — the value is inside the machine envelope but outside the ACTIVE recipe/article band (ISA-88 recipe management; a per-article band, typically resolved centrally and delivered), owned by Process Engineering; the machine is healthy but is not making THIS product to spec. The two are layered: one wide equipment-envelope constraint + one narrow recipe constraint on the same attribute produce two distinct deviations routed to two owners, each surfaced as its own section on the Operations page. Optional; absent -> a generic operations finding (default machine/process finding). Extend the enum to add further classes."
-        },
-        "impact_basis": {
-          "type": "string",
-          "enum": ["HK", "margin", "penalty"],
-          "description": "ECONOMIC LOSS MODEL — declares (customer-maintained, in the SSOT) how a violation of THIS constraint translates into a € impact, so the engine computes a REAL expected-€ exposure instead of a unitless proxy. The value is sourced from the ERP article master (SMProfile-Article: cost_hk = standard cost / HK, price_vk = standard sales price / VK — like SAP MBEW), joined to the deviation via its article reference, times the affected quantity. Three bases (SAP-grounded): 'HK' = scrap / cost-of-poor-quality — the affected quantity is lost at its manufacturing/purchase cost (lot_rejected, out-of-spec recipe/equipment parts; = SAP scrap valued at standard price, movement 551). 'margin' = lost throughput / lost sales — the missing quantity loses its contribution margin VK-HK (qty_shortfall; = SAP CO-PA contribution margin). 'penalty' = schedule risk — late/overdue exposes the order value (VK x qty) to a penalty / margin-at-risk (order_overdue, late_delivery; a Pönale or revenue-at-risk model). Optional during rollout; absent -> the deviation has no €-basis and ranks in the proxy tier (frequency x magnitude), never head-to-head against €-backed items."
-        }
-      }
-    },
-    "predicate": {
-      "type": "object",
-      "required": ["attr", "op"],
-      "additionalProperties": false,
-      "oneOf": [
-        { "required": ["value"] },
-        { "required": ["valueAttr"] },
-        { "required": ["valueFrom"] },
-        { "required": ["limits"] }
-      ],
-      "properties": {
-        "attr": {
-          "type": "string",
-          "description": "References an attribute.name within the same profile (or an inherited one). next/ci/lint-constraints.mjs resolves this against the profile's attribute array."
-        },
-        "op": {
-          "type": "string",
-          "enum": ["eq", "ne", "gt", "gte", "lt", "lte", "in", "between", "within_limits"],
-          "description": "Comparison operator. 'in' expects an array value. 'between' expects [lo, hi]. 'within_limits' declares a TWO-TIER control band (Warngrenze + Eingriffsgrenze) and takes its bands from 'limits' {warn:[lo,hi], action:[lo,hi]} (literal SSOT) OR 'valueFrom' (recipe-sourced, resolving to the same object). The warn band must lie inside the action band (next/ci/lint-constraints.mjs)."
-        },
-        "value": {
-          "description": "Literal comparison value. Type is checked at lint-time against the referenced attribute.dataType (Int32/Float -> number; String -> string; Boolean -> boolean). For op='in' must be array; for op='between' must be [lo, hi]. Mutually exclusive with valueAttr/valueFrom/limits."
-        },
-        "valueAttr": {
-          "type": "string",
-          "description": "Compare attr against ANOTHER attribute's live value instead of a literal (attr-vs-attr). The reserved token '$now' resolves to current time (temporal rules like overdue). Evaluated centrally by the it-evaluator; the edge OT detector uses literals only."
-        },
-        "valueFrom": {
-          "type": "string",
-          "pattern": "^(recipe|definition):[A-Za-z0-9_.-]+$",
-          "description": "Reference the RHS to an EXTERNAL spec value supplied at runtime — the active recipe / ISA-95 ProductDefinition for the entity. The recipe (Definition leg: Definition->Request->Response) carries product-specific setpoints + tolerance bands, so the SAME rule yields different limits per article (e.g. 'recipe:temp_z1_band' -> a [lo,hi] band for op='between', or a setpoint for op='lte'). Resolved CENTRALLY by the it-evaluator from the active-recipe binding (running FO -> Article x Machine x SetupMode); the edge OT detector ignores it (literals only). DORMANT until a recipe source binds the value (outcome 'unknown' -> no false raise). This RESERVES the hook only — recipe SOURCING/management is built when a MES/spec source exists, wherever the recipe comes from. Mutually exclusive with value/valueAttr/limits. For op='within_limits' it resolves to a two-tier object {warn:[lo,hi], action:[lo,hi]}."
-        },
-        "limits": {
-          "type": "object",
-          "description": "Two-tier control band for op='within_limits' (Warngrenze + Eingriffsgrenze). 'warn' = inner band -> a 'warning'-tier alarm when the value leaves it; 'action' = outer band -> an 'error'-tier alarm when the value leaves it. The warn band MUST lie inside the action band (action.lo <= warn.lo <= warn.hi <= action.hi), enforced by next/ci/lint-constraints.mjs. Literal SSOT (machine-spec / static threshold, like an equipment envelope); for a recipe-sourced dynamic band use 'valueFrom' instead. Mutually exclusive with value/valueAttr/valueFrom.",
-          "required": ["warn", "action"],
-          "additionalProperties": false,
-          "properties": {
-            "warn": { "type": "array", "minItems": 2, "maxItems": 2, "description": "[lo, hi] inner Warngrenze band" },
-            "action": { "type": "array", "minItems": 2, "maxItems": 2, "description": "[lo, hi] outer Eingriffsgrenze band" }
-          }
-        }
-      },
-      "allOf": [
-        {
-          "if": { "properties": { "op": { "const": "in" } } },
-          "then": { "properties": { "value": { "type": "array" } } }
-        },
-        {
-          "if": { "properties": { "op": { "const": "between" } } },
-          "then": {
-            "properties": {
-              "value": {
-                "type": "array",
-                "minItems": 2,
-                "maxItems": 2
-              }
-            }
-          }
-        },
-        {
-          "if": { "required": ["op"], "properties": { "op": { "const": "within_limits" } } },
-          "then": { "oneOf": [ { "required": ["limits"] }, { "required": ["valueFrom"] } ] }
-        },
-        {
-          "if": { "required": ["limits"] },
-          "then": { "required": ["op"], "properties": { "op": { "const": "within_limits" } } }
-        }
-      ]
-    }
-  }
+ "$schema": "http://json-schema.org/draft-07/schema#",
+ "$id": "https://osf-schemas/next/validation/constraint-schema.json",
+ "title": "OSF Constraint Block (next/, Option C — JSON-as-SSOT) — v2.0",
+ "description": "Meta-schema for the 'constraints' attribute facet added by the SDC-inspired augmentation track. Validates the STRUCTURE of constraint rules embedded in profiles/machines/*.json (or other profile categories). The actual TYPE-correctness of predicate values against the referenced attribute.dataType is enforced by next/ci/lint-constraints.mjs (separate lint step — JSON Schema cannot express the cross-reference). One meta-schema for all asset types; constraint instances live per profile and inherit via parentType.",
+ "type": "object",
+ "additionalProperties": {
+ "$ref": "#/$defs/constraint"
+ },
+ "$defs": {
+ "constraint": {
+ "type": "object",
+ "required": [
+ "require",
+ "severity"
+ ],
+ "additionalProperties": false,
+ "properties": {
+ "description": {
+ "type": "string",
+ "description": "Human-readable rule description (becomes sh:message in the SHACL build artifact)"
+ },
+ "when": {
+ "$ref": "#/$defs/predicate",
+ "description": "Optional precondition — if absent, 'require' is checked unconditionally"
+ },
+ "require": {
+ "$ref": "#/$defs/predicate",
+ "description": "Must hold when 'when' is true (or always, if 'when' is absent)"
+ },
+ "severity": {
+ "type": "string",
+ "enum": [
+ "error",
+ "warning"
+ ],
+ "description": "error -> sh:Violation + opens steward queue; warning -> sh:Warning + telemetry-only. For discrepancyClass='control_limit' (op='within_limits') this is the BASE/floor severity (the warn tier); the action tier is escalated to 'error' by the detector/engine regardless of this value."
+ },
+ "discrepancyClass": {
+ "type": "string",
+ "enum": [
+ "constraint",
+ "control_limit"
+ ],
+ "description": "Pins the emitted discrepancy class. 'constraint' = single-predicate / single-band violation (severity error|warning as declared). 'control_limit' = two-tier control band (Warngrenze + Eingriffsgrenze) declared via op 'within_limits': the engine emits a 'warning'-tier alarm when the value leaves the inner (warn) band and an 'error'-tier alarm when it leaves the outer (action) band, with a raise/clear (auto-clear) lifecycle that drives the dedicated OT/IT alarm panels rather than the steward work-off queue. Requires the same value in next/profiles/intelligence/discrepancy.json#discrepancy_class enum AND in services/discrepancy-engine/src/types.ts (i3x-v4). Absent -> engine defaults to 'constraint'."
+ },
+ "since": {
+ "type": "string",
+ "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+ "description": "Date the constraint was introduced — used to gate alerts on legacy data"
+ },
+ "concern": {
+ "type": "string",
+ "enum": [
+ "operations",
+ "data"
+ ],
+ "description": "ISA-95-grounded nature of this constraint. 'operations' = a deviation in MOM execution (real-world: schedule slip, quality disposition, equipment rule) -> routed to the OT/Operations lane + own subject/store. 'data' = an inconsistency/staleness of an ISA-95 information object across systems/levels -> the data-steward cockpit (ZENTRAL). Optional during rollout (classified autonomously, see services/concern-classifier); engine treats an absent value as unclassified (stays in the data lane). Will become required once every constraint is classified."
+ },
+ "mom_category": {
+ "type": "string",
+ "enum": [
+ "production",
+ "quality",
+ "maintenance",
+ "inventory"
+ ],
+ "description": "For concern='operations' only — the ISA-95 Part 3 MOM operations category that owns the deviation. Defaults from the profile's isa95.momDomain when that is one of the four MOM categories; declared here when it differs (e.g. order_overdue lives in a Level-4 'business' SalesOrder profile but is a 'production' scheduling concern)."
+ },
+ "accountable_role": {
+ "type": "string",
+ "minLength": 1,
+ "description": "Organisational role/function ACCOUNTABLE for this kind of deviation (RACI: accountable). Customer-maintained in the SSOT — we do not define it, we route on it. The episode lands in this value's role queue; the concrete person is resolved (later) from an external org/shift-roster system. Examples: 'Production Control', 'Quality Assurance', 'Production Planning', 'Maintenance', 'Process Engineering'. Optional during rollout; absent -> unassigned role queue. For control_limit it ALSO becomes the Grafana alert label that routes the notification policy to the owning contact point."
+ },
+ "deviation_class": {
+ "type": "string",
+ "enum": [
+ "recipe",
+ "equipment"
+ ],
+ "description": "Orthogonal sub-classification of an operations deviation by its functional KIND (WHAT the deviation is about), independent of mom_category AND of accountable_role — lets a specific persona filter their slice, and lets the SAME attribute carry two constraints that mean different things. Two classes: 'equipment' = a deviation of the ASSET PER SE — the machine's own operating envelope / capability / health (a static, product-independent band = the machine spec), owned by the equipment owner (Maintenance / Production); the value is wrong for the MACHINE regardless of what it produces. 'recipe' = a recipe-specific deviation — the value is inside the machine envelope but outside the ACTIVE recipe/article band (ISA-88 recipe management; a per-article band, typically resolved centrally and delivered), owned by Process Engineering; the machine is healthy but is not making THIS product to spec. The two are layered: one wide equipment-envelope constraint + one narrow recipe constraint on the same attribute produce two distinct deviations routed to two owners, each surfaced as its own section on the Operations page. Optional; absent -> a generic operations finding (default machine/process finding). Extend the enum to add further classes."
+ },
+ "impact_basis": {
+ "type": "string",
+ "enum": [
+ "HK",
+ "margin",
+ "penalty"
+ ],
+ "description": "ECONOMIC LOSS MODEL — declares (customer-maintained, in the SSOT) how a violation of THIS constraint translates into a € impact, so the engine computes a REAL expected-€ exposure instead of a unitless proxy. The value is sourced from the ERP article master (SMProfile-Article: cost_hk = standard cost / HK, price_vk = standard sales price / VK — like SAP MBEW), joined to the deviation via its article reference, times the affected quantity. Three bases (SAP-grounded): 'HK' = scrap / cost-of-poor-quality — the affected quantity is lost at its manufacturing/purchase cost (lot_rejected, out-of-spec recipe/equipment parts; = SAP scrap valued at standard price, movement 551). 'margin' = lost throughput / lost sales — the missing quantity loses its contribution margin VK-HK (qty_shortfall; = SAP CO-PA contribution margin). 'penalty' = schedule risk — late/overdue exposes the order value (VK x qty) to a penalty / margin-at-risk (order_overdue, late_delivery; a contractual-penalty (Pönale) or revenue-at-risk model). Optional during rollout; absent -> the deviation has no €-basis and ranks in the proxy tier (frequency x magnitude), never head-to-head against €-backed items."
+ }
+ }
+ },
+ "predicate": {
+ "type": "object",
+ "required": [
+ "attr",
+ "op"
+ ],
+ "additionalProperties": false,
+ "oneOf": [
+ {
+ "required": [
+ "value"
+ ]
+ },
+ {
+ "required": [
+ "valueAttr"
+ ]
+ },
+ {
+ "required": [
+ "valueFrom"
+ ]
+ },
+ {
+ "required": [
+ "limits"
+ ]
+ }
+ ],
+ "properties": {
+ "attr": {
+ "type": "string",
+ "description": "References an attribute.name within the same profile (or an inherited one). next/ci/lint-constraints.mjs resolves this against the profile's attribute array."
+ },
+ "op": {
+ "type": "string",
+ "enum": [
+ "eq",
+ "ne",
+ "gt",
+ "gte",
+ "lt",
+ "lte",
+ "in",
+ "between",
+ "within_limits"
+ ],
+ "description": "Comparison operator. 'in' expects an array value. 'between' expects [lo, hi]. 'within_limits' declares a TWO-TIER control band (Warngrenze + Eingriffsgrenze) and takes its bands from 'limits' {warn:[lo,hi], action:[lo,hi]} (literal SSOT) OR 'valueFrom' (recipe-sourced, resolving to the same object). The warn band must lie inside the action band (next/ci/lint-constraints.mjs)."
+ },
+ "value": {
+ "description": "Literal comparison value. Type is checked at lint-time against the referenced attribute.dataType (Int32/Float -> number; String -> string; Boolean -> boolean). For op='in' must be array; for op='between' must be [lo, hi]. Mutually exclusive with valueAttr/valueFrom/limits."
+ },
+ "valueAttr": {
+ "type": "string",
+ "description": "Compare attr against ANOTHER attribute's live value instead of a literal (attr-vs-attr). The reserved token '$now' resolves to current time (temporal rules like overdue). Evaluated centrally by the it-evaluator; the edge OT detector uses literals only."
+ },
+ "valueFrom": {
+ "type": "string",
+ "pattern": "^(recipe|definition):[A-Za-z0-9_.-]+$",
+ "description": "Reference the RHS to an EXTERNAL spec value supplied at runtime — the active recipe / ISA-95 ProductDefinition for the entity. The recipe (Definition leg: Definition->Request->Response) carries product-specific setpoints + tolerance bands, so the SAME rule yields different limits per article (e.g. 'recipe:temp_z1_band' -> a [lo,hi] band for op='between', or a setpoint for op='lte'). Resolved CENTRALLY by the it-evaluator from the active-recipe binding (running FO -> Article x Machine x SetupMode); the edge OT detector ignores it (literals only). DORMANT until a recipe source binds the value (outcome 'unknown' -> no false raise). This RESERVES the hook only — recipe SOURCING/management is built when a MES/spec source exists, wherever the recipe comes from. Mutually exclusive with value/valueAttr/limits. For op='within_limits' it resolves to a two-tier object {warn:[lo,hi], action:[lo,hi]}."
+ },
+ "limits": {
+ "type": "object",
+ "description": "Two-tier control band for op='within_limits' (Warngrenze + Eingriffsgrenze). 'warn' = inner band -> a 'warning'-tier alarm when the value leaves it; 'action' = outer band -> an 'error'-tier alarm when the value leaves it. The warn band MUST lie inside the action band (action.lo <= warn.lo <= warn.hi <= action.hi), enforced by next/ci/lint-constraints.mjs. Literal SSOT (machine-spec / static threshold, like an equipment envelope); for a recipe-sourced dynamic band use 'valueFrom' instead. Mutually exclusive with value/valueAttr/valueFrom.",
+ "required": [
+ "warn",
+ "action"
+ ],
+ "additionalProperties": false,
+ "properties": {
+ "warn": {
+ "type": "array",
+ "minItems": 2,
+ "maxItems": 2,
+ "description": "[lo, hi] inner warning-limit (Warngrenze) band"
+ },
+ "action": {
+ "type": "array",
+ "minItems": 2,
+ "maxItems": 2,
+ "description": "[lo, hi] outer action-limit (Eingriffsgrenze) band"
+ }
+ }
+ }
+ },
+ "allOf": [
+ {
+ "if": {
+ "properties": {
+ "op": {
+ "const": "in"
+ }
+ }
+ },
+ "then": {
+ "properties": {
+ "value": {
+ "type": "array"
+ }
+ }
+ }
+ },
+ {
+ "if": {
+ "properties": {
+ "op": {
+ "const": "between"
+ }
+ }
+ },
+ "then": {
+ "properties": {
+ "value": {
+ "type": "array",
+ "minItems": 2,
+ "maxItems": 2
+ }
+ }
+ }
+ },
+ {
+ "if": {
+ "required": [
+ "op"
+ ],
+ "properties": {
+ "op": {
+ "const": "within_limits"
+ }
+ }
+ },
+ "then": {
+ "oneOf": [
+ {
+ "required": [
+ "limits"
+ ]
+ },
+ {
+ "required": [
+ "valueFrom"
+ ]
+ }
+ ]
+ }
+ },
+ {
+ "if": {
+ "required": [
+ "limits"
+ ]
+ },
+ "then": {
+ "required": [
+ "op"
+ ],
+ "properties": {
+ "op": {
+ "const": "within_limits"
+ }
+ }
+ }
+ }
+ ]
+ }
+ }
 }

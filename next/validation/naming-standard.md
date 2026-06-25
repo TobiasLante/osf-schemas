@@ -16,19 +16,19 @@ codes (those live only in demo fixtures under [`next/examples/`](../examples/)).
 
 1. **Customer-neutral.** Define the shape of a name, never a concrete value.
 2. **One identity, one key.** A KG node MERGEs on its stable, owner-independent coalesce key
-   (`kg_merge_key`), not on `(id, owner)`. A telemetry source that later maps its `machineId`
-   to the same key lands on the **same** node.
+ (`kg_merge_key`), not on `(id, owner)`. A telemetry source that later maps its `machineId`
+ to the same key lands on the **same** node.
 3. **Hierarchy in the id.** ISA-88/ISA-95 element ids are dot-delimited, path-prefixed tokens
-   tracing the containment chain. This is the `equipmentPath` shape.
+ tracing the containment chain. This is the `equipmentPath` shape.
 4. **ASCII, stable, opaque.** Tokens are `[A-Za-z0-9_-]`, segments joined by `.`; no spaces or
-   locale-specific characters. Ids are opaque keys — use `name` for display.
+ locale-specific characters. Ids are opaque keys — use `name` for display.
 5. **Labels & relationships.** Labels are PascalCase singular nouns
-   (`Enterprise`, `Site`, `Area`, `ProcessCell`, `EquipmentUnit`, `EquipmentModule`,
-   `ControlModule`, `Machine`, `Equipment`); relationship types are `UPPER_SNAKE_CASE`
-   (`PART_OF`, `EXECUTED_AT`).
+ (`Enterprise`, `Site`, `Area`, `ProcessCell`, `EquipmentUnit`, `EquipmentModule`,
+ `ControlModule`, `Machine`, `Equipment`); relationship types are `UPPER_SNAKE_CASE`
+ (`PART_OF`, `EXECUTED_AT`).
 6. **Reference & identity properties.** References end in `_ref` and carry the parent/target
-   `element_id` (e.g. `process_cell_ref`); per-level identity properties end in `_id`
-   (e.g. `unit_id`).
+ `element_id` (e.g. `process_cell_ref`); per-level identity properties end in `_id`
+ (e.g. `unit_id`).
 
 ## Token table
 
@@ -51,7 +51,7 @@ the **same value** — purely additive, no migration of stored ids, fully revers
 
 ```
 equipmentPath = <enterprise>.<site>.<area>.<cell>.<unit>.<module>.<controlmodule>
-              (each segment optional below the level the node lives at)
+ (each segment optional below the level the node lives at)
 ```
 
 ## ISA-95 / ISA-88 path levels
