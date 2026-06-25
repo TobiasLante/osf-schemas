@@ -1,0 +1,16 @@
+{
+  "name": "osf-schemas",
+  "version": "2.0.0",
+  "private": true,
+  "description": "OSF SMProfile schemas (ISA-95 / CESMII): profiles, sources, sync, validation.",
+  "scripts": {
+    "validate:next:category": "node next/ci/lint-category.mjs",
+    "validate:next:constraints": "node next/ci/lint-constraints.mjs",
+    "validate:next:recipes": "node next/ci/lint-recipes.mjs",
+    "validate:next:delivery": "node next/ci/lint-delivery.mjs"
+  },
+  "devDependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1"
+  }
+}
