@@ -2,7 +2,7 @@
 # Runs ONLY on changes touching next/** — never blocks PRs that modify only
 # canonical paths (profiles/, sources/, sync/, validation/).
 #
-# Profile standard: ONE unified meta-schema (next/validation/profile-schema.json)
+# Profile standard: ONE unified meta-schema (next/validation/profile-unified-schema.json)
 # keyed on the now-REQUIRED 'category' (machine|equipment|business). The former
 # machine-/equipment-/business-profile-schema.json are kept as thin SHIMS (same
 # $id) that $ref the unified schema + pin the category — so consumers loading by
@@ -12,7 +12,7 @@
 #   1. schema-compile     — ajv compile of every next/validation/*.json
 #   2. profile-validate   — ajv validate each next/profiles/machines/*.json
 #                           against next/validation/machine-profile-schema.json
-#                           (the shim -> unified profile-schema.json -> constraint-schema.json)
+#                           (the shim -> unified profile-unified-schema.json -> constraint-schema.json)
 #                           + equipment/ + erp|qms|wms/ via their shims
 #                           + next/profiles/*.json top-level fixtures (skeleton
 #                           template) against the unified schema directly
@@ -144,11 +144,11 @@ jobs:
             const constraintSchema = JSON.parse(fs.readFileSync(
               'next/validation/constraint-schema.json', 'utf8'));
             const profileSchema = JSON.parse(fs.readFileSync(
-              'next/validation/profile-schema.json', 'utf8'));
+              'next/validation/profile-unified-schema.json', 'utf8'));
             ajv.addSchema(constraintSchema, 'constraint-schema.json');
-            // The category shims now \$ref the unified profile-schema.json; register it
+            // The category shims now \$ref the unified profile-unified-schema.json; register it
             // so the sync compile() resolves the ref.
-            ajv.addSchema(profileSchema, 'profile-schema.json');
+            ajv.addSchema(profileSchema, 'profile-unified-schema.json');
             const validate = ajv.compile(machineSchema);
             const files = process.argv.slice(1);
             let fail = 0;
@@ -214,10 +214,10 @@ jobs:
             const constraintSchema = JSON.parse(fs.readFileSync(
               'next/validation/constraint-schema.json', 'utf8'));
             const profileSchema = JSON.parse(fs.readFileSync(
-              'next/validation/profile-schema.json', 'utf8'));
+              'next/validation/profile-unified-schema.json', 'utf8'));
             ajv.addSchema(constraintSchema, 'constraint-schema.json');
-            // The category shims now \$ref the unified profile-schema.json.
-            ajv.addSchema(profileSchema, 'profile-schema.json');
+            // The category shims now \$ref the unified profile-unified-schema.json.
+            ajv.addSchema(profileSchema, 'profile-unified-schema.json');
             const validate = ajv.compile(schema);
             const files = process.argv.slice(1);
             let fail = 0;
@@ -252,10 +252,10 @@ jobs:
             const constraintSchema = JSON.parse(fs.readFileSync(
               'next/validation/constraint-schema.json', 'utf8'));
             const profileSchema = JSON.parse(fs.readFileSync(
-              'next/validation/profile-schema.json', 'utf8'));
+              'next/validation/profile-unified-schema.json', 'utf8'));
             ajv.addSchema(constraintSchema, 'constraint-schema.json');
-            // The category shims now \$ref the unified profile-schema.json.
-            ajv.addSchema(profileSchema, 'profile-schema.json');
+            // The category shims now \$ref the unified profile-unified-schema.json.
+            ajv.addSchema(profileSchema, 'profile-unified-schema.json');
             const validate = ajv.compile(schema);
             const files = process.argv.slice(1);
             let fail = 0;
@@ -291,7 +291,7 @@ jobs:
             // Skeleton fixtures are category-agnostic copy-templates — validate
             // against the unified meta-schema directly (no category const-pin shim).
             const profileSchema = JSON.parse(fs.readFileSync(
-              'next/validation/profile-schema.json', 'utf8'));
+              'next/validation/profile-unified-schema.json', 'utf8'));
             const validate = ajv.compile(profileSchema);
             const files = process.argv.slice(1);
             let fail = 0;
