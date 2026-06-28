@@ -57,10 +57,10 @@
       "name": "updated_at",
       "dataType": "DateTime",
       "category": "Audit",
-      "description": "Last modification timestamp (diff field)",
+      "description": "Last modification timestamp. Server-managed and volatile on every read (sim-v5 returns a fresh value per GET), so promotion:never — kept in the snapshot but excluded from the change-trigger and never published on its own.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "never"
     }
   ],
   "relationships": [

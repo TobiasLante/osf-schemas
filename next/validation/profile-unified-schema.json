@@ -127,11 +127,21 @@
  },
  "promotion": {
  "type": "string",
+ "description": "Emission cadence (edge-agnostic; the IT and OT edges honor it identically). Kept enum: raw | aggregate | on_change | on_cycle_end | on_event | never. PLUS interval tokens matching ^[0-9]+(sec|min)$ (canonical Nsec/Nmin, N>=1) for periodic emission. never = stays in the payload/snapshot but is excluded from the change-trigger and never published on its own.",
+ "oneOf": [
+ {
  "enum": [
  "raw",
  "aggregate",
  "on_change",
- "on_cycle_end"
+ "on_cycle_end",
+ "on_event",
+ "never"
+ ]
+ },
+ {
+ "pattern": "^[0-9]+(sec|min)$"
+ }
  ]
  },
  "polling": {

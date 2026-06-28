@@ -472,14 +472,45 @@ and `profiles/business/*.json` (validated by `validation/business-profile-schema
 | `edge` | Stays on the `.99` edge Timescale. **Never** reaches the `.150` central. |
 | `hub` | **Must** arrive on the `.150` central (`uns_history` Postgres / KG). |
 
-### `promotion` — publish trigger
+### `promotion` — emission cadence (IT == OT)
+
+`promotion` is the single, **edge-agnostic** emission-cadence control. **The IT
+edge** (business entities, `it-edge`) **and the OT edge** (machine telemetry,
+`discovery`/`nr-codegen`) **read and honor `promotion` identically** — the same
+`(attribute, promotion)` pair yields the same emit decision on both edges.
 
 | Value | Meaning |
 |-------|---------|
-| `raw` | Every OPC-UA sample. Only meaningful with `scope: edge`. |
-| `aggregate` | Edge computes a 5-minute bucket — durations and counts only, **no quotas/percentages**. |
-| `on_change` | OPC-UA Subscribe `DataChangeFilter` — edge publishes only when the value changes. |
-| `on_cycle_end` | Edge publishes once per completed machine cycle (Class-B snapshot). |
+| `raw` | (OT) every OPC-UA sample, streamed to the local edge Timescale — only meaningful with `scope: edge`. (IT) carried in the payload only; not a change-trigger. |
+| `aggregate` | Edge computes a 5-minute bucket — durations and counts only, **no quotas/percentages**. Not a simple-field change-trigger. |
+| `on_change` | Emit when **this** attribute changes. The **only** value that contributes to the change-trigger. |
+| `on_cycle_end` | Emit once per completed machine cycle (Class-B snapshot). Not a change-trigger. |
+| `on_event` | Event-driven emission. Not a simple-field change-trigger. |
+| `never` | **Never** causes a hub emission. Stays in the entity snapshot/payload (downstream still sees the value) but is **excluded from the change-trigger** and is never published on its own. Use for volatile server-managed timestamps (e.g. `updated_at`) that change on every read. |
+| `<N>sec` | Periodic emission every **N seconds** (e.g. `5sec`, `10sec`). |
+| `<N>min` | Periodic emission every **N minutes** (e.g. `1min`, `15min`). |
+
+**Token grammar.** `promotion` is either one of the enum values above or an
+interval token matching the canonical regex:
+
+```
+^[0-9]+(sec|min)$          # canonical form: Nsec / Nmin, N >= 1
+```
+
+Canonical forms are `Nsec` / `Nmin`; edges additionally tolerate the short
+aliases `Ns` → `Nsec` and `Nm`/`Nmin` → `Nmin`. `0sec`/`0min` are invalid (the
+regex matches a leading `0`, but the edge parser rejects N < 1).
+
+**Change-trigger rule (the storm fix).** An entity/variable emits an `updated`
+event **only if at least one of its `on_change` attributes actually changed.**
+`never`/`raw`/`aggregate`/`on_cycle_end`/`on_event` attributes are diffed out of
+the trigger — so a volatile `updated_at:never` that the source returns fresh on
+every read no longer emits anything.
+
+**Periodic rule.** If any attribute has an interval promotion (`<N>sec`/`<N>min`),
+the entity is also emitted on a timer at the **minimum** interval among them
+(per-entity for IT, per-variable for OT), carrying the current snapshot.
+Created/deleted lifecycle events are unaffected.
 
 ### Rules — which combinations are valid
 
@@ -495,5 +526,9 @@ and `profiles/business/*.json` (validated by `validation/business-profile-schema
    `delivery` is always `transactional`. The fields are still required on every
    attribute for consistency — there is no default.
 4. `aggregate` implies `scope: hub` — an edge bucket only exists to be promoted.
+5. `never` keeps the value in the payload/snapshot but removes it from the
+   change-trigger — it never triggers a publish by itself. Apply it to
+   server-managed volatile timestamps (`updated_at`, "last change") that the
+   source returns fresh on every read.
 
 See `docs/example-variable-shapes.md` for concrete snippets.

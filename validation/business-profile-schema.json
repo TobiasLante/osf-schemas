@@ -117,13 +117,22 @@
           },
           "promotion": {
             "type": "string",
-            "enum": [
-              "raw",
-              "aggregate",
-              "on_change",
-              "on_cycle_end"
-            ],
-            "description": "Promotion-Trigger. IT-Edge-Attribute sind typ. on_change (Poller erkennt Aenderung) — required, kein Default."
+            "description": "Promotion-Trigger / Emissions-Kadenz (Edge-agnostisch; IT- und OT-Edge interpretieren promotion IDENTISCH). IT-Edge-Attribute sind typ. on_change (Poller erkennt Aenderung). on_event = ereignisgetrieben. never = nie eine Hub-Emission (bleibt im Payload/Snapshot, ist aber aus dem Change-Trigger ausgenommen und wird nie allein publiziert — z.B. volatile updated_at-Server-Timestamps, die bei jedem GET frisch zurueckkommen). Nsec/Nmin (kanonisch, z.B. 5sec, 1min) = periodische Emission alle N Sekunden/Minuten, Grammatik ^[0-9]+(sec|min)$ (N>=1). required, kein Default.",
+            "oneOf": [
+              {
+                "enum": [
+                  "raw",
+                  "aggregate",
+                  "on_change",
+                  "on_cycle_end",
+                  "on_event",
+                  "never"
+                ]
+              },
+              {
+                "pattern": "^[0-9]+(sec|min)$"
+              }
+            ]
           }
         },
         "additionalProperties": false
