@@ -135,6 +135,39 @@ Order (abstract)                 order_no, status
 
 Abstract parents (`"abstract": true`) skip index creation — no sources create instances for them directly. The parent label is applied to child nodes via `applyParentLabels()` (e.g., all CNC_Machine nodes also get `:Machine`).
 
+## Promotion cadence
+
+Every attribute carries a per-attribute `promotion` field — the single,
+**edge-agnostic** emission-cadence control. **The IT edge** (business entities,
+`it-edge`) **and the OT edge** (machine telemetry, `discovery`/`nr-codegen`)
+**read and honor `promotion` identically**: the same `(attribute, promotion)`
+pair produces the same emit decision on both edges.
+
+**Full vocabulary**
+
+| Value | Cadence |
+|-------|---------|
+| `raw` | (OT) every sample to the local edge Timescale; (IT) payload-only, not a trigger |
+| `aggregate` | edge 5-minute bucket (durations/counts only); not a trigger |
+| `on_change` | emit when this attribute changes — the **only** change-trigger value |
+| `on_cycle_end` | once per completed machine cycle (Class-B snapshot); not a trigger |
+| `on_event` | event-driven; not a simple-field change-trigger |
+| `never` | never emits on its own — kept in the snapshot/payload but **excluded from the change-trigger** (use for volatile server timestamps like `updated_at`) |
+| `<N>sec` / `<N>min` | periodic emission every N seconds / minutes |
+
+**Token grammar.** A `promotion` value is one of the enum tokens above **or** an
+interval token matching the canonical regex `^[0-9]+(sec|min)$` — canonical form
+`Nsec` / `Nmin`, `N >= 1` (`0sec`/`0min` are rejected by the edge parser).
+
+**Change-trigger rule (storm fix).** An entity/variable emits an `updated` event
+**only when at least one of its `on_change` attributes actually changed**;
+`never` (and `raw`/`aggregate`/`on_cycle_end`/`on_event`) attributes are diffed
+out of the trigger, so a volatile `updated_at:never` that the source returns
+fresh on every read no longer emits anything.
+
+See [schema-guide.md](schema-guide.md) → *`promotion` — emission cadence* for the
+periodic-emit rule and valid combinations.
+
 ## Quick Start
 
 1. Add a profile: `profiles/<domain>/<type>.json`
