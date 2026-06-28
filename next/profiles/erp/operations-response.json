@@ -105,10 +105,10 @@
  "dataType": "DateTime",
  "required": false,
  "category": "Timing",
- "description": "Last change.",
+ "description": "Last change. Server-managed and volatile on every read (sim-v5 returns a fresh value per GET), so promotion:never — kept in the snapshot but excluded from the change-trigger and never published on its own.",
  "delivery": "transactional",
  "scope": "hub",
- "promotion": "on_change"
+ "promotion": "never"
  }
  ],
  "relationships": [
