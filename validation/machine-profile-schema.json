@@ -115,13 +115,22 @@
           },
           "promotion": {
             "type": "string",
-            "enum": [
-              "raw",
-              "aggregate",
-              "on_change",
-              "on_cycle_end"
-            ],
-            "description": "raw = jedes OPC-UA-Sample (nur bei scope=edge sinnvoll). aggregate = Edge rechnet 5-min Bucket (Dauern/Counts, KEINE Quoten). on_change = OPC-UA DataChangeFilter, publish nur bei Wertaenderung. on_cycle_end = 1x pro abgeschlossenem Maschinen-Cycle (B-Snapshot)."
+            "description": "Emissions-Kadenz (Edge-agnostisch; IT- und OT-Edge interpretieren promotion IDENTISCH). raw = jedes OPC-UA-Sample (nur bei scope=edge sinnvoll). aggregate = Edge rechnet 5-min Bucket (Dauern/Counts, KEINE Quoten). on_change = OPC-UA DataChangeFilter, publish nur bei Wertaenderung. on_cycle_end = 1x pro abgeschlossenem Maschinen-Cycle (B-Snapshot). on_event = ereignisgetrieben. never = nie eine Hub-Emission (bleibt im Payload/Snapshot, ist aber aus dem Change-Trigger ausgenommen und wird nie allein publiziert). Nsec/Nmin (kanonisch, z.B. 5sec, 1min) = periodische Emission alle N Sekunden/Minuten, Grammatik ^[0-9]+(sec|min)$ (N>=1).",
+            "oneOf": [
+              {
+                "enum": [
+                  "raw",
+                  "aggregate",
+                  "on_change",
+                  "on_cycle_end",
+                  "on_event",
+                  "never"
+                ]
+              },
+              {
+                "pattern": "^[0-9]+(sec|min)$"
+              }
+            ]
           }
         },
         "additionalProperties": false,

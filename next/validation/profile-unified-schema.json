@@ -1,6 +1,6 @@
 {
  "$schema": "http://json-schema.org/draft-07/schema#",
- "$id": "https://osf-schemas/next/validation/profile-schema.json",
+ "$id": "https://osf-schemas/next/validation/profile-unified-schema.json",
  "title": "OSF SM Profile — next/ unified meta-schema (ONE standard for machine | equipment | business) — v2.0 (v2.0: one entity-profile standard; OPC binding nested under isa95; empty semantics allowed)",
  "description": "Single source of truth for every next/profiles/**/*.json EXCEPT intelligence/ (which keeps the canonical validation/intelligence-profile-schema.json). Merges the formerly-separate machine-/equipment-/business-profile-schema.json (which were ~90% identical) into one base + draft-07 if/then branches keyed on the now-REQUIRED 'category'. The base accepts the UNION of properties all three categories use, so additionalProperties:false still passes every existing next/ profile. Skeleton-first: every build-later block may be EMPTY (attributes [], relationships [], constraints {}, kpiRefs [], semantics absent) so a customer can commit an identity-only skeleton and fill it in later. Cross-reference resolution (predicate.attr -> attributes[].name; predicate.value type vs attribute.dataType) is still enforced separately by next/ci/lint-constraints.mjs (JSON Schema cannot express it); category<->folder placement by next/ci/lint-category.mjs.",
  "type": "object",
@@ -127,11 +127,21 @@
  },
  "promotion": {
  "type": "string",
+ "description": "Emission cadence (edge-agnostic; the IT and OT edges honor it identically). Kept enum: raw | aggregate | on_change | on_cycle_end | on_event | never. PLUS interval tokens matching ^[0-9]+(sec|min)$ (canonical Nsec/Nmin, N>=1) for periodic emission. never = stays in the payload/snapshot but is excluded from the change-trigger and never published on its own.",
+ "oneOf": [
+ {
  "enum": [
  "raw",
  "aggregate",
  "on_change",
- "on_cycle_end"
+ "on_cycle_end",
+ "on_event",
+ "never"
+ ]
+ },
+ {
+ "pattern": "^[0-9]+(sec|min)$"
+ }
  ]
  },
  "polling": {
