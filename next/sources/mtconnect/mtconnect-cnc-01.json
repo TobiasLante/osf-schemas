@@ -1,0 +1,51 @@
+{
+ "sourceId": "mtconnect-cnc-01",
+ "version": "2.0.0",
+ "sourceType": "mtconnect",
+ "syncType": "polling",
+ "transport": [
+  "opcua-server"
+ ],
+ "description": "INGRESS descriptor for the MTConnect Sonder-Edge. Polls an MTConnect agent (/current, sequence-tracked via /sample) and projects each MTConnect DataItem onto a canonical SMProfile-CNC-Machine attribute. SAME schema concept as the OPC-UA source descriptors (next/sources/opcua/*.json) — per-protocol address lives in dataItemMappings[].dataItemId, the join key is smAttribute, the profile is the SSOT. The Sonder-Edge re-exposes these attributes on an embedded OPC-UA server (transport=opcua-server); a STANDARD OSF OPC-UA edge then ingests them normally (see opcua-mtbridge-cnc-01.json).",
+ "connection": {
+  "endpoint": "http://192.168.178.120:25000",
+  "device": "cnc-01",
+  "agentVersion": "1.7",
+  "auth": "Anonymous"
+ },
+ "dataCategory": "telemetry",
+ "profileRef": "SMProfile-CNC-Machine",
+ "machineId": "cnc-01",
+ "machineName": "CNC-01 (MTConnect / Heidenhain-class)",
+ "location": {
+  "enterprise": "factory",
+  "site": "werk1",
+  "area": "cnc",
+  "line": "line-mtc",
+  "type": "CNC"
+ },
+ "dataItemMappings": [
+  { "dataItemId": "cnc-01-spindle-speed", "category": "SAMPLE", "smAttribute": "Act_Speed_Spindle", "dataType": "Float", "unit": "rpm" },
+  { "dataItemId": "cnc-01-spindle-load", "category": "SAMPLE", "smAttribute": "Act_Pct_SpindleLoad", "dataType": "Float", "unit": "pct" },
+  { "dataItemId": "cnc-01-spindle-temp", "category": "SAMPLE", "smAttribute": "Act_Temp_Spindle", "dataType": "Float", "unit": "degC" },
+  { "dataItemId": "cnc-01-power", "category": "SAMPLE", "smAttribute": "Act_Energy_Power", "dataType": "Float", "unit": "kW" },
+  { "dataItemId": "cnc-01-x-pos", "category": "SAMPLE", "smAttribute": "Act_Pos_AxisX", "dataType": "Float", "unit": "mm" },
+  { "dataItemId": "cnc-01-y-pos", "category": "SAMPLE", "smAttribute": "Act_Pos_AxisY", "dataType": "Float", "unit": "mm" },
+  { "dataItemId": "cnc-01-z-pos", "category": "SAMPLE", "smAttribute": "Act_Pos_AxisZ", "dataType": "Float", "unit": "mm" },
+  { "dataItemId": "cnc-01-x-feed", "category": "SAMPLE", "smAttribute": "Act_Rate_Feed", "dataType": "Float", "unit": "mm/min" },
+  { "dataItemId": "cnc-01-tool-life", "category": "SAMPLE", "smAttribute": "Act_Pct_ToolWear", "dataType": "Float", "unit": "pct", "_note": "MTConnect TOOL_LIFE is remaining-life %; mapped to Act_Pct_ToolWear for the demo (semantic inversion documented, not corrected)." },
+  { "dataItemId": "cnc-01-parts-good", "category": "EVENT", "smAttribute": "Act_Amount_PartGood", "dataType": "Int32" },
+  { "dataItemId": "cnc-01-parts-scrap", "category": "EVENT", "smAttribute": "Act_Amount_PartScrap", "dataType": "Int32" },
+  { "dataItemId": "cnc-01-program", "category": "EVENT", "smAttribute": "Act_Ref_Program", "dataType": "String" },
+  { "dataItemId": "cnc-01-tool", "category": "EVENT", "smAttribute": "Act_Ref_Tool", "dataType": "String" },
+  { "dataItemId": "cnc-01-mode", "category": "EVENT", "smAttribute": "Act_Text_MachineMode", "dataType": "String" },
+  { "dataItemId": "cnc-01-exec", "category": "EVENT", "smAttribute": "Act_Status_Program", "dataType": "String" },
+  { "dataItemId": "cnc-01-exec", "category": "EVENT", "smAttribute": "Act_State_InCycle", "dataType": "Boolean", "valueMap": { "ACTIVE": true, "*": false }, "_note": "Derived: execution==ACTIVE -> InCycle true." },
+  { "dataItemId": "cnc-01-exec", "category": "EVENT", "smAttribute": "Act_Status_Machine", "dataType": "Int32", "valueMap": { "ACTIVE": 1, "*": 0 }, "_note": "Derived ISA-95 status: ACTIVE -> Production(1)." },
+  { "dataItemId": "cnc-01-alarm", "category": "CONDITION", "smAttribute": "Act_Amount_Alarm", "dataType": "Int32", "valueMap": { "Normal": 0, "Warning": 1, "Fault": 1, "*": 0 }, "_note": "MTConnect CONDITION -> alarm count (Fault/Warning -> 1)." }
+ ],
+ "polling": {
+  "mode": "sample",
+  "intervalMs": 2000
+ }
+}
