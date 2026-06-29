@@ -10,7 +10,7 @@
  "_example": { "type": "boolean", "description": "Optional meta flag: example/demo fixture, not canonical." },
  "sourceId": { "type": "string", "minLength": 1 },
  "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
- "sourceType": { "type": "string", "enum": ["postgresql", "postgres", "rest", "static", "opcua", "mqtt", "file", "csv"] },
+ "sourceType": { "type": "string", "enum": ["postgresql", "postgres", "rest", "static", "opcua", "mqtt", "mtconnect", "file", "csv"] },
  "syncType": { "type": "string", "enum": ["polling", "anchor", "webhook", "streaming", "manual", "full_refresh"] },
  "profileRef": { "type": "string" },
  "profileRefs": { "type": "array", "items": { "type": "string" } },
