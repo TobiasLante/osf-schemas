@@ -1,0 +1,20 @@
+{
+  "mappingId": "opcua-to-nats-cnc-mtc-01",
+  "version": "1.0.0",
+  "syncType": "polling",
+  "description": "Standard OSF OT edge — subscribes the Sonder-Edge OPC-UA server and publishes promoted telemetry on factory.<site>.<machine>.event.<attr> to the suite NATS hub (FACTORY stream). SSOT consumed by gen-flows.mjs to build the Standard-Edge Node-RED flow.",
+  "transport": ["opcua", "nats"],
+  "profileRef": "SMProfile-CNC-Machine",
+  "machineId": "cnc-mtc-01",
+  "source": {
+    "type": "opcua",
+    "sourceRef": "opcua-mtbridge-cnc-01",
+    "endpoint": "opc.tcp://sonderedge:4840/osf/mtbridge"
+  },
+  "sink": {
+    "type": "nats",
+    "server": "nats://osf-nats-hub:4222",
+    "subjectPattern": "factory.{site}.{machine}.event.{attr}",
+    "stream": "FACTORY"
+  }
+}
