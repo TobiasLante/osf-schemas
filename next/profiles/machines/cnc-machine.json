@@ -365,6 +365,39 @@
   ],
   "relationships": [],
   "constraints": {
+    "spindle_load_control_limits": {
+      "description": "Control limits (Warngrenze + Eingriffsgrenze) for spindle load %. Two-tier band: inside warn [0,55] = ok; outside warn -> 'warning'-tier alarm (watch); outside the action band [0,70] -> 'error'-tier alarm (intervene). Raise/clear lifecycle, auto-clears once the value returns inside the warn band. LITERAL bands = static SSOT for the pilot.",
+      "require": { "attr": "Act_Pct_SpindleLoad", "op": "within_limits", "limits": { "warn": [0, 55], "action": [0, 70] } },
+      "severity": "warning",
+      "discrepancyClass": "control_limit",
+      "concern": "operations",
+      "mom_category": "production",
+      "accountable_role": "Production",
+      "deviation_class": "equipment",
+      "since": "2026-06-30"
+    },
+    "spindle_temp_control_limits": {
+      "description": "Control limits (Warngrenze + Eingriffsgrenze) for spindle temperature degC. Inside warn [15,45] = ok; outside warn -> 'warning'-tier; outside action [10,55] -> 'error'-tier. Raise/clear, auto-clears inside the warn band.",
+      "require": { "attr": "Act_Temp_Spindle", "op": "within_limits", "limits": { "warn": [15, 45], "action": [10, 55] } },
+      "severity": "warning",
+      "discrepancyClass": "control_limit",
+      "concern": "operations",
+      "mom_category": "production",
+      "accountable_role": "Maintenance",
+      "deviation_class": "equipment",
+      "since": "2026-06-30"
+    },
+    "spindle_power_control_limits": {
+      "description": "Control limits (Warngrenze + Eingriffsgrenze) for active power kW. Inside warn [0,45] = ok; outside warn -> 'warning'-tier; outside action [0,55] -> 'error'-tier. Raise/clear, auto-clears inside the warn band.",
+      "require": { "attr": "Act_Energy_Power", "op": "within_limits", "limits": { "warn": [0, 45], "action": [0, 55] } },
+      "severity": "warning",
+      "discrepancyClass": "control_limit",
+      "concern": "operations",
+      "mom_category": "production",
+      "accountable_role": "Production",
+      "deviation_class": "equipment",
+      "since": "2026-06-30"
+    },
     "spindle_when_in_cycle": {
       "description": "Machining cycle is running but the spindle is not turning — tool break / spindle-motor fault / controller bug.",
       "when": {
