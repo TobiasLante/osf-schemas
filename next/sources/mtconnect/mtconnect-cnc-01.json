@@ -8,7 +8,7 @@
  ],
  "description": "INGRESS descriptor for the MTConnect Sonder-Edge. Polls an MTConnect agent (/current, sequence-tracked via /sample) and projects each MTConnect DataItem onto a canonical SMProfile-CNC-Machine attribute. SAME schema concept as the OPC-UA source descriptors (next/sources/opcua/*.json) — per-protocol address lives in dataItemMappings[].dataItemId, the join key is smAttribute, the profile is the SSOT. The Sonder-Edge re-exposes these attributes on an embedded OPC-UA server (transport=opcua-server); a STANDARD OSF OPC-UA edge then ingests them normally (see opcua-mtbridge-cnc-01.json).",
  "connection": {
-  "endpoint": "http://192.168.178.120:25000",
+  "endpoint": "http://192.168.178.154:35000",
   "device": "cnc-01",
   "agentVersion": "1.7",
   "auth": "Anonymous"
