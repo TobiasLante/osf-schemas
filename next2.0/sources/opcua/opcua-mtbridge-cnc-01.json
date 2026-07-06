@@ -1,0 +1,57 @@
+{
+ "sourceId": "opcua-mtbridge-cnc-01",
+ "version": "2.0.0",
+ "sourceType": "opcua",
+ "syncType": "polling",
+ "transport": [
+  "nats"
+ ],
+ "description": "STANDARD OPC-UA source descriptor — the normal OSF OT edge's view of the MTConnect Sonder-Edge's embedded OPC-UA server. 100% the standard concept (cf. opcua-cnc-001-telemetry.json): nodeMappings[].opcuaNodeId -> smAttribute against SMProfile-CNC-Machine. NodeId convention is ns=2;s=<machineId>/<smAttribute>, deterministically derived from the profile so the Sonder-Edge server and this descriptor agree without hand-mapping. The standard edge then promotes/publishes exactly as for any OPC-UA machine.",
+ "connection": {
+  "endpoint": "opc.tcp://MTBRIDGE_HOST:4840/osf/mtbridge",
+  "securityMode": "None",
+  "securityPolicy": "None",
+  "auth": "Anonymous"
+ },
+ "dataCategory": "telemetry",
+ "profileRef": "SMProfile-CNC-Machine",
+ "endpoint": "opc.tcp://MTBRIDGE_HOST:4840/osf/mtbridge",
+ "machineId": "cnc-01",
+ "machineName": "CNC-01 (via MTConnect bridge)",
+ "location": {
+  "enterprise": "factory",
+  "site": "werk1",
+  "area": "cnc",
+  "line": "line-mtc",
+  "type": "CNC"
+ },
+ "nodeMappings": [
+  { "opcuaNodeId": "ns=2;s=cnc-01/Act_Speed_Spindle", "smAttribute": "Act_Speed_Spindle", "dataType": "ns=0;i=11", "unit": "rpm" },
+  { "opcuaNodeId": "ns=2;s=cnc-01/Act_Pct_SpindleLoad", "smAttribute": "Act_Pct_SpindleLoad", "dataType": "ns=0;i=11", "unit": "pct" },
+  { "opcuaNodeId": "ns=2;s=cnc-01/Act_Temp_Spindle", "smAttribute": "Act_Temp_Spindle", "dataType": "ns=0;i=11", "unit": "degC" },
+  { "opcuaNodeId": "ns=2;s=cnc-01/Act_Energy_Power", "smAttribute": "Act_Energy_Power", "dataType": "ns=0;i=11", "unit": "kW" },
+  { "opcuaNodeId": "ns=2;s=cnc-01/Act_Pos_AxisX", "smAttribute": "Act_Pos_AxisX", "dataType": "ns=0;i=11", "unit": "mm" },
+  { "opcuaNodeId": "ns=2;s=cnc-01/Act_Pos_AxisY", "smAttribute": "Act_Pos_AxisY", "dataType": "ns=0;i=11", "unit": "mm" },
+  { "opcuaNodeId": "ns=2;s=cnc-01/Act_Pos_AxisZ", "smAttribute": "Act_Pos_AxisZ", "dataType": "ns=0;i=11", "unit": "mm" },
+  { "opcuaNodeId": "ns=2;s=cnc-01/Act_Rate_Feed", "smAttribute": "Act_Rate_Feed", "dataType": "ns=0;i=11", "unit": "mm/min" },
+  { "opcuaNodeId": "ns=2;s=cnc-01/Act_Pct_ToolWear", "smAttribute": "Act_Pct_ToolWear", "dataType": "ns=0;i=11", "unit": "pct" },
+  { "opcuaNodeId": "ns=2;s=cnc-01/Act_Amount_PartGood", "smAttribute": "Act_Amount_PartGood", "dataType": "ns=0;i=6" },
+  { "opcuaNodeId": "ns=2;s=cnc-01/Act_Amount_PartScrap", "smAttribute": "Act_Amount_PartScrap", "dataType": "ns=0;i=6" },
+  { "opcuaNodeId": "ns=2;s=cnc-01/Act_Ref_Program", "smAttribute": "Act_Ref_Program", "dataType": "ns=0;i=12" },
+  { "opcuaNodeId": "ns=2;s=cnc-01/Act_Ref_Tool", "smAttribute": "Act_Ref_Tool", "dataType": "ns=0;i=12" },
+  { "opcuaNodeId": "ns=2;s=cnc-01/Act_Text_MachineMode", "smAttribute": "Act_Text_MachineMode", "dataType": "ns=0;i=12" },
+  { "opcuaNodeId": "ns=2;s=cnc-01/Act_Status_Program", "smAttribute": "Act_Status_Program", "dataType": "ns=0;i=12" },
+  { "opcuaNodeId": "ns=2;s=cnc-01/Act_State_InCycle", "smAttribute": "Act_State_InCycle", "dataType": "ns=0;i=1" },
+  { "opcuaNodeId": "ns=2;s=cnc-01/Act_Status_Machine", "smAttribute": "Act_Status_Machine", "dataType": "ns=0;i=6" },
+  { "opcuaNodeId": "ns=2;s=cnc-01/Act_Amount_Alarm", "smAttribute": "Act_Amount_Alarm", "dataType": "ns=0;i=6" }
+ ],
+ "polling": {
+  "mode": "scan",
+  "intervalMs": 2000
+ },
+ "security": {
+  "mode": "None",
+  "policy": "None",
+  "auth": "Anonymous"
+ }
+}

@@ -1,0 +1,75 @@
+{
+ "sourceId": "sim-v5-wms-quants",
+ "version": "2.0.0",
+ "sourceType": "rest",
+ "syncType": "polling",
+ "profileRef": "SMProfile-Quant",
+ "transport": [
+ "nats"
+ ],
+ "connection": {
+ "baseUrl": "http://192.168.178.154:38224",
+ "path": "/api/wms/quants",
+ "method": "GET",
+ "auth": null,
+ "timeoutMs": 10000
+ },
+ "response": {
+ "format": "json",
+ "rootPath": "$.rows",
+ "idProperty": "quant_no"
+ },
+ "polling": {
+ "changeDetection": "full_refresh",
+ "intervalMs": 60000,
+ "batchSize": 1000
+ },
+ "columnMappings": [
+ {
+ "column": "quant_id",
+ "smAttribute": "quant_no",
+ "isId": true
+ },
+ {
+ "column": "artikel_nr",
+ "smAttribute": "article_ref"
+ },
+ {
+ "column": "lager_nr",
+ "smAttribute": "warehouse"
+ },
+ {
+ "column": "lagerplatz_id",
+ "smAttribute": "storage_location"
+ },
+ {
+ "column": "menge",
+ "smAttribute": "quantity"
+ },
+ {
+ "column": "charge_nr",
+ "smAttribute": "lot"
+ },
+ {
+ "column": "gesperrt",
+ "smAttribute": "blocked"
+ },
+ {
+ "column": "aktualisiert_am",
+ "smAttribute": "updated_at"
+ }
+ ],
+ "edges": [
+ {
+ "type": "FOR_ARTICLE",
+ "fkColumn": "artikel_nr",
+ "targetIdProp": "article_no"
+ },
+ {
+ "type": "AT_LOCATION",
+ "fkColumn": "lagerplatz_id",
+ "targetIdProp": "storage_location_id"
+ }
+ ],
+ "description": "next/ v4 — WMS stock levels (Quant) aligned to SMProfile-Quant (next/). Provides, over the it-edge/BUSINESS path, a business.* stream (entity_type=quant), keyed on quant_no. article_ref + blocked ('gesperrt' column) + quantity ('menge' column) drive the cross-domain deviation material_unavailable: an active OperationsResponse needs article_ref X, sum(free WMS stock X | blocked==0) == 0 -> multi_source discrepancy. full_refresh: delivers the current stock list per poll (no timestamp diff)."
+}

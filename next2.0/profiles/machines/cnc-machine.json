@@ -1,0 +1,539 @@
+{
+  "profileId": "SMProfile-CNC-Machine",
+  "version": "2.0.0",
+  "standard": "CESMII",
+  "category": "machine",
+  "displayName": "CNC Machine",
+  "description": "next/ pilot — copy of profiles/machines/cnc-machine.json + constraints facet. Inherits power_positive_when_running from SMProfile-Machine. CNC machining center — OPC 40077 process data (spindle, feed, axes, tool, coolant, vibration).",
+  "parentType": "Machine",
+  "abstract": false,
+  "attributes": [
+    {
+      "name": "Act_Status_Machine",
+      "dataType": "Int32",
+      "required": false,
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "Act_Text_MachineMode",
+      "dataType": "String",
+      "required": false,
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "Act_Amount_PartGood",
+      "dataType": "Int32",
+      "required": false,
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "Act_Amount_PartScrap",
+      "dataType": "Int32",
+      "required": false,
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "Act_Amount_PartRework",
+      "dataType": "Int32",
+      "required": false,
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "Act_Amount_Alarm",
+      "dataType": "Int32",
+      "required": false,
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "Plan_Time_Cycle",
+      "dataType": "Float",
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
+    },
+    {
+      "name": "Act_Time_Cycle",
+      "dataType": "Float",
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
+    },
+    {
+      "name": "Act_Energy_Power",
+      "dataType": "Float",
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
+    },
+    {
+      "name": "Act_Energy_Total",
+      "dataType": "Float",
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
+    },
+    {
+      "name": "Act_Ref_ProductionOrder",
+      "dataType": "String",
+      "required": false,
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "Act_Ref_Article",
+      "dataType": "String",
+      "required": false,
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "Act_Ref_Tool",
+      "dataType": "String",
+      "required": false,
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "Act_Ref_Shift",
+      "dataType": "Int32",
+      "required": false,
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "Act_Ref_Operator",
+      "dataType": "String",
+      "required": false,
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "Act_Speed_Spindle",
+      "dataType": "Float",
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
+    },
+    {
+      "name": "Set_Speed_Spindle",
+      "dataType": "Float",
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
+    },
+    {
+      "name": "Act_Pct_SpindleLoad",
+      "dataType": "Float",
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
+    },
+    {
+      "name": "Act_Torque_Spindle",
+      "dataType": "Float",
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
+    },
+    {
+      "name": "Act_Rate_Feed",
+      "dataType": "Float",
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
+    },
+    {
+      "name": "Set_Rate_Feed",
+      "dataType": "Float",
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
+    },
+    {
+      "name": "Act_Pct_FeedOverride",
+      "dataType": "Float",
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
+    },
+    {
+      "name": "Act_Pos_AxisX",
+      "dataType": "Float",
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
+    },
+    {
+      "name": "Set_Pos_AxisX",
+      "dataType": "Float",
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
+    },
+    {
+      "name": "Act_Pos_AxisY",
+      "dataType": "Float",
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
+    },
+    {
+      "name": "Set_Pos_AxisY",
+      "dataType": "Float",
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
+    },
+    {
+      "name": "Act_Pos_AxisZ",
+      "dataType": "Float",
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
+    },
+    {
+      "name": "Set_Pos_AxisZ",
+      "dataType": "Float",
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
+    },
+    {
+      "name": "Act_Ref_ToolNumber",
+      "dataType": "Int32",
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
+    },
+    {
+      "name": "Act_Pct_ToolWear",
+      "dataType": "Float",
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
+    },
+    {
+      "name": "Act_Time_ToolLifeRemaining",
+      "dataType": "Float",
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
+    },
+    {
+      "name": "Act_Ref_Program",
+      "dataType": "String",
+      "required": false,
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "Act_Ref_ProgramLine",
+      "dataType": "Int32",
+      "required": false,
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "Act_Status_Program",
+      "dataType": "String",
+      "required": false,
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "Act_State_InCycle",
+      "dataType": "Boolean",
+      "required": false,
+      "description": "Machine is in the machining cycle (TRUE/FALSE). Trigger for the cycle-detect FSM on the edge.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "Act_Rate_CoolantFlow",
+      "dataType": "Float",
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
+    },
+    {
+      "name": "Act_Temp_Coolant",
+      "dataType": "Float",
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
+    },
+    {
+      "name": "Act_Pressure_Coolant",
+      "dataType": "Float",
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
+    },
+    {
+      "name": "Act_Vibration_X",
+      "dataType": "Float",
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
+    },
+    {
+      "name": "Act_Vibration_Y",
+      "dataType": "Float",
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
+    },
+    {
+      "name": "Act_Vibration_Z",
+      "dataType": "Float",
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
+    },
+    {
+      "name": "Act_Energy_PowerSpindle",
+      "dataType": "Float",
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
+    },
+    {
+      "name": "Act_Energy_Cycle",
+      "dataType": "Float",
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
+    },
+    {
+      "name": "Act_Temp_Spindle",
+      "dataType": "Float",
+      "required": false,
+      "unit": "degC",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw"
+    }
+  ],
+  "relationships": [],
+  "constraints": [
+    {
+      "name": "spindle_load_control_limits",
+      "description": "Control limits (Warngrenze + Eingriffsgrenze) for spindle load %. Two-tier band: inside warn [0,55] = ok; outside warn -> 'warning'-tier alarm (watch); outside the action band [0,70] -> 'error'-tier alarm (intervene). Raise/clear lifecycle, auto-clears once the value returns inside the warn band. LITERAL bands = static SSOT for the pilot.",
+      "require": {
+        "attr": "Act_Pct_SpindleLoad",
+        "op": "within_limits",
+        "limits": {
+          "warn": [
+            0,
+            55
+          ],
+          "action": [
+            0,
+            70
+          ]
+        }
+      },
+      "severity": "warning",
+      "discrepancyClass": "control_limit",
+      "concern": "operations",
+      "mom_category": "production",
+      "accountable_role": "Production",
+      "deviation_class": "equipment",
+      "since": "2026-06-30"
+    },
+    {
+      "name": "spindle_temp_control_limits",
+      "description": "Control limits (Warngrenze + Eingriffsgrenze) for spindle temperature degC. Inside warn [15,45] = ok; outside warn -> 'warning'-tier; outside action [10,55] -> 'error'-tier. Raise/clear, auto-clears inside the warn band.",
+      "require": {
+        "attr": "Act_Temp_Spindle",
+        "op": "within_limits",
+        "limits": {
+          "warn": [
+            15,
+            45
+          ],
+          "action": [
+            10,
+            55
+          ]
+        }
+      },
+      "severity": "warning",
+      "discrepancyClass": "control_limit",
+      "concern": "operations",
+      "mom_category": "production",
+      "accountable_role": "Maintenance",
+      "deviation_class": "equipment",
+      "since": "2026-06-30"
+    },
+    {
+      "name": "spindle_power_control_limits",
+      "description": "Control limits (Warngrenze + Eingriffsgrenze) for active power kW. Inside warn [0,45] = ok; outside warn -> 'warning'-tier; outside action [0,55] -> 'error'-tier. Raise/clear, auto-clears inside the warn band.",
+      "require": {
+        "attr": "Act_Energy_Power",
+        "op": "within_limits",
+        "limits": {
+          "warn": [
+            0,
+            45
+          ],
+          "action": [
+            0,
+            55
+          ]
+        }
+      },
+      "severity": "warning",
+      "discrepancyClass": "control_limit",
+      "concern": "operations",
+      "mom_category": "production",
+      "accountable_role": "Production",
+      "deviation_class": "equipment",
+      "since": "2026-06-30"
+    },
+    {
+      "name": "spindle_when_in_cycle",
+      "description": "Machining cycle is running but the spindle is not turning — tool break / spindle-motor fault / controller bug.",
+      "when": {
+        "attr": "Act_State_InCycle",
+        "op": "eq",
+        "value": true
+      },
+      "require": {
+        "attr": "Act_Speed_Spindle",
+        "op": "gt",
+        "value": 0
+      },
+      "severity": "error",
+      "discrepancyClass": "constraint",
+      "concern": "operations",
+      "mom_category": "production",
+      "accountable_role": "Production",
+      "deviation_class": "equipment",
+      "since": "2026-06-08"
+    },
+    {
+      "name": "coolant_pressure_when_in_cycle",
+      "description": "Machining cycle is running without coolant pressure — risk of workpiece / tool damage.",
+      "when": {
+        "attr": "Act_State_InCycle",
+        "op": "eq",
+        "value": true
+      },
+      "require": {
+        "attr": "Act_Pressure_Coolant",
+        "op": "gt",
+        "value": 0
+      },
+      "severity": "error",
+      "discrepancyClass": "constraint",
+      "concern": "operations",
+      "mom_category": "production",
+      "accountable_role": "Maintenance",
+      "deviation_class": "equipment",
+      "since": "2026-06-08"
+    },
+    {
+      "name": "tool_wear_in_range",
+      "description": "Tool wear must lie between 0 and 100 percent — values outside indicate a sensor / scaling fault.",
+      "require": {
+        "attr": "Act_Pct_ToolWear",
+        "op": "between",
+        "value": [
+          0,
+          100
+        ]
+      },
+      "severity": "warning",
+      "discrepancyClass": "constraint",
+      "concern": "operations",
+      "mom_category": "production",
+      "accountable_role": "Maintenance",
+      "deviation_class": "equipment",
+      "since": "2026-06-08"
+    },
+    {
+      "name": "power_positive_when_running",
+      "description": "Machine reports status=Production (1) but draws 0 kW — sensor / edge-communication fault (equipment).",
+      "when": {
+        "attr": "Act_Status_Machine",
+        "op": "eq",
+        "value": 1
+      },
+      "require": {
+        "attr": "Act_Energy_Power",
+        "op": "gt",
+        "value": 0
+      },
+      "severity": "warning",
+      "discrepancyClass": "constraint",
+      "concern": "operations",
+      "mom_category": "maintenance",
+      "accountable_role": "Maintenance",
+      "deviation_class": "equipment",
+      "since": "2026-06-25"
+    }
+  ],
+  "semantics": [],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "Equipment",
+    "momDomain": "production",
+    "equipmentLevel": "EquipmentUnit",
+    "equipmentClass": "CNCMachine",
+    "companionSpec": "OPC40077-CNC",
+    "opcuaTypeDefinition": "CNC_MachineType",
+    "deviceClass": "CNC Machine"
+  },
+  "kgNodeLabel": "CNC_Machine",
+  "kgIdProperty": "machine_id"
+}

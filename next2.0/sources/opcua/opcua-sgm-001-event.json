@@ -1,0 +1,148 @@
+{
+  "sourceId": "opcua-sgm-001-event",
+  "version": "2.0.0",
+  "sourceType": "opcua",
+  "syncType": "polling",
+  "transport": [
+    "nats"
+  ],
+  "connection": {
+    "endpoint": "opc.tcp://192.168.178.154:36060",
+    "securityMode": "None",
+    "securityPolicy": "None",
+    "auth": "Anonymous"
+  },
+  "dataCategory": "event",
+  "profileRef": "SMProfile-InjectionMoldingMachine",
+  "endpoint": "opc.tcp://192.168.178.154:36060",
+  "machineId": "sgm-001",
+  "machineName": "SGM-01",
+  "location": {
+    "enterprise": "factory",
+    "site": "werk1",
+    "area": "sgm",
+    "line": "line-a",
+    "type": "SGM"
+  },
+  "nodeMappings": [
+    {
+      "opcuaNodeId": "ns=1;s=Machine/machineType",
+      "smAttribute": "machine_type",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/status",
+      "smAttribute": "status",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/mode",
+      "smAttribute": "mode",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/partsCount/good",
+      "smAttribute": "good",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/partsCount/scrap",
+      "smAttribute": "scrap",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/partsCount/total",
+      "smAttribute": "total",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/alarms/_Count",
+      "smAttribute": "alarmsCount",
+      "dataType": "ns=0;i=6"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/uptimeSeconds",
+      "smAttribute": "uptimeSeconds",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shot/inCycle",
+      "smAttribute": "inCycle",
+      "dataType": "ns=0;i=1"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shot/shotCount",
+      "smAttribute": "shotCount",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shot/currentProgram",
+      "smAttribute": "currentProgram",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shot/lastShotAt",
+      "smAttribute": "lastShotAt",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/mould/mouldId",
+      "smAttribute": "mouldId",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/mould/totalShots",
+      "smAttribute": "totalShots",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/phase/name",
+      "smAttribute": "phaseName",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/phase/elapsedSec",
+      "smAttribute": "elapsedSec",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/phase/switchoverReached",
+      "smAttribute": "switchoverReached",
+      "dataType": "ns=0;i=1"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/setup/remainingSec",
+      "smAttribute": "remainingSec",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shiftActive",
+      "smAttribute": "shiftActive",
+      "dataType": "ns=0;i=1"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/resin",
+      "smAttribute": "resin",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/hopperRefillCount",
+      "smAttribute": "hopperRefillCount",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/colourPurgeRemaining",
+      "smAttribute": "colourPurgeRemaining",
+      "dataType": "ns=0;i=11"
+    }
+  ],
+  "polling": {
+    "mode": "scan",
+    "intervalMs": 5000
+  },
+  "security": {
+    "mode": "None",
+    "policy": "None",
+    "auth": "Anonymous"
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "profileId": "SMProfile-OperationsDefinition",
+  "version": "2.0.0",
+  "standard": "ISA-95",
+  "category": "business",
+  "displayName": "Operations Definition (routing master data / master)",
+  "description": "next/ v2.0 — Level-3 MOM OperationsDefinition (ISA-95 Part 4 / B2MML OperationsDefinition). The MASTER / master-data side: the reusable routing of an article = the ordered sequence of ProcessSegments required to manufacture it (ISA-95 'Operations Definition' -> 'maps to' Process Segment). It is the counterpart of the executing objects: an OperationsRequest (ProductionOrder) INSTANTIATES this definition, and an OperationsResponse reports the actuals back. Linked to the ProductDefinition (target parameters / recipe binding) via the article. ISA-88 parallel: the OperationsDefinition is the 'master recipe' (static), the running OperationsRequest the 'control recipe' (live).",
+  "parentType": null,
+  "abstract": false,
+  "attributes": [
+    {
+      "name": "operations_definition_no",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the routing (join key).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "name",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Display name of the routing.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "version_label",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Business version identifier of the routing (independent of the profile SemVer).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "status",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Lifecycle status (e.g. draft, released, obsolete).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "article_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "FK to Article.article_no (FOR_ARTICLE). The article that this routing manufactures.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "product_definition_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "FK to ProductDefinition.product_definition_no (BASED_ON). The target-parameter / recipe binding of the article.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "FOR_ARTICLE",
+      "target": "Article",
+      "targetIdProp": "article_no",
+      "description": "The manufactured article (MaterialDefinition)."
+    },
+    {
+      "type": "BASED_ON",
+      "target": "ProductDefinition",
+      "targetIdProp": "product_definition_no",
+      "description": "Target parameters / recipe binding (ISA-95 ProductDefinition / definition leg)."
+    },
+    {
+      "type": "CONTAINS_SEGMENT",
+      "target": "ProcessSegment",
+      "targetIdProp": "process_segment_no",
+      "description": "Inverse of ProcessSegment.PART_OF — the stages of this routing."
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iso:62264-OperationsDefinition",
+    "cesmii:OperationsDefinition"
+  ],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "OperationsDefinition",
+    "momDomain": "production",
+    "level": 3,
+    "note": "ISA-95 Part 4 OperationsDefinition = routing master (ordered ProcessSegments). Counterpart to OperationsRequest (PLAN, INSTANTIATES) and OperationsResponse (actuals). ISA-88: master recipe (static).",
+    "propertyMap": {
+      "operations_definition_no": "OperationsDefinition.ID",
+      "name": "OperationsDefinition.Description",
+      "version_label": "OperationsDefinition.Version",
+      "article_ref": "OperationsDefinition.OperationsMaterialBillID",
+      "product_definition_ref": "OperationsDefinition.ProductDefinitionID"
+    }
+  },
+  "kgNodeLabel": "OperationsDefinition",
+  "kgIdProperty": "operations_definition_no"
+}

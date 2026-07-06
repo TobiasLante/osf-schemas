@@ -1,0 +1,32 @@
+{
+ "crossConstraintId": "late_delivery",
+ "version": "2.0.0",
+ "standard": "OSF",
+ "displayName": "Delivery delay plan-vs-actual (PARKED)",
+ "description": "Delivery delay: actual completion (OperationsResponse.actual_end_time) is later than the planned completion of the OperationsRequest/ProductionOrder.",
+ "$comment": "Cross-source facet (CAPT-B Phase 2, building block 4 — CONTRACT, PARKED): OperationsResponse.actual_end_time (actual) later than OperationsRequest/ProductionOrder.planned_end_time (planned), joined on production_order_no. PARKED because the sim NEVER fills 'lieferdatum_ist' (→ actual_end_time) → the rule would find no actual value → would always stay 'unknown' (no raise). In practice the live order_overdue (single-entity constraint on CustomerOrder.due_date vs $now) already covers the same case. Contract + mapping are deliberately prepared here: once the sim delivers the actual date, remove 'parked' and the rule goes live — WITHOUT any code change. op=lte: HOLDS (ok) when actual_end_time <= planned_end_time; VIOLATED on overrun. Modeled as a multi_source class.",
+ "parked": true,
+ "parkedReason": "The sim never fills lieferdatum_ist (actual_end_time) → effectively equals the live order_overdue. Goes live once the sim delivers the actual date (remove parked).",
+ "severity": "warning",
+ "discrepancyClass": "multi_source",
+ "concern": "operations",
+ "mom_category": "production",
+ "accountable_role": "Production Control",
+ "when": {
+ "leftAttr": "status",
+ "eq": "offen"
+ },
+ "left": {
+ "profileRef": "SMProfile-OperationsResponse",
+ "joinKey": "production_order_no",
+ "attr": "actual_end_time"
+ },
+ "right": {
+ "profileRef": "SMProfile-ProductionOrder",
+ "joinKey": "production_order_no",
+ "attr": "planned_end_time"
+ },
+ "op": "lte",
+ "since": "2026-06-15",
+ "impact_basis": "penalty"
+}

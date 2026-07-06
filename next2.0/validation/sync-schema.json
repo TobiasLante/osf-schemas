@@ -1,0 +1,46 @@
+{
+ "$schema": "http://json-schema.org/draft-07/schema#",
+ "$id": "https://osf-schemas/next/validation/sync-schema.json",
+ "title": "OSF Sync descriptor — next/ (AC-1 coverage: sync alongside profiles + sources) — v2.0",
+ "description": "Permissive AJV meta-schema for files under next/sync/**. AC-1 requires the next/ pipeline to cover profiles AND sources/sync. next/sync/ is currently empty (the live sync descriptors live under the canonical sync/), so this schema is intentionally CONSERVATIVE/PERMISSIVE and forward-looking: it pins only the minimal spine (a 'version' + an identifier) and leaves every transport-specific block (nats/mqtt/kafka/polling/webhook/manual/bridge …) open ('additionalProperties': true). It is modelled on the canonical sync/** shapes, which themselves vary widely (some carry 'syncId', some only 'mappingId', some have no 'syncType' at all). Identifier rule: at least one of syncId / mappingId. When a next/sync descriptor IS added it MUST validate here without forcing a particular transport schema — coverage, not enforcement. Deeper per-syncType semantics are reviewed, not schema-pinned (same loose-facet pattern as the profile isa95 block).",
+ "type": "object",
+ "required": ["version"],
+ "anyOf": [
+ { "required": ["syncId"] },
+ { "required": ["mappingId"] }
+ ],
+ "properties": {
+ "_comment": { "type": "string" },
+ "_example": { "type": "boolean" },
+ "$description": { "type": "string" },
+ "$note": { "type": "string" },
+ "syncId": { "type": "string", "minLength": 1 },
+ "mappingId": { "type": "string", "minLength": 1 },
+ "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+ "syncType": { "type": "string" },
+ "description": { "type": "string" },
+ "transport": { "type": "array", "items": { "type": "string" } },
+ "profileRef": { "type": "string" },
+ "profileRefs": { "type": "array", "items": { "type": "string" } },
+ "sources": {
+ "type": "array",
+ "description": "Polling-style sync: the source descriptors this sync drives. Loosely typed; sourceRef wires to a next/sources entry.",
+ "items": {
+ "type": "object",
+ "properties": {
+ "sourceRef": { "type": "string" }
+ },
+ "additionalProperties": true
+ }
+ },
+ "nats": { "type": "object", "additionalProperties": true },
+ "mqtt": { "type": "object", "additionalProperties": true },
+ "kafka": { "type": "object", "additionalProperties": true },
+ "broker": { "type": "object", "additionalProperties": true },
+ "webhook": { "type": "object", "additionalProperties": true },
+ "manual": { "type": "object", "additionalProperties": true },
+ "source": { "type": "object", "additionalProperties": true },
+ "sink": { "type": "object", "additionalProperties": true }
+ },
+ "additionalProperties": true
+}

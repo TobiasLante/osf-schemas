@@ -1,0 +1,187 @@
+{
+  "profileId": "SMProfile-ProductDefinition",
+  "version": "2.0.0",
+  "standard": "ISA-95",
+  "category": "business",
+  "displayName": "Product Definition (Recipe / SOLL master)",
+  "description": "next/ v2.0 — ISA-95 ProductDefinition = the recipe / SOLL master. One spec per article: SPEC_FOR the Article the order produces (the FO/recipe join point), optionally APPLIES_TO an EquipmentClass/line. Each controlled product property carries a TWO-TIER control band: warn (Warngrenze, inner) and action (Eingriffsgrenze, outer). The bands are validated against the measured actuals on OperationsResponse/SegmentResponse (ISA-95 Spec-vs-Actual). This is the MasterProductSpecification; the per-FO ControlProductSpecification is derived from it.",
+  "parentType": null,
+  "abstract": false,
+  "attributes": [
+    {
+      "name": "product_definition_no",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Spec identity / key.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "name",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Display name of the product specification.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "version_label",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Functional spec/recipe version (independent of the profile SemVer).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "status",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Lifecycle status, e.g. draft, released, obsolete.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "article_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "FK to Article.article_no (SPEC_FOR). The article this spec defines — the FO/recipe join point. First binding axis.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "equipment_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "Optional FK to an EquipmentClass/line the spec is restricted to (APPLIES_TO). Second binding axis.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "setup_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "Optional setup/mould binding axis (third axis).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "param_name",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Name of the controlled product property (e.g. line_speed, produced_thickness, area_weight).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "target_value",
+      "dataType": "Double",
+      "required": false,
+      "category": "Core",
+      "description": "Target / SOLL setpoint of the property.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "warn_lo",
+      "dataType": "Double",
+      "required": false,
+      "category": "Planning",
+      "description": "Inner band lower limit — Warngrenze (warning tier).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "warn_hi",
+      "dataType": "Double",
+      "required": false,
+      "category": "Planning",
+      "description": "Inner band upper limit — Warngrenze (warning tier).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "action_lo",
+      "dataType": "Double",
+      "required": false,
+      "category": "Planning",
+      "description": "Outer band lower limit — Eingriffsgrenze (action tier).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "action_hi",
+      "dataType": "Double",
+      "required": false,
+      "category": "Planning",
+      "description": "Outer band upper limit — Eingriffsgrenze (action tier).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "unit",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Unit of the property (UN/CEFACT code recommended).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "updated_at",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "Last change. Server-managed and volatile on every read (sim-v5 returns a fresh value per GET), so promotion:never — kept in the snapshot but excluded from the change-trigger and never published on its own.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "never"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "SPEC_FOR",
+      "target": "Article",
+      "targetIdProp": "article_no",
+      "description": "The specification applies to this article (article_ref -> Article.article_no). First recipe-binding axis."
+    },
+    {
+      "type": "APPLIES_TO",
+      "target": "EquipmentClass",
+      "description": "Optionally restricted to an equipment class / line (equipment_class_ref). Second binding axis.",
+      "targetIdProp": "equipment_class_id"
+    }
+  ],
+  "constraints": [],
+  "semantics": [],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "ProductDefinition",
+    "momDomain": "production",
+    "level": 3,
+    "note": "ISA-95 ProductDefinition (MasterProductSpecification). Carries the SOLL bands as a TWO-TIER control limit (warn=Warngrenze inner, action=Eingriffsgrenze outer); validated against the measured actuals on OperationsResponse/SegmentResponse (Spec-vs-Actual). The per-FO ControlProductSpecification is derived per order."
+  },
+  "kgNodeLabel": "ProductDefinition",
+  "kgIdProperty": "product_definition_no"
+}
