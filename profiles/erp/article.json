@@ -1,14 +1,17 @@
 {
   "profileId": "SMProfile-Article",
-  "version": "3.0.0",
+  "version": "2.0.0",
   "standard": "CESMII",
-  "displayName": "Article (Artikel)",
-  "description": "Manufactured or purchased item in the ERP system",
+  "category": "business",
+  "displayName": "Article (article / part)",
+  "description": "next/ v4 — product/material master. Attributes aligned to the LIVE projection of source sim-v5-erp-articles. ISA-95 MaterialDefinition (the definition; physical stock is MaterialLot). Reference entity — no single-entity deviation.",
   "parentType": null,
+  "abstract": false,
   "attributes": [
     {
       "name": "article_no",
       "dataType": "String",
+      "required": true,
       "category": "Core",
       "delivery": "transactional",
       "scope": "hub",
@@ -17,6 +20,7 @@
     {
       "name": "name",
       "dataType": "String",
+      "required": false,
       "category": "Core",
       "delivery": "transactional",
       "scope": "hub",
@@ -25,8 +29,8 @@
     {
       "name": "type",
       "dataType": "String",
+      "required": false,
       "category": "Core",
-      "description": "FERT/HALB/ROH/KAUF",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -34,6 +38,7 @@
     {
       "name": "unit",
       "dataType": "String",
+      "required": false,
       "category": "Core",
       "delivery": "transactional",
       "scope": "hub",
@@ -42,24 +47,8 @@
     {
       "name": "lead_time_days",
       "dataType": "Int32",
+      "required": false,
       "category": "Planning",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "machine_group",
-      "dataType": "String",
-      "category": "Routing",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "weight_kg",
-      "dataType": "Float",
-      "category": "Physical",
-      "unit": "kg",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -67,34 +56,60 @@
     {
       "name": "abc_class",
       "dataType": "String",
-      "category": "Classification",
+      "required": false,
+      "category": "Commercial",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "cost_hk",
+      "dataType": "Double",
+      "required": false,
+      "category": "Valuation",
+      "unit": "EUR",
+      "description": "Standard manufacturing/purchase cost (HK = Herstellkosten), from ERP std_kosten. The €-basis for scrap / quality impact.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "price_vk",
+      "dataType": "Double",
+      "required": false,
+      "category": "Valuation",
+      "unit": "EUR",
+      "description": "Standard sales price (VK = Verkaufspreis), from ERP std_verkaufspreis. The basis for margin / lost-sales impact. Null for non-sellable articles (RAW/CONSUMABLE/WIP).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "currency",
+      "dataType": "String",
+      "required": false,
+      "category": "Valuation",
+      "description": "ISO-4217 currency code for cost_hk / price_vk, from ERP waehrung (e.g. EUR).",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
     }
   ],
-  "relationships": [
-    {
-      "type": "HAS_BOM",
-      "target": "BOMEntry"
-    },
-    {
-      "type": "HAS_ROUTING",
-      "target": "Routing"
-    },
-    {
-      "type": "IN_STOCK",
-      "target": "StockItem"
-    }
-  ],
-  "kgNodeLabel": "Article",
-  "kgIdProperty": "article_no",
-  "category": "business",
+  "relationships": [],
+  "constraints": [],
+  "semantics": [],
+  "kpiRefs": [],
   "isa95": {
     "objectModel": "MaterialDefinition",
     "momDomain": "inventory",
+    "level": 3,
+    "note": "Article / part = ISA-95 MaterialDefinition (Part 2). Physical stock is MaterialLot.",
     "propertyMap": {
-      "article_no": "MaterialDefinition.ID"
+      "article_no": "MaterialDefinition.ID",
+      "name": "MaterialDefinition.Description",
+      "unit": "MaterialDefinition.UnitOfMeasure"
     }
-  }
+  },
+  "kgNodeLabel": "Article",
+  "kgIdProperty": "article_no"
 }

@@ -1,11 +1,33 @@
 {
   "profileId": "SMProfile-Machine",
-  "version": "3.0.0",
+  "version": "2.0.0",
   "standard": "CESMII",
+  "category": "machine",
   "displayName": "Machine (Abstract Parent)",
-  "description": "Abstract parent profile for all machine types — defines common BDE attributes inherited by CNC, Milling, Lathe, Grinding, IMM, FFS, Assembly",
+  "description": "next/ v2.0 — abstract parent for all machine types (CNC, IMM, …). THIN base: it contributes the shared relationships (PART_OF ProcessCell, PRODUCES Article, EXECUTES ProductionOrder), the generic machine KPI refs, and the isa95 marker — but NO concrete attributes. Each subtype declares its OWN tag set matching exactly what its OPC/sim source delivers (sim-tag == attribute, 1:1); the parent no longer carries generic Pascal names that no source feeds.",
   "parentType": null,
   "abstract": true,
+  "attributes": [],
+  "relationships": [
+    {
+      "type": "PART_OF",
+      "target": "ProcessCell",
+      "targetIdProp": "process_cell_id",
+      "description": "ISA-88: the machine is part of a ProcessCell (line)."
+    },
+    {
+      "type": "PRODUCES",
+      "target": "Article",
+      "targetIdProp": "article_no"
+    },
+    {
+      "type": "EXECUTES",
+      "target": "ProductionOrder",
+      "targetIdProp": "production_order_no"
+    }
+  ],
+  "constraints": [],
+  "semantics": [],
   "kpiRefs": [
     "KPI-OEE",
     "KPI-Availability",
@@ -14,176 +36,17 @@
     "KPI-Energy-Per-Part",
     "KPI-Scrap-Rate"
   ],
-  "attributes": [
-    {
-      "name": "Machine_Status",
-      "dataType": "Int32",
-      "category": "BDE",
-      "description": "1=Produktion, 2=Stillstand, 3=Rüsten, 4=Wartung, 5=Störung",
-      "enum": [
-        1,
-        2,
-        3,
-        4,
-        5
-      ],
-      "polling": "scan",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "Machine_Status_Text",
-      "dataType": "String",
-      "category": "BDE",
-      "description": "Human-readable status",
-      "polling": "scan",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "Good_Parts",
-      "dataType": "Int32",
-      "category": "BDE",
-      "description": "Good parts produced per cycle",
-      "polling": "scan",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "Scrap_Parts",
-      "dataType": "Int32",
-      "category": "BDE",
-      "description": "Scrap parts per cycle",
-      "polling": "scan",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "Rework_Parts",
-      "dataType": "Int32",
-      "category": "BDE",
-      "description": "Rework parts per cycle",
-      "polling": "scan",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "Cycle_Time_Planned",
-      "dataType": "Float",
-      "category": "BDE",
-      "unit": "s",
-      "polling": "scan",
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Cycle_Time_Actual",
-      "dataType": "Float",
-      "category": "BDE",
-      "unit": "s",
-      "polling": "scan",
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Power_kW",
-      "dataType": "Float",
-      "category": "BDE",
-      "unit": "kW",
-      "polling": "scan",
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Energy_kWh",
-      "dataType": "Float",
-      "category": "BDE",
-      "unit": "kWh",
-      "polling": "scan",
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Production_Order",
-      "dataType": "String",
-      "category": "BDE",
-      "polling": "scan",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "Article_ID",
-      "dataType": "String",
-      "category": "BDE",
-      "polling": "scan",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "Tool_ID",
-      "dataType": "String",
-      "category": "BDE",
-      "polling": "scan",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "Shift_Number",
-      "dataType": "Int32",
-      "category": "BDE",
-      "polling": "scan",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "Operator_ID",
-      "dataType": "String",
-      "category": "BDE",
-      "polling": "scan",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    }
-  ],
-  "relationships": [
-    {
-      "type": "PART_OF",
-      "target": "ProductionLine",
-      "description": "ISA-95 hierarchy"
-    },
-    {
-      "type": "PRODUCES",
-      "target": "Article"
-    },
-    {
-      "type": "EXECUTES",
-      "target": "ProductionOrder"
-    }
-  ],
-  "kgNodeLabel": "Machine",
-  "kgIdProperty": "machine_id",
-  "companionSpec": "OPC40001-1",
-  "opcuaTypeDefinition": "MachineType",
-  "deviceClass": "Machine",
   "isa95": {
     "objectModel": "Equipment",
     "momDomain": "production",
-    "equipmentLevel": "WorkUnit",
+    "equipmentLevel": "EquipmentUnit",
     "propertyMap": {
-      "machineId": "Equipment.ID"
-    }
-  }
+      "machine_id": "Equipment.ID"
+    },
+    "companionSpec": "OPC40001-1",
+    "opcuaTypeDefinition": "MachineType",
+    "deviceClass": "Machine"
+  },
+  "kgNodeLabel": "Machine",
+  "kgIdProperty": "machine_id"
 }

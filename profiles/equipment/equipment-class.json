@@ -1,0 +1,54 @@
+{
+  "profileId": "SMProfile-EquipmentClass",
+  "version": "2.0.0",
+  "standard": "ISA-95",
+  "category": "equipment",
+  "displayName": "Equipment Class",
+  "description": "next/ v2.0 — ISA-95 EquipmentClass: a class/type grouping of equipment (capability/role). The binding axis a ProductDefinition APPLIES_TO (a spec valid for a class of equipment/line rather than one unit).",
+  "parentType": null,
+  "abstract": false,
+  "attributes": [
+    {
+      "name": "equipment_class_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Equipment class identity / key.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "name",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Display name of the equipment class.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "description",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "What capability/role this class represents.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    }
+  ],
+  "relationships": [],
+  "constraints": [],
+  "semantics": [],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "EquipmentClass",
+    "momDomain": "production",
+    "equipmentClass": "class",
+    "note": "ISA-95 EquipmentClass — APPLIES_TO target for ProductDefinition; classifies EquipmentUnits."
+  },
+  "kgNodeLabel": "EquipmentClass",
+  "kgIdProperty": "equipment_class_id"
+}

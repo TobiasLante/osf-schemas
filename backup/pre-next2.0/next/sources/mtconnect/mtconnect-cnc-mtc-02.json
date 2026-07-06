@@ -1,0 +1,50 @@
+{
+ "sourceId": "mtconnect-cnc-mtc-02",
+ "version": "2.0.0",
+ "sourceType": "mtconnect",
+ "syncType": "polling",
+ "description": "Direct MTConnect OT source — NO OPC-UA bridge. Produced by the suite's normal Discovery (POST /api/discovery/mtconnect/browse) against the prod MTConnect agent http://192.168.178.154:35000 (device cnc-03) and deployed via the standard edge-deploy (i3x.schema.deploy.cnc-mtc-02). The edge polls the agent /current and projects each MTConnect DataItem onto a canonical SMProfile-CNC-Machine attribute (join key = smAttribute), then publishes factory.werk1.cnc-mtc-02.event.<attr> straight to the hub. Contrast with mtconnect-cnc-01.json which re-exposes via an embedded OPC-UA server (the customer 'Sonder-Edge' crutch); this descriptor is the first-class, bridge-free path.",
+ "transport": [
+  "nats"
+ ],
+ "connection": {
+  "endpoint": "http://192.168.178.154:35000",
+  "device": "cnc-03",
+  "auth": "Anonymous"
+ },
+ "profileRef": "SMProfile-CNC-Machine",
+ "machineId": "cnc-mtc-02",
+ "machineName": "CNC-MTC-02 (MTConnect)",
+ "location": {
+  "enterprise": "factory",
+  "site": "werk1",
+  "area": "cnc",
+  "line": "line-mtc",
+  "type": "CNC"
+ },
+ "dataItemMappings": [
+  { "dataItemId": "cnc-03-power", "category": "SAMPLE", "smAttribute": "Act_Energy_Power", "dataType": "Float", "unit": "kW" },
+  { "dataItemId": "cnc-03-exec", "category": "EVENT", "smAttribute": "Act_Status_Program", "dataType": "String" },
+  { "dataItemId": "cnc-03-exec", "category": "EVENT", "smAttribute": "Act_State_InCycle", "dataType": "Boolean", "valueMap": { "ACTIVE": true, "*": false } },
+  { "dataItemId": "cnc-03-exec", "category": "EVENT", "smAttribute": "Act_Status_Machine", "dataType": "Int32", "valueMap": { "ACTIVE": 1, "*": 0 } },
+  { "dataItemId": "cnc-03-mode", "category": "EVENT", "smAttribute": "Act_Text_MachineMode", "dataType": "String" },
+  { "dataItemId": "cnc-03-program", "category": "EVENT", "smAttribute": "Act_Ref_Program", "dataType": "String" },
+  { "dataItemId": "cnc-03-tool", "category": "EVENT", "smAttribute": "Act_Ref_Tool", "dataType": "String" },
+  { "dataItemId": "cnc-03-tool-life", "category": "SAMPLE", "smAttribute": "Act_Pct_ToolWear", "dataType": "Float", "unit": "pct" },
+  { "dataItemId": "cnc-03-parts-good", "category": "EVENT", "smAttribute": "Act_Amount_PartGood", "dataType": "Int32" },
+  { "dataItemId": "cnc-03-parts-scrap", "category": "EVENT", "smAttribute": "Act_Amount_PartScrap", "dataType": "Int32" },
+  { "dataItemId": "cnc-03-alarm", "category": "CONDITION", "smAttribute": "Act_Amount_Alarm", "dataType": "Int32", "valueMap": { "Normal": 0, "Warning": 1, "Fault": 1, "*": 0 } },
+  { "dataItemId": "cnc-03-x-pos", "category": "SAMPLE", "smAttribute": "Act_Pos_AxisX", "dataType": "Float", "unit": "mm" },
+  { "dataItemId": "cnc-03-x-feed", "category": "SAMPLE", "smAttribute": "Act_Rate_Feed", "dataType": "Float", "unit": "mm/min" },
+  { "dataItemId": "cnc-03-y-pos", "category": "SAMPLE", "smAttribute": "Act_Pos_AxisY", "dataType": "Float", "unit": "mm" },
+  { "dataItemId": "cnc-03-z-pos", "category": "SAMPLE", "smAttribute": "Act_Pos_AxisZ", "dataType": "Float", "unit": "mm" },
+  { "dataItemId": "cnc-03-spindle-speed", "category": "SAMPLE", "smAttribute": "Act_Speed_Spindle", "dataType": "Float", "unit": "rpm" },
+  { "dataItemId": "cnc-03-spindle-load", "category": "SAMPLE", "smAttribute": "Act_Pct_SpindleLoad", "dataType": "Float", "unit": "pct" },
+  { "dataItemId": "cnc-03-spindle-temp", "category": "SAMPLE", "smAttribute": "Act_Temp_Spindle", "dataType": "Float", "unit": "degC" }
+ ],
+ "polling": {
+  "mode": "sample",
+  "intervalMs": 2000
+ },
+ "dataCategory": "telemetry"
+}

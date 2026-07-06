@@ -1,15 +1,46 @@
 {
   "profileId": "SMProfile-InspectionLot",
-  "version": "3.0.0",
+  "version": "2.0.0",
   "standard": "CESMII",
-  "displayName": "Inspection Lot (Prüflos)",
-  "description": "Quality inspection batch linked to a production order",
+  "category": "business",
+  "displayName": "Inspection Lot",
+  "description": "next/ v4 — QMS inspection lot. Attributes aligned to the LIVE projection of source sim-v5-qms-inspections (article_ref/order_ref/state/decision), NOT the legacy base profile. Carries the ISA-95 quality mapping AND the deviation constraint (lot_rejected), evaluated centrally by it-evaluator.",
   "parentType": null,
+  "abstract": false,
   "attributes": [
     {
       "name": "lot_no",
       "dataType": "String",
+      "required": true,
       "category": "Core",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "order_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "Referenced production order (join key to ProductionOrder / CustomerOrder).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "article_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "machine_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -17,39 +48,47 @@
     {
       "name": "lot_type",
       "dataType": "String",
+      "required": false,
       "category": "Core",
-      "description": "goods_receipt, in_process, final",
+      "description": "e.g. final, RMA_RECEIPT.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
     },
     {
-      "name": "production_order_no",
+      "name": "status",
       "dataType": "String",
-      "category": "Link",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "article_no",
-      "dataType": "String",
+      "required": false,
       "category": "Core",
+      "description": "Lot status, e.g. open, closed.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
     },
     {
-      "name": "machine_no",
+      "name": "state",
       "dataType": "String",
+      "required": false,
       "category": "Core",
+      "description": "Inspection workflow state, e.g. OPEN, IN_INSPECTION, DECIDED.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
     },
     {
-      "name": "lot_quantity",
+      "name": "decision",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Usage decision: ACCEPT, REJECT, REWORK.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "quantity",
       "dataType": "Int32",
+      "required": false,
       "category": "Core",
       "delivery": "transactional",
       "scope": "hub",
@@ -58,30 +97,16 @@
     {
       "name": "sample_size",
       "dataType": "Int32",
+      "required": false,
       "category": "Core",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
     },
     {
-      "name": "status",
-      "dataType": "String",
-      "category": "Core",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "inspection_start",
-      "dataType": "String",
-      "category": "Timing",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "inspection_end",
-      "dataType": "String",
+      "name": "created_at",
+      "dataType": "DateTime",
+      "required": false,
       "category": "Timing",
       "delivery": "transactional",
       "scope": "hub",
@@ -100,19 +125,47 @@
     {
       "type": "ON_MACHINE",
       "target": "Machine"
-    },
-    {
-      "type": "HAS_RESULT",
-      "target": "InspectionResult"
     }
   ],
-  "kgNodeLabel": "InspectionLot",
-  "kgIdProperty": "lot_no",
-  "category": "business",
+  "constraints": [
+    {
+      "name": "lot_rejected",
+      "description": "Decided inspection lot was rejected (usage decision = REJECT) — quality escalation.",
+      "when": {
+        "attr": "state",
+        "op": "eq",
+        "value": "DECIDED"
+      },
+      "require": {
+        "attr": "decision",
+        "op": "ne",
+        "value": "REJECT"
+      },
+      "severity": "error",
+      "discrepancyClass": "constraint",
+      "concern": "operations",
+      "mom_category": "quality",
+      "accountable_role": "Quality Assurance",
+      "since": "2026-06-15",
+      "impact_basis": "HK"
+    }
+  ],
+  "semantics": [],
+  "kpiRefs": [],
   "isa95": {
-    "objectModel": "Extension",
-    "extension": true,
+    "objectModel": "QualityTestResponse",
     "momDomain": "quality",
-    "note": "Prüflos — ISA-95 prüft je MaterialLot (MaterialTest)"
-  }
+    "level": 3,
+    "note": "Inspection lot = QualityTestResponse (ISA-95 Part 4 MOM Quality). The individual measurement is the nested MaterialTestResult (SMProfile-InspectionResult); the lot carries the usage decision.",
+    "propertyMap": {
+      "lot_no": "QualityTestResponse.ID",
+      "order_ref": "QualityTestResponse.OperationsRequestID",
+      "article_ref": "QualityTestResponse.MaterialDefinitionID",
+      "state": "QualityTestResponse.State",
+      "decision": "QualityTestResponse.Result",
+      "created_at": "QualityTestResponse.EndTime"
+    }
+  },
+  "kgNodeLabel": "InspectionLot",
+  "kgIdProperty": "lot_no"
 }

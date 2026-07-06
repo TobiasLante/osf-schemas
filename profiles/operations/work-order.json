@@ -1,0 +1,105 @@
+{
+  "profileId": "SMProfile-Workorder",
+  "version": "2.0.0",
+  "standard": "ISA-95",
+  "category": "business",
+  "displayName": "Workorder (order sub-lot / FO index)",
+  "description": "next/ v2.0 — Level-3 MOM Workorder (ISA-95 Part 4 / B2MML WorkRequest). TERMINOLOGY RULE : when a FabricationOrder runs across multiple time slots, each slot produces an 'index' (index 1, 2, 3 ...) — and 'each index equals one Workorder in ISA-95; it is a subdivision of the FabricationOrder'. This profile models exactly that subdivision: a Workorder is a time-bounded sub-piece of a ProductionOrder (OperationsRequest). It binds the MaterialLots produced/consumed per slot. (Note: 'batch' is NOT an ISA-95 term — the physical material piece is a MaterialLot, the activity is this Workorder.)",
+  "parentType": null,
+  "abstract": false,
+  "attributes": [
+    {
+      "name": "workorder_no",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the Workorder (join key). Recommendation: <production_order_no>.<order_index>.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "production_order_ref",
+      "dataType": "String",
+      "required": true,
+      "category": "Link",
+      "description": "FK to ProductionOrder.production_order_no (PART_OF). The FabricationOrder that this sub-lot subdivides.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "order_index",
+      "dataType": "Int32",
+      "required": false,
+      "category": "Core",
+      "description": "The FabricationOrder index (the MES FOIndex) = the slot number of this Workorder.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "status",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Workorder status (e.g. released, running, complete).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "planned_start_time",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "Planned start of this slot (target).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "planned_end_time",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "Planned end of this slot (target).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "PART_OF",
+      "target": "ProductionOrder",
+      "targetIdProp": "production_order_no",
+      "description": "The ProductionOrder (OperationsRequest) that this Workorder subdivides."
+    },
+    {
+      "type": "YIELDS",
+      "target": "MaterialLot",
+      "description": "Inverse of MaterialLot.PRODUCED_BY — the material lots created in this slot.",
+      "targetIdProp": "material_lot_no"
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iso:62264-WorkRequest"
+  ],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "WorkRequest",
+    "momDomain": "production",
+    "level": 3,
+    "note": "ISA-95 Part 4 WorkRequest = dispatch subdivision of an OperationsRequest. RULE: FabricationOrder index == Workorder (subdivision of the FO across time slots). Creates/consumes MaterialLots. Relationship PART_OF to the ProductionOrder = ISA-95 SUBDIVISION_OF (order sub-lot / FO index).",
+    "propertyMap": {
+      "workorder_no": "WorkRequest.ID",
+      "production_order_ref": "WorkRequest.OperationsRequestID",
+      "order_index": "WorkRequest.WorkType",
+      "status": "WorkRequest.WorkRequestState"
+    }
+  },
+  "kgNodeLabel": "Workorder",
+  "kgIdProperty": "workorder_no"
+}

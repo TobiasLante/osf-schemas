@@ -1,0 +1,43 @@
+{
+ "sourceId": "erp-customer-orders",
+ "version": "2.0.0",
+ "sourceType": "rest",
+ "syncType": "polling",
+ "profileRef": "SMProfile-CustomerOrder",
+ "transport": ["nats"],
+ "connection": {
+ "baseUrl": "http://192.168.178.154:38260",
+ "path": "/api/customer-orders?exclude_status=CANCELLED,INVOICED,SHIPPED",
+ "method": "GET",
+ "auth": null,
+ "timeoutMs": 10000
+ },
+ "response": {
+ "format": "json",
+ "rootPath": "$",
+ "idProperty": "kundenauftrag_nr"
+ },
+ "polling": {
+ "changeDetection": "full_refresh",
+ "intervalMs": 60000,
+ "batchSize": 1000,
+ "paginate": true
+ },
+ "columnMappings": [
+ { "column": "kundenauftrag_nr", "smAttribute": "order_no", "isId": true },
+ { "column": "kunde_id", "smAttribute": "customer_ref" },
+ { "column": "kunde_name", "smAttribute": "customer_name" },
+ { "column": "geplante_stueckzahl", "smAttribute": "quantity" },
+ { "column": "gesamtbetrag", "smAttribute": "total_amount" },
+ { "column": "waehrung", "smAttribute": "currency" },
+ { "column": "lieferdatum_soll", "smAttribute": "due_date" },
+ { "column": "status", "smAttribute": "status" },
+ { "column": "prioritaet", "smAttribute": "priority" }
+ ],
+ "filter": null,
+ "edges": [
+ { "type": "FOR_ARTICLE", "fkColumn": "article_no", "targetIdProp": "article_no" },
+ { "type": "TRIGGERS", "fkColumn": "production_order_no", "targetIdProp": "production_order_no" }
+ ],
+ "description": "next/ v4 — PHASE-0 ARCHITECTURE FIX: REAL ERP CustomerOrder via the sim-v5 ERP REST API (http://192.168.178.154:38260/api/customer-orders), replacing the postgresql/erp-customer-orders.json direct-erpdb poller. IT data must flow ONLY via REST -> it-edge -> NATS; the previous sourceType:postgresql against erpdb.llm_test_v3.kundenauftraege was the forbidden direct-DB bypass. Same sourceId (edge SOURCE_IDS unchanged), same profile contract (SMProfile-CustomerOrder). KEY FIX: gesamtbetrag -> total_amount — the REST API exposes the real order-value column the direct poller never mapped (the old source only carried quantity x unit_price as a proxy); total_amount now feeds the deviation €-impact ranking directly (it-evaluator still derives quantity x unit_price as fallback where total_amount is null). status arrives already canonical/lowercase from the REST API (offen/bestaetigt/...), so NO valueMap is needed (the postgres source normalised the German title-case dialect — the REST projection emits the canonical vocab natively). geplante_stueckzahl -> quantity (ordered line qty), lieferdatum_soll -> due_date (the customer delivery commitment; lieferdatum is the same value in this projection). full_refresh change-detection (intervalMs 60000) because the REST API does NOT honour a ?since timestamp param (verified: ?since=future still returns the full set) — the it-edge dedups via the per-id HWM on order_no exactly as it does for the other full_refresh REST sources (wms-quants). NOTE: in the real ERP the CustomerOrder->ProductionOrder TRIGGERS FK lives on the order row's production_order_no; the KG TRIGGERS edge is built from that fkColumn. filter=null per the cutover decision (full active order book; the REST API already serves the order set)."
+}

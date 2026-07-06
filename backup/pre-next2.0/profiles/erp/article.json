@@ -1,0 +1,100 @@
+{
+  "profileId": "SMProfile-Article",
+  "version": "3.0.0",
+  "standard": "CESMII",
+  "displayName": "Article (Artikel)",
+  "description": "Manufactured or purchased item in the ERP system",
+  "parentType": null,
+  "attributes": [
+    {
+      "name": "article_no",
+      "dataType": "String",
+      "category": "Core",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "name",
+      "dataType": "String",
+      "category": "Core",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "type",
+      "dataType": "String",
+      "category": "Core",
+      "description": "FERT/HALB/ROH/KAUF",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "unit",
+      "dataType": "String",
+      "category": "Core",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "lead_time_days",
+      "dataType": "Int32",
+      "category": "Planning",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "machine_group",
+      "dataType": "String",
+      "category": "Routing",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "weight_kg",
+      "dataType": "Float",
+      "category": "Physical",
+      "unit": "kg",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "abc_class",
+      "dataType": "String",
+      "category": "Classification",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "HAS_BOM",
+      "target": "BOMEntry"
+    },
+    {
+      "type": "HAS_ROUTING",
+      "target": "Routing"
+    },
+    {
+      "type": "IN_STOCK",
+      "target": "StockItem"
+    }
+  ],
+  "kgNodeLabel": "Article",
+  "kgIdProperty": "article_no",
+  "category": "business",
+  "isa95": {
+    "objectModel": "MaterialDefinition",
+    "momDomain": "inventory",
+    "propertyMap": {
+      "article_no": "MaterialDefinition.ID"
+    }
+  }
+}

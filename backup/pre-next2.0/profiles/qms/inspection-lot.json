@@ -1,0 +1,118 @@
+{
+  "profileId": "SMProfile-InspectionLot",
+  "version": "3.0.0",
+  "standard": "CESMII",
+  "displayName": "Inspection Lot (Prüflos)",
+  "description": "Quality inspection batch linked to a production order",
+  "parentType": null,
+  "attributes": [
+    {
+      "name": "lot_no",
+      "dataType": "String",
+      "category": "Core",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "lot_type",
+      "dataType": "String",
+      "category": "Core",
+      "description": "goods_receipt, in_process, final",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "production_order_no",
+      "dataType": "String",
+      "category": "Link",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "article_no",
+      "dataType": "String",
+      "category": "Core",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "machine_no",
+      "dataType": "String",
+      "category": "Core",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "lot_quantity",
+      "dataType": "Int32",
+      "category": "Core",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "sample_size",
+      "dataType": "Int32",
+      "category": "Core",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "status",
+      "dataType": "String",
+      "category": "Core",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "inspection_start",
+      "dataType": "String",
+      "category": "Timing",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "inspection_end",
+      "dataType": "String",
+      "category": "Timing",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "FOR_ORDER",
+      "target": "ProductionOrder"
+    },
+    {
+      "type": "FOR_ARTICLE",
+      "target": "Article"
+    },
+    {
+      "type": "ON_MACHINE",
+      "target": "Machine"
+    },
+    {
+      "type": "HAS_RESULT",
+      "target": "InspectionResult"
+    }
+  ],
+  "kgNodeLabel": "InspectionLot",
+  "kgIdProperty": "lot_no",
+  "category": "business",
+  "isa95": {
+    "objectModel": "Extension",
+    "extension": true,
+    "momDomain": "quality",
+    "note": "Prüflos — ISA-95 prüft je MaterialLot (MaterialTest)"
+  }
+}

@@ -1,0 +1,198 @@
+{
+  "recipeId": "RECIPE-sgm-004-PA66GF30-housing-A",
+  "version": "2.0.0",
+  "owner": "Process Engineering",
+  "profileRef": "SMProfile-InjectionMoldingMachine",
+  "displayName": "PA66-GF30 housing-A on sgm-004 (mould-A)",
+  "description": "GitHub-managed injection-molding recipe (Einstellparameter / SOLL) for article housing-A on sgm-004. The five monitored bands below are the active tolerance bands behind the recipe_* constraints. Edit + push to GitHub -> the it-evaluator GithubRecipeSource picks the new bands up at runtime (no redeploy). The IST is read at the edge; the active band is resolved centrally from this file by (article x equipment x setup).",
+  "match": {
+    "article": "housing-A",
+    "equipment": "sgm-004",
+    "setup": "mould-A"
+  },
+  "values": {
+    "recipe:hotrunner_temp_band": [
+      225,
+      234
+    ],
+    "recipe:part_mass_band": [
+      10.2,
+      10.45
+    ],
+    "recipe:cushion_band": [
+      4.5,
+      7.0
+    ],
+    "recipe:peak_pressure_band": [
+      450,
+      560
+    ],
+    "recipe:hold_pressure_band": [
+      300,
+      380
+    ],
+    "recipe:nozzle_temp_band": [
+      245,
+      255
+    ],
+    "recipe:back_pressure_band": [
+      80,
+      150
+    ],
+    "recipe:injection_speed_band": [
+      40,
+      80
+    ],
+    "recipe:mould_temp_band": [
+      40,
+      60
+    ],
+    "recipe:shot_volume_band": [
+      28,
+      34
+    ]
+  },
+  "parameters": [
+    {
+      "param": "resin",
+      "soll": "PA66-GF30",
+      "unit": "",
+      "monitored": false
+    },
+    {
+      "param": "hotrunnerTempC",
+      "soll": 230,
+      "tolerance": [
+        225,
+        234
+      ],
+      "unit": "degC",
+      "monitored": true,
+      "valueFrom": "recipe:hotrunner_temp_band",
+      "constraintId": "recipe_hotrunner_temp_band",
+      "smAttribute": "hotrunnerTempC"
+    },
+    {
+      "param": "partMass_g",
+      "soll": 10.35,
+      "tolerance": [
+        10.2,
+        10.45
+      ],
+      "unit": "g",
+      "monitored": true,
+      "valueFrom": "recipe:part_mass_band",
+      "constraintId": "recipe_part_mass_band",
+      "smAttribute": "partMass_g"
+    },
+    {
+      "param": "cushionMm",
+      "soll": 6.0,
+      "tolerance": [
+        4.5,
+        7.0
+      ],
+      "unit": "mm",
+      "monitored": true,
+      "valueFrom": "recipe:cushion_band",
+      "constraintId": "recipe_cushion_band",
+      "smAttribute": "cushionMm"
+    },
+    {
+      "param": "peakPressureBar",
+      "soll": 510,
+      "tolerance": [
+        450,
+        560
+      ],
+      "unit": "bar",
+      "monitored": true,
+      "gate": "inCycle==true",
+      "valueFrom": "recipe:peak_pressure_band",
+      "constraintId": "recipe_peak_pressure_band",
+      "smAttribute": "peakPressureBar"
+    },
+    {
+      "param": "holdPressureBar",
+      "soll": 340,
+      "tolerance": [
+        300,
+        380
+      ],
+      "unit": "bar",
+      "monitored": true,
+      "gate": "inCycle==true",
+      "valueFrom": "recipe:hold_pressure_band",
+      "constraintId": "recipe_hold_pressure_band",
+      "smAttribute": "holdPressureBar"
+    },
+    {
+      "param": "nozzleTempC",
+      "soll": 250,
+      "tolerance": [
+        245,
+        255
+      ],
+      "unit": "degC",
+      "monitored": true,
+      "valueFrom": "recipe:nozzle_temp_band",
+      "constraintId": "recipe_nozzle_temp_band",
+      "smAttribute": "nozzleTempC"
+    },
+    {
+      "param": "backPressureBar",
+      "soll": 115,
+      "tolerance": [
+        80,
+        150
+      ],
+      "unit": "bar",
+      "monitored": true,
+      "gate": "inCycle==true",
+      "valueFrom": "recipe:back_pressure_band",
+      "constraintId": "recipe_back_pressure_band",
+      "smAttribute": "backPressureBar"
+    },
+    {
+      "param": "injectionSpeedMmPerSec",
+      "soll": 60,
+      "tolerance": [
+        40,
+        80
+      ],
+      "unit": "mm/s",
+      "monitored": true,
+      "gate": "inCycle==true",
+      "valueFrom": "recipe:injection_speed_band",
+      "constraintId": "recipe_injection_speed_band",
+      "smAttribute": "injectionSpeedMmPerSec"
+    },
+    {
+      "param": "mouldTempC",
+      "soll": 50,
+      "tolerance": [
+        40,
+        60
+      ],
+      "unit": "degC",
+      "monitored": true,
+      "valueFrom": "recipe:mould_temp_band",
+      "constraintId": "recipe_mould_temp_band",
+      "smAttribute": "mouldTempC"
+    },
+    {
+      "param": "shotVolumeCm3",
+      "soll": 31,
+      "tolerance": [
+        28,
+        34
+      ],
+      "unit": "cm3",
+      "monitored": true,
+      "gate": "inCycle==true",
+      "valueFrom": "recipe:shot_volume_band",
+      "constraintId": "recipe_shot_volume_band",
+      "smAttribute": "shotVolumeCm3"
+    }
+  ]
+}
