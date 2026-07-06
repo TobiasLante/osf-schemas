@@ -2,850 +2,1000 @@
   "profileId": "SMProfile-InjectionMoldingMachine",
   "version": "2.0.0",
   "standard": "CESMII",
-  "displayName": "Injection Molding Machine (Spritzgussmaschine)",
-  "description": "Spritzgussmaschine with ISA-88 process parameters — temperature zones, pressures, speeds, positions, energy, cavity data. Note: uses Parts_Good/Parts_Scrap (not Good_Parts/Scrap_Parts) and Time_Cycle_* (not Cycle_Time_*) — normalization pending source schema update.",
+  "category": "machine",
+  "displayName": "Injection Molding Machine",
+  "description": "next/ v2.0 — injection molding machine (OT asset). Declares the full flat sim-v5 tag set delivered by the OPC source (sources/opcua/opcua-sgm-004-processdata.json and the aligned sgm event/telemetry/BDE sources): machine state + BDE counters, the injection process telemetry (hot-runner/nozzle/cavity/mould temps & pressures, injection speed, shot volume, cushion, cycle), mould/tooling, energy, and material/dryer/hopper. Source tag == profile attribute (1:1, end-to-end consistent), mirroring the CNC profile. The recipe_* constraints monitor the live process values (IST) against the active recipe SOLL band via valueFrom; equipment_* envelopes + the two-tier hot-runner control_limit are the machine-spec SSOT.",
   "parentType": "Machine",
+  "abstract": false,
   "attributes": [
     {
-      "name": "Act_Status_Machine",
+      "name": "machine_type",
       "dataType": "String",
       "required": false,
+      "category": "Core",
+      "description": "Machine type / class (sim machineType).",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
     },
     {
-      "name": "Act_Amount_PartGood",
-      "dataType": "Int32",
-      "required": false,
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "Act_Amount_PartScrap",
-      "dataType": "Int32",
-      "required": false,
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
-      "name": "Act_Ref_ProductionOrder",
+      "name": "status",
       "dataType": "String",
       "required": false,
+      "category": "BDE",
+      "description": "Actual machine status (running / idle / setup / fault).",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
     },
     {
-      "name": "Act_Ref_Article",
+      "name": "mode",
       "dataType": "String",
       "required": false,
+      "category": "BDE",
+      "description": "Operating mode (auto / manual / semi).",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
     },
     {
-      "name": "Act_Ref_Mould",
+      "name": "good",
+      "dataType": "Int32",
+      "required": false,
+      "category": "BDE",
+      "description": "Good parts produced (cumulative).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "scrap",
+      "dataType": "Int32",
+      "required": false,
+      "category": "BDE",
+      "description": "Scrap parts (cumulative).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "total",
+      "dataType": "Int32",
+      "required": false,
+      "category": "BDE",
+      "description": "Total parts (cumulative).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "shotCount",
+      "dataType": "Int32",
+      "required": false,
+      "category": "BDE",
+      "description": "Shot count (cumulative).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "uptimeSeconds",
+      "dataType": "Double",
+      "required": false,
+      "category": "BDE",
+      "description": "Machine uptime (seconds).",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw",
+      "quality": {
+        "onBad": "flag"
+      },
+      "unit": "s"
+    },
+    {
+      "name": "alarmsCount",
+      "dataType": "Int32",
+      "required": false,
+      "category": "BDE",
+      "description": "Active alarm count.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "inCycle",
+      "dataType": "Boolean",
+      "required": false,
+      "category": "Process",
+      "description": "Machine is in the injection cycle (cycle gate for pressure rules).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "currentProgram",
       "dataType": "String",
       "required": false,
+      "category": "BDE",
+      "description": "Active program / job on the machine.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
     },
     {
-      "name": "Act_Time_Cycle",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Plan_Time_Cycle",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Act_Temp_Melting",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Set_Temp_Melting",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Act_Temp_Zone1",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Set_Temp_Zone1",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Act_Temp_Zone2",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Set_Temp_Zone2",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Act_Temp_Zone3",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Set_Temp_Zone3",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Act_Temp_Zone4",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Set_Temp_Zone4",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Act_Temp_Zone5",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Set_Temp_Zone5",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Act_Temp_Zone6",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Set_Temp_Zone6",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Act_Temp_Nozzle",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Set_Temp_Nozzle",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Act_Temp_MouldFixed",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Set_Temp_MouldFixed",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Act_Temp_MouldMoving",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Set_Temp_MouldMoving",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Act_Temp_WaterInlet",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Set_Temp_WaterInlet",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Act_Temp_WaterOutlet",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Act_Temp_Oil",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Set_Temp_Oil",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Act_Temp_Dryer",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Set_Temp_Dryer",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Act_Temp_Ambient",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Act_Time_Dosing",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Set_Time_Dosing",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Act_Time_Filling",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Set_Time_Filling",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Act_Time_Holding",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Set_Time_Holding",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Act_Time_Cooling",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Set_Time_Cooling",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Act_Time_MouldOpen",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Act_Time_MouldClose",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Act_Time_Ejection",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Act_Time_Injection",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Act_Time_Plasticizing",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Act_Time_Pause",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Act_Pressure_Holding",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Set_Pressure_Holding",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Act_Pressure_InjectionMax",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Set_Pressure_InjectionMax",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Act_Pressure_InjectionSwitch",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Set_Pressure_InjectionSwitch",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Act_Pressure_Back",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Set_Pressure_Back",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Act_Pressure_Oil",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Act_Force_Closing",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Set_Force_Closing",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Act_Force_Ejector",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Set_Force_Ejector",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Act_Torque_Screw",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Act_Vol_Shot",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Set_Vol_Shot",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Act_Vol_Cushion",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Set_Vol_Cushion",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Act_Speed_Injection",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Set_Speed_Injection",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Act_Speed_ScrewRPM",
-      "dataType": "Double",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
-    },
-    {
-      "name": "Set_Speed_ScrewRPM",
-      "dataType": "Double",
+      "name": "lastShotAt",
+      "dataType": "DateTime",
       "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
+      "category": "Timing",
+      "description": "Timestamp of the last shot.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
-      "name": "Act_Speed_MouldOpen",
-      "dataType": "Double",
+      "name": "shiftActive",
+      "dataType": "Boolean",
       "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
+      "category": "BDE",
+      "description": "A production shift is active.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
-      "name": "Set_Speed_MouldOpen",
-      "dataType": "Double",
+      "name": "reason",
+      "dataType": "String",
       "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
+      "category": "BDE",
+      "description": "Stoppage / state reason code.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
-      "name": "Act_Speed_MouldClose",
+      "name": "hotrunnerTempC",
       "dataType": "Double",
       "required": false,
+      "category": "Process",
+      "description": "Actual hot-runner temperature (recipe-monitored).",
       "delivery": "telemetry",
       "scope": "edge",
-      "promotion": "raw"
+      "promotion": "raw",
+      "quality": {
+        "onBad": "flag"
+      },
+      "unit": "degC"
     },
     {
-      "name": "Set_Speed_MouldClose",
+      "name": "nozzleTempC",
       "dataType": "Double",
       "required": false,
+      "category": "Process",
+      "description": "Actual nozzle / barrel-end temperature.",
       "delivery": "telemetry",
       "scope": "edge",
-      "promotion": "raw"
+      "promotion": "raw",
+      "quality": {
+        "onBad": "flag"
+      },
+      "unit": "degC"
     },
     {
-      "name": "Act_Speed_Ejector",
+      "name": "cavityPressureBar",
       "dataType": "Double",
       "required": false,
+      "category": "Process",
+      "description": "Actual cavity pressure.",
       "delivery": "telemetry",
       "scope": "edge",
-      "promotion": "raw"
+      "promotion": "raw",
+      "quality": {
+        "onBad": "flag"
+      },
+      "unit": "bar"
     },
     {
-      "name": "Set_Speed_Ejector",
+      "name": "mouldPressureBar",
       "dataType": "Double",
       "required": false,
+      "category": "Process",
+      "description": "Actual mould pressure.",
       "delivery": "telemetry",
       "scope": "edge",
-      "promotion": "raw"
+      "promotion": "raw",
+      "quality": {
+        "onBad": "flag"
+      },
+      "unit": "bar"
     },
     {
-      "name": "Act_Pos_ScrewDosing",
+      "name": "partMass_g",
       "dataType": "Double",
       "required": false,
+      "category": "Quality",
+      "description": "Actual part mass (recipe-monitored).",
       "delivery": "telemetry",
       "scope": "edge",
-      "promotion": "raw"
+      "promotion": "raw",
+      "quality": {
+        "onBad": "flag"
+      },
+      "unit": "g"
     },
     {
-      "name": "Set_Pos_ScrewDosing",
+      "name": "peakPressureBar",
       "dataType": "Double",
       "required": false,
+      "category": "Process",
+      "description": "Actual peak injection pressure (recipe-monitored, cycle-gated).",
       "delivery": "telemetry",
       "scope": "edge",
-      "promotion": "raw"
+      "promotion": "raw",
+      "quality": {
+        "onBad": "flag"
+      },
+      "unit": "bar"
     },
     {
-      "name": "Act_Pos_ScrewSwitch",
+      "name": "holdPressureBar",
       "dataType": "Double",
       "required": false,
+      "category": "Process",
+      "description": "Actual hold pressure (recipe-monitored, cycle-gated).",
       "delivery": "telemetry",
       "scope": "edge",
-      "promotion": "raw"
+      "promotion": "raw",
+      "quality": {
+        "onBad": "flag"
+      },
+      "unit": "bar"
     },
     {
-      "name": "Set_Pos_ScrewSwitch",
+      "name": "backPressureBar",
       "dataType": "Double",
       "required": false,
+      "category": "Process",
+      "description": "Actual back pressure during plasticising.",
       "delivery": "telemetry",
       "scope": "edge",
-      "promotion": "raw"
+      "promotion": "raw",
+      "quality": {
+        "onBad": "flag"
+      },
+      "unit": "bar"
     },
     {
-      "name": "Act_Pos_ScrewDecompress",
+      "name": "injectionSpeedMmPerSec",
       "dataType": "Double",
       "required": false,
+      "category": "Process",
+      "description": "Actual injection speed.",
       "delivery": "telemetry",
       "scope": "edge",
-      "promotion": "raw"
+      "promotion": "raw",
+      "quality": {
+        "onBad": "flag"
+      },
+      "unit": "mm/s"
     },
     {
-      "name": "Set_Pos_ScrewDecompress",
+      "name": "shotVolumeCm3",
       "dataType": "Double",
       "required": false,
+      "category": "Process",
+      "description": "Actual shot volume.",
       "delivery": "telemetry",
       "scope": "edge",
-      "promotion": "raw"
+      "promotion": "raw",
+      "quality": {
+        "onBad": "flag"
+      },
+      "unit": "cm3"
     },
     {
-      "name": "Act_Pos_MouldOpen",
+      "name": "cushionMm",
       "dataType": "Double",
       "required": false,
+      "category": "Process",
+      "description": "Actual residual material cushion (recipe-monitored).",
       "delivery": "telemetry",
       "scope": "edge",
-      "promotion": "raw"
+      "promotion": "raw",
+      "quality": {
+        "onBad": "flag"
+      },
+      "unit": "mm"
     },
     {
-      "name": "Set_Pos_MouldOpen",
+      "name": "plastProgress",
       "dataType": "Double",
       "required": false,
+      "category": "Process",
+      "description": "Plasticising progress of the current cycle.",
       "delivery": "telemetry",
       "scope": "edge",
-      "promotion": "raw"
+      "promotion": "raw",
+      "quality": {
+        "onBad": "flag"
+      },
+      "unit": "%"
     },
     {
-      "name": "Act_Pos_Ejector",
+      "name": "cycleTimeSec",
       "dataType": "Double",
       "required": false,
+      "category": "Process",
+      "description": "Actual cycle time per shot.",
       "delivery": "telemetry",
       "scope": "edge",
-      "promotion": "raw"
+      "promotion": "raw",
+      "quality": {
+        "onBad": "flag"
+      },
+      "unit": "s"
     },
     {
-      "name": "Set_Pos_Ejector",
+      "name": "elapsedSec",
       "dataType": "Double",
       "required": false,
+      "category": "Process",
+      "description": "Elapsed time in the current phase.",
       "delivery": "telemetry",
       "scope": "edge",
-      "promotion": "raw"
+      "promotion": "raw",
+      "quality": {
+        "onBad": "flag"
+      },
+      "unit": "s"
     },
     {
-      "name": "Act_Energy_Total",
+      "name": "remainingSec",
       "dataType": "Double",
       "required": false,
+      "category": "Process",
+      "description": "Remaining time (setup / phase).",
       "delivery": "telemetry",
       "scope": "edge",
-      "promotion": "raw"
+      "promotion": "raw",
+      "quality": {
+        "onBad": "flag"
+      },
+      "unit": "s"
     },
     {
-      "name": "Act_Energy_Heating",
-      "dataType": "Double",
+      "name": "switchoverReached",
+      "dataType": "Boolean",
       "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
+      "category": "Process",
+      "description": "Injection-to-hold switchover point reached.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
-      "name": "Act_Energy_Drive",
-      "dataType": "Double",
+      "name": "phaseName",
+      "dataType": "String",
       "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
+      "category": "Process",
+      "description": "Current machine phase (inject / hold / plast / cool / open).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
-      "name": "Act_Energy_PowerCurrent",
-      "dataType": "Double",
+      "name": "mouldId",
+      "dataType": "String",
       "required": false,
-      "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
+      "category": "Link",
+      "description": "Mould / tool currently set up (= USES_TOOL tool_id).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
-      "name": "Act_Humidity_Granulate",
+      "name": "mouldTempC",
       "dataType": "Double",
       "required": false,
+      "category": "Process",
+      "description": "Actual mould temperature.",
       "delivery": "telemetry",
       "scope": "edge",
-      "promotion": "raw"
+      "promotion": "raw",
+      "quality": {
+        "onBad": "flag"
+      },
+      "unit": "degC"
     },
     {
-      "name": "Act_Humidity_Ambient",
+      "name": "coolingFlowLMin",
       "dataType": "Double",
       "required": false,
+      "category": "Process",
+      "description": "Mould cooling-water flow.",
       "delivery": "telemetry",
       "scope": "edge",
-      "promotion": "raw"
+      "promotion": "raw",
+      "quality": {
+        "onBad": "flag"
+      },
+      "unit": "L/min"
     },
     {
-      "name": "Act_Weight_Shot",
+      "name": "lifePercent",
       "dataType": "Double",
       "required": false,
+      "category": "Process",
+      "description": "Mould life consumed (percent).",
       "delivery": "telemetry",
       "scope": "edge",
-      "promotion": "raw"
+      "promotion": "raw",
+      "quality": {
+        "onBad": "flag"
+      },
+      "unit": "%"
     },
     {
-      "name": "Act_Amount_Shot",
+      "name": "totalShots",
       "dataType": "Int32",
       "required": false,
+      "category": "Process",
+      "description": "Mould total shot counter (life).",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
     },
     {
-      "name": "Act_Time_MouldCycle",
-      "dataType": "Float",
+      "name": "powerKw",
+      "dataType": "Double",
       "required": false,
+      "category": "BDE",
+      "description": "Actual electrical power draw.",
       "delivery": "telemetry",
       "scope": "edge",
-      "promotion": "raw"
+      "promotion": "raw",
+      "quality": {
+        "onBad": "flag"
+      },
+      "unit": "kW"
     },
     {
-      "name": "Act_Amount_PartTotal",
+      "name": "resin",
+      "dataType": "String",
+      "required": false,
+      "category": "Material",
+      "description": "Resin / material grade being processed.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "dryerTempC",
+      "dataType": "Double",
+      "required": false,
+      "category": "Material",
+      "description": "Resin dryer actual temperature.",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw",
+      "quality": {
+        "onBad": "flag"
+      },
+      "unit": "degC"
+    },
+    {
+      "name": "dryerSetpointC",
+      "dataType": "Double",
+      "required": false,
+      "category": "Material",
+      "description": "Resin dryer setpoint temperature.",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw",
+      "quality": {
+        "onBad": "flag"
+      },
+      "unit": "degC"
+    },
+    {
+      "name": "dryerResidenceMin",
+      "dataType": "Double",
+      "required": false,
+      "category": "Material",
+      "description": "Actual dryer residence time.",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw",
+      "quality": {
+        "onBad": "flag"
+      },
+      "unit": "min"
+    },
+    {
+      "name": "dryerResidenceTargetMin",
+      "dataType": "Double",
+      "required": false,
+      "category": "Material",
+      "description": "Target dryer residence time.",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw",
+      "quality": {
+        "onBad": "flag"
+      },
+      "unit": "min"
+    },
+    {
+      "name": "hopperFillPct",
+      "dataType": "Double",
+      "required": false,
+      "category": "Material",
+      "description": "Hopper fill level.",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw",
+      "quality": {
+        "onBad": "flag"
+      },
+      "unit": "%"
+    },
+    {
+      "name": "hopperRefillThresholdPct",
+      "dataType": "Double",
+      "required": false,
+      "category": "Material",
+      "description": "Hopper refill threshold.",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw",
+      "quality": {
+        "onBad": "flag"
+      },
+      "unit": "%"
+    },
+    {
+      "name": "hopperRefillCount",
       "dataType": "Int32",
       "required": false,
+      "category": "Material",
+      "description": "Hopper refill count.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
     },
     {
-      "name": "Act_Energy_SpecificPerPart",
-      "dataType": "Float",
+      "name": "regrindRatioPct",
+      "dataType": "Double",
       "required": false,
+      "category": "Material",
+      "description": "Regrind ratio.",
       "delivery": "telemetry",
       "scope": "edge",
-      "promotion": "raw"
+      "promotion": "raw",
+      "quality": {
+        "onBad": "flag"
+      },
+      "unit": "%"
     },
     {
-      "name": "Act_Time_RunTotal",
-      "dataType": "Float",
+      "name": "colourMasterbatchPct",
+      "dataType": "Double",
       "required": false,
-      "delivery": "telemetry",
-      "scope": "hub",
-      "promotion": "aggregate"
-    },
-    {
-      "name": "Act_Time_DownTotal",
-      "dataType": "Float",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "hub",
-      "promotion": "aggregate"
-    },
-    {
-      "name": "Act_Weight_PartNet",
-      "dataType": "Float",
-      "required": false,
+      "category": "Material",
+      "description": "Colour masterbatch dosing ratio.",
       "delivery": "telemetry",
       "scope": "edge",
-      "promotion": "raw"
+      "promotion": "raw",
+      "quality": {
+        "onBad": "flag"
+      },
+      "unit": "%"
+    },
+    {
+      "name": "colourPurgeRemaining",
+      "dataType": "Int32",
+      "required": false,
+      "category": "Material",
+      "description": "Colour purge shots remaining.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     }
   ],
   "relationships": [
     {
-      "type": "USES_MOULD",
-      "target": "Mould"
+      "type": "USES_TOOL",
+      "target": "Tool",
+      "targetIdProp": "tool_id"
     }
   ],
-  "kgNodeLabel": "InjectionMoldingMachine",
-  "kgIdProperty": "machine_id",
-  "companionSpec": "EUROMAP77",
-  "opcuaTypeDefinition": "InjectionMouldingMachineType",
-  "deviceClass": "Injection Moulding Machine",
-  "kpiRefs": [
-    "KPI-Quality-Rate",
-    "KPI-OEE",
-    "KPI-Availability",
-    "KPI-Performance",
-    "KPI-Scrap-Rate",
-    "KPI-Cycle-Efficiency"
+  "constraints": [
+    {
+      "name": "recipe_hotrunner_temp_band",
+      "description": "Recipe / setting parameter: hot-runner temperature must lie within the target band (resolved at runtime via valueFrom recipe:hotrunner_temp_band). Outside -> material degradation / dimensional deviation on the part.",
+      "require": {
+        "attr": "hotrunnerTempC",
+        "op": "between",
+        "valueFrom": "recipe:hotrunner_temp_band"
+      },
+      "severity": "warning",
+      "discrepancyClass": "constraint",
+      "concern": "operations",
+      "mom_category": "quality",
+      "accountable_role": "Process Engineering",
+      "deviation_class": "recipe",
+      "since": "2026-06-17",
+      "impact_basis": "HK"
+    },
+    {
+      "name": "recipe_part_mass_band",
+      "description": "Recipe / setting parameter: part mass must lie within the target band (resolved at runtime via valueFrom recipe:part_mass_band; the recipe target is deliberately chosen narrower than the current actual to detect overfilling/drift early). Outside -> over-/under-injection, scrap.",
+      "require": {
+        "attr": "partMass_g",
+        "op": "between",
+        "valueFrom": "recipe:part_mass_band"
+      },
+      "severity": "error",
+      "discrepancyClass": "constraint",
+      "concern": "operations",
+      "mom_category": "quality",
+      "accountable_role": "Process Engineering",
+      "deviation_class": "recipe",
+      "since": "2026-06-17",
+      "impact_basis": "HK"
+    },
+    {
+      "name": "recipe_cushion_band",
+      "description": "Recipe / setting parameter: residual material cushion must lie within the target band (resolved at runtime via valueFrom recipe:cushion_band). Outside -> fluctuation in the hold-pressure profile, dimensional deviation.",
+      "require": {
+        "attr": "cushionMm",
+        "op": "between",
+        "valueFrom": "recipe:cushion_band"
+      },
+      "severity": "warning",
+      "discrepancyClass": "constraint",
+      "concern": "operations",
+      "mom_category": "quality",
+      "accountable_role": "Process Engineering",
+      "deviation_class": "recipe",
+      "since": "2026-06-17",
+      "impact_basis": "HK"
+    },
+    {
+      "name": "recipe_peak_pressure_band",
+      "description": "Recipe / setting parameter: peak injection pressure must lie within the target band during the active cycle (resolved at runtime via valueFrom recipe:peak_pressure_band). Cycle-gated (inCycle==true), since the pressure falls to 0 between shots.",
+      "when": {
+        "attr": "inCycle",
+        "op": "eq",
+        "value": true
+      },
+      "require": {
+        "attr": "peakPressureBar",
+        "op": "between",
+        "valueFrom": "recipe:peak_pressure_band"
+      },
+      "severity": "warning",
+      "discrepancyClass": "constraint",
+      "concern": "operations",
+      "mom_category": "quality",
+      "accountable_role": "Process Engineering",
+      "deviation_class": "recipe",
+      "since": "2026-06-17",
+      "impact_basis": "HK"
+    },
+    {
+      "name": "recipe_hold_pressure_band",
+      "description": "Recipe / setting parameter: hold pressure must lie within the target band during the active cycle (resolved at runtime via valueFrom recipe:hold_pressure_band). Cycle-gated (inCycle==true), since the pressure falls to 0 between shots.",
+      "when": {
+        "attr": "inCycle",
+        "op": "eq",
+        "value": true
+      },
+      "require": {
+        "attr": "holdPressureBar",
+        "op": "between",
+        "valueFrom": "recipe:hold_pressure_band"
+      },
+      "severity": "warning",
+      "discrepancyClass": "constraint",
+      "concern": "operations",
+      "mom_category": "quality",
+      "accountable_role": "Process Engineering",
+      "deviation_class": "recipe",
+      "since": "2026-06-17",
+      "impact_basis": "HK"
+    },
+    {
+      "name": "equipment_hotrunner_temp_envelope",
+      "description": "Equipment / asset-per-se: hot-runner temperature must stay within the machine's safe operating envelope, independent of the running recipe. Outside [180,270] degC -> heater / thermocouple / controller fault (a machine problem regardless of the article). Deliberately wider than the recipe band on the same attribute. LITERAL value = machine-spec SSOT — adjust to the machine spec.",
+      "require": {
+        "attr": "hotrunnerTempC",
+        "op": "between",
+        "value": [
+          180,
+          270
+        ]
+      },
+      "severity": "warning",
+      "discrepancyClass": "constraint",
+      "concern": "operations",
+      "mom_category": "maintenance",
+      "accountable_role": "Maintenance",
+      "deviation_class": "equipment",
+      "since": "2026-06-19",
+      "impact_basis": "HK"
+    },
+    {
+      "name": "equipment_peak_pressure_limit",
+      "description": "Equipment / asset-per-se: peak injection pressure must stay below the machine's safe mechanical/hydraulic limit during the active cycle, independent of the running recipe. Above [0,1000] bar -> overpressure / machine fault (not a recipe deviation). Cycle-gated (inCycle==true). LITERAL value = machine-spec SSOT — adjust to the machine spec.",
+      "when": {
+        "attr": "inCycle",
+        "op": "eq",
+        "value": true
+      },
+      "require": {
+        "attr": "peakPressureBar",
+        "op": "between",
+        "value": [
+          0,
+          1000
+        ]
+      },
+      "severity": "error",
+      "discrepancyClass": "constraint",
+      "concern": "operations",
+      "mom_category": "maintenance",
+      "accountable_role": "Maintenance",
+      "deviation_class": "equipment",
+      "since": "2026-06-19",
+      "impact_basis": "HK"
+    },
+    {
+      "name": "hotrunner_control_limits",
+      "description": "Control limits (Warngrenze + Eingriffsgrenze) for the hot-runner temperature — a two-tier escalation band on top of the recipe SOLL. Inside the warn band [225,234] degC = ok; outside warn -> 'warning'-tier alarm (watch); outside the action band [218,241] -> 'error'-tier alarm (intervene). Both tiers stay inside the equipment envelope [180,270] (equipment_hotrunner_temp_envelope). LITERAL bands = static SSOT for the pilot; switch to valueFrom 'recipe:hotrunner_limits' to source them per active recipe. Drives the OT alarm panel with a raise/clear lifecycle (auto-clears when the value returns inside the warn band).",
+      "require": {
+        "attr": "hotrunnerTempC",
+        "op": "within_limits",
+        "limits": {
+          "warn": [
+            225,
+            234
+          ],
+          "action": [
+            218,
+            241
+          ]
+        }
+      },
+      "severity": "warning",
+      "discrepancyClass": "control_limit",
+      "concern": "operations",
+      "mom_category": "quality",
+      "accountable_role": "Process Engineering",
+      "deviation_class": "recipe",
+      "since": "2026-06-23",
+      "impact_basis": "HK"
+    },
+    {
+      "name": "recipe_nozzle_temp_band",
+      "description": "Recipe / setting parameter (ASSUMED pilot default): nozzleTempC must lie within the active recipe band (valueFrom recipe:nozzle_temp_band).",
+      "require": {
+        "attr": "nozzleTempC",
+        "op": "between",
+        "valueFrom": "recipe:nozzle_temp_band"
+      },
+      "severity": "warning",
+      "discrepancyClass": "constraint",
+      "concern": "operations",
+      "mom_category": "quality",
+      "accountable_role": "Process Engineering",
+      "deviation_class": "recipe",
+      "since": "2026-06-25",
+      "impact_basis": "HK"
+    },
+    {
+      "name": "recipe_back_pressure_band",
+      "description": "Recipe / setting parameter (ASSUMED pilot default): backPressureBar must lie within the active recipe band (valueFrom recipe:back_pressure_band).",
+      "require": {
+        "attr": "backPressureBar",
+        "op": "between",
+        "valueFrom": "recipe:back_pressure_band"
+      },
+      "severity": "warning",
+      "discrepancyClass": "constraint",
+      "concern": "operations",
+      "mom_category": "quality",
+      "accountable_role": "Process Engineering",
+      "deviation_class": "recipe",
+      "since": "2026-06-25",
+      "impact_basis": "HK",
+      "when": {
+        "attr": "inCycle",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "name": "recipe_injection_speed_band",
+      "description": "Recipe / setting parameter (ASSUMED pilot default): injectionSpeedMmPerSec must lie within the active recipe band (valueFrom recipe:injection_speed_band).",
+      "require": {
+        "attr": "injectionSpeedMmPerSec",
+        "op": "between",
+        "valueFrom": "recipe:injection_speed_band"
+      },
+      "severity": "warning",
+      "discrepancyClass": "constraint",
+      "concern": "operations",
+      "mom_category": "quality",
+      "accountable_role": "Process Engineering",
+      "deviation_class": "recipe",
+      "since": "2026-06-25",
+      "impact_basis": "HK",
+      "when": {
+        "attr": "inCycle",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "name": "recipe_mould_temp_band",
+      "description": "Recipe / setting parameter (ASSUMED pilot default): mouldTempC must lie within the active recipe band (valueFrom recipe:mould_temp_band).",
+      "require": {
+        "attr": "mouldTempC",
+        "op": "between",
+        "valueFrom": "recipe:mould_temp_band"
+      },
+      "severity": "warning",
+      "discrepancyClass": "constraint",
+      "concern": "operations",
+      "mom_category": "quality",
+      "accountable_role": "Process Engineering",
+      "deviation_class": "recipe",
+      "since": "2026-06-25",
+      "impact_basis": "HK"
+    },
+    {
+      "name": "recipe_shot_volume_band",
+      "description": "Recipe / setting parameter (ASSUMED pilot default): shotVolumeCm3 must lie within the active recipe band (valueFrom recipe:shot_volume_band).",
+      "require": {
+        "attr": "shotVolumeCm3",
+        "op": "between",
+        "valueFrom": "recipe:shot_volume_band"
+      },
+      "severity": "error",
+      "discrepancyClass": "constraint",
+      "concern": "operations",
+      "mom_category": "quality",
+      "accountable_role": "Process Engineering",
+      "deviation_class": "recipe",
+      "since": "2026-06-25",
+      "impact_basis": "HK",
+      "when": {
+        "attr": "inCycle",
+        "op": "eq",
+        "value": true
+      }
+    },
+    {
+      "name": "equipment_mould_temp_envelope",
+      "description": "Equipment / asset-per-se (ASSUMED machine-spec default): mould temperature must stay within the machine cooling/heating envelope [15,120] degC.",
+      "require": {
+        "attr": "mouldTempC",
+        "op": "between",
+        "value": [
+          15,
+          120
+        ]
+      },
+      "severity": "warning",
+      "discrepancyClass": "constraint",
+      "concern": "operations",
+      "mom_category": "maintenance",
+      "accountable_role": "Maintenance",
+      "deviation_class": "equipment",
+      "since": "2026-06-25",
+      "impact_basis": "HK"
+    },
+    {
+      "name": "equipment_dryer_temp_envelope",
+      "description": "Equipment / asset-per-se (ASSUMED machine-spec default): resin dryer temperature must stay within [60,130] degC.",
+      "require": {
+        "attr": "dryerTempC",
+        "op": "between",
+        "value": [
+          60,
+          130
+        ]
+      },
+      "severity": "warning",
+      "discrepancyClass": "constraint",
+      "concern": "operations",
+      "mom_category": "maintenance",
+      "accountable_role": "Maintenance",
+      "deviation_class": "equipment",
+      "since": "2026-06-25",
+      "impact_basis": "HK"
+    },
+    {
+      "name": "equipment_cooling_flow_min",
+      "description": "Equipment / asset-per-se (ASSUMED): mould cooling-water flow must be >= 5 L/min during the active cycle, else overheating risk.",
+      "when": {
+        "attr": "inCycle",
+        "op": "eq",
+        "value": true
+      },
+      "require": {
+        "attr": "coolingFlowLMin",
+        "op": "gte",
+        "value": 5
+      },
+      "severity": "error",
+      "discrepancyClass": "constraint",
+      "concern": "operations",
+      "mom_category": "maintenance",
+      "accountable_role": "Maintenance",
+      "deviation_class": "equipment",
+      "since": "2026-06-25",
+      "impact_basis": "HK"
+    },
+    {
+      "name": "mould_temp_control_limits",
+      "description": "Control limits (Warngrenze + Eingriffsgrenze) for mould temperature (ASSUMED): warn band [42,58], action band [38,62] degC; inside equipment envelope [15,120]. Drives the OT alarm panel (raise/clear).",
+      "require": {
+        "attr": "mouldTempC",
+        "op": "within_limits",
+        "limits": {
+          "warn": [
+            42,
+            58
+          ],
+          "action": [
+            38,
+            62
+          ]
+        }
+      },
+      "severity": "warning",
+      "discrepancyClass": "control_limit",
+      "concern": "operations",
+      "mom_category": "quality",
+      "accountable_role": "Process Engineering",
+      "deviation_class": "recipe",
+      "since": "2026-06-25",
+      "impact_basis": "HK"
+    },
+    {
+      "name": "power_positive_when_running",
+      "description": "Machine is in the injection cycle but draws 0 kW — sensor / edge-communication fault (equipment).",
+      "when": {
+        "attr": "inCycle",
+        "op": "eq",
+        "value": true
+      },
+      "require": {
+        "attr": "powerKw",
+        "op": "gt",
+        "value": 0
+      },
+      "severity": "warning",
+      "discrepancyClass": "constraint",
+      "concern": "operations",
+      "mom_category": "maintenance",
+      "accountable_role": "Maintenance",
+      "deviation_class": "equipment",
+      "since": "2026-06-25"
+    }
   ],
+  "semantics": [],
+  "kpiRefs": [],
   "isa95": {
     "objectModel": "Equipment",
     "momDomain": "production",
-    "equipmentLevel": "WorkUnit",
-    "equipmentClass": "InjectionMoldingMachine"
-  }
+    "equipmentLevel": "EquipmentUnit",
+    "equipmentClass": "InjectionMoldingMachine",
+    "companionSpec": "EUROMAP77",
+    "opcuaTypeDefinition": "InjectionMouldingMachineType",
+    "deviceClass": "Injection Moulding Machine"
+  },
+  "kgNodeLabel": "InjectionMoldingMachine",
+  "kgIdProperty": "machine_id"
 }

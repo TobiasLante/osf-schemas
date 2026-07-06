@@ -1,0 +1,187 @@
+{
+  "profileId": "SMProfile-SegmentRequirement",
+  "version": "2.0.0",
+  "standard": "ISA-95",
+  "category": "business",
+  "displayName": "Segment Requirement (segment target per order)",
+  "description": "next/ v2.0 — Level-3 MOM SegmentRequirement (ISA-95 Part 4 / B2MML OperationsRequest.SegmentRequirement) = the PLAN per manufacturing stage. An OperationsRequest (ProductionOrder) decomposes into ONE SegmentRequirement PER ProcessSegment traversed (a forming, dosing, or curing stage ...). Each SegmentRequirement carries the target specifications of the stage: material (with ROLE — Being Consumed/Produced/...), equipment, planned quantity and times. This resolves the flat v1 'one order = one implicit segment' view into the real ISA-95 multi-segment structure. Counterpart: SegmentResponse (the actuals), 'corresponds to'. The material ROLE is the core of the 'Mixed Operation Schedule' (Production: Consumed+Produced; Inventory: MovedFrom/MovedTo; Quality: Sample).",
+  "parentType": null,
+  "abstract": false,
+  "attributes": [
+    {
+      "name": "segment_requirement_no",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the SegmentRequirement (join key). Recommendation: <production_order_no>.<sequence>.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "production_order_ref",
+      "dataType": "String",
+      "required": true,
+      "category": "Link",
+      "description": "FK to ProductionOrder.production_order_no (PART_OF). The OperationsRequest to which this segment target belongs.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "process_segment_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "FK to ProcessSegment.process_segment_no (FOR_SEGMENT). Which manufacturing stage (= plant = Function) is planned here.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "sequence",
+      "dataType": "Int32",
+      "required": false,
+      "category": "Planning",
+      "description": "Sequence of this segment within the order.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "material_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "FK to Article.article_no (FOR_MATERIAL) = MaterialRequirement.MaterialDefinitionID. The target material of this stage.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "material_use",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 MaterialRequirement.MaterialUse — the ROLE of the material in this stage. Encodes the 'Being Consumed/Produced/Tested/Moved'.",
+      "enum": [
+        "Consumed",
+        "Produced",
+        "Consumable",
+        "ByProduct",
+        "Sample",
+        "MovedFrom",
+        "MovedTo"
+      ],
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "qty_planned",
+      "dataType": "Double",
+      "required": false,
+      "category": "Planning",
+      "description": "Planned quantity of this material role (target). Counterpart to SegmentResponse.qty_actual.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "unit_of_measure",
+      "dataType": "String",
+      "required": false,
+      "category": "Planning",
+      "description": "Unit of measure of qty_planned (UN/CEFACT code recommended).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "equipment_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "FK to EquipmentUnit.unit_id (USES_EQUIPMENT) = EquipmentRequirement.EquipmentID. The target equipment of the stage.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "planned_start_time",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "Planned stage start (target).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "planned_end_time",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "Planned stage end (target).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "PART_OF",
+      "target": "ProductionOrder",
+      "targetIdProp": "production_order_no",
+      "description": "The OperationsRequest that contains this segment target."
+    },
+    {
+      "type": "FOR_SEGMENT",
+      "target": "ProcessSegment",
+      "targetIdProp": "process_segment_no",
+      "description": "The planned manufacturing stage (= plant = Function)."
+    },
+    {
+      "type": "FOR_MATERIAL",
+      "target": "Article",
+      "targetIdProp": "article_no",
+      "description": "The target material (MaterialDefinition); role via material_use."
+    },
+    {
+      "type": "USES_EQUIPMENT",
+      "target": "EquipmentUnit",
+      "targetIdProp": "unit_id",
+      "description": "The target equipment of the stage."
+    },
+    {
+      "type": "CORRESPONDS_TO",
+      "target": "SegmentResponse",
+      "description": "ISA-95 'corresponds to' — the actuals of this stage (inverse on the response side).",
+      "targetIdProp": "segment_response_no"
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iso:62264-SegmentRequirement"
+  ],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "SegmentRequirement",
+    "momDomain": "production",
+    "level": 3,
+    "note": "ISA-95 Part 4 OperationsRequest.SegmentRequirement = PLAN per ProcessSegment, with MaterialRequirement (MaterialUse=role) + EquipmentRequirement. Counterpart SegmentResponse (corresponds to). Multiple SegmentRequirements per order untangle the FabricationOrder interwoven in a the MES source into the logical ISA-95 objects. QUANTITY optional: for continuous processes without a discrete piece count, qty_planned is omitted.",
+    "propertyMap": {
+      "segment_requirement_no": "OperationsRequest.SegmentRequirement.ID",
+      "production_order_ref": "OperationsRequest.ID",
+      "process_segment_ref": "OperationsRequest.SegmentRequirement.ProcessSegmentID",
+      "material_ref": "OperationsRequest.SegmentRequirement.MaterialRequirement.MaterialDefinitionID",
+      "material_use": "OperationsRequest.SegmentRequirement.MaterialRequirement.MaterialUse",
+      "qty_planned": "OperationsRequest.SegmentRequirement.MaterialRequirement.Quantity",
+      "equipment_ref": "OperationsRequest.SegmentRequirement.EquipmentRequirement.EquipmentID",
+      "planned_start_time": "OperationsRequest.SegmentRequirement.EarliestStartTime",
+      "planned_end_time": "OperationsRequest.SegmentRequirement.LatestEndTime"
+    }
+  },
+  "kgNodeLabel": "SegmentRequirement",
+  "kgIdProperty": "segment_requirement_no"
+}

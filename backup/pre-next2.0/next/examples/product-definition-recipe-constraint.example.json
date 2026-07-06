@@ -1,0 +1,88 @@
+{
+  "profileId": "SMProfile-Example-RecipeOven",
+  "version": "2.0.0",
+  "standard": "ISA-95",
+  "displayName": "Example — recipe-driven two-tier control band (warn+action, NOT live)",
+  "description": "DEMO/EXAMPLE ONLY (next/examples/, not loaded by it-edge, not bound to any source). Shows the two-tier control-limit pattern: a measured process value must stay inside the recipe band, with a WARNING when it leaves the inner Warngrenze band and an ERROR/action alarm when it leaves the outer Eingriffsgrenze band (op=within_limits, discrepancyClass=control_limit). The literal limits below make the demo self-contained; in production the band is recipe-sourced via valueFrom 'recipe:<param>' (resolves to { warn:[lo,hi], action:[lo,hi] }) and differs per article. Deliberately NOT under next/profiles/ and bound to no source, so it never makes anything un-evaluable live.",
+  "parentType": null,
+  "attributes": [
+    {
+      "name": "Act_Temp_Z1",
+      "dataType": "Double",
+      "required": false,
+      "category": "Process",
+      "description": "Actual zone-1 temperature (example process value).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "unit": "degC"
+    },
+    {
+      "name": "Act_State_Running",
+      "dataType": "Boolean",
+      "required": false,
+      "category": "Process",
+      "description": "Machine is running (precondition for the band check).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "article_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "Produced article (binding axis for the active ProductDefinition).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "SPEC_BOUND_TO",
+      "target": "ProductDefinition",
+      "description": "The tolerance band of the rule below is resolved from the active ProductDefinition (article_ref x equipment x setup)."
+    }
+  ],
+  "constraints": {
+    "temp_z1_within_control_limits": {
+      "description": "Zone-1 temperature must stay within the two-tier control band: warning when it leaves the inner Warngrenze band, action/error when it leaves the outer Eingriffsgrenze band. Self-contained literal limits here; in production recipe-sourced via valueFrom 'recipe:temp_z1_band'.",
+      "when": {
+        "attr": "Act_State_Running",
+        "op": "eq",
+        "value": true
+      },
+      "require": {
+        "attr": "Act_Temp_Z1",
+        "op": "within_limits",
+        "limits": {
+          "warn": [
+            180,
+            200
+          ],
+          "action": [
+            175,
+            205
+          ]
+        }
+      },
+      "severity": "warning",
+      "discrepancyClass": "control_limit",
+      "concern": "operations",
+      "mom_category": "quality",
+      "accountable_role": "Process Engineering",
+      "deviation_class": "recipe",
+      "since": "2026-06-17"
+    }
+  },
+  "kgNodeLabel": "ExampleRecipeOven",
+  "kgIdProperty": "Act_State_Running",
+  "category": "business",
+  "isa95": {
+    "objectModel": "OperationsResponse",
+    "momDomain": "quality",
+    "level": 3,
+    "note": "Example process entity (ACTUAL) whose tolerance band comes from the ProductDefinition (SOLL) as a two-tier warn/action control limit. DEMO ONLY — not canonical, bound to no source."
+  }
+}

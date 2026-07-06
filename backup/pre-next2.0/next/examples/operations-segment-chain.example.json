@@ -1,0 +1,117 @@
+{
+  "_comment": "DEMO FIXTURE (v2.0) — illustrates the ISA-95 Part 4 operations chain for ONE production order across THREE process segments. Customer-neutral placeholder ids only (no real plant codes). Shows how a single MES source row is disentangled into the logical ISA-95 objects: OperationsDefinition + ProcessSegments (master) ; ProductionOrder -> SegmentRequirements (PLAN) ; OperationsResponse -> SegmentResponses (IST) with MaterialLots and the material_use role. Not a profile; not validated against profile-schema.",
+  "_example": true,
+  "version": "2.0.0",
+  "operationsDefinition": {
+    "operations_definition_no": "OPDEF-001",
+    "name": "Stone wool line — standard",
+    "article_ref": "ART-100"
+  },
+  "processSegments": [
+    {
+      "process_segment_no": "SEG.SPIN",
+      "name": "Spinner",
+      "operations_type": "production",
+      "sequence": 1,
+      "unit_ref": "ENT.SITE.AREA.CELL.SPIN",
+      "operations_definition_ref": "OPDEF-001"
+    },
+    {
+      "process_segment_no": "SEG.BOND",
+      "name": "Binder Dosing",
+      "operations_type": "production",
+      "sequence": 2,
+      "unit_ref": "ENT.SITE.AREA.CELL.BOND",
+      "operations_definition_ref": "OPDEF-001"
+    },
+    {
+      "process_segment_no": "SEG.CURE",
+      "name": "Curing oven",
+      "operations_type": "production",
+      "sequence": 3,
+      "unit_ref": "ENT.SITE.AREA.CELL.CURE",
+      "operations_definition_ref": "OPDEF-001"
+    }
+  ],
+  "productionOrder": {
+    "production_order_no": "FO-73523907",
+    "article_ref": "ART-100",
+    "machine_ref": "ENT.SITE.AREA.CELL",
+    "qty_planned": 1000,
+    "operations_definition_ref": "OPDEF-001",
+    "status": "released"
+  },
+  "workorders": [
+    {
+      "workorder_no": "FO-73523907.1",
+      "production_order_ref": "FO-73523907",
+      "order_index": 1,
+      "status": "running"
+    }
+  ],
+  "segmentRequirements": [
+    {
+      "segment_requirement_no": "FO-73523907.1",
+      "production_order_ref": "FO-73523907",
+      "process_segment_ref": "SEG.SPIN",
+      "sequence": 1,
+      "material_ref": "ART-RAW-MELT",
+      "material_use": "Consumed",
+      "qty_planned": 1050,
+      "unit_of_measure": "KGM",
+      "equipment_ref": "ENT.SITE.AREA.CELL.SPIN"
+    },
+    {
+      "segment_requirement_no": "FO-73523907.2",
+      "production_order_ref": "FO-73523907",
+      "process_segment_ref": "SEG.BOND",
+      "sequence": 2,
+      "material_ref": "ART-BINDER",
+      "material_use": "Consumed",
+      "qty_planned": 50,
+      "unit_of_measure": "KGM",
+      "equipment_ref": "ENT.SITE.AREA.CELL.BOND"
+    },
+    {
+      "segment_requirement_no": "FO-73523907.3",
+      "production_order_ref": "FO-73523907",
+      "process_segment_ref": "SEG.CURE",
+      "sequence": 3,
+      "material_ref": "ART-100",
+      "material_use": "Produced",
+      "qty_planned": 1000,
+      "unit_of_measure": "C62",
+      "equipment_ref": "ENT.SITE.AREA.CELL.CURE"
+    }
+  ],
+  "operationsResponse": {
+    "production_order_no": "FO-73523907",
+    "quantity_produced": 980,
+    "status": "complete"
+  },
+  "segmentResponses": [
+    {
+      "segment_response_no": "FO-73523907.3",
+      "operations_response_ref": "FO-73523907",
+      "segment_requirement_ref": "FO-73523907.3",
+      "process_segment_ref": "SEG.CURE",
+      "sequence": 3,
+      "material_lot_ref": "LOT-778801",
+      "material_use": "Produced",
+      "qty_actual": 980,
+      "unit_of_measure": "C62",
+      "equipment_ref": "ENT.SITE.AREA.CELL.CURE",
+      "status": "complete"
+    }
+  ],
+  "materialLots": [
+    {
+      "material_lot_no": "LOT-778801",
+      "article_ref": "ART-100",
+      "quantity": 980,
+      "unit_of_measure": "C62",
+      "status": "available",
+      "workorder_ref": "FO-73523907.1"
+    }
+  ]
+}

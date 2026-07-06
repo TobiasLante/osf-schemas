@@ -1,0 +1,188 @@
+{
+  "recipeId": "RECIPE-sgm-004-PA66GF30-bracket-B",
+  "version": "2.0.0",
+  "owner": "Process Engineering",
+  "profileRef": "SMProfile-InjectionMoldingMachine",
+  "displayName": "PA66-GF30 bracket-B on sgm-004 (mould-B)",
+  "description": "Second article on the SAME machine (sgm-004) with DIFFERENT bands — demonstrates the whole point of recipes: one rule (recipe_*_band), per-article limits. The it-evaluator resolves the active recipe from the running entity's (article x equipment x setup) key, so housing-A and bracket-B yield different tolerance bands from the identical constraints.",
+  "match": {
+    "article": "bracket-B",
+    "equipment": "sgm-004",
+    "setup": "mould-B"
+  },
+  "values": {
+    "recipe:hotrunner_temp_band": [
+      238,
+      246
+    ],
+    "recipe:part_mass_band": [
+      6.8,
+      7.05
+    ],
+    "recipe:cushion_band": [
+      3.5,
+      5.5
+    ],
+    "recipe:peak_pressure_band": [
+      520,
+      640
+    ],
+    "recipe:hold_pressure_band": [
+      360,
+      440
+    ],
+    "recipe:nozzle_temp_band": [
+      245,
+      255
+    ],
+    "recipe:back_pressure_band": [
+      80,
+      150
+    ],
+    "recipe:injection_speed_band": [
+      40,
+      80
+    ],
+    "recipe:mould_temp_band": [
+      40,
+      60
+    ],
+    "recipe:shot_volume_band": [
+      28,
+      34
+    ]
+  },
+  "parameters": [
+    {
+      "param": "resin",
+      "soll": "PA66-GF30",
+      "unit": "",
+      "monitored": false
+    },
+    {
+      "param": "hotrunnerTempC",
+      "soll": 242,
+      "tolerance": [
+        238,
+        246
+      ],
+      "unit": "degC",
+      "monitored": true,
+      "valueFrom": "recipe:hotrunner_temp_band"
+    },
+    {
+      "param": "partMass_g",
+      "soll": 6.95,
+      "tolerance": [
+        6.8,
+        7.05
+      ],
+      "unit": "g",
+      "monitored": true,
+      "valueFrom": "recipe:part_mass_band"
+    },
+    {
+      "param": "cushionMm",
+      "soll": 4.5,
+      "tolerance": [
+        3.5,
+        5.5
+      ],
+      "unit": "mm",
+      "monitored": true,
+      "valueFrom": "recipe:cushion_band"
+    },
+    {
+      "param": "peakPressureBar",
+      "soll": 580,
+      "tolerance": [
+        520,
+        640
+      ],
+      "unit": "bar",
+      "monitored": true,
+      "gate": "inCycle==true",
+      "valueFrom": "recipe:peak_pressure_band"
+    },
+    {
+      "param": "holdPressureBar",
+      "soll": 400,
+      "tolerance": [
+        360,
+        440
+      ],
+      "unit": "bar",
+      "monitored": true,
+      "gate": "inCycle==true",
+      "valueFrom": "recipe:hold_pressure_band"
+    },
+    {
+      "param": "nozzleTempC",
+      "soll": 250,
+      "tolerance": [
+        245,
+        255
+      ],
+      "unit": "degC",
+      "monitored": true,
+      "valueFrom": "recipe:nozzle_temp_band",
+      "constraintId": "recipe_nozzle_temp_band",
+      "smAttribute": "nozzleTempC"
+    },
+    {
+      "param": "backPressureBar",
+      "soll": 115,
+      "tolerance": [
+        80,
+        150
+      ],
+      "unit": "bar",
+      "monitored": true,
+      "gate": "inCycle==true",
+      "valueFrom": "recipe:back_pressure_band",
+      "constraintId": "recipe_back_pressure_band",
+      "smAttribute": "backPressureBar"
+    },
+    {
+      "param": "injectionSpeedMmPerSec",
+      "soll": 60,
+      "tolerance": [
+        40,
+        80
+      ],
+      "unit": "mm/s",
+      "monitored": true,
+      "gate": "inCycle==true",
+      "valueFrom": "recipe:injection_speed_band",
+      "constraintId": "recipe_injection_speed_band",
+      "smAttribute": "injectionSpeedMmPerSec"
+    },
+    {
+      "param": "mouldTempC",
+      "soll": 50,
+      "tolerance": [
+        40,
+        60
+      ],
+      "unit": "degC",
+      "monitored": true,
+      "valueFrom": "recipe:mould_temp_band",
+      "constraintId": "recipe_mould_temp_band",
+      "smAttribute": "mouldTempC"
+    },
+    {
+      "param": "shotVolumeCm3",
+      "soll": 31,
+      "tolerance": [
+        28,
+        34
+      ],
+      "unit": "cm3",
+      "monitored": true,
+      "gate": "inCycle==true",
+      "valueFrom": "recipe:shot_volume_band",
+      "constraintId": "recipe_shot_volume_band",
+      "smAttribute": "shotVolumeCm3"
+    }
+  ]
+}

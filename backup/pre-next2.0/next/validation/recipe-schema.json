@@ -1,0 +1,119 @@
+{
+ "$schema": "http://json-schema.org/draft-07/schema#",
+ "$id": "https://osf-schemas/next/validation/recipe-schema.json",
+ "title": "OSF Recipe master-data descriptor — next/recipes/ (GitHub-managed ProductDefinition binding) — v2.0",
+ "description": "Meta-schema for one recipe file under next/recipes/. A recipe is the GitHub-managed master data behind the constraint `valueFrom: recipe:<param>` hook (ISA-95 Definition-Leg / ProductDefinition SOLL). One file per recipe, owned by Process Engineering, fetched AT RUNTIME by the it-evaluator GithubRecipeSource (push-to-GitHub goes live, no redeploy). Each file declares a `match` (article x equipment x setup binding axes) and `values` (recipe:<param> -> SpecValue) that the source aggregates into bindings. The `parameters[]` array is optional human documentation (SOLL/tolerance/unit) and is NOT consumed by the resolver. Deliberately conservative: it pins the spine the resolver reads (recipeId, version, match, values key namespace) and leaves the documentation block open.",
+ "type": "object",
+ "required": [
+ "recipeId",
+ "version",
+ "values"
+ ],
+ "properties": {
+ "recipeId": {
+ "type": "string",
+ "minLength": 1,
+ "description": "Stable recipe identifier (e.g. RECIPE-sgm-004-PA66GF30-housing-A)."
+ },
+ "version": {
+ "type": "string",
+ "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+ "description": "Semantic version; bump on any band/value change."
+ },
+ "owner": {
+ "type": "string",
+ "description": "Accountable role/team for this recipe (e.g. 'Process Engineering')."
+ },
+ "profileRef": {
+ "type": "string",
+ "description": "SMProfile the constrained entity uses (documentation; the resolver keys on match, not profileRef)."
+ },
+ "displayName": {
+ "type": "string"
+ },
+ "description": {
+ "type": "string"
+ },
+ "match": {
+ "type": "object",
+ "description": "Binding axes (a subset of {article, equipment, setup}). An empty match is the catch-all default. The FIRST recipe whose match is a subset of the running entity's key wins per ref.",
+ "properties": {
+ "article": {
+ "type": "string",
+ "minLength": 1
+ },
+ "equipment": {
+ "type": "string",
+ "minLength": 1
+ },
+ "setup": {
+ "type": "string",
+ "minLength": 1
+ }
+ },
+ "additionalProperties": false
+ },
+ "values": {
+ "type": "object",
+ "description": "recipe:<param> -> SpecValue map. Keys MUST be the reserved 'recipe:<param>' refs the constraints address. A [lo,hi] number tuple feeds op=between bands; a scalar feeds eq/lte/gte rules; a two-tier object { warn:[lo,hi], action:[lo,hi] } feeds op=within_limits control limits (warn = Warngrenze / inner band, action = Eingriffsgrenze / outer band; warn must lie inside action).",
+ "minProperties": 1,
+ "propertyNames": {
+ "pattern": "^recipe:[A-Za-z0-9_.-]+$"
+ },
+ "additionalProperties": {
+ "oneOf": [
+ {
+ "type": "number"
+ },
+ {
+ "type": "string"
+ },
+ {
+ "type": "boolean"
+ },
+ {
+ "type": "array",
+ "items": {
+ "type": [
+ "number",
+ "string",
+ "boolean"
+ ]
+ },
+ "minItems": 1
+ },
+ {
+ "type": "object",
+ "required": [
+ "warn",
+ "action"
+ ],
+ "additionalProperties": false,
+ "properties": {
+ "warn": {
+ "type": "array",
+ "minItems": 2,
+ "maxItems": 2,
+ "description": "[lo,hi] inner Warngrenze (warning tier)"
+ },
+ "action": {
+ "type": "array",
+ "minItems": 2,
+ "maxItems": 2,
+ "description": "[lo,hi] outer Eingriffsgrenze (action tier)"
+ }
+ }
+ }
+ ]
+ }
+ },
+ "parameters": {
+ "type": "array",
+ "description": "Optional human documentation of the full recipe (SOLL/tolerance/unit, monitored flag). NOT consumed by the resolver.",
+ "items": {
+ "type": "object"
+ }
+ }
+ },
+ "additionalProperties": true
+}

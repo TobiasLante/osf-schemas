@@ -1,0 +1,30 @@
+{
+ "crossConstraintId": "qty_shortfall",
+ "version": "2.0.0",
+ "standard": "OSF",
+ "displayName": "Quantity shortfall (plan vs. actual)",
+ "description": "Quantity shortfall: produced quantity (OperationsResponse) is below the planned quantity of the OperationsRequest/ProductionOrder.",
+ "$comment": "Cross-source facet (CAPT-B Phase 2, building block 3): compares TWO entities across a join key — something the single-entity 'constraints' block cannot express structurally. Here: OperationsResponse.quantity_produced (actual) vs. OperationsRequest/ProductionOrder.qty_planned (planned), joined on production_order_no. HOLDS (ok) when actual >= planned; VIOLATED (multi_source discrepancy, raised) when actual < planned. Modeled as a true multi_source class (source_a=Response, source_b=Request, delta=produced-planned). SEMANTICS: 'when' filters out orders that are STILL OPEN (status=offen) — an open order has trivially produced 0, i.e. 'not started yet', not a quantity shortfall. Only orders that should already be finished are checked plan-vs-actual. Loaded by the it-evaluator next/-first (loadCrossRules), no source literals — only osf-schemas profileRefs + attribute names (SSOT).",
+ "severity": "warning",
+ "discrepancyClass": "multi_source",
+ "concern": "operations",
+ "mom_category": "production",
+ "accountable_role": "Production",
+ "when": {
+ "leftAttr": "status",
+ "ne": "offen"
+ },
+ "left": {
+ "profileRef": "SMProfile-OperationsResponse",
+ "joinKey": "production_order_no",
+ "attr": "quantity_produced"
+ },
+ "right": {
+ "profileRef": "SMProfile-ProductionOrder",
+ "joinKey": "production_order_no",
+ "attr": "qty_planned"
+ },
+ "op": "gte",
+ "since": "2026-06-15",
+ "impact_basis": "margin"
+}
