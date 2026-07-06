@@ -1,0 +1,94 @@
+{
+  "profileId": "SMProfile-StorageLocation",
+  "version": "3.0.0",
+  "standard": "CESMII",
+  "displayName": "Storage Location (Lagerplatz)",
+  "description": "Physical warehouse bin — zone/aisle/rack/shelf",
+  "parentType": null,
+  "attributes": [
+    {
+      "name": "location_key",
+      "dataType": "String",
+      "category": "Core",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "warehouse",
+      "dataType": "String",
+      "category": "Core",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "zone",
+      "dataType": "String",
+      "category": "Core",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "zone_name",
+      "dataType": "String",
+      "category": "Core",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "capacity_max",
+      "dataType": "Float",
+      "category": "Capacity",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "capacity_used",
+      "dataType": "Float",
+      "category": "Capacity",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "type",
+      "dataType": "String",
+      "category": "Core",
+      "description": "STANDARD, BLOCK, KOMMISSION, PUFFER",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "status",
+      "dataType": "String",
+      "category": "Core",
+      "description": "FREI, BELEGT, TEILBELEGT, GESPERRT",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "IN_ZONE",
+      "target": "WarehouseZone"
+    },
+    {
+      "type": "STORES",
+      "target": "Quant"
+    }
+  ],
+  "kgNodeLabel": "StorageLocation",
+  "kgIdProperty": "location_key",
+  "category": "business",
+  "isa95": {
+    "objectModel": "Equipment",
+    "momDomain": "inventory",
+    "equipmentLevel": "StorageZone"
+  }
+}

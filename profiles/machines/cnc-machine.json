@@ -1,10 +1,12 @@
 {
   "profileId": "SMProfile-CNC-Machine",
-  "version": "2.2.0",
+  "version": "2.0.0",
   "standard": "CESMII",
+  "category": "machine",
   "displayName": "CNC Machine",
-  "description": "CNC-Bearbeitungszentrum — OPC 40077 process data (spindle, feed, axes, tool, coolant, vibration)",
+  "description": "next/ pilot — copy of profiles/machines/cnc-machine.json + constraints facet. Inherits power_positive_when_running from SMProfile-Machine. CNC machining center — OPC 40077 process data (spindle, feed, axes, tool, coolant, vibration).",
   "parentType": "Machine",
+  "abstract": false,
   "attributes": [
     {
       "name": "Act_Status_Machine",
@@ -282,7 +284,7 @@
       "name": "Act_State_InCycle",
       "dataType": "Boolean",
       "required": false,
-      "description": "Maschine ist im Bearbeitungszyklus (TRUE/FALSE). Trigger fuer den Cycle-Detect-FSM auf der Edge.",
+      "description": "Machine is in the machining cycle (TRUE/FALSE). Trigger for the cycle-detect FSM on the edge.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -362,15 +364,176 @@
     }
   ],
   "relationships": [],
-  "kgNodeLabel": "CNC_Machine",
-  "kgIdProperty": "machine_id",
-  "companionSpec": "OPC40077-CNC",
-  "opcuaTypeDefinition": "CNC_MachineType",
-  "deviceClass": "CNC Machine",
+  "constraints": [
+    {
+      "name": "spindle_load_control_limits",
+      "description": "Control limits (Warngrenze + Eingriffsgrenze) for spindle load %. Two-tier band: inside warn [0,55] = ok; outside warn -> 'warning'-tier alarm (watch); outside the action band [0,70] -> 'error'-tier alarm (intervene). Raise/clear lifecycle, auto-clears once the value returns inside the warn band. LITERAL bands = static SSOT for the pilot.",
+      "require": {
+        "attr": "Act_Pct_SpindleLoad",
+        "op": "within_limits",
+        "limits": {
+          "warn": [
+            0,
+            55
+          ],
+          "action": [
+            0,
+            70
+          ]
+        }
+      },
+      "severity": "warning",
+      "discrepancyClass": "control_limit",
+      "concern": "operations",
+      "mom_category": "production",
+      "accountable_role": "Production",
+      "deviation_class": "equipment",
+      "since": "2026-06-30"
+    },
+    {
+      "name": "spindle_temp_control_limits",
+      "description": "Control limits (Warngrenze + Eingriffsgrenze) for spindle temperature degC. Inside warn [15,45] = ok; outside warn -> 'warning'-tier; outside action [10,55] -> 'error'-tier. Raise/clear, auto-clears inside the warn band.",
+      "require": {
+        "attr": "Act_Temp_Spindle",
+        "op": "within_limits",
+        "limits": {
+          "warn": [
+            15,
+            45
+          ],
+          "action": [
+            10,
+            55
+          ]
+        }
+      },
+      "severity": "warning",
+      "discrepancyClass": "control_limit",
+      "concern": "operations",
+      "mom_category": "production",
+      "accountable_role": "Maintenance",
+      "deviation_class": "equipment",
+      "since": "2026-06-30"
+    },
+    {
+      "name": "spindle_power_control_limits",
+      "description": "Control limits (Warngrenze + Eingriffsgrenze) for active power kW. Inside warn [0,45] = ok; outside warn -> 'warning'-tier; outside action [0,55] -> 'error'-tier. Raise/clear, auto-clears inside the warn band.",
+      "require": {
+        "attr": "Act_Energy_Power",
+        "op": "within_limits",
+        "limits": {
+          "warn": [
+            0,
+            45
+          ],
+          "action": [
+            0,
+            55
+          ]
+        }
+      },
+      "severity": "warning",
+      "discrepancyClass": "control_limit",
+      "concern": "operations",
+      "mom_category": "production",
+      "accountable_role": "Production",
+      "deviation_class": "equipment",
+      "since": "2026-06-30"
+    },
+    {
+      "name": "spindle_when_in_cycle",
+      "description": "Machining cycle is running but the spindle is not turning — tool break / spindle-motor fault / controller bug.",
+      "when": {
+        "attr": "Act_State_InCycle",
+        "op": "eq",
+        "value": true
+      },
+      "require": {
+        "attr": "Act_Speed_Spindle",
+        "op": "gt",
+        "value": 0
+      },
+      "severity": "error",
+      "discrepancyClass": "constraint",
+      "concern": "operations",
+      "mom_category": "production",
+      "accountable_role": "Production",
+      "deviation_class": "equipment",
+      "since": "2026-06-08"
+    },
+    {
+      "name": "coolant_pressure_when_in_cycle",
+      "description": "Machining cycle is running without coolant pressure — risk of workpiece / tool damage.",
+      "when": {
+        "attr": "Act_State_InCycle",
+        "op": "eq",
+        "value": true
+      },
+      "require": {
+        "attr": "Act_Pressure_Coolant",
+        "op": "gt",
+        "value": 0
+      },
+      "severity": "error",
+      "discrepancyClass": "constraint",
+      "concern": "operations",
+      "mom_category": "production",
+      "accountable_role": "Maintenance",
+      "deviation_class": "equipment",
+      "since": "2026-06-08"
+    },
+    {
+      "name": "tool_wear_in_range",
+      "description": "Tool wear must lie between 0 and 100 percent — values outside indicate a sensor / scaling fault.",
+      "require": {
+        "attr": "Act_Pct_ToolWear",
+        "op": "between",
+        "value": [
+          0,
+          100
+        ]
+      },
+      "severity": "warning",
+      "discrepancyClass": "constraint",
+      "concern": "operations",
+      "mom_category": "production",
+      "accountable_role": "Maintenance",
+      "deviation_class": "equipment",
+      "since": "2026-06-08"
+    },
+    {
+      "name": "power_positive_when_running",
+      "description": "Machine reports status=Production (1) but draws 0 kW — sensor / edge-communication fault (equipment).",
+      "when": {
+        "attr": "Act_Status_Machine",
+        "op": "eq",
+        "value": 1
+      },
+      "require": {
+        "attr": "Act_Energy_Power",
+        "op": "gt",
+        "value": 0
+      },
+      "severity": "warning",
+      "discrepancyClass": "constraint",
+      "concern": "operations",
+      "mom_category": "maintenance",
+      "accountable_role": "Maintenance",
+      "deviation_class": "equipment",
+      "since": "2026-06-25"
+    }
+  ],
+  "semantics": [],
+  "kpiRefs": [],
   "isa95": {
     "objectModel": "Equipment",
     "momDomain": "production",
-    "equipmentLevel": "WorkUnit",
-    "equipmentClass": "CNCMachine"
-  }
+    "equipmentLevel": "EquipmentUnit",
+    "equipmentClass": "CNCMachine",
+    "companionSpec": "OPC40077-CNC",
+    "opcuaTypeDefinition": "CNC_MachineType",
+    "deviceClass": "CNC Machine"
+  },
+  "kgNodeLabel": "CNC_Machine",
+  "kgIdProperty": "machine_id"
 }

@@ -1,0 +1,90 @@
+{
+  "profileId": "SMProfile-CustomerOrder",
+  "version": "3.0.0",
+  "standard": "CESMII",
+  "displayName": "Customer Order (Kundenauftrag)",
+  "description": "Sales order from customer with delivery commitment",
+  "parentType": "Order",
+  "attributes": [
+    {
+      "name": "customer",
+      "dataType": "String",
+      "category": "Core",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "article_no",
+      "dataType": "String",
+      "category": "Core",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "article_name",
+      "dataType": "String",
+      "category": "Core",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "quantity",
+      "dataType": "Float",
+      "category": "Core",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "unit_price",
+      "dataType": "Float",
+      "category": "Commercial",
+      "unit": "EUR",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "due_date",
+      "dataType": "String",
+      "category": "Planning",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "production_order_no",
+      "dataType": "String",
+      "category": "Link",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "FOR_ARTICLE",
+      "target": "Article"
+    },
+    {
+      "type": "TRIGGERS",
+      "target": "ProductionOrder"
+    }
+  ],
+  "kgNodeLabel": "CustomerOrder",
+  "kgIdProperty": "order_no",
+  "category": "business",
+  "isa95": {
+    "objectModel": "OperationsRequest",
+    "momDomain": "production",
+    "level": 4,
+    "propertyMap": {
+      "order_no": "OperationsRequest.ID",
+      "due_date": "OperationsRequest.EndTime",
+      "priority": "OperationsRequest.Priority"
+    }
+  }
+}
