@@ -1,0 +1,52 @@
+{
+  "profileId": "SMProfile-Machine",
+  "version": "2.0.0",
+  "standard": "CESMII",
+  "category": "machine",
+  "displayName": "Machine (Abstract Parent)",
+  "description": "next/ v2.0 — abstract parent for all machine types (CNC, IMM, …). THIN base: it contributes the shared relationships (PART_OF ProcessCell, PRODUCES Article, EXECUTES ProductionOrder), the generic machine KPI refs, and the isa95 marker — but NO concrete attributes. Each subtype declares its OWN tag set matching exactly what its OPC/sim source delivers (sim-tag == attribute, 1:1); the parent no longer carries generic Pascal names that no source feeds.",
+  "parentType": null,
+  "abstract": true,
+  "attributes": [],
+  "relationships": [
+    {
+      "type": "PART_OF",
+      "target": "ProcessCell",
+      "targetIdProp": "process_cell_id",
+      "description": "ISA-88: the machine is part of a ProcessCell (line)."
+    },
+    {
+      "type": "PRODUCES",
+      "target": "Article",
+      "targetIdProp": "article_no"
+    },
+    {
+      "type": "EXECUTES",
+      "target": "ProductionOrder",
+      "targetIdProp": "production_order_no"
+    }
+  ],
+  "constraints": [],
+  "semantics": [],
+  "kpiRefs": [
+    "KPI-OEE",
+    "KPI-Availability",
+    "KPI-Performance",
+    "KPI-Quality-Rate",
+    "KPI-Energy-Per-Part",
+    "KPI-Scrap-Rate"
+  ],
+  "isa95": {
+    "objectModel": "Equipment",
+    "momDomain": "production",
+    "equipmentLevel": "EquipmentUnit",
+    "propertyMap": {
+      "machine_id": "Equipment.ID"
+    },
+    "companionSpec": "OPC40001-1",
+    "opcuaTypeDefinition": "MachineType",
+    "deviceClass": "Machine"
+  },
+  "kgNodeLabel": "Machine",
+  "kgIdProperty": "machine_id"
+}

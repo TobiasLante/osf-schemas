@@ -1,0 +1,46 @@
+{
+ "sourceId": "erp-production-orders",
+ "version": "2.0.0",
+ "sourceType": "rest",
+ "syncType": "polling",
+ "profileRef": "SMProfile-ProductionOrder",
+ "transport": ["nats"],
+ "connection": {
+ "baseUrl": "http://192.168.178.154:38260",
+ "path": "/api/orders?exclude_status=CANCELLED,INVOICED,SHIPPED",
+ "method": "GET",
+ "auth": null,
+ "timeoutMs": 10000
+ },
+ "response": {
+ "format": "json",
+ "rootPath": "$",
+ "idProperty": "production_order_no"
+ },
+ "polling": {
+ "changeDetection": "full_refresh",
+ "intervalMs": 60000,
+ "batchSize": 1000,
+ "paginate": true
+ },
+ "columnMappings": [
+ { "column": "production_order_no", "smAttribute": "production_order_no", "isId": true },
+ { "column": "article_no", "smAttribute": "article_ref" },
+ { "column": "machine_no", "smAttribute": "machine_ref" },
+ { "column": "geplante_stueckzahl", "smAttribute": "qty_planned" },
+ { "column": "lieferdatum_soll", "smAttribute": "planned_end_time" },
+ { "column": "cycle_time_planned_sec", "smAttribute": "cycle_time_planned_sec" },
+ { "column": "material_verfuegbar_ab", "smAttribute": "material_ready_at" },
+ { "column": "geplante_stueckzahl", "smAttribute": "customer_order_qty" },
+ { "column": "lieferdatum", "smAttribute": "customer_due_date" },
+ { "column": "status", "smAttribute": "status" },
+ { "column": "prioritaet", "smAttribute": "priority" },
+ { "column": "aktualisiert_am", "smAttribute": "updated_at" }
+ ],
+ "filter": null,
+ "edges": [
+ { "type": "PRODUCES", "fkColumn": "article_no", "targetIdProp": "article_no" },
+ { "type": "EXECUTED_AT", "fkColumn": "machine_no", "targetIdProp": "machine_id" }
+ ],
+ "description": "next/ v4 — PHASE-0 ARCHITECTURE FIX: REAL ERP ProductionOrder (Level-3 OperationsRequest = PLAN/SOLL) via the sim-v5 ERP REST API (http://192.168.178.154:38260/api/orders), replacing the postgresql/erp-production-orders.json direct-erpdb poller (the forbidden direct-DB bypass). Same sourceId (edge SOURCE_IDS unchanged), same profile contract (SMProfile-ProductionOrder). BUG FIX: the old postgres source pointed at table erpdb.llm_test_v3.machineid_nodeid (a node-mapping table, not the FA backlog) — this REST source reads the real production-order shape (/api/orders, the same combined order row the Sim cramms Plan+Ist onto; this projection maps ONLY the PLAN fields + join key). production_order_no = identity/join key; article_no -> article_ref, machine_no -> machine_ref, geplante_stueckzahl -> qty_planned (SOLL), lieferdatum_soll -> planned_end_time, material_verfuegbar_ab -> material_ready_at. BONUS over the old source: cycle_time_planned_sec is a real REST key -> mapped (the old machineid_nodeid table had no cycle column). Customer demand denormalised on the order row: geplante_stueckzahl -> customer_order_qty + lieferdatum -> customer_due_date (the REST shape carries no separate kunde_bestellmenge/kunde_lieferdatum columns; on this combined projection the order qty IS the customer qty and lieferdatum IS the customer due-date — same semantic the postgres source served, without an impossible reverse-join). status arrives canonical/lowercase from the REST API (offen/freigegeben/in_arbeit/fertig/abgeschlossen) -> mapped directly with NO valueMap (the postgres source had to normalise the coded integer order_status 1..5; the REST projection emits the readable tokens natively). full_refresh change-detection (the REST API does not honour ?since — verified) — it-edge dedups via the per-id HWM on production_order_no. filter=null (full backlog per the cutover decision). Maps ONLY the PLAN fields + join key — the IST (produzierte_stueckzahl) is the dedicated OperationsResponse entity (erp-operations-response). Plan-vs-Ist (qty_shortfall) is the it-evaluator cross-source reconcile against OperationsResponse on production_order_no — this profile carries no constraints block."
+}

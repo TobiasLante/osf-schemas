@@ -1,0 +1,37 @@
+{
+ "sourceId": "erp-segment-requirements",
+ "version": "2.0.0",
+ "sourceType": "rest",
+ "syncType": "polling",
+ "profileRef": "SMProfile-SegmentRequirement",
+ "transport": ["nats"],
+ "_comment": "next/ v2.0 — ISA-95 Part-4 SegmentRequirement (PLAN per operation). Source = sim-v5 /api/operations (SAP-faithful: keyed by Auftrag+Vorgang). REQUIRES the API to expose a single surrogate `operation_id` = <production_order_no>.<operation_number> (the profile defines segment_requirement_no exactly so). PLAN fields only; the IST counterpart is erp-segment-responses. Add to it-edge SOURCE_IDS once operation_id is live.",
+ "connection": {
+ "baseUrl": "http://192.168.178.154:38260",
+ "path": "/api/operations",
+ "method": "GET",
+ "auth": null,
+ "timeoutMs": 10000
+ },
+ "response": {
+ "format": "json",
+ "rootPath": "$",
+ "idProperty": "operation_id"
+ },
+ "columnMappings": [
+ { "column": "operation_id", "smAttribute": "segment_requirement_no", "isId": true },
+ { "column": "production_order_no", "smAttribute": "production_order_ref" },
+ { "column": "work_center", "smAttribute": "process_segment_ref" },
+ { "column": "operation_number", "smAttribute": "sequence", "dataType": "Int32" },
+ { "column": "machine_id", "smAttribute": "equipment_ref" },
+ { "column": "qty_planned", "smAttribute": "qty_planned", "dataType": "Double" },
+ { "column": "planned_start", "smAttribute": "planned_start_time" },
+ { "column": "planned_end", "smAttribute": "planned_end_time" }
+ ],
+ "filter": null,
+ "edges": [
+ { "type": "PART_OF", "fkColumn": "production_order_no", "targetIdProp": "production_order_no" },
+ { "type": "FOR_SEGMENT", "fkColumn": "work_center", "targetIdProp": "process_segment_no" },
+ { "type": "USES_EQUIPMENT", "fkColumn": "machine_id", "targetIdProp": "unit_id" }
+ ]
+}

@@ -1,0 +1,151 @@
+{
+ "profileId": "SMProfile-ResolutionProposal",
+ "version": "2.0.0",
+ "standard": "OSF",
+ "displayName": "Resolution Proposal",
+ "category": "intelligence",
+ "description": "A documented resolution proposal for a Discrepancy that precedes the lifecycle transition and carries the user approval (SDC visibility concept 2026-06-11). Core idea: a Discrepancy is symmetric evidence — either reality diverges from the specification (target=fix_reality) or the specification from reality (target=fix_charter). fix_charter proposals carry the concrete diff of the constraint block; their approval is the osf-schemas PR generated from it (SSOT-as-Git: PR review = audited four-eyes approval, CI validates, gen-flow rolls it out) — the engine builds NO governance of its own for this. Producers are human (steward form), AutoResolveRule or agent (v7 Intelligence, advisory-only — an agent proposes but never transitions itself). Four-eyes invariant: decided_by MUST != proposed_by (enforced by the engine, not expressible by the schema). The Discrepancy transition references the proposal_id so that the approval appears as 'User X approved proposal Y from Z' in the audit chain. The store owner is the discrepancy-engine (system of record).",
+ "parentType": null,
+ "abstract": false,
+ "attributes": [
+ {
+ "name": "proposal_id",
+ "dataType": "String",
+ "category": "Core",
+ "isKey": true,
+ "description": "Unique proposal id (uuid)"
+ },
+ {
+ "name": "target",
+ "dataType": "String",
+ "category": "Core",
+ "enum": [
+ "fix_reality",
+ "fix_charter"
+ ],
+ "description": "What the proposal changes: fix_reality = action on machine/process/data, the specification stays; fix_charter = the specification itself is wrong and is adjusted as a profile change in osf-schemas"
+ },
+ {
+ "name": "proposed_mode",
+ "dataType": "String",
+ "category": "Core",
+ "enum": [
+ "resolved",
+ "accepted_known_divergence",
+ "escalated",
+ "superseded"
+ ],
+ "description": "Lifecycle closure that the proposal implies for the Discrepancy. fix_charter proposals imply superseded (the episode is overtaken by the rule change, linked via resolved_by_rule_change to the osf-schemas commit)"
+ },
+ {
+ "name": "rationale",
+ "dataType": "String",
+ "category": "Core",
+ "description": "Rationale for the proposal — for fix_charter typically the recurrence evidence (N episodes without a real action)"
+ },
+ {
+ "name": "proposed_by_kind",
+ "dataType": "String",
+ "category": "Provenance",
+ "enum": [
+ "human",
+ "rule",
+ "agent"
+ ],
+ "description": "Producer class: human = steward form, rule = AutoResolveRule, agent = v7 Intelligence discussion (advisory-only)"
+ },
+ {
+ "name": "proposed_by",
+ "dataType": "String",
+ "category": "Provenance",
+ "description": "Concrete producer: user id, rule_id or agent id"
+ },
+ {
+ "name": "confidence",
+ "dataType": "Float",
+ "category": "Provenance",
+ "description": "Optional 0..1 confidence of the producer (especially for agent proposals)"
+ },
+ {
+ "name": "evidence_refs",
+ "dataType": "String",
+ "category": "Evidence",
+ "description": "Serialized JSON array of evidence references: discrepancy_ids of the recurrence history, audit_refs, KG node refs, query results"
+ },
+ {
+ "name": "constraint_diff",
+ "dataType": "String",
+ "category": "Charter",
+ "description": "Only target=fix_charter: serialized JSON {profileId, constraintId, before, after} — after=null means delete the rule. Becomes 1:1 the content of the osf-schemas PR"
+ },
+ {
+ "name": "charter_pr_url",
+ "dataType": "String",
+ "category": "Charter",
+ "description": "Only target=fix_charter: URL of the generated osf-schemas PR once opened — the PR IS the approval instance"
+ },
+ {
+ "name": "status",
+ "dataType": "String",
+ "category": "Lifecycle",
+ "enum": [
+ "proposed",
+ "approved",
+ "rejected",
+ "withdrawn"
+ ],
+ "description": "proposed -> approved | rejected | withdrawn. For fix_reality, approved triggers the Discrepancy transition with a proposal_id reference; for fix_charter, approved is only set once the osf-schemas PR is merged (PR merge = approval)"
+ },
+ {
+ "name": "decided_by",
+ "dataType": "String",
+ "category": "Lifecycle",
+ "description": "Who approved/rejected. Four-eyes invariant: MUST != proposed_by (enforced by the engine); for fix_charter, the PR merger"
+ },
+ {
+ "name": "decided_at",
+ "dataType": "DateTime",
+ "category": "Lifecycle",
+ "description": "Timestamp of the decision"
+ },
+ {
+ "name": "decision_note",
+ "dataType": "String",
+ "category": "Lifecycle",
+ "description": "Rationale for the decision (especially for rejected)"
+ },
+ {
+ "name": "created_at",
+ "dataType": "DateTime",
+ "category": "Core",
+ "description": "When the proposal was created"
+ },
+ {
+ "name": "audit_ref",
+ "dataType": "String",
+ "category": "Audit",
+ "description": "Hash-chain ref (vault-hashchain) for the proposal event — same Ed25519 chain as the Discrepancy lifecycle events"
+ }
+ ],
+ "relationships": [
+ {
+ "type": "PROPOSES_FOR",
+ "target": "Discrepancy",
+ "targetIdProp": "discrepancy_id",
+ "description": "The Discrepancy this proposal would resolve"
+ },
+ {
+ "type": "PROPOSED_BY_RULE",
+ "target": "AutoResolveRule",
+ "targetIdProp": "rule_id",
+ "description": "Only proposed_by_kind=rule: the AutoResolveRule that produced the proposal"
+ }
+ ],
+ "kgNodeLabel": "ResolutionProposal",
+ "kgIdProperty": "proposal_id",
+ "isa95": {
+ "objectModel": "Extension",
+ "extension": true,
+ "note": "Intelligence entity (Multi-Truth/SDC) — ISA-95 extension"
+ }
+}

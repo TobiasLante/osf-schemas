@@ -1,0 +1,410 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/validation/profile-unified-schema.json",
+  "title": "OSF SM Profile — next/ unified meta-schema (ONE standard for machine | equipment | business) — v2.0 (v2.0: one entity-profile standard; OPC binding nested under isa95; empty semantics allowed)",
+  "description": "Single source of truth for every next/profiles/**/*.json EXCEPT intelligence/ (which keeps the canonical validation/intelligence-profile-schema.json). Merges the formerly-separate machine-/equipment-/business-profile-schema.json (which were ~90% identical) into one base + draft-07 if/then branches keyed on the now-REQUIRED 'category'. The base accepts the UNION of properties all three categories use, so additionalProperties:false still passes every existing next/ profile. Skeleton-first: every build-later block may be EMPTY (attributes [], relationships [], constraints {}, kpiRefs [], semantics absent) so a customer can commit an identity-only skeleton and fill it in later. Cross-reference resolution (predicate.attr -> attributes[].name; predicate.value type vs attribute.dataType) is still enforced separately by next/ci/lint-constraints.mjs (JSON Schema cannot express it); category<->folder placement by next/ci/lint-category.mjs.",
+  "type": "object",
+  "required": [
+    "profileId",
+    "version",
+    "displayName",
+    "category"
+  ],
+  "properties": {
+    "_comment": {
+      "type": "string",
+      "description": "Optional doc/meta key (e.g. demo/example/skeleton fixtures). Ignored by consumers."
+    },
+    "_example": {
+      "type": "boolean",
+      "description": "Optional meta flag: marks this as an example/demo/skeleton fixture, not a canonical profile."
+    },
+    "profileId": {
+      "type": "string",
+      "pattern": "^SMProfile-[A-Za-z0-9][A-Za-z0-9-]+$"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "standard": {
+      "type": "string",
+      "enum": [
+        "CESMII",
+        "OSF",
+        "ISA-95",
+        "ISA-88"
+      ]
+    },
+    "displayName": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "machine",
+        "equipment",
+        "business"
+      ],
+      "description": "REQUIRED. Selects the per-category if/then branch. 'machine' = OT asset profile (edge-polled OPC). 'equipment' = ISA-88 physical equipment master-data anchor. 'business' = IT/MOM information object (it-edge-polled). intelligence/ profiles use a different (canonical) schema and are out of scope here."
+    },
+    "description": {
+      "type": "string"
+    },
+    "parentType": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "abstract": {
+      "type": "boolean"
+    },
+    "kpiRefs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Skeleton-first: [] is valid."
+    },
+    "attributes": {
+      "type": "array",
+      "description": "Skeleton-first: [] is valid (no minItems). The union of attribute facets across all three categories; per-category extras (polling for machine; isKey/isId for equipment+business) are gated by the if/then branches below.",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "dataType",
+          "delivery",
+          "scope",
+          "promotion"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "dataType": {
+            "type": "string",
+            "enum": [
+              "String",
+              "Int32",
+              "Int64",
+              "Float",
+              "Double",
+              "Boolean",
+              "DateTime",
+              "Json"
+            ]
+          },
+          "category": {
+            "type": "string"
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "description": {
+            "type": "string"
+          },
+          "enum": {
+            "type": "array"
+          },
+          "unit": {
+            "type": "string"
+          },
+          "delivery": {
+            "type": "string",
+            "enum": [
+              "telemetry",
+              "transactional"
+            ]
+          },
+          "scope": {
+            "type": "string",
+            "enum": [
+              "edge",
+              "hub"
+            ]
+          },
+          "promotion": {
+            "type": "string",
+            "description": "Emission cadence (edge-agnostic; the IT and OT edges honor it identically). Kept enum: raw | aggregate | on_change | on_cycle_end | on_event | never. PLUS interval tokens matching ^[0-9]+(sec|min)$ (canonical Nsec/Nmin, N>=1) for periodic emission. never = stays in the payload/snapshot but is excluded from the change-trigger and never published on its own.",
+            "oneOf": [
+              {
+                "enum": [
+                  "raw",
+                  "aggregate",
+                  "on_change",
+                  "on_cycle_end",
+                  "on_event",
+                  "never"
+                ]
+              },
+              {
+                "pattern": "^[0-9]+(sec|min)$"
+              }
+            ]
+          },
+          "polling": {
+            "type": "string",
+            "description": "machine-category only (gated by the if/then branch) — OPC poll mode (e.g. 'scan')."
+          },
+          "isKey": {
+            "type": "boolean",
+            "description": "equipment/business-category only (gated) — natural/business key column."
+          },
+          "isId": {
+            "type": "boolean",
+            "description": "equipment/business-category only (gated) — primary id column."
+          },
+          "quality": {
+            "$ref": "#/definitions/quality"
+          },
+          "semantics": {
+            "$ref": "#/definitions/semantics"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "relationships": {
+      "type": "array",
+      "description": "Skeleton-first: [] is valid.",
+      "items": {
+        "type": "object",
+        "required": [
+          "type",
+          "target"
+        ],
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "target": {
+            "type": "string"
+          },
+          "targetIdProp": {
+            "type": "string"
+          },
+          "timeBounded": {
+            "type": "boolean"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "constraints": {
+      "type": "array",
+      "description": "Merged standard: array of constraint objects (each with a stable 'name'). Consistent with attributes[]/relationships[]. Optional/next-facet; [] or absent is valid.",
+      "items": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "isa95": {
+      "type": "object",
+      "description": "ISA-95/MOM/ISA-88 mapping. Loosely typed on purpose — the equipment/operations model is evolving; deep semantics are reviewed (lint), not schema-pinned. The 'objectModel' key is REQUIRED for category=equipment|business (gated by the if/then branches); for category=machine it is optional.",
+      "properties": {
+        "objectModel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "momDomain": {
+          "type": "string"
+        },
+        "level": {
+          "type": "integer"
+        },
+        "extension": {
+          "type": "boolean"
+        },
+        "equipmentLevel": {
+          "type": "string"
+        },
+        "equipmentClass": {
+          "type": "string"
+        },
+        "note": {
+          "type": "string"
+        },
+        "propertyMap": {
+          "type": "object"
+        }
+      },
+      "additionalProperties": true
+    },
+    "semantics": {
+      "$ref": "#/definitions/semantics"
+    },
+    "kgNodeLabel": {
+      "type": "string"
+    },
+    "kgIdProperty": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "comment": "machine: allow polling/companionSpec/opcuaTypeDefinition/deviceClass + enforce promotion:'raw' => scope:'edge'.",
+      "if": {
+        "properties": {
+          "category": {
+            "const": "machine"
+          }
+        },
+        "required": [
+          "category"
+        ]
+      },
+      "then": {
+        "properties": {
+          "attributes": {
+            "items": {
+              "allOf": [
+                {
+                  "comment": "machine attributes must not use the equipment/business isKey/isId facets.",
+                  "not": {
+                    "anyOf": [
+                      {
+                        "required": [
+                          "isKey"
+                        ]
+                      },
+                      {
+                        "required": [
+                          "isId"
+                        ]
+                      }
+                    ]
+                  }
+                },
+                {
+                  "comment": "promotion 'raw' is edge-only.",
+                  "if": {
+                    "properties": {
+                      "promotion": {
+                        "const": "raw"
+                      }
+                    }
+                  },
+                  "then": {
+                    "properties": {
+                      "scope": {
+                        "const": "edge"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "comment": "equipment & business: require isa95.objectModel; allow isKey/isId on attributes; forbid the machine-only OPC facets.",
+      "if": {
+        "properties": {
+          "category": {
+            "enum": [
+              "equipment",
+              "business"
+            ]
+          }
+        },
+        "required": [
+          "category"
+        ]
+      },
+      "then": {
+        "required": [
+          "isa95"
+        ],
+        "properties": {
+          "isa95": {
+            "required": [
+              "objectModel"
+            ]
+          },
+          "attributes": {
+            "items": {
+              "not": {
+                "required": [
+                  "polling"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "definitions": {
+    "quality": {
+      "type": "object",
+      "description": "Optional next/-only attribute facet (FR-SDC2). OPC-UA StatusCode/Quality propagation policy — today the source StatusCode is discarded at the edge. 'onBad' = edge behaviour when source quality is not Good: drop|flag|hold; 'nullFlavor' = HL7/ISO null-flavor token. Optional everywhere; absent = legacy forward-as-is.",
+      "properties": {
+        "onBad": {
+          "type": "string",
+          "enum": [
+            "drop",
+            "flag",
+            "hold"
+          ]
+        },
+        "nullFlavor": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "semantics": {
+      "description": "Optional next/-only facet (FR-SDC3). IRI reference(s) grounding this profile/attribute in an external vocabulary (CESMII SM, ISO/IEC, BFO, …) for KG-Builder node enrichment. Single prefixed IRI string, array of them, or object form ({ $ref, sameAs[] }). Skeleton-first: absent is valid.",
+      "oneOf": [
+        {
+          "$ref": "#/definitions/iri"
+        },
+        {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/iri"
+          },
+          "minItems": 0
+        },
+        {
+          "type": "object",
+          "properties": {
+            "$ref": {
+              "$ref": "#/definitions/iri"
+            },
+            "sameAs": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/iri"
+              }
+            },
+            "label": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "iri": {
+      "type": "string",
+      "pattern": "^(cesmii|iso|iec|bfo|qudt|unece|sosa|ssn|saref|om|skos|rdfs|owl):[A-Za-z0-9_./#-]+$|^https?://[^\\s]+$"
+    }
+  }
+}

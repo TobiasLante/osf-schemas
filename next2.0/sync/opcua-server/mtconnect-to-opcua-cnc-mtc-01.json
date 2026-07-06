@@ -1,0 +1,26 @@
+{
+  "syncId": "mtconnect-to-opcua-cnc-mtc-01",
+  "mappingId": "mtconnect-to-opcua-cnc-mtc-01",
+  "version": "1.0.0",
+  "syncType": "bridge",
+  "description": "Sonder-Edge bridge \u2014 reads the MTConnect agent and re-publishes the SMProfile-CNC-Machine attributes on an embedded OPC-UA server (ns=2;s=<machineId>/<smAttribute>) so a standard OSF OPC-UA edge can ingest it. This sync is the SSOT consumed by gen-flows.mjs to build the Sonder-Edge Node-RED flow.",
+  "transport": [
+    "mtconnect",
+    "opcua-server"
+  ],
+  "profileRef": "SMProfile-CNC-Machine",
+  "machineId": "cnc-mtc-01",
+  "source": {
+    "type": "mtconnect",
+    "sourceRef": "mtconnect-cnc-01",
+    "endpoint": "http://192.168.178.154:35000",
+    "device": "cnc-02"
+  },
+  "sink": {
+    "type": "opcua-server",
+    "sourceRef": "opcua-mtbridge-cnc-01",
+    "endpoint": "opc.tcp://sonderedge:4840/osf/mtbridge",
+    "namespaceUri": "urn:osf:mtbridge",
+    "nodeIdPattern": "ns=2;s=<machineId>/<smAttribute>"
+  }
+}
