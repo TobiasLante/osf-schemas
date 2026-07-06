@@ -1,17 +1,10 @@
 {
   "sourceId": "opcua-sgm-004-processdata",
-  "version": "2.0.0",
+  "version": "1.0.0",
   "sourceType": "opcua",
-  "syncType": "streaming",
   "transport": [
     "nats"
   ],
-  "connection": {
-    "endpoint": "opc.tcp://192.168.178.154:36063",
-    "securityMode": "None",
-    "securityPolicy": "None",
-    "auth": "Anonymous"
-  },
   "dataCategory": "ProcessData",
   "profileRef": "SMProfile-InjectionMoldingMachine",
   "endpoint": "opc.tcp://192.168.178.154:36063",
@@ -26,8 +19,13 @@
   },
   "nodeMappings": [
     {
+      "opcuaNodeId": "ns=1;s=Machine/machineId",
+      "smAttribute": "machineId",
+      "dataType": "String"
+    },
+    {
       "opcuaNodeId": "ns=1;s=Machine/machineType",
-      "smAttribute": "machine_type",
+      "smAttribute": "machineType",
       "dataType": "String"
     },
     {
@@ -86,6 +84,16 @@
       "dataType": "String"
     },
     {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/_Count",
+      "smAttribute": "_Count",
+      "dataType": "Int32"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[0]/index",
+      "smAttribute": "index",
+      "dataType": "Float64"
+    },
+    {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[0]/hotrunnerTempC",
       "smAttribute": "hotrunnerTempC",
       "dataType": "Float64"
@@ -103,6 +111,21 @@
     {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[0]/partMass_g",
       "smAttribute": "partMass_g",
+      "dataType": "Float64"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/[0]/name",
+      "smAttribute": "name",
+      "dataType": "String"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/[0]/tempC",
+      "smAttribute": "tempC",
+      "dataType": "Float64"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/[0]/setpointC",
+      "smAttribute": "setpointC",
       "dataType": "Float64"
     },
     {
@@ -262,5 +285,10 @@
     "mode": "None",
     "policy": "None",
     "auth": "Anonymous"
+  },
+  "export": {
+    "targets": [
+      "edge-ipc"
+    ]
   }
 }

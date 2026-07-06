@@ -1,17 +1,8 @@
 {
   "sourceId": "opcua-sgm-003-processdata",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "sourceType": "opcua",
-  "syncType": "polling",
-  "transport": [
-    "nats"
-  ],
-  "connection": {
-    "endpoint": "opc.tcp://192.168.178.120:30862",
-    "securityMode": "None",
-    "securityPolicy": "None",
-    "auth": "Anonymous"
-  },
+  "transport": ["nats"],
   "dataCategory": "ProcessData",
   "profileRef": "SMProfile-InjectionMoldingMachine",
   "endpoint": "opc.tcp://192.168.178.120:30862",
@@ -27,31 +18,31 @@
   "nodeMappings": [
     {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shot/cycleTimeSec",
-      "smAttribute": "cycleTimeSec",
+      "smAttribute": "cycle_time",
       "dataType": "ns=0;i=10",
       "unit": "s"
     },
     {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[0]/hotrunnerTempC",
-      "smAttribute": "hotrunnerTempC",
+      "smAttribute": "hotrunner_temp",
       "dataType": "ns=0;i=10",
       "unit": "degC"
     },
     {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[0]/cavityPressureBar",
-      "smAttribute": "cavityPressureBar",
+      "smAttribute": "cavity_pressure",
       "dataType": "ns=0;i=10",
       "unit": "bar"
     },
     {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[0]/mouldPressureBar",
-      "smAttribute": "mouldPressureBar",
+      "smAttribute": "mould_pressure",
       "dataType": "ns=0;i=10",
       "unit": "bar"
     },
     {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[0]/partMass_g",
-      "smAttribute": "partMass_g",
+      "smAttribute": "part_mass",
       "dataType": "ns=0;i=10",
       "unit": "g"
     }
