@@ -1,0 +1,109 @@
+{
+  "profileId": "SMProfile-Quant",
+  "version": "3.0.0",
+  "standard": "CESMII",
+  "displayName": "Quant (Lagerbestand-Einheit)",
+  "description": "Stock quantity at a specific storage location — article + batch + location",
+  "parentType": null,
+  "attributes": [
+    {
+      "name": "quant_id",
+      "dataType": "Int32",
+      "category": "Core",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "article_no",
+      "dataType": "String",
+      "category": "Core",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "article_name",
+      "dataType": "String",
+      "category": "Core",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "batch",
+      "dataType": "String",
+      "category": "Core",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "location_key",
+      "dataType": "String",
+      "category": "Location",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "quantity",
+      "dataType": "Float",
+      "category": "Stock",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "unit",
+      "dataType": "String",
+      "category": "Core",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "quality_status",
+      "dataType": "String",
+      "category": "Quality",
+      "description": "FREI, GESPERRT, PRUEFUNG",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "origin_type",
+      "dataType": "String",
+      "category": "Traceability",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "origin_ref",
+      "dataType": "String",
+      "category": "Traceability",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "AT_LOCATION",
+      "target": "StorageLocation"
+    },
+    {
+      "type": "FOR_ARTICLE",
+      "target": "Article"
+    }
+  ],
+  "kgNodeLabel": "Quant",
+  "kgIdProperty": "quant_id",
+  "category": "business",
+  "isa95": {
+    "objectModel": "MaterialSublot",
+    "momDomain": "inventory",
+    "note": "Bestandseinheit am Lagerort = MaterialSublot"
+  }
+}
