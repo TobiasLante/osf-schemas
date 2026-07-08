@@ -10,8 +10,9 @@
   "attributes": [
     {
       "name": "Act_Status_Machine",
-      "dataType": "Int32",
+      "dataType": "String",
       "required": false,
+      "description": "Actual machine status (RUNNING / IDLE / STOPPED / FAULT / MAINTENANCE / OFFLINE — sim-v5 vocabulary). MTConnect bridge derives it via valueMap (ACTIVE -> RUNNING, * -> IDLE).",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -503,11 +504,11 @@
     },
     {
       "name": "power_positive_when_running",
-      "description": "Machine reports status=Production (1) but draws 0 kW — sensor / edge-communication fault (equipment).",
+      "description": "Machine reports status=RUNNING but draws 0 kW — sensor / edge-communication fault (equipment).",
       "when": {
         "attr": "Act_Status_Machine",
         "op": "eq",
-        "value": 1
+        "value": "RUNNING"
       },
       "require": {
         "attr": "Act_Energy_Power",

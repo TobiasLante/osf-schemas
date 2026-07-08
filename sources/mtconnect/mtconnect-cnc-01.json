@@ -41,7 +41,7 @@
   { "dataItemId": "cnc-01-mode", "category": "EVENT", "smAttribute": "Act_Text_MachineMode", "dataType": "String" },
   { "dataItemId": "cnc-01-exec", "category": "EVENT", "smAttribute": "Act_Status_Program", "dataType": "String" },
   { "dataItemId": "cnc-01-exec", "category": "EVENT", "smAttribute": "Act_State_InCycle", "dataType": "Boolean", "valueMap": { "ACTIVE": true, "*": false }, "_note": "Derived: execution==ACTIVE -> InCycle true." },
-  { "dataItemId": "cnc-01-exec", "category": "EVENT", "smAttribute": "Act_Status_Machine", "dataType": "Int32", "valueMap": { "ACTIVE": 1, "*": 0 }, "_note": "Derived ISA-95 status: ACTIVE -> Production(1)." },
+  { "dataItemId": "cnc-01-exec", "category": "EVENT", "smAttribute": "Act_Status_Machine", "dataType": "String", "valueMap": { "ACTIVE": "RUNNING", "*": "IDLE" }, "_note": "Derived status, aligned with the sim-v5 String vocabulary (profile contract): execution==ACTIVE -> RUNNING, else IDLE." },
   { "dataItemId": "cnc-01-alarm", "category": "CONDITION", "smAttribute": "Act_Amount_Alarm", "dataType": "Int32", "valueMap": { "Normal": 0, "Warning": 1, "Fault": 1, "*": 0 }, "_note": "MTConnect CONDITION -> alarm count (Fault/Warning -> 1)." }
  ],
  "polling": {

@@ -4,10 +4,13 @@
   "private": true,
   "description": "OSF SMProfile schemas (ISA-95 / CESMII): profiles, sources, sync, validation.",
   "scripts": {
-    "validate:next:category": "node next/ci/lint-category.mjs",
-    "validate:next:constraints": "node next/ci/lint-constraints.mjs",
-    "validate:next:recipes": "node next/ci/lint-recipes.mjs",
-    "validate:next:delivery": "node next/ci/lint-delivery.mjs"
+    "validate:category": "node ci/lint-category.mjs",
+    "validate:constraints": "node ci/lint-constraints.mjs",
+    "validate:recipes": "node ci/lint-recipes.mjs",
+    "validate:delivery": "node ci/lint-delivery.mjs",
+    "validate:cross": "node ci/lint-cross-constraints.mjs",
+    "validate:refs": "node ci/lint-refs.mjs",
+    "validate": "npm run validate:category && npm run validate:constraints && npm run validate:recipes && npm run validate:delivery && npm run validate:cross && npm run validate:refs"
   },
   "devDependencies": {
     "ajv": "^8.17.1",
