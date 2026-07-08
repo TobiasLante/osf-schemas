@@ -1,15 +1,26 @@
 #!/usr/bin/env node
-// osf-schemas ajv validator — scans profiles/, sources/, sync/ and runs them
-// against the matching schema in validation/.  Exits non-zero on any failure.
+// osf-schemas ajv validator — scans profiles/, sources/, sync/, recipes/ and
+// runs every file against the matching schema in validation/.  Exits non-zero
+// on any failure.
 //
 // Route table (path-prefix → validator schema in validation/):
-//   profiles/machines/      → machine-profile-schema.json
-//   profiles/business/      → business-profile-schema.json
-//   profiles/intelligence/  → intelligence-profile-schema.json
-//   sources/postgresql/it-* → it-edge-source-schema.json
+//   profiles/machines/            → machine-profile-schema.json   (shim → unified)
+//   profiles/{erp,qms,wms,operations}/ → business-profile-schema.json (shim → unified)
+//   profiles/equipment/           → equipment-profile-schema.json (shim → unified)
+//   profiles/intelligence/        → intelligence-profile-schema.json
+//   sources/**/it-*               → it-edge-source-schema.json
+//   sources/**                    → source-schema.json
+//   sync/**                       → sync-schema.json
+//   recipes/**                    → recipe-schema.json
 //
-// Files outside these prefixes are loaded + JSON-parsed only ("smoke" check)
-// so a typo in any JSON still fails the run.  Counts are reported per bucket.
+// All validation/*.json carrying an $id are pre-registered so the category
+// shims can $ref profile-unified-schema.json + constraint-schema.json.
+// Files outside the routes (and _-prefixed fixtures / equipment-model files
+// without a profileId) are loaded + JSON-parsed only ("smoke" check) so a
+// typo in any JSON still fails the run.  Counts are reported per bucket.
+//
+// NOTE: referential integrity (profileRef/sourceRef/attribute existence) is
+// NOT this script's job — that is ci/lint-refs.mjs (npm run validate:refs).
 
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative, basename } from 'node:path';
@@ -22,25 +33,43 @@ const VALIDATORS = [
   {
     name: 'machine-profile',
     schemaFile: 'validation/machine-profile-schema.json',
-    match: (rel) => rel.startsWith('profiles/machines/') && rel.endsWith('.json'),
+    match: (rel, doc) => rel.startsWith('profiles/machines/') && doc.profileId,
   },
   {
     name: 'business-profile',
     schemaFile: 'validation/business-profile-schema.json',
-    match: (rel) => rel.startsWith('profiles/business/') && rel.endsWith('.json'),
+    match: (rel, doc) =>
+      /^profiles\/(erp|qms|wms|operations)\//.test(rel) && doc.profileId,
+  },
+  {
+    name: 'equipment-profile',
+    schemaFile: 'validation/equipment-profile-schema.json',
+    match: (rel, doc) => rel.startsWith('profiles/equipment/') && doc.profileId,
   },
   {
     name: 'intelligence-profile',
     schemaFile: 'validation/intelligence-profile-schema.json',
-    match: (rel) => rel.startsWith('profiles/intelligence/') && rel.endsWith('.json'),
+    match: (rel) => rel.startsWith('profiles/intelligence/'),
   },
   {
     name: 'it-edge-source',
     schemaFile: 'validation/it-edge-source-schema.json',
-    match: (rel) =>
-      rel.startsWith('sources/postgresql/') &&
-      basename(rel).startsWith('it-') &&
-      rel.endsWith('.json'),
+    match: (rel) => rel.startsWith('sources/') && basename(rel).startsWith('it-'),
+  },
+  {
+    name: 'source',
+    schemaFile: 'validation/source-schema.json',
+    match: (rel) => rel.startsWith('sources/'),
+  },
+  {
+    name: 'sync',
+    schemaFile: 'validation/sync-schema.json',
+    match: (rel) => rel.startsWith('sync/'),
+  },
+  {
+    name: 'recipe',
+    schemaFile: 'validation/recipe-schema.json',
+    match: (rel) => rel.startsWith('recipes/'),
   },
 ];
 
@@ -51,11 +80,27 @@ const failures = [];
 const ajv = new Ajv({ allErrors: true, strict: false });
 addFormats(ajv);
 
-// Pre-compile validators (only those with an actual schema)
+// Pre-register every validation schema that carries an $id, so cross-file
+// $refs (category shim → profile-unified-schema.json → constraint-schema.json)
+// resolve without network I/O.
+for (const entry of readdirSync(join(ROOT, 'validation'))) {
+  if (!entry.endsWith('.json')) continue;
+  try {
+    const schema = JSON.parse(readFileSync(join(ROOT, 'validation', entry), 'utf8'));
+    if (schema.$id) ajv.addSchema(schema);
+  } catch (err) {
+    console.error(`FATAL: could not parse validation/${entry}: ${err.message}`);
+    process.exit(2);
+  }
+}
+
+// Compile validators (shims are already registered — getSchema returns the
+// compiled validator; compile() would re-add and collide on the $id).
 for (const v of VALIDATORS) {
   try {
     const schema = JSON.parse(readFileSync(join(ROOT, v.schemaFile), 'utf8'));
-    v.validate = ajv.compile(schema);
+    v.validate = schema.$id ? ajv.getSchema(schema.$id) : ajv.compile(schema);
+    if (!v.validate) throw new Error(`no compiled schema for ${schema.$id}`);
     counts[v.name] = { ok: 0, fail: 0 };
   } catch (err) {
     console.error(`FATAL: could not load ${v.schemaFile}: ${err.message}`);
@@ -76,7 +121,7 @@ function walk(dir) {
   return out;
 }
 
-const targets = ['profiles', 'sources', 'sync'].flatMap((d) => {
+const targets = ['profiles', 'sources', 'sync', 'recipes'].flatMap((d) => {
   try { return walk(join(ROOT, d)); } catch { return []; }
 });
 
@@ -94,7 +139,10 @@ for (const abs of targets) {
     continue;
   }
 
-  const v = VALIDATORS.find((x) => x.match(rel));
+  // _-prefixed fixtures (skeleton templates) are copy-templates, not instances.
+  const v = basename(rel).startsWith('_')
+    ? undefined
+    : VALIDATORS.find((x) => x.match(rel, doc));
   if (!v) {
     counts['json-only'].ok++;
     continue;

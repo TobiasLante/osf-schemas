@@ -1,9 +1,19 @@
-# osf-schemas validation pipeline
-# Self-hosted runner on .120 (llmserv0). Label `osf-schemas-120` is added when
-# we register the runner against this repo (see /opt/i3x-v4/ci/README.md).
+# osf-schemas validation pipeline — GitHub-hosted runner.
 #
-# Target repo: TobiasLante/osf-schemas
-# Drop into: .github/workflows/validate.yml
+# Two layers, both must pass:
+#   1. npm run validate          — the six ci/lint-*.mjs linters, incl.
+#      lint-refs.mjs (cross-file referential integrity: every profileRef/
+#      sourceRef resolves, every mapped smAttribute exists in the referenced
+#      profile, dataTypes agree across the three type vocabularies).
+#   2. validate-all.mjs          — per-file ajv shape validation of
+#      profiles/, sources/, sync/, recipes/ against validation/*.json.
+#
+# On PRs additionally: breaking-change diff vs the base branch.
+#
+# History: until 2026-07-08 this ran on the self-hosted .120 runner and was
+# FAKE-GREEN — `node … | tee` masked an ERR_MODULE_NOT_FOUND crash because
+# the pipeline exit code was tee's. `shell: bash` (which implies -o pipefail)
+# and `npm ci` fix both root causes. The .120 runner is no longer used here.
 name: validate
 
 on:
@@ -13,34 +23,39 @@ on:
     branches: [main, v3]
   workflow_dispatch:
 
+defaults:
+  run:
+    # Explicit `bash` runs with `-e -o pipefail` (implicit default is -e only)
+    shell: bash
+
 jobs:
-  ajv-validate:
-    name: ajv validate (profiles + sources + sync)
-    runs-on: [self-hosted, Linux, X64, osf-schemas-120]
+  validate:
+    name: linters + ajv shape validation
+    runs-on: ubuntu-latest
     timeout-minutes: 10
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # need history for breaking-change diff
+          fetch-depth: 0 # breaking-change diff needs base-branch history
 
       - name: Set up Node 20
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: npm
 
-      - name: Install ajv toolchain
-        run: |
-          npm i -g ajv@8 ajv-cli@5 ajv-formats@3 ajv-keywords@5
+      - name: Install dependencies (ajv toolchain)
+        run: npm ci --no-audit --no-fund
 
-      - name: Run validator
-        id: validate
-        run: |
-          node .github/scripts/validate-all.mjs | tee validation-report.txt
-        # the script exits non-zero on any failure
+      - name: Referential-integrity + convention linters (ci/lint-*.mjs)
+        run: npm run validate
 
-      - name: Detect breaking schema changes vs main
+      - name: Shape validation (validation/*.json meta-schemas)
+        run: node .github/scripts/validate-all.mjs | tee validation-report.txt
+
+      - name: Detect breaking schema changes vs base branch
         if: github.event_name == 'pull_request'
         run: |
           node .github/scripts/breaking-change-check.mjs \
