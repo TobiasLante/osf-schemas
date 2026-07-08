@@ -15,45 +15,47 @@ osf-schemas/
 │   ├── influxdb/          ← via node-red-contrib-influxdb (2.x)
 │   └── nats-jetstream/    ← via @i3x/nr-nats durable consumer (v3, additive)
 ├── profiles/              ← Schema 1: SM Profiles (type system)
-│   ├── enterprise/        ← ISA-95 hierarchy (Enterprise, Site, Area, ProductionLine, System)
-│   ├── machines/          ← Machine types (Machine*, CNC, IMM, FFS, Lathe, Milling, Mould, CNCProgram)
-│   ├── erp/               ← ERP domain (Article, Order*, Customer, Supplier, BOM, Stock, Routing, ...)
-│   ├── maintenance/       ← Maintenance (MaintenanceOrder, MaintenanceNotification, DowntimeRecord)
-│   ├── qms/               ← Quality (InspectionLot, InspectionResult, QualityNotification, SPC, CorrectiveAction)
-│   └── wms/               ← Warehouse (GoodsReceipt, TransportOrder, Quant, StorageLocation)
+│   ├── machines/          ← Machine types (Machine* abstract, CNC, InjectionMolding)
+│   ├── equipment/         ← Equipment (EquipmentClass, EquipmentModel, Tool)
+│   ├── erp/               ← ERP domain (Article, CustomerOrder, Customer, ProductionOrder, ProductDefinition, OperationsResponse)
+│   ├── operations/        ← ISA-95 operations (OperationsDefinition, ProcessSegment, SegmentRequirement/-Response, WorkOrder)
+│   ├── qms/               ← Quality (InspectionLot, SPCAnalysis)
+│   ├── wms/               ← Warehouse (Quant, StorageLocation, MaterialLot)
+│   └── intelligence/      ← Multi-truth layer (Discrepancy, ResolutionProposal, AutoResolveRule, ...)
 ├── sources/               ← Schema 2: Data Sources (instance binding)
-│   ├── postgresql/        ← 30 PostgreSQL table → KG node mappings
-│   └── opcua/             ← 35 OPC-UA endpoint → machine node mappings
+│   ├── opcua/             ← OPC-UA endpoint → machine mappings (cnc-001/002, sgm-001/004/005, mtbridge)
+│   ├── mtconnect/         ← MTConnect agent mappings (cnc-01, cnc-mtc-02)
+│   └── rest/              ← sim-v5 REST polling (ERP orders/articles/customers, QMS, WMS, segments)
 ├── sync/                  ← Schema 3: Live Sync (transport layer)
-│   ├── mqtt/              ← MQTT UNS subscriptions
-│   ├── nats/              ← NATS subjects + JetStream stream declarations (v3)
-│   ├── polling/           ← PostgreSQL polling (timestamp + full refresh)
-│   ├── kafka/             ← Kafka consumer configs
-│   ├── webhook/           ← REST webhook endpoints
-│   ├── manual/            ← Manual CSV/JSON import configs
-│   └── bridge/            ← MQTT→Kafka bridge (reference only, not executed)
+│   ├── nats/              ← NATS subjects + JetStream stream declarations (suite hub)
+│   ├── polling/           ← REST polling schedule (sim-v5-poll)
+│   └── opcua-server/      ← Sonder-Edge re-publish (MTConnect → embedded OPC-UA server)
+├── backup/pre-next2.0/    ← ARCHIVED pre-cutover catalog (old postgresql sources, MQTT-UNS/Kafka/webhook/manual/bridge syncs) — kept for reference, NOT loaded as SSOT
 └── schema-guide.md        ← This file
 
-* = abstract parent (Machine, Order) — see Inheritance section
+* = abstract parent (Machine) — see Inheritance section
 ```
 
 ## Counts
 
-| Category | Files | Examples |
-|----------|-------|---------|
-| Profiles | 45 | Machine, CNC_Machine, Article, CustomerOrder, Site, ... |
-| Sources (PostgreSQL) | 30 | erpdb-articles, qmsdb-inspection-lots, wmsdb-quants, ... |
-| Sources (OPC-UA) | 35 | sgm-001 through sgm-020, bz-1/2/3, ml-1/2, ... |
-| Sync (MQTT) | 2 | ISA-95 Walker-Reynolds, shared UNS factory-sim-v3 |
-| Sync (Polling) | 3 | erpdb-poll, qmsdb-poll, wmsdb-poll |
-| Sync (Kafka) | 1 | kafka-uns-factory (10 topics) |
-| Sync (Webhook) | 1 | bde-webhook |
-| Sync (Manual) | 1 | csv-import |
-| Bridge (ref only) | 2 | mqtt-to-kafka, shared-uns-to-kafka |
-| Companion-Specs   | 1 | 12 OPC-UA Companion Specs (CNC, Machinery, Robotics, ...) |
-| Historians (Postgres/Timescale) | 1 | postgres-historian-template |
-| Historians (MSSQL) | 1 | mssql-historian-template |
-| Historians (InfluxDB) | 1 | influxdb-historian-template |
+Verbindlich sind die Linter-Zahlen (`npm run validate` → lint-refs meldet
+`N profiles, M sources, K sync files`), nicht diese Tabelle. Stand next2.0
+(2026-07-08): 26 Profile, 20 Sources (9 opcua, 2 mtconnect, 9 rest),
+4 Sync-Dateien (2 nats, 1 polling, 1 opcua-server). Alles davor (30
+PostgreSQL-Sources, MQTT-UNS-/Kafka-/Webhook-Syncs der v3-Ära) liegt in
+`backup/pre-next2.0/` und wird von keinem Service mehr geladen.
+
+| Category | Examples |
+|----------|---------|
+| Profiles (26) | Machine (abstract), CNC-Machine, InjectionMoldingMachine, Article, CustomerOrder, ProductionOrder, InspectionLot, Quant, ... |
+| Sources (9 OPC-UA) | opcua-cnc-001/002-{event,telemetry}, opcua-sgm-001-{event,telemetry}, opcua-sgm-004/005-processdata, opcua-mtbridge-cnc-01 |
+| Sources (2 MTConnect) | mtconnect-cnc-01, mtconnect-cnc-mtc-02 |
+| Sources (9 REST) | erp-production-orders, erp-customer-orders, sim-v5-erp-articles, sim-v5-qms-inspections, sim-v5-wms-quants, ... |
+| Sync (NATS) | jetstream-streams, opcua-to-nats-cnc-mtc-01 |
+| Sync (Polling) | sim-v5-poll |
+| Sync (OPC-UA-Server) | mtconnect-to-opcua-cnc-mtc-01 (Sonder-Edge bridge) |
+| Companion-Specs | 12 OPC-UA Companion Specs (CNC, Machinery, Robotics, ...) |
+| Historians | postgres/mssql/influxdb/nats-jetstream historian-templates |
 
 ---
 
@@ -241,76 +243,28 @@ Defines **how to keep the KG updated** in real-time or near-real-time.
 
 ### Supported sync types
 
-| syncType | Transport | Handler | Status |
-|----------|-----------|---------|--------|
-| `mqtt` | MQTT broker subscription | Implemented | Live |
-| `polling` | PostgreSQL periodic query | Implemented | Live |
-| `pg-notify` | PostgreSQL LISTEN/NOTIFY | Implemented | Live |
-| `kafka` | Apache Kafka consumer | Schema validated, handler pending | Planned |
-| `rest-webhook` | HTTP POST from external | Schema validated, handler pending | Planned |
-| `manual` | CSV/JSON upload via API/UI | Schema validated, handler pending | Planned |
-| `nats` | NATS pub/sub via leaf node | v3 additive — `@i3x/nr-nats` package | Active |
-| `nats-jetstream` | NATS JetStream durable streams | v3 additive — declares streams + consumers | Active |
-
-### MQTT Sync
-
-**File:** `sync/mqtt/<sync-id>.json`
-
-```json
-{
-  "syncId": "#shared.uns",
-  "syncType": "mqtt",
-  "broker": { "host": "${MQTT_HOST}", "port": "${MQTT_PORT}" },
-  "topicStructure": {
-    "pattern": "Factory/{machineId}/{workOrder}/{tool}/{category}/{attribute}",
-    "segments": { "machineId": { "index": 1 }, "attribute": { "index": 5 } },
-    "subscribeFilter": "#shared/uns/#"
-  },
-  "attributeMapping": {
-    "strategy": "topic_segment",
-    "mappings": [
-      { "topicAttribute": "Machine_Status", "smAttribute": "Machine_Status" }
-    ]
-  }
-}
-```
+| syncType | Transport | Status |
+|----------|-----------|--------|
+| `nats` / `nats-jetstream` | NATS subjects + JetStream streams (suite hub) | **Active** — the OT transport |
+| `polling` | REST periodic query (sim-v5) | **Active** — `sim-v5-poll` |
+| `bridge` / opcua-server | MTConnect → embedded OPC-UA re-publish (Sonder-Edge) | **Active** — `mtconnect-to-opcua-cnc-mtc-01` |
+| `mqtt`, `kafka`, `rest-webhook`, `manual` | v3-era UNS ingestion | **Archived** → `backup/pre-next2.0/sync/` (referenced deleted profiles/sources; see lint-refs) |
 
 ### Polling Sync
 
-**File:** `sync/polling/<sync-id>.json`
+**File:** `sync/polling/<sync-id>.json` — every `sourceRef` MUST resolve to a
+`sourceId` in `sources/` and its `changeDetection` should match the source's
+own `polling` contract (`npm run validate:refs` enforces the reference).
 
 ```json
 {
-  "syncId": "erpdb-poll",
+  "syncId": "sim-v5-poll",
   "syncType": "polling",
   "pollIntervalMs": 30000,
   "sources": [
-    { "sourceRef": "erpdb-production-orders", "changeDetection": "timestamp", "timestampColumn": "last_updated_at" },
-    { "sourceRef": "erpdb-stock", "changeDetection": "full_refresh" }
+    { "sourceRef": "sim-v5-erp-articles", "changeDetection": "full_refresh", "refreshIntervalMs": 300000 },
+    { "sourceRef": "erp-production-orders", "changeDetection": "full_refresh", "refreshIntervalMs": 60000 }
   ]
-}
-```
-
-### Kafka Sync
-
-**File:** `sync/kafka/<sync-id>.json`
-
-```json
-{
-  "syncId": "Kafka_UNS",
-  "syncType": "kafka",
-  "kafka": {
-    "bootstrapServers": "${KAFKA_BOOTSTRAP_SERVERS}",
-    "consumerGroup": "osf-kg-builder",
-    "topics": [
-      {
-        "topic": "factory.bde.events",
-        "profileRef": "SMProfile-InjectionMoldingMachine",
-        "keyIdProp": "machine_id",
-        "payloadMapping": { "machine_id": "machine_id", "oee": "OEE" }
-      }
-    ]
-  }
 }
 ```
 
@@ -358,9 +312,12 @@ NATS subjects mirror the MQTT topic hierarchy 1:1, dot-separated instead of slas
 }
 ```
 
-### Bridge Configs (Reference Only)
+### Archived sync types (pre-next2.0)
 
-Files in `sync/bridge/` describe MQTT→Kafka aggregation bridges. They are **not executed** by the KG Builder — they document the data flow architecture for external bridge services.
+The v3-era MQTT-UNS subscriptions, Kafka consumers, webhook endpoints, manual
+CSV imports and MQTT→Kafka bridge configs live in `backup/pre-next2.0/sync/`.
+They referenced the pre-cutover profile/source catalog and are kept for
+reference only — no service loads them.
 
 ---
 

@@ -26,7 +26,7 @@
   { "dataItemId": "cnc-03-power", "category": "SAMPLE", "smAttribute": "Act_Energy_Power", "dataType": "Float", "unit": "kW" },
   { "dataItemId": "cnc-03-exec", "category": "EVENT", "smAttribute": "Act_Status_Program", "dataType": "String" },
   { "dataItemId": "cnc-03-exec", "category": "EVENT", "smAttribute": "Act_State_InCycle", "dataType": "Boolean", "valueMap": { "ACTIVE": true, "*": false } },
-  { "dataItemId": "cnc-03-exec", "category": "EVENT", "smAttribute": "Act_Status_Machine", "dataType": "Int32", "valueMap": { "ACTIVE": 1, "*": 0 } },
+  { "dataItemId": "cnc-03-exec", "category": "EVENT", "smAttribute": "Act_Status_Machine", "dataType": "String", "valueMap": { "ACTIVE": "RUNNING", "*": "IDLE" }, "_note": "Derived status, aligned with the sim-v5 String vocabulary (profile contract): execution==ACTIVE -> RUNNING, else IDLE." },
   { "dataItemId": "cnc-03-mode", "category": "EVENT", "smAttribute": "Act_Text_MachineMode", "dataType": "String" },
   { "dataItemId": "cnc-03-program", "category": "EVENT", "smAttribute": "Act_Ref_Program", "dataType": "String" },
   { "dataItemId": "cnc-03-tool", "category": "EVENT", "smAttribute": "Act_Ref_Tool", "dataType": "String" },
