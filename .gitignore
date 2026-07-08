@@ -1,4 +1,5 @@
-# dependencies (reinstall with `npm i`; CI installs ajv itself)
+# dependencies (node_modules is reinstalled; package-lock.json IS committed —
+# CI runs `npm ci` and needs the pinned lockfile, see .github/workflows/validate.yml)
 node_modules/
 # build / generated
 dist/
@@ -14,6 +15,5 @@ Thumbs.db
 # local env
 .env
 .env.*
-# agent session dir + npm lock (deps are reinstalled, not pinned — see top)
+# agent session dir
 .claude/
-package-lock.json
