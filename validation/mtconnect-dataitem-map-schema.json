@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/validation/mtconnect-dataitem-map-schema.json",
+  "title": "OSF MTConnect DataItem -> SM-attribute map — v2.0",
+  "description": "Shape of mappings/mtconnect-dataitem-map.json, the SSOT for how an MTConnect DataItem projects onto a canonical SM attribute. Consumers (discovery's mtconnect probe, the gen-flows exporter) MUST read this file instead of carrying their own copy of the table — a hardcoded duplicate is what let Act_Status_Machine drift to Int32 while the CNC profile said String (audit 2026-07-08). Referential integrity (every smAttribute exists on profileRef, and every sources/mtconnect/*.json agrees with this table) is checked by ci/lint-mtconnect-canon.mjs, not here.",
+  "type": "object",
+  "required": ["mapId", "version", "profileRef", "mappings"],
+  "additionalProperties": false,
+  "properties": {
+    "mapId": { "type": "string", "minLength": 1 },
+    "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "description": { "type": "string" },
+    "profileRef": {
+      "type": "string",
+      "description": "Profile whose attributes this table projects onto. Every smAttribute below must be an attribute of it (or of one of its parents)."
+    },
+    "mappings": {
+      "type": "array",
+      "minItems": 1,
+      "description": "One entry per (DataItem suffix, SM attribute) pair. A suffix MAY repeat: the EXECUTION DataItem drives three derived attributes. Consumers match the LONGEST suffix first.",
+      "items": {
+        "type": "object",
+        "required": ["dataItemSuffix", "category", "smAttribute", "dataType"],
+        "additionalProperties": false,
+        "properties": {
+          "dataItemSuffix": {
+            "type": "string",
+            "pattern": "^-[a-z0-9-]+$",
+            "description": "DataItem id minus its device-id prefix, leading hyphen included (e.g. `-spindle-speed`)."
+          },
+          "category": { "type": "string", "enum": ["SAMPLE", "EVENT", "CONDITION"] },
+          "smAttribute": { "type": "string", "pattern": "^[A-Z][A-Za-z0-9_]*$" },
+          "dataType": {
+            "type": "string",
+            "enum": ["String", "Int32", "Int64", "Float", "Double", "Boolean", "DateTime", "Json"]
+          },
+          "unit": { "type": "string", "minLength": 1 },
+          "valueMap": {
+            "type": "object",
+            "minProperties": 1,
+            "description": "Discrete-value projection (raw MTConnect value -> SM value). The `*` key is the default for unlisted values. Values must match dataType — enforced by ci/lint-mtconnect-canon.mjs.",
+            "additionalProperties": { "type": ["string", "number", "boolean"] }
+          },
+          "_note": { "type": "string" }
+        }
+      }
+    }
+  }
+}

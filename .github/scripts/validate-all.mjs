@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-// osf-schemas ajv validator — scans profiles/, sources/, sync/, recipes/ and
-// runs every file against the matching schema in validation/.  Exits non-zero
-// on any failure.
+// osf-schemas ajv validator — scans profiles/, sources/, sync/, recipes/,
+// mappings/ and runs every file against the matching schema in validation/.
+// Exits non-zero on any failure.
 //
 // Route table (path-prefix → validator schema in validation/):
 //   profiles/machines/            → machine-profile-schema.json   (shim → unified)
@@ -12,6 +12,7 @@
 //   sources/**                    → source-schema.json
 //   sync/**                       → sync-schema.json
 //   recipes/**                    → recipe-schema.json
+//   mappings/**                   → mtconnect-dataitem-map-schema.json
 //
 // All validation/*.json carrying an $id are pre-registered so the category
 // shims can $ref profile-unified-schema.json + constraint-schema.json.
@@ -71,6 +72,11 @@ const VALIDATORS = [
     schemaFile: 'validation/recipe-schema.json',
     match: (rel) => rel.startsWith('recipes/'),
   },
+  {
+    name: 'mtconnect-dataitem-map',
+    schemaFile: 'validation/mtconnect-dataitem-map-schema.json',
+    match: (rel) => rel.startsWith('mappings/'),
+  },
 ];
 
 // Bookkeeping
@@ -121,7 +127,7 @@ function walk(dir) {
   return out;
 }
 
-const targets = ['profiles', 'sources', 'sync', 'recipes'].flatMap((d) => {
+const targets = ['profiles', 'sources', 'sync', 'recipes', 'mappings'].flatMap((d) => {
   try { return walk(join(ROOT, d)); } catch { return []; }
 });
 
