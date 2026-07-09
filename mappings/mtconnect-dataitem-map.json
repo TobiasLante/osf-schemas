@@ -1,0 +1,54 @@
+{
+  "mapId": "mtconnect-dataitem-map",
+  "version": "2.0.0",
+  "description": "Canonical MTConnect DataItem -> SM-attribute projection. Keyed by the DataItem-id SUFFIX (the id minus its device-id prefix, e.g. `cnc-03-spindle-speed` -> `-spindle-speed`), so one table serves every MTConnect device. Consumers match the LONGEST suffix first (`-tool-life` wins over `-tool`). One suffix may expand to several attributes: the EXECUTION DataItem drives three. DataItems with no entry here (AVAILABILITY, BLOCK, y/z feedrate ...) carry no SM attribute and are skipped by the consumer.",
+  "profileRef": "SMProfile-CNC-Machine",
+  "mappings": [
+    { "dataItemSuffix": "-spindle-speed", "category": "SAMPLE", "smAttribute": "Act_Speed_Spindle", "dataType": "Float", "unit": "rpm" },
+    { "dataItemSuffix": "-spindle-load", "category": "SAMPLE", "smAttribute": "Act_Pct_SpindleLoad", "dataType": "Float", "unit": "pct" },
+    { "dataItemSuffix": "-spindle-temp", "category": "SAMPLE", "smAttribute": "Act_Temp_Spindle", "dataType": "Float", "unit": "degC" },
+    { "dataItemSuffix": "-power", "category": "SAMPLE", "smAttribute": "Act_Energy_Power", "dataType": "Float", "unit": "kW" },
+    { "dataItemSuffix": "-x-pos", "category": "SAMPLE", "smAttribute": "Act_Pos_AxisX", "dataType": "Float", "unit": "mm" },
+    { "dataItemSuffix": "-y-pos", "category": "SAMPLE", "smAttribute": "Act_Pos_AxisY", "dataType": "Float", "unit": "mm" },
+    { "dataItemSuffix": "-z-pos", "category": "SAMPLE", "smAttribute": "Act_Pos_AxisZ", "dataType": "Float", "unit": "mm" },
+    { "dataItemSuffix": "-x-feed", "category": "SAMPLE", "smAttribute": "Act_Rate_Feed", "dataType": "Float", "unit": "mm/min" },
+    {
+      "dataItemSuffix": "-tool-life",
+      "category": "SAMPLE",
+      "smAttribute": "Act_Pct_ToolWear",
+      "dataType": "Float",
+      "unit": "pct",
+      "_note": "MTConnect TOOL_LIFE is remaining-life %; mapped to Act_Pct_ToolWear for the demo (semantic inversion documented, not corrected)."
+    },
+    { "dataItemSuffix": "-parts-good", "category": "EVENT", "smAttribute": "Act_Amount_PartGood", "dataType": "Int32" },
+    { "dataItemSuffix": "-parts-scrap", "category": "EVENT", "smAttribute": "Act_Amount_PartScrap", "dataType": "Int32" },
+    { "dataItemSuffix": "-program", "category": "EVENT", "smAttribute": "Act_Ref_Program", "dataType": "String" },
+    { "dataItemSuffix": "-tool", "category": "EVENT", "smAttribute": "Act_Ref_Tool", "dataType": "String" },
+    { "dataItemSuffix": "-mode", "category": "EVENT", "smAttribute": "Act_Text_MachineMode", "dataType": "String" },
+    { "dataItemSuffix": "-exec", "category": "EVENT", "smAttribute": "Act_Status_Program", "dataType": "String" },
+    {
+      "dataItemSuffix": "-exec",
+      "category": "EVENT",
+      "smAttribute": "Act_State_InCycle",
+      "dataType": "Boolean",
+      "valueMap": { "ACTIVE": true, "*": false },
+      "_note": "Derived: execution==ACTIVE -> InCycle true."
+    },
+    {
+      "dataItemSuffix": "-exec",
+      "category": "EVENT",
+      "smAttribute": "Act_Status_Machine",
+      "dataType": "String",
+      "valueMap": { "ACTIVE": "RUNNING", "*": "IDLE" },
+      "_note": "Derived status, aligned with the sim-v5 String vocabulary (profile contract): execution==ACTIVE -> RUNNING, else IDLE."
+    },
+    {
+      "dataItemSuffix": "-alarm",
+      "category": "CONDITION",
+      "smAttribute": "Act_Amount_Alarm",
+      "dataType": "Int32",
+      "valueMap": { "Normal": 0, "Warning": 1, "Fault": 1, "*": 0 },
+      "_note": "MTConnect CONDITION -> alarm count (Fault/Warning -> 1)."
+    }
+  ]
+}
