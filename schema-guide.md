@@ -8,6 +8,7 @@ No LLM is needed — the schemas are the single source of truth.
 ```
 osf-schemas/
 ├── companion-specs/       ← OPC-UA Companion-Spec-Registry (NodeSet2.xml URLs)
+├── mappings/              ← Protokoll-Kanon: DataItem/Tag → SM-Attribut (SSOT für Discovery + gen-flows)
 ├── unit-conversions/      ← UNECE-Tabelle (Discovery-Zeit-Lookup für scale/offset)
 ├── historians/            ← Historian-Sink-Templates (OUTPUT: UNS → Kunden-DB)
 │   ├── postgresql/        ← via node-red-contrib-postgresql (Timescale-aware)
@@ -110,6 +111,33 @@ pipeline can fetch the authoritative NodeSet on demand.
 i3X reads this at server startup from `${SCHEMA_LOCAL_PATH}/companion-specs/index.json`
 and flattens it to a `Record<specName, url>`. If the file is missing, the
 companion-spec feature disables itself (no hardcoded fallback in code).
+
+---
+
+## Protokoll-Kanon (`mappings/`)
+
+Wie ein Protokoll-Tag auf ein kanonisches SM-Attribut projiziert. Hier liegt die
+SSOT für die Projektion — **kein Consumer führt seine eigene Kopie der Tabelle**.
+
+**File:** `mappings/mtconnect-dataitem-map.json`
+
+Keyed auf den DataItem-id-**Suffix** (id minus Device-Prefix, z. B.
+`cnc-03-spindle-speed` → `-spindle-speed`), damit eine Tabelle jedes MTConnect-Gerät
+bedient. Consumer matchen den **längsten** Suffix zuerst (`-tool-life` vor `-tool`).
+Ein Suffix darf mehrere Attribute treiben: das EXECUTION-DataItem liefert drei.
+
+Gelesen von `discovery` (`${OSF_SCHEMAS_PATH}/mappings/…`, mtconnect-Probe) und vom
+gen-flows-Exporter. `ci/lint-mtconnect-canon.mjs` (`npm run validate:mtconnect`)
+prüft gegen das Profil und gegen jede `sources/mtconnect/*.json`:
+
+- `dataType` des Kanons == `dataType` des Attributs auf `profileRef`
+- `valueMap`-Werte passen zum eigenen `dataType`
+- jede committete Source stimmt Feld für Feld mit dem Kanon überein
+- eine Source, die einen Suffix mappt, emittiert **alle** Attribute, die der Kanon daraus ableitet
+
+Warum: `Act_Status_Machine` stand in discovery hartcodiert als `Int32`/`{ACTIVE:1}`,
+während das CNC-Profil längst `String`/`{ACTIVE:"RUNNING"}` sagte. Nichts wurde rot,
+weil kein Linter beide verglichen hat (Audit 2026-07-08).
 
 ---
 

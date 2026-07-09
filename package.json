@@ -10,7 +10,8 @@
     "validate:delivery": "node ci/lint-delivery.mjs",
     "validate:cross": "node ci/lint-cross-constraints.mjs",
     "validate:refs": "node ci/lint-refs.mjs",
-    "validate": "npm run validate:category && npm run validate:constraints && npm run validate:recipes && npm run validate:delivery && npm run validate:cross && npm run validate:refs"
+    "validate:mtconnect": "node ci/lint-mtconnect-canon.mjs",
+    "validate": "npm run validate:category && npm run validate:constraints && npm run validate:recipes && npm run validate:delivery && npm run validate:cross && npm run validate:refs && npm run validate:mtconnect"
   },
   "devDependencies": {
     "ajv": "^8.17.1",
