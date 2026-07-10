@@ -11,7 +11,8 @@
     "validate:cross": "node ci/lint-cross-constraints.mjs",
     "validate:refs": "node ci/lint-refs.mjs",
     "validate:mtconnect": "node ci/lint-mtconnect-canon.mjs",
-    "validate": "npm run validate:category && npm run validate:constraints && npm run validate:recipes && npm run validate:delivery && npm run validate:cross && npm run validate:refs && npm run validate:mtconnect"
+    "validate": "npm run validate:category && npm run validate:constraints && npm run validate:recipes && npm run validate:delivery && npm run validate:cross && npm run validate:refs && npm run validate:mtconnect && npm run validate:aliases",
+    "validate:aliases": "node ci/lint-machine-type-aliases.mjs"
   },
   "devDependencies": {
     "ajv": "^8.17.1",
