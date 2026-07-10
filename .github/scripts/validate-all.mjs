@@ -12,7 +12,9 @@
 //   sources/**                    → source-schema.json
 //   sync/**                       → sync-schema.json
 //   recipes/**                    → recipe-schema.json
-//   mappings/**                   → mtconnect-dataitem-map-schema.json
+//   mappings/mtconnect-dataitem-map.json  → mtconnect-dataitem-map-schema.json
+//   mappings/machine-type-aliases.json   → machine-type-alias-schema.json
+//   (any other mappings/*.json is an ERROR — add a route + meta-schema)
 //
 // All validation/*.json carrying an $id are pre-registered so the category
 // shims can $ref profile-unified-schema.json + constraint-schema.json.
@@ -72,10 +74,19 @@ const VALIDATORS = [
     schemaFile: 'validation/recipe-schema.json',
     match: (rel) => rel.startsWith('recipes/'),
   },
+  // mappings/ routes by FILENAME, not by prefix. It used to be
+  // `rel.startsWith('mappings/')`, which was fine while the directory held
+  // exactly one file and wrong the moment it held two: the second mapping was
+  // validated against the MTConnect canon's schema and failed on its own shape.
   {
     name: 'mtconnect-dataitem-map',
     schemaFile: 'validation/mtconnect-dataitem-map-schema.json',
-    match: (rel) => rel.startsWith('mappings/'),
+    match: (rel) => rel === 'mappings/mtconnect-dataitem-map.json',
+  },
+  {
+    name: 'machine-type-aliases',
+    schemaFile: 'validation/machine-type-alias-schema.json',
+    match: (rel) => rel === 'mappings/machine-type-aliases.json',
   },
 ];
 
@@ -150,6 +161,17 @@ for (const abs of targets) {
     ? undefined
     : VALIDATORS.find((x) => x.match(rel, doc));
   if (!v) {
+    // A mapping is a canon that services read as SSOT. Unrouted, it would
+    // "smoke pass" on JSON.parse alone and ship unvalidated — so demand a route.
+    if (rel.startsWith('mappings/') && !basename(rel).startsWith('_')) {
+      failures.push({
+        file: rel,
+        validator: 'unrouted',
+        errors: ['no schema route — add one to VALIDATORS and a meta-schema under validation/'],
+      });
+      counts['json-only'].fail++;
+      continue;
+    }
     counts['json-only'].ok++;
     continue;
   }
