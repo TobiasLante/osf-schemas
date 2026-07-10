@@ -1,0 +1,1059 @@
+{
+  "sourceId": "opcua-sgm-006-processdata",
+  "version": "1.0.0",
+  "sourceType": "opcua",
+  "syncType": "streaming",
+  "transport": [
+    "nats"
+  ],
+  "connection": {
+    "endpoint": "opc.tcp://192.168.178.154:36065",
+    "securityMode": "None",
+    "securityPolicy": "None",
+    "auth": "Anonymous"
+  },
+  "dataCategory": "ProcessData",
+  "profileRef": "SMProfile-InjectionMoldingMachine",
+  "endpoint": "opc.tcp://192.168.178.154:36065",
+  "machineId": "sgm-006",
+  "machineName": "SGM 006",
+  "location": {
+    "site": "werk1",
+    "area": "Molding",
+    "line": "LineA"
+  },
+  "nodeMappings": [
+    {
+      "opcuaNodeId": "ns=1;s=Machine/machineType",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "machineType"
+      ],
+      "smAttribute": "machine_type",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shot/inCycle",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "typeSpecific",
+        "shot",
+        "inCycle"
+      ],
+      "smAttribute": "inCycle",
+      "dataType": "ns=0;i=1"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shot/lastShotAt",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "typeSpecific",
+        "shot",
+        "lastShotAt"
+      ],
+      "smAttribute": "lastShotAt",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[0]/hotrunnerTempC",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "typeSpecific",
+        "cavities",
+        "[0]",
+        "hotrunnerTempC"
+      ],
+      "smAttribute": "hotrunnerTempC",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/nozzleTempC",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "typeSpecific",
+        "barrel",
+        "nozzleTempC"
+      ],
+      "smAttribute": "nozzleTempC",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[0]/cavityPressureBar",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "typeSpecific",
+        "cavities",
+        "[0]",
+        "cavityPressureBar"
+      ],
+      "smAttribute": "cavityPressureBar",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[0]/mouldPressureBar",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "typeSpecific",
+        "cavities",
+        "[0]",
+        "mouldPressureBar"
+      ],
+      "smAttribute": "mouldPressureBar",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[0]/partMass_g",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "typeSpecific",
+        "cavities",
+        "[0]",
+        "partMass_g"
+      ],
+      "smAttribute": "partMass_g",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/injection/peakPressureBar",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "typeSpecific",
+        "injection",
+        "peakPressureBar"
+      ],
+      "smAttribute": "peakPressureBar",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/injection/holdPressureBar",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "typeSpecific",
+        "injection",
+        "holdPressureBar"
+      ],
+      "smAttribute": "holdPressureBar",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/injection/backPressureBar",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "typeSpecific",
+        "injection",
+        "backPressureBar"
+      ],
+      "smAttribute": "backPressureBar",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/injection/injectionSpeedMmPerSec",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "typeSpecific",
+        "injection",
+        "injectionSpeedMmPerSec"
+      ],
+      "smAttribute": "injectionSpeedMmPerSec",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/injection/shotVolumeCm3",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "typeSpecific",
+        "injection",
+        "shotVolumeCm3"
+      ],
+      "smAttribute": "shotVolumeCm3",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/phase/cushionMm",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "typeSpecific",
+        "phase",
+        "cushionMm"
+      ],
+      "smAttribute": "cushionMm",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/phase/plastProgress",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "typeSpecific",
+        "phase",
+        "plastProgress"
+      ],
+      "smAttribute": "plastProgress",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shot/cycleTimeSec",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "typeSpecific",
+        "shot",
+        "cycleTimeSec"
+      ],
+      "smAttribute": "cycleTimeSec",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/phase/elapsedSec",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "typeSpecific",
+        "phase",
+        "elapsedSec"
+      ],
+      "smAttribute": "elapsedSec",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/setup/remainingSec",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "typeSpecific",
+        "setup",
+        "remainingSec"
+      ],
+      "smAttribute": "remainingSec",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/phase/switchoverReached",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "typeSpecific",
+        "phase",
+        "switchoverReached"
+      ],
+      "smAttribute": "switchoverReached",
+      "dataType": "ns=0;i=1"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/[0]/name",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "typeSpecific",
+        "barrel",
+        "zones",
+        "[0]",
+        "name"
+      ],
+      "smAttribute": "phaseName",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/mould/mouldId",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "typeSpecific",
+        "mould",
+        "mouldId"
+      ],
+      "smAttribute": "mouldId",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/[0]/tempC",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "typeSpecific",
+        "barrel",
+        "zones",
+        "[0]",
+        "tempC"
+      ],
+      "smAttribute": "mouldTempC",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/mould/coolingFlowLMin",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "typeSpecific",
+        "mould",
+        "coolingFlowLMin"
+      ],
+      "smAttribute": "coolingFlowLMin",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/mould/lifePercent",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "typeSpecific",
+        "mould",
+        "lifePercent"
+      ],
+      "smAttribute": "lifePercent",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/mould/totalShots",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "typeSpecific",
+        "mould",
+        "totalShots"
+      ],
+      "smAttribute": "totalShots",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/resin",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "typeSpecific",
+        "material",
+        "resin"
+      ],
+      "smAttribute": "resin",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/dryerTempC",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "typeSpecific",
+        "material",
+        "dryerTempC"
+      ],
+      "smAttribute": "dryerTempC",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/dryerSetpointC",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "typeSpecific",
+        "material",
+        "dryerSetpointC"
+      ],
+      "smAttribute": "dryerSetpointC",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/dryerResidenceMin",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "typeSpecific",
+        "material",
+        "dryerResidenceMin"
+      ],
+      "smAttribute": "dryerResidenceMin",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/dryerResidenceTargetMin",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "typeSpecific",
+        "material",
+        "dryerResidenceTargetMin"
+      ],
+      "smAttribute": "dryerResidenceTargetMin",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/hopperFillPct",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "typeSpecific",
+        "material",
+        "hopperFillPct"
+      ],
+      "smAttribute": "hopperFillPct",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/hopperRefillThresholdPct",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "typeSpecific",
+        "material",
+        "hopperRefillThresholdPct"
+      ],
+      "smAttribute": "hopperRefillThresholdPct",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/hopperRefillCount",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "typeSpecific",
+        "material",
+        "hopperRefillCount"
+      ],
+      "smAttribute": "hopperRefillCount",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/regrindRatioPct",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "typeSpecific",
+        "material",
+        "regrindRatioPct"
+      ],
+      "smAttribute": "regrindRatioPct",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/colourMasterbatchPct",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "typeSpecific",
+        "material",
+        "colourMasterbatchPct"
+      ],
+      "smAttribute": "colourMasterbatchPct",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/colourPurgeRemaining",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "typeSpecific",
+        "material",
+        "colourPurgeRemaining"
+      ],
+      "smAttribute": "colourPurgeRemaining",
+      "dataType": "ns=0;i=11"
+    }
+  ],
+  "staticProperties": {
+    "machineType": "InjectionMoldingMachine"
+  },
+  "polling": {
+    "mode": "subscribe",
+    "intervalMs": 1000
+  },
+  "security": {
+    "mode": "None",
+    "policy": "None",
+    "auth": "Anonymous"
+  },
+  "unitValidation": {
+    "summary": {
+      "total": 48,
+      "ok": 20,
+      "warnings": 28,
+      "mismatches": 0
+    },
+    "results": [
+      {
+        "attribute": "machine_type",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "status",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "mode",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "good",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "scrap",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "total",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "shotCount",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "uptimeSeconds",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "s",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects s, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "s",
+        "explanation": "Source did not report a unit; SM Profile expects s"
+      },
+      {
+        "attribute": "alarmsCount",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "inCycle",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "currentProgram",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "lastShotAt",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "shiftActive",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "reason",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "hotrunnerTempC",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "degC",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects degC, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "degC",
+        "explanation": "Source did not report a unit; SM Profile expects degC"
+      },
+      {
+        "attribute": "nozzleTempC",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "degC",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects degC, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "degC",
+        "explanation": "Source did not report a unit; SM Profile expects degC"
+      },
+      {
+        "attribute": "cavityPressureBar",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "bar",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects bar, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "bar",
+        "explanation": "Source did not report a unit; SM Profile expects bar"
+      },
+      {
+        "attribute": "mouldPressureBar",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "bar",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects bar, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "bar",
+        "explanation": "Source did not report a unit; SM Profile expects bar"
+      },
+      {
+        "attribute": "partMass_g",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "g",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects g, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "g",
+        "explanation": "Source did not report a unit; SM Profile expects g"
+      },
+      {
+        "attribute": "peakPressureBar",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "bar",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects bar, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "bar",
+        "explanation": "Source did not report a unit; SM Profile expects bar"
+      },
+      {
+        "attribute": "holdPressureBar",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "bar",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects bar, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "bar",
+        "explanation": "Source did not report a unit; SM Profile expects bar"
+      },
+      {
+        "attribute": "backPressureBar",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "bar",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects bar, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "bar",
+        "explanation": "Source did not report a unit; SM Profile expects bar"
+      },
+      {
+        "attribute": "injectionSpeedMmPerSec",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "mm/s",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects mm/s, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "mm/s",
+        "explanation": "Source did not report a unit; SM Profile expects mm/s"
+      },
+      {
+        "attribute": "shotVolumeCm3",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "cm3",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects cm3, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "cm3",
+        "explanation": "Source did not report a unit; SM Profile expects cm3"
+      },
+      {
+        "attribute": "cushionMm",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "mm",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects mm, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "mm",
+        "explanation": "Source did not report a unit; SM Profile expects mm"
+      },
+      {
+        "attribute": "plastProgress",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "%",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects %, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "%",
+        "explanation": "Source did not report a unit; SM Profile expects %"
+      },
+      {
+        "attribute": "cycleTimeSec",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "s",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects s, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "s",
+        "explanation": "Source did not report a unit; SM Profile expects s"
+      },
+      {
+        "attribute": "elapsedSec",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "s",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects s, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "s",
+        "explanation": "Source did not report a unit; SM Profile expects s"
+      },
+      {
+        "attribute": "remainingSec",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "s",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects s, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "s",
+        "explanation": "Source did not report a unit; SM Profile expects s"
+      },
+      {
+        "attribute": "switchoverReached",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "phaseName",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "mouldId",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "mouldTempC",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "degC",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects degC, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "degC",
+        "explanation": "Source did not report a unit; SM Profile expects degC"
+      },
+      {
+        "attribute": "coolingFlowLMin",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "L/min",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects L/min, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "L/min",
+        "explanation": "Source did not report a unit; SM Profile expects L/min"
+      },
+      {
+        "attribute": "lifePercent",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "%",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects %, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "%",
+        "explanation": "Source did not report a unit; SM Profile expects %"
+      },
+      {
+        "attribute": "totalShots",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "powerKw",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "kW",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects kW, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "kW",
+        "explanation": "Source did not report a unit; SM Profile expects kW"
+      },
+      {
+        "attribute": "resin",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "dryerTempC",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "degC",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects degC, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "degC",
+        "explanation": "Source did not report a unit; SM Profile expects degC"
+      },
+      {
+        "attribute": "dryerSetpointC",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "degC",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects degC, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "degC",
+        "explanation": "Source did not report a unit; SM Profile expects degC"
+      },
+      {
+        "attribute": "dryerResidenceMin",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "min",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects min, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "min",
+        "explanation": "Source did not report a unit; SM Profile expects min"
+      },
+      {
+        "attribute": "dryerResidenceTargetMin",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "min",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects min, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "min",
+        "explanation": "Source did not report a unit; SM Profile expects min"
+      },
+      {
+        "attribute": "hopperFillPct",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "%",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects %, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "%",
+        "explanation": "Source did not report a unit; SM Profile expects %"
+      },
+      {
+        "attribute": "hopperRefillThresholdPct",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "%",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects %, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "%",
+        "explanation": "Source did not report a unit; SM Profile expects %"
+      },
+      {
+        "attribute": "hopperRefillCount",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "regrindRatioPct",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "%",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects %, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "%",
+        "explanation": "Source did not report a unit; SM Profile expects %"
+      },
+      {
+        "attribute": "colourMasterbatchPct",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "%",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects %, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "%",
+        "explanation": "Source did not report a unit; SM Profile expects %"
+      },
+      {
+        "attribute": "colourPurgeRemaining",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      }
+    ]
+  }
+}

@@ -1,0 +1,777 @@
+{
+  "sourceId": "opcua-sgm-006-bde",
+  "version": "1.0.0",
+  "sourceType": "opcua",
+  "syncType": "streaming",
+  "transport": [
+    "nats"
+  ],
+  "connection": {
+    "endpoint": "opc.tcp://192.168.178.154:36065",
+    "securityMode": "None",
+    "securityPolicy": "None",
+    "auth": "Anonymous"
+  },
+  "dataCategory": "BDE",
+  "profileRef": "SMProfile-InjectionMoldingMachine",
+  "endpoint": "opc.tcp://192.168.178.154:36065",
+  "machineId": "sgm-006",
+  "machineName": "SGM 006",
+  "location": {
+    "site": "werk1",
+    "area": "Molding",
+    "line": "LineA"
+  },
+  "nodeMappings": [
+    {
+      "opcuaNodeId": "ns=1;s=Machine/status",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "status"
+      ],
+      "smAttribute": "status",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/mode",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "mode"
+      ],
+      "smAttribute": "mode",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/partsCount/good",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "partsCount",
+        "good"
+      ],
+      "smAttribute": "good",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/partsCount/scrap",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "partsCount",
+        "scrap"
+      ],
+      "smAttribute": "scrap",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/partsCount/total",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "partsCount",
+        "total"
+      ],
+      "smAttribute": "total",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shot/shotCount",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "typeSpecific",
+        "shot",
+        "shotCount"
+      ],
+      "smAttribute": "shotCount",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/uptimeSeconds",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "uptimeSeconds"
+      ],
+      "smAttribute": "uptimeSeconds",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/alarms/_Count",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "alarms",
+        "_Count"
+      ],
+      "smAttribute": "alarmsCount",
+      "dataType": "ns=0;i=6"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shot/currentProgram",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "typeSpecific",
+        "shot",
+        "currentProgram"
+      ],
+      "smAttribute": "currentProgram",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shiftActive",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "typeSpecific",
+        "shiftActive"
+      ],
+      "smAttribute": "shiftActive",
+      "dataType": "ns=0;i=1"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/setup/reason",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "typeSpecific",
+        "setup",
+        "reason"
+      ],
+      "smAttribute": "reason",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/powerKw",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "typeSpecific",
+        "powerKw"
+      ],
+      "smAttribute": "powerKw",
+      "dataType": "ns=0;i=11"
+    }
+  ],
+  "staticProperties": {
+    "machineType": "InjectionMoldingMachine"
+  },
+  "polling": {
+    "mode": "subscribe",
+    "intervalMs": 1000
+  },
+  "security": {
+    "mode": "None",
+    "policy": "None",
+    "auth": "Anonymous"
+  },
+  "unitValidation": {
+    "summary": {
+      "total": 48,
+      "ok": 20,
+      "warnings": 28,
+      "mismatches": 0
+    },
+    "results": [
+      {
+        "attribute": "machine_type",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "status",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "mode",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "good",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "scrap",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "total",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "shotCount",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "uptimeSeconds",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "s",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects s, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "s",
+        "explanation": "Source did not report a unit; SM Profile expects s"
+      },
+      {
+        "attribute": "alarmsCount",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "inCycle",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "currentProgram",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "lastShotAt",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "shiftActive",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "reason",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "hotrunnerTempC",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "degC",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects degC, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "degC",
+        "explanation": "Source did not report a unit; SM Profile expects degC"
+      },
+      {
+        "attribute": "nozzleTempC",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "degC",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects degC, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "degC",
+        "explanation": "Source did not report a unit; SM Profile expects degC"
+      },
+      {
+        "attribute": "cavityPressureBar",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "bar",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects bar, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "bar",
+        "explanation": "Source did not report a unit; SM Profile expects bar"
+      },
+      {
+        "attribute": "mouldPressureBar",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "bar",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects bar, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "bar",
+        "explanation": "Source did not report a unit; SM Profile expects bar"
+      },
+      {
+        "attribute": "partMass_g",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "g",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects g, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "g",
+        "explanation": "Source did not report a unit; SM Profile expects g"
+      },
+      {
+        "attribute": "peakPressureBar",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "bar",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects bar, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "bar",
+        "explanation": "Source did not report a unit; SM Profile expects bar"
+      },
+      {
+        "attribute": "holdPressureBar",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "bar",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects bar, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "bar",
+        "explanation": "Source did not report a unit; SM Profile expects bar"
+      },
+      {
+        "attribute": "backPressureBar",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "bar",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects bar, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "bar",
+        "explanation": "Source did not report a unit; SM Profile expects bar"
+      },
+      {
+        "attribute": "injectionSpeedMmPerSec",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "mm/s",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects mm/s, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "mm/s",
+        "explanation": "Source did not report a unit; SM Profile expects mm/s"
+      },
+      {
+        "attribute": "shotVolumeCm3",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "cm3",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects cm3, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "cm3",
+        "explanation": "Source did not report a unit; SM Profile expects cm3"
+      },
+      {
+        "attribute": "cushionMm",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "mm",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects mm, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "mm",
+        "explanation": "Source did not report a unit; SM Profile expects mm"
+      },
+      {
+        "attribute": "plastProgress",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "%",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects %, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "%",
+        "explanation": "Source did not report a unit; SM Profile expects %"
+      },
+      {
+        "attribute": "cycleTimeSec",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "s",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects s, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "s",
+        "explanation": "Source did not report a unit; SM Profile expects s"
+      },
+      {
+        "attribute": "elapsedSec",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "s",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects s, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "s",
+        "explanation": "Source did not report a unit; SM Profile expects s"
+      },
+      {
+        "attribute": "remainingSec",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "s",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects s, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "s",
+        "explanation": "Source did not report a unit; SM Profile expects s"
+      },
+      {
+        "attribute": "switchoverReached",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "phaseName",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "mouldId",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "mouldTempC",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "degC",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects degC, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "degC",
+        "explanation": "Source did not report a unit; SM Profile expects degC"
+      },
+      {
+        "attribute": "coolingFlowLMin",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "L/min",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects L/min, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "L/min",
+        "explanation": "Source did not report a unit; SM Profile expects L/min"
+      },
+      {
+        "attribute": "lifePercent",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "%",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects %, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "%",
+        "explanation": "Source did not report a unit; SM Profile expects %"
+      },
+      {
+        "attribute": "totalShots",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "powerKw",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "kW",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects kW, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "kW",
+        "explanation": "Source did not report a unit; SM Profile expects kW"
+      },
+      {
+        "attribute": "resin",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "dryerTempC",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "degC",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects degC, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "degC",
+        "explanation": "Source did not report a unit; SM Profile expects degC"
+      },
+      {
+        "attribute": "dryerSetpointC",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "degC",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects degC, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "degC",
+        "explanation": "Source did not report a unit; SM Profile expects degC"
+      },
+      {
+        "attribute": "dryerResidenceMin",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "min",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects min, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "min",
+        "explanation": "Source did not report a unit; SM Profile expects min"
+      },
+      {
+        "attribute": "dryerResidenceTargetMin",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "min",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects min, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "min",
+        "explanation": "Source did not report a unit; SM Profile expects min"
+      },
+      {
+        "attribute": "hopperFillPct",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "%",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects %, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "%",
+        "explanation": "Source did not report a unit; SM Profile expects %"
+      },
+      {
+        "attribute": "hopperRefillThresholdPct",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "%",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects %, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "%",
+        "explanation": "Source did not report a unit; SM Profile expects %"
+      },
+      {
+        "attribute": "hopperRefillCount",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "regrindRatioPct",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "%",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects %, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "%",
+        "explanation": "Source did not report a unit; SM Profile expects %"
+      },
+      {
+        "attribute": "colourMasterbatchPct",
+        "reportedUnit": "",
+        "sources": [
+          {
+            "source": "sm_profile",
+            "expectedUnit": "%",
+            "confidence": 0.5,
+            "explanation": "SM Profile expects %, but source reported no unit"
+          }
+        ],
+        "verdict": "warning",
+        "confidence": 0.5,
+        "suggestedUnit": "%",
+        "explanation": "Source did not report a unit; SM Profile expects %"
+      },
+      {
+        "attribute": "colourPurgeRemaining",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      }
+    ]
+  }
+}
