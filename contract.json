@@ -1,0 +1,738 @@
+{
+  "_comment": "ONTOLOGY CONTRACT — generated from profiles/** by ci/gen-contract.mjs; do not edit by hand. For agents and sink validators: ONLY these node labels (with their key property) and ONLY these relationship triples may be written to a knowledge graph. Anything not listed here is non-conformant — extend the profile first, then regenerate. Background: docs/agent-conformance.md.",
+  "contractVersion": "1.0.0",
+  "generatedBy": "ci/gen-contract.mjs",
+  "identity": {
+    "rule": "Machine/equipment nodes MUST use their profile kgNodeLabel with the key property declared in nodes.* below — never invent node identities from source-local ids (machineId, machineNo, pool names, vendor names); those are attributes at most.",
+    "openConflict": "KNOWN CONSOLIDATION ISSUE: repo machine profiles key on machine_id, while the UNS/lab convention (osf_map.machine_map) keys equipment on element_id derived from equipmentPath. Until resolved, this contract reflects the repo profiles (machine_id). Do not mix both in one graph."
+  },
+  "nodes": {
+    "EquipmentClass": {
+      "key": "equipment_class_id",
+      "profile": "SMProfile-EquipmentClass",
+      "category": "equipment",
+      "source": "profiles/equipment/equipment-class.json"
+    },
+    "Tool": {
+      "key": "tool_id",
+      "profile": "SMProfile-Tool",
+      "category": "equipment",
+      "source": "profiles/equipment/tool.json"
+    },
+    "Article": {
+      "key": "article_no",
+      "profile": "SMProfile-Article",
+      "category": "business",
+      "source": "profiles/erp/article.json"
+    },
+    "CustomerOrder": {
+      "key": "order_no",
+      "profile": "SMProfile-CustomerOrder",
+      "category": "business",
+      "source": "profiles/erp/customer-order.json"
+    },
+    "Customer": {
+      "key": "customer_no",
+      "profile": "SMProfile-Customer",
+      "category": "business",
+      "source": "profiles/erp/customer.json"
+    },
+    "OperationsResponse": {
+      "key": "production_order_no",
+      "profile": "SMProfile-OperationsResponse",
+      "category": "business",
+      "source": "profiles/erp/operations-response.json"
+    },
+    "ProductDefinition": {
+      "key": "product_definition_no",
+      "profile": "SMProfile-ProductDefinition",
+      "category": "business",
+      "source": "profiles/erp/product-definition.json"
+    },
+    "ProductionOrder": {
+      "key": "production_order_no",
+      "profile": "SMProfile-ProductionOrder",
+      "category": "business",
+      "source": "profiles/erp/production-order.json"
+    },
+    "AutoResolveRule": {
+      "key": "rule_id",
+      "profile": "SMProfile-AutoResolveRule",
+      "category": "intelligence",
+      "source": "profiles/intelligence/auto-resolve-rule.json"
+    },
+    "ConstraintDiscrepancy": {
+      "key": "discrepancy_id",
+      "profile": "SMProfile-ConstraintDiscrepancy",
+      "category": "intelligence",
+      "source": "profiles/intelligence/discrepancy-constraint.json"
+    },
+    "Discrepancy": {
+      "key": "discrepancy_id",
+      "profile": "SMProfile-Discrepancy",
+      "category": "intelligence",
+      "source": "profiles/intelligence/discrepancy.json"
+    },
+    "ResolutionProposal": {
+      "key": "proposal_id",
+      "profile": "SMProfile-ResolutionProposal",
+      "category": "intelligence",
+      "source": "profiles/intelligence/resolution-proposal.json"
+    },
+    "CNC_Machine": {
+      "key": "machine_id",
+      "profile": "SMProfile-CNC-Machine",
+      "category": "machine",
+      "source": "profiles/machines/cnc-machine.json"
+    },
+    "InjectionMoldingMachine": {
+      "key": "machine_id",
+      "profile": "SMProfile-InjectionMoldingMachine",
+      "category": "machine",
+      "source": "profiles/machines/injection-molding-machine.json"
+    },
+    "Machine": {
+      "key": "machine_id",
+      "profile": "SMProfile-Machine",
+      "category": "machine",
+      "source": "profiles/machines/machine.json"
+    },
+    "OperationsDefinition": {
+      "key": "operations_definition_no",
+      "profile": "SMProfile-OperationsDefinition",
+      "category": "business",
+      "source": "profiles/operations/operations-definition.json"
+    },
+    "ProcessSegment": {
+      "key": "process_segment_no",
+      "profile": "SMProfile-ProcessSegment",
+      "category": "business",
+      "source": "profiles/operations/process-segment.json"
+    },
+    "SegmentRequirement": {
+      "key": "segment_requirement_no",
+      "profile": "SMProfile-SegmentRequirement",
+      "category": "business",
+      "source": "profiles/operations/segment-requirement.json"
+    },
+    "SegmentResponse": {
+      "key": "segment_response_no",
+      "profile": "SMProfile-SegmentResponse",
+      "category": "business",
+      "source": "profiles/operations/segment-response.json"
+    },
+    "Workorder": {
+      "key": "workorder_no",
+      "profile": "SMProfile-Workorder",
+      "category": "business",
+      "source": "profiles/operations/work-order.json"
+    },
+    "InspectionLot": {
+      "key": "lot_no",
+      "profile": "SMProfile-InspectionLot",
+      "category": "business",
+      "source": "profiles/qms/inspection-lot.json"
+    },
+    "SPCAnalysis": {
+      "key": "analysis_id",
+      "profile": "SMProfile-SPCAnalysis",
+      "category": "business",
+      "source": "profiles/qms/spcanalysis.json"
+    },
+    "MaterialLot": {
+      "key": "material_lot_no",
+      "profile": "SMProfile-MaterialLot",
+      "category": "business",
+      "source": "profiles/wms/material-lot.json"
+    },
+    "Quant": {
+      "key": "quant_no",
+      "profile": "SMProfile-Quant",
+      "category": "business",
+      "source": "profiles/wms/quant.json"
+    },
+    "StorageLocation": {
+      "key": "storage_location_id",
+      "profile": "SMProfile-StorageLocation",
+      "category": "business",
+      "source": "profiles/wms/storage-location.json"
+    }
+  },
+  "edges": [
+    {
+      "type": "RESOLVES",
+      "from": "AutoResolveRule",
+      "to": [
+        "Discrepancy"
+      ],
+      "targetIdProp": [
+        "discrepancy_id"
+      ]
+    },
+    {
+      "type": "FOR_ARTICLE",
+      "from": "CustomerOrder",
+      "to": [
+        "Article"
+      ],
+      "targetIdProp": [
+        "article_no"
+      ]
+    },
+    {
+      "type": "FOR_CUSTOMER",
+      "from": "CustomerOrder",
+      "to": [
+        "Customer"
+      ],
+      "targetIdProp": [
+        "customer_no"
+      ]
+    },
+    {
+      "type": "TRIGGERS",
+      "from": "CustomerOrder",
+      "to": [
+        "ProductionOrder"
+      ],
+      "targetIdProp": [
+        "production_order_no"
+      ]
+    },
+    {
+      "type": "ABOUT_ARTICLE",
+      "from": "Discrepancy",
+      "to": [
+        "Article"
+      ],
+      "targetIdProp": [
+        "article_no"
+      ]
+    },
+    {
+      "type": "ABOUT_MACHINE",
+      "from": "Discrepancy",
+      "to": [
+        "Machine"
+      ],
+      "targetIdProp": [
+        "machine_id"
+      ]
+    },
+    {
+      "type": "ABOUT_ORDER",
+      "from": "Discrepancy",
+      "to": [
+        "ProductionOrder"
+      ],
+      "targetIdProp": [
+        "production_order_no"
+      ]
+    },
+    {
+      "type": "RESOLVED_BY_RULE",
+      "from": "Discrepancy",
+      "to": [
+        "AutoResolveRule"
+      ],
+      "targetIdProp": [
+        "rule_id"
+      ]
+    },
+    {
+      "type": "SUPERSEDED_BY",
+      "from": "Discrepancy",
+      "to": [
+        "Discrepancy"
+      ],
+      "targetIdProp": [
+        "discrepancy_id"
+      ]
+    },
+    {
+      "type": "USES_TOOL",
+      "from": "InjectionMoldingMachine",
+      "to": [
+        "Tool"
+      ],
+      "targetIdProp": [
+        "tool_id"
+      ]
+    },
+    {
+      "type": "FOR_ARTICLE",
+      "from": "InspectionLot",
+      "to": [
+        "Article"
+      ]
+    },
+    {
+      "type": "FOR_ORDER",
+      "from": "InspectionLot",
+      "to": [
+        "ProductionOrder"
+      ]
+    },
+    {
+      "type": "ON_MACHINE",
+      "from": "InspectionLot",
+      "to": [
+        "Machine"
+      ]
+    },
+    {
+      "type": "EXECUTES",
+      "from": "Machine",
+      "to": [
+        "ProductionOrder"
+      ],
+      "targetIdProp": [
+        "production_order_no"
+      ]
+    },
+    {
+      "type": "PART_OF",
+      "from": "Machine",
+      "to": [
+        "ProcessCell"
+      ],
+      "targetIdProp": [
+        "process_cell_id"
+      ]
+    },
+    {
+      "type": "PRODUCES",
+      "from": "Machine",
+      "to": [
+        "Article"
+      ],
+      "targetIdProp": [
+        "article_no"
+      ]
+    },
+    {
+      "type": "AT_LOCATION",
+      "from": "MaterialLot",
+      "to": [
+        "StorageLocation"
+      ],
+      "targetIdProp": [
+        "storage_location_id"
+      ]
+    },
+    {
+      "type": "HAS_SUBLOT",
+      "from": "MaterialLot",
+      "to": [
+        "Quant"
+      ],
+      "targetIdProp": [
+        "quant_no"
+      ]
+    },
+    {
+      "type": "OF_ARTICLE",
+      "from": "MaterialLot",
+      "to": [
+        "Article"
+      ],
+      "targetIdProp": [
+        "article_no"
+      ]
+    },
+    {
+      "type": "PRODUCED_BY",
+      "from": "MaterialLot",
+      "to": [
+        "Workorder"
+      ],
+      "targetIdProp": [
+        "workorder_no"
+      ]
+    },
+    {
+      "type": "BASED_ON",
+      "from": "OperationsDefinition",
+      "to": [
+        "ProductDefinition"
+      ],
+      "targetIdProp": [
+        "product_definition_no"
+      ]
+    },
+    {
+      "type": "CONTAINS_SEGMENT",
+      "from": "OperationsDefinition",
+      "to": [
+        "ProcessSegment"
+      ],
+      "targetIdProp": [
+        "process_segment_no"
+      ]
+    },
+    {
+      "type": "FOR_ARTICLE",
+      "from": "OperationsDefinition",
+      "to": [
+        "Article"
+      ],
+      "targetIdProp": [
+        "article_no"
+      ]
+    },
+    {
+      "type": "FOR_ARTICLE",
+      "from": "OperationsResponse",
+      "to": [
+        "Article"
+      ],
+      "targetIdProp": [
+        "article_no"
+      ]
+    },
+    {
+      "type": "HAS_SEGMENT_RESPONSE",
+      "from": "OperationsResponse",
+      "to": [
+        "SegmentResponse"
+      ],
+      "targetIdProp": [
+        "segment_response_no"
+      ]
+    },
+    {
+      "type": "ON_MACHINE",
+      "from": "OperationsResponse",
+      "to": [
+        "Machine"
+      ],
+      "targetIdProp": [
+        "machine_id"
+      ]
+    },
+    {
+      "type": "RESPONDS_TO",
+      "from": "OperationsResponse",
+      "to": [
+        "ProductionOrder"
+      ],
+      "targetIdProp": [
+        "production_order_no"
+      ]
+    },
+    {
+      "type": "PART_OF",
+      "from": "ProcessSegment",
+      "to": [
+        "OperationsDefinition"
+      ],
+      "targetIdProp": [
+        "operations_definition_no"
+      ]
+    },
+    {
+      "type": "PERFORMED_AT",
+      "from": "ProcessSegment",
+      "to": [
+        "EquipmentUnit"
+      ],
+      "targetIdProp": [
+        "unit_id"
+      ]
+    },
+    {
+      "type": "APPLIES_TO",
+      "from": "ProductDefinition",
+      "to": [
+        "EquipmentClass"
+      ],
+      "targetIdProp": [
+        "equipment_class_id"
+      ]
+    },
+    {
+      "type": "SPEC_FOR",
+      "from": "ProductDefinition",
+      "to": [
+        "Article"
+      ],
+      "targetIdProp": [
+        "article_no"
+      ]
+    },
+    {
+      "type": "EXECUTED_AT",
+      "from": "ProductionOrder",
+      "to": [
+        "EquipmentUnit"
+      ],
+      "targetIdProp": [
+        "unit_id"
+      ]
+    },
+    {
+      "type": "HAS_SEGMENT_REQUIREMENT",
+      "from": "ProductionOrder",
+      "to": [
+        "SegmentRequirement"
+      ],
+      "targetIdProp": [
+        "segment_requirement_no"
+      ]
+    },
+    {
+      "type": "HAS_WORKORDER",
+      "from": "ProductionOrder",
+      "to": [
+        "Workorder"
+      ],
+      "targetIdProp": [
+        "workorder_no"
+      ]
+    },
+    {
+      "type": "INSTANTIATES",
+      "from": "ProductionOrder",
+      "to": [
+        "OperationsDefinition"
+      ],
+      "targetIdProp": [
+        "operations_definition_no"
+      ]
+    },
+    {
+      "type": "PRODUCES",
+      "from": "ProductionOrder",
+      "to": [
+        "Article"
+      ],
+      "targetIdProp": [
+        "article_no"
+      ]
+    },
+    {
+      "type": "TRIGGERED_BY",
+      "from": "ProductionOrder",
+      "to": [
+        "CustomerOrder"
+      ],
+      "targetIdProp": [
+        "order_no"
+      ]
+    },
+    {
+      "type": "AT_LOCATION",
+      "from": "Quant",
+      "to": [
+        "StorageLocation"
+      ],
+      "targetIdProp": [
+        "storage_location_id"
+      ]
+    },
+    {
+      "type": "FOR_ARTICLE",
+      "from": "Quant",
+      "to": [
+        "Article"
+      ],
+      "targetIdProp": [
+        "article_no"
+      ]
+    },
+    {
+      "type": "PROPOSED_BY_RULE",
+      "from": "ResolutionProposal",
+      "to": [
+        "AutoResolveRule"
+      ],
+      "targetIdProp": [
+        "rule_id"
+      ]
+    },
+    {
+      "type": "PROPOSES_FOR",
+      "from": "ResolutionProposal",
+      "to": [
+        "Discrepancy"
+      ],
+      "targetIdProp": [
+        "discrepancy_id"
+      ]
+    },
+    {
+      "type": "CORRESPONDS_TO",
+      "from": "SegmentRequirement",
+      "to": [
+        "SegmentResponse"
+      ],
+      "targetIdProp": [
+        "segment_response_no"
+      ]
+    },
+    {
+      "type": "FOR_MATERIAL",
+      "from": "SegmentRequirement",
+      "to": [
+        "Article"
+      ],
+      "targetIdProp": [
+        "article_no"
+      ]
+    },
+    {
+      "type": "FOR_SEGMENT",
+      "from": "SegmentRequirement",
+      "to": [
+        "ProcessSegment"
+      ],
+      "targetIdProp": [
+        "process_segment_no"
+      ]
+    },
+    {
+      "type": "PART_OF",
+      "from": "SegmentRequirement",
+      "to": [
+        "ProductionOrder"
+      ],
+      "targetIdProp": [
+        "production_order_no"
+      ]
+    },
+    {
+      "type": "USES_EQUIPMENT",
+      "from": "SegmentRequirement",
+      "to": [
+        "EquipmentUnit"
+      ],
+      "targetIdProp": [
+        "unit_id"
+      ]
+    },
+    {
+      "type": "CORRESPONDS_TO",
+      "from": "SegmentResponse",
+      "to": [
+        "SegmentRequirement"
+      ],
+      "targetIdProp": [
+        "segment_requirement_no"
+      ]
+    },
+    {
+      "type": "FOR_SEGMENT",
+      "from": "SegmentResponse",
+      "to": [
+        "ProcessSegment"
+      ],
+      "targetIdProp": [
+        "process_segment_no"
+      ]
+    },
+    {
+      "type": "PART_OF",
+      "from": "SegmentResponse",
+      "to": [
+        "OperationsResponse"
+      ],
+      "targetIdProp": [
+        "production_order_no"
+      ]
+    },
+    {
+      "type": "PROCESSED_MATERIAL",
+      "from": "SegmentResponse",
+      "to": [
+        "MaterialLot"
+      ],
+      "targetIdProp": [
+        "material_lot_no"
+      ]
+    },
+    {
+      "type": "USED_EQUIPMENT",
+      "from": "SegmentResponse",
+      "to": [
+        "EquipmentUnit"
+      ],
+      "targetIdProp": [
+        "unit_id"
+      ]
+    },
+    {
+      "type": "FOR_LOT",
+      "from": "SPCAnalysis",
+      "to": [
+        "InspectionLot"
+      ]
+    },
+    {
+      "type": "PART_OF",
+      "from": "StorageLocation",
+      "to": [
+        "Area"
+      ],
+      "targetIdProp": [
+        "area_id"
+      ]
+    },
+    {
+      "type": "SET_UP_ON",
+      "from": "Tool",
+      "to": [
+        "EquipmentUnit"
+      ],
+      "targetIdProp": [
+        "unit_id"
+      ]
+    },
+    {
+      "type": "PART_OF",
+      "from": "Workorder",
+      "to": [
+        "ProductionOrder"
+      ],
+      "targetIdProp": [
+        "production_order_no"
+      ]
+    },
+    {
+      "type": "YIELDS",
+      "from": "Workorder",
+      "to": [
+        "MaterialLot"
+      ],
+      "targetIdProp": [
+        "material_lot_no"
+      ]
+    }
+  ],
+  "unresolvedTargets": {
+    "_comment": "Relationship targets declared in profiles that do not (yet) resolve to a kgNodeLabel in this repo. Each entry is consolidation work: add the missing profile or fix the target name. New entries should not be added.",
+    "entries": [
+      "Machine -[PART_OF]-> ProcessCell",
+      "ProcessSegment -[PERFORMED_AT]-> EquipmentUnit",
+      "ProductionOrder -[EXECUTED_AT]-> EquipmentUnit",
+      "SegmentRequirement -[USES_EQUIPMENT]-> EquipmentUnit",
+      "SegmentResponse -[USED_EQUIPMENT]-> EquipmentUnit",
+      "StorageLocation -[PART_OF]-> Area",
+      "Tool -[SET_UP_ON]-> EquipmentUnit"
+    ]
+  },
+  "aliases": {
+    "_comment": "Observed non-conformant vocabulary (agent-conformance test 2026-07-09) -> conformant repo form. Never write the left side. Note: RESPONDS_TO, ON_MACHINE, TRIGGERS, FOR_* ARE conformant repo vocabulary (see edges).",
+    "PERFORMANCE_OF": "RESPONDS_TO (OperationsResponse -> ProductionOrder)",
+    "AT_WORKCENTER": "ON_MACHINE (responses/lots) or EXECUTED_AT (orders)",
+    "RUNS_ON": "ON_MACHINE (responses/lots) or EXECUTED_AT (orders)",
+    "Workcenter": "use the machine profile kgNodeLabel (e.g. CNC_Machine, Machine) with its declared key",
+    "Order": "ProductionOrder",
+    "FabricationOrder": "ProductionOrder (fabrication order / job / planned order are the same ISA-95 OperationsRequest)",
+    "FabricationOrderPerformance": "OperationsResponse",
+    "FOPerformance": "OperationsResponse",
+    "Serial": "MaterialLot/Quant level (serialized part) — profile pending, see docs/agent-conformance.md"
+  },
+  "skippedFiles": [
+    "profiles/equipment/equipment-model.json"
+  ]
+}
