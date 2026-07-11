@@ -77,11 +77,38 @@ function lint() {
       errors.push(`${label}: 'values' must be a non-empty object of recipe:<param> -> SpecValue`);
       continue;
     }
+    // CAPT-TRUTH-ZUG3 — every band must say WHERE IT COMES FROM.
+    // A band without provenance makes its own violations undecidable: sgm-004's
+    // recipe_part_mass_band = [10.20, 10.45] fired 58,796 times against a process
+    // centred at 10.400 g (sigma 0.0839, Cp 0.50) — is the RULE wrong or is the
+    // PROCESS incapable? The measurements cannot say; only the ORIGIN of the number
+    // can. A customer drawing may not be widened; a process estimate may.
+    // `unknown` is a legal, honest answer — it is not an escape hatch: it marks the
+    // band as un-changeable-without-evidence, which is the truth.
+    const TOLERANCE_SOURCES = ["drawing", "customer_spec", "norm", "process_estimate", "unknown"];
+    const provenance = r.toleranceSource;
+    if (typeof provenance !== "object" || provenance === null || Array.isArray(provenance)) {
+      errors.push(
+        `${label}: missing 'toleranceSource' — every band must declare where its numbers come from ` +
+          `(one of ${TOLERANCE_SOURCES.join(" / ")}, keyed by the same recipe:<param> refs as 'values')`,
+      );
+    }
+
     const mk = matchKey(match);
     for (const [ref, val] of Object.entries(values)) {
       refs++;
       if (!REF_RE.test(ref)) {
         errors.push(`${label}: values key "${ref}" must be a reserved ref (recipe:<param> / definition:<param>)`);
+      }
+      if (provenance && typeof provenance === "object" && !Array.isArray(provenance)) {
+        const src = provenance[ref];
+        if (src === undefined) {
+          errors.push(`${label}: band "${ref}" has no toleranceSource — where does this number come from?`);
+        } else if (!TOLERANCE_SOURCES.includes(src)) {
+          errors.push(
+            `${label}: toleranceSource["${ref}"] = "${src}" is not one of ${TOLERANCE_SOURCES.join(" / ")}`,
+          );
+        }
       }
       if (Array.isArray(val)) {
         if (val.length === 2 && val.every(isNum)) {
@@ -97,6 +124,16 @@ function lint() {
         );
       } else {
         seenBindings.set(bindKey, label);
+      }
+    }
+
+    // Provenance for a band that does not exist is dead data — and worse, it reads
+    // like the band IS covered. Catch the drift when a band is renamed or removed.
+    if (provenance && typeof provenance === "object" && !Array.isArray(provenance)) {
+      for (const ref of Object.keys(provenance)) {
+        if (!(ref in values)) {
+          errors.push(`${label}: toleranceSource["${ref}"] has no matching band in 'values' — dead provenance`);
+        }
       }
     }
   }
