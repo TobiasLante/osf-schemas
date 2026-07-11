@@ -10,11 +10,12 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const file = path.join(ROOT, 'contract.json');
 if (!fs.existsSync(file)) { console.error('contract.json missing — run: node ci/gen-contract.mjs'); process.exit(1); }
+const norm = (s) => s.replace(/\r\n/g, '\n'); // tolerate CRLF checkouts (core.autocrlf on Windows)
 const before = fs.readFileSync(file, 'utf8');
 try {
   execFileSync(process.execPath, [path.join(ROOT, 'ci', 'gen-contract.mjs')], { stdio: 'pipe' });
   const after = fs.readFileSync(file, 'utf8');
-  if (before !== after) {
+  if (norm(before) !== norm(after)) {
     fs.writeFileSync(file, before); // restore committed state so the diff is visible locally
     console.error('contract.json is stale — profiles changed without regenerating. Run: node ci/gen-contract.mjs');
     process.exit(1);
