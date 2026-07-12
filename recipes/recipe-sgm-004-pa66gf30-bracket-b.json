@@ -155,5 +155,9 @@
       "constraintId": "recipe_mould_temp_band",
       "smAttribute": "mouldTempC"
     }
-  ]
+  ],
+  "parked": true,
+  "parkedAt": "2026-07-12",
+  "parkedBy": "CAPT-INTEGRATE",
+  "parkedReason": "PARKED — this recipe can NEVER match a production order, and it has never matched one. MEASURED 2026-07-12 against the FULL article master of sim-v5 PROD (.154): 222 articles, population exhausted. match.article \"bracket-B\" DOES NOT EXIST among them. The ERP keys its articles as PART-A/B/C, WIP-*, RAW-*, _V4_*. Consequence: match never fires, the bands never resolve, and NOTHING is ever checked against this recipe — silently. It has been shipped as if it were monitoring sgm-004 since it was written. It was not. The only recipe that actually binds sgm-004 is recipe-sgm-004-default.json, which matches on equipment (sgm-004), not on article.\n\nWHY IT IS PARKED AND NOT REPAIRED: repairing it means naming the article this recipe is FOR, and that is a product decision, not an inference. Plausible candidates exist — \"PART-B\" (FINISHED, \"Montagewinkel-Baugruppe\") and \"WIP-BRACKET-CNC\" (WIP, \"Montagewinkel CNC-vorbearbeitet\") — but picking one on resemblance would be inventing a fact about the customer's product. A wrong article is worse than a parked recipe: it would silently apply PA66-GF30 bands to the wrong part and then look like it was working.\n\nPRECONDITION TO UN-PARK: set match.article to an article_no that exists in SMProfile-Article, confirmed by the product owner. ci/check-vocab-drift.mjs then verifies it against the live article master on every run and FAILS (exit 1) if it ever goes dead again. Un-parking without that check passing is not allowed."
 }

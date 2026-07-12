@@ -307,7 +307,11 @@ const deadRecipes = [];
   const artSource = sources.find((s) => s.profileRef === "SMProfile-Article" && s.sourceType === "rest");
   const recipes = jsonFiles(RECIPES_ROOT)
     .map(readJson)
-    .filter((r) => r.recipeId && r.match?.article);
+    // A `parked`/`retired` recipe is DECLARED inert — it is known not to match and says why.
+    // Skipping it is not leniency: the whole point is that "cannot match" must be STATED,
+    // never merely observed. An undeclared recipe that cannot match is fatal (see the exit
+    // block); a declared one is a documented gap with a named precondition.
+    .filter((r) => r.recipeId && r.match?.article && r.parked !== true && r.retired !== true);
   if (artSource && recipes.length) {
     const idCol =
       artSource.columnMappings.find((m) => m.isId)?.column ??
@@ -365,5 +369,26 @@ if (AS_JSON) {
   }
 }
 
-if (errors.length) process.exit(1);
-console.log("\nOK — every declared vocabulary still matches the world it claims to describe.");
+// FAIL-CLOSED. This used to be `if (errors.length) process.exit(1)`, which meant the
+// check could print "🧟 DEAD RECIPES (2) — bands that can never resolve" and then exit 0
+// with "OK — every declared vocabulary still matches the world it claims to describe."
+//
+// That is the precise defect this whole check exists to catch, committed by the check
+// itself. A recipe whose match.article does not exist in the article master can never
+// resolve a band; a zombie guard can never match. They are silent, and silence reads as
+// health. Finding them and exiting 0 is worse than not looking: it launders the defect
+// into a green tick.
+//
+// Every defect list is now load-bearing on the exit code, and the "OK" line can only be
+// printed when all of them are empty.
+const fatal = errors.length + zombieGuards.length + deadRecipes.length;
+if (fatal) {
+  console.error(
+    `\nFAIL — ${fatal} finding(s): ` +
+      `${errors.length} vocabulary drift(s), ${zombieGuards.length} zombie guard(s), ${deadRecipes.length} dead recipe(s).\n` +
+      `A guard that cannot match and a recipe that cannot resolve are indistinguishable from a healthy factory.`,
+  );
+  process.exit(1);
+}
+console.log("\nOK — every declared vocabulary still matches the world it claims to describe,");
+console.log("     every guard can match, and every recipe can resolve.");
