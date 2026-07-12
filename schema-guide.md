@@ -173,6 +173,39 @@ Defines **what types of nodes exist** — their label, ID property, attributes, 
 | `attributes` | Array of `{ name, dataType, unit?, category, description?, enum? }` |
 | `relationships` | Array of `{ type, target, description? }` |
 
+### `enum` — the vocabulary is part of the contract (enforced)
+
+If an attribute has a finite value range, **declare it**: `"enum": ["OPEN", "CANCELLED", …]`.
+This is not decoration. `ci/lint-vocabulary.mjs` (in `npm run validate`, hard gate) refuses
+any `eq` / `ne` / `in` guard whose literal is not drawn from a declared vocabulary:
+
+* **Fail-closed.** A `String` attribute compared to a literal **must** declare `enum`, or CI is red.
+  No vocabulary → the literal cannot be verified → we do not guess.
+* **The literal must be a member** — with a *did-you-mean* hint and the real value list in the message.
+* **The declaration is itself checked against the sources.** If a source pins the attribute
+  (`{ "const": "fertig" }`, or a `valueMap` with a `"*"` default), the deliverable set is known
+  from the SSOT alone: a guard literal outside it is proven dead *offline*, and an `enum` that
+  declares an undeliverable value is proven fictional.
+* **Recipes:** `match.equipment` must be a machine id declared in `sources/**` (closed set).
+
+**Measure the vocabulary — never write down what you assume.** Measure it at the boundary the
+pipeline actually consumes (the source projection), *not* in the database behind it: on 2026-07-12
+`erp.orders.status` held `IN_PRODUCTION`/`WAITING_PARTS`, while the REST projection the edge polls
+emits `in_arbeit`/`freigegeben`. Linting against the DB dialect would have flagged the **correct**
+value as dead. And prefer the projection's **code** over a data snapshot — a snapshot of a live
+system is only a lower bound on what the attribute can hold.
+
+`ci/check-vocab-drift.mjs` (nightly, needs the plant network) then holds every declared `enum`
+against the real source, pages it to exhaustion, and fails when reality delivers a value the SSOT
+does not know. It also reports **zombie guards** (a legal literal that currently matches no row)
+and **dead recipes** (`match.article` not in the article master) — loudly, without failing the
+build, because absence of rows is not proof of impossibility.
+
+*Why all this: a guard whose literal never occurs filters **nothing** and stays silent. On
+2026-07-12 `qty_shortfall`'s `status ne "offen"` — against an attribute pinned to the constant
+`"fertig"` — produced 11.196 phantom findings and 1,7 Mio € of phantom impact. The comment above it
+described the intention perfectly. Read the `WHERE`, not the `--`.*
+
 ### Inheritance
 
 When `parentType` is set, the KG Builder merges at load time:

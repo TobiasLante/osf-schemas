@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-InjectionMoldingMachine",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "standard": "CESMII",
   "category": "machine",
   "displayName": "Injection Molding Machine",
@@ -377,7 +377,15 @@
       "dataType": "String",
       "required": false,
       "category": "Process",
-      "description": "Current machine phase (inject / hold / plast / cool / open).",
+      "description": "Current Euromap-77 cycle phase of the injection cycle. THE ENUM IS THE POINT: a phase gate is only worth anything if the literal it compares against actually exists in the data. The previous description of this attribute ('inject / hold / plast / cool / open') was itself WRONG — lower-case, five phases, CLOSING and EJECT missing, COOL_PLAST mis-spelled — i.e. every literal it suggested would have silently matched NOTHING. The enum below is MEASURED against the running sim (2026-07-12): read live from opc.tcp://192.168.178.154:36063 node ns=1;s=Machine/typeSpecific/phase/name (StatusCode Good, value \"CLOSING\"), and cross-checked against the DEPLOYED artifact (image machines-sgm:2b21c128, /app/src/config.ts:106 `export type SgmCyclePhase = 'CLOSING' | 'INJECT' | 'HOLD' | 'COOL_PLAST' | 'OPENING' | 'EJECT'` and the FSM order array in /app/src/machine.ts:665). With this enum, ci/lint-constraints.mjs rejects any when/require predicate (op eq/ne/in) whose value is not one of these six — so the 'guard against a vocabulary that does not exist' bug is now caught by CI instead of by a customer.",
+      "enum": [
+        "CLOSING",
+        "INJECT",
+        "HOLD",
+        "COOL_PLAST",
+        "OPENING",
+        "EJECT"
+      ],
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -628,7 +636,12 @@
     },
     {
       "name": "recipe_part_mass_band",
-      "description": "Recipe / setting parameter: part mass must lie within the target band (resolved at runtime via valueFrom recipe:part_mass_band; the recipe target is deliberately chosen narrower than the current actual to detect overfilling/drift early). Outside -> over-/under-injection, scrap.",
+      "description": "Recipe / setting parameter: part mass must lie within the target band (resolved at runtime via valueFrom recipe:part_mass_band; the recipe target is deliberately chosen narrower than the current actual to detect overfilling/drift early). Outside -> over-/under-injection, scrap. Cycle-gated (inCycle==true), since OUTSIDE the cycle no part is made: a partMass_g sample taken between shots belongs to no shot at all. Measured on sgm-004 (2026-07-12): of 901,142 partMass_g points, 581,521 (64 %) carry inCycle=false — idle-time values that, ungated, enter every population drawn from this rule (capability, control charts, deviation counts). BE HONEST ABOUT WHAT THIS FIXES: those idle values happen to carry the same distribution as the real shots (in-cycle n=319,621, mean 10.4001, sigma 0.0840; idle n=581,521, mean 10.3999, sigma 0.0839), so Cp/Ca do NOT move because of this gate. It is not a numbers fix — it makes the POPULATION honest, and every future sample drawn from it defensible.",
+      "when": {
+        "attr": "inCycle",
+        "op": "eq",
+        "value": true
+      },
       "require": {
         "attr": "partMass_g",
         "op": "between",
@@ -662,11 +675,11 @@
     },
     {
       "name": "recipe_peak_pressure_band",
-      "description": "Recipe / setting parameter: peak injection pressure must lie within the target band during the active cycle (resolved at runtime via valueFrom recipe:peak_pressure_band). Cycle-gated (inCycle==true), since the pressure falls to 0 between shots.",
+      "description": "Recipe / setting parameter: peak injection pressure must lie within the target band (resolved at runtime via valueFrom recipe:peak_pressure_band). PHASE-gated (phaseName==HOLD) — NOT cycle-gated. THIS GATE IS A CORRECTION OF A FALSE ACCUSATION AGAINST THE MACHINE. The previous gate (inCycle==true) was ours and it was wrong: inCycle spans the WHOLE cycle including COOL_PLAST/OPENING/EJECT, where the injection pressure is physically 0 bar. The rule therefore drew its population from a set that is ~half zeros and reported the machine as massively incapable. Measured on sgm-004 (edge TS, 2026-07-12): gate inCycle -> mean 208.8 bar, sigma 259.2, Ca 5.385, only 17.6 % in band [450,560]; 24,804 of 50,616 gated samples (49.00 %) are EXACTLY 0 bar. Gate HOLD -> mean 557.6 bar, sigma 114.6, Ca 0.956, 86.5 % in band. The machine was injecting at ~558 bar against a band that ends at 560 — the deviation was an artefact of OUR population, not a fault of the customer's machine. Independently corroborated against the DEPLOYED sim FSM (machines-sgm:2b21c128, /app/src/machine.ts:651-700 + config.ts:147): the sim holds ONE currentPressureBar and publishes peakPressureBar = p*1.05, holdPressureBar = p*0.7. Per phase p approaches: CLOSING->0, INJECT->peakBar (ramp, 200 bar/s, dwell only 6 % of cycle = 1.4 s, so it never plateaus), HOLD->holdBar (=peakBar*0.5, dwell 18 % of cycle), COOL_PLAST/OPENING/EJECT->0. Replaying that FSM with sgm-004's real config (cycleTimeSec 24, injectionPressureBar 1000) reproduces the measurement: gate inCycle -> mean 170.5, 51.8 % zeros, 18.5 % in band; gate HOLD -> mean 516.6, sigma 16.8, 0 % zeros, 100 % in band. HOLD is the ONLY phase in which this signal has a plateau, hence the only phase in which a BAND on it is a meaningful statement; INJECT (mean 315, 0 % in band) is a transient ramp and would be an equally wrong gate.",
       "when": {
-        "attr": "inCycle",
+        "attr": "phaseName",
         "op": "eq",
-        "value": true
+        "value": "HOLD"
       },
       "require": {
         "attr": "peakPressureBar",
@@ -684,11 +697,11 @@
     },
     {
       "name": "recipe_hold_pressure_band",
-      "description": "Recipe / setting parameter: hold pressure must lie within the target band during the active cycle (resolved at runtime via valueFrom recipe:hold_pressure_band). Cycle-gated (inCycle==true), since the pressure falls to 0 between shots.",
+      "description": "Recipe / setting parameter: hold pressure must lie within the target band (resolved at runtime via valueFrom recipe:hold_pressure_band). PHASE-gated (phaseName==HOLD) — NOT cycle-gated, for exactly the reason given on recipe_peak_pressure_band: inCycle includes ejection and opening, where the pressure is physically 0 bar, so the rule was accusing the machine of a deviation that OUR population had manufactured. Measured on sgm-004 (edge TS, 2026-07-12): gate inCycle -> mean 139.2 bar; gate HOLD -> mean 371.7 bar against band [300,380]. Corroborated on the deployed FSM replay (see recipe_peak_pressure_band): gate inCycle -> mean 113.7, 51.8 % zeros, 18.5 % in band [300,380]; gate HOLD -> mean 344.4, sigma 11.2, 0 % zeros, 100 % in band. HOLD is the phase in which the hold pressure is by definition being held — it is the only population about which this band makes a claim.",
       "when": {
-        "attr": "inCycle",
+        "attr": "phaseName",
         "op": "eq",
-        "value": true
+        "value": "HOLD"
       },
       "require": {
         "attr": "holdPressureBar",
@@ -776,69 +789,13 @@
       "impact_basis": "HK"
     },
     {
-      "name": "recipe_nozzle_temp_band",
-      "description": "Recipe / setting parameter (ASSUMED pilot default): nozzleTempC must lie within the active recipe band (valueFrom recipe:nozzle_temp_band).",
-      "require": {
-        "attr": "nozzleTempC",
-        "op": "between",
-        "valueFrom": "recipe:nozzle_temp_band"
-      },
-      "severity": "warning",
-      "discrepancyClass": "constraint",
-      "concern": "operations",
-      "mom_category": "quality",
-      "accountable_role": "Process Engineering",
-      "deviation_class": "recipe",
-      "since": "2026-06-25",
-      "impact_basis": "HK"
-    },
-    {
-      "name": "recipe_back_pressure_band",
-      "description": "Recipe / setting parameter (ASSUMED pilot default): backPressureBar must lie within the active recipe band (valueFrom recipe:back_pressure_band).",
-      "require": {
-        "attr": "backPressureBar",
-        "op": "between",
-        "valueFrom": "recipe:back_pressure_band"
-      },
-      "severity": "warning",
-      "discrepancyClass": "constraint",
-      "concern": "operations",
-      "mom_category": "quality",
-      "accountable_role": "Process Engineering",
-      "deviation_class": "recipe",
-      "since": "2026-06-25",
-      "impact_basis": "HK",
-      "when": {
-        "attr": "inCycle",
-        "op": "eq",
-        "value": true
-      }
-    },
-    {
-      "name": "recipe_injection_speed_band",
-      "description": "Recipe / setting parameter (ASSUMED pilot default): injectionSpeedMmPerSec must lie within the active recipe band (valueFrom recipe:injection_speed_band).",
-      "require": {
-        "attr": "injectionSpeedMmPerSec",
-        "op": "between",
-        "valueFrom": "recipe:injection_speed_band"
-      },
-      "severity": "warning",
-      "discrepancyClass": "constraint",
-      "concern": "operations",
-      "mom_category": "quality",
-      "accountable_role": "Process Engineering",
-      "deviation_class": "recipe",
-      "since": "2026-06-25",
-      "impact_basis": "HK",
-      "when": {
-        "attr": "inCycle",
-        "op": "eq",
-        "value": true
-      }
-    },
-    {
       "name": "recipe_mould_temp_band",
-      "description": "Recipe / setting parameter (ASSUMED pilot default): mouldTempC must lie within the active recipe band (valueFrom recipe:mould_temp_band).",
+      "description": "Recipe / setting parameter: mouldTempC must lie within the active recipe band (valueFrom recipe:mould_temp_band — since 2026-07-12 the PA66 band [80,90] degC around SOLL 85, see the recipe's toleranceSource=norm). Cycle-gated (inCycle==true) and DELIBERATELY NOT phase-gated, unlike the two pressure bands: the mould temperature is a slow THERMAL STATE of the tool, not a per-phase event. It is a meaningful measurement in every phase of a running cycle (the tool does not cool down between INJECT and EJECT), so inCycle is the honest population here — narrowing it to HOLD would throw away ~82 % of the valid samples for no gain. What inCycle DOES correctly exclude is the time when no recipe is in force: between shots and after shift end (measured 2026-07-12: with all SGMs idle, mouldTempC reads exactly 25.00 degC ambient, sigma 0.00 — the tool is simply cold), where a band violation would be a deviation against a recipe that is not running. NOTE ON CAPABILITY: measured on sgm-004 (2026-07-12, over the FULL ungated series) mouldTempC is by far the least stationary monitored signal, sigma_total/sigma_short = 156.4. The deployed sim warms the tool with approach(mouldTempC, target, 0.1 degC/s), i.e. a ~10-minute warm-up ramp from ambient; the inCycle gate does NOT remove that ramp. A Cp over a warming tool is meaningless, and capability.max_stationarity_ratio in the recipe — not this gate — stays the authority on whether a Cp may be reported at all.",
+      "when": {
+        "attr": "inCycle",
+        "op": "eq",
+        "value": true
+      },
       "require": {
         "attr": "mouldTempC",
         "op": "between",
@@ -854,30 +811,8 @@
       "impact_basis": "HK"
     },
     {
-      "name": "recipe_shot_volume_band",
-      "description": "Recipe / setting parameter (ASSUMED pilot default): shotVolumeCm3 must lie within the active recipe band (valueFrom recipe:shot_volume_band).",
-      "require": {
-        "attr": "shotVolumeCm3",
-        "op": "between",
-        "valueFrom": "recipe:shot_volume_band"
-      },
-      "severity": "error",
-      "discrepancyClass": "constraint",
-      "concern": "operations",
-      "mom_category": "quality",
-      "accountable_role": "Process Engineering",
-      "deviation_class": "recipe",
-      "since": "2026-06-25",
-      "impact_basis": "HK",
-      "when": {
-        "attr": "inCycle",
-        "op": "eq",
-        "value": true
-      }
-    },
-    {
       "name": "equipment_mould_temp_envelope",
-      "description": "Equipment / asset-per-se (ASSUMED machine-spec default): mould temperature must stay within the machine cooling/heating envelope [15,120] degC.",
+      "description": "Equipment / asset-per-se (ASSUMED machine-spec default): mould temperature must stay within the machine cooling/heating envelope [15,120] degC. CHECKED (not assumed) against the PA66 re-calibration of 2026-07-12 and DELIBERATELY LEFT UNCHANGED: the envelope is a property of the machine (what the tempering unit can physically do), not of the recipe running on it. The new recipe band [80,90] and the machine's actual 87.5 degC both sit comfortably inside [15,120], so this constraint stays correct and keeps doing its job — it remains the outer, recipe-independent bound that the recipe band and the control limits [78,92] must both nest inside, which they do.",
       "require": {
         "attr": "mouldTempC",
         "op": "between",
@@ -939,18 +874,18 @@
     },
     {
       "name": "mould_temp_control_limits",
-      "description": "Control limits (Warngrenze + Eingriffsgrenze) for mould temperature (ASSUMED): warn band [42,58], action band [38,62] degC; inside equipment envelope [15,120]. Drives the OT alarm panel (raise/clear).",
+      "description": "Control limits (Warngrenze + Eingriffsgrenze) for mould temperature: warn band [82,88], action band [78,92] degC; both inside the equipment envelope [15,120] (equipment_mould_temp_envelope, unchanged). PULLED ALONG with the PA66 recipe band: these limits were [42,58]/[38,62], i.e. centred on the old — and materially wrong — 50 degC SOLL. A PA66 tool runs at 80-90 degC. Had the recipe band moved to [80,90] and these limits stayed put, the OT alarm panel would have raised a permanent, un-clearable action alarm at every single sample (a real mould at 87.5 degC sits 25 degC outside the old action band) — a rule contradicting its own recipe. The offsets from the recipe band are preserved exactly as they were designed: warn = band tightened by 2 degC on each side, action = band widened by 2 degC on each side (old: band [40,60] -> warn [42,58] / action [38,62]; new: band [80,90] -> warn [82,88] / action [78,92]).",
       "require": {
         "attr": "mouldTempC",
         "op": "within_limits",
         "limits": {
           "warn": [
-            42,
-            58
+            82,
+            88
           ],
           "action": [
-            38,
-            62
+            78,
+            92
           ]
         }
       },

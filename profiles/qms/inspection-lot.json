@@ -70,7 +70,8 @@
       "dataType": "String",
       "required": false,
       "category": "Core",
-      "description": "Inspection workflow state, e.g. OPEN, IN_INSPECTION, DECIDED.",
+      "enum": ["DECIDED"],
+      "description": "Inspection workflow state. VOCABULARY MEASURED 2026-07-12 over the FULL population (qms.inspection_lots, 331.790 rows, GROUP BY state): exactly one value — DECIDED. The old prose claimed 'OPEN, IN_INSPECTION, DECIDED'; OPEN and IN_INSPECTION have never existed (the sim decides a lot in the same transaction it creates it). The lot_rejected gate `state eq 'DECIDED'` is therefore ALIVE — it just never excludes anything. Verified nightly by ci/check-vocab-drift.mjs.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -80,7 +81,8 @@
       "dataType": "String",
       "required": false,
       "category": "Core",
-      "description": "Usage decision: ACCEPT, REJECT, REWORK.",
+      "enum": ["ACCEPT", "REWORK", "REJECT"],
+      "description": "Usage decision. VOCABULARY MEASURED 2026-07-12 over the FULL population (qms.inspection_lots, GROUP BY decision): ACCEPT (281.698), REWORK (33.518), REJECT (16.574) — no NULLs. The lot_rejected rule `decision ne 'REJECT'` is ALIVE and hits real data. Verified nightly by ci/check-vocab-drift.mjs.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"

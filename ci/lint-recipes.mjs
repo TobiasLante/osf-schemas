@@ -16,6 +16,28 @@
 
 import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { join } from "node:path";
+import Ajv from "ajv";
+
+const SCHEMA_PATH = new URL("../validation/recipe-schema.json", import.meta.url)
+  .pathname;
+
+/**
+ * Compile recipe-schema.json. FAIL-CLOSED: if the schema is missing or does not
+ * compile we push an ERROR and validate nothing — we never quietly carry on
+ * "green" without the check the header promises. A linter that skips its own
+ * contract when the contract is broken is worse than no linter.
+ */
+function compileRecipeSchema(errors) {
+  try {
+    const schema = JSON.parse(readFileSync(SCHEMA_PATH, "utf8"));
+    return new Ajv({ allErrors: true, strict: false }).compile(schema);
+  } catch (e) {
+    errors.push(
+      `validation/recipe-schema.json: could not compile — ${e.message} (recipes NOT schema-checked)`,
+    );
+    return null;
+  }
+}
 
 const ROOT = process.env.RECIPES_ROOT
   ? process.env.RECIPES_ROOT.replace(/\/$/, "") + "/"
@@ -43,6 +65,20 @@ function lint() {
   const seenBindings = new Map();
   let refs = 0;
 
+  // CAPT-EUR — actually APPLY recipe-schema.json.
+  //
+  // The header of this file has always claimed "JSON Schema (recipe-schema.json)
+  // pins the structure; this script enforces what it cannot" — but nothing ever
+  // loaded the schema, here or anywhere else in CI. The schema was decorative:
+  // a recipe could contradict it in every field and `npm run validate` stayed
+  // green. (Same class of fake-green as the ajv crash `tee` masked on 07-08.)
+  //
+  // It matters now: the `economics` block is what authorises a € figure in front
+  // of a customer, and a mistyped `materialArticleRef` or a missing
+  // `counterAttribute` must fail the build, not silently produce a wrong number
+  // or no number at all. A contract nobody checks is not a contract.
+  const validateSchema = compileRecipeSchema(errors);
+
   for (const f of files) {
     const label = `next/recipes/${f}`;
     let r;
@@ -51,6 +87,12 @@ function lint() {
     } catch (e) {
       errors.push(`${label}: invalid JSON — ${e.message}`);
       continue;
+    }
+
+    if (validateSchema && !validateSchema(r)) {
+      for (const e of validateSchema.errors ?? []) {
+        errors.push(`${label}: schema${e.instancePath || "/"} ${e.message}`);
+      }
     }
 
     if (!r.recipeId || typeof r.recipeId !== "string") {
@@ -77,11 +119,73 @@ function lint() {
       errors.push(`${label}: 'values' must be a non-empty object of recipe:<param> -> SpecValue`);
       continue;
     }
+    // CAPT-TRUTH-ZUG3 — every band must say WHERE IT COMES FROM.
+    // A band without provenance makes its own violations undecidable: sgm-004's
+    // recipe_part_mass_band = [10.20, 10.45] fired 58,796 times against a process
+    // centred at 10.400 g (sigma 0.0839, Cp 0.50) — is the RULE wrong or is the
+    // PROCESS incapable? The measurements cannot say; only the ORIGIN of the number
+    // can. A customer drawing may not be widened; a process estimate may.
+    // `unknown` is a legal, honest answer — it is not an escape hatch: it marks the
+    // band as un-changeable-without-evidence, which is the truth.
+    const TOLERANCE_SOURCES = ["drawing", "customer_spec", "norm", "process_estimate", "unknown"];
+    const provenance = r.toleranceSource;
+    if (typeof provenance !== "object" || provenance === null || Array.isArray(provenance)) {
+      errors.push(
+        `${label}: missing 'toleranceSource' — every band must declare where its numbers come from ` +
+          `(one of ${TOLERANCE_SOURCES.join(" / ")}, keyed by the same recipe:<param> refs as 'values')`,
+      );
+    }
+
     const mk = matchKey(match);
     for (const [ref, val] of Object.entries(values)) {
       refs++;
       if (!REF_RE.test(ref)) {
         errors.push(`${label}: values key "${ref}" must be a reserved ref (recipe:<param> / definition:<param>)`);
+      }
+      if (provenance && typeof provenance === "object" && !Array.isArray(provenance)) {
+        const src = provenance[ref];
+        if (src === undefined) {
+          errors.push(`${label}: band "${ref}" has no toleranceSource — where does this number come from?`);
+        } else if (!TOLERANCE_SOURCES.includes(src)) {
+          errors.push(
+            `${label}: toleranceSource["${ref}"] = "${src}" is not one of ${TOLERANCE_SOURCES.join(" / ")}`,
+          );
+        }
+      }
+
+      // CAPT-TRUTH-ZUG3.7 — every band must declare the capability it DEMANDS.
+      // Cp answers "is this band holdable at all" (the RECIPE's obligation); Ca answers
+      // "does the machine hit the nominal" (the MACHINE's obligation). They are
+      // Process-Engineering policy and belong in the SSOT — a threshold compiled into a
+      // service is a threshold nobody can change without a release.
+      //
+      // CAPT-SSOT / CAPT-STAT-EDGE (2026-07-12) — and max_stationarity_ratio is the
+      // PRECONDITION of both: Cp and Ca are only defined for ONE stationary process.
+      //   sigma_short = mean(|x_i - x_(i-1)|) / 1.128   (moving range, d2 for n=2)
+      //   stationarity_ratio = stddev(x) / sigma_short
+      // Above the threshold the sample holds several states and sigma measures the
+      // distance between them, not the process noise — the capability verdict must be
+      // WITHHELD (evidence gap), not reported as an incapable process. Measured on
+      // sgm-004: mouldTempC 156.4, pressures 3.3, partMass/hotrunner/cushion ~= 1.0.
+      const cap = r.capability?.[ref];
+      if (!cap || typeof cap !== "object") {
+        errors.push(
+          `${label}: band "${ref}" has no capability — declare { cp_min, ca_max, max_stationarity_ratio } (what must the band hold, how well must the machine hit it, and how far from stationary may the sample be before no verdict is allowed at all?)`,
+        );
+      } else {
+        if (typeof cap.cp_min !== "number" || !(cap.cp_min > 0)) {
+          errors.push(`${label}: capability["${ref}"].cp_min must be a positive number`);
+        }
+        if (typeof cap.ca_max !== "number" || cap.ca_max < 0 || cap.ca_max > 1) {
+          errors.push(`${label}: capability["${ref}"].ca_max must be between 0 and 1`);
+        }
+        if (typeof cap.max_stationarity_ratio !== "number" || !(cap.max_stationarity_ratio > 1)) {
+          errors.push(
+            `${label}: capability["${ref}"].max_stationarity_ratio must be a number > 1 ` +
+              `(sigma_total / sigma_short; a stationary process sits at ~1.0, so a threshold <= 1 would reject every sample). ` +
+              `Pilot policy: 2.0`,
+          );
+        }
       }
       if (Array.isArray(val)) {
         if (val.length === 2 && val.every(isNum)) {
@@ -97,6 +201,20 @@ function lint() {
         );
       } else {
         seenBindings.set(bindKey, label);
+      }
+    }
+
+    // Provenance / capability for a band that does not exist is dead data — and worse,
+    // it reads like the band IS covered. Catch the drift when a band is renamed or removed.
+    for (const [block, name] of [
+      [provenance, "toleranceSource"],
+      [r.capability, "capability"],
+    ]) {
+      if (!block || typeof block !== "object" || Array.isArray(block)) continue;
+      for (const ref of Object.keys(block)) {
+        if (!(ref in values)) {
+          errors.push(`${label}: ${name}["${ref}"] has no matching band in 'values' — dead entry`);
+        }
       }
     }
   }

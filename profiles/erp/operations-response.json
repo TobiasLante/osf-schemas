@@ -82,7 +82,10 @@
       "dataType": "String",
       "required": false,
       "category": "Core",
-      "description": "Actual status of the confirmation (offen (open), fertig (done), storniert (cancelled)).",
+      "description": "Actual status of the confirmation. MEASURED reality (2026-07-12): the bound source /api/confirmations carries NO status column at all, so sources/rest/erp-operations-response.json binds this attribute to the CONSTANT 'fertig' ({ const: 'fertig' }). 'fertig' is therefore the ONLY value any OperationsResponse can ever carry — this attribute is a constant, not a discriminator, and it MUST NOT be used as a `when` guard operand (a guard over a constant is a tautology; see cross-constraints/qty_shortfall.json, which is retired for exactly that defect, and ci/lint-cross-constraints.mjs, which now fails the build on it). The previous description claimed 'offen (open) … storniert (cancelled)' — pure fiction, no source ever produced either value. If a real ERP ever delivers a genuine confirmation status column, EXTEND this enum against a measurement (CLAUDE.md law 3) — do not improvise it.",
+      "enum": [
+        "fertig"
+      ],
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",

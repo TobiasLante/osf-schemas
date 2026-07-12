@@ -1,37 +1,65 @@
 {
  "crossConstraintId": "material_unavailable",
- "version": "2.0.0",
+ "version": "3.0.0",
  "standard": "OSF",
- "displayName": "Material unavailable (cross-domain ERP↔WMS)",
+ "displayName": "Material unavailable (cross-domain ERP↔WMS) — PARKED (guard can never fire) — RETIRED 2026-07-12",
  "description": "Material unavailable: an active production response requires an article whose free WMS stock is 0.",
- "$comment": "Cross-source facet (CAPT-B Phase 2, building block 3): an active production response (OperationsResponse, status=offen) requires an article whose free WMS stock is 0. The right side is N:1 (many quants per article) → 'aggregate' condenses the free stock (quantity, filtered to blocked==0) via sum. HOLDS (ok) when sum(free) > threshold(0); VIOLATED (raised) at 0. Modeled as a true multi_source class. SAFETY: 0 matches → 'unknown' (no raise before the WMS source has been observed at all). NOTE: needs a next/ quant projection with attributes article_ref/quantity/blocked (article_ref-keyed) — see report open question 'WMS projection'.",
+ "$comment": "TOMBSTONE — the rule body below is preserved VERBATIM as it ran until 2026-07-12. It is evidence, not configuration; retired:true means it is loaded, never evaluated, and its (zero) open episodes are superseded with superseded_by=retirementId. Do NOT delete this file. Original $comment follows. >>> Cross-source facet (CAPT-B Phase 2, building block 3): an active production response (OperationsResponse, status=offen) requires an article whose free WMS stock is 0. The right side is N:1 (many quants per article) → 'aggregate' condenses the free stock (quantity, filtered to blocked==0) via sum. HOLDS (ok) when sum(free) > threshold(0); VIOLATED (raised) at 0. Modeled as a true multi_source class. SAFETY: 0 matches → 'unknown' (no raise before the WMS source has been observed at all). NOTE: needs a next/ quant projection with attributes article_ref/quantity/blocked (article_ref-keyed) — see report open question 'WMS projection'. <<< That intent was never reachable in production: see retiredReason.",
  "severity": "error",
  "discrepancyClass": "multi_source",
  "concern": "operations",
  "mom_category": "inventory",
  "accountable_role": "Materials Planning",
  "when": {
- "leftAttr": "status",
- "eq": "offen"
+  "leftAttr": "status",
+  "eq": "offen"
  },
  "left": {
- "profileRef": "SMProfile-OperationsResponse",
- "joinKey": "article_ref"
+  "profileRef": "SMProfile-OperationsResponse",
+  "joinKey": "article_ref"
  },
  "right": {
- "profileRef": "SMProfile-Quant",
- "joinKey": "article_ref"
+  "profileRef": "SMProfile-Quant",
+  "joinKey": "article_ref"
  },
  "aggregate": {
- "attr": "quantity",
- "fn": "sum",
- "filter": {
- "attr": "blocked",
- "eq": 0
- }
+  "attr": "quantity",
+  "fn": "sum",
+  "filter": {
+   "attr": "blocked",
+   "eq": 0
+  }
  },
  "op": "gt",
  "threshold": 0,
  "since": "2026-06-15",
- "impact_basis": "penalty"
+ "impact_basis": "penalty",
+ "retired": true,
+ "retiredAt": "2026-07-12",
+ "retirementId": "retired:material_unavailable@2026-07-12",
+ "retiredBy": "CAPT-INTEGRATE",
+ "retiredReason": "RETIRED. The guard is a TAUTOLOGY IN REVERSE: `when: status eq 'offen'` is evaluated on SMProfile-OperationsResponse.status, which sources/rest/erp-operations-response.json binds to the CONSTANT 'fertig' ({ const: 'fertig' }) — /api/confirmations carries no status column at all. 'fertig' eq 'offen' is FALSE for every row that has ever existed and every row that ever can. The guard does not filter rarely; it filters EVERYTHING, always. The rule can therefore never evaluate a single pair, and never has.\n\nThis is the identical defect that retired qty_shortfall on the same day (which keyed the same non-existent literal 'offen' on the same constant attribute, with `ne` instead of `eq` — so it filtered NOTHING instead of everything, and produced 11.196 phantom findings). Same fictional vocabulary, two rules, opposite operators, opposite failure modes: one screamed, these two slept.\n\nMEASURED CONSEQUENCE: this rule has raised ZERO episodes, ever — it does not appear in the KG at all. It was declared severity 'error' (the highest in the vocabulary) against a stock-vs-demand join that would matter enormously if it worked. For its entire life it has reported a perfectly supplied factory, because it reported nothing. An 'error'-severity rule that has never fired is not evidence of health; it is an alarm with the wire cut, and it is worse than no alarm, because someone is trusting it.\n\nNOT REPAIRED HERE ON PURPOSE: the fix is not a literal swap. The guard's INTENT ('only check orders that are still open') cannot be expressed at all in the current grammar — `when` reaches only the LEFT entity, and the left entity is the confirmation, whose status is a constant. The order's status lives on the RIGHT. Until `when.rightAttr` exists (see qty_shortfall#successor), this rule cannot state its own precondition, and a version of it that merely drops the guard would evaluate stock against confirmations for every order ever confirmed — including the 21.676 CANCELLED ones.\n\nIT WAS ALSO `parked`, and that is part of the finding. Parking advertised it as one precondition away from working. It was not: even un-parked, the constant-vs-'offen' guard would have filtered every row. A rule may be parked OR retired, never both — parking says 'wait', retirement says 'this cannot work as written'. The truth here is the second one.",
+ "retiredEvidence": {
+  "measuredAt": "2026-07-12",
+  "measuredAgainst": "sim-v5 PROD 192.168.178.154 /api/confirmations + Neo4j KG on .99 (read-only)",
+  "guard": {
+   "declared": "status eq 'offen'",
+   "actualLeftValue": "fertig (source-bound constant; /api/confirmations has no status column)",
+   "deliverableValues": [
+    "fertig"
+   ],
+   "rowsEverMatched": 0
+  },
+  "episodesEverRaised": 0,
+  "note": "ZERO episodes in the entire history of the KG — not 'few', zero. The rule has never once fired.",
+  "previousState": "parked — PARKED 2026-07-12 by CAPT-QTY — this rule HAS NEVER FIRED AND CANNOT FIRE, and was silently pretending to watch. Same root defect as the retired qty_shortfall, mirrored: `when` gates on SMProfile-OperationsResponse.status EQ 'offen', but /api/confirmations carries no status column, so sources/rest/erp-operations-response.json binds that attribute to the CONSTANT 'fertig'. 'fertig' === 'offen' is FALSE for every row that has ever existed ⇒ the precondition is never met ⇒ the reconciler settles 'ok' every single time and the rule can never raise. MEASURED 2026-07-12 against the live engine on .99: 0 open episodes, out of 11.198 multi_source episodes total. This is a SILENT FALSE-NEGATIVE — the worst kind of broken rule, because a dormant watchdog is indistinguishable from a healthy factory. It is parked (visibly dormant) rather than left active (invisibly dormant); ci/lint-cross-constraints.mjs now fails the build on any ACTIVE rule with such a guard, so it cannot be un-parked without fixing it first. TO UN-PARK: the intent ('an ACTIVE order needs material') requires the ORDER's status, which lives on the RIGHT entity — the `when` grammar reaches only the left. Needs `when.rightAttr` support in the it-evaluator, then gate on SMProfile-ProductionOrder.status (measured enum {storniert,abgeschlossen,in_arbeit,freigegeben} — note 'offen' is NOT among them). Also reconsider the left entity: an OperationsResponse is a CONFIRMATION, i.e. production has already happened — checking material availability at that point is the wrong moment regardless of the guard. NOTE: unlike qty_shortfall this rule is genuinely CROSS-DOMAIN (ERP ↔ WMS) and therefore worth repairing — it is real multi-truth, not two views of one source."
+ },
+ "successor": {
+  "status": "not built",
+  "requires": [
+   "`when.rightAttr` in the it-evaluator cross-rule grammar, so the guard can gate on the ORDER's status instead of the confirmation's constant",
+   "A stock operand that is a real reservation/ATP figure, not a raw quant snapshot"
+  ],
+  "doNotResurrectAs": "the same rule with the guard deleted — it would then fire on every confirmed order, cancelled ones included."
+ }
 }

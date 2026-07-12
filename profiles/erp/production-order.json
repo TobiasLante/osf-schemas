@@ -113,7 +113,11 @@
       "dataType": "String",
       "required": false,
       "category": "Core",
-      "description": "Plan status of the OperationsRequest (offen (open), freigegeben (released), in_arbeit (in progress), fertig (done), storniert (cancelled)).",
+      "description": "Plan status of the OperationsRequest, as it reaches THIS profile through OUR source binding. VOCABULARY MEASURED 2026-07-12 against the full population of sim-v5 PROD (.154), not a sample and not the mapper's source code: the ERP contains 47.513 orders carrying exactly FIVE raw statuses — CANCELLED 21.676, INVOICED 19.827, IN_PRODUCTION 4.305, WAITING_PARTS 1.687, ON_HOLD 18. sources/rest/erp-production-orders.json binds /api/orders?exclude_status=CANCELLED,INVOICED,SHIPPED, so CANCELLED (-> storniert) and INVOICED (-> abgeschlossen) never arrive: 6.010 of 47.513 orders reach us, and the projection maps them onto exactly TWO canonical values — in_arbeit 4.305 (71,63 %) and freigegeben 1.705 (28,37 %, = WAITING_PARTS + ON_HOLD). THIS ENUM IS THE COMPLETE IMAGE, not a lower bound: the raw states that would be needed to produce any other value DO NOT EXIST IN THE ERP AT ALL. 'offen' requires raw DRAFT|PROPOSED|PLANNED and 'fertig' requires PRODUCED|COMPLETED — there is not ONE such row among all 47.513 (0,00 %); 'abgeschlossen' is reachable only from INVOICED, which our source excludes. Two earlier attempts got this wrong in opposite directions and BOTH were merged into this file's history: capt-qty-retire-shortfall measured the ENDPOINT and kept storniert+abgeschlossen (our own filter removes them); feat/ci-vocabulary-gate measured the PROJECTION's source code and kept offen+fertig+abgeschlossen (the raw states those branches need never occur, and its probe's 'fertig 1' is not reproducible — the true count is 0). The lesson is in the method: an enum must be measured where the data ENTERS US — endpoint AND source filter AND population — not at any one of the three. CONSEQUENCE: any `when` guard keying on 'offen' is structurally unsatisfiable and is a sleeping watchdog (this is why profiles/erp/customer-order.json#order_overdue is retired, and why ci/lint-vocabulary.mjs — which would have PASSED that guard against the fictional enum above — is only as honest as the enum it checks). Extend this enum ONLY against a fresh measurement of the full population.",
+      "enum": [
+        "freigegeben",
+        "in_arbeit"
+      ],
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"

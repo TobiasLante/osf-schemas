@@ -1,32 +1,66 @@
 {
  "crossConstraintId": "late_delivery",
- "version": "2.0.0",
+ "version": "3.0.0",
  "standard": "OSF",
- "displayName": "Delivery delay plan-vs-actual (PARKED)",
+ "displayName": "Delivery delay plan-vs-actual (PARKED) — RETIRED 2026-07-12",
  "description": "Delivery delay: actual completion (OperationsResponse.actual_end_time) is later than the planned completion of the OperationsRequest/ProductionOrder.",
- "$comment": "Cross-source facet (CAPT-B Phase 2, building block 4 — CONTRACT, PARKED): OperationsResponse.actual_end_time (actual) later than OperationsRequest/ProductionOrder.planned_end_time (planned), joined on production_order_no. PARKED because the sim NEVER fills 'lieferdatum_ist' (→ actual_end_time) → the rule would find no actual value → would always stay 'unknown' (no raise). In practice the live order_overdue (single-entity constraint on CustomerOrder.due_date vs $now) already covers the same case. Contract + mapping are deliberately prepared here: once the sim delivers the actual date, remove 'parked' and the rule goes live — WITHOUT any code change. op=lte: HOLDS (ok) when actual_end_time <= planned_end_time; VIOLATED on overrun. Modeled as a multi_source class.",
- "parked": true,
- "parkedReason": "The sim never fills lieferdatum_ist (actual_end_time) → effectively equals the live order_overdue. Goes live once the sim delivers the actual date (remove parked).",
+ "$comment": "TOMBSTONE — the rule body below is preserved VERBATIM. Evidence, not configuration. Do NOT delete this file. Original $comment follows. >>> Cross-source facet (CAPT-B Phase 2, building block 4 — CONTRACT, PARKED): OperationsResponse.actual_end_time (actual) later than OperationsRequest/ProductionOrder.planned_end_time (planned), joined on production_order_no. PARKED because the sim NEVER fills 'lieferdatum_ist' (→ actual_end_time) → the rule would find no actual value → would always stay 'unknown' (no raise). In practice the live order_overdue (single-entity constraint on CustomerOrder.due_date vs $now) already covers the same case. Contract + mapping are deliberately prepared here: once the sim delivers the actual date, remove 'parked' and the rule goes live — WITHOUT any code change. op=lte: HOLDS (ok) when actual_end_time <= planned_end_time; VIOLATED on overrun. Modeled as a multi_source class. <<< The claim in that comment — that removing `parked` would make the rule work without a code change — is FALSE: see retiredReason.",
+ "version_note": "2.1.0 (2026-07-12, CAPT-QTY) — parkedReason corrected: a SECOND, independent blocker was found.",
  "severity": "warning",
  "discrepancyClass": "multi_source",
  "concern": "operations",
  "mom_category": "production",
  "accountable_role": "Production Control",
  "when": {
- "leftAttr": "status",
- "eq": "offen"
+  "leftAttr": "status",
+  "eq": "offen"
  },
  "left": {
- "profileRef": "SMProfile-OperationsResponse",
- "joinKey": "production_order_no",
- "attr": "actual_end_time"
+  "profileRef": "SMProfile-OperationsResponse",
+  "joinKey": "production_order_no",
+  "attr": "actual_end_time"
  },
  "right": {
- "profileRef": "SMProfile-ProductionOrder",
- "joinKey": "production_order_no",
- "attr": "planned_end_time"
+  "profileRef": "SMProfile-ProductionOrder",
+  "joinKey": "production_order_no",
+  "attr": "planned_end_time"
  },
  "op": "lte",
  "since": "2026-06-15",
- "impact_basis": "penalty"
+ "impact_basis": "penalty",
+ "retired": true,
+ "retiredAt": "2026-07-12",
+ "retirementId": "retired:late_delivery@2026-07-12",
+ "retiredBy": "CAPT-INTEGRATE",
+ "retiredReason": "RETIRED (was `parked`; parking was never a resting state, it was a slow leak). The guard is a TAUTOLOGY IN REVERSE: `when: status eq 'offen'` is evaluated on SMProfile-OperationsResponse.status, which sources/rest/erp-operations-response.json binds to the CONSTANT 'fertig' ({ const: 'fertig' }) — /api/confirmations carries no status column at all. 'fertig' eq 'offen' is FALSE for every row that has ever existed and every row that ever can. The guard does not filter rarely; it filters EVERYTHING, always. The rule can therefore never evaluate a single pair, and never has.\n\nThis is the identical defect that retired qty_shortfall on the same day (which keyed the same non-existent literal 'offen' on the same constant attribute, with `ne` instead of `eq` — so it filtered NOTHING instead of everything, and produced 11.196 phantom findings). Same fictional vocabulary, two rules, opposite operators, opposite failure modes: one screamed, these two slept.\n\nIT IS DEAD TWICE OVER. Even if the guard were repaired, the LEFT OPERAND is absent: OperationsResponse.actual_end_time is fed from the sim's 'lieferdatum_ist', which is never delivered for any order our source can see. The rule would find no actual value, stay 'unknown', and raise nothing — which is precisely what it has done: ZERO episodes, ever.\n\nWHY `parked` WAS THE WRONG STATE. It was parked with a promise: 'once the sim delivers the actual date, remove parked and the rule goes live — WITHOUT any code change.' That promise was FALSE, and quietly so. Un-parking it would NOT have made it work: the guard would still have compared the constant 'fertig' against 'offen' and filtered every row. Someone would have shipped the sim's actual_end_time, removed `parked`, watched nothing happen, and concluded that deliveries were on time. A parked rule carrying a second, undocumented defect is a trap laid for a future colleague. Retirement states the truth: this rule needs to be REBUILT, not un-parked.",
+ "retiredEvidence": {
+  "measuredAt": "2026-07-12",
+  "measuredAgainst": "sim-v5 PROD 192.168.178.154 /api/confirmations + Neo4j KG on .99 (read-only)",
+  "guard": {
+   "declared": "status eq 'offen'",
+   "actualLeftValue": "fertig (source-bound constant; /api/confirmations has no status column)",
+   "deliverableValues": [
+    "fertig"
+   ],
+   "rowsEverMatched": 0
+  },
+  "episodesEverRaised": 0,
+  "note": "ZERO episodes in the entire history of the KG — not 'few', zero. The rule has never once fired.",
+  "secondDefect": {
+   "operand": "SMProfile-OperationsResponse.actual_end_time",
+   "boundTo": "sim 'lieferdatum_ist'",
+   "status": "never delivered for any order visible through our source; the rule would stay 'unknown' even with a working guard"
+  },
+  "previousState": "parked (since 2026-06-15) — inert, but advertised as one precondition away from working; it was two."
+ },
+ "successor": {
+  "status": "not built",
+  "principle": "A difference only becomes a deviation when it breaks a PROMISE.",
+  "requires": [
+   "A real actual_end_time from the source (today: absent)",
+   "A trustworthy planned_end to break — NOT usable today (CAPT-ERP-TIME: 34.036 ops / 26 % end before their planned start)",
+   "`when.rightAttr` so the guard can gate on the ORDER's status, not the confirmation's constant"
+  ],
+  "doNotResurrectAs": "the same rule with `parked` removed — that fixes neither of its two defects."
+ }
 }
