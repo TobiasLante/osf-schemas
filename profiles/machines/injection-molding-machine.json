@@ -799,7 +799,7 @@
     },
     {
       "name": "equipment_hotrunner_temp_envelope",
-      "description": "Equipment / asset-per-se: hot-runner temperature must stay within the machine's safe operating envelope, independent of the running recipe. Outside [180,270] degC -> heater / thermocouple / controller fault (a machine problem regardless of the article). Deliberately wider than the recipe band on the same attribute. LITERAL value = machine-spec SSOT — adjust to the machine spec.",
+      "description": "Equipment / asset-per-se: hot-runner temperature must stay within the machine's safe operating envelope, independent of the running recipe. Outside [180,270] degC -> heater / thermocouple / controller fault (a machine problem regardless of the article). Deliberately wider than the recipe band on the same attribute. LITERAL value = machine-spec SSOT — adjust to the machine spec. --- 2026-07-12 CAPT-STURM: declares a `persistence` policy (anti-chatter). A single sample outside a band is not a deviation — an EPISODE is. `raise` is a Western-Electric run rule (2 of the last 3 evaluations must breach); `clear` is an ISA-18.2 dead-band (the value must return inside the limit by 15 % of the band width, for 3 evaluations). The LIMITS ARE UNCHANGED — this removes chatter, not signal. Declaring it is now MANDATORY for every live `between`/`within_limits` rule (ci/lint-constraints.mjs, fail-closed): a rule the detector cannot police is a rule that reports its own arithmetic instead of the machine.",
       "require": {
         "attr": "hotrunnerTempC",
         "op": "between",
@@ -810,6 +810,16 @@
       },
       "severity": "warning",
       "discrepancyClass": "constraint",
+      "persistence": {
+        "raise": {
+          "k": 2,
+          "of": 3
+        },
+        "clear": {
+          "deadband_pct": 0.15,
+          "consecutive": 3
+        }
+      },
       "concern": "operations",
       "mom_category": "maintenance",
       "accountable_role": "Maintenance",
@@ -922,7 +932,7 @@
     },
     {
       "name": "equipment_mould_temp_envelope",
-      "description": "Equipment / asset-per-se (ASSUMED machine-spec default): mould temperature must stay within the machine cooling/heating envelope [15,120] degC. CHECKED (not assumed) against the PA66 re-calibration of 2026-07-12 and DELIBERATELY LEFT UNCHANGED: the envelope is a property of the machine (what the tempering unit can physically do), not of the recipe running on it. The new recipe band [80,90] and the machine's actual 87.5 degC both sit comfortably inside [15,120], so this constraint stays correct and keeps doing its job — it remains the outer, recipe-independent bound that the recipe band and the control limits [78,92] must both nest inside, which they do.",
+      "description": "Equipment / asset-per-se (ASSUMED machine-spec default): mould temperature must stay within the machine cooling/heating envelope [15,120] degC. CHECKED (not assumed) against the PA66 re-calibration of 2026-07-12 and DELIBERATELY LEFT UNCHANGED: the envelope is a property of the machine (what the tempering unit can physically do), not of the recipe running on it. The new recipe band [80,90] and the machine's actual 87.5 degC both sit comfortably inside [15,120], so this constraint stays correct and keeps doing its job — it remains the outer, recipe-independent bound that the recipe band and the control limits [78,92] must both nest inside, which they do. --- 2026-07-12 CAPT-STURM: declares a `persistence` policy (anti-chatter). A single sample outside a band is not a deviation — an EPISODE is. `raise` is a Western-Electric run rule (2 of the last 3 evaluations must breach); `clear` is an ISA-18.2 dead-band (the value must return inside the limit by 15 % of the band width, for 3 evaluations). The LIMITS ARE UNCHANGED — this removes chatter, not signal. Declaring it is now MANDATORY for every live `between`/`within_limits` rule (ci/lint-constraints.mjs, fail-closed): a rule the detector cannot police is a rule that reports its own arithmetic instead of the machine.",
       "require": {
         "attr": "mouldTempC",
         "op": "between",
@@ -933,6 +943,16 @@
       },
       "severity": "warning",
       "discrepancyClass": "constraint",
+      "persistence": {
+        "raise": {
+          "k": 2,
+          "of": 3
+        },
+        "clear": {
+          "deadband_pct": 0.15,
+          "consecutive": 3
+        }
+      },
       "concern": "operations",
       "mom_category": "maintenance",
       "accountable_role": "Maintenance",
@@ -942,7 +962,7 @@
     },
     {
       "name": "equipment_dryer_temp_envelope",
-      "description": "Equipment / asset-per-se (ASSUMED machine-spec default): resin dryer temperature must stay within [60,130] degC.",
+      "description": "Equipment / asset-per-se (ASSUMED machine-spec default): resin dryer temperature must stay within [60,130] degC. --- 2026-07-12 CAPT-STURM: declares a `persistence` policy (anti-chatter). A single sample outside a band is not a deviation — an EPISODE is. `raise` is a Western-Electric run rule (2 of the last 3 evaluations must breach); `clear` is an ISA-18.2 dead-band (the value must return inside the limit by 15 % of the band width, for 3 evaluations). The LIMITS ARE UNCHANGED — this removes chatter, not signal. Declaring it is now MANDATORY for every live `between`/`within_limits` rule (ci/lint-constraints.mjs, fail-closed): a rule the detector cannot police is a rule that reports its own arithmetic instead of the machine.",
       "require": {
         "attr": "dryerTempC",
         "op": "between",
@@ -953,6 +973,16 @@
       },
       "severity": "warning",
       "discrepancyClass": "constraint",
+      "persistence": {
+        "raise": {
+          "k": 2,
+          "of": 3
+        },
+        "clear": {
+          "deadband_pct": 0.15,
+          "consecutive": 3
+        }
+      },
       "concern": "operations",
       "mom_category": "maintenance",
       "accountable_role": "Maintenance",

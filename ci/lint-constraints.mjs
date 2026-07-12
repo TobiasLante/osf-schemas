@@ -268,7 +268,32 @@ function checkPredicateValue(pred, attr, attrs, label, errors) {
  */
 function checkPersistence(c, label, errors) {
   const p = c.persistence;
-  if (p === undefined) return;
+
+  // FAIL-CLOSED. A rule with a numeric band ('between' / 'within_limits') judges a
+  // CONTINUOUS signal, and a continuous signal breathes. Without a declared
+  // persistence such a rule raises on ONE sample and clears on the NEXT — which is
+  // not a statement about the machine, it is a statement about the sampling. That is
+  // not a hypothetical: it produced 74.963 episodes on sgm-004/partMass_g and 43.293
+  // on sgm-006/hotrunnerTempC, of which exactly ONE was real.
+  //
+  // So the policy is MANDATORY here and its absence is RED — it is never silently
+  // defaulted to the old behaviour. The house rule is "ohne deklarierte Policy MISST
+  // die Engine und URTEILT NICHT"; the place to enforce that is the SSOT, before a
+  // rule ever reaches an edge.
+  //
+  // Deliberately NOT required for the other ops: 'eq'/'in'/'gt'/... guard discrete or
+  // one-sided facts (a status enum, a missing reference) where a single sample IS the
+  // deviation and there is no band width to breathe across.
+  const op = c.require?.op;
+  const banded = op === "between" || op === "within_limits";
+  if (p === undefined) {
+    if (banded) {
+      errors.push(
+        `${label}: op='${op}' is a BAND over a continuous signal but declares no 'persistence' policy. A banded rule with no persistence raises on a single sample and clears on the next — it reports the sampling, not the machine (that defect produced 74.963 episodes on sgm-004/partMass_g and 43.293 on sgm-006/hotrunnerTempC, exactly ONE of which was real). Declare persistence.raise {k, of} + persistence.clear {deadband_pct, consecutive}. This is fail-closed on purpose: an unpoliced band is not allowed to reach an edge.`
+      );
+    }
+    return;
+  }
   if (typeOf(p) !== "object") {
     errors.push(`${label}: 'persistence' must be an object`);
     return;
