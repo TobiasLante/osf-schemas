@@ -776,67 +776,6 @@
       "impact_basis": "HK"
     },
     {
-      "name": "recipe_nozzle_temp_band",
-      "description": "Recipe / setting parameter (ASSUMED pilot default): nozzleTempC must lie within the active recipe band (valueFrom recipe:nozzle_temp_band).",
-      "require": {
-        "attr": "nozzleTempC",
-        "op": "between",
-        "valueFrom": "recipe:nozzle_temp_band"
-      },
-      "severity": "warning",
-      "discrepancyClass": "constraint",
-      "concern": "operations",
-      "mom_category": "quality",
-      "accountable_role": "Process Engineering",
-      "deviation_class": "recipe",
-      "since": "2026-06-25",
-      "impact_basis": "HK"
-    },
-    {
-      "name": "recipe_back_pressure_band",
-      "description": "Recipe / setting parameter (ASSUMED pilot default): backPressureBar must lie within the active recipe band (valueFrom recipe:back_pressure_band).",
-      "require": {
-        "attr": "backPressureBar",
-        "op": "between",
-        "valueFrom": "recipe:back_pressure_band"
-      },
-      "severity": "warning",
-      "discrepancyClass": "constraint",
-      "concern": "operations",
-      "mom_category": "quality",
-      "accountable_role": "Process Engineering",
-      "deviation_class": "recipe",
-      "since": "2026-06-25",
-      "impact_basis": "HK",
-      "when": {
-        "attr": "inCycle",
-        "op": "eq",
-        "value": true
-      }
-    },
-    {
-      "name": "recipe_injection_speed_band",
-      "description": "Recipe / setting parameter (ASSUMED pilot default): injectionSpeedMmPerSec must lie within the active recipe band (valueFrom recipe:injection_speed_band).",
-      "require": {
-        "attr": "injectionSpeedMmPerSec",
-        "op": "between",
-        "valueFrom": "recipe:injection_speed_band"
-      },
-      "severity": "warning",
-      "discrepancyClass": "constraint",
-      "concern": "operations",
-      "mom_category": "quality",
-      "accountable_role": "Process Engineering",
-      "deviation_class": "recipe",
-      "since": "2026-06-25",
-      "impact_basis": "HK",
-      "when": {
-        "attr": "inCycle",
-        "op": "eq",
-        "value": true
-      }
-    },
-    {
       "name": "recipe_mould_temp_band",
       "description": "Recipe / setting parameter (ASSUMED pilot default): mouldTempC must lie within the active recipe band (valueFrom recipe:mould_temp_band).",
       "require": {
@@ -852,28 +791,6 @@
       "deviation_class": "recipe",
       "since": "2026-06-25",
       "impact_basis": "HK"
-    },
-    {
-      "name": "recipe_shot_volume_band",
-      "description": "Recipe / setting parameter (ASSUMED pilot default): shotVolumeCm3 must lie within the active recipe band (valueFrom recipe:shot_volume_band).",
-      "require": {
-        "attr": "shotVolumeCm3",
-        "op": "between",
-        "valueFrom": "recipe:shot_volume_band"
-      },
-      "severity": "error",
-      "discrepancyClass": "constraint",
-      "concern": "operations",
-      "mom_category": "quality",
-      "accountable_role": "Process Engineering",
-      "deviation_class": "recipe",
-      "since": "2026-06-25",
-      "impact_basis": "HK",
-      "when": {
-        "attr": "inCycle",
-        "op": "eq",
-        "value": true
-      }
     },
     {
       "name": "equipment_mould_temp_envelope",

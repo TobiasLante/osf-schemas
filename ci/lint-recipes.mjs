@@ -110,6 +110,25 @@ function lint() {
           );
         }
       }
+
+      // CAPT-TRUTH-ZUG3.7 — every band must declare the capability it DEMANDS.
+      // Cp answers "is this band holdable at all" (the RECIPE's obligation); Ca answers
+      // "does the machine hit the nominal" (the MACHINE's obligation). They are
+      // Process-Engineering policy and belong in the SSOT — a threshold compiled into a
+      // service is a threshold nobody can change without a release.
+      const cap = r.capability?.[ref];
+      if (!cap || typeof cap !== "object") {
+        errors.push(
+          `${label}: band "${ref}" has no capability — declare { cp_min, ca_max } (what must the band hold, and how well must the machine hit it?)`,
+        );
+      } else {
+        if (typeof cap.cp_min !== "number" || !(cap.cp_min > 0)) {
+          errors.push(`${label}: capability["${ref}"].cp_min must be a positive number`);
+        }
+        if (typeof cap.ca_max !== "number" || cap.ca_max < 0 || cap.ca_max > 1) {
+          errors.push(`${label}: capability["${ref}"].ca_max must be between 0 and 1`);
+        }
+      }
       if (Array.isArray(val)) {
         if (val.length === 2 && val.every(isNum)) {
           if (val[0] > val[1]) errors.push(`${label}: band "${ref}" = [${val}] has lo > hi`);
@@ -127,12 +146,16 @@ function lint() {
       }
     }
 
-    // Provenance for a band that does not exist is dead data — and worse, it reads
-    // like the band IS covered. Catch the drift when a band is renamed or removed.
-    if (provenance && typeof provenance === "object" && !Array.isArray(provenance)) {
-      for (const ref of Object.keys(provenance)) {
+    // Provenance / capability for a band that does not exist is dead data — and worse,
+    // it reads like the band IS covered. Catch the drift when a band is renamed or removed.
+    for (const [block, name] of [
+      [provenance, "toleranceSource"],
+      [r.capability, "capability"],
+    ]) {
+      if (!block || typeof block !== "object" || Array.isArray(block)) continue;
+      for (const ref of Object.keys(block)) {
         if (!(ref in values)) {
-          errors.push(`${label}: toleranceSource["${ref}"] has no matching band in 'values' — dead provenance`);
+          errors.push(`${label}: ${name}["${ref}"] has no matching band in 'values' — dead entry`);
         }
       }
     }
