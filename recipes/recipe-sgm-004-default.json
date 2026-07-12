@@ -1,6 +1,6 @@
 {
   "recipeId": "RECIPE-sgm-004-default",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "owner": "Process Engineering",
   "profileRef": "SMProfile-InjectionMoldingMachine",
   "displayName": "sgm-004 default band (equipment-scoped catch-all)",
@@ -116,7 +116,13 @@
       "gate": "inCycle==true",
       "valueFrom": "recipe:part_mass_band",
       "constraintId": "recipe_part_mass_band",
-      "smAttribute": "partMass_g"
+      "smAttribute": "partMass_g",
+      "economics": {
+        "model": "material_overconsumption",
+        "materialArticleRef": "_V4_RM-PA66-GF30",
+        "counterAttribute": "good",
+        "impactBasis": "HK"
+      }
     },
     {
       "param": "cushionMm",
