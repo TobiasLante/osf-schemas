@@ -1,28 +1,67 @@
 {
  "crossConstraintId": "qty_shortfall",
- "version": "2.0.0",
+ "version": "3.0.0",
  "standard": "OSF",
- "displayName": "Quantity shortfall (plan vs. actual)",
- "description": "Quantity shortfall: produced quantity (OperationsResponse) is below the planned quantity of the OperationsRequest/ProductionOrder.",
- "$comment": "Cross-source facet (CAPT-B Phase 2, building block 3): compares TWO entities across a join key — something the single-entity 'constraints' block cannot express structurally. Here: OperationsResponse.quantity_produced (actual) vs. OperationsRequest/ProductionOrder.qty_planned (planned), joined on production_order_no. HOLDS (ok) when actual >= planned; VIOLATED (multi_source discrepancy, raised) when actual < planned. Modeled as a true multi_source class (source_a=Response, source_b=Request, delta=produced-planned). SEMANTICS: 'when' filters out orders that are STILL OPEN (status=offen) — an open order has trivially produced 0, i.e. 'not started yet', not a quantity shortfall. Only orders that should already be finished are checked plan-vs-actual. Loaded by the it-evaluator next/-first (loadCrossRules), no source literals — only osf-schemas profileRefs + attribute names (SSOT).",
+ "displayName": "Quantity shortfall (plan vs. actual) — RETIRED 2026-07-12",
+ "description": "RETIRED. Compared OperationsResponse.quantity_produced (BDE confirmations) against ProductionOrder.qty_planned. Retired on 2026-07-12 after measurement against sim-v5 PROD (.154): the rule was structurally incapable of producing a true finding. The rule body below is PRESERVED VERBATIM as the tombstone record — it is evidence, not configuration. It is never evaluated (retired:true).",
+ "retired": true,
+ "retiredAt": "2026-07-12",
+ "retirementId": "retired:qty_shortfall@2026-07-12",
+ "retiredBy": "CAPT-QTY",
+ "retiredReason": "Three independent defects, ANY ONE of which invalidates every finding this rule ever produced. All three measured against sim-v5 PROD (.154) on 2026-07-12, not inferred.\n\n(1) THE GUARD IS A TAUTOLOGY — it has never filtered a single row. `when.leftAttr=status` reads SMProfile-OperationsResponse.status. But /api/confirmations carries NO status column, so sources/rest/erp-operations-response.json binds that attribute to the CONSTANT 'fertig' ({const:'fertig'}). 'fertig' != 'offen' is true for every row that has ever existed. The $comment described the intent perfectly ('an open order has trivially produced 0 — that is not a shortfall') and the code did the exact opposite of it. The intent needs the ORDER's status, which lives on the RIGHT entity — and the `when` grammar only supports leftAttr, so this rule could not express its own stated intent even in principle. The literal 'offen' occurs in NO layer of the source: erp.order_operations.status in {OPEN,IN_PROCESS,PARTIAL_CONFIRMED,FINAL_CONFIRMED,CANCELLED}; erp.orders.status in {CANCELLED,INVOICED,IN_PRODUCTION,WAITING_PARTS,ON_HOLD}; the /api/orders German translation in {storniert,abgeschlossen,in_arbeit,freigegeben}. It was copied from the profile attribute's DESCRIPTION, which had been invented rather than measured (both profiles are corrected in this change, and ci/lint-cross-constraints.mjs now fails the build on any guard that cannot guard).\n\n(2) THE LEFT OPERAND IS NOT THE PRODUCTION ACTUALS — it is an incomplete sample. quantity_produced comes from logistics.bde_confirmations via /api/confirmations?per_po=true. The per-PO aggregation itself is CORRECT (verified: the sum is genuinely summed, not a single row). The feed is simply not the production record. Across the 17.435 production orders that have BDE confirmations at all: the BDE sum UNDERSHOOTS the ERP's own order_operations.completed_qty on 16.164 of them (92,7 %), matches on 723 (4,1 %), and carries on average only 43,2 % of what the ERP itself books as completed (1.207.386 confirmed pieces vs 5.058.396 booked). NOT ONE of those 17.435 orders carries a final_confirmation flag — zero. Comparing this feed against qty_planned therefore measures the BDE feed's incompleteness, not a production shortfall: it would raise on ~93 % of all orders however perfectly the factory ran.\n\n(3) IT IS ERP-vs-ERP (Schein-Multi-Truth). Both operands come from the SAME system — sim-v5 ERP REST :38260, /api/confirmations (left) and /api/orders (right). The ERP already reconciles plan-vs-actual internally in erp.order_operations (planned_qty / completed_qty / status=FINAL_CONFIRMED). This rule re-derived the ERP's own bookkeeping from a partial feed and reported the disagreement as a factory finding. Two views of one source are not two truths.\n\nWORKED EXAMPLE (the finding that triggered the audit) — INHOUSE-PLN-ROP-V4BGGH010-20260602: the rule claimed produced=470 vs planned=3497, delta -3027, and priced it. The ERP's own books say operation 10 is FINAL_CONFIRMED with completed_qty=3499 against planned_qty=3497 — the order is DONE and 2 pieces OVER-delivered. The 470 is the arithmetically correct sum of all 101 BDE confirmations for that order (largest single confirmation: 10 pieces); the feed simply never received the rest.\n\nLIVE EFFECT AT RETIREMENT: 11.196 of 18.875 open discrepancies (59,3 %) and EUR 1.737.072 of claimed impact were produced by this one rule. All of it is withdrawn, not banked: the impact was |delta| x (VK-HK) computed on a delta that is an artifact of the feed. Nothing was saved, because nothing was ever lost.\n\nWHY IT WAS NOT REPAIRED: fixing the guard and adding the planned_end promise-condition would still compare an incomplete BDE sample (43 %) against a full plan. The repair would have shrunk 11.196 phantoms to a few thousand EQUALLY FALSE phantoms — a quieter lie, not a truer one.",
+ "retiredEvidence": {
+  "measuredAt": "2026-07-12",
+  "measuredAgainst": "sim-v5 PROD 192.168.178.154 (read-only) + osf-discrepancy-engine on .99",
+  "openEpisodesAtRetirement": 11196,
+  "openEpisodesTotalAllRules": 18875,
+  "shareOfOpenWorklistPct": 59.3,
+  "claimedImpactEur": 1737072,
+  "guard": {
+   "declared": "status ne 'offen'",
+   "actualLeftValue": "fertig (source-bound constant; /api/confirmations has no status column)",
+   "rowsEverFiltered": 0,
+   "literalOffenOccursIn": "no layer of the source"
+  },
+  "leftOperandCoverage": {
+   "posWithBdeConfirmations": 17435,
+   "bdeUndershootsErpCompleted": 16164,
+   "bdeEqualsErpCompleted": 723,
+   "bdeOvershootsErpCompleted": 548,
+   "avgRatioBdeOverErpCompleted": 0.4317,
+   "totalBdeYield": 1207386,
+   "totalErpCompleted": 5058396,
+   "posWithFinalConfirmationFlag": 0
+  }
+ },
+ "successor": {
+  "status": "not built — the honest precondition does not exist yet",
+  "principle": "A difference only becomes a deviation when it breaks a PROMISE.",
+  "requires": [
+   "A left operand from OUTSIDE the ERP — the machine's own counted parts (OT telemetry) against the ERP plan. THAT is genuine IT-vs-OT multi-truth; BDE-vs-plan never was.",
+   "A trustworthy promise to break: erp.order_operations.planned_end. It is NOT usable today — CAPT-ERP-TIME is repairing the ERP time axis (34.036 ops / 26 % end BEFORE their planned start, a backfill artifact). Build nothing on planned_end until that lands.",
+   "`when.rightAttr` support in the it-evaluator cross-rule grammar, so the guard can gate on the ORDER's status (SMProfile-ProductionOrder.status, measured enum {storniert,abgeschlossen,in_arbeit,freigegeben}) instead of the confirmation's constant. Today `when` reaches only the left entity — which is why this rule could never express its own intent."
+  ],
+  "doNotResurrectAs": "the same rule with a patched guard — see retiredReason (2): the left operand is the defect, and no guard repairs a feed that carries 43 % of production."
+ },
+ "$comment": "TOMBSTONE — the fields below are the rule EXACTLY as it ran in production until 2026-07-12, kept so the 11.196 closed episodes remain explainable and auditable. retired:true means the it-evaluator loads it, refuses to evaluate it, and publishes a `retired` event so the discrepancy-engine supersedes every open episode it left behind (superseded_by = retirementId). Do NOT delete this file: the history is the evidence. Original $comment follows. >>> Cross-source facet (CAPT-B Phase 2, building block 3): compares TWO entities across a join key — something the single-entity 'constraints' block cannot express structurally. Here: OperationsResponse.quantity_produced (actual) vs. OperationsRequest/ProductionOrder.qty_planned (planned), joined on production_order_no. HOLDS (ok) when actual >= planned; VIOLATED (multi_source discrepancy, raised) when actual < planned. Modeled as a true multi_source class (source_a=Response, source_b=Request, delta=produced-planned). SEMANTICS: 'when' filters out orders that are STILL OPEN (status=offen) — an open order has trivially produced 0, i.e. 'not started yet', not a quantity shortfall. Only orders that should already be finished are checked plan-vs-actual. <<< That last sentence was never true in production: see retiredReason (1).",
  "severity": "warning",
  "discrepancyClass": "multi_source",
  "concern": "operations",
  "mom_category": "production",
  "accountable_role": "Production",
  "when": {
- "leftAttr": "status",
- "ne": "offen"
+  "leftAttr": "status",
+  "ne": "offen"
  },
  "left": {
- "profileRef": "SMProfile-OperationsResponse",
- "joinKey": "production_order_no",
- "attr": "quantity_produced"
+  "profileRef": "SMProfile-OperationsResponse",
+  "joinKey": "production_order_no",
+  "attr": "quantity_produced"
  },
  "right": {
- "profileRef": "SMProfile-ProductionOrder",
- "joinKey": "production_order_no",
- "attr": "qty_planned"
+  "profileRef": "SMProfile-ProductionOrder",
+  "joinKey": "production_order_no",
+  "attr": "qty_planned"
  },
  "op": "gte",
  "since": "2026-06-15",
