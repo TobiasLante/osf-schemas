@@ -1,6 +1,6 @@
 {
   "recipeId": "RECIPE-sgm-004-PA66GF30-housing-A",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "owner": "Process Engineering",
   "profileRef": "SMProfile-InjectionMoldingMachine",
   "displayName": "PA66-GF30 housing-A on sgm-004 (mould-A)",
@@ -48,32 +48,101 @@
     "recipe:hotrunner_temp_band": {
       "cp_min": 1.33,
       "ca_max": 0.125,
-      "max_stationarity_ratio": 2.0
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "currentProgram",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
     },
     "recipe:part_mass_band": {
       "cp_min": 1.33,
       "ca_max": 0.125,
-      "max_stationarity_ratio": 2.0
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "currentProgram",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
     },
     "recipe:cushion_band": {
       "cp_min": 1.33,
       "ca_max": 0.125,
-      "max_stationarity_ratio": 2.0
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "currentProgram",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
     },
     "recipe:peak_pressure_band": {
       "cp_min": 1.33,
       "ca_max": 0.125,
-      "max_stationarity_ratio": 2.0
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "currentProgram",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
     },
     "recipe:hold_pressure_band": {
       "cp_min": 1.33,
       "ca_max": 0.125,
-      "max_stationarity_ratio": 2.0
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "currentProgram",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
     },
     "recipe:mould_temp_band": {
       "cp_min": 1.33,
       "ca_max": 0.125,
-      "max_stationarity_ratio": 2.0
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "currentProgram",
+            "resin"
+          ],
+          "on_reset": [
+            "shotCount"
+          ]
+        },
+        "min_sample_n": 1000
+      }
     }
   },
   "parameters": [
@@ -112,7 +181,7 @@
     },
     {
       "param": "cushionMm",
-      "soll": 6.0,
+      "soll": 6,
       "tolerance": [
         4.35,
         7.65
