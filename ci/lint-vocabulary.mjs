@@ -387,12 +387,30 @@ function checkGuard(g, profiles, mappings, errors) {
 
 // ---- guard inventory -------------------------------------------------------
 
+// A rule that is `retired` or `parked` is INERT — the engine never evaluates it.
+// Its `when` clause is deliberately preserved VERBATIM as a tombstone: it is the
+// evidence of the defect, not a live configuration. Linting it would demand we
+// "fix" a dead guard, which would destroy the record — and would keep CI red
+// forever on exactly the rules we retired for having a dead guard.
+//
+// This is the same rule ci/lint-cross-constraints.mjs already applies (see its
+// `inert` handling). The two guards were written on separate branches and only
+// one of them had learned it; the integration merge is where that is reconciled.
+//
+// Fail-closed is preserved where it matters: a LIVE rule with a dead literal
+// still fails the build. Inertness must be DECLARED (retired/parked + a reason),
+// it is never inferred.
+export function isInert(rule) {
+  return rule?.retired === true || rule?.parked === true;
+}
+
 export function collectGuards(profiles, crossRoot) {
   const guards = [];
 
   // 1. profile constraints[].when / .require
   for (const p of profiles.values()) {
     for (const c of p.constraints ?? []) {
+      if (isInert(c)) continue; // tombstone: evidence, not configuration
       for (const slot of ["when", "require"]) {
         const pred = c[slot];
         if (!pred || !EQ_OPS.has(pred.op)) continue;
@@ -419,6 +437,7 @@ export function collectGuards(profiles, crossRoot) {
       continue;
     }
     if (!c.crossConstraintId) continue;
+    if (isInert(c)) continue; // tombstone: evidence, not configuration
     const id = c.crossConstraintId;
 
     if (c.when && c.left?.profileRef && c.when.leftAttr) {
