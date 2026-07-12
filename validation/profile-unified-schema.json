@@ -161,6 +161,9 @@
           },
           "semantics": {
             "$ref": "#/definitions/semantics"
+          },
+          "counter": {
+            "$ref": "#/definitions/counter"
           }
         },
         "additionalProperties": false
@@ -351,6 +354,47 @@
     }
   ],
   "definitions": {
+    "counter": {
+      "type": "object",
+      "description": "CAPT-ZUG4 (2026-07-12) — READING SEMANTICS for an attribute whose value is a RUNNING TOTAL, not a measurement. Absent = the value is a measurement and may be averaged. Present = it may NOT: mean/sigma/Cp over a counter are arithmetic on a ramp, and min/max over a counter silently hand the caller `max - min`, which is the wrong answer the moment the counter resets.\n\nWHY THIS IS A CONTRACT FIELD AND NOT A COMMENT. Until now the only place this fact was written down was the attribute's `description` prose ('Good parts produced (cumulative).'). No consumer can read prose. That is EXACTLY the defect that killed qty_shortfall: its guard literal 'offen' was copied from a description that had been invented rather than measured, the code did the opposite of the stated intent, and the rule shipped 11.196 phantom findings and EUR 1.737.072 of phantom impact. A semantic that only humans can see is a semantic the machine will get wrong. So it moves into the contract, where the linter and the edge can both read it.\n\nMEASURED, not assumed (sgm-004 edge TS `uns_history`, full history to 2026-07-12): the sim does not persist its counters, so every container restart sets them back to 0. `good` reset 10 times. Read naively, max-min says 55.622 parts. Read as the sum of positive increments it is 125.210 — the naive answer loses 56 % of the factory's output. The reset-aware reading is confirmed by an INDEPENDENT identity that only holds if it is right: good 125.210 + scrap 1.742 = 126.952 = total 126.952 = 8 cavities x shotCount 15.869, exactly.",
+      "required": [
+        "semantics",
+        "aggregation"
+      ],
+      "properties": {
+        "semantics": {
+          "type": "string",
+          "description": "cumulative_resettable = a running total that CAN return to zero (device restart, shift/tool reset, 32-bit wrap). cumulative_monotonic = a running total that provably never resets (assert this only if measured — a wrong assertion here is a silent 2x error). delta = the value is already the increment for its interval and must simply be summed. unreadable = it IS a running total, but which entity it belongs to is NOT established, so no reading is correct yet; pair it with aggregation:'refuse'. 'unreadable' is a first-class, honest state — it exists so that 'we do not know' can be SAID in the contract instead of being papered over with a plausible default.",
+          "enum": [
+            "cumulative_resettable",
+            "cumulative_monotonic",
+            "delta",
+            "unreadable"
+          ]
+        },
+        "aggregation": {
+          "type": "string",
+          "description": "How a consumer MUST turn samples of this attribute into a quantity over a window. sum_of_positive_deltas = sum(greatest(v - lag(v), 0)) — the only reading that survives a reset. last_minus_first = valid ONLY for cumulative_monotonic. sum = valid only for `delta` semantics. refuse = the engine MUST NOT aggregate this attribute at all and must report an evidence gap instead of a number. A refusal that is written down is worth more than a number nobody can defend.",
+          "enum": [
+            "sum_of_positive_deltas",
+            "last_minus_first",
+            "sum",
+            "refuse"
+          ]
+        },
+        "resetsObserved": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Evidence, not configuration: how many resets were actually MEASURED in the historian at the date named in `measuredAt`. 0 with semantics=cumulative_resettable is legitimate (it can reset, it just has not yet); it is not a licence to switch to last_minus_first."
+        },
+        "measuredAt": {
+          "type": "string",
+          "format": "date",
+          "description": "When resetsObserved was measured. An unmeasured claim is prose again."
+        }
+      },
+      "additionalProperties": false
+    },
     "quality": {
       "type": "object",
       "description": "Optional next/-only attribute facet (FR-SDC2). OPC-UA StatusCode/Quality propagation policy — today the source StatusCode is discarded at the edge. 'onBad' = edge behaviour when source quality is not Good: drop|flag|hold; 'nullFlavor' = HL7/ISO null-flavor token. Optional everywhere; absent = legacy forward-as-is.",
