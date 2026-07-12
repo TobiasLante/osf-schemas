@@ -8,7 +8,8 @@
     "recipeId",
     "version",
     "values",
-    "toleranceSource"
+    "toleranceSource",
+    "capability"
   ],
   "properties": {
     "recipeId": {
@@ -130,6 +131,34 @@
           "unknown"
         ],
         "description": "drawing / customer_spec / norm  -> BINDING. The band may not be widened; a violation means the process is not capable (fix_reality). process_estimate               -> someone set it. It may be corrected (fix_charter). unknown                        -> nobody recorded where it came from. Neither verdict is grounded; the honest output is an evidence gap: 'bind the tolerance source'."
+      }
+    },
+    "capability": {
+      "type": "object",
+      "description": "CAPT-TRUTH-ZUG3.7 — the capability a band DEMANDS, per `recipe:<param>` ref. This is Process-Engineering POLICY and therefore belongs in the SSOT, never as a constant in code. It decomposes the customer's two questions into two independent numbers:\n  Cp = (hi-lo) / 6*sigma        — is the band holdable by this process AT ALL?  -> the RECIPE\n  Ca = |mean-soll| / ((hi-lo)/2) — does the process HIT the nominal?             -> the MACHINE\n  Cpk ~= Cp * (1 - Ca)          — the consequence of both; reported, never judged on.\nA band may be perfectly holdable (Cp high) while the machine misses the nominal (Ca high), and vice versa — which is exactly why one number cannot answer both questions. Measured on sgm-004: partMass_g runs at 10.400 g against a nominal of 10.35 with sigma 0.084 — a band wide enough to be holdable still leaves Ca = 0.15, i.e. the MACHINE deviates while the RECIPE is fine. No Cpk alone could have said that.",
+      "propertyNames": {
+        "pattern": "^recipe:[A-Za-z0-9_.-]+$"
+      },
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "cp_min": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "description": "Minimum Cp. Below it the BAND cannot be held by this process, however well the machine is centred -> the RECIPE deviates. Industry floor: 1.33."
+          },
+          "ca_max": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Maximum Ca (off-centring, as a fraction of the half-band). Above it the MACHINE is not hitting the nominal -> the MACHINE deviates. Industry ceiling: 0.125."
+          }
+        },
+        "required": [
+          "cp_min",
+          "ca_max"
+        ],
+        "additionalProperties": false
       }
     }
   },

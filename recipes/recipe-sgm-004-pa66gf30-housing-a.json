@@ -1,6 +1,6 @@
 {
   "recipeId": "RECIPE-sgm-004-PA66GF30-housing-A",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "owner": "Process Engineering",
   "profileRef": "SMProfile-InjectionMoldingMachine",
   "displayName": "PA66-GF30 housing-A on sgm-004 (mould-A)",
@@ -12,16 +12,16 @@
   },
   "values": {
     "recipe:hotrunner_temp_band": [
-      225,
-      234
+      223.5,
+      236.5
     ],
     "recipe:part_mass_band": [
-      10.2,
-      10.45
+      10.01,
+      10.69
     ],
     "recipe:cushion_band": [
-      4.5,
-      7.0
+      4.35,
+      7.65
     ],
     "recipe:peak_pressure_band": [
       450,
@@ -31,38 +31,44 @@
       300,
       380
     ],
-    "recipe:nozzle_temp_band": [
-      245,
-      255
-    ],
-    "recipe:back_pressure_band": [
-      80,
-      150
-    ],
-    "recipe:injection_speed_band": [
-      40,
-      80
-    ],
     "recipe:mould_temp_band": [
       40,
       60
-    ],
-    "recipe:shot_volume_band": [
-      28,
-      34
     ]
   },
   "toleranceSource": {
-    "recipe:hotrunner_temp_band": "unknown",
-    "recipe:part_mass_band": "unknown",
-    "recipe:cushion_band": "unknown",
-    "recipe:peak_pressure_band": "unknown",
-    "recipe:hold_pressure_band": "unknown",
-    "recipe:nozzle_temp_band": "unknown",
-    "recipe:back_pressure_band": "unknown",
-    "recipe:injection_speed_band": "unknown",
-    "recipe:mould_temp_band": "unknown",
-    "recipe:shot_volume_band": "unknown"
+    "recipe:hotrunner_temp_band": "process_estimate",
+    "recipe:part_mass_band": "drawing",
+    "recipe:cushion_band": "process_estimate",
+    "recipe:peak_pressure_band": "process_estimate",
+    "recipe:hold_pressure_band": "process_estimate",
+    "recipe:mould_temp_band": "process_estimate"
+  },
+  "capability": {
+    "recipe:hotrunner_temp_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125
+    },
+    "recipe:part_mass_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125
+    },
+    "recipe:cushion_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125
+    },
+    "recipe:peak_pressure_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125
+    },
+    "recipe:hold_pressure_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125
+    },
+    "recipe:mould_temp_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125
+    }
   },
   "parameters": [
     {
@@ -75,8 +81,8 @@
       "param": "hotrunnerTempC",
       "soll": 230,
       "tolerance": [
-        225,
-        234
+        223.5,
+        236.5
       ],
       "unit": "degC",
       "monitored": true,
@@ -88,8 +94,8 @@
       "param": "partMass_g",
       "soll": 10.35,
       "tolerance": [
-        10.2,
-        10.45
+        10.01,
+        10.69
       ],
       "unit": "g",
       "monitored": true,
@@ -101,8 +107,8 @@
       "param": "cushionMm",
       "soll": 6.0,
       "tolerance": [
-        4.5,
-        7.0
+        4.35,
+        7.65
       ],
       "unit": "mm",
       "monitored": true,
@@ -139,47 +145,6 @@
       "smAttribute": "holdPressureBar"
     },
     {
-      "param": "nozzleTempC",
-      "soll": 250,
-      "tolerance": [
-        245,
-        255
-      ],
-      "unit": "degC",
-      "monitored": true,
-      "valueFrom": "recipe:nozzle_temp_band",
-      "constraintId": "recipe_nozzle_temp_band",
-      "smAttribute": "nozzleTempC"
-    },
-    {
-      "param": "backPressureBar",
-      "soll": 115,
-      "tolerance": [
-        80,
-        150
-      ],
-      "unit": "bar",
-      "monitored": true,
-      "gate": "inCycle==true",
-      "valueFrom": "recipe:back_pressure_band",
-      "constraintId": "recipe_back_pressure_band",
-      "smAttribute": "backPressureBar"
-    },
-    {
-      "param": "injectionSpeedMmPerSec",
-      "soll": 60,
-      "tolerance": [
-        40,
-        80
-      ],
-      "unit": "mm/s",
-      "monitored": true,
-      "gate": "inCycle==true",
-      "valueFrom": "recipe:injection_speed_band",
-      "constraintId": "recipe_injection_speed_band",
-      "smAttribute": "injectionSpeedMmPerSec"
-    },
-    {
       "param": "mouldTempC",
       "soll": 50,
       "tolerance": [
@@ -191,20 +156,6 @@
       "valueFrom": "recipe:mould_temp_band",
       "constraintId": "recipe_mould_temp_band",
       "smAttribute": "mouldTempC"
-    },
-    {
-      "param": "shotVolumeCm3",
-      "soll": 31,
-      "tolerance": [
-        28,
-        34
-      ],
-      "unit": "cm3",
-      "monitored": true,
-      "gate": "inCycle==true",
-      "valueFrom": "recipe:shot_volume_band",
-      "constraintId": "recipe_shot_volume_band",
-      "smAttribute": "shotVolumeCm3"
     }
   ]
 }
