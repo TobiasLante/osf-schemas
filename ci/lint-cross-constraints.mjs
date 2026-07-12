@@ -211,6 +211,13 @@ function checkGuard(label, what, profileId, attrName, guard, profiles, sourcesBy
 }
 
 // Merged attribute name set (own + parentType chain).
+//
+// `kgIdProperty` counts as a joinable name (CAPT-ZUG4). A profile's KG key is not
+// listed among its `attributes` — SMProfile-InjectionMoldingMachine declares
+// kgIdProperty 'machine_id' and never repeats it as a telemetry attribute — yet it
+// is precisely the name you join a machine ON, and contract.json's identity rule
+// says it is THE identity. Without this, any cross-rule with a machine on one side
+// is unlinted (a warning nobody reads) purely because it joined on the correct key.
 function attrNames(profileId, profiles) {
   const out = new Set();
   let p = profiles.get(profileId);
@@ -218,6 +225,7 @@ function attrNames(profileId, profiles) {
   while (p && !seen.has(p.profileId)) {
     seen.add(p.profileId);
     for (const a of p.attributes ?? []) out.add(a.name);
+    if (p.kgIdProperty) out.add(p.kgIdProperty);
     if (!p.parentType) break;
     p =
       profiles.get(p.parentType) ||
