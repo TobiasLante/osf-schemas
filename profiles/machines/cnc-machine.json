@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-CNC-Machine",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "standard": "CESMII",
   "category": "machine",
   "displayName": "CNC Machine",
@@ -12,7 +12,12 @@
       "name": "Act_Status_Machine",
       "dataType": "String",
       "required": false,
-      "enum": ["RUNNING", "IDLE", "STOPPED", "MAINTENANCE"],
+      "enum": [
+        "RUNNING",
+        "IDLE",
+        "STOPPED",
+        "MAINTENANCE"
+      ],
       "description": "Actual machine status. VOCABULARY MEASURED 2026-07-12 over the FULL population (factory.machine_state_history, 22.1 Mio rows, GROUP BY status): IDLE (13.518.442), RUNNING (8.099.280), STOPPED (470.620), MAINTENANCE (17.994); cross-checked at the wire by reading opc.tcp://192.168.178.154:36000 ns=1;s=Machine/status (returned \"IDLE\", same uppercase dialect) and against :38260/api/machines (status_raw RUNNING). The old prose additionally claimed FAULT and OFFLINE — neither has ever occurred; they are NOT declared, because an undeclared-but-real value is caught by the drift check while a declared-but-fictional value silently licenses a dead guard. MTConnect bridge derives the value via valueMap (ACTIVE -> RUNNING, * -> IDLE) — its image {RUNNING, IDLE} is a subset of this enum (checked by ci/lint-vocabulary.mjs).",
       "delivery": "transactional",
       "scope": "hub",
@@ -22,7 +27,11 @@
       "name": "Act_Text_MachineMode",
       "dataType": "String",
       "required": false,
-      "enum": ["AUTO", "MANUAL", "SETUP"],
+      "enum": [
+        "AUTO",
+        "MANUAL",
+        "SETUP"
+      ],
       "description": "Machine operating mode. VOCABULARY MEASURED 2026-07-12 over the FULL population (factory.machine_state_history, GROUP BY mode): AUTO (20.195.187), MANUAL (1.166.249), SETUP (744.900); wire-checked via ns=1;s=Machine/mode (returned \"AUTO\"). Declared so that the FIRST guard written against this attribute is verified against reality instead of against a comment.",
       "delivery": "transactional",
       "scope": "hub",
@@ -371,7 +380,7 @@
   "constraints": [
     {
       "name": "spindle_load_control_limits",
-      "description": "Control limits (Warngrenze + Eingriffsgrenze) for spindle load %. Two-tier band: inside warn [0,55] = ok; outside warn -> 'warning'-tier alarm (watch); outside the action band [0,70] -> 'error'-tier alarm (intervene). Raise/clear lifecycle, auto-clears once the value returns inside the warn band. LITERAL bands = static SSOT for the pilot.",
+      "description": "Control limits (Warngrenze + Eingriffsgrenze) for spindle load %. Two-tier band: inside warn [0,55] = ok; outside warn -> 'warning'-tier alarm (watch); outside the action band [0,70] -> 'error'-tier alarm (intervene). Raise/clear lifecycle, auto-clears once the value returns inside the warn band. LITERAL bands = static SSOT for the pilot. --- 2026-07-12 CAPT-STURM: declares a `persistence` policy (anti-chatter). A single sample outside a band is not a deviation — an EPISODE is. `raise` is a Western-Electric run rule (2 of the last 3 evaluations must breach); `clear` is an ISA-18.2 dead-band (the value must return inside the limit by 15 % of the band width, for 3 evaluations). The LIMITS ARE UNCHANGED — this removes chatter, not signal. Declaring it is now MANDATORY for every live `between`/`within_limits` rule (ci/lint-constraints.mjs, fail-closed): a rule the detector cannot police is a rule that reports its own arithmetic instead of the machine. MEASURED 2026-07-12: 4.235 episodes across cnc-001/002/mtc-02 — the same chatter as the hot-runner storm on sgm-006, one order of magnitude smaller.",
       "require": {
         "attr": "Act_Pct_SpindleLoad",
         "op": "within_limits",
@@ -388,6 +397,16 @@
       },
       "severity": "warning",
       "discrepancyClass": "control_limit",
+      "persistence": {
+        "raise": {
+          "k": 2,
+          "of": 3
+        },
+        "clear": {
+          "deadband_pct": 0.15,
+          "consecutive": 3
+        }
+      },
       "concern": "operations",
       "mom_category": "production",
       "accountable_role": "Production",
@@ -396,7 +415,7 @@
     },
     {
       "name": "spindle_temp_control_limits",
-      "description": "Control limits (Warngrenze + Eingriffsgrenze) for spindle temperature degC. Inside warn [15,45] = ok; outside warn -> 'warning'-tier; outside action [10,55] -> 'error'-tier. Raise/clear, auto-clears inside the warn band.",
+      "description": "Control limits (Warngrenze + Eingriffsgrenze) for spindle temperature degC. Inside warn [15,45] = ok; outside warn -> 'warning'-tier; outside action [10,55] -> 'error'-tier. Raise/clear, auto-clears inside the warn band. --- 2026-07-12 CAPT-STURM: declares a `persistence` policy (anti-chatter). A single sample outside a band is not a deviation — an EPISODE is. `raise` is a Western-Electric run rule (2 of the last 3 evaluations must breach); `clear` is an ISA-18.2 dead-band (the value must return inside the limit by 15 % of the band width, for 3 evaluations). The LIMITS ARE UNCHANGED — this removes chatter, not signal. Declaring it is now MANDATORY for every live `between`/`within_limits` rule (ci/lint-constraints.mjs, fail-closed): a rule the detector cannot police is a rule that reports its own arithmetic instead of the machine.",
       "require": {
         "attr": "Act_Temp_Spindle",
         "op": "within_limits",
@@ -413,6 +432,16 @@
       },
       "severity": "warning",
       "discrepancyClass": "control_limit",
+      "persistence": {
+        "raise": {
+          "k": 2,
+          "of": 3
+        },
+        "clear": {
+          "deadband_pct": 0.15,
+          "consecutive": 3
+        }
+      },
       "concern": "operations",
       "mom_category": "production",
       "accountable_role": "Maintenance",
@@ -421,7 +450,7 @@
     },
     {
       "name": "spindle_power_control_limits",
-      "description": "Control limits (Warngrenze + Eingriffsgrenze) for active power kW. Inside warn [0,45] = ok; outside warn -> 'warning'-tier; outside action [0,55] -> 'error'-tier. Raise/clear, auto-clears inside the warn band.",
+      "description": "Control limits (Warngrenze + Eingriffsgrenze) for active power kW. Inside warn [0,45] = ok; outside warn -> 'warning'-tier; outside action [0,55] -> 'error'-tier. Raise/clear, auto-clears inside the warn band. --- 2026-07-12 CAPT-STURM: declares a `persistence` policy (anti-chatter). A single sample outside a band is not a deviation — an EPISODE is. `raise` is a Western-Electric run rule (2 of the last 3 evaluations must breach); `clear` is an ISA-18.2 dead-band (the value must return inside the limit by 15 % of the band width, for 3 evaluations). The LIMITS ARE UNCHANGED — this removes chatter, not signal. Declaring it is now MANDATORY for every live `between`/`within_limits` rule (ci/lint-constraints.mjs, fail-closed): a rule the detector cannot police is a rule that reports its own arithmetic instead of the machine. MEASURED 2026-07-12: 236 episodes across the cnc fleet.",
       "require": {
         "attr": "Act_Energy_Power",
         "op": "within_limits",
@@ -438,6 +467,16 @@
       },
       "severity": "warning",
       "discrepancyClass": "control_limit",
+      "persistence": {
+        "raise": {
+          "k": 2,
+          "of": 3
+        },
+        "clear": {
+          "deadband_pct": 0.15,
+          "consecutive": 3
+        }
+      },
       "concern": "operations",
       "mom_category": "production",
       "accountable_role": "Production",
@@ -488,7 +527,7 @@
     },
     {
       "name": "tool_wear_in_range",
-      "description": "Tool wear must lie between 0 and 100 percent — values outside indicate a sensor / scaling fault.",
+      "description": "Tool wear must lie between 0 and 100 percent — values outside indicate a sensor / scaling fault. --- 2026-07-12 CAPT-STURM: declares a `persistence` policy (anti-chatter). A single sample outside a band is not a deviation — an EPISODE is. `raise` is a Western-Electric run rule (2 of the last 3 evaluations must breach); `clear` is an ISA-18.2 dead-band (the value must return inside the limit by 15 % of the band width, for 3 evaluations). The LIMITS ARE UNCHANGED — this removes chatter, not signal. Declaring it is now MANDATORY for every live `between`/`within_limits` rule (ci/lint-constraints.mjs, fail-closed): a rule the detector cannot police is a rule that reports its own arithmetic instead of the machine.",
       "require": {
         "attr": "Act_Pct_ToolWear",
         "op": "between",
@@ -499,6 +538,16 @@
       },
       "severity": "warning",
       "discrepancyClass": "constraint",
+      "persistence": {
+        "raise": {
+          "k": 2,
+          "of": 3
+        },
+        "clear": {
+          "deadband_pct": 0.15,
+          "consecutive": 3
+        }
+      },
       "concern": "operations",
       "mom_category": "production",
       "accountable_role": "Maintenance",
