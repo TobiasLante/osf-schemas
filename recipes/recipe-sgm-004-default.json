@@ -1,10 +1,10 @@
 {
   "recipeId": "RECIPE-sgm-004-default",
-  "version": "3.3.0",
+  "version": "3.4.0",
   "owner": "Process Engineering",
   "profileRef": "SMProfile-InjectionMoldingMachine",
   "displayName": "sgm-004 default band (equipment-scoped catch-all)",
-  "description": "CAPT-BAND — EQUIPMENT-SCOPED recipe for sgm-004: match on the equipment axis ALONE so the active-recipe band resolves regardless of the article. This closes a live-data gap: the REAL ERP (erpdb.llm_test_v3) keys orders by numeric article codes (e.g. 14-0204-003, 12-0044-002) that do NOT equal the demo article names (housing-A, bracket-B), and carries NO setup/mould column. The it-evaluator RecipeBandResolver picks the active production order on sgm-004 (status=in_arbeit, most-recent), resolves the band here by equipment, and delivers it to the edge on i3x.recipe.band.sgm-004. The article-specific recipes (recipe-sgm-004-pa66gf30-housing-a.json / -bracket-b.json) still win FIRST per ref when a demo article IS active (recipeId-sorted, first-match-wins); this default catches every real article. The bands mirror the housing-A SOLL (the documented part currently set up on sgm-004). Edit a band here + push -> live on the next it-evaluator refresh, no redeploy; the edge applies the delivered numbers literal-only. --- 2026-07-12 (v3.3.0), TWO CHANGES. (1) mouldTempC: SOLL 50 -> 85 degC, band [40,60] -> [80,90], toleranceSource process_estimate -> norm. The old 50 degC was simply not a PA66 setting: a PA66(-GF30) tool is tempered to 80-90 degC, below which the part does not crystallise properly. Because the number now comes from the resin's processing specification and not from someone's estimate, its toleranceSource is 'norm' = BINDING: this band may NOT be widened to make a deviation disappear. That is deliberate and it is the whole point — with the machine running 87.5 degC, virtually every measured value lands INSIDE [80,90] (Cp ~ 2.1, the recipe is perfectly holdable) while the process centre is off by 2.5 degC, i.e. Ca = |87.5-85|/5 = 0.50 against a policy ca_max of 0.125. The verdict the product must produce is therefore 'fix_reality' (re-centre the machine), never 'fix_charter' (widen the band). This is the SAME statement the part mass already makes (SOLL 10.35 / machine 10.40 / Ca 0.147) on a second, independent parameter: 100 % IN TOLERANCE — AND THE MACHINE STILL DEVIATES. The offset is deliberately small: a 35 degC miss would be worthless, every setter would spot it unaided. (2) peakPressureBar / holdPressureBar: the documented gate changes from inCycle==true to phaseName==HOLD, mirroring the corrected 'when' guards on recipe_peak_pressure_band / recipe_hold_pressure_band in the profile. The bands themselves ([450,560] / [300,380]) are UNCHANGED and were never wrong — the population they were being judged against was. See the profile constraints for the measurements.",
+  "description": "CAPT-BAND — EQUIPMENT-SCOPED recipe for sgm-004: match on the equipment axis ALONE so the active-recipe band resolves regardless of the article. This closes a live-data gap: the REAL ERP (erpdb.llm_test_v3) keys orders by numeric article codes (e.g. 14-0204-003, 12-0044-002) that do NOT equal the demo article names (housing-A, bracket-B), and carries NO setup/mould column. The it-evaluator RecipeBandResolver picks the active production order on sgm-004 (status=in_arbeit, most-recent), resolves the band here by equipment, and delivers it to the edge on i3x.recipe.band.sgm-004. The article-specific recipes (recipe-sgm-004-pa66gf30-housing-a.json / -bracket-b.json) still win FIRST per ref when a demo article IS active (recipeId-sorted, first-match-wins); this default catches every real article. The bands mirror the housing-A SOLL (the documented part currently set up on sgm-004). Edit a band here + push -> live on the next it-evaluator refresh, no redeploy; the edge applies the delivered numbers literal-only. --- 2026-07-12 (v3.3.0), TWO CHANGES. (1) mouldTempC: SOLL 50 -> 85 degC, band [40,60] -> [80,90], toleranceSource process_estimate -> norm. The old 50 degC was simply not a PA66 setting: a PA66(-GF30) tool is tempered to 80-90 degC, below which the part does not crystallise properly. Because the number now comes from the resin's processing specification and not from someone's estimate, its toleranceSource is 'norm' = BINDING: this band may NOT be widened to make a deviation disappear. That is deliberate and it is the whole point — with the machine running 87.5 degC, virtually every measured value lands INSIDE [80,90] (Cp ~ 2.1, the recipe is perfectly holdable) while the process centre is off by 2.5 degC, i.e. Ca = |87.5-85|/5 = 0.50 against a policy ca_max of 0.125. The verdict the product must produce is therefore 'fix_reality' (re-centre the machine), never 'fix_charter' (widen the band). This is the SAME statement the part mass already makes (SOLL 10.35 / machine 10.40 / Ca 0.147) on a second, independent parameter: 100 % IN TOLERANCE — AND THE MACHINE STILL DEVIATES. The offset is deliberately small: a 35 degC miss would be worthless, every setter would spot it unaided. (2) peakPressureBar / holdPressureBar: the documented gate changes from inCycle==true to phaseName==HOLD, mirroring the corrected 'when' guards on recipe_peak_pressure_band / recipe_hold_pressure_band in the profile. The bands themselves ([450,560] / [300,380]) are UNCHANGED and were never wrong — the population they were being judged against was. See the profile constraints for the measurements. --- 2026-07-12 (v3.4.0), CAPT-WINDOW: every band now DECLARES ITS POPULATION (`capability.*.population`), and the mouldTempC gate is removed. WHY. At 12:24:06.868 the machine was re-commissioned with a new mould-temperature setpoint (70 -> 87.5 degC). Measured immediately afterwards on the live edge: mouldTempC over its FULL history = mean 75.63 degC, stationarity ratio 32.0 — an average of two machines, one of which no longer exists; over the CURRENT REGIME (since 12:24:06) = mean 87.50 degC, ratio 0.97, Cp 2.08, Ca 0.50, 99.94 % in band. The stationarity gate did its job and refused Cp on the mixed sample — but the MEAN, and therefore Ca, was computed anyway. A verdict built on 75.63 would have sent a setter to chase a cold mould that had already been fixed. The gate catches the SPREAD; only a declared population catches the LOCATION.\n\nWHICH MARKERS, AND WHY THESE. The boundary is `shotCount` going backwards (7051 -> 0) — the ONLY signal that fired at the real event. mouldId did not change, currentProgram did not change, `reason` is LATCHED (the edge republishes 'mould-change' unchanged on every reconnect), and `recipe_id` DOES NOT EXIST on the edge at all (0 rows in sm_attribute, topic or payload — it lives only in the band the it-evaluator delivers). A population rule built on the markers a reasonable person would pick first would not have caught the change that actually happened.\n\nWHY `shotCount` IS A BOUNDARY FOR MOULD TEMPERATURE AND NOT FOR PART MASS — and this is a DECLARATION, open to being overruled by whoever owns the process: a re-commissioning reloads the machine's setpoints, and for mouldTempC it demonstrably changed one (25 -> 87.5 degC across the reset). For partMass_g it demonstrably did not: partMass_g has survived NINE counter resets in its history as ONE stationary process (ratio 0.976 over all 319,621 gated samples). So a restart is declared a boundary for the thermal band and not for the mass band, and the evidence for that asymmetry is in the data, not in an assumption. The stationarity ratio is the auditor of this judgement: if a future restart DOES move the mass process, the merged population goes non-stationary, the ratio crosses 2.0, and the verdict is WITHHELD rather than quietly wrong. Change these two lines, not the code, if the process says otherwise.\n\nAND THE GATE HAD TO GO. mouldTempC was gated `inCycle==true`. Two things are wrong with that. (1) It is a category error: a mould is tempered CONTINUOUSLY by its temperature-control unit, so a per-shot flag is not the condition under which the question 'is the mould at 85 degC?' is asked. (2) The gate was silently doing the POPULATION's job — crudely excluding the cold machine — and doing it badly: gated over the full history it yields mean 59.38 degC and 0 % in band, which is not a measurement of anything. Once the population is bounded properly, the cold start-up data is excluded BY CONSTRUCTION (measured: the regime-sliced ungated sample has ratio 0.97 — no cold data leaked in), and the gate is redundant. 🔥 A gate that exists to hide data the population should have excluded is a bug with good manners.\n\n⚠️ LIVE FINDING, NOT FIXED HERE: `inCycle` itself has been DEAD since 2026-07-11 13:43:24 — the OPC monitored item stopped firing while the machine kept producing ~3,100 samples/hour until 12:24 today. Every capability gated on it (partMass_g) therefore rests on a population whose NEWEST sample is 26 hours old, and the engine reported it as current with full confidence. That is the same disease at a different layer and it needs its own fix (re-arm the monitored item; and the engine should refuse a population whose newest sample is older than the machine's own liveness).",
   "match": {
     "equipment": "sgm-004"
   },
@@ -57,37 +57,110 @@
     "recipe:hotrunner_temp_band": {
       "cp_min": 1.33,
       "ca_max": 0.125,
-      "max_stationarity_ratio": 2.0
+      "max_stationarity_ratio": 2.0,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
     },
     "recipe:part_mass_band": {
       "cp_min": 1.33,
       "ca_max": 0.125,
-      "max_stationarity_ratio": 2.0
+      "max_stationarity_ratio": 2.0,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
     },
     "recipe:cushion_band": {
       "cp_min": 1.33,
       "ca_max": 0.125,
-      "max_stationarity_ratio": 2.0
+      "max_stationarity_ratio": 2.0,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
     },
     "recipe:peak_pressure_band": {
       "cp_min": 1.33,
       "ca_max": 0.125,
-      "max_stationarity_ratio": 2.0
+      "max_stationarity_ratio": 2.0,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
     },
     "recipe:hold_pressure_band": {
       "cp_min": 1.33,
       "ca_max": 0.125,
-      "max_stationarity_ratio": 2.0
+      "max_stationarity_ratio": 2.0,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
     },
     "recipe:hotrunner_control_limits": {
       "cp_min": 1.33,
       "ca_max": 0.125,
-      "max_stationarity_ratio": 2.0
+      "max_stationarity_ratio": 2.0,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
     },
     "recipe:mould_temp_band": {
       "cp_min": 1.33,
       "ca_max": 0.125,
-      "max_stationarity_ratio": 2.0
+      "max_stationarity_ratio": 2.0,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "resin"
+          ],
+          "on_reset": [
+            "shotCount"
+          ]
+        },
+        "min_sample_n": 1000
+      }
     }
   },
   "parameters": [
@@ -174,7 +247,6 @@
       ],
       "unit": "degC",
       "monitored": true,
-      "gate": "inCycle==true",
       "valueFrom": "recipe:mould_temp_band",
       "constraintId": "recipe_mould_temp_band",
       "smAttribute": "mouldTempC"
