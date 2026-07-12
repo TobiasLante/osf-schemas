@@ -113,7 +113,8 @@
       "dataType": "String",
       "required": false,
       "category": "Core",
-      "description": "Plan status of the OperationsRequest (offen (open), freigegeben (released), in_arbeit (in progress), fertig (done), storniert (cancelled)).",
+      "enum": ["offen", "freigegeben", "in_arbeit", "fertig", "abgeschlossen"],
+      "description": "Plan status of the OperationsRequest. VOCABULARY MEASURED 2026-07-12 from the PROJECTION that produces it (sim-v5 api-erp /app/src/routes/_mappers.ts#orderStatusToCanonicalDe — the same mapper serves /api/orders and /api/customer-orders), restricted by the source's filter (?exclude_status=CANCELLED,INVOICED,SHIPPED, applied to the RAW status): DRAFT|PROPOSED|PLANNED|<unknown> -> offen; ACCEPTED|RELEASED|WAITING_PARTS|ON_HOLD -> freigegeben; IN_PRODUCTION -> in_arbeit; PRODUCED|COMPLETED -> fertig; DELIVERED -> abgeschlossen. 'storniert' (CANCELLED) is UNREACHABLE through this source — a guard may not key on it. The i3x recipe-band resolver already relies on this vocabulary (ACTIVE_STATUSES = ['in_arbeit','freigegeben']). The old prose claimed 'fertig (done), storniert' as the terminal pair; 'storniert' never arrives. Exhaustive probe 2026-07-12: in_arbeit 4303, freigegeben 1705, fertig 1. Verified nightly by ci/check-vocab-drift.mjs.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"

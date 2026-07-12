@@ -49,6 +49,15 @@ jobs:
       - name: Install dependencies (ajv toolchain)
         run: npm ci --no-audit --no-fund
 
+      - name: Linter self-test — a broken literal MUST turn the build red
+        # Runs ci/lint-vocabulary.mjs as a subprocess against fixture trees and
+        # asserts on the EXIT CODE. This repo has shipped fake-green checks
+        # twice (a `tee` that ate an ajv crash; lint-recipes.mjs that never
+        # loaded the schema it claimed to enforce) — an untested gate is not a
+        # gate. `npm run validate` runs this too; it is called out separately so
+        # a failure here is unmistakable in the run log.
+        run: npm run test:vocabulary
+
       - name: Referential-integrity + convention linters (ci/lint-*.mjs)
         run: npm run validate
 

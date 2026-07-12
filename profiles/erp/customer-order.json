@@ -89,7 +89,8 @@
       "dataType": "String",
       "required": false,
       "category": "Core",
-      "description": "Sales-order status, e.g. offen (open), bestaetigt (confirmed), fertig (done), storniert (cancelled).",
+      "enum": ["offen", "freigegeben", "in_arbeit", "fertig", "abgeschlossen"],
+      "description": "Sales-order status. VOCABULARY MEASURED 2026-07-12 — not from a data snapshot (that is only a lower bound on a live system) but from the PROJECTION that produces the value: sim-v5 api-erp /app/src/routes/_mappers.ts#orderStatusToCanonicalDe(), the exact image of the raw->canonical map, restricted by the source's own filter (sources/rest/erp-customer-orders.json polls ?exclude_status=CANCELLED,INVOICED,SHIPPED, and the filter applies to the RAW status). Map: DRAFT|PROPOSED|PLANNED|<unknown> -> offen; ACCEPTED|RELEASED|WAITING_PARTS|ON_HOLD -> freigegeben; IN_PRODUCTION -> in_arbeit; PRODUCED|COMPLETED -> fertig; DELIVERED -> abgeschlossen (SHIPPED/INVOICED map here too but are filtered out); CANCELLED -> storniert is UNREACHABLE through this source (filtered). NB the projection translates: erp.orders.status holds IN_PRODUCTION/WAITING_PARTS/... — the edge NEVER sees that dialect, so do not lint against the DB. Exhaustive probe of the arriving population on 2026-07-12 (6009 orders, paged to exhaustion): in_arbeit 4303, freigegeben 1705, fertig 1, offen 0 — i.e. the order_overdue gate `status eq 'offen'` is REACHABLE but currently matches nothing (see ci/check-vocab-drift.mjs, zombie-guard warning). The old prose claimed 'bestaetigt' and 'storniert' — neither can arrive here. Verified nightly by ci/check-vocab-drift.mjs.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
