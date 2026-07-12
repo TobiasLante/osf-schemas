@@ -1,0 +1,33 @@
+{
+  "recipeId": "RECIPE-sgm-006-default",
+  "version": "1.0.0",
+  "owner": "Process Engineering",
+  "profileRef": "SMProfile-InjectionMoldingMachine",
+  "displayName": "sgm-006 default — hot-runner control limits (equipment-scoped)",
+  "description": "CAPT-FLEET — EQUIPMENT-SCOPED recipe for sgm-006. It declares ONE thing: the hot-runner CONTROL limits, centred on the setpoint this machine actually runs. It is deliberately narrow; read the two sections below before adding to it. --- WHY IT EXISTS (the storm). The profile constraint hotrunner_control_limits carries a LITERAL band warn [225,234] / action [218,241] and applies it to every injection-moulding machine in the fleet. But the band is not fleet-neutral: it is centred on 230 degC, which is sgm-004's nozzle setpoint (sim-v5 machines-sgm/src/config.ts: sgm-04 nozzleSetpointC 230). sgm-006's nozzle setpoint is 225. Measured on sgm-006's edge TS (2026-07-12, n=171,863): hotrunnerTempC mean 224.9968, sigma 1.5125 — so the warn FLOOR of 225 sits exactly on this machine's process mean, and 83,818 samples (48.77 %) fall below it. A coin flip. That is the 819 episodes/h storm CAPT-STURM measured. On sgm-004 (mean 229.9989, sigma 1.5086) the same literal sits at -3.3 sigma / +2.7 sigma and fires on 0.4 % of samples. Same rule, same numbers, two completely different machines. Of the 43,293 episodes on sgm-006, exactly ONE was real: a 21-second excursion on 2026-07-12 12:19:26-47, 17 consecutive samples, worst 209.1 degC — buried under ~43,292 false ones. --- WHY THESE NUMBERS ARE NOT CALIBRATED-FROM-THE-MACHINE (the distinction that matters). A SPECIFICATION limit comes from the product — drawing, customer spec, norm — and deriving it from measurement is fraud: it makes every machine trivially in-spec and yields zero findings. A CONTROL limit is the opposite by definition: in SPC it IS the process's own in-control behaviour (centre line = process mean, limits at k*sigma). Grounding it in the machine's own data is not a lie by construction, it is the correct construction — and it is why toleranceSource here is 'process_estimate' (negotiable, fix_charter) and NOT 'drawing' or 'norm' (binding). The bands: warn = 225 +- 3 sigma = [220.5, 229.5], action = 225 +- 4 sigma = [219.0, 231.0]. Measured against the real population: warn fires on 446 samples (0.260 %) — the textbook 0.27 % false-alarm rate for +-3 sigma, which independently confirms the process is N(225, 1.51); action fires on 28. The one REAL excursion still fires at every tier (all 17 samples sit below 219.0; worst 209.1). Warn drops 83,818 -> 446, a 188x reduction, WITHOUT losing the true finding. The ~11 residual singleton dips are isolated samples, not runs — they are what CAPT-STURM's persistence / ISA-18.2 deadband policy is for. Both fixes are needed: debouncing cannot rescue a wrong band, and a right band still benefits from a run-rule. --- WHAT THIS RECIPE DELIBERATELY DOES *NOT* DECLARE. There is no recipe:hotrunner_temp_band, no recipe:part_mass_band and no recipe:mould_temp_band here, and that is a finding, not an omission. (1) A SPEC band needs a product specification, and this system contains none: all 222 articles in the ERP article master (sim-v5 /api/articles) carry gewicht_kg = null, there is no BOM mass and no process-parameter master anywhere. (2) sgm-006's machine mean equals its own sim setpoint to four decimals on every axis (partMass_g 8.9999 vs partMassTargetG 9.0; hotrunnerTempC 224.9968 vs nozzleSetpointC 225) because the simulator adds strictly ZERO-MEAN noise to its setpoints (machines-sgm/src/machine.ts:1168 partMassTargetG + normal(0, partMassTargetG*0.008); :1203 nozzleC + normal(0,1.5)) — the measured sigmas 0.0726 and 1.5125 match those generators exactly. There is no modelled off-nominal behaviour to discover. Any spec SOLL that differs from the setpoint would therefore have to be invented, and the deviation it produced would be an artefact of the invention. (3) In particular this recipe does NOT claim sgm-006 'should' run 230 degC like sgm-004. 230 is sgm-004's MACHINE setpoint, not a product requirement; the two machines run different moulds and different parts (MOULD-PART-H-v1 / 9.0 g vs MOULD-PART-F-v2 / 10.4 g); and sgm-004's own recipe marks its 230 as toleranceSource 'process_estimate', i.e. explicitly not a spec. Asserting 'the product demands 230, so sgm-006 runs 5 degC too cold' would be calibrating from another machine's measurement — the same fabrication, one machine removed. When a real hot-runner specification for the part sgm-006 makes exists, add recipe:hotrunner_temp_band here with toleranceSource drawing/norm and the deviation will fall out on its own. --- BINDING NOTE: the key recipe:hotrunner_control_limits is currently DEAD. The profile constraint hotrunner_control_limits still resolves its band from a literal 'limits' object in `require`, not via valueFrom. Flipping it to valueFrom: recipe:hotrunner_control_limits is a PROFILE change and is NOT part of this commit — coordinate it, or these numbers will sit here and change nothing.",
+  "match": {
+    "equipment": "sgm-006"
+  },
+  "values": {
+    "recipe:hotrunner_control_limits": {
+      "warn": [
+        220.5,
+        229.5
+      ],
+      "action": [
+        219.0,
+        231.0
+      ]
+    }
+  },
+  "toleranceSource": {
+    "recipe:hotrunner_control_limits": "process_estimate"
+  },
+  "capability": {
+    "recipe:hotrunner_control_limits": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2.0
+    }
+  }
+}
