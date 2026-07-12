@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-InjectionMoldingMachine",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "standard": "CESMII",
   "category": "machine",
   "displayName": "Injection Molding Machine",
@@ -43,40 +43,64 @@
       "dataType": "Int32",
       "required": false,
       "category": "BDE",
-      "description": "Good parts produced (cumulative).",
+      "description": "Good parts produced (cumulative). READ IT WITH `counter.aggregation`, NOT max-min: this counter resets.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "counter": {
+        "semantics": "cumulative_resettable",
+        "aggregation": "sum_of_positive_deltas",
+        "resetsObserved": 10,
+        "measuredAt": "2026-07-12"
+      }
     },
     {
       "name": "scrap",
       "dataType": "Int32",
       "required": false,
       "category": "BDE",
-      "description": "Scrap parts (cumulative).",
+      "description": "Scrap parts (cumulative). READ IT WITH `counter.aggregation`, NOT max-min: this counter resets.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "counter": {
+        "semantics": "cumulative_resettable",
+        "aggregation": "sum_of_positive_deltas",
+        "resetsObserved": 10,
+        "measuredAt": "2026-07-12"
+      }
     },
     {
       "name": "total",
       "dataType": "Int32",
       "required": false,
       "category": "BDE",
-      "description": "Total parts (cumulative).",
+      "description": "Total parts (cumulative). READ IT WITH `counter.aggregation`, NOT max-min: this counter resets.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "counter": {
+        "semantics": "cumulative_resettable",
+        "aggregation": "sum_of_positive_deltas",
+        "resetsObserved": 10,
+        "measuredAt": "2026-07-12"
+      }
     },
     {
       "name": "shotCount",
       "dataType": "Int32",
       "required": false,
       "category": "BDE",
-      "description": "Shot count (cumulative).",
+      "description": "Shot count (cumulative). READ IT WITH `counter.aggregation`, NOT max-min: this counter resets.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "counter": {
+        "semantics": "cumulative_resettable",
+        "aggregation": "sum_of_positive_deltas",
+        "resetsObserved": 10,
+        "measuredAt": "2026-07-12"
+      }
     },
     {
       "name": "uptimeSeconds",
@@ -447,10 +471,16 @@
       "dataType": "Int32",
       "required": false,
       "category": "Process",
-      "description": "Mould total shot counter (life).",
+      "description": "Mould total shot counter (life). ITS READING IS NOT ESTABLISHED (counter.semantics='unreadable', aggregation='refuse'). Measured on sgm-004 (2026-07-12, full history): it steps DOWN 153 times, where the machine's own good/scrap/total/shotCount step down exactly 10 — and those 10 are the container restarts. 153 is not a restart pattern. The likely reading is that this counter belongs to the MOULD and follows the tool, so it drops whenever a different mould is installed; sum_of_positive_deltas would then silently sum ACROSS moulds. Read as if it were a machine counter it yields 16.072 shots against shotCount's 15.869 — close enough to look right, wrong enough to matter, which is the dangerous kind of wrong. It stays 'refuse' until a tool-change event stream exists to partition it by mould.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "counter": {
+        "semantics": "unreadable",
+        "aggregation": "refuse",
+        "resetsObserved": 153,
+        "measuredAt": "2026-07-12"
+      }
     },
     {
       "name": "powerKw",

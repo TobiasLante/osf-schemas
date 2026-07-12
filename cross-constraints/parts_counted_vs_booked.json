@@ -1,0 +1,110 @@
+{
+ "crossConstraintId": "parts_counted_vs_booked",
+ "version": "0.1.0",
+ "standard": "OSF",
+ "displayName": "Parts counted (OT) vs. parts booked (ERP) — PARKED, the ERP cannot answer yet",
+ "description": "The successor qty_shortfall's tombstone asked for: a left operand from OUTSIDE the ERP — the machine's own counted parts — against the ERP's booking. That is the only genuine IT-vs-OT multi-truth this product can have: two INDEPENDENT systems asserting the SAME fact (how many good parts did machine M make in window W) and disagreeing.\n\nIT IS PARKED, AND NOT BECAUSE THE OPERANDS DISAGREE. It is parked because ONE OF THE TWO SOURCES CANNOT STATE THE FACT AT ALL. A multi-truth needs two parties to the same question. Measured on 2026-07-12 (see blockedBy), the ERP is not a party: it does not know which machine made a part. Arming this rule today would not report a disagreement — it would report the ERP's silence as if it were a denial, and blame the customer's booking discipline for a gap in our own integration. We did that once today already (the pressure gate, Ca 5.385 read as 0.956) and it was the worst thing the system did.\n\nWHEN IT UNPARKS, IT RAISES ONE FINDING PER MACHINE PER WINDOW — never one per order. A shortfall that appears on every order of a machine is not 17.435 findings; it is one sentence about that machine. And a shortfall that appears on EVERY machine is not a finding at all: it is the norm, and the thing that is broken is the booking process, not the factory.",
+ "parked": true,
+ "parkedAt": "2026-07-12",
+ "parkedBy": "CAPT-ZUG4",
+ "parkedReason": "The right operand does not exist in a form that can answer the question. This is an INTEGRATION defect, not a factory deviation — see blockedBy.",
+
+ "blockedBy": {
+  "measuredAt": "2026-07-12",
+  "measuredAgainst": "sim-v5 ERP REST :38260 (.154), osf-neo4j + sgm-004 edge TS on .99 — read-only",
+  "$comment": "Every number below was measured by CAPT-ZUG4 against the live systems, not carried over from a briefing. Two of the three claims that were HANDED to this captain turned out to be false and are corrected here — which is itself the argument for measuring.",
+
+  "blocker_1_the_confirmation_feed_has_no_machine": {
+   "what": "/api/confirmations (-> SMProfile-OperationsResponse) is the only ERP actuals feed that can be polled in full. It carries machine_no = null and machine_id = null in 100 % of rows (measured: 100 of 100 sampled, and the source contract sources/rest/erp-operations-response.json already says so in prose: 'BDE bridge does not stamp the machine').",
+   "consequence": "An OperationsResponse cannot be attributed to a machine. The KG confirms it: the OperationsResponse node has quantity_produced and completed_at but NO machine_ref property at all.",
+   "soThisRuleCannot": "use quantity_produced as the ERP's per-machine answer."
+  },
+
+  "blocker_2_the_order_does_not_resolve_to_a_machine_either": {
+   "what": "The only way to reach a machine from a confirmation is the RESPONDS_TO join onto ProductionOrder.machine_ref. Measured over all 10.883 ProductionOrder nodes: 3.543 (32,6 %) name a specific machine; 3.286 (30,2 %) name a POOL ('POOL-SGM', 'POOL-CNC', 'POOL-VORMONTAGE' — a work centre, i.e. ~20 presses, not a press); 4.054 (37,3 %) are NULL.",
+   "consequence": "For 67,4 % of production orders the ERP itself does not know which machine ran them. POOL-SGM is not a machine and must never be silently treated as one.",
+   "andInTheWindow": "In the declared window (2026-07-10 -> 2026-07-12 UTC) there are 2.185 confirmations. 1.957 of them (89,6 %) join to NO production order at all; 66 join to an order that points at a POOL; exactly 5 confirmations (971 pieces) resolve to sgm-004. Comparing 971 against the machine's 16.093 counted parts would produce a 94 % 'shortfall' that is an artifact of the join, not of the factory."
+  },
+
+  "blocker_3_the_erp_book_of_record_is_not_retrievable": {
+   "what": "erp.order_operations is the ONLY ERP artifact that carries BOTH a machine and an actual quantity (machine_id + qty_done/completed_qty + status). It is exposed as GET /api/operations. That endpoint is capped at 1000 rows and honours NO other parameter: `offset`, `page`, `since`, `machine_id` are all IGNORED (proven: the response to `?limit=1000` and to `?limit=1000&offset=1000` are byte-identical, md5 eec33a7ee8a9104a23b346ed22597ab2). Default page size is 200; `limit=2000000` returns 1000.",
+   "consequence": "The ERP's book of record cannot be ingested. It is not modelled in the product at all — there is no source, no profile and no KG entity_type for order_operations, only ProductionOrder (which has qty_planned but NO actual quantity) and OperationsResponse (which has an actual quantity but NO machine).",
+   "note": "Of the 1000 operations that ARE visible, sgm-004 appears in ZERO of them — the window the endpoint happens to return does not contain it. The right operand for this rule is, today, literally unreachable."
+  },
+
+  "blocker_4_the_operand_is_corrupt_anyway": {
+   "what": "Within the 1000 visible operations, 333 (33,3 %) are OVERBOOKED: qty_done > qty_planned (worst seen: CO-2026-07-11-104305-4601 op 1 on hmi-02, planned 200, booked 279).",
+   "consequence": "Even once it is reachable, qty_done is not yet trustworthy. CAPT-MENGE is repairing the BDE bridge (it caps confirmations at the remaining quantity and drops the surplus, and it does not guard against booking onto an already-closed operation). Do not arm this rule against a left operand that is still being repaired.",
+   "correctionToTheBriefing": "The briefing located this bug in `packages/erp-confirmation/src/factory-bde-bridge.ts`. That file DOES NOT EXIST. The package is sim-v5 `packages/erp-confirmation/` and its src/ contains only index.ts (82 lines), which carries no `room`/cap logic. The overbooking is real and measured; the file path in the briefing is not."
+  },
+
+  "unblockChecklist": [
+   "The BDE bridge stamps the machine on every confirmation (machine_no), OR erp.order_operations becomes ingestible — either one gives the ERP a per-machine actual. Without one of them this rule can never be armed, no matter how good the OT side gets.",
+   "GET /api/operations supports paging (offset/cursor) and a `since` filter, so the book of record can be polled at all. Today it cannot.",
+   "CAPT-MENGE's cap/overbook repair has landed and qty_done is trustworthy.",
+   "The OT operand is live: i3x.values.<ipc>.counter (reset-aware, see left.counterContract). Without the reset guard the OT side is wrong by 2,25x and would manufacture a shortfall all by itself."
+  ],
+
+  "doNotUnparkAs": "a comparison against ProductionOrder.qty_planned. That is plan-vs-actual, it is one source (the ERP planned it and the ERP books it), and it is the exact Schein-Multi-Truth that qty_shortfall was retired for at 2026-07-12. The right operand MUST be an ERP-BOOKED ACTUAL attributable to a machine. If the ERP cannot supply one, the honest product behaviour is to say so once — not to raise a finding per order."
+ },
+
+ "left": {
+  "profileRef": "SMProfile-InjectionMoldingMachine",
+  "joinKey": "machine_id",
+  "attr": "good",
+  "$comment": "The machine's own counted good parts — the OT truth, and the operand that is INDEPENDENT of the ERP. It is NOT read as max-min: `good` is declared counter.semantics=cumulative_resettable / aggregation=sum_of_positive_deltas in SMProfile-InjectionMoldingMachine 2.2.0, because it resets on every container restart (10 resets measured over the sgm-004 history). Naive max-min: 55.622 parts. Reset-aware: 125.210. The reset-aware reading is confirmed by an identity that only closes if it is correct: good 125.210 + scrap 1.742 = total 126.952 = 8 cavities x shotCount 15.869, exactly.",
+  "counterContract": {
+   "aggregation": "sum_of_positive_deltas",
+   "source": "i3x.values.<ipc>.counter",
+   "windowRequired": true
+  }
+ },
+ "right": {
+  "profileRef": "SMProfile-OperationsResponse",
+  "joinKey": "production_order_no",
+  "attr": "quantity_produced",
+  "$comment": "PLACEHOLDER — and knowingly the WRONG operand, which is why this rule is parked and not merely unfinished. quantity_produced cannot be attributed to a machine (blocker 1), so it cannot answer the left operand's question. The correct right operand is erp.order_operations.completed_qty keyed by machine_id, which has no profile because it has no ingestible source (blocker 3). This field is filled in only so the contract is well-formed and the linter can check it; it is never evaluated while parked:true."
+ },
+ "op": "lte",
+ "severity": "warning",
+ "discrepancyClass": "multi_source",
+ "concern": "operations",
+ "mom_category": "production",
+ "accountable_role": "Production",
+
+ "population": {
+  "$comment": "THE DECLARED GRUNDGESAMTHEIT. A statement without one is not a statement. The OT counter is CUMULATIVE, so a quantity only exists relative to a window — and the window must survive both a counter reset and a changeover.",
+  "window": "shift",
+  "windowBoundary": "machine-local shift boundary; the reference measurement used a fixed 48 h window 2026-07-10T00:00Z -> 2026-07-12T00:00Z",
+  "resetGuard": "sum_of_positive_deltas — REQUIRED. Within the reference window the counter happened not to reset (0 resets), and even there max-min gives 16.085 against the true 16.093: it drops the increment that straddles the window's first sample. Over the full history the same naive reading loses 56 % of the output. The guard is not an optimisation.",
+  "referenceMeasurement": {
+   "machine": "sgm-004",
+   "from": "2026-07-10T00:00:00Z",
+   "to": "2026-07-12T00:00:00Z",
+   "ot_good_parts_reset_aware": 16093,
+   "ot_good_parts_naive_max_minus_min": 16085,
+   "resets_in_window": 0,
+   "erp_confirmations_resolving_to_this_machine": 5,
+   "erp_pieces_resolving_to_this_machine": 971,
+   "verdict": "NOT a 94 % shortfall. The ERP simply cannot see this machine — 89,6 % of the window's confirmations do not even reach an order."
+  }
+ },
+
+ "findingShape": {
+  "$comment": "THE FORM OF THE CLUSTER SAYS WHAT KIND OF PROBLEM IT IS. Many measurements on ONE machine = a real, actionable deviation. ONE rule firing across every order = a statement about the RULE, not about the orders. 11.196 rows are not handleable, and they were never 11.196 problems.",
+  "raiseAt": "machine_id + window",
+  "neverRaiseAt": "production_order_no",
+  "suppressIfUniversal": true,
+  "suppressIfUniversalMeans": "If the rule fires on (nearly) every machine in the fleet, it is not a production deviation — it is a booking-process or integration defect. Emit ONE integration finding against the ERP source, not N findings against the factory. A deviation that is everywhere is the norm, and the norm is not a deviation."
+ },
+
+ "confidence": {
+  "$comment": "GROUNDING GATE (PR #56): no evidence, no proposal. A confidence is only admissible when BOTH sources independently answer the SAME question. Today they do not: the OT side answers 'how many parts did sgm-004 make' and the ERP side answers 'how many pieces were booked against order X' — with no way to connect X to sgm-004 for 67,4 % of orders. Two sources answering DIFFERENT questions do not disagree; they simply do not meet. Attaching a probability to that gap would be an invention with decimal places.",
+  "admissible": false,
+  "admissibleWhen": "blockedBy.unblockChecklist is fully satisfied — i.e. the ERP can state a per-machine actual. Until then this is a PROCESS/INTEGRATION defect, not a multi-truth, and it carries no confidence at all."
+ },
+
+ "since": "2026-07-12",
+ "impact_basis": "margin",
+ "impactGuard": "No impact_eur may be published while parked. The retired qty_shortfall priced a delta that was an artifact of a feed and claimed EUR 1.737.072 that was never lost. An unattributable quantity has no € value — it has an evidence gap."
+}
