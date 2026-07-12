@@ -1,6 +1,6 @@
 {
   "sourceId": "opcua-sgm-001-telemetry",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "sourceType": "opcua",
   "syncType": "polling",
   "transport": [
@@ -66,6 +66,18 @@
       "smAttribute": "shotVolumeCm3",
       "dataType": "ns=0;i=11",
       "unit": "cm3"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[0]/partMass_g",
+      "smAttribute": "partMass_g",
+      "dataType": "ns=0;i=11",
+      "unit": "g"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[0]/hotrunnerTempC",
+      "smAttribute": "hotrunnerTempC",
+      "dataType": "ns=0;i=11",
+      "unit": "degC"
     },
     {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/mould/lifePercent",

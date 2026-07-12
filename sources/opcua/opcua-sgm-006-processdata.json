@@ -1,6 +1,6 @@
 {
   "sourceId": "opcua-sgm-006-processdata",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "sourceType": "opcua",
   "syncType": "streaming",
   "transport": [
@@ -257,17 +257,16 @@
       "dataType": "ns=0;i=12"
     },
     {
-      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/barrel/zones/[0]/tempC",
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/mould/tempC",
       "browsePath": [
         "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
         "typeSpecific",
-        "barrel",
-        "zones",
-        "[0]",
+        "mould",
         "tempC"
       ],
       "smAttribute": "mouldTempC",
-      "dataType": "ns=0;i=11"
+      "dataType": "ns=0;i=11",
+      "unit": "degC"
     },
     {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/mould/coolingFlowLMin",
