@@ -113,7 +113,13 @@
       "dataType": "String",
       "required": false,
       "category": "Core",
-      "description": "Plan status of the OperationsRequest (offen (open), freigegeben (released), in_arbeit (in progress), fertig (done), storniert (cancelled)).",
+      "description": "Plan status of the OperationsRequest. MEASURED vocabulary (2026-07-12, sim-v5 PROD .154 via /api/orders — the REST layer translates the DB status into this German legacy set): storniert (CANCELLED), abgeschlossen (INVOICED), in_arbeit (IN_PRODUCTION), freigegeben (WAITING_PARTS + ON_HOLD). The previous description of this attribute claimed 'offen (open) … fertig (done)' — BOTH OF THOSE VALUES ARE FICTION; they occur in no layer of the source (neither erp.orders.status ∈ {CANCELLED,INVOICED,IN_PRODUCTION,WAITING_PARTS,ON_HOLD} nor the REST translation above), and 'abgeschlossen' was missing entirely. That invented vocabulary is the ROOT CAUSE of the qty_shortfall guard defect (see cross-constraints/qty_shortfall.json): the rule author faithfully guarded on the documented value 'offen', which no row can ever carry. The enum below is measured, not asserted — extend it only against a fresh measurement.",
+      "enum": [
+        "storniert",
+        "abgeschlossen",
+        "in_arbeit",
+        "freigegeben"
+      ],
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
