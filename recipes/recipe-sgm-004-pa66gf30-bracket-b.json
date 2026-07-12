@@ -1,10 +1,10 @@
 {
   "recipeId": "RECIPE-sgm-004-PA66GF30-bracket-B",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "owner": "Process Engineering",
   "profileRef": "SMProfile-InjectionMoldingMachine",
   "displayName": "PA66-GF30 bracket-B on sgm-004 (mould-B)",
-  "description": "Second article on the SAME machine (sgm-004) with DIFFERENT bands — demonstrates the whole point of recipes: one rule (recipe_*_band), per-article limits. The it-evaluator resolves the active recipe from the running entity's (article x equipment x setup) key, so housing-A and bracket-B yield different tolerance bands from the identical constraints.",
+  "description": "Second article on the SAME machine (sgm-004) with DIFFERENT bands — demonstrates the whole point of recipes: one rule (recipe_*_band), per-article limits. The it-evaluator resolves the active recipe from the running entity's (article x equipment x setup) key, so housing-A and bracket-B yield different tolerance bands from the identical constraints. --- 2026-07-12 (v3.2.0): kept in lockstep with recipe-sgm-004-default v3.3.0. mouldTempC SOLL 50 -> 85 degC, band [40,60] -> [80,90], toleranceSource -> 'norm' (BINDING): the mould temperature is a property of the RESIN, not of the article — the same PA66-GF30 needs 80-90 degC whether it is moulded into a housing or a bracket, so this band moves with the default recipe rather than staying behind as a contradiction that would resurrect the old, wrong 50 degC the moment this article-specific recipe ever won a match. The peak/hold pressure GATE doc-strings move from inCycle==true to phaseName==HOLD to match the corrected 'when' guards in the profile (the pressure BANDS themselves are article-specific and unchanged). NOTE: this recipe matches on article 'bracket-B', which the real ERP never emits (its articles are codes like _V4_14-1300-017); the equipment-scoped default recipe is the one that is actually active on sgm-004.",
   "match": {
     "article": "bracket-B",
     "equipment": "sgm-004",
@@ -32,8 +32,8 @@
       440
     ],
     "recipe:mould_temp_band": [
-      40,
-      60
+      80,
+      90
     ]
   },
   "toleranceSource": {
@@ -42,7 +42,7 @@
     "recipe:cushion_band": "process_estimate",
     "recipe:peak_pressure_band": "process_estimate",
     "recipe:hold_pressure_band": "process_estimate",
-    "recipe:mould_temp_band": "process_estimate"
+    "recipe:mould_temp_band": "norm"
   },
   "capability": {
     "recipe:hotrunner_temp_band": {
@@ -126,7 +126,7 @@
       ],
       "unit": "bar",
       "monitored": true,
-      "gate": "inCycle==true",
+      "gate": "phaseName==HOLD",
       "valueFrom": "recipe:peak_pressure_band"
     },
     {
@@ -138,15 +138,15 @@
       ],
       "unit": "bar",
       "monitored": true,
-      "gate": "inCycle==true",
+      "gate": "phaseName==HOLD",
       "valueFrom": "recipe:hold_pressure_band"
     },
     {
       "param": "mouldTempC",
-      "soll": 50,
+      "soll": 85,
       "tolerance": [
-        40,
-        60
+        80,
+        90
       ],
       "unit": "degC",
       "monitored": true,
