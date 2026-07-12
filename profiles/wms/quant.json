@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-Quant",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "standard": "CESMII",
   "category": "business",
   "displayName": "Quant (inventory stock unit / MaterialSublot)",
@@ -104,7 +104,7 @@
   "constraints": [
     {
       "name": "stock_level_control_limits",
-      "description": "IT/inventory control limits (Warngrenze (warning limit) + action limit) on the free stock quantity (reorder level / maximum stock level). Stock should stay inside the warn band [20,500]; below 20 or above 500 -> 'warning'-tier alarm (reorder / overstock watch); below the action band lower bound 5 or above 800 -> 'error'-tier alarm (stockout risk / hard overstock). Two-sided control band evaluated centrally by the it-evaluator (IT acquisition); drives the IT alarm panel with a raise/clear lifecycle. LITERAL band = static SSOT for the pilot.",
+      "description": "IT/inventory control limits (Warngrenze (warning limit) + action limit) on the free stock quantity (reorder level / maximum stock level). Stock should stay inside the warn band [20,500]; below 20 or above 500 -> 'warning'-tier alarm (reorder / overstock watch); below the action band lower bound 5 or above 800 -> 'error'-tier alarm (stockout risk / hard overstock). Two-sided control band evaluated centrally by the it-evaluator (IT acquisition); drives the IT alarm panel with a raise/clear lifecycle. LITERAL band = static SSOT for the pilot. --- 2026-07-12 CAPT-STURM: declares a `persistence` policy (anti-chatter). A single sample outside a band is not a deviation — an EPISODE is. `raise` is a Western-Electric run rule (2 of the last 3 evaluations must breach); `clear` is an ISA-18.2 dead-band (the value must return inside the limit by 15 % of the band width, for 3 evaluations). The LIMITS ARE UNCHANGED — this removes chatter, not signal. Declaring it is now MANDATORY for every live `between`/`within_limits` rule (ci/lint-constraints.mjs, fail-closed): a rule the detector cannot police is a rule that reports its own arithmetic instead of the machine.",
       "require": {
         "attr": "quantity",
         "op": "within_limits",
@@ -121,6 +121,16 @@
       },
       "severity": "warning",
       "discrepancyClass": "control_limit",
+      "persistence": {
+        "raise": {
+          "k": 2,
+          "of": 3
+        },
+        "clear": {
+          "deadband_pct": 0.15,
+          "consecutive": 3
+        }
+      },
       "concern": "operations",
       "mom_category": "inventory",
       "accountable_role": "Production Planning",
