@@ -628,7 +628,12 @@
     },
     {
       "name": "recipe_part_mass_band",
-      "description": "Recipe / setting parameter: part mass must lie within the target band (resolved at runtime via valueFrom recipe:part_mass_band; the recipe target is deliberately chosen narrower than the current actual to detect overfilling/drift early). Outside -> over-/under-injection, scrap.",
+      "description": "Recipe / setting parameter: part mass must lie within the target band (resolved at runtime via valueFrom recipe:part_mass_band; the recipe target is deliberately chosen narrower than the current actual to detect overfilling/drift early). Outside -> over-/under-injection, scrap. Cycle-gated (inCycle==true), since OUTSIDE the cycle no part is made: a partMass_g sample taken between shots belongs to no shot at all. Measured on sgm-004 (2026-07-12): of 901,142 partMass_g points, 581,521 (64 %) carry inCycle=false — idle-time values that, ungated, enter every population drawn from this rule (capability, control charts, deviation counts). BE HONEST ABOUT WHAT THIS FIXES: those idle values happen to carry the same distribution as the real shots (in-cycle n=319,621, mean 10.4001, sigma 0.0840; idle n=581,521, mean 10.3999, sigma 0.0839), so Cp/Ca do NOT move because of this gate. It is not a numbers fix — it makes the POPULATION honest, and every future sample drawn from it defensible.",
+      "when": {
+        "attr": "inCycle",
+        "op": "eq",
+        "value": true
+      },
       "require": {
         "attr": "partMass_g",
         "op": "between",
@@ -777,7 +782,12 @@
     },
     {
       "name": "recipe_mould_temp_band",
-      "description": "Recipe / setting parameter (ASSUMED pilot default): mouldTempC must lie within the active recipe band (valueFrom recipe:mould_temp_band).",
+      "description": "Recipe / setting parameter (ASSUMED pilot default): mouldTempC must lie within the active recipe band (valueFrom recipe:mould_temp_band). Cycle-gated (inCycle==true): the recipe band describes the mould temperature WHILE THE RECIPE RUNS. Between shots and after shift end (sgm-004: Sa 2026-07-11 14:00) the mould is not being held on the recipe's temperature, so a band violation there is a deviation against a recipe that is not in force — noise, not a finding. Also measured on sgm-004 (2026-07-12, over the FULL ungated series): mouldTempC is by far the least stationary monitored signal, sigma_total/sigma_short = 156.4 — a Cp computed over that population is meaningless (see capability.max_stationarity_ratio in the recipe). The gate is expected to shrink that ratio; it is NOT yet proven to bring it under the policy threshold, and the stationarity check stays the authority on whether a Cp may be reported at all.",
+      "when": {
+        "attr": "inCycle",
+        "op": "eq",
+        "value": true
+      },
       "require": {
         "attr": "mouldTempC",
         "op": "between",

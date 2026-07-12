@@ -1,6 +1,6 @@
 {
   "recipeId": "RECIPE-sgm-004-PA66GF30-bracket-B",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "owner": "Process Engineering",
   "profileRef": "SMProfile-InjectionMoldingMachine",
   "displayName": "PA66-GF30 bracket-B on sgm-004 (mould-B)",
@@ -47,27 +47,33 @@
   "capability": {
     "recipe:hotrunner_temp_band": {
       "cp_min": 1.33,
-      "ca_max": 0.125
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2.0
     },
     "recipe:part_mass_band": {
       "cp_min": 1.33,
-      "ca_max": 0.125
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2.0
     },
     "recipe:cushion_band": {
       "cp_min": 1.33,
-      "ca_max": 0.125
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2.0
     },
     "recipe:peak_pressure_band": {
       "cp_min": 1.33,
-      "ca_max": 0.125
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2.0
     },
     "recipe:hold_pressure_band": {
       "cp_min": 1.33,
-      "ca_max": 0.125
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2.0
     },
     "recipe:mould_temp_band": {
       "cp_min": 1.33,
-      "ca_max": 0.125
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2.0
     }
   },
   "parameters": [
@@ -97,6 +103,7 @@
       ],
       "unit": "g",
       "monitored": true,
+      "gate": "inCycle==true",
       "valueFrom": "recipe:part_mass_band"
     },
     {
@@ -143,6 +150,7 @@
       ],
       "unit": "degC",
       "monitored": true,
+      "gate": "inCycle==true",
       "valueFrom": "recipe:mould_temp_band",
       "constraintId": "recipe_mould_temp_band",
       "smAttribute": "mouldTempC"
