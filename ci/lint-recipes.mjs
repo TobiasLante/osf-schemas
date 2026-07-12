@@ -16,6 +16,28 @@
 
 import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { join } from "node:path";
+import Ajv from "ajv";
+
+const SCHEMA_PATH = new URL("../validation/recipe-schema.json", import.meta.url)
+  .pathname;
+
+/**
+ * Compile recipe-schema.json. FAIL-CLOSED: if the schema is missing or does not
+ * compile we push an ERROR and validate nothing — we never quietly carry on
+ * "green" without the check the header promises. A linter that skips its own
+ * contract when the contract is broken is worse than no linter.
+ */
+function compileRecipeSchema(errors) {
+  try {
+    const schema = JSON.parse(readFileSync(SCHEMA_PATH, "utf8"));
+    return new Ajv({ allErrors: true, strict: false }).compile(schema);
+  } catch (e) {
+    errors.push(
+      `validation/recipe-schema.json: could not compile — ${e.message} (recipes NOT schema-checked)`,
+    );
+    return null;
+  }
+}
 
 const ROOT = process.env.RECIPES_ROOT
   ? process.env.RECIPES_ROOT.replace(/\/$/, "") + "/"
@@ -43,6 +65,20 @@ function lint() {
   const seenBindings = new Map();
   let refs = 0;
 
+  // CAPT-EUR — actually APPLY recipe-schema.json.
+  //
+  // The header of this file has always claimed "JSON Schema (recipe-schema.json)
+  // pins the structure; this script enforces what it cannot" — but nothing ever
+  // loaded the schema, here or anywhere else in CI. The schema was decorative:
+  // a recipe could contradict it in every field and `npm run validate` stayed
+  // green. (Same class of fake-green as the ajv crash `tee` masked on 07-08.)
+  //
+  // It matters now: the `economics` block is what authorises a € figure in front
+  // of a customer, and a mistyped `materialArticleRef` or a missing
+  // `counterAttribute` must fail the build, not silently produce a wrong number
+  // or no number at all. A contract nobody checks is not a contract.
+  const validateSchema = compileRecipeSchema(errors);
+
   for (const f of files) {
     const label = `next/recipes/${f}`;
     let r;
@@ -51,6 +87,12 @@ function lint() {
     } catch (e) {
       errors.push(`${label}: invalid JSON — ${e.message}`);
       continue;
+    }
+
+    if (validateSchema && !validateSchema(r)) {
+      for (const e of validateSchema.errors ?? []) {
+        errors.push(`${label}: schema${e.instancePath || "/"} ${e.message}`);
+      }
     }
 
     if (!r.recipeId || typeof r.recipeId !== "string") {
