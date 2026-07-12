@@ -116,10 +116,19 @@ function lint() {
       // "does the machine hit the nominal" (the MACHINE's obligation). They are
       // Process-Engineering policy and belong in the SSOT — a threshold compiled into a
       // service is a threshold nobody can change without a release.
+      //
+      // CAPT-SSOT / CAPT-STAT-EDGE (2026-07-12) — and max_stationarity_ratio is the
+      // PRECONDITION of both: Cp and Ca are only defined for ONE stationary process.
+      //   sigma_short = mean(|x_i - x_(i-1)|) / 1.128   (moving range, d2 for n=2)
+      //   stationarity_ratio = stddev(x) / sigma_short
+      // Above the threshold the sample holds several states and sigma measures the
+      // distance between them, not the process noise — the capability verdict must be
+      // WITHHELD (evidence gap), not reported as an incapable process. Measured on
+      // sgm-004: mouldTempC 156.4, pressures 3.3, partMass/hotrunner/cushion ~= 1.0.
       const cap = r.capability?.[ref];
       if (!cap || typeof cap !== "object") {
         errors.push(
-          `${label}: band "${ref}" has no capability — declare { cp_min, ca_max } (what must the band hold, and how well must the machine hit it?)`,
+          `${label}: band "${ref}" has no capability — declare { cp_min, ca_max, max_stationarity_ratio } (what must the band hold, how well must the machine hit it, and how far from stationary may the sample be before no verdict is allowed at all?)`,
         );
       } else {
         if (typeof cap.cp_min !== "number" || !(cap.cp_min > 0)) {
@@ -127,6 +136,13 @@ function lint() {
         }
         if (typeof cap.ca_max !== "number" || cap.ca_max < 0 || cap.ca_max > 1) {
           errors.push(`${label}: capability["${ref}"].ca_max must be between 0 and 1`);
+        }
+        if (typeof cap.max_stationarity_ratio !== "number" || !(cap.max_stationarity_ratio > 1)) {
+          errors.push(
+            `${label}: capability["${ref}"].max_stationarity_ratio must be a number > 1 ` +
+              `(sigma_total / sigma_short; a stationary process sits at ~1.0, so a threshold <= 1 would reject every sample). ` +
+              `Pilot policy: 2.0`,
+          );
         }
       }
       if (Array.isArray(val)) {

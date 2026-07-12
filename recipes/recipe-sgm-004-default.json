@@ -1,6 +1,6 @@
 {
   "recipeId": "RECIPE-sgm-004-default",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "owner": "Process Engineering",
   "profileRef": "SMProfile-InjectionMoldingMachine",
   "displayName": "sgm-004 default band (equipment-scoped catch-all)",
@@ -56,31 +56,38 @@
   "capability": {
     "recipe:hotrunner_temp_band": {
       "cp_min": 1.33,
-      "ca_max": 0.125
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2.0
     },
     "recipe:part_mass_band": {
       "cp_min": 1.33,
-      "ca_max": 0.125
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2.0
     },
     "recipe:cushion_band": {
       "cp_min": 1.33,
-      "ca_max": 0.125
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2.0
     },
     "recipe:peak_pressure_band": {
       "cp_min": 1.33,
-      "ca_max": 0.125
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2.0
     },
     "recipe:hold_pressure_band": {
       "cp_min": 1.33,
-      "ca_max": 0.125
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2.0
     },
     "recipe:hotrunner_control_limits": {
       "cp_min": 1.33,
-      "ca_max": 0.125
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2.0
     },
     "recipe:mould_temp_band": {
       "cp_min": 1.33,
-      "ca_max": 0.125
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2.0
     }
   },
   "parameters": [
@@ -106,6 +113,7 @@
       ],
       "unit": "g",
       "monitored": true,
+      "gate": "inCycle==true",
       "valueFrom": "recipe:part_mass_band",
       "constraintId": "recipe_part_mass_band",
       "smAttribute": "partMass_g"
@@ -160,6 +168,7 @@
       ],
       "unit": "degC",
       "monitored": true,
+      "gate": "inCycle==true",
       "valueFrom": "recipe:mould_temp_band",
       "constraintId": "recipe_mould_temp_band",
       "smAttribute": "mouldTempC"

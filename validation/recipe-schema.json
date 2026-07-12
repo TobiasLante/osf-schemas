@@ -135,7 +135,7 @@
     },
     "capability": {
       "type": "object",
-      "description": "CAPT-TRUTH-ZUG3.7 — the capability a band DEMANDS, per `recipe:<param>` ref. This is Process-Engineering POLICY and therefore belongs in the SSOT, never as a constant in code. It decomposes the customer's two questions into two independent numbers:\n  Cp = (hi-lo) / 6*sigma        — is the band holdable by this process AT ALL?  -> the RECIPE\n  Ca = |mean-soll| / ((hi-lo)/2) — does the process HIT the nominal?             -> the MACHINE\n  Cpk ~= Cp * (1 - Ca)          — the consequence of both; reported, never judged on.\nA band may be perfectly holdable (Cp high) while the machine misses the nominal (Ca high), and vice versa — which is exactly why one number cannot answer both questions. Measured on sgm-004: partMass_g runs at 10.400 g against a nominal of 10.35 with sigma 0.084 — a band wide enough to be holdable still leaves Ca = 0.15, i.e. the MACHINE deviates while the RECIPE is fine. No Cpk alone could have said that.",
+      "description": "CAPT-TRUTH-ZUG3.7 — the capability a band DEMANDS, per `recipe:<param>` ref. This is Process-Engineering POLICY and therefore belongs in the SSOT, never as a constant in code (the hard-coded CPK_UNHOLDABLE = 1.33 was deleted for exactly this reason). It decomposes the customer's questions into independent numbers:\n  Cp = (hi-lo) / 6*sigma        — is the band holdable by this process AT ALL?  -> the RECIPE\n  Ca = |mean-soll| / ((hi-lo)/2) — does the process HIT the nominal?             -> the MACHINE\n  Cpk ~= Cp * (1 - Ca)          — the consequence of both; reported, never judged on.\nA band may be perfectly holdable (Cp high) while the machine misses the nominal (Ca high), and vice versa — which is exactly why one number cannot answer both questions. Measured on sgm-004: partMass_g runs at 10.400 g against a nominal of 10.35 with sigma 0.084 — a band wide enough to be holdable still leaves Ca = 0.15, i.e. the MACHINE deviates while the RECIPE is fine. No Cpk alone could have said that.\nCAPT-SSOT / CAPT-STAT-EDGE (2026-07-12) add the PRECONDITION of all three: `max_stationarity_ratio`. Cp, Ca and Cpk are only defined for ONE stationary process. Over a sample that mixes states (heat-up, shift end, mould change), sigma is not the process's noise but the distance between its states — the numbers still compute, and they are lies. The ratio below decides whether a capability verdict may be issued at all.",
       "propertyNames": {
         "pattern": "^recipe:[A-Za-z0-9_.-]+$"
       },
@@ -152,11 +152,17 @@
             "minimum": 0,
             "maximum": 1,
             "description": "Maximum Ca (off-centring, as a fraction of the half-band). Above it the MACHINE is not hitting the nominal -> the MACHINE deviates. Industry ceiling: 0.125."
+          },
+          "max_stationarity_ratio": {
+            "type": "number",
+            "exclusiveMinimum": 1,
+            "description": "STATIONARITY GATE — the precondition for cp_min/ca_max, not a fourth verdict. The consumer (edge/it-evaluator) computes, on the SAME gated sample it would compute Cp on:\n  sigma_short = mean(|x_i - x_(i-1)|) / 1.128   (moving range of consecutive samples, d2 for n=2 — short-term/within noise)\n  sigma_total = stddev(x)                        (long-term/overall spread)\n  stationarity_ratio = sigma_total / sigma_short\nOne stationary process gives ratio ~= 1.0 (both estimate the same sigma). A ratio far above 1 means the sample contains SEVERAL states, and sigma_total is measuring the distance between them, not the process noise -> Cp/Ca/Cpk are arithmetically valid and semantically meaningless.\nABOVE this threshold the consumer MUST WITHHOLD the capability verdict and emit an evidence gap ('sample is not stationary — gate or split it'). It must NOT report a low Cp as an incapable process, and it must NOT silently drop the sample.\nMeasured on sgm-004 (2026-07-12, ungated series): mouldTempC 156.4 · peak/hold pressure 3.3 · partMass_g, hotrunnerTempC, cushionMm ~= 1.0. The threshold 2.0 separates these cleanly and is the pilot policy; it is a POLICY number, editable here without a release — which is the whole point of it living in the recipe. Must be > 1: a threshold of 1.0 or below would reject even a perfectly stationary sample."
           }
         },
         "required": [
           "cp_min",
-          "ca_max"
+          "ca_max",
+          "max_stationarity_ratio"
         ],
         "additionalProperties": false
       }
