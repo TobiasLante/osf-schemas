@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-InjectionMoldingMachine",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "standard": "CESMII",
   "category": "machine",
   "displayName": "Injection Molding Machine",
@@ -619,7 +619,7 @@
   "constraints": [
     {
       "name": "recipe_hotrunner_temp_band",
-      "description": "Recipe / setting parameter: hot-runner temperature must lie within the target band (resolved at runtime via valueFrom recipe:hotrunner_temp_band). Outside -> material degradation / dimensional deviation on the part.",
+      "description": "Recipe / setting parameter: hot-runner temperature must lie within the target band (resolved at runtime via valueFrom recipe:hotrunner_temp_band). Outside -> material degradation / dimensional deviation on the part. --- 2026-07-12 CAPT-STURM, PERSISTENCE POLICY (this rule now declares one; the limits are UNCHANGED). A single sample outside a band is not a deviation — an EPISODE is. Without a declared persistence this rule raised on ONE sample and cleared on the NEXT, which reports the sensor, not the machine. `persistence.raise` is a Western-Electric run rule (2 of the last 3 evaluations must breach); `persistence.clear` is a true ISA-18.2 dead-band (the value must come back inside the limit by 15 % of the band width, for 3 evaluations) — the engine's old CONTROL_LIMIT_CLEAR_HYSTERESIS was a COUNT of in-band samples, which is hysteresis in name only and cannot tell a process that RECOVERED from one that is merely BREATHING across the line.",
       "require": {
         "attr": "hotrunnerTempC",
         "op": "between",
@@ -627,6 +627,16 @@
       },
       "severity": "warning",
       "discrepancyClass": "constraint",
+      "persistence": {
+        "raise": {
+          "k": 2,
+          "of": 3
+        },
+        "clear": {
+          "deadband_pct": 0.15,
+          "consecutive": 3
+        }
+      },
       "concern": "operations",
       "mom_category": "quality",
       "accountable_role": "Process Engineering",
@@ -636,7 +646,7 @@
     },
     {
       "name": "recipe_part_mass_band",
-      "description": "Recipe / setting parameter: part mass must lie within the target band (resolved at runtime via valueFrom recipe:part_mass_band; the recipe target is deliberately chosen narrower than the current actual to detect overfilling/drift early). Outside -> over-/under-injection, scrap. Cycle-gated (inCycle==true), since OUTSIDE the cycle no part is made: a partMass_g sample taken between shots belongs to no shot at all. Measured on sgm-004 (2026-07-12): of 901,142 partMass_g points, 581,521 (64 %) carry inCycle=false — idle-time values that, ungated, enter every population drawn from this rule (capability, control charts, deviation counts). BE HONEST ABOUT WHAT THIS FIXES: those idle values happen to carry the same distribution as the real shots (in-cycle n=319,621, mean 10.4001, sigma 0.0840; idle n=581,521, mean 10.3999, sigma 0.0839), so Cp/Ca do NOT move because of this gate. It is not a numbers fix — it makes the POPULATION honest, and every future sample drawn from it defensible.",
+      "description": "Recipe / setting parameter: part mass must lie within the target band (resolved at runtime via valueFrom recipe:part_mass_band; the recipe target is deliberately chosen narrower than the current actual to detect overfilling/drift early). Outside -> over-/under-injection, scrap. Cycle-gated (inCycle==true), since OUTSIDE the cycle no part is made: a partMass_g sample taken between shots belongs to no shot at all. Measured on sgm-004 (2026-07-12): of 901,142 partMass_g points, 581,521 (64 %) carry inCycle=false — idle-time values that, ungated, enter every population drawn from this rule (capability, control charts, deviation counts). BE HONEST ABOUT WHAT THIS FIXES: those idle values happen to carry the same distribution as the real shots (in-cycle n=319,621, mean 10.4001, sigma 0.0840; idle n=581,521, mean 10.3999, sigma 0.0839), so Cp/Ca do NOT move because of this gate. It is not a numbers fix — it makes the POPULATION honest, and every future sample drawn from it defensible. --- 2026-07-12 CAPT-STURM, THE STORM AND ITS ROOT CAUSE, MEASURED. This rule produced 74,963 episodes on sgm-004 — every single one auto-cleared. The cause was NOT the process and NOT the sampling rate: it was the BAND. Until 10:05 today the band was [10.20, 10.45] against a process of mean 10.4000 / sigma 0.0839 — the UPPER limit sat 0.6 sigma above the mean, so the process spent 26.4 % of its life outside its own tolerance. Replayed over the 908,937 measured partMass_g points in the edge historian: the OLD band is crossed 240,069 times (181,657 raise transitions); the CURRENT band [10.01, 10.69] is crossed 172 times (0.019 %). A 1,056x reduction from re-centring the band alone. NOTE what this DISPROVES: the storm did not stop because the simulator got quieter — partMass_g still ticks at exactly 1.00 samples/second, every day, unchanged (74-75k points/day, 06-07 through 07-11). It stopped because the band was calibrated. AND NOTE what the persistence policy does NOT do: replayed against the OLD band it only cuts 181,657 -> 38,097. Debouncing cannot rescue a wrong band. Both fixes were needed and they are different diseases — the band says WHERE the line is, the persistence says HOW LONG you must be over it before anyone is woken up. --- 2026-07-12 CAPT-STURM, PERSISTENCE POLICY (this rule now declares one; the limits are UNCHANGED). A single sample outside a band is not a deviation — an EPISODE is. Without a declared persistence this rule raised on ONE sample and cleared on the NEXT, which reports the sensor, not the machine. `persistence.raise` is a Western-Electric run rule (2 of the last 3 evaluations must breach); `persistence.clear` is a true ISA-18.2 dead-band (the value must come back inside the limit by 15 % of the band width, for 3 evaluations) — the engine's old CONTROL_LIMIT_CLEAR_HYSTERESIS was a COUNT of in-band samples, which is hysteresis in name only and cannot tell a process that RECOVERED from one that is merely BREATHING across the line.",
       "when": {
         "attr": "inCycle",
         "op": "eq",
@@ -649,6 +659,16 @@
       },
       "severity": "error",
       "discrepancyClass": "constraint",
+      "persistence": {
+        "raise": {
+          "k": 2,
+          "of": 3
+        },
+        "clear": {
+          "deadband_pct": 0.15,
+          "consecutive": 3
+        }
+      },
       "concern": "operations",
       "mom_category": "quality",
       "accountable_role": "Process Engineering",
@@ -658,7 +678,7 @@
     },
     {
       "name": "recipe_cushion_band",
-      "description": "Recipe / setting parameter: residual material cushion must lie within the target band (resolved at runtime via valueFrom recipe:cushion_band). Outside -> fluctuation in the hold-pressure profile, dimensional deviation.",
+      "description": "Recipe / setting parameter: residual material cushion must lie within the target band (resolved at runtime via valueFrom recipe:cushion_band). Outside -> fluctuation in the hold-pressure profile, dimensional deviation. --- 2026-07-12 CAPT-STURM, PERSISTENCE POLICY (this rule now declares one; the limits are UNCHANGED). A single sample outside a band is not a deviation — an EPISODE is. Without a declared persistence this rule raised on ONE sample and cleared on the NEXT, which reports the sensor, not the machine. `persistence.raise` is a Western-Electric run rule (2 of the last 3 evaluations must breach); `persistence.clear` is a true ISA-18.2 dead-band (the value must come back inside the limit by 15 % of the band width, for 3 evaluations) — the engine's old CONTROL_LIMIT_CLEAR_HYSTERESIS was a COUNT of in-band samples, which is hysteresis in name only and cannot tell a process that RECOVERED from one that is merely BREATHING across the line.",
       "require": {
         "attr": "cushionMm",
         "op": "between",
@@ -666,6 +686,16 @@
       },
       "severity": "warning",
       "discrepancyClass": "constraint",
+      "persistence": {
+        "raise": {
+          "k": 2,
+          "of": 3
+        },
+        "clear": {
+          "deadband_pct": 0.15,
+          "consecutive": 3
+        }
+      },
       "concern": "operations",
       "mom_category": "quality",
       "accountable_role": "Process Engineering",
@@ -675,7 +705,7 @@
     },
     {
       "name": "recipe_peak_pressure_band",
-      "description": "Recipe / setting parameter: peak injection pressure must lie within the target band (resolved at runtime via valueFrom recipe:peak_pressure_band). PHASE-gated (phaseName==HOLD) — NOT cycle-gated. THIS GATE IS A CORRECTION OF A FALSE ACCUSATION AGAINST THE MACHINE. The previous gate (inCycle==true) was ours and it was wrong: inCycle spans the WHOLE cycle including COOL_PLAST/OPENING/EJECT, where the injection pressure is physically 0 bar. The rule therefore drew its population from a set that is ~half zeros and reported the machine as massively incapable. Measured on sgm-004 (edge TS, 2026-07-12): gate inCycle -> mean 208.8 bar, sigma 259.2, Ca 5.385, only 17.6 % in band [450,560]; 24,804 of 50,616 gated samples (49.00 %) are EXACTLY 0 bar. Gate HOLD -> mean 557.6 bar, sigma 114.6, Ca 0.956, 86.5 % in band. The machine was injecting at ~558 bar against a band that ends at 560 — the deviation was an artefact of OUR population, not a fault of the customer's machine. Independently corroborated against the DEPLOYED sim FSM (machines-sgm:2b21c128, /app/src/machine.ts:651-700 + config.ts:147): the sim holds ONE currentPressureBar and publishes peakPressureBar = p*1.05, holdPressureBar = p*0.7. Per phase p approaches: CLOSING->0, INJECT->peakBar (ramp, 200 bar/s, dwell only 6 % of cycle = 1.4 s, so it never plateaus), HOLD->holdBar (=peakBar*0.5, dwell 18 % of cycle), COOL_PLAST/OPENING/EJECT->0. Replaying that FSM with sgm-004's real config (cycleTimeSec 24, injectionPressureBar 1000) reproduces the measurement: gate inCycle -> mean 170.5, 51.8 % zeros, 18.5 % in band; gate HOLD -> mean 516.6, sigma 16.8, 0 % zeros, 100 % in band. HOLD is the ONLY phase in which this signal has a plateau, hence the only phase in which a BAND on it is a meaningful statement; INJECT (mean 315, 0 % in band) is a transient ramp and would be an equally wrong gate.",
+      "description": "Recipe / setting parameter: peak injection pressure must lie within the target band (resolved at runtime via valueFrom recipe:peak_pressure_band). PHASE-gated (phaseName==HOLD) — NOT cycle-gated. THIS GATE IS A CORRECTION OF A FALSE ACCUSATION AGAINST THE MACHINE. The previous gate (inCycle==true) was ours and it was wrong: inCycle spans the WHOLE cycle including COOL_PLAST/OPENING/EJECT, where the injection pressure is physically 0 bar. The rule therefore drew its population from a set that is ~half zeros and reported the machine as massively incapable. Measured on sgm-004 (edge TS, 2026-07-12): gate inCycle -> mean 208.8 bar, sigma 259.2, Ca 5.385, only 17.6 % in band [450,560]; 24,804 of 50,616 gated samples (49.00 %) are EXACTLY 0 bar. Gate HOLD -> mean 557.6 bar, sigma 114.6, Ca 0.956, 86.5 % in band. The machine was injecting at ~558 bar against a band that ends at 560 — the deviation was an artefact of OUR population, not a fault of the customer's machine. Independently corroborated against the DEPLOYED sim FSM (machines-sgm:2b21c128, /app/src/machine.ts:651-700 + config.ts:147): the sim holds ONE currentPressureBar and publishes peakPressureBar = p*1.05, holdPressureBar = p*0.7. Per phase p approaches: CLOSING->0, INJECT->peakBar (ramp, 200 bar/s, dwell only 6 % of cycle = 1.4 s, so it never plateaus), HOLD->holdBar (=peakBar*0.5, dwell 18 % of cycle), COOL_PLAST/OPENING/EJECT->0. Replaying that FSM with sgm-004's real config (cycleTimeSec 24, injectionPressureBar 1000) reproduces the measurement: gate inCycle -> mean 170.5, 51.8 % zeros, 18.5 % in band; gate HOLD -> mean 516.6, sigma 16.8, 0 % zeros, 100 % in band. HOLD is the ONLY phase in which this signal has a plateau, hence the only phase in which a BAND on it is a meaningful statement; INJECT (mean 315, 0 % in band) is a transient ramp and would be an equally wrong gate. --- 2026-07-12 CAPT-STURM, PERSISTENCE POLICY (this rule now declares one; the limits are UNCHANGED). A single sample outside a band is not a deviation — an EPISODE is. Without a declared persistence this rule raised on ONE sample and cleared on the NEXT, which reports the sensor, not the machine. `persistence.raise` is a Western-Electric run rule (2 of the last 3 evaluations must breach); `persistence.clear` is a true ISA-18.2 dead-band (the value must come back inside the limit by 15 % of the band width, for 3 evaluations) — the engine's old CONTROL_LIMIT_CLEAR_HYSTERESIS was a COUNT of in-band samples, which is hysteresis in name only and cannot tell a process that RECOVERED from one that is merely BREATHING across the line.",
       "when": {
         "attr": "phaseName",
         "op": "eq",
@@ -688,6 +718,16 @@
       },
       "severity": "warning",
       "discrepancyClass": "constraint",
+      "persistence": {
+        "raise": {
+          "k": 2,
+          "of": 3
+        },
+        "clear": {
+          "deadband_pct": 0.15,
+          "consecutive": 3
+        }
+      },
       "concern": "operations",
       "mom_category": "quality",
       "accountable_role": "Process Engineering",
@@ -697,7 +737,7 @@
     },
     {
       "name": "recipe_hold_pressure_band",
-      "description": "Recipe / setting parameter: hold pressure must lie within the target band (resolved at runtime via valueFrom recipe:hold_pressure_band). PHASE-gated (phaseName==HOLD) — NOT cycle-gated, for exactly the reason given on recipe_peak_pressure_band: inCycle includes ejection and opening, where the pressure is physically 0 bar, so the rule was accusing the machine of a deviation that OUR population had manufactured. Measured on sgm-004 (edge TS, 2026-07-12): gate inCycle -> mean 139.2 bar; gate HOLD -> mean 371.7 bar against band [300,380]. Corroborated on the deployed FSM replay (see recipe_peak_pressure_band): gate inCycle -> mean 113.7, 51.8 % zeros, 18.5 % in band [300,380]; gate HOLD -> mean 344.4, sigma 11.2, 0 % zeros, 100 % in band. HOLD is the phase in which the hold pressure is by definition being held — it is the only population about which this band makes a claim.",
+      "description": "Recipe / setting parameter: hold pressure must lie within the target band (resolved at runtime via valueFrom recipe:hold_pressure_band). PHASE-gated (phaseName==HOLD) — NOT cycle-gated, for exactly the reason given on recipe_peak_pressure_band: inCycle includes ejection and opening, where the pressure is physically 0 bar, so the rule was accusing the machine of a deviation that OUR population had manufactured. Measured on sgm-004 (edge TS, 2026-07-12): gate inCycle -> mean 139.2 bar; gate HOLD -> mean 371.7 bar against band [300,380]. Corroborated on the deployed FSM replay (see recipe_peak_pressure_band): gate inCycle -> mean 113.7, 51.8 % zeros, 18.5 % in band [300,380]; gate HOLD -> mean 344.4, sigma 11.2, 0 % zeros, 100 % in band. HOLD is the phase in which the hold pressure is by definition being held — it is the only population about which this band makes a claim. --- 2026-07-12 CAPT-STURM, PERSISTENCE POLICY (this rule now declares one; the limits are UNCHANGED). A single sample outside a band is not a deviation — an EPISODE is. Without a declared persistence this rule raised on ONE sample and cleared on the NEXT, which reports the sensor, not the machine. `persistence.raise` is a Western-Electric run rule (2 of the last 3 evaluations must breach); `persistence.clear` is a true ISA-18.2 dead-band (the value must come back inside the limit by 15 % of the band width, for 3 evaluations) — the engine's old CONTROL_LIMIT_CLEAR_HYSTERESIS was a COUNT of in-band samples, which is hysteresis in name only and cannot tell a process that RECOVERED from one that is merely BREATHING across the line.",
       "when": {
         "attr": "phaseName",
         "op": "eq",
@@ -710,6 +750,16 @@
       },
       "severity": "warning",
       "discrepancyClass": "constraint",
+      "persistence": {
+        "raise": {
+          "k": 2,
+          "of": 3
+        },
+        "clear": {
+          "deadband_pct": 0.15,
+          "consecutive": 3
+        }
+      },
       "concern": "operations",
       "mom_category": "quality",
       "accountable_role": "Process Engineering",
@@ -739,7 +789,7 @@
     },
     {
       "name": "equipment_peak_pressure_limit",
-      "description": "Equipment / asset-per-se: peak injection pressure must stay below the machine's safe mechanical/hydraulic limit during the active cycle, independent of the running recipe. Above [0,1000] bar -> overpressure / machine fault (not a recipe deviation). Cycle-gated (inCycle==true). LITERAL value = machine-spec SSOT — adjust to the machine spec.",
+      "description": "Equipment / asset-per-se: peak injection pressure must stay below the machine's safe mechanical/hydraulic limit during the active cycle, independent of the running recipe. Above [0,1000] bar -> overpressure / machine fault (not a recipe deviation). Cycle-gated (inCycle==true). LITERAL value = machine-spec SSOT — adjust to the machine spec. --- 2026-07-12 CAPT-STURM, PERSISTENCE POLICY (this rule now declares one; the limits are UNCHANGED). A single sample outside a band is not a deviation — an EPISODE is. Without a declared persistence this rule raised on ONE sample and cleared on the NEXT, which reports the sensor, not the machine. `persistence.raise` is a Western-Electric run rule (2 of the last 3 evaluations must breach); `persistence.clear` is a true ISA-18.2 dead-band (the value must come back inside the limit by 15 % of the band width, for 3 evaluations) — the engine's old CONTROL_LIMIT_CLEAR_HYSTERESIS was a COUNT of in-band samples, which is hysteresis in name only and cannot tell a process that RECOVERED from one that is merely BREATHING across the line.",
       "when": {
         "attr": "inCycle",
         "op": "eq",
@@ -755,6 +805,16 @@
       },
       "severity": "error",
       "discrepancyClass": "constraint",
+      "persistence": {
+        "raise": {
+          "k": 2,
+          "of": 3
+        },
+        "clear": {
+          "deadband_pct": 0.15,
+          "consecutive": 3
+        }
+      },
       "concern": "operations",
       "mom_category": "maintenance",
       "accountable_role": "Maintenance",
@@ -764,7 +824,7 @@
     },
     {
       "name": "hotrunner_control_limits",
-      "description": "Control limits (Warngrenze + Eingriffsgrenze) for the hot-runner temperature — a two-tier escalation band on top of the recipe SOLL. Inside the warn band [225,234] degC = ok; outside warn -> 'warning'-tier alarm (watch); outside the action band [218,241] -> 'error'-tier alarm (intervene). Both tiers stay inside the equipment envelope [180,270] (equipment_hotrunner_temp_envelope). LITERAL bands = static SSOT for the pilot; switch to valueFrom 'recipe:hotrunner_limits' to source them per active recipe. Drives the OT alarm panel with a raise/clear lifecycle (auto-clears when the value returns inside the warn band).",
+      "description": "Control limits (Warngrenze + Eingriffsgrenze) for the hot-runner temperature — a two-tier escalation band on top of the recipe SOLL. Inside the warn band [225,234] degC = ok; outside warn -> 'warning'-tier alarm (watch); outside the action band [218,241] -> 'error'-tier alarm (intervene). Both tiers stay inside the equipment envelope [180,270] (equipment_hotrunner_temp_envelope). LITERAL bands = static SSOT for the pilot; switch to valueFrom 'recipe:hotrunner_limits' to source them per active recipe. Drives the OT alarm panel with a raise/clear lifecycle (auto-clears when the value returns inside the warn band). --- 2026-07-12 CAPT-STURM, MEASURED, AND IT IS A FINDING ABOUT THIS RULE, NOT ABOUT THE MACHINES: this band is a LITERAL, GLOBAL constant applied to EVERY injection-moulding machine, while each machine has its OWN hot-runner setpoint. Live (edge TS, 12 days): sgm-004 runs at mean 229.999 / sigma 1.509 — the band lands at -3.31 sigma / +2.65 sigma around it, so 0.40 % of samples fall outside and the rule produced 1,651 episodes (16/h). sgm-006 runs at mean 224.997 / sigma 1.513 — ITS SETPOINT IS THIS BAND'S LOWER LIMIT (225). 48.8 % of its 170,948 samples sit below the limit (83,394 below, ZERO above) and the rule produced 43,293 episodes (819/h). A control limit is meaningless without the setpoint it is centred on: the same literal band is a +-3 sigma chart on one machine and a coin flip on the other. Of sgm-006's 43,293 episodes exactly ONE was a real action-tier excursion (17 samples below 218 degC, min 209.1) — buried under 43,292 false ones. THE LIMITS BELOW ARE DELIBERATELY NOT WIDENED: widening them to buy silence would be the comfortable lie, and it would destroy the ability to see a genuinely mis-set machine. The persistence policy below removes the CHATTER (replayed on sgm-006's real samples with these limits unchanged: 43,411 -> 762 episodes) and leaves the real excursion raising. What remains is a TRUE statement that sgm-006 runs at its lower control limit — and the honest repair for THAT is for Process Engineering to declare sgm-006's setpoint in a recipe (only sgm-004 has one today), after which this rule should source its band via valueFrom 'recipe:hotrunner_control_limits' — the key ALREADY EXISTS in recipe-sgm-004-default.json and is DEAD, because this `require` uses a literal `limits` and nothing references it. Until a machine declares a setpoint, the engine MEASURES it and must not pretend to JUDGE it. --- 2026-07-12 CAPT-STURM, PERSISTENCE POLICY (this rule now declares one; the limits are UNCHANGED). A single sample outside a band is not a deviation — an EPISODE is. Without a declared persistence this rule raised on ONE sample and cleared on the NEXT, which reports the sensor, not the machine. `persistence.raise` is a Western-Electric run rule (2 of the last 3 evaluations must breach); `persistence.clear` is a true ISA-18.2 dead-band (the value must come back inside the limit by 15 % of the band width, for 3 evaluations) — the engine's old CONTROL_LIMIT_CLEAR_HYSTERESIS was a COUNT of in-band samples, which is hysteresis in name only and cannot tell a process that RECOVERED from one that is merely BREATHING across the line.",
       "require": {
         "attr": "hotrunnerTempC",
         "op": "within_limits",
@@ -781,6 +841,16 @@
       },
       "severity": "warning",
       "discrepancyClass": "control_limit",
+      "persistence": {
+        "raise": {
+          "k": 2,
+          "of": 3
+        },
+        "clear": {
+          "deadband_pct": 0.15,
+          "consecutive": 3
+        }
+      },
       "concern": "operations",
       "mom_category": "quality",
       "accountable_role": "Process Engineering",
@@ -790,7 +860,7 @@
     },
     {
       "name": "recipe_mould_temp_band",
-      "description": "Recipe / setting parameter: mouldTempC must lie within the active recipe band (valueFrom recipe:mould_temp_band — since 2026-07-12 the PA66 band [80,90] degC around SOLL 85, see the recipe's toleranceSource=norm). Cycle-gated (inCycle==true) and DELIBERATELY NOT phase-gated, unlike the two pressure bands: the mould temperature is a slow THERMAL STATE of the tool, not a per-phase event. It is a meaningful measurement in every phase of a running cycle (the tool does not cool down between INJECT and EJECT), so inCycle is the honest population here — narrowing it to HOLD would throw away ~82 % of the valid samples for no gain. What inCycle DOES correctly exclude is the time when no recipe is in force: between shots and after shift end (measured 2026-07-12: with all SGMs idle, mouldTempC reads exactly 25.00 degC ambient, sigma 0.00 — the tool is simply cold), where a band violation would be a deviation against a recipe that is not running. NOTE ON CAPABILITY: measured on sgm-004 (2026-07-12, over the FULL ungated series) mouldTempC is by far the least stationary monitored signal, sigma_total/sigma_short = 156.4. The deployed sim warms the tool with approach(mouldTempC, target, 0.1 degC/s), i.e. a ~10-minute warm-up ramp from ambient; the inCycle gate does NOT remove that ramp. A Cp over a warming tool is meaningless, and capability.max_stationarity_ratio in the recipe — not this gate — stays the authority on whether a Cp may be reported at all.",
+      "description": "Recipe / setting parameter: mouldTempC must lie within the active recipe band (valueFrom recipe:mould_temp_band — since 2026-07-12 the PA66 band [80,90] degC around SOLL 85, see the recipe's toleranceSource=norm). Cycle-gated (inCycle==true) and DELIBERATELY NOT phase-gated, unlike the two pressure bands: the mould temperature is a slow THERMAL STATE of the tool, not a per-phase event. It is a meaningful measurement in every phase of a running cycle (the tool does not cool down between INJECT and EJECT), so inCycle is the honest population here — narrowing it to HOLD would throw away ~82 % of the valid samples for no gain. What inCycle DOES correctly exclude is the time when no recipe is in force: between shots and after shift end (measured 2026-07-12: with all SGMs idle, mouldTempC reads exactly 25.00 degC ambient, sigma 0.00 — the tool is simply cold), where a band violation would be a deviation against a recipe that is not running. NOTE ON CAPABILITY: measured on sgm-004 (2026-07-12, over the FULL ungated series) mouldTempC is by far the least stationary monitored signal, sigma_total/sigma_short = 156.4. The deployed sim warms the tool with approach(mouldTempC, target, 0.1 degC/s), i.e. a ~10-minute warm-up ramp from ambient; the inCycle gate does NOT remove that ramp. A Cp over a warming tool is meaningless, and capability.max_stationarity_ratio in the recipe — not this gate — stays the authority on whether a Cp may be reported at all. --- 2026-07-12 CAPT-STURM, PERSISTENCE POLICY (this rule now declares one; the limits are UNCHANGED). A single sample outside a band is not a deviation — an EPISODE is. Without a declared persistence this rule raised on ONE sample and cleared on the NEXT, which reports the sensor, not the machine. `persistence.raise` is a Western-Electric run rule (2 of the last 3 evaluations must breach); `persistence.clear` is a true ISA-18.2 dead-band (the value must come back inside the limit by 15 % of the band width, for 3 evaluations) — the engine's old CONTROL_LIMIT_CLEAR_HYSTERESIS was a COUNT of in-band samples, which is hysteresis in name only and cannot tell a process that RECOVERED from one that is merely BREATHING across the line.",
       "when": {
         "attr": "inCycle",
         "op": "eq",
@@ -803,6 +873,16 @@
       },
       "severity": "warning",
       "discrepancyClass": "constraint",
+      "persistence": {
+        "raise": {
+          "k": 2,
+          "of": 3
+        },
+        "clear": {
+          "deadband_pct": 0.15,
+          "consecutive": 3
+        }
+      },
       "concern": "operations",
       "mom_category": "quality",
       "accountable_role": "Process Engineering",
@@ -874,7 +954,7 @@
     },
     {
       "name": "mould_temp_control_limits",
-      "description": "Control limits (Warngrenze + Eingriffsgrenze) for mould temperature: warn band [82,88], action band [78,92] degC; both inside the equipment envelope [15,120] (equipment_mould_temp_envelope, unchanged). PULLED ALONG with the PA66 recipe band: these limits were [42,58]/[38,62], i.e. centred on the old — and materially wrong — 50 degC SOLL. A PA66 tool runs at 80-90 degC. Had the recipe band moved to [80,90] and these limits stayed put, the OT alarm panel would have raised a permanent, un-clearable action alarm at every single sample (a real mould at 87.5 degC sits 25 degC outside the old action band) — a rule contradicting its own recipe. The offsets from the recipe band are preserved exactly as they were designed: warn = band tightened by 2 degC on each side, action = band widened by 2 degC on each side (old: band [40,60] -> warn [42,58] / action [38,62]; new: band [80,90] -> warn [82,88] / action [78,92]).",
+      "description": "Control limits (Warngrenze + Eingriffsgrenze) for mould temperature: warn band [82,88], action band [78,92] degC; both inside the equipment envelope [15,120] (equipment_mould_temp_envelope, unchanged). PULLED ALONG with the PA66 recipe band: these limits were [42,58]/[38,62], i.e. centred on the old — and materially wrong — 50 degC SOLL. A PA66 tool runs at 80-90 degC. Had the recipe band moved to [80,90] and these limits stayed put, the OT alarm panel would have raised a permanent, un-clearable action alarm at every single sample (a real mould at 87.5 degC sits 25 degC outside the old action band) — a rule contradicting its own recipe. The offsets from the recipe band are preserved exactly as they were designed: warn = band tightened by 2 degC on each side, action = band widened by 2 degC on each side (old: band [40,60] -> warn [42,58] / action [38,62]; new: band [80,90] -> warn [82,88] / action [78,92]). --- 2026-07-12 CAPT-STURM, PERSISTENCE POLICY (this rule now declares one; the limits are UNCHANGED). A single sample outside a band is not a deviation — an EPISODE is. Without a declared persistence this rule raised on ONE sample and cleared on the NEXT, which reports the sensor, not the machine. `persistence.raise` is a Western-Electric run rule (2 of the last 3 evaluations must breach); `persistence.clear` is a true ISA-18.2 dead-band (the value must come back inside the limit by 15 % of the band width, for 3 evaluations) — the engine's old CONTROL_LIMIT_CLEAR_HYSTERESIS was a COUNT of in-band samples, which is hysteresis in name only and cannot tell a process that RECOVERED from one that is merely BREATHING across the line.",
       "require": {
         "attr": "mouldTempC",
         "op": "within_limits",
@@ -891,6 +971,16 @@
       },
       "severity": "warning",
       "discrepancyClass": "control_limit",
+      "persistence": {
+        "raise": {
+          "k": 2,
+          "of": 3
+        },
+        "clear": {
+          "deadband_pct": 0.15,
+          "consecutive": 3
+        }
+      },
       "concern": "operations",
       "mom_category": "quality",
       "accountable_role": "Process Engineering",
