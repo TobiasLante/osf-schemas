@@ -89,6 +89,10 @@
      ],
      "description": "ECONOMIC LOSS MODEL — declares (customer-maintained, in the SSOT) how a violation of THIS constraint translates into a € impact, so the engine computes a REAL expected-€ exposure instead of a unitless proxy. The value is sourced from the ERP article master (SMProfile-Article: cost_hk = standard cost / HK, price_vk = standard sales price / VK — like SAP MBEW), joined to the deviation via its article reference, times the affected quantity. Three bases (SAP-grounded): 'HK' = scrap / cost-of-poor-quality — the affected quantity is lost at its manufacturing/purchase cost (lot_rejected, out-of-spec recipe/equipment parts; = SAP scrap valued at standard price, movement 551). 'margin' = lost throughput / lost sales — the missing quantity loses its contribution margin VK-HK (qty_shortfall; = SAP CO-PA contribution margin). 'penalty' = schedule risk — late/overdue exposes the order value (VK x qty) to a penalty / margin-at-risk (order_overdue, late_delivery; a contractual-penalty (Pönale) or revenue-at-risk model). Optional during rollout; absent -> the deviation has no €-basis and ranks in the proxy tier (frequency x magnitude), never head-to-head against €-backed items."
     },
+    "persistence": {
+     "$ref": "#/$defs/persistence",
+     "description": "PERSISTENCE POLICY — how long a breach must LAST before it is a deviation, and how far the value must come BACK before it is over. Declared here, in the SSOT, because it is policy, not code (same house rule that moved cp_min/ca_max into the recipe and deleted CPK_UNHOLDABLE from the engine). Absent = the legacy behaviour (raise on a single sample, clear on the next), so this property is purely additive. WHY IT EXISTS — measured on the live reference install 2026-07-12: a rule that raises on ONE sample and clears on the NEXT does not report the machine, it reports the sensor. sgm-006 hotrunnerTempC has mean 224.997 / sigma 1.513 against a warn band whose lower limit is 225 — the machine's operating point IS the limit, so 48.8 % of samples sit below it (a coin flip) and the rule opened + auto-closed an episode 43,293 times. Exactly ONE of them was real (17 samples below the action limit, min 209.1 degC), buried under 43,292 false ones. A rule that fires 43,293 times and resolves itself 43,292 times says nothing about the machine — it says something about itself."
+    },
     "retired": {
      "type": "boolean",
      "description": "TRUE = this constraint is RETIRED and is NEVER evaluated. The rule body (when/require) is deliberately preserved VERBATIM as a TOMBSTONE — it is the evidence of the defect, not a live configuration, and it keeps the episodes the rule left behind explainable and auditable. The it-evaluator loads it, refuses to evaluate it, and publishes a `retired` event so the discrepancy-engine supersedes every open episode it left behind (superseded_by = retirementId). The CI guards (ci/lint-constraints.mjs, ci/lint-vocabulary.mjs) SKIP a retired constraint for the same reason: demanding a repair of a dead guard would destroy the record. Retirement must be DECLARED — it is never inferred."
@@ -146,6 +150,54 @@
      }
     }
    ]
+  },
+  "persistence": {
+   "type": "object",
+   "additionalProperties": false,
+   "description": "Anti-chatter policy of ONE rule. Two independent halves, and they are NOT interchangeable — measured by replaying the detector's own state machine against the real 170,948 sgm-006 samples with the limits UNCHANGED at warn [225,234]: raise 1-of-1 + no dead-band (as deployed) = 43,411 episodes; adding ONLY the run rule (2-of-3) = 16,118 (barely helps); adding the DEAD-BAND (2-of-3 + 15 %) = 762 (57x fewer). The run rule is not the fix. The dead-band is. NEITHER widens a limit — widening the limits to buy silence is the comfortable lie, and the one real action-tier excursion still raises under this policy.",
+   "properties": {
+    "raise": {
+     "type": "object",
+     "additionalProperties": false,
+     "required": [
+      "k",
+      "of"
+     ],
+     "description": "RUN RULE (Western Electric rule 2 / ISA-18.2 on-delay): raise only once `k` of the last `of` evaluations breached. A single excursion is a SAMPLE, not a deviation — this is the 'Mindest-n vor dem Heben' and the 'Entprellung'. Absent = {k:1, of:1} = legacy (one sample raises).",
+     "properties": {
+      "k": {
+       "type": "integer",
+       "minimum": 1,
+       "description": "How many of the last `of` evaluations must breach."
+      },
+      "of": {
+       "type": "integer",
+       "minimum": 1,
+       "maximum": 25,
+       "description": "Window length in evaluations. Must be >= k (enforced by ci/lint-constraints.mjs)."
+      }
+     }
+    },
+    "clear": {
+     "type": "object",
+     "additionalProperties": false,
+     "description": "DEAD-BAND (ISA-18.2 / EEMUA 191): the episode may only close once the value has come back INSIDE the limit by a real margin, for `consecutive` evaluations. THIS IS THE ACTUAL HYSTERESIS. What the engine had before was CONTROL_LIMIT_CLEAR_HYSTERESIS, a COUNT of consecutive in-band samples — which is hysteresis in name only: at a process dwelling on its limit P(in band) ~ 0.5, so two consecutive in-band samples arrive ~25 % of the time and the episode re-closes at once. A counter cannot separate a process that RECOVERED from one that is merely BREATHING across the line; a margin can.",
+     "properties": {
+      "deadband_pct": {
+       "type": "number",
+       "minimum": 0,
+       "maximum": 0.49,
+       "description": "Margin as a FRACTION OF THE BAND WIDTH the value must re-enter by before the episode may clear (e.g. 0.15 on warn band [225,234], width 9 -> the value must return above 226.35 before a lower breach clears). A fraction of the BAND, deliberately NOT of sigma: the edge does not know sigma (it is computed centrally by the stats drill) but it always knows the band it was handed, so a band-relative margin is evaluable at the edge with no extra state — and it is what ISA-18.2 prescribes (dead-band as a % of range). Applies only where a numeric band exists (op 'between' and 'within_limits'; for 'within_limits' the WARN band is the reference). For the other ops there is no width to scale and only `consecutive` applies. Absent/0 = legacy (clear on the first in-band sample)."
+      },
+      "consecutive": {
+       "type": "integer",
+       "minimum": 1,
+       "maximum": 100,
+       "description": "How many consecutive evaluations the value must be back inside the dead-band before the episode clears (ISA-18.2 off-delay). Absent = 1 = legacy."
+      }
+     }
+    }
+   }
   },
   "predicate": {
    "type": "object",
