@@ -43,10 +43,53 @@ const ROOT = process.env.RECIPES_ROOT
   ? process.env.RECIPES_ROOT.replace(/\/$/, "") + "/"
   : new URL("../recipes/", import.meta.url).pathname;
 
+const PROFILES_ROOT = new URL("../profiles/machines/", import.meta.url).pathname;
+
 const REF_RE = /^(recipe|definition):[A-Za-z0-9_.-]+$/;
 const SEMVER_RE = /^[0-9]+\.[0-9]+\.[0-9]+$/;
 
 const isNum = (v) => typeof v === "number" && Number.isFinite(v);
+
+/**
+ * CAPT-WINDOW — the signal vocabulary each machine profile actually publishes,
+ * keyed by profileId. This is what makes the `regime_markers` check possible, and
+ * that check is the whole reason this map exists.
+ *
+ * 🔥 THE FAILURE MODE IS SILENT, WHICH IS WHY IT NEEDS A LINTER AND NOT A CODE REVIEW.
+ * A regime marker naming an attribute the machine does not publish never fires. The
+ * boundary never moves. The population quietly stays "everything the edge ever saw" —
+ * i.e. exactly the bug `population` was introduced to kill, now wearing the costume of
+ * its own fix, and green in CI.
+ *
+ * This is not a hypothetical. `recipe_id` is the marker a reasonable engineer reaches
+ * for first — "a new recipe is obviously a new regime" — and it is what the CAPT-WINDOW
+ * brief itself proposed. It does NOT reach the edge: measured on the live sgm-004 UNS,
+ * 0 rows match 'recipe' in sm_attribute, topic OR payload. It exists only in the band
+ * the it-evaluator delivers to the engine. Declared as a marker it would have produced
+ * a population rule that was correct in the schema, passing in CI, and dead on the
+ * machine. The profile is the only place that knows what the machine really says.
+ */
+function loadProfileVocabularies(errors) {
+  const vocab = new Map(); // profileId -> Set(attribute names)
+  let files;
+  try {
+    files = readdirSync(PROFILES_ROOT).filter((f) => f.endsWith(".json"));
+  } catch (e) {
+    errors.push(`profiles/machines: unreadable — ${e.message} (regime markers NOT checked)`);
+    return vocab;
+  }
+  for (const f of files) {
+    try {
+      const p = JSON.parse(readFileSync(join(PROFILES_ROOT, f), "utf8"));
+      if (!p.profileId || !Array.isArray(p.attributes)) continue;
+      const names = p.attributes.map((a) => a?.name).filter((n) => typeof n === "string");
+      vocab.set(p.profileId, new Set(names));
+    } catch (e) {
+      errors.push(`profiles/machines/${f}: invalid JSON — ${e.message}`);
+    }
+  }
+  return vocab;
+}
 
 function matchKey(match) {
   const m = match ?? {};
@@ -78,6 +121,9 @@ function lint() {
   // `counterAttribute` must fail the build, not silently produce a wrong number
   // or no number at all. A contract nobody checks is not a contract.
   const validateSchema = compileRecipeSchema(errors);
+  // CAPT-WINDOW — what each machine profile actually publishes, so a regime marker
+  // can be checked against the machine instead of against good intentions.
+  const vocab = loadProfileVocabularies(errors);
 
   for (const f of files) {
     const label = `next/recipes/${f}`;
@@ -185,6 +231,85 @@ function lint() {
               `(sigma_total / sigma_short; a stationary process sits at ~1.0, so a threshold <= 1 would reject every sample). ` +
               `Pilot policy: 2.0`,
           );
+        }
+
+        // CAPT-WINDOW — OVER WHICH POPULATION DOES THIS BAND'S CAPABILITY HOLD?
+        //
+        // Cp/Ca/Cpk are statements about a SET OF SAMPLES, and until now that set was
+        // implicit ("everything the edge ever recorded"). An implicit population is a lie
+        // with a confidence interval: on sgm-004 the mould-temperature setpoint changed
+        // 70 -> 87.5 degC at 12:24:06, and the full-history mean (75.63 degC) then described
+        // an average of two machines, one of which no longer existed. The stationarity gate
+        // caught the SPREAD and refused Cp — but the MEAN, and therefore Ca, was computed
+        // anyway. So the population must be DECLARED, exactly like cp_min.
+        //
+        // It is REQUIRED, not optional, for the same reason cp_min is: the fallback for a
+        // missing population is the very behaviour we are removing, and a default that
+        // restores the bug is not a default, it is a trapdoor.
+        const pop = cap.population;
+        if (!pop || typeof pop !== "object" || Array.isArray(pop)) {
+          errors.push(
+            `${label}: capability["${ref}"] has no 'population' — declare WHICH SAMPLES this ` +
+              `capability is a statement about (scope: current_regime | full_history). Without it ` +
+              `the population silently means "everything the edge ever recorded", which is what ` +
+              `made a re-commissioned machine report the average of two regimes.`,
+          );
+        } else if (pop.scope !== "current_regime" && pop.scope !== "full_history") {
+          errors.push(
+            `${label}: capability["${ref}"].population.scope must be "current_regime" or "full_history"`,
+          );
+        } else if (pop.scope === "current_regime") {
+          const markers = pop.regime_markers;
+          const onChange = Array.isArray(markers?.on_change) ? markers.on_change : [];
+          const onReset = Array.isArray(markers?.on_reset) ? markers.on_reset : [];
+          if (onChange.length + onReset.length === 0) {
+            errors.push(
+              `${label}: capability["${ref}"].population is 'current_regime' but declares NO ` +
+                `regime_markers — the boundary can never move, so the population is "everything" ` +
+                `while claiming to be the current regime. Declare what starts a new process ` +
+                `(on_change: mouldId / currentProgram / resin ..., on_reset: shotCount ...), or say ` +
+                `scope: full_history and mean it.`,
+            );
+          }
+          // 🔥 THE ONE THAT CATCHES `recipe_id`. A marker the machine never publishes never
+          // fires, and a boundary that never moves is not a boundary — it is the old bug,
+          // green in CI. Check every marker against what the PROFILE says the machine emits.
+          const known = vocab.get(r.profileRef);
+          if (r.profileRef && !known) {
+            errors.push(
+              `${label}: profileRef "${r.profileRef}" matches no profile in profiles/machines — ` +
+                `regime markers cannot be checked against the machine's real signal vocabulary`,
+            );
+          } else if (known) {
+            for (const [kind, list] of [
+              ["on_change", onChange],
+              ["on_reset", onReset],
+            ]) {
+              for (const attr of list) {
+                if (!known.has(attr)) {
+                  errors.push(
+                    `${label}: capability["${ref}"].population.regime_markers.${kind} names "${attr}", ` +
+                      `which the profile ${r.profileRef} does NOT publish. A marker the machine never ` +
+                      `sends never fires: the regime boundary would never move and the population would ` +
+                      `silently stay "everything the edge ever recorded" — the exact bug 'population' ` +
+                      `exists to prevent. (This is how "recipe_id" gets caught: it reads like the obvious ` +
+                      `marker and does not exist on the edge at all.)`,
+                  );
+                }
+              }
+            }
+          }
+          if (
+            pop.min_sample_n !== undefined &&
+            (!Number.isInteger(pop.min_sample_n) || pop.min_sample_n < 1)
+          ) {
+            errors.push(
+              `${label}: capability["${ref}"].population.min_sample_n must be a positive integer — ` +
+                `below it the consumer must emit capability_unjudged ("measured, not judged") and it ` +
+                `must NOT widen the window to reach n. There is no threshold at which stale data ` +
+                `becomes fresh.`,
+            );
+          }
         }
       }
       if (Array.isArray(val)) {
