@@ -145,7 +145,39 @@
       "mom_category": "production",
       "accountable_role": "Production Control",
       "since": "2026-06-15",
-      "impact_basis": "penalty"
+      "impact_basis": "penalty",
+      "retired": true,
+      "retiredAt": "2026-07-12",
+      "retirementId": "retired:order_overdue@2026-07-12",
+      "retiredBy": "CAPT-INTEGRATE",
+      "retiredReason": "RETIRED. The guard is structurally unsatisfiable: `when: status eq 'offen'` keys on a value this attribute CANNOT carry. Measured 2026-07-12 against the FULL population of sim-v5 PROD (.154) — all 47.513 customer orders, paginated (the endpoint caps a page at 500; a page is not a population).\n\n(1) 'offen' DOES NOT EXIST. The ERP carries exactly five raw statuses — CANCELLED 21.676, INVOICED 19.827, IN_PRODUCTION 4.305, WAITING_PARTS 1.687, ON_HOLD 18 — and the projection maps them onto storniert / abgeschlossen / in_arbeit / freigegeben / freigegeben. 'offen' is emitted only for raw DRAFT|PROPOSED|PLANNED, and there is NOT ONE such row among all 47.513 (0,00 %). Our source binding (?exclude_status=CANCELLED,INVOICED,SHIPPED) narrows this further: 6.010 orders reach the profile and they carry exactly TWO values, in_arbeit and freigegeben. The guard therefore matches 0 of 6.010 — not 'rarely', but never, and not by accident of today's data: the raw state it needs does not exist in the system at all.\n\n(2) IT HAS BEEN SILENT FOR SIX DAYS, AND THAT LOOKED LIKE HEALTH. Measured in the KG on .99: the newest order_overdue episode was raised 2026-07-06T10:02:21Z. Nothing since. It left 2.712 episodes standing open — raised under an EARLIER vocabulary, before the source began emitting the German canonical set — and those 2.712 have been sitting in the worklist as if they were live findings. A rule that cannot fire is indistinguishable from a factory with no overdue orders. That is the whole defect: a sleeping watchdog and a healthy factory look exactly the same from the outside.\n\n(3) WHY IT WAS NOT SIMPLY REPAIRED. Swapping the literal to 'freigegeben'/'in_arbeit' would not restore the INTENT. The intent is 'an order that is still OPEN and past its promised date'. Both surviving values ARE open states, so the guard would degenerate to 'every order we can see', and the rule would then rest entirely on due_date >= $now. Whether that is a real promise is exactly what is NOT established: the ERP time axis is under repair (CAPT-ERP-TIME: 34.036 operations / 26 % end BEFORE their planned start, a backfill artifact). Re-pointing a dead guard at an unverified date field would convert 2.712 silent phantoms into a loud, continuously-firing lie. A quieter lie is not a truer one.\n\nNOTE ON THE GUARD THAT SHOULD HAVE CAUGHT THIS: ci/lint-vocabulary.mjs checks guard literals against attributes[].enum. Until this same change, customer-order.status DECLARED an enum containing 'offen' (inherited from feat/ci-vocabulary-gate, which derived the enum from the projection's SOURCE CODE rather than from the data). Against that fictional enum the gate PASSED this guard — the vocabulary gate was fake-green on its own flagship case. The enum is corrected in this same commit. A gate is only as honest as the vocabulary it checks against.",
+      "retiredEvidence": {
+        "measuredAt": "2026-07-12",
+        "measuredAgainst": "sim-v5 PROD 192.168.178.154 /api/customer-orders (read-only, full pagination) + Neo4j KG on .99",
+        "guard": {
+          "declared": "status eq 'offen'",
+          "literalOccursInFullErp": 0,
+          "populationScanned": 47513,
+          "rowsReachingProfile": 6010,
+          "deliverableValues": [
+            "in_arbeit",
+            "freigegeben"
+          ],
+          "rowsEverMatched": 0
+        },
+        "rawStatusHistogramFullErp": {
+          "CANCELLED": 21676,
+          "INVOICED": 19827,
+          "IN_PRODUCTION": 4305,
+          "WAITING_PARTS": 1687,
+          "ON_HOLD": 18
+        },
+        "openEpisodesAtRetirement": 2712,
+        "resolvedEpisodes": 4816,
+        "lastEpisodeRaisedAt": "2026-07-06T10:02:21.246Z",
+        "daysSilentAtRetirement": 6
+      },
+      "$comment": "TOMBSTONE — the when/require below are the rule EXACTLY as it ran until 2026-07-12, kept so the 2.712 episodes it left open remain explainable. retired:true means the engine loads it, refuses to evaluate it, and supersedes every open episode with superseded_by=retirementId. Do NOT delete: the history is the evidence. Open customer order past its due date (delivery delay against the customer commitment)."
     }
   ],
   "semantics": [],

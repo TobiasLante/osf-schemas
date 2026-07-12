@@ -259,6 +259,11 @@ function lint() {
     const attrs = effectiveAttrs(profile, profiles);
 
     for (const [cid, c] of Object.entries(profile.constraints)) {
+      // A `retired`/`parked` constraint is INERT — never evaluated by the engine.
+      // Its `when` is preserved verbatim as a tombstone: evidence of the defect,
+      // not configuration. Linting it would demand we repair a dead guard and so
+      // destroy the record. Fail-closed still applies to every LIVE constraint.
+      if (c.retired === true || c.parked === true) continue;
       const baseLabel = `${pid} :: ${cid}`;
       checked++;
 
