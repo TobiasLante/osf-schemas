@@ -111,9 +111,90 @@
     },
     "parameters": {
       "type": "array",
-      "description": "Optional human documentation of the full recipe (SOLL/tolerance/unit, monitored flag). NOT consumed by the resolver.",
+      "description": "Per-parameter recipe detail (SOLL/tolerance/unit, monitored flag, gate). PARTLY CONSUMED — the description that called this block pure documentation was already stale: the it-evaluator RecipeBandResolver reads `soll` + `valueFrom` and ships them as the recipe's CLAIM (SpecMeta.soll). CAPT-EUR adds the optional `economics` block below. The remaining fields are documentation. Keyed to `values` via `valueFrom`.",
       "items": {
-        "type": "object"
+        "type": "object",
+        "properties": {
+          "param": {
+            "type": "string",
+            "description": "Human parameter name (e.g. partMass_g)."
+          },
+          "soll": {
+            "type": [
+              "number",
+              "string",
+              "boolean"
+            ],
+            "description": "The nominal the recipe ASSERTS. Shipped to the discrepancy-engine as the recipe's claim (SpecMeta.soll) and used as the centre for Ca. Usually a number, but a nominal can be CATEGORICAL (e.g. param 'resin', soll 'PA66-GF30') — those parameters are documentation and carry no band. The material_overconsumption €-model requires a NUMERIC soll and a mass `unit`; it refuses anything else rather than coercing."
+          },
+          "tolerance": {
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 2,
+            "description": "[lo,hi] — documentation mirror of the band in `values` (the resolver reads `values`, not this)."
+          },
+          "unit": {
+            "type": "string",
+            "description": "Unit of `soll` and `tolerance` (e.g. 'g', 'degC', 'bar'). CAPT-EUR: for the material_overconsumption €-model this is the unit the per-part deviation is measured in, and it MUST be a MASS unit convertible to the ERP material article's unit ('g' or 'kg'). Anything else and the €-model refuses — a temperature deviation has no material mass and must never be priced."
+          },
+          "monitored": {
+            "type": "boolean"
+          },
+          "gate": {
+            "type": "string",
+            "description": "The rule's own guard (e.g. 'inCycle==true') — the capability MUST be taken under it."
+          },
+          "valueFrom": {
+            "type": "string",
+            "pattern": "^recipe:[A-Za-z0-9_.-]+$",
+            "description": "The `recipe:<param>` ref in `values` that supplies this parameter's band."
+          },
+          "constraintId": {
+            "type": "string"
+          },
+          "smAttribute": {
+            "type": "string",
+            "description": "The sm_attribute the band constrains — what the engine aggregates on the edge."
+          },
+          "economics": {
+            "type": "object",
+            "description": "CAPT-EUR — HOW, AND WHETHER, a deviation of THIS parameter turns into money.\n\nTHIS BLOCK IS THE ONLY THING THAT AUTHORISES A € FIGURE FOR A SPEC FINDING. No block -> no €, deliberately. That is not a gap, it is the design: most parameters have NO defensible economic mapping. A mould-temperature deviation does not consume money per part in any way this system can measure, and a pressure band whose signal cannot even resolve a plateau certainly does not. Pricing those would mean inventing a number, and a wrong € in front of a customer is worse than no € at all.\n\nMODEL material_overconsumption: when a process runs off-nominal on a per-part MASS parameter, EVERY part carries the difference.\n    impact_eur = (mean - soll) [converted to the article's mass unit] x PIECES x article.cost_hk\nMeasured on sgm-004 (2026-07-12): partMass_g sits at 10.400 g against a soll of 10.35 -> +0.05 g on every part, while 100 % of parts are INSIDE tolerance and no limit check fires. That is the whole point: the money is invisible to every threshold in the plant.\n\n🔥 THE QUANTITY IS THE TRAP. PIECES MUST COME FROM THE MACHINE'S PART COUNTER — NEVER from the number of measurements. The signal is polled ~1/s against a ~24 s cycle, so the same physical part is re-reported many times over; on sgm-004 the 901,926 partMass_g samples correspond to 125,210 good parts (a factor of ~7). A € built on the sample count is inflated by that factor and is simply false. `max - min` of the counter is ALSO wrong: the counter RESETS (9 times on sgm-004), so the honest total is the SUM OF POSITIVE INCREMENTS.",
+            "required": [
+              "model",
+              "materialArticleRef",
+              "counterAttribute",
+              "impactBasis"
+            ],
+            "properties": {
+              "model": {
+                "enum": [
+                  "material_overconsumption"
+                ],
+                "description": "The ONLY €-model defined for a spec deviation today. An enum, so a new model is an explicit SSOT decision and never an accident."
+              },
+              "materialArticleRef": {
+                "type": "string",
+                "minLength": 1,
+                "description": "The ERP article number of the MATERIAL this parameter's mass is made of (e.g. '_V4_RM-PA66-GF30'). Its standard cost (cost_hk), currency and unit are resolved AT RUNTIME from the ERP article master (SMProfile-Article, source sim-v5-erp-articles). The price is NEVER copied into this file: the ERP owns it, and a duplicated price is a second source of truth that goes stale in silence.\n\nWHY A HUMAN MUST DECLARE THIS: the machine reports a material GRADE ('PA66'), not an article number, and several priced articles share a grade — on the reference ERP _V4_RM-PA66-GF30 @ 5.80 EUR/kg, _V4_MAT-PA66-GF30 @ 3.20 and RAW-PA66-NATURAL @ 3.80 are all 'PA66 GF30'. Code cannot choose between them without guessing, and the guess swings the answer by ~80 %. Process Engineering asserts it here, once, in the SSOT.\n\nIf the ref does not resolve, or the article carries no cost, or its unit is not a mass unit -> NO € is emitted, and the finding states the reason."
+              },
+              "counterAttribute": {
+                "type": "string",
+                "minLength": 1,
+                "description": "The sm_attribute of the machine's GOOD-PART COUNTER (e.g. 'good') — the ONLY admissible source of the piece count (see the trap above). A cumulative counter; the consumer totals it RESET-SAFELY (sum of positive increments), never max-min."
+              },
+              "impactBasis": {
+                "enum": [
+                  "HK",
+                  "margin",
+                  "penalty"
+                ],
+                "description": "Which economic-loss model impact_eur is denominated in — the SAME enum the constraint schema and the it-evaluator impact resolver already use. For material overconsumption this is HK: material bought at standard cost and given away. It is NOT lost margin (the parts are in tolerance, sellable, and were sold) and NOT a penalty."
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": true
       }
     },
     "toleranceSource": {
