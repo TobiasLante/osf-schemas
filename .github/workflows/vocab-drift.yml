@@ -1,0 +1,61 @@
+# osf-schemas — vocabulary drift check (NIGHTLY, needs the plant network).
+#
+# The PR gate (ci/lint-vocabulary.mjs, part of `npm run validate`) is static: it
+# checks every guard literal against the `enum` DECLARED in the profile, and it
+# proves impossibility from the SSOT alone (a source that pins the value to a
+# const, a total valueMap). It is deterministic and offline — that is exactly
+# why it is allowed to be a hard gate.
+#
+# But a declaration can be fiction. This job is the other half: it holds every
+# declared enum against the REAL source (the same URL the it-edge polls, filters
+# and all), pages it to exhaustion, and fails when reality delivers a value the
+# SSOT does not know. It also reports ZOMBIE GUARDS: rules whose literal is
+# legal but currently matches no row.
+#
+# ⚠️ It CANNOT run on a GitHub-hosted runner: the sources live on
+# 192.168.178.0/24. It needs a self-hosted runner with a route into the plant.
+# If no such runner is registered, this job QUEUES FOREVER and checks nothing —
+# a queued job is not a green job. Verify by exit code, in the run log, that it
+# has actually executed at least once. Until then, run it by hand from a host
+# with plant access:
+#
+#     npm run check:vocab-drift        # exit 0 = declarations hold
+#
+name: vocabulary drift
+
+on:
+  schedule:
+    - cron: '17 3 * * *' # nightly, after the sim's daily churn
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: bash # -e -o pipefail: never let a pipe swallow the exit code again
+
+jobs:
+  drift:
+    name: declared enums vs. the real sources
+    runs-on: [self-hosted]
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Hold every declared vocabulary against reality
+        run: node ci/check-vocab-drift.mjs | tee vocab-drift-report.txt
+        # `shell: bash` implies pipefail, so the exit code is the CHECK's, not tee's.
+
+      - name: Upload drift report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vocab-drift-${{ github.run_id }}
+          path: vocab-drift-report.txt
+          if-no-files-found: ignore
+          retention-days: 30

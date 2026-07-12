@@ -1,25 +1,25 @@
 {
   "recipeId": "RECIPE-sgm-004-default",
-  "version": "2.0.0",
+  "version": "3.3.0",
   "owner": "Process Engineering",
   "profileRef": "SMProfile-InjectionMoldingMachine",
   "displayName": "sgm-004 default band (equipment-scoped catch-all)",
-  "description": "CAPT-BAND — EQUIPMENT-SCOPED recipe for sgm-004: match on the equipment axis ALONE so the active-recipe band resolves regardless of the article. This closes a live-data gap: the REAL ERP (erpdb.llm_test_v3) keys orders by numeric article codes (e.g. 14-0204-003, 12-0044-002) that do NOT equal the demo article names (housing-A, bracket-B), and carries NO setup/mould column. The it-evaluator RecipeBandResolver picks the active production order on sgm-004 (status=in_arbeit, most-recent), resolves the band here by equipment, and delivers it to the edge on i3x.recipe.band.sgm-004. The article-specific recipes (recipe-sgm-004-pa66gf30-housing-a.json / -bracket-b.json) still win FIRST per ref when a demo article IS active (recipeId-sorted, first-match-wins); this default catches every real article. The bands mirror the housing-A SOLL (the documented part currently set up on sgm-004). Edit a band here + push -> live on the next it-evaluator refresh, no redeploy; the edge applies the delivered numbers literal-only.",
+  "description": "CAPT-BAND — EQUIPMENT-SCOPED recipe for sgm-004: match on the equipment axis ALONE so the active-recipe band resolves regardless of the article. This closes a live-data gap: the REAL ERP (erpdb.llm_test_v3) keys orders by numeric article codes (e.g. 14-0204-003, 12-0044-002) that do NOT equal the demo article names (housing-A, bracket-B), and carries NO setup/mould column. The it-evaluator RecipeBandResolver picks the active production order on sgm-004 (status=in_arbeit, most-recent), resolves the band here by equipment, and delivers it to the edge on i3x.recipe.band.sgm-004. The article-specific recipes (recipe-sgm-004-pa66gf30-housing-a.json / -bracket-b.json) still win FIRST per ref when a demo article IS active (recipeId-sorted, first-match-wins); this default catches every real article. The bands mirror the housing-A SOLL (the documented part currently set up on sgm-004). Edit a band here + push -> live on the next it-evaluator refresh, no redeploy; the edge applies the delivered numbers literal-only. --- 2026-07-12 (v3.3.0), TWO CHANGES. (1) mouldTempC: SOLL 50 -> 85 degC, band [40,60] -> [80,90], toleranceSource process_estimate -> norm. The old 50 degC was simply not a PA66 setting: a PA66(-GF30) tool is tempered to 80-90 degC, below which the part does not crystallise properly. Because the number now comes from the resin's processing specification and not from someone's estimate, its toleranceSource is 'norm' = BINDING: this band may NOT be widened to make a deviation disappear. That is deliberate and it is the whole point — with the machine running 87.5 degC, virtually every measured value lands INSIDE [80,90] (Cp ~ 2.1, the recipe is perfectly holdable) while the process centre is off by 2.5 degC, i.e. Ca = |87.5-85|/5 = 0.50 against a policy ca_max of 0.125. The verdict the product must produce is therefore 'fix_reality' (re-centre the machine), never 'fix_charter' (widen the band). This is the SAME statement the part mass already makes (SOLL 10.35 / machine 10.40 / Ca 0.147) on a second, independent parameter: 100 % IN TOLERANCE — AND THE MACHINE STILL DEVIATES. The offset is deliberately small: a 35 degC miss would be worthless, every setter would spot it unaided. (2) peakPressureBar / holdPressureBar: the documented gate changes from inCycle==true to phaseName==HOLD, mirroring the corrected 'when' guards on recipe_peak_pressure_band / recipe_hold_pressure_band in the profile. The bands themselves ([450,560] / [300,380]) are UNCHANGED and were never wrong — the population they were being judged against was. See the profile constraints for the measurements.",
   "match": {
     "equipment": "sgm-004"
   },
   "values": {
     "recipe:hotrunner_temp_band": [
-      225,
-      234
+      223.5,
+      236.5
     ],
     "recipe:part_mass_band": [
-      10.2,
-      10.45
+      10.01,
+      10.69
     ],
     "recipe:cushion_band": [
-      4.5,
-      7.0
+      4.35,
+      7.65
     ],
     "recipe:peak_pressure_band": [
       450,
@@ -39,34 +39,64 @@
         234
       ]
     },
-    "recipe:nozzle_temp_band": [
-      245,
-      255
-    ],
-    "recipe:back_pressure_band": [
-      80,
-      150
-    ],
-    "recipe:injection_speed_band": [
-      40,
-      80
-    ],
     "recipe:mould_temp_band": [
-      40,
-      60
-    ],
-    "recipe:shot_volume_band": [
-      28,
-      34
+      80,
+      90
     ]
+  },
+  "toleranceSource": {
+    "recipe:hotrunner_temp_band": "process_estimate",
+    "recipe:part_mass_band": "drawing",
+    "recipe:cushion_band": "process_estimate",
+    "recipe:peak_pressure_band": "process_estimate",
+    "recipe:hold_pressure_band": "process_estimate",
+    "recipe:hotrunner_control_limits": "process_estimate",
+    "recipe:mould_temp_band": "norm"
+  },
+  "capability": {
+    "recipe:hotrunner_temp_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2.0
+    },
+    "recipe:part_mass_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2.0
+    },
+    "recipe:cushion_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2.0
+    },
+    "recipe:peak_pressure_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2.0
+    },
+    "recipe:hold_pressure_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2.0
+    },
+    "recipe:hotrunner_control_limits": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2.0
+    },
+    "recipe:mould_temp_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2.0
+    }
   },
   "parameters": [
     {
       "param": "hotrunnerTempC",
       "soll": 230,
       "tolerance": [
-        225,
-        234
+        223.5,
+        236.5
       ],
       "unit": "degC",
       "monitored": true,
@@ -78,21 +108,28 @@
       "param": "partMass_g",
       "soll": 10.35,
       "tolerance": [
-        10.2,
-        10.45
+        10.01,
+        10.69
       ],
       "unit": "g",
       "monitored": true,
+      "gate": "inCycle==true",
       "valueFrom": "recipe:part_mass_band",
       "constraintId": "recipe_part_mass_band",
-      "smAttribute": "partMass_g"
+      "smAttribute": "partMass_g",
+      "economics": {
+        "model": "material_overconsumption",
+        "materialArticleRef": "_V4_RM-PA66-GF30",
+        "counterAttribute": "good",
+        "impactBasis": "HK"
+      }
     },
     {
       "param": "cushionMm",
       "soll": 6.0,
       "tolerance": [
-        4.5,
-        7.0
+        4.35,
+        7.65
       ],
       "unit": "mm",
       "monitored": true,
@@ -109,7 +146,7 @@
       ],
       "unit": "bar",
       "monitored": true,
-      "gate": "inCycle==true",
+      "gate": "phaseName==HOLD",
       "valueFrom": "recipe:peak_pressure_band",
       "constraintId": "recipe_peak_pressure_band",
       "smAttribute": "peakPressureBar"
@@ -123,78 +160,24 @@
       ],
       "unit": "bar",
       "monitored": true,
-      "gate": "inCycle==true",
+      "gate": "phaseName==HOLD",
       "valueFrom": "recipe:hold_pressure_band",
       "constraintId": "recipe_hold_pressure_band",
       "smAttribute": "holdPressureBar"
     },
     {
-      "param": "nozzleTempC",
-      "soll": 250,
-      "tolerance": [
-        245,
-        255
-      ],
-      "unit": "degC",
-      "monitored": true,
-      "valueFrom": "recipe:nozzle_temp_band",
-      "constraintId": "recipe_nozzle_temp_band",
-      "smAttribute": "nozzleTempC"
-    },
-    {
-      "param": "backPressureBar",
-      "soll": 115,
+      "param": "mouldTempC",
+      "soll": 85,
       "tolerance": [
         80,
-        150
-      ],
-      "unit": "bar",
-      "monitored": true,
-      "gate": "inCycle==true",
-      "valueFrom": "recipe:back_pressure_band",
-      "constraintId": "recipe_back_pressure_band",
-      "smAttribute": "backPressureBar"
-    },
-    {
-      "param": "injectionSpeedMmPerSec",
-      "soll": 60,
-      "tolerance": [
-        40,
-        80
-      ],
-      "unit": "mm/s",
-      "monitored": true,
-      "gate": "inCycle==true",
-      "valueFrom": "recipe:injection_speed_band",
-      "constraintId": "recipe_injection_speed_band",
-      "smAttribute": "injectionSpeedMmPerSec"
-    },
-    {
-      "param": "mouldTempC",
-      "soll": 50,
-      "tolerance": [
-        40,
-        60
+        90
       ],
       "unit": "degC",
       "monitored": true,
+      "gate": "inCycle==true",
       "valueFrom": "recipe:mould_temp_band",
       "constraintId": "recipe_mould_temp_band",
       "smAttribute": "mouldTempC"
-    },
-    {
-      "param": "shotVolumeCm3",
-      "soll": 31,
-      "tolerance": [
-        28,
-        34
-      ],
-      "unit": "cm3",
-      "monitored": true,
-      "gate": "inCycle==true",
-      "valueFrom": "recipe:shot_volume_band",
-      "constraintId": "recipe_shot_volume_band",
-      "smAttribute": "shotVolumeCm3"
     }
   ]
 }

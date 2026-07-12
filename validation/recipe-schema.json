@@ -1,119 +1,253 @@
 {
- "$schema": "http://json-schema.org/draft-07/schema#",
- "$id": "https://osf-schemas/next/validation/recipe-schema.json",
- "title": "OSF Recipe master-data descriptor — next/recipes/ (GitHub-managed ProductDefinition binding) — v2.0",
- "description": "Meta-schema for one recipe file under next/recipes/. A recipe is the GitHub-managed master data behind the constraint `valueFrom: recipe:<param>` hook (ISA-95 Definition-Leg / ProductDefinition SOLL). One file per recipe, owned by Process Engineering, fetched AT RUNTIME by the it-evaluator GithubRecipeSource (push-to-GitHub goes live, no redeploy). Each file declares a `match` (article x equipment x setup binding axes) and `values` (recipe:<param> -> SpecValue) that the source aggregates into bindings. The `parameters[]` array is optional human documentation (SOLL/tolerance/unit) and is NOT consumed by the resolver. Deliberately conservative: it pins the spine the resolver reads (recipeId, version, match, values key namespace) and leaves the documentation block open.",
- "type": "object",
- "required": [
- "recipeId",
- "version",
- "values"
- ],
- "properties": {
- "recipeId": {
- "type": "string",
- "minLength": 1,
- "description": "Stable recipe identifier (e.g. RECIPE-sgm-004-PA66GF30-housing-A)."
- },
- "version": {
- "type": "string",
- "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
- "description": "Semantic version; bump on any band/value change."
- },
- "owner": {
- "type": "string",
- "description": "Accountable role/team for this recipe (e.g. 'Process Engineering')."
- },
- "profileRef": {
- "type": "string",
- "description": "SMProfile the constrained entity uses (documentation; the resolver keys on match, not profileRef)."
- },
- "displayName": {
- "type": "string"
- },
- "description": {
- "type": "string"
- },
- "match": {
- "type": "object",
- "description": "Binding axes (a subset of {article, equipment, setup}). An empty match is the catch-all default. The FIRST recipe whose match is a subset of the running entity's key wins per ref.",
- "properties": {
- "article": {
- "type": "string",
- "minLength": 1
- },
- "equipment": {
- "type": "string",
- "minLength": 1
- },
- "setup": {
- "type": "string",
- "minLength": 1
- }
- },
- "additionalProperties": false
- },
- "values": {
- "type": "object",
- "description": "recipe:<param> -> SpecValue map. Keys MUST be the reserved 'recipe:<param>' refs the constraints address. A [lo,hi] number tuple feeds op=between bands; a scalar feeds eq/lte/gte rules; a two-tier object { warn:[lo,hi], action:[lo,hi] } feeds op=within_limits control limits (warn = Warngrenze / inner band, action = Eingriffsgrenze / outer band; warn must lie inside action).",
- "minProperties": 1,
- "propertyNames": {
- "pattern": "^recipe:[A-Za-z0-9_.-]+$"
- },
- "additionalProperties": {
- "oneOf": [
- {
- "type": "number"
- },
- {
- "type": "string"
- },
- {
- "type": "boolean"
- },
- {
- "type": "array",
- "items": {
- "type": [
- "number",
- "string",
- "boolean"
- ]
- },
- "minItems": 1
- },
- {
- "type": "object",
- "required": [
- "warn",
- "action"
- ],
- "additionalProperties": false,
- "properties": {
- "warn": {
- "type": "array",
- "minItems": 2,
- "maxItems": 2,
- "description": "[lo,hi] inner Warngrenze (warning tier)"
- },
- "action": {
- "type": "array",
- "minItems": 2,
- "maxItems": 2,
- "description": "[lo,hi] outer Eingriffsgrenze (action tier)"
- }
- }
- }
- ]
- }
- },
- "parameters": {
- "type": "array",
- "description": "Optional human documentation of the full recipe (SOLL/tolerance/unit, monitored flag). NOT consumed by the resolver.",
- "items": {
- "type": "object"
- }
- }
- },
- "additionalProperties": true
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/validation/recipe-schema.json",
+  "title": "OSF Recipe master-data descriptor — next/recipes/ (GitHub-managed ProductDefinition binding) — v2.0",
+  "description": "Meta-schema for one recipe file under next/recipes/. A recipe is the GitHub-managed master data behind the constraint `valueFrom: recipe:<param>` hook (ISA-95 Definition-Leg / ProductDefinition SOLL). One file per recipe, owned by Process Engineering, fetched AT RUNTIME by the it-evaluator GithubRecipeSource (push-to-GitHub goes live, no redeploy). Each file declares a `match` (article x equipment x setup binding axes) and `values` (recipe:<param> -> SpecValue) that the source aggregates into bindings. The `parameters[]` array is optional human documentation (SOLL/tolerance/unit) and is NOT consumed by the resolver. Deliberately conservative: it pins the spine the resolver reads (recipeId, version, match, values key namespace) and leaves the documentation block open.",
+  "type": "object",
+  "required": [
+    "recipeId",
+    "version",
+    "values",
+    "toleranceSource",
+    "capability"
+  ],
+  "properties": {
+    "recipeId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable recipe identifier (e.g. RECIPE-sgm-004-PA66GF30-housing-A)."
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "description": "Semantic version; bump on any band/value change."
+    },
+    "owner": {
+      "type": "string",
+      "description": "Accountable role/team for this recipe (e.g. 'Process Engineering')."
+    },
+    "profileRef": {
+      "type": "string",
+      "description": "SMProfile the constrained entity uses (documentation; the resolver keys on match, not profileRef)."
+    },
+    "displayName": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "match": {
+      "type": "object",
+      "description": "Binding axes (a subset of {article, equipment, setup}). An empty match is the catch-all default. The FIRST recipe whose match is a subset of the running entity's key wins per ref.",
+      "properties": {
+        "article": {
+          "type": "string",
+          "minLength": 1
+        },
+        "equipment": {
+          "type": "string",
+          "minLength": 1
+        },
+        "setup": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "values": {
+      "type": "object",
+      "description": "recipe:<param> -> SpecValue map. Keys MUST be the reserved 'recipe:<param>' refs the constraints address. A [lo,hi] number tuple feeds op=between bands; a scalar feeds eq/lte/gte rules; a two-tier object { warn:[lo,hi], action:[lo,hi] } feeds op=within_limits control limits (warn = Warngrenze / inner band, action = Eingriffsgrenze / outer band; warn must lie inside action).",
+      "minProperties": 1,
+      "propertyNames": {
+        "pattern": "^recipe:[A-Za-z0-9_.-]+$"
+      },
+      "additionalProperties": {
+        "oneOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "string"
+          },
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "array",
+            "items": {
+              "type": [
+                "number",
+                "string",
+                "boolean"
+              ]
+            },
+            "minItems": 1
+          },
+          {
+            "type": "object",
+            "required": [
+              "warn",
+              "action"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "warn": {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "description": "[lo,hi] inner Warngrenze (warning tier)"
+              },
+              "action": {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "description": "[lo,hi] outer Eingriffsgrenze (action tier)"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "parameters": {
+      "type": "array",
+      "description": "Per-parameter recipe detail (SOLL/tolerance/unit, monitored flag, gate). PARTLY CONSUMED — the description that called this block pure documentation was already stale: the it-evaluator RecipeBandResolver reads `soll` + `valueFrom` and ships them as the recipe's CLAIM (SpecMeta.soll). CAPT-EUR adds the optional `economics` block below. The remaining fields are documentation. Keyed to `values` via `valueFrom`.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "param": {
+            "type": "string",
+            "description": "Human parameter name (e.g. partMass_g)."
+          },
+          "soll": {
+            "type": [
+              "number",
+              "string",
+              "boolean"
+            ],
+            "description": "The nominal the recipe ASSERTS. Shipped to the discrepancy-engine as the recipe's claim (SpecMeta.soll) and used as the centre for Ca. Usually a number, but a nominal can be CATEGORICAL (e.g. param 'resin', soll 'PA66-GF30') — those parameters are documentation and carry no band. The material_overconsumption €-model requires a NUMERIC soll and a mass `unit`; it refuses anything else rather than coercing."
+          },
+          "tolerance": {
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 2,
+            "description": "[lo,hi] — documentation mirror of the band in `values` (the resolver reads `values`, not this)."
+          },
+          "unit": {
+            "type": "string",
+            "description": "Unit of `soll` and `tolerance` (e.g. 'g', 'degC', 'bar'). CAPT-EUR: for the material_overconsumption €-model this is the unit the per-part deviation is measured in, and it MUST be a MASS unit convertible to the ERP material article's unit ('g' or 'kg'). Anything else and the €-model refuses — a temperature deviation has no material mass and must never be priced."
+          },
+          "monitored": {
+            "type": "boolean"
+          },
+          "gate": {
+            "type": "string",
+            "description": "The rule's own guard (e.g. 'inCycle==true') — the capability MUST be taken under it."
+          },
+          "valueFrom": {
+            "type": "string",
+            "pattern": "^recipe:[A-Za-z0-9_.-]+$",
+            "description": "The `recipe:<param>` ref in `values` that supplies this parameter's band."
+          },
+          "constraintId": {
+            "type": "string"
+          },
+          "smAttribute": {
+            "type": "string",
+            "description": "The sm_attribute the band constrains — what the engine aggregates on the edge."
+          },
+          "economics": {
+            "type": "object",
+            "description": "CAPT-EUR — HOW, AND WHETHER, a deviation of THIS parameter turns into money.\n\nTHIS BLOCK IS THE ONLY THING THAT AUTHORISES A € FIGURE FOR A SPEC FINDING. No block -> no €, deliberately. That is not a gap, it is the design: most parameters have NO defensible economic mapping. A mould-temperature deviation does not consume money per part in any way this system can measure, and a pressure band whose signal cannot even resolve a plateau certainly does not. Pricing those would mean inventing a number, and a wrong € in front of a customer is worse than no € at all.\n\nMODEL material_overconsumption: when a process runs off-nominal on a per-part MASS parameter, EVERY part carries the difference.\n    impact_eur = (mean - soll) [converted to the article's mass unit] x PIECES x article.cost_hk\nMeasured on sgm-004 (2026-07-12): partMass_g sits at 10.400 g against a soll of 10.35 -> +0.05 g on every part, while 100 % of parts are INSIDE tolerance and no limit check fires. That is the whole point: the money is invisible to every threshold in the plant.\n\n🔥 THE QUANTITY IS THE TRAP. PIECES MUST COME FROM THE MACHINE'S PART COUNTER — NEVER from the number of measurements. The signal is polled ~1/s against a ~24 s cycle, so the same physical part is re-reported many times over; on sgm-004 the 901,926 partMass_g samples correspond to 125,210 good parts (a factor of ~7). A € built on the sample count is inflated by that factor and is simply false. `max - min` of the counter is ALSO wrong: the counter RESETS (9 times on sgm-004), so the honest total is the SUM OF POSITIVE INCREMENTS.",
+            "required": [
+              "model",
+              "materialArticleRef",
+              "counterAttribute",
+              "impactBasis"
+            ],
+            "properties": {
+              "model": {
+                "enum": [
+                  "material_overconsumption"
+                ],
+                "description": "The ONLY €-model defined for a spec deviation today. An enum, so a new model is an explicit SSOT decision and never an accident."
+              },
+              "materialArticleRef": {
+                "type": "string",
+                "minLength": 1,
+                "description": "The ERP article number of the MATERIAL this parameter's mass is made of (e.g. '_V4_RM-PA66-GF30'). Its standard cost (cost_hk), currency and unit are resolved AT RUNTIME from the ERP article master (SMProfile-Article, source sim-v5-erp-articles). The price is NEVER copied into this file: the ERP owns it, and a duplicated price is a second source of truth that goes stale in silence.\n\nWHY A HUMAN MUST DECLARE THIS: the machine reports a material GRADE ('PA66'), not an article number, and several priced articles share a grade — on the reference ERP _V4_RM-PA66-GF30 @ 5.80 EUR/kg, _V4_MAT-PA66-GF30 @ 3.20 and RAW-PA66-NATURAL @ 3.80 are all 'PA66 GF30'. Code cannot choose between them without guessing, and the guess swings the answer by ~80 %. Process Engineering asserts it here, once, in the SSOT.\n\nIf the ref does not resolve, or the article carries no cost, or its unit is not a mass unit -> NO € is emitted, and the finding states the reason."
+              },
+              "counterAttribute": {
+                "type": "string",
+                "minLength": 1,
+                "description": "The sm_attribute of the machine's GOOD-PART COUNTER (e.g. 'good') — the ONLY admissible source of the piece count (see the trap above). A cumulative counter; the consumer totals it RESET-SAFELY (sum of positive increments), never max-min."
+              },
+              "impactBasis": {
+                "enum": [
+                  "HK",
+                  "margin",
+                  "penalty"
+                ],
+                "description": "Which economic-loss model impact_eur is denominated in — the SAME enum the constraint schema and the it-evaluator impact resolver already use. For material overconsumption this is HK: material bought at standard cost and given away. It is NOT lost margin (the parts are in tolerance, sellable, and were sold) and NOT a penalty."
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "toleranceSource": {
+      "type": "object",
+      "description": "CAPT-TRUTH-ZUG3 — WHERE each band in `values` comes from. Keyed by the SAME recipe:<param> refs, so the provenance sits next to the band it governs (the band itself must stay a bare [lo,hi] tuple: it feeds op=between directly). WHY THIS IS REQUIRED: without it, a rule violation is UNDECIDABLE. Measured on sgm-004 (2026-07-11): recipe_part_mass_band = [10.20, 10.45] fired 58,796 times and was auto-cleared 58,796 times. The process is centred at 10.400 g with sigma 0.0839 — Cp 0.50 / Cpk 0.20, i.e. the band is HALF as wide as the process and cannot be held no matter how well it is centred. Is that a wrong RULE (widen the band, fix_charter) or an incapable PROCESS (fix_reality)? The measurements cannot say. Only the ORIGIN of the number can: a customer drawing may not be widened; a process estimate may. 'unknown' is the honest answer when nobody recorded it — and it makes every charter change from that band provably ungrounded, instead of a confident guess.",
+      "propertyNames": {
+        "pattern": "^recipe:[A-Za-z0-9_.-]+$"
+      },
+      "additionalProperties": {
+        "enum": [
+          "drawing",
+          "customer_spec",
+          "norm",
+          "process_estimate",
+          "unknown"
+        ],
+        "description": "drawing / customer_spec / norm  -> BINDING. The band may not be widened; a violation means the process is not capable (fix_reality). process_estimate               -> someone set it. It may be corrected (fix_charter). unknown                        -> nobody recorded where it came from. Neither verdict is grounded; the honest output is an evidence gap: 'bind the tolerance source'."
+      }
+    },
+    "capability": {
+      "type": "object",
+      "description": "CAPT-TRUTH-ZUG3.7 — the capability a band DEMANDS, per `recipe:<param>` ref. This is Process-Engineering POLICY and therefore belongs in the SSOT, never as a constant in code (the hard-coded CPK_UNHOLDABLE = 1.33 was deleted for exactly this reason). It decomposes the customer's questions into independent numbers:\n  Cp = (hi-lo) / 6*sigma        — is the band holdable by this process AT ALL?  -> the RECIPE\n  Ca = |mean-soll| / ((hi-lo)/2) — does the process HIT the nominal?             -> the MACHINE\n  Cpk ~= Cp * (1 - Ca)          — the consequence of both; reported, never judged on.\nA band may be perfectly holdable (Cp high) while the machine misses the nominal (Ca high), and vice versa — which is exactly why one number cannot answer both questions. Measured on sgm-004: partMass_g runs at 10.400 g against a nominal of 10.35 with sigma 0.084 — a band wide enough to be holdable still leaves Ca = 0.15, i.e. the MACHINE deviates while the RECIPE is fine. No Cpk alone could have said that.\nCAPT-SSOT / CAPT-STAT-EDGE (2026-07-12) add the PRECONDITION of all three: `max_stationarity_ratio`. Cp, Ca and Cpk are only defined for ONE stationary process. Over a sample that mixes states (heat-up, shift end, mould change), sigma is not the process's noise but the distance between its states — the numbers still compute, and they are lies. The ratio below decides whether a capability verdict may be issued at all.",
+      "propertyNames": {
+        "pattern": "^recipe:[A-Za-z0-9_.-]+$"
+      },
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "cp_min": {
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "description": "Minimum Cp. Below it the BAND cannot be held by this process, however well the machine is centred -> the RECIPE deviates. Industry floor: 1.33."
+          },
+          "ca_max": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Maximum Ca (off-centring, as a fraction of the half-band). Above it the MACHINE is not hitting the nominal -> the MACHINE deviates. Industry ceiling: 0.125."
+          },
+          "max_stationarity_ratio": {
+            "type": "number",
+            "exclusiveMinimum": 1,
+            "description": "STATIONARITY GATE — the precondition for cp_min/ca_max, not a fourth verdict. The consumer (edge/it-evaluator) computes, on the SAME gated sample it would compute Cp on:\n  sigma_short = mean(|x_i - x_(i-1)|) / 1.128   (moving range of consecutive samples, d2 for n=2 — short-term/within noise)\n  sigma_total = stddev(x)                        (long-term/overall spread)\n  stationarity_ratio = sigma_total / sigma_short\nOne stationary process gives ratio ~= 1.0 (both estimate the same sigma). A ratio far above 1 means the sample contains SEVERAL states, and sigma_total is measuring the distance between them, not the process noise -> Cp/Ca/Cpk are arithmetically valid and semantically meaningless.\nABOVE this threshold the consumer MUST WITHHOLD the capability verdict and emit an evidence gap ('sample is not stationary — gate or split it'). It must NOT report a low Cp as an incapable process, and it must NOT silently drop the sample.\nMeasured on sgm-004 (2026-07-12, ungated series): mouldTempC 156.4 · peak/hold pressure 3.3 · partMass_g, hotrunnerTempC, cushionMm ~= 1.0. The threshold 2.0 separates these cleanly and is the pilot policy; it is a POLICY number, editable here without a release — which is the whole point of it living in the recipe. Must be > 1: a threshold of 1.0 or below would reject even a perfectly stationary sample."
+          }
+        },
+        "required": [
+          "cp_min",
+          "ca_max",
+          "max_stationarity_ratio"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": true
 }

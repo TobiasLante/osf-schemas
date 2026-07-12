@@ -12,7 +12,8 @@
       "name": "Act_Status_Machine",
       "dataType": "String",
       "required": false,
-      "description": "Actual machine status (RUNNING / IDLE / STOPPED / FAULT / MAINTENANCE / OFFLINE — sim-v5 vocabulary). MTConnect bridge derives it via valueMap (ACTIVE -> RUNNING, * -> IDLE).",
+      "enum": ["RUNNING", "IDLE", "STOPPED", "MAINTENANCE"],
+      "description": "Actual machine status. VOCABULARY MEASURED 2026-07-12 over the FULL population (factory.machine_state_history, 22.1 Mio rows, GROUP BY status): IDLE (13.518.442), RUNNING (8.099.280), STOPPED (470.620), MAINTENANCE (17.994); cross-checked at the wire by reading opc.tcp://192.168.178.154:36000 ns=1;s=Machine/status (returned \"IDLE\", same uppercase dialect) and against :38260/api/machines (status_raw RUNNING). The old prose additionally claimed FAULT and OFFLINE — neither has ever occurred; they are NOT declared, because an undeclared-but-real value is caught by the drift check while a declared-but-fictional value silently licenses a dead guard. MTConnect bridge derives the value via valueMap (ACTIVE -> RUNNING, * -> IDLE) — its image {RUNNING, IDLE} is a subset of this enum (checked by ci/lint-vocabulary.mjs).",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -21,6 +22,8 @@
       "name": "Act_Text_MachineMode",
       "dataType": "String",
       "required": false,
+      "enum": ["AUTO", "MANUAL", "SETUP"],
+      "description": "Machine operating mode. VOCABULARY MEASURED 2026-07-12 over the FULL population (factory.machine_state_history, GROUP BY mode): AUTO (20.195.187), MANUAL (1.166.249), SETUP (744.900); wire-checked via ns=1;s=Machine/mode (returned \"AUTO\"). Declared so that the FIRST guard written against this attribute is verified against reality instead of against a comment.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
