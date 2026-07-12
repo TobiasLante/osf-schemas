@@ -249,6 +249,74 @@ function checkPredicateValue(pred, attr, attrs, label, errors) {
 
 // ---- Main ------------------------------------------------------------------
 
+/**
+ * CAPT-STURM — validate the PERSISTENCE policy (anti-chatter), if the rule declares one.
+ *
+ * JSON Schema already pins the shapes and ranges; what it cannot express is the two
+ * cross-field invariants that make the policy MEAN anything:
+ *
+ *   k <= of                      — "3 of 2 samples" is not a run rule, it is a typo that
+ *                                  would silently NEVER raise (fail-open: a rule that can
+ *                                  never fire is worse than no rule, because it looks like
+ *                                  a healthy machine).
+ *   deadband_pct < 0.5           — a margin of half the band width or more leaves NO
+ *                                  interior to clear into, so the episode could never
+ *                                  close (fail-closed: a permanently-stuck alarm).
+ *
+ * Both are the same defect class as the storm this policy exists to kill: a rule whose
+ * output is decided by its own arithmetic rather than by the machine.
+ */
+function checkPersistence(c, label, errors) {
+  const p = c.persistence;
+  if (p === undefined) return;
+  if (typeOf(p) !== "object") {
+    errors.push(`${label}: 'persistence' must be an object`);
+    return;
+  }
+  const { raise: r, clear: cl } = p;
+
+  if (r !== undefined) {
+    if (typeOf(r) !== "object" || !Number.isInteger(r.k) || !Number.isInteger(r.of)) {
+      errors.push(`${label}: persistence.raise must be {k:int, of:int}`);
+    } else if (r.k < 1 || r.of < 1) {
+      errors.push(`${label}: persistence.raise k/of must be >= 1 (got k=${r.k}, of=${r.of})`);
+    } else if (r.k > r.of) {
+      errors.push(
+        `${label}: persistence.raise k=${r.k} > of=${r.of} — a "${r.k} of ${r.of}" run rule can NEVER be satisfied, so this constraint would never raise. A rule that cannot fire is indistinguishable from a healthy machine, which is the most dangerous output this system has.`
+      );
+    }
+  }
+
+  if (cl !== undefined) {
+    if (typeOf(cl) !== "object") {
+      errors.push(`${label}: persistence.clear must be an object`);
+      return;
+    }
+    const db = cl.deadband_pct;
+    if (db !== undefined) {
+      if (typeof db !== "number" || Number.isNaN(db)) {
+        errors.push(`${label}: persistence.clear.deadband_pct must be a number`);
+      } else if (db < 0 || db >= 0.5) {
+        errors.push(
+          `${label}: persistence.clear.deadband_pct=${db} must be in [0, 0.5) — at >= 0.5 the dead-band from both sides meets in the middle and leaves no interior to clear into, so an open episode could never close.`
+        );
+      }
+      // A dead-band is a fraction of the band WIDTH — it only means something where a
+      // numeric band exists. Declaring one on e.g. `gte`/`gt` silently does nothing.
+      const op = c.require?.op;
+      if (db > 0 && op !== "between" && op !== "within_limits") {
+        errors.push(
+          `${label}: persistence.clear.deadband_pct=${db} declared on op='${op}', which has no band width to scale the margin from. A dead-band applies only to 'between' and 'within_limits'. Use persistence.clear.consecutive instead, or remove it — a policy that silently does nothing is a lie in the SSOT.`
+        );
+      }
+    }
+    const n = cl.consecutive;
+    if (n !== undefined && (!Number.isInteger(n) || n < 1)) {
+      errors.push(`${label}: persistence.clear.consecutive must be an integer >= 1 (got ${n})`);
+    }
+  }
+}
+
 function lint() {
   const profiles = loadAllProfiles(ROOT);
   const errors = [];
@@ -264,8 +332,15 @@ function lint() {
       // not configuration. Linting it would demand we repair a dead guard and so
       // destroy the record. Fail-closed still applies to every LIVE constraint.
       if (c.retired === true || c.parked === true) continue;
-      const baseLabel = `${pid} :: ${cid}`;
+      // next2.0 `constraints` is an ARRAY of rules each carrying its own `name`, so
+      // Object.entries() yields the ARRAY INDEX as the key. Reporting "SMProfile-… :: 7"
+      // makes a failure unactionable — the author has to count elements to find the rule
+      // they broke. Prefer the rule's own name; fall back to the index for the legacy
+      // object-map shape (where the key IS the name).
+      const baseLabel = `${pid} :: ${c.name ?? cid}`;
       checked++;
+
+      checkPersistence(c, baseLabel, errors);
 
       for (const role of ["when", "require"]) {
         const pred = c[role];
