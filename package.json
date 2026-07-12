@@ -11,7 +11,10 @@
     "validate:cross": "node ci/lint-cross-constraints.mjs",
     "validate:refs": "node ci/lint-refs.mjs",
     "validate:mtconnect": "node ci/lint-mtconnect-canon.mjs",
-    "validate": "npm run validate:category && npm run validate:constraints && npm run validate:recipes && npm run validate:delivery && npm run validate:cross && npm run validate:refs && npm run validate:mtconnect && npm run validate:aliases && npm run validate:contract",
+    "validate:vocabulary": "node ci/lint-vocabulary.mjs",
+    "test:vocabulary": "node ci/test-lint-vocabulary.mjs",
+    "check:vocab-drift": "node ci/check-vocab-drift.mjs",
+    "validate": "npm run validate:category && npm run validate:constraints && npm run validate:recipes && npm run validate:delivery && npm run validate:cross && npm run validate:refs && npm run validate:mtconnect && npm run validate:aliases && npm run validate:contract && npm run test:vocabulary && npm run validate:vocabulary",
     "validate:aliases": "node ci/lint-machine-type-aliases.mjs",
     "validate:contract": "node ci/lint-contract.mjs",
     "gen:contract": "node ci/gen-contract.mjs"

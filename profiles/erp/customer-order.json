@@ -89,7 +89,11 @@
       "dataType": "String",
       "required": false,
       "category": "Core",
-      "description": "Sales-order status, e.g. offen (open), bestaetigt (confirmed), fertig (done), storniert (cancelled).",
+      "enum": [
+        "freigegeben",
+        "in_arbeit"
+      ],
+      "description": "Sales-order status, as it reaches THIS profile through OUR source binding. VOCABULARY MEASURED 2026-07-12 against the FULL population of sim-v5 PROD (.154) — all 47.513 customer orders, not a page and not the mapper's source code. /api/customer-orders is the SAME projection as /api/orders and carries exactly five raw statuses: CANCELLED 21.676 -> storniert, INVOICED 19.827 -> abgeschlossen, IN_PRODUCTION 4.305 -> in_arbeit, WAITING_PARTS 1.687 -> freigegeben, ON_HOLD 18 -> freigegeben. sources/rest/erp-customer-orders.json binds ?exclude_status=CANCELLED,INVOICED,SHIPPED, so 6.010 orders reach us and they carry exactly TWO values: in_arbeit and freigegeben. 'offen' (raw DRAFT|PROPOSED|PLANNED) and 'fertig' (raw PRODUCED|COMPLETED) DO NOT EXIST ANYWHERE IN THE ERP — 0 of 47.513 rows, filtered or not. This enum is therefore the COMPLETE image, not a snapshot lower bound. THIS IS THE ROOT CAUSE OF order_overdue's RETIREMENT: its guard was `status eq 'offen'` — a value the source cannot produce. It has raised nothing since 2026-07-06 and CANNOT raise again. Note that an enum containing a fictional value makes ci/lint-vocabulary.mjs fake-green on exactly the guard it exists to catch; the gate is only as honest as the enum. Extend ONLY against a fresh measurement of the full population.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
