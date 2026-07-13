@@ -118,15 +118,18 @@
   "relationships": [
     {
       "type": "FOR_ORDER",
-      "target": "ProductionOrder"
+      "target": "ProductionOrder",
+      "targetIdProp": "production_order_no"
     },
     {
       "type": "FOR_ARTICLE",
-      "target": "Article"
+      "target": "Article",
+      "targetIdProp": "article_no"
     },
     {
       "type": "ON_MACHINE",
-      "target": "Machine"
+      "target": "Machine",
+      "targetIdProp": "machine_id"
     }
   ],
   "constraints": [
