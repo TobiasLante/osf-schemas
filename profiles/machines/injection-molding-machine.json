@@ -23,7 +23,7 @@
       "dataType": "String",
       "required": false,
       "category": "BDE",
-      "description": "Actual machine status (RUNNING / IDLE / STOPPED / FAULT / MAINTENANCE / OFFLINE — sim-v5 vocabulary, identical to the CNC profile).",
+      "description": "Actual machine status. VOCABULARY NOT MEASURED YET — deliberately NO enum: earlier prose claimed 'RUNNING/IDLE/STOPPED/FAULT/MAINTENANCE/OFFLINE, identical to the CNC profile', but the CNC measurement of 2026-07-12 found exactly {RUNNING, IDLE, STOPPED, MAINTENANCE} and ruled FAULT/OFFLINE out as never-occurred. Measure THIS machine type's full population before declaring an enum (CLAUDE.md law 3); until then no when-guard may key on this attribute.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -33,7 +33,7 @@
       "dataType": "String",
       "required": false,
       "category": "BDE",
-      "description": "Operating mode (auto / manual / semi).",
+      "description": "Operating mode. VOCABULARY NOT MEASURED YET — the earlier '(auto / manual / semi)' was unverified prose (the CNC profile measured AUTO/MANUAL/SETUP, uppercase — a different dialect; live sampling 2026-07-13 saw AUTO/SETUP uppercase here too). Measure before declaring an enum; until then no guard may key on this attribute.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
