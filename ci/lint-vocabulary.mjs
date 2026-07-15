@@ -121,7 +121,7 @@ export function loadProfiles(root) {
   return byId;
 }
 
-function resolveParent(p, profiles) {
+export function resolveParent(p, profiles) {
   if (!p.parentType) return null;
   return (
     profiles.get(p.parentType) ||
@@ -132,7 +132,9 @@ function resolveParent(p, profiles) {
 }
 
 // name -> {attr, profileId}  (own overrides inherited)
-function effectiveAttrs(profileId, profiles) {
+// Exported: ci/lint-kpis.mjs resolves KPI input mappings against the same
+// inheritance the guard checks use — shared, so the two gates cannot drift.
+export function effectiveAttrs(profileId, profiles) {
   const out = new Map();
   const chain = [];
   let p = profiles.get(profileId);
@@ -150,7 +152,8 @@ function effectiveAttrs(profileId, profiles) {
 
 // Every profile that inherits from `profileId` (a source mapping onto the
 // parent also fills the child's attribute).
-function selfAndDescendants(profileId, profiles) {
+// Exported for ci/lint-kpis.mjs (appliesTo expansion + fed-ness family).
+export function selfAndDescendants(profileId, profiles) {
   const out = new Set([profileId]);
   let grew = true;
   while (grew) {
@@ -182,7 +185,9 @@ function selfAndDescendants(profileId, profiles) {
 
 const MAPPING_KEYS = ["columnMappings", "nodeMappings", "dataItemMappings", "mappings"];
 
-function loadSourceMappings(roots) {
+// Exported: ci/lint-kpis.mjs asks the same question ("does any source FEED
+// this attribute?") — one loader, one answer.
+export function loadSourceMappings(roots) {
   const out = []; // { file, sourceId, profileRef, smAttribute, kind, pinned:Set|null, contributes:Set }
   for (const root of roots) {
     for (const f of jsonFiles(root)) {

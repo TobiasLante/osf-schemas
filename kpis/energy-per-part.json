@@ -1,14 +1,23 @@
 {
   "kpiId": "KPI-Energy-Per-Part",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "displayName": "Energy per Good Part",
-  "description": "Energy consumption per good part produced (kWh/part)",
+  "parked": true,
+  "parkedAt": "2026-07-15",
+  "parkedReason": "TWO measured blockers (both must fall before unparking — stating only one would park a false promise): (1) Act_Energy_Total is declared on the CNC profile but fed by NO source (measured over sources/ + mappings/, 2026-07-15); only instantaneous power arrives (Act_Energy_Power, kW). (2) The unit and counter semantics of Act_Energy_Total are UNMEASURED — the profile declares no unit; 'kWh' below is the v1 assumption, and a ratio of a lifetime-cumulative energy meter to a since-reset parts counter is a different number than energy-per-part; measure both (unit + reset behaviour) before trusting the quotient. The v1 body computed on `Energy_kWh`, which existed in NO profile and NO source, and was NOT preserved verbatim for the same reason as KPI-Performance. The IMM is excluded permanently at this shape: it has only instantaneous powerKw (kW, not kWh) — and the 2026-07-15 matcher simulation showed that pushing this KPI to an IMM would let `total` (a PARTS counter) fuzzy-match the input Act_Energy_Total; the CNC-only appliesTo is load-bearing.",
+  "description": "Energy consumption per good part (Act_Energy_Total / Act_Amount_PartGood). PARKED — see parkedReason; do not push until a source feeds Act_Energy_Total AND its unit + reset semantics are measured. Input contract: canonical = real CNC wire names (exact-name match binds them without the explicit map); inputMappings carries the identity binding for the consumer's KpiFlowOptions.inputMap contract.",
   "unit": "kWh/part",
   "category": "energy",
   "calculation": {
-    "inputs": ["Energy_kWh", "Good_Parts"],
-    "cypher": "CASE WHEN coalesce(m.Good_Parts, 0) = 0 THEN null ELSE round(toFloat(coalesce(m.Energy_kWh, 0)) / m.Good_Parts * 1000) / 1000 END"
+    "inputs": ["Act_Energy_Total", "Act_Amount_PartGood"],
+    "inputMappings": {
+      "SMProfile-CNC-Machine": {
+        "Act_Energy_Total": "Act_Energy_Total",
+        "Act_Amount_PartGood": "Act_Amount_PartGood"
+      }
+    },
+    "cypher": "CASE WHEN coalesce(m.Act_Amount_PartGood, 0) = 0 THEN null ELSE round(toFloat(m.Act_Energy_Total) / m.Act_Amount_PartGood * 1000) / 1000 END"
   },
   "thresholds": { "target": 0.5, "warning": 1.0, "critical": 2.0 },
-  "appliesTo": ["SMProfile-Machine"]
+  "appliesTo": ["SMProfile-CNC-Machine"]
 }
