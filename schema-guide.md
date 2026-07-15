@@ -391,7 +391,7 @@ Phase 1: Type System
 
 Phase 2a: OPC-UA Instance Nodes
   → MERGE machine nodes from OPC-UA mappings
-  → Create ISA-95 hierarchy: Site → Area → ProductionLine → Machine (PART_OF edges)
+  → Create ISA-95 hierarchy: Site → Area → ProcessCell → Machine (PART_OF edges)
 
 Phase 2b: PostgreSQL Instance Nodes
   → Load sources (max 4 concurrent)
@@ -446,7 +446,7 @@ Phase 6: Sensor Discovery
 | `quant_id` | Quant |
 | `program_id` | CNCProgram |
 | `mould_id` | Mould |
-| `id` | Enterprise, Site, Area, ProductionLine, System |
+| `id` | Enterprise, Site, Area, ProcessCell, System |
 
 ---
 
