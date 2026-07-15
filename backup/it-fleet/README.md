@@ -1,3 +1,32 @@
+# ⚰️ ARCHIVIERT 2026-07-15 — kein Consumer mehr
+
+> **Tombstone (CAPT-ITFLEET, 2026-07-15).** Dieses Inventar war ein **v3-Artefakt**:
+> geladen wurde es von `i3x-suite-it/packages/server` (it-gateway, Branch `v3`) — siehe
+> Abschnitt „Git-Layout" unten. Dieses Repo/dieser Pfad ist im v4-Stack nicht mehr aktiv.
+>
+> **Beleg: kein Consumer in i3x-v4 @ `094e994`** (Voll-Grep nach `it-fleet`, `itFleet`,
+> `fleet[_-]inventory`, `INVENTORY_(PATH|DIR|URL)`, den edgeIds und `edges/*.yaml`-Loadern):
+> - `services/gateway/src/routers/edges.ts:49` — `/v1/fleet/*` ist im v4-Gateway nur als
+>   **501-Stub** gemountet (`mountStubs` → `stub.ts` sendet `NotImplementedYet`); Header
+>   ebd.: „The old gateway-edge HTTP fan-out was retired 2026-05-21".
+> - `services/it-edge/src/config.ts` — die IT-Edge wird rein per Env konfiguriert
+>   (`EDGE_ID`, `SOURCE_IDS`) und bootstrapt Source-Schemas aus dem JetStream `it_schemas`
+>   (Publisher: it-schema-publisher aus `sources/**`). Kein YAML-Read.
+> - `apps/it-web/src/app/edges/page.tsx:86` — die UI liest zuerst `/api/ipcs`
+>   (Heartbeat-Registry); der `/v1/fleet/it`-Fallback (Z. 103) liefe in den 501-Stub.
+> - Einzige weiteren Treffer sind Prosa: `contracts/http/gateway-edge.yaml:127` (Contract-Doku)
+>   und Kommentare in `apps/it-web` — kein Code-Pfad lädt `it-fleet/edges/*.yaml`.
+>
+> Zusätzlich zeigten die Dateien selbst nur noch ins Archiv: `sourceSchema:
+> sources/postgresql/it-erp-sap.json` existiert nur unter `backup/pre-next2.0/`, und
+> `SMProfile-StockItem` löst weder in `profiles/**` noch in `contract.json` auf.
+> ERP-Daten kommen heute aus `sources/rest/` (sim-v5 REST). Kein Validator prüfte diesen
+> Baum (validate-all-Route `sources/**/it-*` matcht 0 Dateien).
+>
+> Der ursprüngliche Inhalt folgt unverändert als historische Referenz.
+
+---
+
 # it-fleet — IT-Edge Inventory (Customer-Konfiguration)
 
 **Single Source of Truth** fuer alle IT-Edges einer i3x v3 Installation.
