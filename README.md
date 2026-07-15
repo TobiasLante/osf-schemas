@@ -91,7 +91,7 @@ flowchart LR
 
 ```
 profiles/                        Schema 1: SM Profiles (type system)
-  enterprise/                    ISA-95 hierarchy (Enterprise, Site, Area, ProductionLine, System)
+  enterprise/                    ISA-95 hierarchy (Enterprise, Site, Area, ProcessCell, System)
   machines/                      Machine types + abstract parent (Machine, CNC, IMM, FFS, ...)
   erp/                           ERP domain (Article, Order, Customer, Supplier, BOM, ...)
   maintenance/                   Maintenance (MaintenanceOrder, DowntimeRecord, ...)

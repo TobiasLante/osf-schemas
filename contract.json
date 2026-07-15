@@ -4,7 +4,7 @@
   "generatedBy": "ci/gen-contract.mjs",
   "identity": {
     "rule": "Machine/equipment nodes MUST use their profile kgNodeLabel with the key property declared in nodes.* below — never invent node identities from source-local ids (machineId, machineNo, pool names, vendor names); those are attributes at most.",
-    "openConflict": "KNOWN CONSOLIDATION ISSUE: repo machine profiles key on machine_id, while the UNS/lab convention (osf_map.machine_map) keys equipment on element_id derived from equipmentPath. Until resolved, this contract reflects the repo profiles (machine_id). Do not mix both in one graph."
+    "openConflict": "KNOWN CONSOLIDATION ISSUE: repo machine profiles key on machine_id, while the UNS/lab convention (osf_map.machine_map) keys equipment on element_id derived from equipmentPath. Until resolved, this contract reflects the repo profiles (machine_id). Do not mix both in one graph. RESOLVED AXIS 2026-07-15: the third identity unit_id (equipment-model EquipmentUnit) was consolidated into machine_id — Machine ≡ EquipmentUnit level, the operations edges (EXECUTED_AT, PERFORMED_AT, USES_EQUIPMENT, USED_EQUIPMENT, SET_UP_ON) target Machine/machine_id; element_id remains the one open UNS axis."
   },
   "nodes": {
     "EquipmentClass": {
@@ -443,10 +443,10 @@
       "type": "PERFORMED_AT",
       "from": "ProcessSegment",
       "to": [
-        "EquipmentUnit"
+        "Machine"
       ],
       "targetIdProp": [
-        "unit_id"
+        "machine_id"
       ]
     },
     {
@@ -473,10 +473,10 @@
       "type": "EXECUTED_AT",
       "from": "ProductionOrder",
       "to": [
-        "EquipmentUnit"
+        "Machine"
       ],
       "targetIdProp": [
-        "unit_id"
+        "machine_id"
       ]
     },
     {
@@ -613,10 +613,10 @@
       "type": "USES_EQUIPMENT",
       "from": "SegmentRequirement",
       "to": [
-        "EquipmentUnit"
+        "Machine"
       ],
       "targetIdProp": [
-        "unit_id"
+        "machine_id"
       ]
     },
     {
@@ -663,10 +663,10 @@
       "type": "USED_EQUIPMENT",
       "from": "SegmentResponse",
       "to": [
-        "EquipmentUnit"
+        "Machine"
       ],
       "targetIdProp": [
-        "unit_id"
+        "machine_id"
       ]
     },
     {
@@ -693,10 +693,10 @@
       "type": "SET_UP_ON",
       "from": "Tool",
       "to": [
-        "EquipmentUnit"
+        "Machine"
       ],
       "targetIdProp": [
-        "unit_id"
+        "machine_id"
       ]
     },
     {
@@ -724,12 +724,7 @@
     "_comment": "Relationship targets declared in profiles that do not (yet) resolve to a kgNodeLabel in this repo. Each entry is consolidation work: add the missing profile or fix the target name. New entries should not be added.",
     "entries": [
       "Machine -[PART_OF]-> ProcessCell",
-      "ProcessSegment -[PERFORMED_AT]-> EquipmentUnit",
-      "ProductionOrder -[EXECUTED_AT]-> EquipmentUnit",
-      "SegmentRequirement -[USES_EQUIPMENT]-> EquipmentUnit",
-      "SegmentResponse -[USED_EQUIPMENT]-> EquipmentUnit",
-      "StorageLocation -[PART_OF]-> Area",
-      "Tool -[SET_UP_ON]-> EquipmentUnit"
+      "StorageLocation -[PART_OF]-> Area"
     ]
   },
   "aliases": {

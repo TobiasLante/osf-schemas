@@ -102,7 +102,7 @@
       "dataType": "String",
       "required": false,
       "category": "Link",
-      "description": "FK to EquipmentUnit.unit_id (USES_EQUIPMENT) = EquipmentRequirement.EquipmentID. The target equipment of the stage.",
+      "description": "FK to Machine.machine_id (USES_EQUIPMENT; Machine ≡ EquipmentUnit level) = EquipmentRequirement.EquipmentID. The target equipment of the stage.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -149,9 +149,9 @@
     },
     {
       "type": "USES_EQUIPMENT",
-      "target": "EquipmentUnit",
-      "targetIdProp": "unit_id",
-      "description": "The target equipment of the stage."
+      "target": "Machine",
+      "targetIdProp": "machine_id",
+      "description": "The target equipment of the stage (Machine ≡ EquipmentUnit level, consolidation 2026-07-15 — the source fkColumn carries machine ids)."
     },
     {
       "type": "CORRESPONDS_TO",

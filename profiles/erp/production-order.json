@@ -4,7 +4,7 @@
   "standard": "CESMII",
   "category": "business",
   "displayName": "Production Order (manufacturing order / OperationsRequest — PLAN/target)",
-  "description": "next/ v2.0 — Level-3 MOM OperationsRequest = the PLAN/target of manufacturing (B2MML OperationsRequest / ISA-95 Part 4). Opposite side to the OperationsResponse (the actuals). A Level-4 SalesOrder (SMProfile-CustomerOrder) TRIGGERS this L3 OperationsRequest; EXECUTED_AT an EquipmentUnit. v2.0: the order INSTANTIATES an OperationsDefinition (routing master) and decomposes per ProcessSegment into SegmentRequirements (HAS_SEGMENT_REQUIREMENT); temporal subdivisions (FO index) as Workorder (HAS_WORKORDER). Plan-vs-actual (qty_shortfall, late_delivery) is Cross-Source (it-evaluator), not a single-entity constraints block.",
+  "description": "next/ v2.0 — Level-3 MOM OperationsRequest = the PLAN/target of manufacturing (B2MML OperationsRequest / ISA-95 Part 4). Opposite side to the OperationsResponse (the actuals). A Level-4 SalesOrder (SMProfile-CustomerOrder) TRIGGERS this L3 OperationsRequest; EXECUTED_AT a Machine (≡ EquipmentUnit level, consolidation 2026-07-15). v2.0: the order INSTANTIATES an OperationsDefinition (routing master) and decomposes per ProcessSegment into SegmentRequirements (HAS_SEGMENT_REQUIREMENT); temporal subdivisions (FO index) as Workorder (HAS_WORKORDER). Plan-vs-actual (qty_shortfall, late_delivery) is Cross-Source (it-evaluator), not a single-entity constraints block.",
   "parentType": null,
   "abstract": false,
   "attributes": [
@@ -43,7 +43,7 @@
       "dataType": "String",
       "required": false,
       "category": "Link",
-      "description": "Planned executing machine / line (machine_no). EXECUTED_AT EquipmentUnit.",
+      "description": "Planned executing machine / line (machine_no). EXECUTED_AT Machine (machine_id).",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -166,8 +166,9 @@
     },
     {
       "type": "EXECUTED_AT",
-      "target": "EquipmentUnit",
-      "targetIdProp": "unit_id"
+      "target": "Machine",
+      "targetIdProp": "machine_id",
+      "description": "Consolidation 2026-07-15: Machine ≡ EquipmentUnit level, keyed machine_id — matches what the ERP source actually delivers (machine ids)."
     },
     {
       "type": "INSTANTIATES",
