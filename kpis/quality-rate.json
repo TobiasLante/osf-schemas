@@ -1,13 +1,23 @@
 {
   "kpiId": "KPI-Quality-Rate",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "displayName": "Quality Rate",
-  "description": "Percentage of good parts out of total parts produced",
+  "description": "Percentage of good parts out of (good + scrap), computed live on the edge over the CURRENT counter values (IMM counters are cumulative_resettable — this is a since-last-reset ratio, not a shift window; windowed truth lives in historians/postgresql-cagg/oee-hourly.json). INPUT CONTRACT: `calculation.inputs` are canonical names; the binding to each machine type's real wire attribute is `inputMappings[<profileId>] = { <wireAttribute>: <input> }` — exactly the shape of the consumer's KpiFlowOptions.inputMap (i3x-v4 services/kpi-export/src/flow-template.ts), so the exporter can pass `inputMappings[profileIdOfMachine]` straight through. Until it does, the consumer's built-in matcher was SIMULATED against every attribute of both profiles on 2026-07-15: `good`/`scrap` (IMM) and `Act_Amount_PartGood`/`Act_Amount_PartScrap` (CNC) resolve to these inputs with zero false matches. v1 computed on `Good_Parts`/`Scrap_Parts`/`Rework_Parts` — attributes that existed in NO profile and NO source. REWORK IS DELIBERATELY ABSENT: the CNC profile declares Act_Amount_PartRework but NO source feeds it (measured over sources/ + mappings/, 2026-07-15); a required input that never arrives holds the consumer's all-inputs gate open forever and the KPI never fires, silently. When a source feeds rework, add it to inputs + both mappings — ci/lint-kpis.mjs holds the door.",
   "unit": "%",
   "category": "quality",
   "calculation": {
-    "inputs": ["Good_Parts", "Scrap_Parts", "Rework_Parts"],
-    "cypher": "CASE WHEN (m.Good_Parts + coalesce(m.Scrap_Parts,0) + coalesce(m.Rework_Parts,0)) = 0 THEN null ELSE round(toFloat(m.Good_Parts) / (m.Good_Parts + coalesce(m.Scrap_Parts,0) + coalesce(m.Rework_Parts,0)) * 1000) / 10 END"
+    "inputs": ["part_good", "part_scrap"],
+    "inputMappings": {
+      "SMProfile-InjectionMoldingMachine": {
+        "good": "part_good",
+        "scrap": "part_scrap"
+      },
+      "SMProfile-CNC-Machine": {
+        "Act_Amount_PartGood": "part_good",
+        "Act_Amount_PartScrap": "part_scrap"
+      }
+    },
+    "cypher": "CASE WHEN (m.part_good + m.part_scrap) = 0 THEN null ELSE round(toFloat(m.part_good) / (m.part_good + m.part_scrap) * 1000) / 10 END"
   },
   "thresholds": { "target": 99, "warning": 95, "critical": 90 },
   "appliesTo": ["SMProfile-Machine"]
