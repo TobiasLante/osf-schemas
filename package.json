@@ -15,8 +15,10 @@
     "validate:vocabulary": "node ci/lint-vocabulary.mjs",
     "validate:counters": "node ci/lint-counters.mjs",
     "test:vocabulary": "node ci/test-lint-vocabulary.mjs",
+    "validate:kpis": "node ci/lint-kpis.mjs",
+    "test:kpis": "node ci/test-lint-kpis.mjs",
     "check:vocab-drift": "node ci/check-vocab-drift.mjs",
-    "validate": "npm run validate:category && npm run validate:constraints && npm run validate:recipes && npm run validate:delivery && npm run validate:cross && npm run validate:refs && npm run validate:edges && npm run validate:mtconnect && npm run validate:aliases && npm run validate:contract && npm run test:vocabulary && npm run validate:vocabulary && npm run validate:counters",
+    "validate": "npm run validate:category && npm run validate:constraints && npm run validate:recipes && npm run validate:delivery && npm run validate:cross && npm run validate:refs && npm run validate:edges && npm run validate:mtconnect && npm run validate:aliases && npm run validate:contract && npm run test:vocabulary && npm run validate:vocabulary && npm run validate:counters && npm run test:kpis && npm run validate:kpis",
     "validate:aliases": "node ci/lint-machine-type-aliases.mjs",
     "validate:contract": "node ci/lint-contract.mjs",
     "gen:contract": "node ci/gen-contract.mjs"

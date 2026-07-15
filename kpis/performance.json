@@ -1,14 +1,23 @@
 {
   "kpiId": "KPI-Performance",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "displayName": "Performance",
-  "description": "Performance rate — ratio of planned to actual cycle time",
+  "parked": true,
+  "parkedAt": "2026-07-15",
+  "parkedReason": "ONE measured precondition is missing: Plan_Time_Cycle is declared on the CNC profile but fed by NO source (measured over sources/ + mappings/, 2026-07-15) — the consumer's all-inputs gate would wait for it forever and the KPI would never fire, silently. Act_Time_Cycle IS fed (opcua-cnc-001/002-telemetry, unit s). UNPARK CONDITION: a source maps Plan_Time_Cycle; then remove `parked` — the body below is already written against the real vocabulary, and ci/lint-kpis.mjs turns RED on this file the moment every input is fed while it still claims to be parked (a parked rule whose precondition is met is a lie — late_delivery lesson). The v1 body was NOT preserved verbatim: it computed on `Cycle_Time_Planned`/`Cycle_Time_Actual`, which existed in NO profile and NO source — parking THAT body would have parked a false promise, because un-parking it could never have made it work. The IMM is excluded even after unparking: it has an actual `cycleTimeSec` but no planned-cycle attribute at all (the recipe SOLL lives in recipes/, not on the wire).",
+  "description": "Performance rate — planned vs actual cycle time (Plan_Time_Cycle / Act_Time_Cycle), live on the edge. PARKED — see parkedReason; do not push until a source feeds Plan_Time_Cycle. Input contract: canonical = real CNC wire names (exact-name match binds them without the explicit map); inputMappings carries the identity binding for the consumer's KpiFlowOptions.inputMap contract. Windowed performance for reporting lives in historians/postgresql-cagg/oee-hourly.json (authoritative for time-bucketed factors).",
   "unit": "%",
   "category": "efficiency",
   "calculation": {
-    "inputs": ["Cycle_Time_Planned", "Cycle_Time_Actual"],
-    "cypher": "CASE WHEN coalesce(m.Cycle_Time_Actual, 0) = 0 THEN null ELSE round(toFloat(coalesce(m.Cycle_Time_Planned, 0)) / m.Cycle_Time_Actual * 1000) / 10 END"
+    "inputs": ["Plan_Time_Cycle", "Act_Time_Cycle"],
+    "inputMappings": {
+      "SMProfile-CNC-Machine": {
+        "Plan_Time_Cycle": "Plan_Time_Cycle",
+        "Act_Time_Cycle": "Act_Time_Cycle"
+      }
+    },
+    "cypher": "CASE WHEN coalesce(m.Act_Time_Cycle, 0) = 0 THEN null ELSE round(toFloat(m.Plan_Time_Cycle) / m.Act_Time_Cycle * 1000) / 10 END"
   },
   "thresholds": { "target": 95, "warning": 85, "critical": 70 },
-  "appliesTo": ["SMProfile-Machine"]
+  "appliesTo": ["SMProfile-CNC-Machine"]
 }

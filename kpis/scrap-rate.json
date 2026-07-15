@@ -1,13 +1,23 @@
 {
   "kpiId": "KPI-Scrap-Rate",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "displayName": "Scrap Rate",
-  "description": "Percentage of scrap parts out of total production",
+  "description": "Percentage of scrap parts out of (good + scrap), computed live on the edge over the CURRENT counter values (since-last-reset ratio — IMM counters are cumulative_resettable; windowed truth lives in historians/postgresql-cagg/oee-hourly.json). Input contract and measurement identical to KPI-Quality-Rate: canonical inputs bound per machine type via `inputMappings[<profileId>]` (= the consumer's KpiFlowOptions.inputMap shape); the consumer's built-in matcher resolves `good`/`scrap` (IMM) and `Act_Amount_PartGood`/`Act_Amount_PartScrap` (CNC) to these inputs with zero false matches (simulated 2026-07-15). v1 computed on `Good_Parts`/`Scrap_Parts`/`Rework_Parts` — none of which existed anywhere. Rework is deliberately absent from the denominator: Act_Amount_PartRework is declared on the CNC profile but fed by NO source (measured 2026-07-15); see KPI-Quality-Rate for the unpark path.",
   "unit": "%",
   "category": "quality",
   "calculation": {
-    "inputs": ["Good_Parts", "Scrap_Parts", "Rework_Parts"],
-    "cypher": "CASE WHEN (m.Good_Parts + coalesce(m.Scrap_Parts,0) + coalesce(m.Rework_Parts,0)) = 0 THEN null ELSE round(toFloat(coalesce(m.Scrap_Parts, 0)) / (m.Good_Parts + coalesce(m.Scrap_Parts,0) + coalesce(m.Rework_Parts,0)) * 1000) / 10 END"
+    "inputs": ["part_good", "part_scrap"],
+    "inputMappings": {
+      "SMProfile-InjectionMoldingMachine": {
+        "good": "part_good",
+        "scrap": "part_scrap"
+      },
+      "SMProfile-CNC-Machine": {
+        "Act_Amount_PartGood": "part_good",
+        "Act_Amount_PartScrap": "part_scrap"
+      }
+    },
+    "cypher": "CASE WHEN (m.part_good + m.part_scrap) = 0 THEN null ELSE round(toFloat(m.part_scrap) / (m.part_good + m.part_scrap) * 1000) / 10 END"
   },
   "thresholds": { "target": 1, "warning": 3, "critical": 5 },
   "appliesTo": ["SMProfile-Machine"]
