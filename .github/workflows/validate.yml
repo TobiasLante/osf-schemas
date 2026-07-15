@@ -1,10 +1,15 @@
 # osf-schemas validation pipeline — GitHub-hosted runner.
 #
 # Two layers, both must pass:
-#   1. npm run validate          — the six ci/lint-*.mjs linters, incl.
+#   1. npm run validate          — the ci/lint-*.mjs linter chain (see
+#      package.json; category, constraints, recipes, delivery, cross, refs,
+#      edges, mtconnect, aliases, contract drift, docs drift, vocabulary +
+#      self-test, counters, kpis + self-test), incl.
 #      lint-refs.mjs (cross-file referential integrity: every profileRef/
 #      sourceRef resolves, every mapped smAttribute exists in the referenced
-#      profile, dataTypes agree across the three type vocabularies).
+#      profile, dataTypes agree across the three type vocabularies) and
+#      gen-docs.mjs --check (README/schema-guide generated blocks must match
+#      a fresh render of the tree + contract.json).
 #   2. validate-all.mjs          — per-file ajv shape validation of
 #      profiles/, sources/, sync/, recipes/ against validation/*.json.
 #
