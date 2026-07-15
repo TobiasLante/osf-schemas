@@ -4,7 +4,7 @@
   "standard": "CESMII",
   "category": "machine",
   "displayName": "CNC Machine",
-  "description": "next/ pilot — copy of profiles/machines/cnc-machine.json + constraints facet. Inherits power_positive_when_running from SMProfile-Machine. CNC machining center — OPC 40077 process data (spindle, feed, axes, tool, coolant, vibration).",
+  "description": "next/ v2.1 — CNC machining center + constraints facet. power_positive_when_running is declared LOCALLY in this file (the thin abstract parent SMProfile-Machine carries no constraints — earlier prose claimed an inheritance that does not exist). CNC-systems companion-spec process data (OPC 40502; NOTE: isa95.companionSpec still references the registry key 'OPC40077-CNC' — misnumbered, 40077 is EUROMAP 77 / injection moulding; the registry entry itself already points at the CNC NodeSet) — spindle, feed, axes, tool, coolant, vibration.",
   "parentType": "Machine",
   "abstract": false,
   "attributes": [
