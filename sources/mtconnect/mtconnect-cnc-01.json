@@ -1,12 +1,12 @@
 {
  "sourceId": "mtconnect-cnc-01",
- "version": "2.0.0",
+ "version": "2.0.1",
  "sourceType": "mtconnect",
  "syncType": "polling",
  "transport": [
   "opcua-server"
  ],
- "description": "INGRESS descriptor for the MTConnect Sonder-Edge. Polls an MTConnect agent (/current, sequence-tracked via /sample) and projects each MTConnect DataItem onto a canonical SMProfile-CNC-Machine attribute. SAME schema concept as the OPC-UA source descriptors (next/sources/opcua/*.json) — per-protocol address lives in dataItemMappings[].dataItemId, the join key is smAttribute, the profile is the SSOT. The Sonder-Edge re-exposes these attributes on an embedded OPC-UA server (transport=opcua-server); a STANDARD OSF OPC-UA edge then ingests them normally (see opcua-mtbridge-cnc-01.json).",
+ "description": "INGRESS descriptor for the MTConnect Sonder-Edge. Polls an MTConnect agent (/current, sequence-tracked via /sample) and projects each MTConnect DataItem onto a canonical SMProfile-CNC-Machine attribute. SAME schema concept as the OPC-UA source descriptors (next/sources/opcua/*.json) — per-protocol address lives in dataItemMappings[].dataItemId, the join key is smAttribute, the profile is the SSOT. The Sonder-Edge re-exposes these attributes on an embedded OPC-UA server (transport=opcua-server); a STANDARD OSF OPC-UA edge then ingests them normally (see opcua-mtbridge-cnc-01.json). IDENTITY (documented like the sister source mtconnect-cnc-mtc-02): agent device cnc-01 maps to KG machineId cnc-01 — VERIFIED 2026-07-15 via GET http://192.168.178.154:35000/probe (HTTP 200: agent serves devices cnc-01..cnc-20 plus sgm-*; the cnc-01-* dataItemIds below exist only under device cnc-01, and /current shows DeviceStream cnc-01 live). On the NATS bus this machine appears as cnc-mtc-01, because the standard-edge sync (sync/nats/opcua-to-nats-cnc-mtc-01.json) carries machineId cnc-mtc-01 — on this chain the bus id and the KG id differ (historical; unifying them would rename ids that live in NATS subjects and history). Do not confuse agent device cnc-02 (a different physical machine on the same agent) with the unrelated OPC-UA machine cnc-002 (machineName 'CNC-02').",
  "connection": {
   "endpoint": "http://192.168.178.154:35000",
   "device": "cnc-01",
