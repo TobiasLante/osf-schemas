@@ -18,10 +18,12 @@
     "validate:kpis": "node ci/lint-kpis.mjs",
     "test:kpis": "node ci/test-lint-kpis.mjs",
     "check:vocab-drift": "node ci/check-vocab-drift.mjs",
-    "validate": "npm run validate:category && npm run validate:constraints && npm run validate:recipes && npm run validate:delivery && npm run validate:cross && npm run validate:refs && npm run validate:edges && npm run validate:mtconnect && npm run validate:aliases && npm run validate:contract && npm run test:vocabulary && npm run validate:vocabulary && npm run validate:counters && npm run test:kpis && npm run validate:kpis",
+    "validate": "npm run validate:category && npm run validate:constraints && npm run validate:recipes && npm run validate:delivery && npm run validate:cross && npm run validate:refs && npm run validate:edges && npm run validate:mtconnect && npm run validate:aliases && npm run validate:contract && npm run validate:docs && npm run test:vocabulary && npm run validate:vocabulary && npm run validate:counters && npm run test:kpis && npm run validate:kpis",
     "validate:aliases": "node ci/lint-machine-type-aliases.mjs",
     "validate:contract": "node ci/lint-contract.mjs",
-    "gen:contract": "node ci/gen-contract.mjs"
+    "validate:docs": "node ci/gen-docs.mjs --check",
+    "gen:contract": "node ci/gen-contract.mjs",
+    "gen:docs": "node ci/gen-docs.mjs"
   },
   "devDependencies": {
     "ajv": "^8.17.1",
