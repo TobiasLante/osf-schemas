@@ -1,14 +1,19 @@
 {
   "kpiId": "KPI-Availability",
-  "version": "1.0.1",
-  "displayName": "Availability",
-  "description": "Machine availability — percentage of time in production status vs total time. Accepts numeric (1=running, 2/3=standby) or common string codes (RUNNING/PRODUCING vs IDLE/STOPPED/SETUP/MAINTENANCE).",
+  "version": "2.0.0",
+  "displayName": "Availability (status proxy)",
+  "description": "HONEST SCOPE: an INSTANTANEOUS STATUS PROXY, not ISO-22400 availability (that would be a runtime/planned-time RATIO — the time-ratio lane is historians/postgresql-cagg/oee-hourly.json, with its own documented hardcodes). Maps the machine's current status to 100 (producing) or 0 (not producing); anything outside the measured vocabulary yields null, because an unknown status is an UNANSWERED QUESTION, not zero availability. Vocabulary: Act_Status_Machine was measured 2026-07-12 over the full population (22.1M rows) = {RUNNING, IDLE, STOPPED, MAINTENANCE}. v1 additionally matched 'PRODUCING'/'RUN'/'PROD', numeric codes 1/2/3 (a numeric literal against a String attribute can never compare equal), and 'WARNING'/'SETUP'/'STANDBY' at 50% — NONE of these values has ever occurred; every one of those arms was dead. The 50%-tier is gone with them: it graded fictional states. APPLIES TO CNC ONLY: the IMM profile's `status` vocabulary is NOT MEASURED yet and its profile explicitly forbids guards on it — extending this KPI to the IMM requires measuring that vocabulary first (no invented enums), then adding an inputMappings entry; ci/lint-kpis.mjs refuses guards on enum-less attributes. The input keeps the real wire name Act_Status_Machine, so the consumer's exact-name matcher binds it TODAY without the explicit map (simulated 2026-07-15); inputMappings carries the identity binding for the explicit KpiFlowOptions.inputMap contract. NOTE: the exporter does not yet enforce appliesTo on push — pushing this KPI to an IMM would let the unmeasured `status` fuzzy-match the input; that enforcement is a consumer-side follow-up.",
   "unit": "%",
   "category": "efficiency",
   "calculation": {
-    "inputs": ["Machine_Status"],
-    "cypher": "CASE WHEN m.Machine_Status = 1 OR m.Machine_Status IN ['RUNNING','PRODUCING','RUN','PROD'] THEN 100.0 WHEN m.Machine_Status IN [2,3] OR m.Machine_Status IN ['WARNING','SETUP','MAINTENANCE','STANDBY'] THEN 50.0 ELSE 0.0 END"
+    "inputs": ["Act_Status_Machine"],
+    "inputMappings": {
+      "SMProfile-CNC-Machine": {
+        "Act_Status_Machine": "Act_Status_Machine"
+      }
+    },
+    "cypher": "CASE WHEN m.Act_Status_Machine = 'RUNNING' THEN 100.0 WHEN m.Act_Status_Machine IN ['IDLE','STOPPED','MAINTENANCE'] THEN 0.0 ELSE null END"
   },
   "thresholds": { "target": 90, "warning": 80, "critical": 60 },
-  "appliesTo": ["SMProfile-Machine"]
+  "appliesTo": ["SMProfile-CNC-Machine"]
 }
