@@ -1,9 +1,9 @@
 {
   "syncId": "mtconnect-to-opcua-cnc-mtc-01",
   "mappingId": "mtconnect-to-opcua-cnc-mtc-01",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "syncType": "bridge",
-  "description": "Sonder-Edge bridge \u2014 reads the MTConnect agent and re-publishes the SMProfile-CNC-Machine attributes on an embedded OPC-UA server (ns=2;s=<machineId>/<smAttribute>) so a standard OSF OPC-UA edge can ingest it. This sync is the SSOT consumed by gen-flows.mjs to build the Sonder-Edge Node-RED flow.",
+  "description": "Sonder-Edge bridge \u2014 reads the MTConnect agent and re-publishes the SMProfile-CNC-Machine attributes on an embedded OPC-UA server (ns=2;s=<machineId>/<smAttribute>) so a standard OSF OPC-UA edge can ingest it. This sync is the SSOT consumed by gen-flows.mjs to build the Sonder-Edge Node-RED flow. IDENTITY CHAIN (documented like the sister chain mtconnect-cnc-mtc-02): physical machine = MTConnect agent device cnc-01 -> KG machineId cnc-01 (sources/mtconnect/mtconnect-cnc-01.json) -> OPC-UA nodes ns=2;s=cnc-01/<smAttribute>, i.e. <machineId> in nodeIdPattern resolves to the UPSTREAM source's machineId cnc-01 (this is what sources/opcua/opcua-mtbridge-cnc-01.json's nodeMappings expect) -> published on the NATS bus as cnc-mtc-01 (this file's machineId, via sync/nats/opcua-to-nats-cnc-mtc-01.json). MEASURED 2026-07-15 (GET http://192.168.178.154:35000/probe, HTTP 200): the agent serves devices cnc-01..cnc-20 plus sgm-*, and the dataItemIds mapped in mtconnect-cnc-01.json (cnc-01-*) exist ONLY under device cnc-01; DeviceStream cnc-01 is live in /current. The previous value device=cnc-02 (slipped in with the .120->.154 endpoint move, commit efba70e) contradicted the referenced source and named a DIFFERENT physical machine \u2014 agent device cnc-02, not to be confused with the unrelated OPC-UA machine cnc-002 (machineName 'CNC-02').",
   "transport": [
     "mtconnect",
     "opcua-server"
@@ -14,7 +14,7 @@
     "type": "mtconnect",
     "sourceRef": "mtconnect-cnc-01",
     "endpoint": "http://192.168.178.154:35000",
-    "device": "cnc-02"
+    "device": "cnc-01"
   },
   "sink": {
     "type": "opcua-server",
