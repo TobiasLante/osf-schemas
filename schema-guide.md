@@ -5,58 +5,81 @@ No LLM is needed — the schemas are the single source of truth.
 
 ## Directory Structure
 
+<!-- gen:tree:begin -->
 ```
 osf-schemas/
-├── companion-specs/       ← OPC-UA Companion-Spec-Registry (NodeSet2.xml URLs)
-├── mappings/              ← Protokoll-Kanon: DataItem/Tag → SM-Attribut (SSOT für Discovery + gen-flows)
-├── unit-conversions/      ← UNECE-Tabelle (Discovery-Zeit-Lookup für scale/offset)
-├── historians/            ← Historian-Sink-Templates (OUTPUT: UNS → Kunden-DB)
-│   ├── postgresql/        ← via node-red-contrib-postgresql (Timescale-aware)
-│   ├── mssql/             ← via node-red-contrib-mssql-plus
-│   ├── influxdb/          ← via node-red-contrib-influxdb (2.x)
-│   └── nats-jetstream/    ← via @i3x/nr-nats durable consumer (v3, additive)
-├── profiles/              ← Schema 1: SM Profiles (type system)
-│   ├── machines/          ← Machine types (Machine* abstract, CNC, InjectionMolding)
-│   ├── equipment/         ← Equipment (EquipmentClass, EquipmentModel, Tool)
-│   ├── erp/               ← ERP domain (Article, CustomerOrder, Customer, ProductionOrder, ProductDefinition, OperationsResponse)
-│   ├── operations/        ← ISA-95 operations (OperationsDefinition, ProcessSegment, SegmentRequirement/-Response, WorkOrder)
-│   ├── qms/               ← Quality (InspectionLot, SPCAnalysis)
-│   ├── wms/               ← Warehouse (Quant, StorageLocation, MaterialLot)
-│   └── intelligence/      ← Multi-truth layer (Discrepancy, ResolutionProposal, AutoResolveRule, ...)
-├── sources/               ← Schema 2: Data Sources (instance binding)
-│   ├── opcua/             ← OPC-UA endpoint → machine mappings (cnc-001/002, sgm-001/004/005, mtbridge)
-│   ├── mtconnect/         ← MTConnect agent mappings (cnc-01, cnc-mtc-02)
-│   └── rest/              ← sim-v5 REST polling (ERP orders/articles/customers, QMS, WMS, segments)
-├── sync/                  ← Schema 3: Live Sync (transport layer)
-│   ├── nats/              ← NATS subjects + JetStream stream declarations (suite hub)
-│   ├── polling/           ← REST polling schedule (sim-v5-poll)
-│   └── opcua-server/      ← Sonder-Edge re-publish (MTConnect → embedded OPC-UA server)
-├── backup/pre-next2.0/    ← ARCHIVED pre-cutover catalog (old postgresql sources, MQTT-UNS/Kafka/webhook/manual/bridge syncs) — kept for reference, NOT loaded as SSOT
-└── schema-guide.md        ← This file
-
-* = abstract parent (Machine) — see Inheritance section
+├── backup/                 ARCHIVED (v3-era postgresql sources, mqtt/kafka/webhook/manual/bridge syncs; it-fleet) — reference only, loaded by nothing (327 json)
+├── branding/               brand/theme assets (1 json)
+├── ci/                     linters + generators (lint-*.mjs, gen-contract.mjs, gen-docs.mjs)
+├── companion-specs/        OPC-UA Companion-Spec registry (NodeSet2.xml URLs) (1 json)
+├── cross-constraints/      cross-profile discrepancy constraints (PLAN vs IST rules) (4 json)
+├── docs/                   conventions, next2.0 standard, agent-conformance, variable shapes
+├── examples/               demo fixtures — NOT canonical (see examples/README.md) (5 json)
+├── flows/                  Node-RED flow templates (OPC-UA → UNS standard flow) (1 json)
+├── historians/             historian-sink templates + instances (OUTPUT: UNS → customer DB)
+│   ├── central-ts-tables/       (2 json)
+│   ├── grafana-dashboards/      (4 json)
+│   ├── influxdb/                (1 json)
+│   ├── instances/               (4 json)
+│   ├── mssql/                   (1 json)
+│   ├── nats-jetstream/          (1 json)
+│   ├── postgresql/              (1 json)
+│   ├── postgresql-cagg/         (1 json)
+│   ├── postgresql-pivot/        (1 json)
+│   └── views/                   (1 json)
+├── kpis/                   KPI definitions — inputs drawn from the source-fed vocabulary (lint-kpis) (6 json)
+├── mappings/               protocol canon: DataItem/tag → SM attribute (SSOT for discovery + gen-flows) (2 json)
+├── profiles/               Schema 1: SM Profiles (type system)
+│   ├── equipment/              EquipmentClass, EquipmentModel (compact), Tool (3 json)
+│   ├── erp/                    Article, Customer(-Order), ProductionOrder, ProductDefinition, OperationsResponse (6 json)
+│   ├── intelligence/           multi-truth layer: Discrepancy, ResolutionProposal, AutoResolveRule, … (4 json)
+│   ├── machines/               Machine (abstract parent), CNC_Machine, InjectionMoldingMachine (3 json)
+│   ├── operations/             ISA-95 Part 4: OperationsDefinition, ProcessSegment, Segment{Requirement,Response}, Workorder (5 json)
+│   ├── qms/                    InspectionLot, SPCAnalysis (2 json)
+│   └── wms/                    MaterialLot, Quant, StorageLocation (3 json)
+├── recipes/                GitHub-managed recipe master data (see recipes/README.md) (3 json)
+├── sources/                Schema 2: Data Sources (instance binding)
+│   ├── mtconnect/              MTConnect agent mappings (2 json)
+│   ├── opcua/                  OPC-UA endpoint → machine mappings (11 json)
+│   └── rest/                   sim-v5 REST polling (ERP/QMS/WMS projections) (9 json)
+├── sync/                   Schema 3: Live Sync (transport layer)
+│   ├── nats/                   NATS subjects + JetStream stream declarations (suite hub) (2 json)
+│   ├── opcua-server/           Sonder-Edge re-publish (MTConnect → embedded OPC-UA server) (1 json)
+│   └── polling/                REST polling schedule (1 json)
+├── unit-conversions/       UNECE unit table (discovery-time scale/offset lookup) (1 json)
+├── validation/             ajv meta-schemas (per-file shape validation) (17 json)
+├── CLAUDE.md               agent instructions
+├── contract.json           GENERATED ontology contract (gen-contract.mjs) — agents read this FIRST
+├── README.md               this overview
+└── schema-guide.md         the full schema documentation
 ```
+<!-- gen:tree:end -->
 
 ## Counts
 
 Verbindlich sind die Linter-Zahlen (`npm run validate` → lint-refs meldet
-`N profiles, M sources, K sync files`), nicht diese Tabelle. Stand next2.0
-(2026-07-08): 26 Profile, 20 Sources (9 opcua, 2 mtconnect, 9 rest),
-4 Sync-Dateien (2 nats, 1 polling, 1 opcua-server). Alles davor (30
-PostgreSQL-Sources, MQTT-UNS-/Kafka-/Webhook-Syncs der v3-Ära) liegt in
+`N profiles, M sources, K sync files`) — und die Tabelle hier wird von
+`ci/gen-docs.mjs` aus demselben Tree **generiert** (`npm run gen:docs`;
+`npm run validate:docs` wird rot, wenn sie von einem frischen Render abweicht —
+eine Doku-Zahl, die niemand nachrechnet, ist eine Lüge mit Veröffentlichungsdatum).
+Alles aus der v3-Ära (PostgreSQL-Sources, MQTT-UNS-/Kafka-/Webhook-Syncs) liegt in
 `backup/pre-next2.0/` und wird von keinem Service mehr geladen.
 
-| Category | Examples |
-|----------|---------|
-| Profiles (26) | Machine (abstract), CNC-Machine, InjectionMoldingMachine, Article, CustomerOrder, ProductionOrder, InspectionLot, Quant, ... |
-| Sources (9 OPC-UA) | opcua-cnc-001/002-{event,telemetry}, opcua-sgm-001-{event,telemetry}, opcua-sgm-004/005-processdata, opcua-mtbridge-cnc-01 |
-| Sources (2 MTConnect) | mtconnect-cnc-01, mtconnect-cnc-mtc-02 |
-| Sources (9 REST) | erp-production-orders, erp-customer-orders, sim-v5-erp-articles, sim-v5-qms-inspections, sim-v5-wms-quants, ... |
-| Sync (NATS) | jetstream-streams, opcua-to-nats-cnc-mtc-01 |
-| Sync (Polling) | sim-v5-poll |
-| Sync (OPC-UA-Server) | mtconnect-to-opcua-cnc-mtc-01 (Sonder-Edge bridge) |
-| Companion-Specs | 12 OPC-UA Companion Specs (CNC, Machinery, Robotics, ...) |
-| Historians | postgres/mssql/influxdb/nats-jetstream historian-templates |
+<!-- gen:counts:begin -->
+| Category | Count | Files |
+|---|---|---|
+| Profiles | 26 | equipment 3 · erp 6 · intelligence 4 · machines 3 · operations 5 · qms 2 · wms 3 |
+| Sources — mtconnect | 2 | mtconnect-cnc-01, mtconnect-cnc-mtc-02 |
+| Sources — opcua | 11 | opcua-cnc-001-event, opcua-cnc-001-telemetry, opcua-cnc-002-event, opcua-cnc-002-telemetry, opcua-mtbridge-cnc-01, opcua-sgm-001-event, opcua-sgm-001-telemetry, opcua-sgm-004-processdata, opcua-sgm-005-processdata, opcua-sgm-006-bde, opcua-sgm-006-processdata |
+| Sources — rest | 9 | erp-customer-orders, erp-operations-response, erp-production-orders, erp-segment-requirements, erp-segment-responses, sim-v5-erp-articles, sim-v5-erp-customers, sim-v5-qms-inspections, sim-v5-wms-quants |
+| Sync — nats | 2 | jetstream-streams, opcua-to-nats-cnc-mtc-01 |
+| Sync — opcua-server | 1 | mtconnect-to-opcua-cnc-mtc-01 |
+| Sync — polling | 1 | sim-v5-poll |
+| Recipes | 3 (2 parked) | recipe-sgm-004-default, recipe-sgm-004-pa66gf30-bracket-b *(parked)*, recipe-sgm-004-pa66gf30-housing-a *(parked)* |
+| KPIs | 6 (2 parked) | availability, energy-per-part *(parked)*, oee, performance *(parked)*, quality-rate, scrap-rate |
+
+Measured from the tree by `ci/gen-docs.mjs` — the same sums `npm run validate:refs` prints (`lint-refs: 26 profiles, 22 sources, 4 sync files`).
+<!-- gen:counts:end -->
 
 ---
 
@@ -76,6 +99,13 @@ konfiguriert sind.
 - `historians/mssql/historian-template.json` — `node-red-contrib-mssql-plus`.
 - `historians/influxdb/historian-template.json` — `node-red-contrib-influxdb` 2.x, Measurement pro Domain.
 - `historians/nats-jetstream/historian-template.json` (v3, additive) — `@i3x/nr-nats` durable consumer auf einem JetStream-Stream → Postgres-Insert in dieselbe `uns_history`-Tabelle. Wird verwendet wenn die Source `transport: ['nats']` setzt; bei `['mqtt','nats']` läuft der MQTT-Historian-Pfad parallel.
+
+Daneben liegen unter `historians/` keine Templates, sondern konkrete Artefakte:
+`instances/` (deklarierte Historian-Instanzen edge/central), `central-ts-tables/`
+(Central-Timescale-Tabellendefinitionen), `postgresql-cagg/` (Continuous
+Aggregates), `postgresql-pivot/` (Pivot-Routing), `views/` und
+`grafana-dashboards/`. Die vollständige, generierte Verzeichnisliste steht im
+Tree oben.
 
 Template-Shape gemeinsam:
 - `nodeRedContrib` — welches contrib-Paket
@@ -215,7 +245,7 @@ When `parentType` is set, the KG Builder merges at load time:
 3. **Multi-level**: grandparent → parent → child works (resolved depth-first).
 4. **Cycles**: detected and broken silently (partial inheritance).
 
-**Example:** `CNC_Machine` has `parentType: "Machine"` and empty `attributes: []`. After inheritance, it has all 18 Machine attributes + 3 Machine relationships.
+**Example:** `CNC_Machine` has `parentType: "Machine"`. `Machine` is a **thin abstract parent** — it carries the identity (`machine_id`) and 3 relationships (`EXECUTES`, `PART_OF`, `PRODUCES`) and **zero attributes of its own**. After inheritance, `CNC_Machine` keeps its own attribute set and gains the 3 Machine relationships plus the `:Machine` parent label.
 
 ### What the builder does
 
@@ -233,68 +263,73 @@ MATCH (n:CNC_Machine) SET n:Machine
 
 Defines **where to load instance data from** — which database/endpoint, how fields map to node properties, and how to create edges.
 
-### PostgreSQL Source
+### REST Source (business entities)
 
-**File:** `sources/postgresql/<source-id>.json`
+**File:** `sources/rest/<source-id>.json` — the ONLY active path for ERP/QMS/WMS
+entities: the sim-v5 REST projections, polled per `sync/polling/sim-v5-poll.json`.
+Direct-PostgreSQL sources are a v3-era pattern — archived under
+`backup/pre-next2.0/sources/`, loaded by nothing.
+
+Shortened from the real `sources/rest/erp-production-orders.json`:
 
 ```json
 {
-  "sourceId": "erpdb-production-orders",
-  "sourceType": "postgresql",
+  "sourceId": "erp-production-orders",
+  "sourceType": "rest",
+  "syncType": "polling",
   "profileRef": "SMProfile-ProductionOrder",
+  "transport": ["nats"],
   "connection": {
-    "host": "${ERP_DB_HOST}",
-    "port": "${ERP_DB_PORT}",
-    "database": "erpdb",
-    "schema": "llm_test_v3",
-    "table": "machineid_nodeid"
+    "baseUrl": "http://192.168.178.154:38260",
+    "path": "/api/orders?exclude_status=CANCELLED,INVOICED,SHIPPED",
+    "method": "GET"
   },
+  "response": { "format": "json", "rootPath": "$", "idProperty": "production_order_no" },
+  "polling": { "changeDetection": "full_refresh", "intervalMs": 60000 },
   "columnMappings": [
-    { "column": "order_no", "smAttribute": "order_no", "isId": true },
-    { "column": "article_no", "smAttribute": "article_no" },
-    { "column": "machine_no", "smAttribute": "machine_no" }
+    { "column": "production_order_no", "smAttribute": "production_order_no", "isId": true },
+    { "column": "article_no", "smAttribute": "article_ref" },
+    { "column": "machine_no", "smAttribute": "machine_ref" }
   ],
   "edges": [
-    { "fkColumn": "machine_no", "type": "WORKS_ON", "targetIdProp": "machine_id" },
-    { "fkColumn": "article_no", "type": "PRODUCES", "targetIdProp": "article_no" }
+    { "type": "PRODUCES", "fkColumn": "article_no", "targetIdProp": "article_no" },
+    { "type": "EXECUTED_AT", "fkColumn": "machine_no", "targetIdProp": "machine_id" }
   ]
 }
 ```
 
-### OPC-UA Source
+### OPC-UA Source (machines)
 
-**File:** `sources/opcua/<machine-id>.json`
+**File:** `sources/opcua/<machine-id>-<category>.json`
+
+Shortened from the real `sources/opcua/opcua-sgm-004-processdata.json`:
 
 ```json
 {
-  "sourceId": "opcua-sgm-002",
+  "sourceId": "opcua-sgm-004-processdata",
   "sourceType": "opcua",
+  "syncType": "streaming",
+  "transport": ["nats"],
   "profileRef": "SMProfile-InjectionMoldingMachine",
-  "endpoint": "opc.tcp://192.168.178.150:4851",
-  "machineId": "SGM-002",
-  "machineName": "Spritzgussmaschine 2",
-  "location": { "site": "Hauptwerk", "area": "Spritzgusshalle", "line": "SGM-1300" },
+  "connection": { "endpoint": "opc.tcp://192.168.178.154:36063" },
+  "machineId": "sgm-004",
+  "location": { "enterprise": "factory", "site": "werk1", "area": "sgm", "line": "line-a", "type": "SGM" },
   "nodeMappings": [
-    { "opcuaNodeId": "ns=1;s=Factory.SGM-002.BDE.Good_Parts", "smAttribute": "Parts_Good" }
+    { "opcuaNodeId": "ns=1;s=Machine/status", "smAttribute": "status", "dataType": "String" },
+    { "opcuaNodeId": "ns=1;s=Machine/partsCount/good", "smAttribute": "good", "dataType": "Float64" }
   ]
 }
 ```
 
 ### Key concepts
 
-**`columnMappings`**: `column` → `smAttribute` (DB column → KG node property). `isId: true` marks the identity column.
+**`columnMappings` / `nodeMappings`**: source field → `smAttribute` (KG node property). `isId: true` marks the identity column. Every mapped `smAttribute` MUST exist in the referenced profile — `ci/lint-refs.mjs` (E4) enforces it, and `ci/lint-mtconnect-canon.mjs` holds MTConnect sources against the protocol canon in `mappings/`.
 
 **`edges`**: `fkColumn` → `targetIdProp`. The builder resolves `targetIdProp` to ALL profile labels sharing that `kgIdProperty` (polymorphic resolution).
 
-**`targetIdProp` example:** `"machine_id"` resolves to 8+ labels:
-```
-InjectionMoldingMachine, CNC_Machine, Lathe, MillingMachine,
-GrindingMachine, FiveAxisMillingMachine, FFS_Cell, AssemblyLine
-```
+**`targetIdProp` example:** `"machine_id"` resolves to every label whose `kgIdProperty` is `machine_id` — see the generated *Common `targetIdProp` Values* table below. Add a new machine type with the same key and every existing edge finds it, no source change needed.
 
-**Environment variables:** `"${ERP_DB_HOST}"` is replaced at load time from `process.env`.
-
-**Computed columns:** SQL expressions as column values: `"column": "(start_time + interval '1 hour')"`.
+**Environment variables:** `"${HISTORIAN_HOST}"`-style values are replaced at load time from `process.env`.
 
 ---
 
@@ -329,49 +364,61 @@ own `polling` contract (`npm run validate:refs` enforces the reference).
 }
 ```
 
-### NATS Sync (v3, additive)
+### NATS / JetStream Sync
 
-**File:** `sync/nats/<sync-id>.json`
+**Files:** `sync/nats/<sync-id>.json` — two layers:
 
-NATS subjects mirror the MQTT topic hierarchy 1:1, dot-separated instead of slash-separated. Edge IPCs run a NATS Leaf Node which forwards subjects to the central cluster — `nats.url` typically points to `nats://nats:4222` inside the IPC compose network.
+- `syncType: "nats"` — subject mapping for one OPC-UA→NATS republish
+  (`opcua-to-nats-cnc-mtc-01`). Edge IPCs run a NATS Leaf Node which forwards
+  subjects to the central cluster.
+- `syncType: "nats-jetstream"` — `jetstream-streams.json`, the SSOT for stream
+  names, subject filters and the edge→hub source topology. Consumed by
+  `provision-jetstream.sh` (idempotent create/update), by nr-codegen (resolves
+  the publish-target stream per delivery class) and by the nats-bridge
+  consumers. No stream name is hardcoded in code.
 
-```json
-{
-  "syncId": "isa95-uns-nats-walker-reynolds",
-  "syncType": "nats",
-  "nats": {
-    "url": "${NATS_URL}",
-    "leafNode": true
-  },
-  "subjectStructure": {
-    "pattern": "{enterprise}.{site}.{area}.{line}.{machine}.{domain}.{attribute}",
-    "separator": ".",
-    "subscribeFilters": ["*.*.*.*.*.bde.*", "*.*.*.*.*.processdata.*"]
-  },
-  "payloadSchema": {
-    "format": "JSON",
-    "headers": { "I3x-Machine": "{machine}", "I3x-Domain": "{domain}" }
-  }
-}
-```
-
-`syncType: "nats-jetstream"` declares JetStream streams + consumer-templates that capture these subjects for durable replay. The connector's `scripts/provision-jetstream.sh` reads such files and idempotently creates/updates streams on the cluster.
+Real shape (shortened from `sync/nats/jetstream-streams.json` — the edge tier
+buffers durably in `EDGE_EXPORT`, the hub tier `FACTORY` stream sources it
+cross-domain per edge):
 
 ```json
 {
   "syncId": "jetstream-streams",
   "syncType": "nats-jetstream",
-  "streams": [
-    {
-      "name": "UNS_EVENTS",
-      "subjects": ["*.*.*.*.*.bde.>", "*.*.*.*.*.processdata.>"],
-      "retention": "limits",
-      "storage": "file",
-      "max_age": "168h"
+  "tiers": {
+    "edge": {
+      "streams": [
+        { "name": "EDGE_EXPORT",
+          "subjectsCapture": ["factory.>", "aggregate.>", "cpp.>"],
+          "retention": "limits", "storage": "file", "max_age": "168h" }
+      ]
+    },
+    "hub": {
+      "streams": [
+        { "name": "FACTORY",
+          "subjectsCapture": ["factory.>", "cpp.>", "aggregate.>"],
+          "sources": [ { "name": "EDGE_EXPORT", "perEdgeDomain": true,
+                         "apiPrefixTemplate": "$JS.edge_${ipcCompact}.API" } ] },
+        { "name": "UNS_ALERTS", "subjectsCapture": ["uns.alert.>"], "retention": "workqueue" },
+        { "name": "UNS_ACTIONS", "subjectsCapture": ["uns.action.>"], "retention": "workqueue" },
+        { "name": "BUSINESS", "subjectsCapture": ["business.>"] }
+      ]
     }
-  ]
+  },
+  "deliveryClassRouting": {
+    "transactional": { "expectStream": "EDGE_EXPORT", "tier": "edge" },
+    "telemetry":     { "expectStream": "EDGE_EXPORT", "tier": "edge" }
+  }
 }
 ```
+
+**Subject rule (enforced by reality, documented in the file itself):** every
+JetStream subject filter starts with a **fixed leading token** (`factory.>`,
+`uns.alert.>`, `business.>`). A wildcard-leading filter such as
+`*.*.*.*.*.bde.>` overlaps the JetStream API namespace `$JS.>` and NATS
+deterministically **rejects** the stream with error 10052 — the former example
+in this guide showed exactly that forbidden shape, and the streams it named
+(`UNS_EVENTS`) never existed on the cluster.
 
 ### Archived sync types (pre-next2.0)
 
@@ -384,85 +431,84 @@ reference only — no service loads them.
 
 ## KG Build Pipeline
 
+The phases below are what runs against the **active** next2.0 catalog. The
+v3-era phases this guide used to list — PostgreSQL direct load (2b), MCP tools
+(2c), MQTT live sync (3a), PG LISTEN/NOTIFY (3c), Kafka/Webhook/Manual (3d–f) —
+died with the cutover; their configs are archived under `backup/pre-next2.0/`
+and the sync table above is the authoritative list of what is active.
+
 ```
 Phase 1: Type System
   → Load all SM Profiles + resolve inheritance (attributes + relationships)
   → Create range indexes on kgIdProperty per label (skip abstract)
 
-Phase 2a: OPC-UA Instance Nodes
-  → MERGE machine nodes from OPC-UA mappings
-  → Create ISA-95 hierarchy: Site → Area → ProcessCell → Machine (PART_OF edges)
+Phase 2: Instance Nodes
+  → REST sources (sources/rest/) polled per sync/polling/sim-v5-poll.json —
+    UNWIND MERGE nodes, then edges (polymorphic targetIdProp resolution)
+  → Machine nodes from the OPC-UA/MTConnect source registrations
+    (sources/opcua/, sources/mtconnect/); live values arrive over the
+    NATS/JetStream path (sync/nats/), not by direct builder pull
+  → Anchor snapshots (demo fixture, see examples/README.md)
 
-Phase 2b: PostgreSQL Instance Nodes
-  → Load sources (max 4 concurrent)
-  → UNWIND MERGE nodes (batches of 1000)
-  → UNWIND MERGE edges (sequential, polymorphic targetIdProp resolution)
-
-Phase 2c: MCP Instance Nodes
-  → Call MCP tools, parse JSON response, MERGE nodes + edges
-
-Phase 2d: Parent Labels
-  → MATCH (n:CNC_Machine) SET n:Machine  (for each child→parent pair)
-
-Phase 3a: MQTT Live Sync
-  → Subscribe topics, buffer 2s, SET properties on matching nodes
-
-Phase 3b: Polling Sync
-  → Periodic re-query, upsert changed rows (timestamp or full refresh)
-
-Phase 3c: PG LISTEN/NOTIFY
-  → Async notification channels → immediate node updates
-
-Phase 3d-f: Kafka / Webhook / Manual (planned)
-  → Schema validated and logged, handlers not yet implemented
+Phase 3: Parent Labels
+  → MATCH (n:CNC_Machine) SET n:Machine   (for each child→parent pair)
 
 Phase 4: Tombstone Sweep
   → Remove nodes with _lastSeen < current run timestamp
 
 Phase 5: Embeddings
   → Generate vector embeddings for all new/changed nodes
-
-Phase 6: Sensor Discovery
-  → Auto-create Sensor child nodes from MQTT-tracked variables
 ```
 
 ---
 
 ## Common `targetIdProp` Values
 
-| targetIdProp | Resolves to labels |
-|---|---|
-| `machine_id` | InjectionMoldingMachine, CNC_Machine, Lathe, MillingMachine, GrindingMachine, FiveAxisMillingMachine, FFS_Cell, AssemblyLine |
-| `article_no` | Article |
-| `order_no` | CustomerOrder, ProductionOrder, PurchaseOrder, MaintenanceOrder |
-| `notification_no` | MaintenanceNotification, QualityNotification |
-| `lot_no` | InspectionLot, MaterialLot |
-| `supplier_id` | Supplier |
-| `customer_id` | Customer |
-| `location_key` | StorageLocation |
-| `result_id` | InspectionResult |
-| `ta_nr` | TransportOrder |
-| `avis_nr` | GoodsReceipt |
-| `quant_id` | Quant |
-| `program_id` | CNCProgram |
-| `mould_id` | Mould |
-| `id` | Enterprise, Site, Area, ProcessCell, System |
+<!-- gen:targetIdProp:begin -->
+| targetIdProp | Resolves to label(s) | Edge rules using it |
+|---|---|---|
+| `analysis_id` | SPCAnalysis | — |
+| `area_id` | ⚠ **none** — no profile declares this key (see `contract.json` → `unresolvedTargets`) | 1 |
+| `article_no` | Article | 11 |
+| `customer_no` | Customer | 1 |
+| `discrepancy_id` | ConstraintDiscrepancy, Discrepancy | 3 |
+| `equipment_class_id` | EquipmentClass | 1 |
+| `lot_no` | InspectionLot | 1 |
+| `machine_id` | CNC_Machine, InjectionMoldingMachine, Machine | 8 |
+| `material_lot_no` | MaterialLot | 2 |
+| `operations_definition_no` | OperationsDefinition | 2 |
+| `order_no` | CustomerOrder | 1 |
+| `process_cell_id` | ⚠ **none** — no profile declares this key (see `contract.json` → `unresolvedTargets`) | 1 |
+| `process_segment_no` | ProcessSegment | 3 |
+| `product_definition_no` | ProductDefinition | 1 |
+| `production_order_no` | OperationsResponse, ProductionOrder | 8 |
+| `proposal_id` | ResolutionProposal | — |
+| `quant_no` | Quant | 1 |
+| `rule_id` | AutoResolveRule | 2 |
+| `segment_requirement_no` | SegmentRequirement | 2 |
+| `segment_response_no` | SegmentResponse | 2 |
+| `storage_location_id` | StorageLocation | 2 |
+| `tool_id` | Tool | 1 |
+| `workorder_no` | Workorder | 2 |
+
+Derived from `contract.json` (`nodes` grouped by key property; `edges` for usage). A `targetIdProp` resolves to **every** label sharing that `kgIdProperty` — polymorphic resolution.
+<!-- gen:targetIdProp:end -->
 
 ---
 
 ## Adding a New Machine Type
 
 1. Create `profiles/machines/<type>.json` with `parentType: "Machine"` and `kgIdProperty: "machine_id"`
-2. Add only machine-specific attributes (BDE/OEE attributes inherited from Machine parent)
-3. Add OPC-UA mapping in `sources/opcua/<machine-id>.json`
+2. Add the machine's own attributes (the abstract `Machine` parent contributes identity + relationships — it has no attributes of its own)
+3. Add OPC-UA mapping in `sources/opcua/<machine-id>-<category>.json`
 4. All existing edges with `targetIdProp: "machine_id"` automatically find the new type — **no source schema changes needed**
 
 ## Adding a New ERP Entity
 
 1. Create `profiles/erp/<entity>.json` with unique `kgNodeLabel` and `kgIdProperty`
-2. Create `sources/postgresql/<source>.json` with `profileRef` and `columnMappings`
+2. Create `sources/rest/<source>.json` with `profileRef` and `columnMappings` against the sim-v5 REST projection (direct-DB `sources/postgresql/` is a v3-era pattern — archived, loaded by nothing)
 3. Add `edges` if the entity references other entities (e.g. `article_no` → Article)
-4. Optionally add to polling sync for live updates
+4. Add a `sourceRef` entry to `sync/polling/sim-v5-poll.json` for live updates (`npm run validate:refs` checks the reference)
 
 ---
 
@@ -474,7 +520,9 @@ In v3 every variable in an SM Profile carries a three-property contract that
 declares how its data is wired, where it is allowed to land, and what triggers
 a publish. These are **required** on every attribute in
 `profiles/machines/*.json` (validated by `validation/machine-profile-schema.json`)
-and `profiles/business/*.json` (validated by `validation/business-profile-schema.json`).
+and the business-category profiles under `profiles/{erp,operations,qms,wms}/`
+(validated by `validation/business-profile-schema.json` — there is no
+`profiles/business/` directory).
 
 ### `delivery` — wire class
 
