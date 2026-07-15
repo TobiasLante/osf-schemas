@@ -1,12 +1,13 @@
 {
-  "$description": "Historian-Sink-Template via NATS JetStream durable consumer + TimescaleDB. Parallel to historians/postgresql/historian-template.json — same target table (uns_history) but reading from a JetStream consumer instead of an MQTT subscription. Used when the IPC's transport is 'nats' (or 'both' with this as the historian path).",
+  "$description": "Historian-Sink-Template via NATS JetStream durable consumer + TimescaleDB. Parallel to historians/postgresql/historian-template.json — same target table (uns_history) but reading from a JetStream consumer instead of an MQTT subscription. Used when the IPC's transport is 'nats' (or 'both' with this as the historian path). CORRECTED 2026-07-15 (CAPT-HIST) against the stream SSOT sync/nats/jetstream-streams.json v1.3.0: the previously named stream UNS_EVENTS exists in NO tier of the SSOT — a consumer generated from this template would have failed 'stream not found' (or bound to a hand-created shadow stream) instead of reading the real telemetry. The historian's consumer identity is the SSOT's consumers.historian-write on the hub FACTORY stream; this template describes THAT consumer, it does not define a second one.",
   "syncId": "nats-jetstream-historian",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "syncType": "nats-jetstream",
   "deployTarget": "it",
   "nodeRedContrib": "@i3x/nr-nats",
   "consumer": {
-    "stream": "UNS_EVENTS",
+    "stream": "FACTORY",
+    "$streamNote": "FACTORY (hub tier, sync/nats/jetstream-streams.json v1.3.0) is the only stream whose subjectsCapture — factory.>, cpp.>, aggregate.> — covers the telemetry world this historian persists; deployTarget 'it' puts the flow on the hub side where FACTORY lives (the edge tier only has EDGE_EXPORT, which the hub FACTORY sources cross-domain). durable_name / filter_subject / ack_policy / deliver_policy mirror the SSOT's consumers.historian-write entry 1:1, so a flow generated from this template binds to the declared consumer identity instead of competing with it.",
     "durable_name": "historian-write",
     "filter_subject": ">",
     "ack_policy": "explicit",
@@ -28,6 +29,7 @@
     "defaultTable": "uns_history",
     "createIfMissing": false,
     "$note": "Same 1:1 shape as the postgresql historian template — fed by either MQTT or NATS, the historian table doesn't care.",
+    "$headersReality": "The I3x-* header sources below are the DESIGNED primary path, but the live-verified FACTORY messages carry NO NATS headers at all (i3x-v4 services/gateway/src/i3x/telemetry-source.ts, measured 2026-05-21 via `nats stream get FACTORY`: 'headers: NONE — machine + attribute are encoded entirely in the subject'). In practice the row-builder resolves nearly every message through subjectParser.fallbackOrder — which is why that parser must match the real subject shapes, not a hypothetical one.",
     "columns": [
       { "name": "ts",         "type": "timestamptz",      "source": "$.timestamp",   "notNull": true },
       { "name": "machine",    "type": "text",             "source": "msg.headers.I3x-Machine",   "notNull": true, "index": true },
@@ -40,11 +42,39 @@
     ]
   },
   "subjectParser": {
-    "$description": "If headers are missing (older publishers), fall back to subject parsing. Subjects are dot-separated, 7-segment ISA-95 hierarchy.",
-    "pattern": "{enterprise}.{site}.{area}.{line}.{machine}.{domain}.{attribute}",
-    "machineSegment": 4,
-    "domainSegment": 5,
-    "attributeSegment": 6
+    "$description": "CORRECTED 2026-07-15 (CAPT-HIST): the former single default pattern {enterprise}.{site}.{area}.{line}.{machine}.{domain}.{attribute} with machineSegment=4 described the 7-segment Class-A raw-telemetry shape — which NEVER reaches FACTORY: scope=edge telemetry is not published (jetstream-streams.json deliveryClassRouting) and nats-bridge deliberately classifies 7-seg factory.* as telemetry_raw and drops it (docs/conventions.md). Applied to the real 5-segment subjects, machineSegment=4 would have written the ATTRIBUTE into the machine column — every fallback-parsed row mis-assigned. The parser is therefore class-aware: route by root token + segment count, the exact same rule the nats-bridge classifier uses per docs/conventions.md — the two MUST stay in agreement.",
+    "routing": "root token + segment count (must agree with the class table in docs/conventions.md)",
+    "fallbackOrder": [
+      "msg.headers (I3x-Machine / I3x-Domain / I3x-Attribute — designed convention, absent on the live stream, see tableStructure.$headersReality)",
+      "payload fields (Class-C payloads MUST carry { machine, variable, ... } per docs/conventions.md — the only reliable source for the non-canonical 4/6-segment factory.* shapes the bridge also keeps)",
+      "subject parse per byRoot below"
+    ],
+    "byRoot": {
+      "factory": {
+        "$class": "C — OT event, transactional/hub/on_change. Canonical 5-segment shape; the bridge keeps 4-6-seg factory.* as 'entity', but 5 is what the codegen emits. Live-verified example: factory.werk1.cnc-001.event.Act_Status_Machine.",
+        "pattern": "factory.{site}.{machine}.{category}.{attribute}",
+        "segments": 5,
+        "machineSegment": 2,
+        "domainSegment": 3,
+        "attributeSegment": 4
+      },
+      "aggregate": {
+        "$class": "A' — hub aggregate, telemetry/hub/aggregate. {window} is a duration token (300s, 5min, 1h, ...), not a category — the domain column takes the literal below.",
+        "pattern": "aggregate.{site}.{machine}.{window}.{metric}",
+        "segments": 5,
+        "machineSegment": 2,
+        "attributeSegment": 4,
+        "domainLiteral": "aggregate"
+      },
+      "cpp": {
+        "$class": "B — cycle snapshot, transactional/hub/on_cycle_end. {opId} is a runtime value, not an attribute; the trailing token is the fixed literal 'snapshot'. Snapshot payloads are cycle documents, not single scalars — cpp-vault owns their real persistence; a historian row from this shape is a pointer, not the snapshot.",
+        "pattern": "cpp.{site}.{machine}.{opId}.snapshot",
+        "segments": 5,
+        "machineSegment": 2,
+        "domainLiteral": "cpp",
+        "attributeLiteral": "snapshot"
+      }
+    }
   },
   "insertStrategy": {
     "mode": "batch",
@@ -53,5 +83,6 @@
     "onConflict": "none"
   },
   "subscribeFilters": [">"],
-  "description": "JetStream-backed historian write — durable, replayable, ack-on-insert. Writes to the same uns_history hypertable as the MQTT historian. NR-flow pattern: i3x-jetstream-sub-durable → row-builder → batch → postgres-insert → ack."
+  "$subscribeFiltersNote": "'>' on the FACTORY consumer = everything the stream captures: factory.>, cpp.>, aggregate.> — matching the SSOT consumers.historian-write filter_subject '>' exactly. Do not narrow this here without changing the SSOT first; a durable consumer's filter is part of its identity.",
+  "description": "JetStream-backed historian write — durable, replayable, ack-on-insert. Writes to the same uns_history hypertable as the MQTT historian. NR-flow pattern: i3x-jetstream-sub-durable → row-builder → batch → postgres-insert → ack. CORRECTION 2026-07-15 (CAPT-HIST): stream UNS_EVENTS → FACTORY and 7-segment default parser → class-aware 5-segment routing, both aligned to sync/nats/jetstream-streams.json v1.3.0 + docs/conventions.md. Consumer measurement at fix time (i3x-v4 @ 094e994-era tree, i3x-v4-edge shallow @ HEAD): NO active code reads this template — in i3x-v4 the only references are path-convention comments in apps/web+it-web HistorianDeployCard.tsx whose backend POST /api/export/historian is a 501 stub (services/gateway/src/routers/edges.ts), and in i3x-v4-edge only edge-kg-publisher/src/config.ts names historians/ as bundle-layout docs while the edge OT write path goes render-fn → i3x-ts-write without any JetStream template. This file is a dormant contract, fixed BEFORE its first consumer is generated against it — a generator reading the old values would have created a consumer on a non-existent stream with a parser that mis-assigns machines."
 }
