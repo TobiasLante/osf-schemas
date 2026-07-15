@@ -43,7 +43,7 @@
       "dataType": "String",
       "required": false,
       "category": "Link",
-      "description": "FK to EquipmentUnit.unit_id (SET_UP_ON) — where the tool is currently set up.",
+      "description": "FK to Machine.machine_id (SET_UP_ON; Machine ≡ EquipmentUnit level) — where the tool is currently set up.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -52,9 +52,9 @@
   "relationships": [
     {
       "type": "SET_UP_ON",
-      "target": "EquipmentUnit",
-      "targetIdProp": "unit_id",
-      "description": "The unit/machine the tool is currently set up on."
+      "target": "Machine",
+      "targetIdProp": "machine_id",
+      "description": "The machine the tool is currently set up on (Machine ≡ EquipmentUnit level, consolidation 2026-07-15)."
     }
   ],
   "constraints": [],

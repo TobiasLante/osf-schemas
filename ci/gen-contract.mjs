@@ -79,7 +79,9 @@ const contract = {
     openConflict:
       'KNOWN CONSOLIDATION ISSUE: repo machine profiles key on machine_id, while the UNS/lab convention (osf_map.machine_map) ' +
       'keys equipment on element_id derived from equipmentPath. Until resolved, this contract reflects the repo profiles (machine_id). ' +
-      'Do not mix both in one graph.',
+      'Do not mix both in one graph. RESOLVED AXIS 2026-07-15: the third identity unit_id (equipment-model EquipmentUnit) was ' +
+      'consolidated into machine_id — Machine ≡ EquipmentUnit level, the operations edges (EXECUTED_AT, PERFORMED_AT, USES_EQUIPMENT, ' +
+      'USED_EQUIPMENT, SET_UP_ON) target Machine/machine_id; element_id remains the one open UNS axis.',
   },
   nodes,
   edges,
