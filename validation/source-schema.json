@@ -2,7 +2,7 @@
  "$schema": "http://json-schema.org/draft-07/schema#",
  "$id": "https://osf-schemas/next/validation/source-schema.json",
  "title": "OSF Source descriptor — next/ (AC-1 coverage: sources alongside profiles) — v2.0",
- "description": "Permissive AJV meta-schema for files under next/sources/** (postgresql/, rest/, static/). AC-1 requires the next/ validation pipeline to cover sources AND sync (not just profiles). This schema is deliberately CONSERVATIVE/PERMISSIVE: 'additionalProperties': true everywhere it is not certain, so it adds COVERAGE without imposing new constraints that would false-fail the existing, varied source files (DB pollers with columnMappings/edges, REST pollers with response/polling, and the static/anchor source with records[]/relationships[]/profileRefs[]). It pins only the small, universally-present spine: sourceId, version, sourceType, syncType, and the SHAPE of columnMappings/edges WHEN present. Deeper, per-sourceType semantics (connection shapes, valueMap, anchor records) are reviewed, not schema-pinned — same 'loose facet' pattern as isa95/constraints in the profile schemas. The id-property check (exactly one isId per source) is enforced separately where needed, not here.",
+ "description": "Permissive AJV meta-schema for files under next/sources/** (postgresql/, rest/, static/). AC-1 requires the next/ validation pipeline to cover sources AND sync (not just profiles). This schema is deliberately CONSERVATIVE/PERMISSIVE: 'additionalProperties': true everywhere it is not certain, so it adds COVERAGE without imposing new constraints that would false-fail the existing, varied source files (DB pollers with columnMappings/edges, REST pollers with response/polling, and the static/anchor source with records[]/relationships[]/profileRefs[]). It pins only the small, universally-present spine: sourceId, version, sourceType, syncType, the SHAPE of columnMappings/edges WHEN present — and, since 2026-07-15, the location block: REQUIRED on opcua/mtconnect sources, vocabulary-pinned wherever present. History: sgm-006 shipped {site, area: 'Molding', line: 'LineA'} — no enterprise, no type, different casing than every sister — and under 7-segment Class-A UNS subjects (factory.<site>.<area>.<line>.<machine>...) landed in a differently-spelled area/line than sgm-001/004/005, silently, because nothing validated the block. Deeper, per-sourceType semantics (connection shapes, valueMap, anchor records) are reviewed, not schema-pinned — same 'loose facet' pattern as isa95/constraints in the profile schemas. The id-property check (exactly one isId per source) is enforced separately where needed, not here.",
  "type": "object",
  "required": ["sourceId", "version", "sourceType"],
  "properties": {
@@ -16,6 +16,19 @@
  "profileRefs": { "type": "array", "items": { "type": "string" } },
  "transport": { "type": "array", "items": { "type": "string" } },
  "description": { "type": "string" },
+ "location": {
+ "type": "object",
+ "description": "Physical placement of the machine in the UNS topology — every segment here becomes a literal subject token (factory.<site>.<area>.<line>.<machine>...). PINNED 2026-07-15 (root cause of the sgm-006 drift): when a source carries 'location', enterprise/site/area/line are REQUIRED and must be lowercase kebab-case — the vocabulary every green source already uses (enterprise 'factory', site 'werk1', area 'cnc'|'sgm', line 'line-a'|'line-mtc'). 'type' (machine class, e.g. 'CNC'/'SGM') is optional but UPPERCASE when present. additionalProperties: false — a stray mis-cased key ('Area', 'Line') must fail loudly, not ride along silently next to the required ones.",
+ "required": ["enterprise", "site", "area", "line"],
+ "properties": {
+ "enterprise": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
+ "site": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
+ "area": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
+ "line": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
+ "type": { "type": "string", "pattern": "^[A-Z][A-Z0-9]*(-[A-Z0-9]+)*$" }
+ },
+ "additionalProperties": false
+ },
  "connection": { "type": "object", "additionalProperties": true },
  "response": { "type": "object", "additionalProperties": true },
  "polling": { "type": "object", "additionalProperties": true },
@@ -59,5 +72,15 @@
  }
  }
  },
+ "allOf": [
+ {
+ "_comment": "Machine-protocol sources (opcua, mtconnect) MUST declare where the machine stands — the UNS subject is built from it. Every green opcua/mtconnect source already does; a new one without a location would land on a default/empty subject just as silently as sgm-006 landed on a mis-spelled one. rest/postgresql/static/etc. sources legitimately have no location and are NOT forced.",
+ "if": {
+ "properties": { "sourceType": { "enum": ["opcua", "mtconnect"] } },
+ "required": ["sourceType"]
+ },
+ "then": { "required": ["location"] }
+ }
+ ],
  "additionalProperties": true
 }
