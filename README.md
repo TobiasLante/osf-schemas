@@ -99,7 +99,7 @@ are retired; those configs live under `backup/pre-next2.0/`.)
 <!-- gen:tree:begin -->
 ```
 osf-schemas/
-├── backup/                 ARCHIVED (v3-era postgresql sources, mqtt/kafka/webhook/manual/bridge syncs; it-fleet) — reference only, loaded by nothing (327 json)
+├── backup/                 ARCHIVED (v3-era postgresql sources, mqtt/kafka/webhook/manual/bridge syncs; it-fleet; central-ts historian instance) — reference only, loaded by nothing (328 json)
 ├── branding/               brand/theme assets (1 json)
 ├── ci/                     linters + generators (lint-*.mjs, gen-contract.mjs, gen-docs.mjs)
 ├── companion-specs/        OPC-UA Companion-Spec registry (NodeSet2.xml URLs) (1 json)
@@ -111,7 +111,7 @@ osf-schemas/
 │   ├── central-ts-tables/       (2 json)
 │   ├── grafana-dashboards/      (4 json)
 │   ├── influxdb/                (1 json)
-│   ├── instances/               (4 json)
+│   ├── instances/               (3 json)
 │   ├── mssql/                   (1 json)
 │   ├── nats-jetstream/          (1 json)
 │   ├── postgresql/              (1 json)
