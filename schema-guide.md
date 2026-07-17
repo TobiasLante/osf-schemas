@@ -32,7 +32,7 @@ osf-schemas/
 ├── profiles/               Schema 1: SM Profiles (type system)
 │   ├── equipment/              EquipmentClass, EquipmentModel (compact), Tool (3 json)
 │   ├── erp/                    Article, Customer(-Order), ProductionOrder, ProductDefinition, OperationsResponse (6 json)
-│   ├── intelligence/           multi-truth layer: Discrepancy, ResolutionProposal, AutoResolveRule, … (4 json)
+│   ├── intelligence/           multi-truth layer: Discrepancy, ResolutionProposal, AutoResolveRule, … (5 json)
 │   ├── machines/               Machine (abstract parent), CNC_Machine, InjectionMoldingMachine (3 json)
 │   ├── operations/             ISA-95 Part 4: OperationsDefinition, ProcessSegment, Segment{Requirement,Response}, Workorder (5 json)
 │   ├── qms/                    InspectionLot, SPCAnalysis (2 json)
@@ -68,7 +68,7 @@ Alles aus der v3-Ära (PostgreSQL-Sources, MQTT-UNS-/Kafka-/Webhook-Syncs) liegt
 <!-- gen:counts:begin -->
 | Category | Count | Files |
 |---|---|---|
-| Profiles | 26 | equipment 3 · erp 6 · intelligence 4 · machines 3 · operations 5 · qms 2 · wms 3 |
+| Profiles | 27 | equipment 3 · erp 6 · intelligence 5 · machines 3 · operations 5 · qms 2 · wms 3 |
 | Sources — mtconnect | 2 | mtconnect-cnc-01, mtconnect-cnc-mtc-02 |
 | Sources — opcua | 11 | opcua-cnc-001-event, opcua-cnc-001-telemetry, opcua-cnc-002-event, opcua-cnc-002-telemetry, opcua-mtbridge-cnc-01, opcua-sgm-001-event, opcua-sgm-001-telemetry, opcua-sgm-004-processdata, opcua-sgm-005-processdata, opcua-sgm-006-bde, opcua-sgm-006-processdata |
 | Sources — rest | 9 | erp-customer-orders, erp-operations-response, erp-production-orders, erp-segment-requirements, erp-segment-responses, sim-v5-erp-articles, sim-v5-erp-customers, sim-v5-qms-inspections, sim-v5-wms-quants |
@@ -78,7 +78,7 @@ Alles aus der v3-Ära (PostgreSQL-Sources, MQTT-UNS-/Kafka-/Webhook-Syncs) liegt
 | Recipes | 3 (2 parked) | recipe-sgm-004-default, recipe-sgm-004-pa66gf30-bracket-b *(parked)*, recipe-sgm-004-pa66gf30-housing-a *(parked)* |
 | KPIs | 6 (2 parked) | availability, energy-per-part *(parked)*, oee, performance *(parked)*, quality-rate, scrap-rate |
 
-Measured from the tree by `ci/gen-docs.mjs` — the same sums `npm run validate:refs` prints (`lint-refs: 26 profiles, 22 sources, 4 sync files`).
+Measured from the tree by `ci/gen-docs.mjs` — the same sums `npm run validate:refs` prints (`lint-refs: 27 profiles, 22 sources, 4 sync files`).
 <!-- gen:counts:end -->
 
 ---
@@ -470,11 +470,12 @@ Phase 5: Embeddings
 | `analysis_id` | SPCAnalysis | — |
 | `area_id` | ⚠ **none** — no profile declares this key (see `contract.json` → `unresolvedTargets`) | 1 |
 | `article_no` | Article | 11 |
+| `change_request_id` | ChangeRequest | — |
 | `customer_no` | Customer | 1 |
-| `discrepancy_id` | ConstraintDiscrepancy, Discrepancy | 3 |
+| `discrepancy_id` | ConstraintDiscrepancy, Discrepancy | 4 |
 | `equipment_class_id` | EquipmentClass | 1 |
 | `lot_no` | InspectionLot | 1 |
-| `machine_id` | CNC_Machine, InjectionMoldingMachine, Machine | 8 |
+| `machine_id` | CNC_Machine, InjectionMoldingMachine, Machine | 9 |
 | `material_lot_no` | MaterialLot | 2 |
 | `operations_definition_no` | OperationsDefinition | 2 |
 | `order_no` | CustomerOrder | 1 |

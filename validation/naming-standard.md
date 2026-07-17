@@ -1,4 +1,4 @@
-# OSF Naming Standard (`next/`, DORMANT)
+# OSF Naming Standard (DORMANT)
 
 **Status:** experimental, **DORMANT** — descriptive only. Nothing live reads or validates
 against this. It documents the identifier/label conventions **already in use** and pins one
@@ -10,7 +10,7 @@ reserved forward-looking alias (`equipmentPath`). Machine-readable companion:
 A single, **customer-neutral** reference for how identifiers, labels, hierarchy-path keys and
 reference properties are named across SMProfiles, sources and the KG. Customer-neutral by
 construction: it defines the *shape* of a name, never a specific customer's plant/line/unit
-codes (those live only in demo fixtures under [`next/examples/`](../examples/)).
+codes (those live only in demo fixtures under [`examples/`](../examples/)).
 
 ## Principles
 
@@ -67,9 +67,9 @@ equipmentPath = <enterprise>.<site>.<area>.<cell>.<unit>.<module>.<controlmodule
 | 7 | ISA-88 | `ControlModule` | `control_module_id` | `equipment_module_ref` |
 
 > A concrete, customer-specific instantiation of these levels (e.g. an Enterprise→…→ControlModule
-> tree with real codes) is a **demo fixture** — see [`next/examples/`](../examples/) and its
+> tree with real codes) is a **demo fixture** — see [`examples/`](../examples/) and its
 > README. Never paste concrete plant codes into the neutral TYPE profiles under
-> [`next/profiles/equipment/`](../profiles/equipment/).
+> [`profiles/equipment/`](../profiles/equipment/).
 
 
 ## next2.0 update — equipmentPath ADOPTED (active)

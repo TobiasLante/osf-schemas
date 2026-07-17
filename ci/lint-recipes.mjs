@@ -16,6 +16,7 @@
 
 import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { join } from "node:path";
+import { pathToFileURL } from "node:url";
 import Ajv from "ajv";
 
 const SCHEMA_PATH = new URL("../validation/recipe-schema.json", import.meta.url)
@@ -49,6 +50,63 @@ const REF_RE = /^(recipe|definition):[A-Za-z0-9_.-]+$/;
 const SEMVER_RE = /^[0-9]+\.[0-9]+\.[0-9]+$/;
 
 const isNum = (v) => typeof v === "number" && Number.isFinite(v);
+
+/**
+ * CAPT-GOLDEN — the steering `aim` must sit INSIDE the band it steers.
+ *
+ * `aim` (recipe-schema.json parameters[].aim) is the operator/quality steering
+ * target WITHIN the band, distinct from `soll` (the nominal Ca is centred on).
+ * The whole point is that it lives inside [lo,hi]; an aim outside the band is
+ * not a steering target, it is a contradiction — steering the process to a
+ * value that is by definition a deviation. JSON Schema draft-07 cannot compare
+ * a scalar against the two elements of a SIBLING map (`values[<valueFrom>]`),
+ * so the membership check is enforced here, fail-closed:
+ *   - aim must be a finite number;
+ *   - the parameter must name a band via `valueFrom`;
+ *   - that band must resolve to a numeric [lo,hi] tuple in `values`;
+ *   - lo <= aim <= hi.
+ * A parameter without `aim` is untouched (it is simply steered to `soll`).
+ *
+ * Exported so it can be unit-proven (ci/test-lint-recipes-aim.mjs) without
+ * running the whole lint over the real recipes/ tree.
+ */
+export function aimErrors(r, label) {
+  const errs = [];
+  const values = r?.values ?? {};
+  const params = Array.isArray(r?.parameters) ? r.parameters : [];
+  for (const p of params) {
+    if (!p || p.aim === undefined) continue;
+    const name = p.param ?? "(unnamed)";
+    if (!isNum(p.aim)) {
+      errs.push(`${label}: parameter "${name}" aim must be a finite number`);
+      continue;
+    }
+    const ref = p.valueFrom;
+    if (!ref) {
+      errs.push(
+        `${label}: parameter "${name}" sets aim ${p.aim} but has no valueFrom — ` +
+          `there is no band to place the steering target inside`,
+      );
+      continue;
+    }
+    const band = values[ref];
+    if (!Array.isArray(band) || band.length !== 2 || !band.every(isNum)) {
+      errs.push(
+        `${label}: parameter "${name}" aim ${p.aim} needs a numeric [lo,hi] band at ` +
+          `values["${ref}"] to sit inside — found ${JSON.stringify(band)}`,
+      );
+      continue;
+    }
+    const [lo, hi] = band;
+    if (p.aim < lo || p.aim > hi) {
+      errs.push(
+        `${label}: parameter "${name}" aim ${p.aim} lies OUTSIDE its band [${lo},${hi}] ` +
+          `(aim is the steering target INSIDE the band, not a new nominal — a band change is a change-request)`,
+      );
+    }
+  }
+  return errs;
+}
 
 /**
  * CAPT-WINDOW — the signal vocabulary each machine profile actually publishes,
@@ -342,6 +400,9 @@ function lint() {
         }
       }
     }
+
+    // CAPT-GOLDEN — a steering `aim`, where declared, must sit inside its band.
+    errors.push(...aimErrors(r, label));
   }
 
   console.log(`lint-recipes: scanned ${files.length} recipe files, checked ${refs} refs`);
@@ -353,4 +414,6 @@ function lint() {
   console.log("OK");
 }
 
-lint();
+// Run the full lint only as a CLI; importing this module (e.g. the aim unit
+// test) must NOT scan the real recipes/ tree or call process.exit.
+if (import.meta.url === pathToFileURL(process.argv[1] ?? "").href) lint();

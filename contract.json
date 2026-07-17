@@ -11,150 +11,208 @@
       "key": "equipment_class_id",
       "profile": "SMProfile-EquipmentClass",
       "category": "equipment",
+      "parentType": null,
+      "abstract": false,
       "source": "profiles/equipment/equipment-class.json"
     },
     "Tool": {
       "key": "tool_id",
       "profile": "SMProfile-Tool",
       "category": "equipment",
+      "parentType": null,
+      "abstract": false,
       "source": "profiles/equipment/tool.json"
     },
     "Article": {
       "key": "article_no",
       "profile": "SMProfile-Article",
       "category": "business",
+      "parentType": null,
+      "abstract": false,
       "source": "profiles/erp/article.json"
     },
     "CustomerOrder": {
       "key": "order_no",
       "profile": "SMProfile-CustomerOrder",
       "category": "business",
+      "parentType": null,
+      "abstract": false,
       "source": "profiles/erp/customer-order.json"
     },
     "Customer": {
       "key": "customer_no",
       "profile": "SMProfile-Customer",
       "category": "business",
+      "parentType": null,
+      "abstract": false,
       "source": "profiles/erp/customer.json"
     },
     "OperationsResponse": {
       "key": "production_order_no",
       "profile": "SMProfile-OperationsResponse",
       "category": "business",
+      "parentType": null,
+      "abstract": false,
       "source": "profiles/erp/operations-response.json"
     },
     "ProductDefinition": {
       "key": "product_definition_no",
       "profile": "SMProfile-ProductDefinition",
       "category": "business",
+      "parentType": null,
+      "abstract": false,
       "source": "profiles/erp/product-definition.json"
     },
     "ProductionOrder": {
       "key": "production_order_no",
       "profile": "SMProfile-ProductionOrder",
       "category": "business",
+      "parentType": null,
+      "abstract": false,
       "source": "profiles/erp/production-order.json"
     },
     "AutoResolveRule": {
       "key": "rule_id",
       "profile": "SMProfile-AutoResolveRule",
       "category": "intelligence",
+      "parentType": null,
+      "abstract": false,
       "source": "profiles/intelligence/auto-resolve-rule.json"
+    },
+    "ChangeRequest": {
+      "key": "change_request_id",
+      "profile": "SMProfile-ChangeRequest",
+      "category": "intelligence",
+      "parentType": null,
+      "abstract": false,
+      "source": "profiles/intelligence/change-request.json"
     },
     "ConstraintDiscrepancy": {
       "key": "discrepancy_id",
       "profile": "SMProfile-ConstraintDiscrepancy",
       "category": "intelligence",
+      "parentType": "Discrepancy",
+      "abstract": false,
       "source": "profiles/intelligence/discrepancy-constraint.json"
     },
     "Discrepancy": {
       "key": "discrepancy_id",
       "profile": "SMProfile-Discrepancy",
       "category": "intelligence",
+      "parentType": null,
+      "abstract": true,
       "source": "profiles/intelligence/discrepancy.json"
     },
     "ResolutionProposal": {
       "key": "proposal_id",
       "profile": "SMProfile-ResolutionProposal",
       "category": "intelligence",
+      "parentType": null,
+      "abstract": false,
       "source": "profiles/intelligence/resolution-proposal.json"
     },
     "CNC_Machine": {
       "key": "machine_id",
       "profile": "SMProfile-CNC-Machine",
       "category": "machine",
+      "parentType": "Machine",
+      "abstract": false,
       "source": "profiles/machines/cnc-machine.json"
     },
     "InjectionMoldingMachine": {
       "key": "machine_id",
       "profile": "SMProfile-InjectionMoldingMachine",
       "category": "machine",
+      "parentType": "Machine",
+      "abstract": false,
       "source": "profiles/machines/injection-molding-machine.json"
     },
     "Machine": {
       "key": "machine_id",
       "profile": "SMProfile-Machine",
       "category": "machine",
+      "parentType": null,
+      "abstract": true,
       "source": "profiles/machines/machine.json"
     },
     "OperationsDefinition": {
       "key": "operations_definition_no",
       "profile": "SMProfile-OperationsDefinition",
       "category": "business",
+      "parentType": null,
+      "abstract": false,
       "source": "profiles/operations/operations-definition.json"
     },
     "ProcessSegment": {
       "key": "process_segment_no",
       "profile": "SMProfile-ProcessSegment",
       "category": "business",
+      "parentType": null,
+      "abstract": false,
       "source": "profiles/operations/process-segment.json"
     },
     "SegmentRequirement": {
       "key": "segment_requirement_no",
       "profile": "SMProfile-SegmentRequirement",
       "category": "business",
+      "parentType": null,
+      "abstract": false,
       "source": "profiles/operations/segment-requirement.json"
     },
     "SegmentResponse": {
       "key": "segment_response_no",
       "profile": "SMProfile-SegmentResponse",
       "category": "business",
+      "parentType": null,
+      "abstract": false,
       "source": "profiles/operations/segment-response.json"
     },
     "Workorder": {
       "key": "workorder_no",
       "profile": "SMProfile-Workorder",
       "category": "business",
+      "parentType": null,
+      "abstract": false,
       "source": "profiles/operations/work-order.json"
     },
     "InspectionLot": {
       "key": "lot_no",
       "profile": "SMProfile-InspectionLot",
       "category": "business",
+      "parentType": null,
+      "abstract": false,
       "source": "profiles/qms/inspection-lot.json"
     },
     "SPCAnalysis": {
       "key": "analysis_id",
       "profile": "SMProfile-SPCAnalysis",
       "category": "business",
+      "parentType": null,
+      "abstract": false,
       "source": "profiles/qms/spcanalysis.json"
     },
     "MaterialLot": {
       "key": "material_lot_no",
       "profile": "SMProfile-MaterialLot",
       "category": "business",
+      "parentType": null,
+      "abstract": false,
       "source": "profiles/wms/material-lot.json"
     },
     "Quant": {
       "key": "quant_no",
       "profile": "SMProfile-Quant",
       "category": "business",
+      "parentType": null,
+      "abstract": false,
       "source": "profiles/wms/quant.json"
     },
     "StorageLocation": {
       "key": "storage_location_id",
       "profile": "SMProfile-StorageLocation",
       "category": "business",
+      "parentType": null,
+      "abstract": false,
       "source": "profiles/wms/storage-location.json"
     }
   },
@@ -167,6 +225,26 @@
       ],
       "targetIdProp": [
         "discrepancy_id"
+      ]
+    },
+    {
+      "type": "ABOUT_DISCREPANCY",
+      "from": "ChangeRequest",
+      "to": [
+        "Discrepancy"
+      ],
+      "targetIdProp": [
+        "discrepancy_id"
+      ]
+    },
+    {
+      "type": "ABOUT_MACHINE",
+      "from": "ChangeRequest",
+      "to": [
+        "Machine"
+      ],
+      "targetIdProp": [
+        "machine_id"
       ]
     },
     {
