@@ -127,6 +127,10 @@
             ],
             "description": "The nominal the recipe ASSERTS. Shipped to the discrepancy-engine as the recipe's claim (SpecMeta.soll) and used as the centre for Ca. Usually a number, but a nominal can be CATEGORICAL (e.g. param 'resin', soll 'PA66-GF30') — those parameters are documentation and carry no band. The material_overconsumption €-model requires a NUMERIC soll and a mass `unit`; it refuses anything else rather than coercing."
           },
+          "aim": {
+            "type": "number",
+            "description": "CAPT-GOLDEN — the OPERATOR / QUALITY steering target WITHIN the band, semantically DISTINCT from `soll`. `soll` is the nominal the drawing/spec asserts and the CENTRE Ca is measured against (a product/spec property); `aim` is where the process should be STEERED to, chosen inside the band to leave margin against the side the machine drifts toward. On sgm-004 the two diverge on purpose: `soll` 10.79 g is the drawing nominal (band centre), but the used mould packs every part ~0.9 % heavy, so a quality-driven `aim` sits BELOW soll to keep the run off the upper limit. Setting `aim` never moves `soll` and never moves the band — it is advisory steering, not a spec change (a spec change is a change-request, profiles/intelligence/change-request.json). CONSTRAINT: if set, `aim` MUST lie inside the band this parameter binds via `valueFrom` (values[<valueFrom>] = [lo,hi]). JSON Schema draft-07 cannot compare a scalar against two elements of a SIBLING map, so the [lo,hi] membership is enforced by ci/lint-recipes.mjs (fail-closed); only the numeric TYPE is pinned here. Optional; a parameter without `aim` is simply steered to `soll`."
+          },
           "tolerance": {
             "type": "array",
             "minItems": 2,

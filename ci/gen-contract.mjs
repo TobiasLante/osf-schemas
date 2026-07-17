@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 // gen-contract.mjs — generates contract.json, the ONE machine-readable ontology
-// contract of this repo: allowed KG node labels (+ id property) and allowed
-// relationships, extracted from profiles/**.json. Agents consume contract.json
-// FIRST (see CLAUDE.md); the write-side conformance check is ci/conformance.mjs.
+// contract of this repo: allowed KG node labels (+ id property, parentType and
+// abstract flag) and allowed relationships, extracted from profiles/**.json.
+// Agents consume contract.json FIRST (see CLAUDE.md); the write-side conformance
+// check is ci/conformance.mjs, which resolves a subtype's edges up the emitted
+// parentType chain (a CNC_Machine inherits the abstract Machine's PART_OF rule).
 //
 //   node ci/gen-contract.mjs           # (re)generate contract.json
 //   node ci/lint-contract.mjs          # CI drift check: file must match output
@@ -30,6 +32,8 @@ const files = walk(path.join(ROOT, 'profiles')).filter((f) => !path.basename(f).
 const nodes = {};
 const edgeMap = new Map(); // "TYPE|From" -> {type, from, to:Set, targetIdProp:Set}
 const skipped = [];
+const aliasToLabel = new Map(); // profileId / displayName / kgNodeLabel / SMProfile-short -> kgNodeLabel
+const rawParent = new Map(); // kgNodeLabel -> declared parentType (raw string, as written in the profile)
 
 for (const f of files) {
   const rel = path.relative(ROOT, f).split(path.sep).join('/');
@@ -39,13 +43,42 @@ for (const f of files) {
     key: p.kgIdProperty,
     profile: p.profileId ?? null,
     category: p.category ?? null,
+    // parentType is resolved below to the PARENT's kgNodeLabel (a key in `nodes`)
+    // so a consumer can chase contract.nodes[label].parentType directly; abstract
+    // parents (SMProfile-Machine, -Discrepancy) are not instantiated but ARE listed.
+    parentType: null,
+    abstract: p.abstract === true,
     source: rel,
   };
+  rawParent.set(p.kgNodeLabel, p.parentType ?? null);
+  for (const a of [p.profileId, p.displayName, p.kgNodeLabel]) {
+    if (a && !aliasToLabel.has(a)) aliasToLabel.set(a, p.kgNodeLabel);
+  }
+  if (typeof p.profileId === 'string' && p.profileId.startsWith('SMProfile-')) {
+    const short = p.profileId.slice('SMProfile-'.length);
+    if (!aliasToLabel.has(short)) aliasToLabel.set(short, p.kgNodeLabel);
+  }
   for (const r of p.relationships ?? []) {
     const k = `${r.type}|${p.kgNodeLabel}`;
     if (!edgeMap.has(k)) edgeMap.set(k, { type: r.type, from: p.kgNodeLabel, to: new Set(), targetIdProp: new Set() });
     edgeMap.get(k).to.add(r.target);
     if (r.targetIdProp) edgeMap.get(k).targetIdProp.add(r.targetIdProp);
+  }
+}
+
+// Resolve each node's declared parentType (which may be written as the parent's
+// kgNodeLabel, displayName, profileId or SMProfile-short form) to the parent's
+// kgNodeLabel — the key used in `nodes` — so conformance can walk the chain by
+// direct lookup. Unresolvable parents are kept verbatim + surfaced, never dropped.
+const unresolvedParents = [];
+for (const [label, decl] of rawParent) {
+  if (!decl) continue;
+  const parentLabel = aliasToLabel.get(decl) ?? (nodes[decl] ? decl : null);
+  if (parentLabel && nodes[parentLabel]) {
+    nodes[label].parentType = parentLabel;
+  } else {
+    nodes[label].parentType = decl; // keep visible even if it does not resolve
+    unresolvedParents.push(`${label} -[parentType]-> ${decl}`);
   }
 }
 
@@ -110,6 +143,7 @@ const contract = {
 
 const out = path.join(ROOT, 'contract.json');
 fs.writeFileSync(out, JSON.stringify(contract, null, 2) + '\n');
-console.log(`contract.json: ${Object.keys(nodes).length} labels, ${edges.length} edge rules, ${unresolvedTargets.length} unresolved targets, ${skipped.length} skipped file(s)`);
+console.log(`contract.json: ${Object.keys(nodes).length} labels, ${edges.length} edge rules, ${unresolvedTargets.length} unresolved targets, ${unresolvedParents.length} unresolved parentType(s), ${skipped.length} skipped file(s)`);
 for (const u of unresolvedTargets) console.log('  unresolved:', u);
+for (const u of unresolvedParents) console.log('  parent?   :', u);
 for (const s of skipped) console.log('  skipped   :', s);

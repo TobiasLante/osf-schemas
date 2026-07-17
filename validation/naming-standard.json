@@ -1,15 +1,15 @@
 {
  "$schema": "http://json-schema.org/draft-07/schema#",
- "$id": "https://osf-schemas/next/validation/naming-standard.json",
- "title": "OSF Naming Standard — customer-neutral identifier & token conventions (next/, DORMANT)",
- "_status": "DORMANT — descriptive data table only. Nothing live reads or validates against this file. It documents the conventions already in use (element_id / kg_merge_key / kgNodeLabel / *_ref) and pins a single reserved forward-looking alias (`equipmentPath`). No canonical or next/ schema $refs this file, so adopting it is opt-in and reversible.",
- "_purpose": "G-E naming standard. A single, plant-agnostic reference for how identifiers, labels, hierarchy-path keys and reference properties are named across SMProfiles, sources and the KG. Customer-neutral by construction: it defines the SHAPE of names, never a specific customer's plant/line/unit codes (those live only in next/examples/ demo fixtures).",
+ "$id": "https://osf-schemas/validation/naming-standard.json",
+ "title": "OSF Naming Standard — customer-neutral identifier & token conventions (DORMANT)",
+ "_status": "DORMANT — descriptive data table only. Nothing live reads or validates against this file. It documents the conventions already in use (element_id / kg_merge_key / kgNodeLabel / *_ref) and pins a single reserved forward-looking alias (`equipmentPath`). No canonical schema $refs this file, so adopting it is opt-in and reversible.",
+ "_purpose": "G-E naming standard. A single, plant-agnostic reference for how identifiers, labels, hierarchy-path keys and reference properties are named across SMProfiles, sources and the KG. Customer-neutral by construction: it defines the SHAPE of names, never a specific customer's plant/line/unit codes (those live only in examples/ demo fixtures).",
  "version": "2.0.0",
  "type": "object",
 
  "x-naming-standard": {
  "principles": [
- "Customer-neutral: define the shape of a name, never a concrete plant/line/unit value. Concrete instance ids (e.g. '<site>.<area>.<cell>') belong only to demo fixtures under next/examples/.",
+ "Customer-neutral: define the shape of a name, never a concrete plant/line/unit value. Concrete instance ids (e.g. '<site>.<area>.<cell>') belong only to demo fixtures under examples/.",
  "One identity, one key: a KG node is MERGEd on its stable, owner-independent coalesce key (kg_merge_key), not on (id, owner). A telemetry source that later maps its machineId to the same key lands on the same node.",
  "Hierarchy in the id: ISA-88/ISA-95 element ids are dot-delimited path-prefixed tokens that trace the containment chain (Enterprise -> Site -> Area -> ProcessCell -> Unit -> EquipmentModule -> ControlModule). This is the `equipmentPath` shape.",
  "ASCII, stable, opaque-friendly: tokens are [A-Za-z0-9_-]; segments joined by '.'; no spaces, no locale-specific characters; treat ids as opaque keys, not as display text (use `name` for display).",
