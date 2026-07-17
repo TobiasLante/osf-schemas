@@ -131,7 +131,7 @@ function renderTargetIdProp() {
 // hand-maintained map below. An unknown new directory still appears (blank
 // annotation) — nothing on disk can stay invisible.
 const ANNOTATIONS = {
-  'backup/': 'ARCHIVED (v3-era postgresql sources, mqtt/kafka/webhook/manual/bridge syncs; it-fleet) — reference only, loaded by nothing',
+  'backup/': 'ARCHIVED (v3-era postgresql sources, mqtt/kafka/webhook/manual/bridge syncs; it-fleet; central-ts historian instance) — reference only, loaded by nothing',
   'branding/': 'brand/theme assets',
   'ci/': 'linters + generators (lint-*.mjs, gen-contract.mjs, gen-docs.mjs)',
   'companion-specs/': 'OPC-UA Companion-Spec registry (NodeSet2.xml URLs)',
