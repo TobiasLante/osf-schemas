@@ -89,9 +89,10 @@
       "name": "Act_Energy_Power",
       "dataType": "Float",
       "required": false,
+      "description": "Actual electrical power draw (kW). Promoted to the hub at a fixed 5-second cadence (scope:hub, promotion:5sec) so the central OEE & Energy cockpit reads it from machine_events; the raw high-rate stream still lands edge-local in uns_history. The cadence is declared HERE (SSOT) — the edge codegen's periodic-emitter honours it, nothing is hardcoded downstream.",
       "delivery": "telemetry",
-      "scope": "edge",
-      "promotion": "raw"
+      "scope": "hub",
+      "promotion": "5sec"
     },
     {
       "name": "Act_Energy_Total",
