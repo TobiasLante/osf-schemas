@@ -1,0 +1,21 @@
+{
+  "profileId": "SMProfile-Shift",
+  "version": "2.0.0",
+  "standard": "OSF",
+  "displayName": "Shift",
+  "category": "intelligence",
+  "description": "Shift master-data / calendar (S1/S2/S3 windows + active weekdays) used to attribute ProductionRuns and telemetry to shifts for shift_comparison (View 4). A structural covariate that the golden-engine conditions on (ConditioningEffect), NOT a SetupMode. Consumed by view-engine kg-source.ts (IN_SHIFT join) and by the golden 'shift' covariate.",
+  "parentType": null,
+  "abstract": false,
+  "attributes": [
+    { "name": "shift_id", "dataType": "String", "category": "Core", "isKey": true, "description": "Shift id (e.g. S1). Consumers must read this as the shift code (view-engine currently reads sh.shift — a bug; should be sh.shift_id)." },
+    { "name": "name", "dataType": "String", "category": "Core", "description": "Human name, e.g. Fruehschicht" },
+    { "name": "start_time", "dataType": "String", "category": "Core", "description": "Local start, e.g. 06:00" },
+    { "name": "end_time", "dataType": "String", "category": "Core", "description": "Local end, e.g. 14:00" },
+    { "name": "weekdays", "dataType": "Json", "category": "Core", "description": "Active weekdays, e.g. [Mo,Di,Mi,Do,Fr]" }
+  ],
+  "relationships": [],
+  "kgNodeLabel": "Shift",
+  "kgIdProperty": "shift_id",
+  "isa95": { "objectModel": "WorkCalendarEntry", "momDomain": "production", "note": "Concrete shift instance" }
+}

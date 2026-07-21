@@ -1,0 +1,28 @@
+{
+  "profileId": "SMProfile-SetupMode",
+  "version": "2.0.0",
+  "standard": "OSF",
+  "displayName": "Setup Mode",
+  "category": "intelligence",
+  "description": "Explicit operating mode for an Article x Machine x Tool combination (e.g. standard / eco / high_quality / express). Operator-configured, NOT algorithmically guessed (Konzept §16.1). The default case is exactly one mode named 'default' with is_default=true — no overhead. A SetupMode is the deliberate-setpoint axis of the Golden key; covariates like shift/hour are NOT modes (they are ConditioningEffects or at-query-time views). The Golden Data Set learns one posterior set per SetupMode.",
+  "parentType": null,
+  "abstract": false,
+  "attributes": [
+    { "name": "setup_mode_id", "dataType": "String", "category": "Core", "isKey": true, "description": "Unique mode id, e.g. <article>:<machine>:<tool>:standard" },
+    { "name": "name", "dataType": "String", "category": "Core", "description": "Mode name (standard | eco | high_quality | express | default | ...)" },
+    { "name": "description", "dataType": "String", "category": "Core", "description": "Human-readable purpose of this mode" },
+    { "name": "parameters", "dataType": "Json", "category": "Config", "description": "Engineering setpoints for this mode, e.g. { spindle: 2400, feed: 0.15 }" },
+    { "name": "frequency", "dataType": "Float", "category": "Stats", "unit": "ratio", "description": "Share of lots run in this mode (0..1)" },
+    { "name": "is_default", "dataType": "Boolean", "category": "Config", "description": "True for the single-mode default case" },
+    { "name": "status", "dataType": "String", "category": "Lifecycle", "enum": ["active", "proposed", "retired"], "description": "proposed = system-suggested mode awaiting approval (§16.1)" }
+  ],
+  "relationships": [
+    { "type": "FOR_ARTICLE", "target": "Article", "targetIdProp": "article_no", "description": "Article this mode applies to" },
+    { "type": "ON_MACHINE", "target": "Machine", "targetIdProp": "machine_id", "description": "Machine this mode applies to" },
+    { "type": "USES_TOOL", "target": "Tool", "targetIdProp": "tool_id", "description": "Tool this mode applies to" },
+    { "type": "HAS_GOLDEN", "target": "GoldenProcessParameters", "targetIdProp": "golden_id", "description": "The learned Golden posteriors for this mode" }
+  ],
+  "kgNodeLabel": "SetupMode",
+  "kgIdProperty": "setup_mode_id",
+  "isa95": { "objectModel": "Extension", "extension": true, "momDomain": "production", "note": "Intelligence entity (Multi-Truth/SDC) — ISA-95 extension" }
+}
