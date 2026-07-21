@@ -1,0 +1,34 @@
+{
+  "profileId": "SMProfile-ProductionRun",
+  "version": "2.0.0",
+  "standard": "OSF",
+  "displayName": "Production Run",
+  "category": "intelligence",
+  "description": "One production run on a machine within a shift — the sequence unit for shift_comparison (View 4) and the normalization base. Reconstructed by a central run-builder from machine_events (in-cycle/counter/program/tool signals) + order-start events; not edge-sourced. Carries technical_output (Soll-/Standardmenge = ideal cycle time x runtime) as the volume weight and planned baseline. NOTE: no run-builder producer exists yet (2026-07-21) — View 4 runs on the seed fixture.",
+  "parentType": null,
+  "abstract": false,
+  "attributes": [
+    { "name": "run_id", "dataType": "String", "category": "Core", "isKey": true, "description": "Unique run id" },
+    { "name": "start", "dataType": "DateTime", "category": "Core", "description": "Run start" },
+    { "name": "end", "dataType": "DateTime", "category": "Core", "description": "Run end" },
+    { "name": "program", "dataType": "String", "category": "Core", "description": "CNC/part program that ran" },
+    { "name": "shift", "dataType": "String", "category": "Core", "description": "Shift id the run is attributed to (S1/S2/S3). Denormalized; primary read by view-engine (coalesce(sh.shift_id, run.shift))." },
+    { "name": "order_no", "dataType": "String", "category": "Core", "description": "Denormalized order reference; read directly by view-engine kg-source Q_SHIFT_RUNS (run.order_no). Graph re-link to ProductionOrder is open consolidation work (see plan)." },
+    { "name": "sequence_index", "dataType": "Int32", "category": "Core", "description": "Position of this run in the shift's sequence" },
+    { "name": "setup_before", "dataType": "Boolean", "category": "Core", "description": "True if a changeover/setup preceded this run" },
+    { "name": "technical_output", "dataType": "Int32", "category": "Metric", "description": "Soll-/Standardmenge (ideal cycle time x runtime) — volume weight + planned baseline" },
+    { "name": "produced", "dataType": "Int32", "category": "Metric", "description": "Good parts produced in the run" },
+    { "name": "scrap", "dataType": "Int32", "category": "Metric", "description": "Scrap parts in the run" },
+    { "name": "events", "dataType": "Json", "category": "Metric", "description": "Per-dimension event totals for this run (sum, NOT a rate), keyed by dimension. Read by view-engine composer.volumeWeightedCell (r.events[dimension])." }
+  ],
+  "relationships": [
+    { "type": "OF_ARTICLE", "target": "Article", "targetIdProp": "article_no", "description": "Article produced" },
+    { "type": "ON_MACHINE", "target": "Machine", "targetIdProp": "machine_id", "description": "Machine the run ran on. NOTE: view-engine currently queries RAN_ON — a code drift that must be changed to ON_MACHINE (repo canon)." },
+    { "type": "USES_TOOL", "target": "Tool", "targetIdProp": "tool_id", "description": "Tool used" },
+    { "type": "IN_SHIFT", "target": "Shift", "targetIdProp": "shift_id", "description": "Shift the run is attributed to" },
+    { "type": "NEXT_RUN", "target": "ProductionRun", "targetIdProp": "run_id", "description": "Next run in the shift sequence (timeline link)" }
+  ],
+  "kgNodeLabel": "ProductionRun",
+  "kgIdProperty": "run_id",
+  "isa95": { "objectModel": "JobResponse", "momDomain": "production", "note": "Run actuals of a job run = JobResponse" }
+}

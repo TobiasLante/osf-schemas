@@ -87,6 +87,14 @@
       "abstract": false,
       "source": "profiles/intelligence/change-request.json"
     },
+    "ConditioningEffect": {
+      "key": "effect_id",
+      "profile": "SMProfile-ConditioningEffect",
+      "category": "intelligence",
+      "parentType": null,
+      "abstract": false,
+      "source": "profiles/intelligence/conditioning-effect.json"
+    },
     "ConstraintDiscrepancy": {
       "key": "discrepancy_id",
       "profile": "SMProfile-ConstraintDiscrepancy",
@@ -94,6 +102,14 @@
       "parentType": "Discrepancy",
       "abstract": false,
       "source": "profiles/intelligence/discrepancy-constraint.json"
+    },
+    "DriftDiscrepancy": {
+      "key": "discrepancy_id",
+      "profile": "SMProfile-DriftDiscrepancy",
+      "category": "intelligence",
+      "parentType": "Discrepancy",
+      "abstract": false,
+      "source": "profiles/intelligence/discrepancy-drift.json"
     },
     "Discrepancy": {
       "key": "discrepancy_id",
@@ -103,6 +119,30 @@
       "abstract": true,
       "source": "profiles/intelligence/discrepancy.json"
     },
+    "GoldenOutcome": {
+      "key": "outcome_id",
+      "profile": "SMProfile-GoldenOutcome",
+      "category": "intelligence",
+      "parentType": null,
+      "abstract": false,
+      "source": "profiles/intelligence/golden-outcome.json"
+    },
+    "GoldenProcessParameters": {
+      "key": "golden_id",
+      "profile": "SMProfile-GoldenProcessParameters",
+      "category": "intelligence",
+      "parentType": null,
+      "abstract": false,
+      "source": "profiles/intelligence/golden-process-parameters.json"
+    },
+    "ProductionRun": {
+      "key": "run_id",
+      "profile": "SMProfile-ProductionRun",
+      "category": "intelligence",
+      "parentType": null,
+      "abstract": false,
+      "source": "profiles/intelligence/production-run.json"
+    },
     "ResolutionProposal": {
       "key": "proposal_id",
       "profile": "SMProfile-ResolutionProposal",
@@ -110,6 +150,22 @@
       "parentType": null,
       "abstract": false,
       "source": "profiles/intelligence/resolution-proposal.json"
+    },
+    "SetupMode": {
+      "key": "setup_mode_id",
+      "profile": "SMProfile-SetupMode",
+      "category": "intelligence",
+      "parentType": null,
+      "abstract": false,
+      "source": "profiles/intelligence/setup-mode.json"
+    },
+    "Shift": {
+      "key": "shift_id",
+      "profile": "SMProfile-Shift",
+      "category": "intelligence",
+      "parentType": null,
+      "abstract": false,
+      "source": "profiles/intelligence/shift.json"
     },
     "CNC_Machine": {
       "key": "machine_id",
@@ -325,6 +381,46 @@
       ],
       "targetIdProp": [
         "discrepancy_id"
+      ]
+    },
+    {
+      "type": "AGAINST_GOLDEN",
+      "from": "DriftDiscrepancy",
+      "to": [
+        "GoldenProcessParameters"
+      ],
+      "targetIdProp": [
+        "golden_id"
+      ]
+    },
+    {
+      "type": "AGAINST_MODE",
+      "from": "DriftDiscrepancy",
+      "to": [
+        "SetupMode"
+      ],
+      "targetIdProp": [
+        "setup_mode_id"
+      ]
+    },
+    {
+      "type": "HAS_EFFECT",
+      "from": "GoldenProcessParameters",
+      "to": [
+        "ConditioningEffect"
+      ],
+      "targetIdProp": [
+        "effect_id"
+      ]
+    },
+    {
+      "type": "HAS_OUTCOME",
+      "from": "GoldenProcessParameters",
+      "to": [
+        "GoldenOutcome"
+      ],
+      "targetIdProp": [
+        "outcome_id"
       ]
     },
     {
@@ -608,6 +704,56 @@
       ]
     },
     {
+      "type": "IN_SHIFT",
+      "from": "ProductionRun",
+      "to": [
+        "Shift"
+      ],
+      "targetIdProp": [
+        "shift_id"
+      ]
+    },
+    {
+      "type": "NEXT_RUN",
+      "from": "ProductionRun",
+      "to": [
+        "ProductionRun"
+      ],
+      "targetIdProp": [
+        "run_id"
+      ]
+    },
+    {
+      "type": "OF_ARTICLE",
+      "from": "ProductionRun",
+      "to": [
+        "Article"
+      ],
+      "targetIdProp": [
+        "article_no"
+      ]
+    },
+    {
+      "type": "ON_MACHINE",
+      "from": "ProductionRun",
+      "to": [
+        "Machine"
+      ],
+      "targetIdProp": [
+        "machine_id"
+      ]
+    },
+    {
+      "type": "USES_TOOL",
+      "from": "ProductionRun",
+      "to": [
+        "Tool"
+      ],
+      "targetIdProp": [
+        "tool_id"
+      ]
+    },
+    {
       "type": "AT_LOCATION",
       "from": "Quant",
       "to": [
@@ -745,6 +891,46 @@
       ],
       "targetIdProp": [
         "machine_id"
+      ]
+    },
+    {
+      "type": "FOR_ARTICLE",
+      "from": "SetupMode",
+      "to": [
+        "Article"
+      ],
+      "targetIdProp": [
+        "article_no"
+      ]
+    },
+    {
+      "type": "HAS_GOLDEN",
+      "from": "SetupMode",
+      "to": [
+        "GoldenProcessParameters"
+      ],
+      "targetIdProp": [
+        "golden_id"
+      ]
+    },
+    {
+      "type": "ON_MACHINE",
+      "from": "SetupMode",
+      "to": [
+        "Machine"
+      ],
+      "targetIdProp": [
+        "machine_id"
+      ]
+    },
+    {
+      "type": "USES_TOOL",
+      "from": "SetupMode",
+      "to": [
+        "Tool"
+      ],
+      "targetIdProp": [
+        "tool_id"
       ]
     },
     {

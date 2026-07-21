@@ -8,6 +8,7 @@ No LLM is needed — the schemas are the single source of truth.
 <!-- gen:tree:begin -->
 ```
 osf-schemas/
+├── .claude/                 (3621 json)
 ├── backup/                 ARCHIVED (v3-era postgresql sources, mqtt/kafka/webhook/manual/bridge syncs; it-fleet; central-ts historian instance) — reference only, loaded by nothing (328 json)
 ├── branding/               brand/theme assets (1 json)
 ├── ci/                     linters + generators (lint-*.mjs, gen-contract.mjs, gen-docs.mjs)
@@ -32,7 +33,7 @@ osf-schemas/
 ├── profiles/               Schema 1: SM Profiles (type system)
 │   ├── equipment/              EquipmentClass, EquipmentModel (compact), Tool (3 json)
 │   ├── erp/                    Article, Customer(-Order), ProductionOrder, ProductDefinition, OperationsResponse (6 json)
-│   ├── intelligence/           multi-truth layer: Discrepancy, ResolutionProposal, AutoResolveRule, … (5 json)
+│   ├── intelligence/           multi-truth layer: Discrepancy, ResolutionProposal, AutoResolveRule, … (12 json)
 │   ├── machines/               Machine (abstract parent), CNC_Machine, InjectionMoldingMachine (3 json)
 │   ├── operations/             ISA-95 Part 4: OperationsDefinition, ProcessSegment, Segment{Requirement,Response}, Workorder (5 json)
 │   ├── qms/                    InspectionLot, SPCAnalysis (2 json)
@@ -40,7 +41,7 @@ osf-schemas/
 ├── recipes/                GitHub-managed recipe master data (see recipes/README.md) (3 json)
 ├── sources/                Schema 2: Data Sources (instance binding)
 │   ├── mtconnect/              MTConnect agent mappings (2 json)
-│   ├── opcua/                  OPC-UA endpoint → machine mappings (11 json)
+│   ├── opcua/                  OPC-UA endpoint → machine mappings (15 json)
 │   └── rest/                   sim-v5 REST polling (ERP/QMS/WMS projections) (9 json)
 ├── sync/                   Schema 3: Live Sync (transport layer)
 │   ├── nats/                   NATS subjects + JetStream stream declarations (suite hub) (2 json)
@@ -48,6 +49,7 @@ osf-schemas/
 │   └── polling/                REST polling schedule (1 json)
 ├── unit-conversions/       UNECE unit table (discovery-time scale/offset lookup) (1 json)
 ├── validation/             ajv meta-schemas (per-file shape validation) (17 json)
+├── 21
 ├── CLAUDE.md               agent instructions
 ├── contract.json           GENERATED ontology contract (gen-contract.mjs) — agents read this FIRST
 ├── README.md               this overview
@@ -68,9 +70,9 @@ Alles aus der v3-Ära (PostgreSQL-Sources, MQTT-UNS-/Kafka-/Webhook-Syncs) liegt
 <!-- gen:counts:begin -->
 | Category | Count | Files |
 |---|---|---|
-| Profiles | 27 | equipment 3 · erp 6 · intelligence 5 · machines 3 · operations 5 · qms 2 · wms 3 |
+| Profiles | 34 | equipment 3 · erp 6 · intelligence 12 · machines 3 · operations 5 · qms 2 · wms 3 |
 | Sources — mtconnect | 2 | mtconnect-cnc-01, mtconnect-cnc-mtc-02 |
-| Sources — opcua | 11 | opcua-cnc-001-event, opcua-cnc-001-telemetry, opcua-cnc-002-event, opcua-cnc-002-telemetry, opcua-mtbridge-cnc-01, opcua-sgm-001-event, opcua-sgm-001-telemetry, opcua-sgm-004-processdata, opcua-sgm-005-processdata, opcua-sgm-006-bde, opcua-sgm-006-processdata |
+| Sources — opcua | 15 | opcua-cnc-001-event, opcua-cnc-001-telemetry, opcua-cnc-002-event, opcua-cnc-002-telemetry, opcua-ftlinx-01-event, opcua-ftlinx-01-telemetry, opcua-mtbridge-cnc-01, opcua-rockwell-01-event, opcua-rockwell-01-telemetry, opcua-sgm-001-event, opcua-sgm-001-telemetry, opcua-sgm-004-processdata, opcua-sgm-005-processdata, opcua-sgm-006-bde, opcua-sgm-006-processdata |
 | Sources — rest | 9 | erp-customer-orders, erp-operations-response, erp-production-orders, erp-segment-requirements, erp-segment-responses, sim-v5-erp-articles, sim-v5-erp-customers, sim-v5-qms-inspections, sim-v5-wms-quants |
 | Sync — nats | 2 | jetstream-streams, opcua-to-nats-cnc-mtc-01 |
 | Sync — opcua-server | 1 | mtconnect-to-opcua-cnc-mtc-01 |
@@ -78,7 +80,7 @@ Alles aus der v3-Ära (PostgreSQL-Sources, MQTT-UNS-/Kafka-/Webhook-Syncs) liegt
 | Recipes | 3 (2 parked) | recipe-sgm-004-default, recipe-sgm-004-pa66gf30-bracket-b *(parked)*, recipe-sgm-004-pa66gf30-housing-a *(parked)* |
 | KPIs | 6 (2 parked) | availability, energy-per-part *(parked)*, oee, performance *(parked)*, quality-rate, scrap-rate |
 
-Measured from the tree by `ci/gen-docs.mjs` — the same sums `npm run validate:refs` prints (`lint-refs: 27 profiles, 22 sources, 4 sync files`).
+Measured from the tree by `ci/gen-docs.mjs` — the same sums `npm run validate:refs` prints (`lint-refs: 34 profiles, 26 sources, 4 sync files`).
 <!-- gen:counts:end -->
 
 ---
@@ -469,16 +471,19 @@ Phase 5: Embeddings
 |---|---|---|
 | `analysis_id` | SPCAnalysis | — |
 | `area_id` | ⚠ **none** — no profile declares this key (see `contract.json` → `unresolvedTargets`) | 1 |
-| `article_no` | Article | 11 |
+| `article_no` | Article | 13 |
 | `change_request_id` | ChangeRequest | — |
 | `customer_no` | Customer | 1 |
-| `discrepancy_id` | ConstraintDiscrepancy, Discrepancy | 4 |
+| `discrepancy_id` | ConstraintDiscrepancy, Discrepancy, DriftDiscrepancy | 4 |
+| `effect_id` | ConditioningEffect | 1 |
 | `equipment_class_id` | EquipmentClass | 1 |
+| `golden_id` | GoldenProcessParameters | 2 |
 | `lot_no` | InspectionLot | 1 |
-| `machine_id` | CNC_Machine, InjectionMoldingMachine, Machine | 9 |
+| `machine_id` | CNC_Machine, InjectionMoldingMachine, Machine | 11 |
 | `material_lot_no` | MaterialLot | 2 |
 | `operations_definition_no` | OperationsDefinition | 2 |
 | `order_no` | CustomerOrder | 1 |
+| `outcome_id` | GoldenOutcome | 1 |
 | `process_cell_id` | ⚠ **none** — no profile declares this key (see `contract.json` → `unresolvedTargets`) | 1 |
 | `process_segment_no` | ProcessSegment | 3 |
 | `product_definition_no` | ProductDefinition | 1 |
@@ -486,10 +491,13 @@ Phase 5: Embeddings
 | `proposal_id` | ResolutionProposal | — |
 | `quant_no` | Quant | 1 |
 | `rule_id` | AutoResolveRule | 2 |
+| `run_id` | ProductionRun | 1 |
 | `segment_requirement_no` | SegmentRequirement | 2 |
 | `segment_response_no` | SegmentResponse | 2 |
+| `setup_mode_id` | SetupMode | 1 |
+| `shift_id` | Shift | 1 |
 | `storage_location_id` | StorageLocation | 2 |
-| `tool_id` | Tool | 1 |
+| `tool_id` | Tool | 3 |
 | `workorder_no` | Workorder | 2 |
 
 Derived from `contract.json` (`nodes` grouped by key property; `edges` for usage). A `targetIdProp` resolves to **every** label sharing that `kgIdProperty` — polymorphic resolution.

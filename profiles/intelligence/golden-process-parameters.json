@@ -1,0 +1,24 @@
+{
+  "profileId": "SMProfile-GoldenProcessParameters",
+  "version": "2.0.0",
+  "standard": "OSF",
+  "displayName": "Golden Process Parameters",
+  "category": "intelligence",
+  "description": "The learned 'truth of the recipe' for one SetupMode (Article x Machine x Tool x Mode). NOT a scalar: this is a HEAD node that fans out to per-dimension GoldenOutcome posteriors (Achse 1 — what we measure) and to ConditioningEffect random-effects (Achse 2 — under which conditions). Maintained by the golden-engine via Bayesian update; bootstrap_state visualises maturity yellow->green->rich (Konzept §5). Composed outcomes (OEE, revenue) are NOT stored here — they are at-query-time KPI defs in kpis/ per the KPI-execution-by-provenance rule.",
+  "parentType": null,
+  "abstract": false,
+  "attributes": [
+    { "name": "golden_id", "dataType": "String", "category": "Core", "isKey": true, "description": "Unique golden id, 1:1 with a SetupMode" },
+    { "name": "bootstrap_state", "dataType": "String", "category": "Maturity", "enum": ["yellow", "green", "rich"], "description": "yellow = engineering-default/learning, green = n_obs>50 & CI narrowed, rich = mature (§5, §24)" },
+    { "name": "n_obs_total", "dataType": "Int64", "category": "Stats", "description": "Total observations folded into the posteriors" },
+    { "name": "mode_active", "dataType": "Boolean", "category": "Stats", "description": "Whether this is the currently active mode's golden (live drift-detection target)" },
+    { "name": "updated_at", "dataType": "DateTime", "category": "Core", "description": "Last Bayesian update" }
+  ],
+  "relationships": [
+    { "type": "HAS_OUTCOME", "target": "GoldenOutcome", "targetIdProp": "outcome_id", "description": "Per-dimension posterior (Achse 1)" },
+    { "type": "HAS_EFFECT", "target": "ConditioningEffect", "targetIdProp": "effect_id", "description": "Hierarchical random-effect per structural covariate (Achse 2)" }
+  ],
+  "kgNodeLabel": "GoldenProcessParameters",
+  "kgIdProperty": "golden_id",
+  "isa95": { "objectModel": "Extension", "extension": true, "momDomain": "production", "note": "Intelligence entity (Multi-Truth/SDC) — ISA-95 extension" }
+}
