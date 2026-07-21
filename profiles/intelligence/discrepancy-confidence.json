@@ -1,0 +1,49 @@
+{
+  "profileId": "SMProfile-ConfidenceDiscrepancy",
+  "version": "2.0.0",
+  "standard": "OSF",
+  "displayName": "Confidence Discrepancy",
+  "category": "intelligence",
+  "description": "Per-class evidence profile for discrepancy_class 'confidence' — an estimate became too uncertain to answer reliably; triggers cycle-count, measurement action or steward-review. Connects Restunsicherheit-as-a-feature to the steward queue. Emitted with kgNodeLabel ConfidenceDiscrepancy (services/discrepancy-engine/src/snapshot.ts classDiscrepancyLabel:109-110). The metric/confidence_level/sigma/threshold evidence block mirrors the detector's declared evidence contract ConfidenceInput (services/discrepancy-engine/src/detector.ts:310-315). Like the sibling drift detector, the confidence detector is currently an interface-level type contract (ConfidenceDetector, detector.ts:321) pending the view-engine confidence thresholds; the label + evidence shape are declared here so the projection is contract-conformant once it lands. Inherits the full lifecycle from Discrepancy.",
+  "parentType": "Discrepancy",
+  "abstract": false,
+  "attributes": [
+    {
+      "name": "metric",
+      "dataType": "String",
+      "category": "Evidence",
+      "description": "Which estimate degraded (e.g. inventory_per_article)"
+    },
+    {
+      "name": "confidence_level",
+      "dataType": "String",
+      "category": "Evidence",
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "description": "Current confidence bucket"
+    },
+    {
+      "name": "sigma",
+      "dataType": "Float",
+      "category": "Evidence",
+      "description": "Estimate spread (sigma_drift for inventory)"
+    },
+    {
+      "name": "threshold",
+      "dataType": "Float",
+      "category": "Evidence",
+      "description": "Threshold that was crossed (customer-tunable)"
+    }
+  ],
+  "relationships": [],
+  "kgNodeLabel": "ConfidenceDiscrepancy",
+  "kgIdProperty": "discrepancy_id",
+  "isa95": {
+    "objectModel": "Extension",
+    "extension": true,
+    "note": "Intelligence entity (Multi-Truth/SDC) — ISA-95 extension"
+  }
+}

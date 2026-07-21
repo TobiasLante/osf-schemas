@@ -79,6 +79,14 @@
       "abstract": false,
       "source": "profiles/intelligence/auto-resolve-rule.json"
     },
+    "BookingClaim": {
+      "key": "part_event_id",
+      "profile": "SMProfile-BookingClaim",
+      "category": "intelligence",
+      "parentType": "ProductionPart",
+      "abstract": false,
+      "source": "profiles/intelligence/booking-claim.json"
+    },
     "ChangeRequest": {
       "key": "change_request_id",
       "profile": "SMProfile-ChangeRequest",
@@ -94,6 +102,14 @@
       "parentType": null,
       "abstract": false,
       "source": "profiles/intelligence/conditioning-effect.json"
+    },
+    "ConfidenceDiscrepancy": {
+      "key": "discrepancy_id",
+      "profile": "SMProfile-ConfidenceDiscrepancy",
+      "category": "intelligence",
+      "parentType": "Discrepancy",
+      "abstract": false,
+      "source": "profiles/intelligence/discrepancy-confidence.json"
     },
     "ConstraintDiscrepancy": {
       "key": "discrepancy_id",
@@ -111,6 +127,14 @@
       "abstract": false,
       "source": "profiles/intelligence/discrepancy-drift.json"
     },
+    "MultiSourceDiscrepancy": {
+      "key": "discrepancy_id",
+      "profile": "SMProfile-MultiSourceDiscrepancy",
+      "category": "intelligence",
+      "parentType": "Discrepancy",
+      "abstract": false,
+      "source": "profiles/intelligence/discrepancy-multi-source.json"
+    },
     "Discrepancy": {
       "key": "discrepancy_id",
       "profile": "SMProfile-Discrepancy",
@@ -118,6 +142,14 @@
       "parentType": null,
       "abstract": true,
       "source": "profiles/intelligence/discrepancy.json"
+    },
+    "GhostPart": {
+      "key": "part_event_id",
+      "profile": "SMProfile-GhostPart",
+      "category": "intelligence",
+      "parentType": "ProductionPart",
+      "abstract": false,
+      "source": "profiles/intelligence/ghost-part.json"
     },
     "GoldenOutcome": {
       "key": "outcome_id",
@@ -135,6 +167,38 @@
       "abstract": false,
       "source": "profiles/intelligence/golden-process-parameters.json"
     },
+    "LossPart": {
+      "key": "part_event_id",
+      "profile": "SMProfile-LossPart",
+      "category": "intelligence",
+      "parentType": "ProductionPart",
+      "abstract": false,
+      "source": "profiles/intelligence/loss-part.json"
+    },
+    "Pattern": {
+      "key": "pattern_id",
+      "profile": "SMProfile-Pattern",
+      "category": "intelligence",
+      "parentType": null,
+      "abstract": false,
+      "source": "profiles/intelligence/pattern.json"
+    },
+    "ProducedPart": {
+      "key": "part_event_id",
+      "profile": "SMProfile-ProducedPart",
+      "category": "intelligence",
+      "parentType": "ProductionPart",
+      "abstract": false,
+      "source": "profiles/intelligence/produced-part.json"
+    },
+    "ProductionPart": {
+      "key": "part_event_id",
+      "profile": "SMProfile-ProductionPart",
+      "category": "intelligence",
+      "parentType": null,
+      "abstract": true,
+      "source": "profiles/intelligence/production-part.json"
+    },
     "ProductionRun": {
       "key": "run_id",
       "profile": "SMProfile-ProductionRun",
@@ -150,6 +214,14 @@
       "parentType": null,
       "abstract": false,
       "source": "profiles/intelligence/resolution-proposal.json"
+    },
+    "ScrapPart": {
+      "key": "part_event_id",
+      "profile": "SMProfile-ScrapPart",
+      "category": "intelligence",
+      "parentType": "ProductionPart",
+      "abstract": false,
+      "source": "profiles/intelligence/scrap-part.json"
     },
     "SetupMode": {
       "key": "setup_mode_id",
@@ -604,6 +676,16 @@
       ]
     },
     {
+      "type": "GROUPS",
+      "from": "Pattern",
+      "to": [
+        "Discrepancy"
+      ],
+      "targetIdProp": [
+        "discrepancy_id"
+      ]
+    },
+    {
       "type": "PART_OF",
       "from": "ProcessSegment",
       "to": [
@@ -701,6 +783,36 @@
       ],
       "targetIdProp": [
         "order_no"
+      ]
+    },
+    {
+      "type": "FOR_ORDER",
+      "from": "ProductionPart",
+      "to": [
+        "ProductionOrder"
+      ],
+      "targetIdProp": [
+        "production_order_no"
+      ]
+    },
+    {
+      "type": "OF_ARTICLE",
+      "from": "ProductionPart",
+      "to": [
+        "Article"
+      ],
+      "targetIdProp": [
+        "article_no"
+      ]
+    },
+    {
+      "type": "ON_MACHINE",
+      "from": "ProductionPart",
+      "to": [
+        "Machine"
+      ],
+      "targetIdProp": [
+        "machine_id"
       ]
     },
     {
