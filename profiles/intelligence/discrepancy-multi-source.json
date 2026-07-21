@@ -1,0 +1,50 @@
+{
+  "profileId": "SMProfile-MultiSourceDiscrepancy",
+  "version": "2.0.0",
+  "standard": "OSF",
+  "displayName": "Multi-Source Discrepancy",
+  "category": "intelligence",
+  "description": "Per-class evidence profile for discrepancy_class 'multi_source' — two sources disagree about what happened (e.g. SAP says 100, PLC-counter says 110, BDE scrap says 10). Raised by the discrepancy-engine reconcile path (HTTP /api/reconcile quantity balance) and by the it-evaluator cross-source bridge. Emitted with kgNodeLabel MultiSourceDiscrepancy (services/discrepancy-engine/src/snapshot.ts classDiscrepancyLabel:105-106). The source_a/value_a/source_b/value_b/delta evidence block matches the engine projection (services/discrepancy-engine/src/types.ts:242-246), which snapshot.ts copies verbatim onto the node. Inherits the full lifecycle from Discrepancy.",
+  "parentType": "Discrepancy",
+  "abstract": false,
+  "attributes": [
+    {
+      "name": "source_a",
+      "dataType": "String",
+      "category": "Evidence",
+      "description": "First source system (e.g. sap)"
+    },
+    {
+      "name": "value_a",
+      "dataType": "Float",
+      "category": "Evidence",
+      "description": "Value claimed by source A"
+    },
+    {
+      "name": "source_b",
+      "dataType": "String",
+      "category": "Evidence",
+      "description": "Second source system (e.g. plc_counter)"
+    },
+    {
+      "name": "value_b",
+      "dataType": "Float",
+      "category": "Evidence",
+      "description": "Value claimed by source B"
+    },
+    {
+      "name": "delta",
+      "dataType": "Float",
+      "category": "Evidence",
+      "description": "value_b minus value_a"
+    }
+  ],
+  "relationships": [],
+  "kgNodeLabel": "MultiSourceDiscrepancy",
+  "kgIdProperty": "discrepancy_id",
+  "isa95": {
+    "objectModel": "Extension",
+    "extension": true,
+    "note": "Intelligence entity (Multi-Truth/SDC) — ISA-95 extension"
+  }
+}

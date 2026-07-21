@@ -1,0 +1,176 @@
+{
+  "profileId": "SMProfile-Pattern",
+  "version": "2.0.0",
+  "standard": "OSF",
+  "displayName": "Pattern",
+  "category": "intelligence",
+  "description": "A derived root-cause cluster (deviation-triage) — the SUSTAINED signal that ONE constraint (constraint_defined_in + constraint_id) recurs across many entities/episodes, meaning the standard/plan (Soll) is likely wrong rather than a single bad shift. Authored to close the SSOT gap: the discrepancy-engine emits kgNodeLabel Pattern with a GROUPS edge per active member but no profile declared it (services/discrepancy-engine/src/snapshot.ts patternObject:330-351 + buildPatternSnapshot:365-403). Node identity = pattern_id = pat-<hash(defined_in|constraint_id)> (ids.ts patternId:183); re-publishing each recompute coalesces onto the same node. Every attribute below is copied verbatim from the Pattern projection (services/discrepancy-engine/src/patterns.ts Pattern:35-90); member_classes is deliberately NOT declared — the engine skips it as internal stub-label routing (snapshot.ts:346-347). Created by the central discrepancy-engine, never edge-sourced — therefore no delivery/scope/promotion wire-contract.",
+  "parentType": null,
+  "abstract": false,
+  "attributes": [
+    {
+      "name": "pattern_id",
+      "dataType": "String",
+      "category": "Core",
+      "isKey": true,
+      "description": "Stable node id pat-<hash(defined_in|constraint_id)> (ids.ts patternId:183)"
+    },
+    {
+      "name": "constraint_id",
+      "dataType": "String",
+      "category": "Evidence",
+      "description": "The constraint this pattern clusters on (patterns.ts Pattern.constraint_id:37)"
+    },
+    {
+      "name": "defined_in",
+      "dataType": "String",
+      "category": "Evidence",
+      "description": "profileId the clustered constraint is defined in (patterns.ts Pattern.defined_in:38)"
+    },
+    {
+      "name": "mom_category",
+      "dataType": "String",
+      "category": "Classification",
+      "description": "ISA-95 MOM category carried from the head member; nullable (patterns.ts Pattern.mom_category:39)"
+    },
+    {
+      "name": "accountable_role",
+      "dataType": "String",
+      "category": "Classification",
+      "description": "RACI role accountable for the cluster; nullable (patterns.ts Pattern.accountable_role:40)"
+    },
+    {
+      "name": "severity",
+      "dataType": "String",
+      "category": "Classification",
+      "enum": [
+        "error",
+        "warning"
+      ],
+      "description": "Max constraint severity across active members; nullable (patterns.ts Pattern.severity:41)"
+    },
+    {
+      "name": "member_count",
+      "dataType": "Int32",
+      "category": "Metrics",
+      "description": "Count of active (open/escalated) episodes in this pattern (patterns.ts Pattern.member_count:42)"
+    },
+    {
+      "name": "distinct_entities",
+      "dataType": "Int32",
+      "category": "Metrics",
+      "description": "Distinct orders/machines affected — the breadth discriminator (patterns.ts Pattern.distinct_entities:44)"
+    },
+    {
+      "name": "total_occurrences",
+      "dataType": "Int32",
+      "category": "Metrics",
+      "description": "All-state episodes sharing the constraint — recurrence breadth (patterns.ts Pattern.total_occurrences:46)"
+    },
+    {
+      "name": "rate_per_day",
+      "dataType": "Float",
+      "category": "Metrics",
+      "description": "Occurrences per day over the observed window (patterns.ts Pattern.rate_per_day:48)"
+    },
+    {
+      "name": "likely_cause",
+      "dataType": "String",
+      "category": "Classification",
+      "enum": [
+        "systematic",
+        "sporadic"
+      ],
+      "description": "'systematic' -> the standard/plan is likely wrong (data); 'sporadic' -> execution (patterns.ts Pattern.likely_cause:51)"
+    },
+    {
+      "name": "hypothesis",
+      "dataType": "String",
+      "category": "Analysis",
+      "description": "Plain-language hypothesis + suggested action (charter review when systematic) (patterns.ts Pattern.hypothesis:53)"
+    },
+    {
+      "name": "expected_impact",
+      "dataType": "Float",
+      "category": "Prioritization",
+      "description": "Summed expected business-impact exposure across members — the rank key (patterns.ts Pattern.expected_impact:55)"
+    },
+    {
+      "name": "financial_at_risk",
+      "dataType": "Float",
+      "category": "Prioritization",
+      "description": "Summed REAL euro-at-risk (financial-tier members only) (patterns.ts Pattern.financial_at_risk:57)"
+    },
+    {
+      "name": "tier",
+      "dataType": "String",
+      "category": "Prioritization",
+      "enum": [
+        "financial",
+        "proxy"
+      ],
+      "description": "'financial' when any member carries a real euro exposure, else 'proxy' (patterns.ts Pattern.tier:62; impact.ts ImpactTier:46)"
+    },
+    {
+      "name": "sample_discrepancy_id",
+      "dataType": "String",
+      "category": "Reference",
+      "description": "discrepancy_id of the head/sample member (patterns.ts Pattern.sample_discrepancy_id:63)"
+    },
+    {
+      "name": "member_discrepancy_ids",
+      "dataType": "Json",
+      "category": "Reference",
+      "description": "Capped list of the active members' discrepancy_ids — mirrors the GROUPS edges (snapshot.ts patternObject:341-343; patterns.ts Pattern.member_discrepancy_ids:66)"
+    },
+    {
+      "name": "daily_series",
+      "dataType": "Json",
+      "category": "Statistics",
+      "description": "Per-day occurrence series [{day,count}] over the observed window; JSON-serialised by the snapshot builder (patterns.ts Pattern.daily_series:79)"
+    },
+    {
+      "name": "ewma",
+      "dataType": "Float",
+      "category": "Statistics",
+      "description": "EWMA of the per-day occurrence rate (patterns.ts Pattern.ewma:81)"
+    },
+    {
+      "name": "sigma",
+      "dataType": "Float",
+      "category": "Statistics",
+      "description": "Population sigma of the per-day occurrence counts (patterns.ts Pattern.sigma:83)"
+    },
+    {
+      "name": "trend",
+      "dataType": "String",
+      "category": "Statistics",
+      "enum": [
+        "rising",
+        "flat"
+      ],
+      "description": "'rising' -> the daily rate is escalating; 'flat' otherwise; nullable when too few days to judge (patterns.ts Pattern.trend:85)"
+    },
+    {
+      "name": "capability",
+      "dataType": "Json",
+      "category": "Statistics",
+      "description": "Capability (Cp/Cpk) status object {status:'blocked', reason} — blocked on a missing rated-ceiling datum; JSON-serialised by the snapshot builder (patterns.ts Pattern.capability:89)"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "GROUPS",
+      "target": "Discrepancy",
+      "targetIdProp": "discrepancy_id",
+      "description": "One edge per active member episode grouped by this pattern; members may be any concrete Discrepancy class (snapshot.ts patternObject:336, buildPatternSnapshot:375-391)"
+    }
+  ],
+  "kgNodeLabel": "Pattern",
+  "kgIdProperty": "pattern_id",
+  "isa95": {
+    "objectModel": "Extension",
+    "extension": true,
+    "note": "Intelligence entity (Multi-Truth/SDC) — ISA-95 extension"
+  }
+}

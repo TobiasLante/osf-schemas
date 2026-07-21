@@ -1,0 +1,27 @@
+{
+  "profileId": "SMProfile-GhostPart",
+  "version": "2.0.0",
+  "standard": "OSF",
+  "displayName": "Ghost Part",
+  "category": "intelligence",
+  "description": "Parts that appear in one source but have no physical or booked counterpart — counted but unaccounted. LLM-extractable entity. Concrete part-lineage label emitted by the discrepancy-engine (types.ts PartLabel:311-316). Inherits provenance + lineage links from ProductionPart; adds note (snapshot.ts partObject:89).",
+  "parentType": "ProductionPart",
+  "abstract": false,
+  "attributes": [
+    {
+      "name": "note",
+      "dataType": "String",
+      "category": "Core",
+      "description": "Why this count is considered a ghost (no matching evidence) — types.ts ProductionPart.note:352"
+    }
+  ],
+  "relationships": [],
+  "kgNodeLabel": "GhostPart",
+  "kgIdProperty": "part_event_id",
+  "isa95": {
+    "objectModel": "Extension",
+    "extension": true,
+    "momDomain": "production",
+    "note": "Intelligence entity (Multi-Truth/SDC) — ISA-95 extension"
+  }
+}

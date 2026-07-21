@@ -33,7 +33,7 @@ osf-schemas/
 ├── profiles/               Schema 1: SM Profiles (type system)
 │   ├── equipment/              EquipmentClass, EquipmentModel (compact), Tool (3 json)
 │   ├── erp/                    Article, Customer(-Order), ProductionOrder, ProductDefinition, OperationsResponse (6 json)
-│   ├── intelligence/           multi-truth layer: Discrepancy, ResolutionProposal, AutoResolveRule, … (12 json)
+│   ├── intelligence/           multi-truth layer: Discrepancy, ResolutionProposal, AutoResolveRule, … (21 json)
 │   ├── machines/               Machine (abstract parent), CNC_Machine, InjectionMoldingMachine (3 json)
 │   ├── operations/             ISA-95 Part 4: OperationsDefinition, ProcessSegment, Segment{Requirement,Response}, Workorder (5 json)
 │   ├── qms/                    InspectionLot, SPCAnalysis (2 json)
@@ -70,7 +70,7 @@ Alles aus der v3-Ära (PostgreSQL-Sources, MQTT-UNS-/Kafka-/Webhook-Syncs) liegt
 <!-- gen:counts:begin -->
 | Category | Count | Files |
 |---|---|---|
-| Profiles | 34 | equipment 3 · erp 6 · intelligence 12 · machines 3 · operations 5 · qms 2 · wms 3 |
+| Profiles | 43 | equipment 3 · erp 6 · intelligence 21 · machines 3 · operations 5 · qms 2 · wms 3 |
 | Sources — mtconnect | 2 | mtconnect-cnc-01, mtconnect-cnc-mtc-02 |
 | Sources — opcua | 15 | opcua-cnc-001-event, opcua-cnc-001-telemetry, opcua-cnc-002-event, opcua-cnc-002-telemetry, opcua-ftlinx-01-event, opcua-ftlinx-01-telemetry, opcua-mtbridge-cnc-01, opcua-rockwell-01-event, opcua-rockwell-01-telemetry, opcua-sgm-001-event, opcua-sgm-001-telemetry, opcua-sgm-004-processdata, opcua-sgm-005-processdata, opcua-sgm-006-bde, opcua-sgm-006-processdata |
 | Sources — rest | 9 | erp-customer-orders, erp-operations-response, erp-production-orders, erp-segment-requirements, erp-segment-responses, sim-v5-erp-articles, sim-v5-erp-customers, sim-v5-qms-inspections, sim-v5-wms-quants |
@@ -80,7 +80,7 @@ Alles aus der v3-Ära (PostgreSQL-Sources, MQTT-UNS-/Kafka-/Webhook-Syncs) liegt
 | Recipes | 3 (2 parked) | recipe-sgm-004-default, recipe-sgm-004-pa66gf30-bracket-b *(parked)*, recipe-sgm-004-pa66gf30-housing-a *(parked)* |
 | KPIs | 6 (2 parked) | availability, energy-per-part *(parked)*, oee, performance *(parked)*, quality-rate, scrap-rate |
 
-Measured from the tree by `ci/gen-docs.mjs` — the same sums `npm run validate:refs` prints (`lint-refs: 34 profiles, 26 sources, 4 sync files`).
+Measured from the tree by `ci/gen-docs.mjs` — the same sums `npm run validate:refs` prints (`lint-refs: 43 profiles, 26 sources, 4 sync files`).
 <!-- gen:counts:end -->
 
 ---
@@ -471,23 +471,25 @@ Phase 5: Embeddings
 |---|---|---|
 | `analysis_id` | SPCAnalysis | — |
 | `area_id` | ⚠ **none** — no profile declares this key (see `contract.json` → `unresolvedTargets`) | 1 |
-| `article_no` | Article | 13 |
+| `article_no` | Article | 14 |
 | `change_request_id` | ChangeRequest | — |
 | `customer_no` | Customer | 1 |
-| `discrepancy_id` | ConstraintDiscrepancy, Discrepancy, DriftDiscrepancy | 4 |
+| `discrepancy_id` | ConfidenceDiscrepancy, ConstraintDiscrepancy, Discrepancy, DriftDiscrepancy, MultiSourceDiscrepancy | 5 |
 | `effect_id` | ConditioningEffect | 1 |
 | `equipment_class_id` | EquipmentClass | 1 |
 | `golden_id` | GoldenProcessParameters | 2 |
 | `lot_no` | InspectionLot | 1 |
-| `machine_id` | CNC_Machine, InjectionMoldingMachine, Machine | 11 |
+| `machine_id` | CNC_Machine, InjectionMoldingMachine, Machine | 12 |
 | `material_lot_no` | MaterialLot | 2 |
 | `operations_definition_no` | OperationsDefinition | 2 |
 | `order_no` | CustomerOrder | 1 |
 | `outcome_id` | GoldenOutcome | 1 |
+| `part_event_id` | BookingClaim, GhostPart, LossPart, ProducedPart, ProductionPart, ScrapPart | — |
+| `pattern_id` | Pattern | — |
 | `process_cell_id` | ⚠ **none** — no profile declares this key (see `contract.json` → `unresolvedTargets`) | 1 |
 | `process_segment_no` | ProcessSegment | 3 |
 | `product_definition_no` | ProductDefinition | 1 |
-| `production_order_no` | OperationsResponse, ProductionOrder | 8 |
+| `production_order_no` | OperationsResponse, ProductionOrder | 9 |
 | `proposal_id` | ResolutionProposal | — |
 | `quant_no` | Quant | 1 |
 | `rule_id` | AutoResolveRule | 2 |

@@ -1,0 +1,27 @@
+{
+  "profileId": "SMProfile-ScrapPart",
+  "version": "2.0.0",
+  "standard": "OSF",
+  "displayName": "Scrap Part",
+  "category": "intelligence",
+  "description": "Parts scrapped (e.g. BDE/scrap-capture says 10). Concrete part-lineage label emitted by the discrepancy-engine (types.ts PartLabel:311-316). Inherits provenance + lineage links from ProductionPart; adds scrap_reason (snapshot.ts partObject:87).",
+  "parentType": "ProductionPart",
+  "abstract": false,
+  "attributes": [
+    {
+      "name": "scrap_reason",
+      "dataType": "String",
+      "category": "Quality",
+      "description": "Reason / defect code for the scrap (types.ts ProductionPart.scrap_reason:346)"
+    }
+  ],
+  "relationships": [],
+  "kgNodeLabel": "ScrapPart",
+  "kgIdProperty": "part_event_id",
+  "isa95": {
+    "objectModel": "Extension",
+    "extension": true,
+    "momDomain": "production",
+    "note": "Intelligence entity (Multi-Truth/SDC) — ISA-95 extension"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "profileId": "SMProfile-BookingClaim",
+  "version": "2.0.0",
+  "standard": "OSF",
+  "displayName": "Booking Claim",
+  "category": "intelligence",
+  "description": "A source system's booking assertion — e.g. SAP 'reported complete 100' with stock reduced and order closed. Distinct from physically produced parts; the claim is itself an entity so the gap between booked and real is first-class. Concrete part-lineage label emitted by the discrepancy-engine (types.ts PartLabel:311-316). Inherits provenance + lineage links from ProductionPart (quantity = claimed amount); adds booked_system + posting_doc (snapshot.ts partObject:90-91).",
+  "parentType": "ProductionPart",
+  "abstract": false,
+  "attributes": [
+    {
+      "name": "booked_system",
+      "dataType": "String",
+      "category": "Core",
+      "description": "System that made the booking (e.g. sap) — types.ts ProductionPart.booked_system:353"
+    },
+    {
+      "name": "posting_doc",
+      "dataType": "String",
+      "category": "Core",
+      "description": "Reference to the posting document / transaction — types.ts ProductionPart.posting_doc:354"
+    }
+  ],
+  "relationships": [],
+  "kgNodeLabel": "BookingClaim",
+  "kgIdProperty": "part_event_id",
+  "isa95": {
+    "objectModel": "Extension",
+    "extension": true,
+    "note": "Intelligence entity (Multi-Truth/SDC) — ISA-95 extension"
+  }
+}

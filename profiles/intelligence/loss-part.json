@@ -1,0 +1,33 @@
+{
+  "profileId": "SMProfile-LossPart",
+  "version": "2.0.0",
+  "standard": "OSF",
+  "displayName": "Loss Part",
+  "category": "intelligence",
+  "description": "Parts lost and never booked anywhere — e.g. the worker note '3 parts fell on the floor'. LLM-extractable entity. Concrete part-lineage label emitted by the discrepancy-engine (types.ts PartLabel:311-316). Inherits provenance + lineage links from ProductionPart; adds loss_type (snapshot.ts partObject:88).",
+  "parentType": "ProductionPart",
+  "abstract": false,
+  "attributes": [
+    {
+      "name": "loss_type",
+      "dataType": "String",
+      "category": "Core",
+      "enum": [
+        "dropped",
+        "missing",
+        "sample",
+        "unrecorded"
+      ],
+      "description": "Nature of the loss (types.ts LossType:319)"
+    }
+  ],
+  "relationships": [],
+  "kgNodeLabel": "LossPart",
+  "kgIdProperty": "part_event_id",
+  "isa95": {
+    "objectModel": "Extension",
+    "extension": true,
+    "momDomain": "production",
+    "note": "Intelligence entity (Multi-Truth/SDC) — ISA-95 extension"
+  }
+}
