@@ -8,7 +8,6 @@ No LLM is needed — the schemas are the single source of truth.
 <!-- gen:tree:begin -->
 ```
 osf-schemas/
-├── .claude/                 (3621 json)
 ├── backup/                 ARCHIVED (v3-era postgresql sources, mqtt/kafka/webhook/manual/bridge syncs; it-fleet; central-ts historian instance) — reference only, loaded by nothing (328 json)
 ├── branding/               brand/theme assets (1 json)
 ├── ci/                     linters + generators (lint-*.mjs, gen-contract.mjs, gen-docs.mjs)
@@ -33,7 +32,7 @@ osf-schemas/
 ├── profiles/               Schema 1: SM Profiles (type system)
 │   ├── equipment/              EquipmentClass, EquipmentModel (compact), Tool (3 json)
 │   ├── erp/                    Article, Customer(-Order), ProductionOrder, ProductDefinition, OperationsResponse (6 json)
-│   ├── intelligence/           multi-truth layer: Discrepancy, ResolutionProposal, AutoResolveRule, … (21 json)
+│   ├── intelligence/           multi-truth layer: Discrepancy, ResolutionProposal, AutoResolveRule, … (22 json)
 │   ├── machines/               Machine (abstract parent), CNC_Machine, InjectionMoldingMachine (3 json)
 │   ├── operations/             ISA-95 Part 4: OperationsDefinition, ProcessSegment, Segment{Requirement,Response}, Workorder (5 json)
 │   ├── qms/                    InspectionLot, SPCAnalysis (2 json)
@@ -49,7 +48,6 @@ osf-schemas/
 │   └── polling/                REST polling schedule (1 json)
 ├── unit-conversions/       UNECE unit table (discovery-time scale/offset lookup) (1 json)
 ├── validation/             ajv meta-schemas (per-file shape validation) (17 json)
-├── 21
 ├── CLAUDE.md               agent instructions
 ├── contract.json           GENERATED ontology contract (gen-contract.mjs) — agents read this FIRST
 ├── README.md               this overview
@@ -70,7 +68,7 @@ Alles aus der v3-Ära (PostgreSQL-Sources, MQTT-UNS-/Kafka-/Webhook-Syncs) liegt
 <!-- gen:counts:begin -->
 | Category | Count | Files |
 |---|---|---|
-| Profiles | 43 | equipment 3 · erp 6 · intelligence 21 · machines 3 · operations 5 · qms 2 · wms 3 |
+| Profiles | 44 | equipment 3 · erp 6 · intelligence 22 · machines 3 · operations 5 · qms 2 · wms 3 |
 | Sources — mtconnect | 2 | mtconnect-cnc-01, mtconnect-cnc-mtc-02 |
 | Sources — opcua | 15 | opcua-cnc-001-event, opcua-cnc-001-telemetry, opcua-cnc-002-event, opcua-cnc-002-telemetry, opcua-ftlinx-01-event, opcua-ftlinx-01-telemetry, opcua-mtbridge-cnc-01, opcua-rockwell-01-event, opcua-rockwell-01-telemetry, opcua-sgm-001-event, opcua-sgm-001-telemetry, opcua-sgm-004-processdata, opcua-sgm-005-processdata, opcua-sgm-006-bde, opcua-sgm-006-processdata |
 | Sources — rest | 9 | erp-customer-orders, erp-operations-response, erp-production-orders, erp-segment-requirements, erp-segment-responses, sim-v5-erp-articles, sim-v5-erp-customers, sim-v5-qms-inspections, sim-v5-wms-quants |
@@ -80,7 +78,7 @@ Alles aus der v3-Ära (PostgreSQL-Sources, MQTT-UNS-/Kafka-/Webhook-Syncs) liegt
 | Recipes | 3 (2 parked) | recipe-sgm-004-default, recipe-sgm-004-pa66gf30-bracket-b *(parked)*, recipe-sgm-004-pa66gf30-housing-a *(parked)* |
 | KPIs | 6 (2 parked) | availability, energy-per-part *(parked)*, oee, performance *(parked)*, quality-rate, scrap-rate |
 
-Measured from the tree by `ci/gen-docs.mjs` — the same sums `npm run validate:refs` prints (`lint-refs: 43 profiles, 26 sources, 4 sync files`).
+Measured from the tree by `ci/gen-docs.mjs` — the same sums `npm run validate:refs` prints (`lint-refs: 44 profiles, 26 sources, 4 sync files`).
 <!-- gen:counts:end -->
 
 ---
@@ -474,7 +472,7 @@ Phase 5: Embeddings
 | `article_no` | Article | 14 |
 | `change_request_id` | ChangeRequest | — |
 | `customer_no` | Customer | 1 |
-| `discrepancy_id` | ConfidenceDiscrepancy, ConstraintDiscrepancy, Discrepancy, DriftDiscrepancy, MultiSourceDiscrepancy | 5 |
+| `discrepancy_id` | ConfidenceDiscrepancy, ConstraintDiscrepancy, Discrepancy, DispatchDiscrepancy, DriftDiscrepancy, MultiSourceDiscrepancy | 5 |
 | `effect_id` | ConditioningEffect | 1 |
 | `equipment_class_id` | EquipmentClass | 1 |
 | `golden_id` | GoldenProcessParameters | 2 |
