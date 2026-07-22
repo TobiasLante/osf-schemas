@@ -39,6 +39,16 @@
       "promotion": "on_change"
     },
     {
+      "name": "planned_machine_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "Planned machine/pool for this FA (confirmation planned_machine_no). May be a POOL-* value, not a concrete Machine node — kept as a scalar so a machine actually run outside the plan (planned != actual) is derivable per confirmation.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
       "name": "quantity_produced",
       "dataType": "Int32",
       "required": false,
@@ -57,6 +67,45 @@
       "required": false,
       "category": "Execution",
       "description": "Actually measured cycle time per piece (s, actual).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "quality": {
+        "onBad": "flag"
+      }
+    },
+    {
+      "name": "cycle_time_planned_sec",
+      "dataType": "Double",
+      "required": false,
+      "category": "Execution",
+      "description": "Planned/standard cycle time per piece (s) for this FA's article (confirmation cycle_time_planned). The per-article ideal — the OEE-Performance and golden-output ideal. NOTE: a loose standard, not a hard floor (actual can beat it) — consumers cap Performance at 1.0.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "quality": {
+        "onBad": "flag"
+      }
+    },
+    {
+      "name": "good_qty",
+      "dataType": "Int32",
+      "required": false,
+      "category": "Execution",
+      "description": "Good pieces confirmed (confirmation good_qty). OEE-Quality numerator.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "quality": {
+        "onBad": "flag"
+      }
+    },
+    {
+      "name": "scrap_qty",
+      "dataType": "Int32",
+      "required": false,
+      "category": "Execution",
+      "description": "Scrap pieces confirmed (confirmation scrap_qty). OEE-Quality: quality = good_qty / (good_qty + scrap_qty).",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
