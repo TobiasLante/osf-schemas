@@ -1,0 +1,21 @@
+{
+  "profileId": "SMProfile-DispatchDiscrepancy",
+  "version": "2.0.0",
+  "standard": "OSF",
+  "displayName": "Dispatch Discrepancy",
+  "category": "intelligence",
+  "description": "A production order (FA) was executed on a machine that is inconsistent with the plan: the OperationsResponse confirmation reports an actual machine (machine_no) that does not match the planned machine/pool (planned_machine_no). This is a DELIBERATELY-WANTED deviation of dispatch — the plant keeps the pool-dispatch behaviour, but the meaningful mismatches are surfaced. Raised by the central discrepancy-engine dispatch-watch producer from ERP confirmations (OperationsResponse in the central business_events store), NOT from the edge — therefore no delivery/scope/promotion wire-contract, exactly like the sibling discrepancy classes. Fires ONLY on a real inconsistency: (a) the plan named a SPECIFIC machine and the actual machine differs, or (b) the plan named a machine POOL (POOL-*) and the actual machine is NOT in that pool's family (cross-pool execution). The normal pool->member case (POOL-SGM -> sgm-004) is NOT a deviation and never fires. Inherits the full lifecycle from Discrepancy.",
+  "parentType": "Discrepancy",
+  "abstract": false,
+  "attributes": [
+    { "name": "planned_machine", "dataType": "String", "category": "Evidence", "description": "Planned machine or pool from the order plan (planned_machine_no) — a specific machine (e.g. sgm-004) or a pool marker (e.g. POOL-SGM). May be a POOL-* value that is NOT a Machine node, which is why it is a scalar attribute and not a relationship target." },
+    { "name": "actual_machine", "dataType": "String", "category": "Evidence", "description": "Machine the order actually ran on, from the confirmation (machine_no, e.g. sgm-004). The inherited ABOUT_MACHINE relationship anchors this actual machine to its Machine node." },
+    { "name": "production_order_no", "dataType": "String", "category": "Evidence", "description": "Fabrication order / production order the mismatch is about (join key to the OperationsResponse / ProductionOrder). Also carried on the inherited ABOUT_ORDER relationship." },
+    { "name": "article", "dataType": "String", "category": "Evidence", "description": "Manufactured article of the order (article_no). Also carried on the inherited ABOUT_ARTICLE relationship." },
+    { "name": "deviation_class", "dataType": "String", "category": "Evidence", "enum": ["equipment"], "description": "Functional KIND of the deviation (osf-schemas constraint-schema.json#deviation_class vocabulary). Always 'equipment' for a dispatch discrepancy: it concerns which ASSET executed the order, independent of the recipe/article band. Drives the SSOT-derived operator lane (equipment -> OT) and the Equipment section of the deviations worklist." }
+  ],
+  "relationships": [],
+  "kgNodeLabel": "DispatchDiscrepancy",
+  "kgIdProperty": "discrepancy_id",
+  "isa95": { "objectModel": "Extension", "extension": true, "note": "Intelligence entity (Multi-Truth/SDC) — ISA-95 extension" }
+}

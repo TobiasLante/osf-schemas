@@ -24,9 +24,10 @@
  "drift",
  "confidence",
  "constraint",
- "control_limit"
+ "control_limit",
+ "dispatch"
  ],
- "description": "Which detector class produced it (§17.1; 'constraint' = edge constraint-detector, next/ pilot; 'control_limit' = two-tier control-band breach (Warngrenze (warning limit)/Eingriffsgrenze (action limit), op within_limits) with a raise/clear (auto-clear) lifecycle, surfaced on the dedicated OT/IT alarm panels rather than the steward work-off queue)"
+ "description": "Which detector class produced it (§17.1; 'constraint' = edge constraint-detector, next/ pilot; 'control_limit' = two-tier control-band breach (Warngrenze (warning limit)/Eingriffsgrenze (action limit), op within_limits) with a raise/clear (auto-clear) lifecycle, surfaced on the dedicated OT/IT alarm panels rather than the steward work-off queue; 'dispatch' = an FA ran on a machine inconsistent with the plan (planned_machine_no vs actual machine_no from the OperationsResponse confirmation) — see profiles/intelligence/discrepancy-dispatch.json, raised centrally by the discrepancy-engine dispatch-watch producer, deviation_class 'equipment')"
  },
  {
  "name": "lifecycle_state",
