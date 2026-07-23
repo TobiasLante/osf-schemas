@@ -1,0 +1,258 @@
+{
+  "sourceId": "opcua-rockwell-01-processdata",
+  "version": "1.0.0",
+  "sourceType": "opcua",
+  "syncType": "streaming",
+  "transport": [
+    "nats"
+  ],
+  "connection": {
+    "endpoint": "opc.tcp://192.168.178.154:36500",
+    "securityMode": "None",
+    "securityPolicy": "None",
+    "auth": "Anonymous"
+  },
+  "dataCategory": "ProcessData",
+  "profileRef": "SMProfile-CNC-Machine",
+  "endpoint": "opc.tcp://192.168.178.154:36500",
+  "machineId": "rockwell-01",
+  "machineName": "Test",
+  "location": {
+    "site": "werk1",
+    "type": "CNC"
+  },
+  "nodeMappings": [
+    {
+      "opcuaNodeId": "ns=1;s=Machine/status",
+      "browsePath": "Rockwell Cell (Allen-Bradley CompactLogix 5480)/status",
+      "smAttribute": "Act_Status_Machine",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/mode",
+      "browsePath": "Rockwell Cell (Allen-Bradley CompactLogix 5480)/mode",
+      "smAttribute": "Act_Text_MachineMode",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/partsCount/good",
+      "browsePath": "Rockwell Cell (Allen-Bradley CompactLogix 5480)/partsCount/good",
+      "smAttribute": "Act_Amount_PartGood",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/partsCount/scrap",
+      "browsePath": "Rockwell Cell (Allen-Bradley CompactLogix 5480)/partsCount/scrap",
+      "smAttribute": "Act_Amount_PartScrap",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cycle/cycleTimeSec",
+      "browsePath": "Rockwell Cell (Allen-Bradley CompactLogix 5480)/typeSpecific/cycle/cycleTimeSec",
+      "smAttribute": "Plan_Time_Cycle",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cycle/cycleStartTime",
+      "browsePath": "Rockwell Cell (Allen-Bradley CompactLogix 5480)/typeSpecific/cycle/cycleStartTime",
+      "smAttribute": "Act_Time_Cycle",
+      "dataType": "ns=0;i=12"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/partsCount/total",
+      "browsePath": "Rockwell Cell (Allen-Bradley CompactLogix 5480)/partsCount/total",
+      "smAttribute": "Act_Energy_Total",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machinery.cnc.Channels.Channel_1.SpindleSpeedOverride",
+      "browsePath": "Machinery/cnc/Channels/Channel_1/SpindleSpeedOverride",
+      "smAttribute": "Act_Speed_Spindle",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machinery.cnc.Spindle.SpindleSpeed",
+      "browsePath": "Machinery/cnc/Spindle/SpindleSpeed",
+      "smAttribute": "Set_Speed_Spindle",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machinery.cnc.Spindle.SpindleLoad",
+      "browsePath": "Machinery/cnc/Spindle/SpindleLoad",
+      "smAttribute": "Act_Pct_SpindleLoad",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/axes/[0]/feedRateMmMin",
+      "browsePath": "Rockwell Cell (Allen-Bradley CompactLogix 5480)/typeSpecific/axes/[0]/feedRateMmMin",
+      "smAttribute": "Act_Rate_Feed",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/axes/[1]/feedRateMmMin",
+      "browsePath": "Rockwell Cell (Allen-Bradley CompactLogix 5480)/typeSpecific/axes/[1]/feedRateMmMin",
+      "smAttribute": "Set_Rate_Feed",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/tool/toolLifePercent",
+      "browsePath": "Rockwell Cell (Allen-Bradley CompactLogix 5480)/typeSpecific/tool/toolLifePercent",
+      "smAttribute": "Act_Time_ToolLifeRemaining",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cycle/inCycle",
+      "browsePath": "Rockwell Cell (Allen-Bradley CompactLogix 5480)/typeSpecific/cycle/inCycle",
+      "smAttribute": "Act_State_InCycle",
+      "dataType": "ns=0;i=1"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/coolant/flowRateLmin",
+      "browsePath": "Rockwell Cell (Allen-Bradley CompactLogix 5480)/typeSpecific/coolant/flowRateLmin",
+      "smAttribute": "Act_Rate_CoolantFlow",
+      "dataType": "ns=0;i=11"
+    }
+  ],
+  "staticProperties": {
+    "machineType": "CNC_Machine"
+  },
+  "polling": {
+    "mode": "subscribe",
+    "intervalMs": 1000
+  },
+  "security": {
+    "mode": "None",
+    "policy": "None",
+    "auth": "Anonymous"
+  },
+  "unitValidation": {
+    "summary": {
+      "total": 15,
+      "ok": 15,
+      "warnings": 0,
+      "mismatches": 0
+    },
+    "results": [
+      {
+        "attribute": "Act_Status_Machine",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "Act_Text_MachineMode",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "Act_Amount_PartGood",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "Act_Amount_PartScrap",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "Plan_Time_Cycle",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "Act_Time_Cycle",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "Act_Energy_Total",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "Act_Speed_Spindle",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "Set_Speed_Spindle",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "Act_Pct_SpindleLoad",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "Act_Rate_Feed",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "Set_Rate_Feed",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "Act_Time_ToolLifeRemaining",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "Act_State_InCycle",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      },
+      {
+        "attribute": "Act_Rate_CoolantFlow",
+        "reportedUnit": "",
+        "sources": [],
+        "verdict": "ok",
+        "confidence": 0.5,
+        "explanation": "No unit reported and none expected"
+      }
+    ]
+  }
+}
