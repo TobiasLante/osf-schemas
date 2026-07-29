@@ -149,6 +149,181 @@ function loadProfileVocabularies(errors) {
   return vocab;
 }
 
+/**
+ * CAPT-REGIME — the OPERATIVE guards, keyed by the profile that declares them.
+ *
+ * A recipe parameter names its guard twice: once as prose in `parameters[].gate`
+ * ("inCycle==true") and once, operatively, as `when` on the profile constraint of the
+ * same name. Only the second one is ever executed. This map is what lets the linter
+ * compare them.
+ *
+ * Constraints are indexed BOTH by `name` (the recipe's `constraintId`) and by
+ * `require.valueFrom` (the recipe's `valueFrom` ref), because a recipe may carry either —
+ * and because `require.valueFrom` is exactly the key the it-evaluator itself resolves on
+ * (recipe-band-resolver.ts: `c.require?.valueFrom ?? refByConstraint.get(cid) ?? …`).
+ * Checking on the consumer's own key is the point; checking on a different one would be
+ * a second vocabulary to drift.
+ */
+function loadProfileConstraints(errors) {
+  const out = new Map(); // profileId -> { byName: Map, byRef: Map }
+  let files;
+  try {
+    files = readdirSync(PROFILES_ROOT).filter((f) => f.endsWith(".json"));
+  } catch (e) {
+    errors.push(`profiles/machines: unreadable — ${e.message} (recipe gates NOT checked)`);
+    return out;
+  }
+  for (const f of files) {
+    let p;
+    try {
+      p = JSON.parse(readFileSync(join(PROFILES_ROOT, f), "utf8"));
+    } catch {
+      continue; // loadProfileVocabularies already reports the parse error
+    }
+    if (!p.profileId) continue;
+    const byName = new Map();
+    const byRef = new Map();
+    // Robust against the legacy object-shaped `constraints: {}` skeleton (truthy,
+    // not iterable) that recipe-band-resolver also guards against.
+    const cs = Array.isArray(p.constraints) ? p.constraints : [];
+    for (const c of cs) {
+      if (!c || typeof c.name !== "string") continue;
+      byName.set(c.name, c);
+      const ref = c.require?.valueFrom;
+      if (typeof ref === "string") byRef.set(ref, c);
+    }
+    out.set(p.profileId, { byName, byRef });
+  }
+  return out;
+}
+
+/** `gate` grammar — the same operator set edge-api's WHEN_OPS accepts, nothing more. */
+const GATE_OPS = [
+  [">=", "gte"],
+  ["<=", "lte"],
+  ["==", "eq"],
+  ["!=", "ne"],
+  [">", "gt"],
+  ["<", "lt"],
+];
+
+/**
+ * Parse `<attr><op><value>` into the same shape a profile `when` carries.
+ * Returns null when the string does not parse — an unparsable gate is a gate nobody can
+ * check, and it is reported rather than waved through.
+ */
+export function parseGate(gate) {
+  if (typeof gate !== "string") return null;
+  for (const [sym, op] of GATE_OPS) {
+    const i = gate.indexOf(sym);
+    if (i <= 0) continue;
+    const attr = gate.slice(0, i).trim();
+    const rest = gate.slice(i + sym.length).trim();
+    if (!attr || !rest) return null;
+    let value;
+    try {
+      // true / false / 5 / "HOLD" parse as JSON; a bare HOLD does not, and is a string.
+      value = JSON.parse(rest);
+    } catch {
+      value = rest;
+    }
+    return { attr, op, value };
+  }
+  return null;
+}
+
+const sameGuard = (a, b) =>
+  a.attr === b.attr && a.op === b.op && JSON.stringify(a.value) === JSON.stringify(b.value);
+
+const guardText = (w) => `${w.attr}${w.op === "eq" ? "==" : ` ${w.op} `}${JSON.stringify(w.value)}`;
+
+/**
+ * 🔥 CAPT-REGIME — THE RECIPE MUST NOT LIE ABOUT WHICH POPULATION IT IS JUDGED OVER.
+ *
+ * `parameters[].gate` has NO consumer. The guard that runs is `when` on the profile
+ * constraint: it-evaluator copies it into `spec.when`, the discrepancy-engine forwards it
+ * to `i3x.values.<machine>.stats`, and edge-api compiles it into the `cond`/`active`
+ * interval CTE that bounds every sample Cp/Ca is computed from. A gate is therefore a
+ * POPULATION declaration with a different name — and an unread one drifts in silence.
+ *
+ * IT ALREADY DID. CAPT-WINDOW (9d50b52, 2026-07-12) deleted `gate: "inCycle==true"` from
+ * mouldTempC in recipe-sgm-004-default.json, with the reasoning that a per-shot flag is the
+ * wrong condition for a continuously tempered tool. Nothing moved: the profile constraint
+ * `recipe_mould_temp_band` still gates on inCycle==true, and every drill for the next 17
+ * days ran under it. The recipe said one thing, the machine did another, and `npm run
+ * validate` was green throughout. MEASURED on the live sgm-004 edge, 2026-07-29: that guard
+ * is not cosmetic — the ungated aggregate over all 589,976 mouldTempC samples returns in
+ * 1.27 s, the SAME aggregate under the inCycle interval join blows through the 45 s
+ * statement_timeout, and the capability has been reported as `TIMEOUT — UNCHECKED, not
+ * clean` on the Golden surface ever since.
+ *
+ * So: present and EQUAL when the constraint declares a `when`, ABSENT when it does not.
+ * Fail-closed, both directions — a missing gate hides a guard that is running, and a
+ * surplus gate advertises one that is not.
+ *
+ * Exported so it can be unit-proven without the whole recipes/ tree.
+ */
+export function gateMirrorErrors(r, label, constraints) {
+  const errs = [];
+  const params = Array.isArray(r?.parameters) ? r.parameters : [];
+  if (params.length === 0) return errs;
+  const prof = constraints?.get(r?.profileRef);
+  if (!prof) return errs; // profileRef itself is reported by the regime-marker check
+  for (const p of params) {
+    if (!p) continue;
+    const name = p.param ?? "(unnamed)";
+    const c =
+      (typeof p.constraintId === "string" ? prof.byName.get(p.constraintId) : undefined) ??
+      (typeof p.valueFrom === "string" ? prof.byRef.get(p.valueFrom) : undefined);
+    // No constraint resolves ⇒ nothing in this profile judges this parameter, so there is
+    // no operative guard to mirror. A `gate` written for a rule that does not exist is
+    // still dead data, and says so.
+    if (!c) {
+      if (p.gate !== undefined) {
+        errs.push(
+          `${label}: parameter "${name}" declares gate "${p.gate}" but no constraint in ` +
+            `${r.profileRef} matches its constraintId/valueFrom — the guard is dead data ` +
+            `(nothing reads parameters[].gate; the operative guard is the constraint's \`when\`)`,
+        );
+      }
+      continue;
+    }
+    const when = c.when?.attr && c.when?.op ? { attr: c.when.attr, op: c.when.op, value: c.when.value } : null;
+    const gate = p.gate === undefined ? null : parseGate(p.gate);
+    if (p.gate !== undefined && gate === null) {
+      errs.push(
+        `${label}: parameter "${name}" gate "${p.gate}" does not parse — expected ` +
+          `<attr><op><value> with op in ${GATE_OPS.map(([s]) => s).join(" ")} ` +
+          `(e.g. inCycle==true, phaseName==HOLD)`,
+      );
+      continue;
+    }
+    if (when && !gate) {
+      errs.push(
+        `${label}: parameter "${name}" declares NO gate, but the constraint that judges it ` +
+          `(${c.name} in ${r.profileRef}) runs under \`${guardText(when)}\`. The capability IS ` +
+          `taken under that guard — edge-api compiles it into the interval CTE that bounds every ` +
+          `sample of the population. A recipe that omits it claims a population the machine is not ` +
+          `measured over. Mirror it here, or remove the guard from the profile and mean it.`,
+      );
+    } else if (!when && gate) {
+      errs.push(
+        `${label}: parameter "${name}" declares gate "${p.gate}", but the constraint that judges it ` +
+          `(${c.name} in ${r.profileRef}) declares NO \`when\` — the capability is taken over ` +
+          `EVERY sample. The gate is decoration on an ungated population.`,
+      );
+    } else if (when && gate && !sameGuard(when, gate)) {
+      errs.push(
+        `${label}: parameter "${name}" gate "${p.gate}" contradicts the operative guard ` +
+          `\`${guardText(when)}\` on ${c.name} in ${r.profileRef}. Only the profile's \`when\` runs; ` +
+          `this string is read by nothing. Do not reconcile by editing the recipe alone unless the ` +
+          `profile is what you mean — the guard is a process decision and it lives there.`,
+      );
+    }
+  }
+  return errs;
+}
+
 function matchKey(match) {
   const m = match ?? {};
   return `a=${m.article ?? "*"}|e=${m.equipment ?? "*"}|s=${m.setup ?? "*"}`;
@@ -182,6 +357,9 @@ function lint() {
   // CAPT-WINDOW — what each machine profile actually publishes, so a regime marker
   // can be checked against the machine instead of against good intentions.
   const vocab = loadProfileVocabularies(errors);
+  // CAPT-REGIME — the OPERATIVE guards, so a recipe's `gate` prose can be checked against
+  // the `when` that actually bounds the population it is judged over.
+  const profileConstraints = loadProfileConstraints(errors);
 
   for (const f of files) {
     const label = `next/recipes/${f}`;
@@ -403,6 +581,8 @@ function lint() {
 
     // CAPT-GOLDEN — a steering `aim`, where declared, must sit inside its band.
     errors.push(...aimErrors(r, label));
+    // CAPT-REGIME — the recipe's `gate` must mirror the guard that actually runs.
+    errors.push(...gateMirrorErrors(r, label, profileConstraints));
   }
 
   console.log(`lint-recipes: scanned ${files.length} recipe files, checked ${refs} refs`);
