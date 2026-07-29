@@ -1,0 +1,44 @@
+{
+  "mapId": "attribute-aliases",
+  "version": "1.0.0",
+  "description": "Cross-profile attribute equivalences: which differently-named attributes carry the same measurement. Validated by ci/lint-attribute-aliases.mjs against the profiles themselves — wire kind, unit, and the full delivery contract (delivery / scope / promotion) must agree for every member, or the build fails. See validation/attribute-alias-schema.json for why this is not kpis/*.json inputMappings.",
+  "semantics": [
+    {
+      "semantic": "machine_in_cycle",
+      "meaning": "The machine is currently executing its production cycle — TRUE between the start and the end of one part's making, FALSE otherwise. Each profile names the cycle after its own process (machining / injection); the predicate is the same one, and it is what every cycle-gated rule in the fleet keys on.",
+      "wireKind": "boolean",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "members": [
+        {
+          "profileRef": "SMProfile-CNC-Machine",
+          "attribute": "Act_State_InCycle"
+        },
+        {
+          "profileRef": "SMProfile-InjectionMoldingMachine",
+          "attribute": "inCycle"
+        }
+      ]
+    },
+    {
+      "semantic": "electrical_power",
+      "meaning": "Instantaneous electrical power draw of the machine in kilowatts — a RATE, not a meter reading. It is the quantity the central OEE & Energy cockpit integrates; the cumulative energy counter (Act_Energy_Total) is a different semantic and is deliberately not a member here.",
+      "wireKind": "number",
+      "unit": "kW",
+      "delivery": "telemetry",
+      "scope": "hub",
+      "promotion": "5sec",
+      "members": [
+        {
+          "profileRef": "SMProfile-CNC-Machine",
+          "attribute": "Act_Energy_Power"
+        },
+        {
+          "profileRef": "SMProfile-InjectionMoldingMachine",
+          "attribute": "powerKw"
+        }
+      ]
+    }
+  ]
+}
