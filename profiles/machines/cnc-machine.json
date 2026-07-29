@@ -89,7 +89,8 @@
       "name": "Act_Energy_Power",
       "dataType": "Float",
       "required": false,
-      "description": "Actual electrical power draw (kW). Promoted to the hub at a fixed 5-second cadence (scope:hub, promotion:5sec) so the central OEE & Energy cockpit reads it from machine_events; the raw high-rate stream still lands edge-local in uns_history. The cadence is declared HERE (SSOT) — the edge codegen's periodic-emitter honours it, nothing is hardcoded downstream.",
+      "description": "Actual electrical power draw (kW). Promoted to the hub at a fixed 5-second cadence (scope:hub, promotion:5sec) so the central OEE & Energy cockpit reads it from machine_events; the raw high-rate stream still lands edge-local in uns_history. The cadence is declared HERE (SSOT) — the edge codegen's periodic-emitter honours it, nothing is hardcoded downstream. --- CAPT-REGIME 2026-07-29: `unit` is now DECLARED rather than asserted in this sentence. It had been kW in the prose since the energy work of 07-20 and nowhere a machine could read it — this attribute was 1 of 44 on this profile carrying a unit at all, against 28 of 48 on the injection-moulding sibling. That mattered the moment mappings/attribute-aliases.json declared it equivalent to SMProfile-InjectionMoldingMachine.powerKw (unit kW): ci/lint-attribute-aliases.mjs refuses to certify an equivalence where one side does not say what it measures, and it refused this one. Cross-checked before declaring, against the hub the consumer reads (.99 machine_events, exhausted): 515,408 numeric samples over cnc-001, cnc-002, cnc-mtc-01, cnc-mtc-02, ftlinx-01, rockwell-01, range 0.600 to 58.000 — a kW range for machines of this size, not W and not MW. No value changes; the unit that was always meant is now the unit that is checkable.",
+      "unit": "kW",
       "delivery": "telemetry",
       "scope": "hub",
       "promotion": "5sec"
