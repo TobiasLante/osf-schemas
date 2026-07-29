@@ -17,7 +17,7 @@ import { mkdtempSync, writeFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { aliasErrors } from './lint-attribute-aliases.mjs';
+import { aliasErrors, kpiTokenErrors } from './lint-attribute-aliases.mjs';
 
 const LINT = fileURLToPath(new URL('./lint-attribute-aliases.mjs', import.meta.url));
 let pass = 0, fail = 0;
@@ -73,6 +73,55 @@ ok(codes({ semantics: [{ ...map().semantics[0],
                { profileRef: 'SMProfile-A', attribute: 'Act_Energy_Power' }] }] }, profiles())
      .includes('B8'),
    'B8 — two members on the same profile is a rename, not an equivalence → refused');
+
+// ── B9: the reading semantics (cumulative counter vs measurement vs delta) ────
+// The distinction that keeps Act_Energy_Total out of electrical_power, generalised.
+const cnt = (o) => ({ semantics: 'cumulative_resettable', aggregation: 'sum_of_positive_deltas', ...o });
+const countMap = (over = {}) => ({
+  semantics: [{
+    semantic: 'part_good', meaning: 'parts produced and accepted, as a cumulative count',
+    wireKind: 'number', counter: cnt(), delivery: 'transactional', scope: 'hub', promotion: 'on_change',
+    members: [{ profileRef: 'SMProfile-A', attribute: 'Act_Amount_PartGood' },
+              { profileRef: 'SMProfile-B', attribute: 'good' }],
+    ...over,
+  }],
+});
+const countProfiles = (overrides = {}) => new Map([
+  ['SMProfile-A', { file: 'a.json', attributes: new Map([['Act_Amount_PartGood',
+    { dataType: 'Int32', delivery: 'transactional', scope: 'hub', promotion: 'on_change',
+      counter: cnt(), ...(overrides.a ?? {}) }]]) }],
+  ['SMProfile-B', { file: 'b.json', attributes: new Map([['good',
+    { dataType: 'Int32', delivery: 'transactional', scope: 'hub', promotion: 'on_change',
+      counter: cnt(), ...(overrides.b ?? {}) }]]) }],
+]);
+ok(aliasErrors(countMap(), countProfiles()).length === 0,
+   'GREEN — both sides declare cumulative_resettable/sum_of_positive_deltas → certified');
+ok(codes(countMap(), countProfiles({ a: { counter: undefined } })).join() === 'B9',
+   '🔥 B9 — the real first-run failure: CNC declared NO counter facet → refused');
+ok(codes(countMap(), countProfiles({ a: { counter: cnt({ semantics: 'delta', aggregation: 'sum' }) } }))
+     .join() === 'B9,B9',
+   'B9 — a DELTA against a cumulative semantic → refused (sum vs sum_of_positive_deltas is not a detail)');
+ok(codes(countMap(), countProfiles({ a: { counter: cnt({ aggregation: 'last_minus_first' }) } })).join() === 'B9',
+   'B9 — same semantics, different aggregation → refused (last_minus_first loses every reset)');
+ok(codes(countMap({ counter: undefined }), countProfiles()).join() === 'B9,B9',
+   'B9 — a semantic claiming a plain measurement while members are counters → refused');
+
+// ── B10 / W1: the registry and kpis/*.json are held to the SAME WORD ──────────
+const kpi = (token) => [{ file: 'kpis/x.json',
+  kpi: { calculation: { inputMappings: { 'SMProfile-A': { Act_Amount_PartGood: token } } } } }];
+ok(kpiTokenErrors(countMap(), kpi('part_good')).errs.length === 0,
+   'GREEN — KPI canonical token equals the semantic name → no error');
+ok(kpiTokenErrors(countMap(), kpi('part_gut')).errs.length === 1,
+   'B10 — KPI canonicalises the SAME pair under a different word → refused');
+{
+  const r = kpiTokenErrors(countMap(), kpi('Act_Amount_PartGood'));
+  ok(r.errs.length === 0 && r.warns.length === 1,
+     'W1 — an IDENTITY mapping makes no competing claim → warning, not a build failure');
+}
+ok(kpiTokenErrors(countMap(), [{ file: 'kpis/y.json',
+     kpi: { calculation: { inputMappings: { 'SMProfile-A': { Act_Status_Machine: 'Act_Status_Machine' } } } } }])
+     .errs.length === 0,
+   'GREEN — a pair the registry does not carry is none of its business');
 
 // ── E2E: the check actually fails the build, against the REAL profiles/ tree ──
 function lintExit(mapObj) {

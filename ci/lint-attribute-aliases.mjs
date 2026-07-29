@@ -32,6 +32,20 @@
 //       cannot mean two things, and a consumer resolving it would get whichever it read first
 //   B8  two members of one semantic sit on the SAME profile — that is a rename inside one
 //       profile, not a cross-profile equivalence, and it belongs in the profile
+//   B9  a member's `counter` facet disagrees with the semantic's declared reading semantics
+//       (or is missing while the semantic declares one, or present while it declares none)
+//   B10 a KPI's calculation.inputMappings maps the SAME (profile, attribute) pair onto a
+//       DIFFERENT canonical token than the registry's semantic name
+//
+// ON B10 — WHY THIS FILE AND kpis/*.json CANNOT DRIFT APART. `inputMappings` stays what it
+// is: the KPI-local binding from a profile's wire attribute to the token that KPI's cypher
+// reads. This registry is the separate, general statement of MEANING. Both anchor on
+// profiles/** so they cannot disagree about which attribute exists where — but nothing
+// stopped them from disagreeing about the NAME of the shared meaning, and a resolver that
+// reads one while a KPI reads the other would then silently resolve to two different
+// tokens for one measurement. B10 closes that: where the two artefacts describe the same
+// pair, they must use the same word. Neither file is authoritative over the other; they
+// are held equal.
 //
 // Run:  node ci/lint-attribute-aliases.mjs   (or: npm run validate:attr-aliases)
 
@@ -67,6 +81,7 @@ const WIRE_KIND = {
 };
 
 const errors = [];
+const warnings = [];
 
 function readJson(path, code) {
   try {
@@ -169,6 +184,38 @@ export function aliasErrors(map, profiles) {
         }
       }
 
+      // B9 — the reading semantics. Same rule as the unit, and for a harder reason: `sum`
+      // over a cumulative counter double-counts the whole history and `sum_of_positive_deltas`
+      // over a delta stream discards every decrement, and BOTH return a confident number.
+      const wantC = s.counter;
+      const gotC = a.counter;
+      if (wantC && !gotC) {
+        errs.push(
+          `B9  ${where}: the semantic declares counter ` +
+            `{${wantC.semantics}, ${wantC.aggregation}} and ${prof.file} declares NO \`counter\` ` +
+            `facet on this attribute. An attribute that does not say HOW it must be read cannot ` +
+            `be asserted to read the same way as one that does — and an empty description is not ` +
+            `a statement that it is a measurement, it is silence. Measure it, declare the facet, ` +
+            `or drop the member.`,
+        );
+      } else if (!wantC && gotC) {
+        errs.push(
+          `B9  ${where}: ${prof.file} declares counter {${gotC.semantics}, ${gotC.aggregation}} ` +
+            `but the semantic declares none, i.e. claims a plain measurement. A running total ` +
+            `averaged as a measurement is arithmetic on a ramp.`,
+        );
+      } else if (wantC && gotC) {
+        for (const k of ["semantics", "aggregation"]) {
+          if (gotC[k] !== wantC[k]) {
+            errs.push(
+              `B9  ${where}: counter.${k} ${JSON.stringify(gotC[k])} != the semantic's ` +
+                `${JSON.stringify(wantC[k])}. Two numbers that must be AGGREGATED differently are ` +
+                `not the same measurement, however alike they are named.`,
+            );
+          }
+        }
+      }
+
       for (const [field, want] of [
         ["delivery", s.delivery],
         ["scope", s.scope],
@@ -188,6 +235,77 @@ export function aliasErrors(map, profiles) {
   return errs;
 }
 
+/**
+ * B10 — hold the registry and the KPI-local bindings to the SAME WORD.
+ *
+ * `kpis/*.json calculation.inputMappings` is deliberately untouched by this work: it is
+ * the binding a KPI's cypher reads, and three of the six KPIs use it for pure identity
+ * mappings, which is not synonymy at all. But where a KPI maps a (profile, attribute) pair
+ * that this registry also carries, the canonical token and the semantic name describe the
+ * same meaning — and if they ever spelled it differently, a consumer reading the registry
+ * and a consumer reading the KPI would resolve one measurement to two tokens, each
+ * internally consistent. That is the failure this whole branch keeps meeting: two sources
+ * of truth that never meet, so neither is ever seen to be wrong.
+ *
+ * Exported for unit proof; takes the KPI list so it needs no disk in tests.
+ */
+export function kpiTokenErrors(map, kpis) {
+  const errs = [];
+  const warns = [];
+  const bySemantic = new Map(); // "profileRef::attribute" -> semantic
+  for (const s of map?.semantics ?? []) {
+    for (const m of s.members ?? []) bySemantic.set(`${m.profileRef}::${m.attribute}`, s.semantic);
+  }
+  for (const { file, kpi } of kpis) {
+    const mappings = kpi?.calculation?.inputMappings ?? {};
+    for (const [profileRef, byAttr] of Object.entries(mappings)) {
+      for (const [attribute, token] of Object.entries(byAttr ?? {})) {
+        const semantic = bySemantic.get(`${profileRef}::${attribute}`);
+        if (semantic === undefined || semantic === token) continue;
+        // An IDENTITY mapping (`Act_Amount_PartGood` -> `Act_Amount_PartGood`) is not a
+        // competing canonical name — it is a KPI saying "this cypher reads the wire name
+        // as-is", i.e. declining to canonicalise at all. Three of the six KPIs do exactly
+        // this, which is the evidence that inputMappings is a per-cypher binding and not a
+        // synonym registry. So it does not contradict the registry and must not fail the
+        // build (and kpis/*.json is not this captain's to edit). It IS worth seeing: the
+        // pair has a canonical name that this KPI is not using.
+        if (token === attribute) {
+          warns.push(
+            `W1  ${file}: inputMappings[${profileRef}][${attribute}] is an IDENTITY mapping while ` +
+              `mappings/attribute-aliases.json canonicalises that pair as ${JSON.stringify(semantic)}. ` +
+              `Not a contradiction — an identity mapping makes no claim about the canonical name — ` +
+              `but this KPI's cypher reads the wire spelling where a canonical one now exists.`,
+          );
+          continue;
+        }
+        errs.push(
+          `B10 ${file}: inputMappings[${profileRef}][${attribute}] = ${JSON.stringify(token)}, but ` +
+            `mappings/attribute-aliases.json calls that same pair ${JSON.stringify(semantic)}. ` +
+            `One measurement, two canonical names — a resolver reading the registry and a cypher ` +
+            `reading the KPI would each be internally consistent and disagree with each other. ` +
+            `Pick one word (neither file is authoritative; they are held equal).`,
+        );
+      }
+    }
+  }
+  return { errs, warns };
+}
+
+/** The KPI files, parsed. Missing dir = no cross-check to do, not an error. */
+function loadKpis(root = ROOT) {
+  const dir = join(root, "kpis");
+  if (!existsSync(dir)) return [];
+  const out = [];
+  for (const f of readdirSync(dir).filter((x) => x.endsWith(".json"))) {
+    try {
+      out.push({ file: `kpis/${f}`, kpi: JSON.parse(readFileSync(join(dir, f), "utf-8")) });
+    } catch {
+      /* ci/lint-kpis.mjs owns the parse error for these */
+    }
+  }
+  return out;
+}
+
 function main() {
   if (!existsSync(ALIAS_FILE)) {
     errors.push(`B1  ${ALIAS_FILE}: missing`);
@@ -202,10 +320,14 @@ function main() {
         }
       } else {
         errors.push(...aliasErrors(map, loadProfiles()));
+        const kpiCheck = kpiTokenErrors(map, loadKpis());
+        errors.push(...kpiCheck.errs);
+        warnings.push(...kpiCheck.warns);
       }
     }
   }
 
+  for (const w of warnings) console.warn(`  \u26a0 ${w}`);
   const n = errors.length;
   if (n) {
     console.error(`lint-attribute-aliases: ${n} error(s)`);

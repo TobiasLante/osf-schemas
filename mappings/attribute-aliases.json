@@ -4,6 +4,50 @@
   "description": "Cross-profile attribute equivalences: which differently-named attributes carry the same measurement. Validated by ci/lint-attribute-aliases.mjs against the profiles themselves — wire kind, unit, and the full delivery contract (delivery / scope / promotion) must agree for every member, or the build fails. See validation/attribute-alias-schema.json for why this is not kpis/*.json inputMappings.",
   "semantics": [
     {
+      "semantic": "part_good",
+      "meaning": "Parts produced and accepted, as a CUMULATIVE COUNT on the machine — the running total since the counter last started, not a per-shot delta. It resets (container restart, re-commissioning), so it must be read as the sum of positive increments; max-min silently loses everything before the last reset.",
+      "wireKind": "number",
+      "counter": {
+        "semantics": "cumulative_resettable",
+        "aggregation": "sum_of_positive_deltas"
+      },
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "members": [
+        {
+          "profileRef": "SMProfile-CNC-Machine",
+          "attribute": "Act_Amount_PartGood"
+        },
+        {
+          "profileRef": "SMProfile-InjectionMoldingMachine",
+          "attribute": "good"
+        }
+      ]
+    },
+    {
+      "semantic": "part_scrap",
+      "meaning": "Parts produced and rejected, as a CUMULATIVE COUNT on the machine, under the same reading rule as part_good: resettable, summed over positive increments. Rework is a third disposition and is deliberately not folded in here.",
+      "wireKind": "number",
+      "counter": {
+        "semantics": "cumulative_resettable",
+        "aggregation": "sum_of_positive_deltas"
+      },
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "members": [
+        {
+          "profileRef": "SMProfile-CNC-Machine",
+          "attribute": "Act_Amount_PartScrap"
+        },
+        {
+          "profileRef": "SMProfile-InjectionMoldingMachine",
+          "attribute": "scrap"
+        }
+      ]
+    },
+    {
       "semantic": "machine_in_cycle",
       "meaning": "The machine is currently executing its production cycle — TRUE between the start and the end of one part's making, FALSE otherwise. Each profile names the cycle after its own process (machining / injection); the predicate is the same one, and it is what every cycle-gated rule in the fleet keys on.",
       "wireKind": "boolean",
