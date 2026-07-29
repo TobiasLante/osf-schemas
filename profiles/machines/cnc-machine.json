@@ -41,6 +41,13 @@
       "name": "Act_Amount_PartGood",
       "dataType": "Int32",
       "required": false,
+      "description": "Good parts produced (cumulative). READ IT WITH `counter.aggregation`, NOT max-min: this counter resets. --- CAPT-REGIME 2026-07-29: this attribute had NO description and NO `counter` facet, and that silence is why ci/lint-counters.mjs passed it — that linter keys on a prose claim ('cumulative') and there was no prose to key on. The gate is only as honest as the text it reads, and an empty description is not a statement that a value is a measurement. It surfaced the moment mappings/attribute-aliases.json declared this attribute equivalent to SMProfile-InjectionMoldingMachine.good, which HAS declared the facet since 2026-07-12: ci/lint-attribute-aliases.mjs refuses (B9) to certify two attributes as the same measurement when they do not agree on how they must be aggregated. MEASURED before declaring, on the hub the consumer reads (.99 machine_events, per-machine step analysis over the full retained history): cnc-001 26,568 increases / 5 flat / 15 DECREASES, cnc-002 24,610 / 5 / 15, rockwell-01 9,740 / 5 / 1 — overwhelmingly monotone with a handful of drops to a lower value, i.e. a running total that RESETS, identical in shape to `good` on sgm-004 (35,379 / 7 / 14). Hence cumulative_resettable + sum_of_positive_deltas. No value changes; only the reading rule stops being invisible.",
+      "counter": {
+        "semantics": "cumulative_resettable",
+        "aggregation": "sum_of_positive_deltas",
+        "resetsObserved": 15,
+        "measuredAt": "2026-07-29"
+      },
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -49,6 +56,13 @@
       "name": "Act_Amount_PartScrap",
       "dataType": "Int32",
       "required": false,
+      "description": "Scrap parts (cumulative). READ IT WITH `counter.aggregation`, NOT max-min: this counter resets. Declared for the same reason and on the same evidence as Act_Amount_PartGood above — MEASURED 2026-07-29 on .99 machine_events: cnc-001 1,662 increases / 7 flat / 14 DECREASES, cnc-002 1,054 / 6 / 12, rockwell-01 755 / 7 / 1, against sgm-004's `scrap` at 3,684 / 7 / 13. Same shape, same reading rule. Rework is a third disposition and is counted separately in Act_Amount_PartRework, which is delivered by no source and is therefore left undeclared here rather than given a plausible default.",
+      "counter": {
+        "semantics": "cumulative_resettable",
+        "aggregation": "sum_of_positive_deltas",
+        "resetsObserved": 14,
+        "measuredAt": "2026-07-29"
+      },
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"

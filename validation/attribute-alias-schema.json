@@ -38,6 +38,22 @@
             "minLength": 1,
             "description": "The unit ALL members must declare, verbatim. Omit only for a dimensionless semantic (a boolean state, a counter of parts). Where it is given, every member profile must declare exactly it: a semantic whose members disagree on the unit is not one semantic."
           },
+          "counter": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["semantics", "aggregation"],
+            "description": "CAPT-REGIME — HOW THE VALUE MUST BE READ, when it is a running total rather than a measurement. Every member's profile must declare exactly this `counter` facet.\n\nThis is the sharpest edge in the whole registry. A cumulative counter and a per-event delta can carry the same name, the same unit, the same wire kind and the same delivery contract, and mean opposite things: `sum` over a cumulative counter double-counts the entire history, and `sum_of_positive_deltas` over a delta stream throws away every decrement. Neither failure looks like an error — both return a confident number. So an equivalence that does not pin the reading semantics is not an equivalence; it is a trap with a canonical name.\n\nThis is also why `Act_Energy_Total` is NOT a member of `electrical_power`: a cumulative meter reading and an instantaneous rate are different semantics even though both are kW-adjacent numbers on the same profiles.\n\nOmit for a semantic that is a plain measurement (a temperature, a pressure, an instantaneous power) — then no member may declare a `counter` facet either.",
+            "properties": {
+              "semantics": {
+                "type": "string",
+                "enum": ["cumulative_resettable", "cumulative_monotonic", "delta", "unreadable"]
+              },
+              "aggregation": {
+                "type": "string",
+                "enum": ["sum_of_positive_deltas", "last_minus_first", "sum", "refuse"]
+              }
+            }
+          },
           "delivery": { "type": "string", "enum": ["telemetry", "transactional"] },
           "scope": { "type": "string", "enum": ["edge", "hub"] },
           "promotion": {
