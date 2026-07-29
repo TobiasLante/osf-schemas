@@ -28,7 +28,7 @@ osf-schemas/
 │   ├── postgresql-pivot/        (1 json)
 │   └── views/                   (1 json)
 ├── kpis/                   KPI definitions — inputs drawn from the source-fed vocabulary (lint-kpis) (6 json)
-├── mappings/               protocol canon: DataItem/tag → SM attribute (SSOT for discovery + gen-flows) (2 json)
+├── mappings/               protocol canon: DataItem/tag → SM attribute (SSOT for discovery + gen-flows) (3 json)
 ├── profiles/               Schema 1: SM Profiles (type system)
 │   ├── equipment/              EquipmentClass, EquipmentModel (compact), Tool (3 json)
 │   ├── erp/                    Article, Customer(-Order), ProductionOrder, ProductDefinition, OperationsResponse (6 json)
@@ -40,14 +40,14 @@ osf-schemas/
 ├── recipes/                GitHub-managed recipe master data (see recipes/README.md) (3 json)
 ├── sources/                Schema 2: Data Sources (instance binding)
 │   ├── mtconnect/              MTConnect agent mappings (2 json)
-│   ├── opcua/                  OPC-UA endpoint → machine mappings (11 json)
+│   ├── opcua/                  OPC-UA endpoint → machine mappings (15 json)
 │   └── rest/                   sim-v5 REST polling (ERP/QMS/WMS projections) (9 json)
 ├── sync/                   Schema 3: Live Sync (transport layer)
 │   ├── nats/                   NATS subjects + JetStream stream declarations (suite hub) (2 json)
 │   ├── opcua-server/           Sonder-Edge re-publish (MTConnect → embedded OPC-UA server) (1 json)
 │   └── polling/                REST polling schedule (1 json)
 ├── unit-conversions/       UNECE unit table (discovery-time scale/offset lookup) (1 json)
-├── validation/             ajv meta-schemas (per-file shape validation) (17 json)
+├── validation/             ajv meta-schemas (per-file shape validation) (18 json)
 ├── CLAUDE.md               agent instructions
 ├── contract.json           GENERATED ontology contract (gen-contract.mjs) — agents read this FIRST
 ├── README.md               this overview
@@ -70,7 +70,7 @@ Alles aus der v3-Ära (PostgreSQL-Sources, MQTT-UNS-/Kafka-/Webhook-Syncs) liegt
 |---|---|---|
 | Profiles | 27 | equipment 3 · erp 6 · intelligence 5 · machines 3 · operations 5 · qms 2 · wms 3 |
 | Sources — mtconnect | 2 | mtconnect-cnc-01, mtconnect-cnc-mtc-02 |
-| Sources — opcua | 11 | opcua-cnc-001-event, opcua-cnc-001-telemetry, opcua-cnc-002-event, opcua-cnc-002-telemetry, opcua-mtbridge-cnc-01, opcua-sgm-001-event, opcua-sgm-001-telemetry, opcua-sgm-004-processdata, opcua-sgm-005-processdata, opcua-sgm-006-bde, opcua-sgm-006-processdata |
+| Sources — opcua | 15 | opcua-cnc-001-event, opcua-cnc-001-telemetry, opcua-cnc-002-event, opcua-cnc-002-telemetry, opcua-ftlinx-01-event, opcua-ftlinx-01-telemetry, opcua-mtbridge-cnc-01, opcua-rockwell-01-event, opcua-rockwell-01-telemetry, opcua-sgm-001-event, opcua-sgm-001-telemetry, opcua-sgm-004-processdata, opcua-sgm-005-processdata, opcua-sgm-006-bde, opcua-sgm-006-processdata |
 | Sources — rest | 9 | erp-customer-orders, erp-operations-response, erp-production-orders, erp-segment-requirements, erp-segment-responses, sim-v5-erp-articles, sim-v5-erp-customers, sim-v5-qms-inspections, sim-v5-wms-quants |
 | Sync — nats | 2 | jetstream-streams, opcua-to-nats-cnc-mtc-01 |
 | Sync — opcua-server | 1 | mtconnect-to-opcua-cnc-mtc-01 |
@@ -78,7 +78,7 @@ Alles aus der v3-Ära (PostgreSQL-Sources, MQTT-UNS-/Kafka-/Webhook-Syncs) liegt
 | Recipes | 3 (2 parked) | recipe-sgm-004-default, recipe-sgm-004-pa66gf30-bracket-b *(parked)*, recipe-sgm-004-pa66gf30-housing-a *(parked)* |
 | KPIs | 6 (2 parked) | availability, energy-per-part *(parked)*, oee, performance *(parked)*, quality-rate, scrap-rate |
 
-Measured from the tree by `ci/gen-docs.mjs` — the same sums `npm run validate:refs` prints (`lint-refs: 27 profiles, 22 sources, 4 sync files`).
+Measured from the tree by `ci/gen-docs.mjs` — the same sums `npm run validate:refs` prints (`lint-refs: 27 profiles, 26 sources, 4 sync files`).
 <!-- gen:counts:end -->
 
 ---
