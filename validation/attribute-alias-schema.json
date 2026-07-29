@@ -1,0 +1,81 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://openshopfloor.org/schemas/attribute-alias-schema.json",
+  "title": "Cross-profile attribute alias map",
+  "description": "CAPT-REGIME (2026-07-29) — WHICH DIFFERENTLY-NAMED ATTRIBUTES MEAN THE SAME THING.\n\nUntil now osf-schemas declared this in exactly one place: `kpis/*.json calculation.inputMappings`, which binds a profile's wire attribute onto the canonical token a KPI's cypher reads. That construct is KPI-LOCAL and it is not a synonym registry — three of the six KPIs carry IDENTITY mappings (`Act_Status_Machine` -> `Act_Status_Machine`), and the cross-profile synonymy in oee / quality-rate / scrap-rate is a side effect of those three applying to the shared parent SMProfile-Machine while two children spell part counts differently. Consequence: `part_good` and `part_scrap` are declared, and every other cross-profile equivalence in the fleet is INFERRED by whoever needs it — from prose, from a matching delivery contract, from the name looking similar. An inference is not a declaration: it is re-derived by each consumer, agrees with nobody in particular, and goes silently wrong when one side moves. This file is where the equivalence is stated once and checked.\n\nWHAT A MEMBERSHIP CLAIMS. Every member of a semantic is asserted to carry THE SAME MEASUREMENT under a different name: same wire kind, same unit where a unit applies, same delivery contract (delivery / scope / promotion), same predicate or quantity. `ci/lint-attribute-aliases.mjs` enforces every one of those against the profiles themselves, so a false equivalence fails the build rather than propagating. That check is the whole value of the file — a registry that merely lists names would be a fourth opinion.\n\nWHAT IT DOES NOT CLAIM. Not that the two attributes come from the same machines (they are, by construction, on different profiles and different fleets), and not that their VALUES are comparable in magnitude. A semantic is an identity of MEANING, not of population.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["mapId", "version", "semantics"],
+  "properties": {
+    "mapId": { "const": "attribute-aliases" },
+    "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "description": { "type": "string" },
+    "semantics": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["semantic", "meaning", "wireKind", "delivery", "scope", "promotion", "members"],
+        "properties": {
+          "semantic": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$",
+            "description": "The canonical token, snake_case — the same spelling convention as the KPI inputs `part_good` / `part_scrap` that this file generalises."
+          },
+          "meaning": {
+            "type": "string",
+            "minLength": 20,
+            "description": "What the members jointly assert, in one sentence, in terms a process engineer would accept. If the sentence needs an 'except on ...' clause, the members are NOT the same semantic and must not be listed together."
+          },
+          "wireKind": {
+            "type": "string",
+            "enum": ["number", "boolean", "string", "datetime", "json"],
+            "description": "The JSON kind the CONSUMER actually receives — deliberately coarser than the profile's `dataType`, because Float and Double are the same thing on the wire (measured on the live hub: `jsonb_typeof(payload->'value')` is 'number' for both Act_Energy_Power/Float and powerKw/Double). Comparing dataType tokens instead would manufacture a difference the consumer cannot see, and would force a wire-contract edit to satisfy a linter."
+          },
+          "unit": {
+            "type": "string",
+            "minLength": 1,
+            "description": "The unit ALL members must declare, verbatim. Omit only for a dimensionless semantic (a boolean state, a counter of parts). Where it is given, every member profile must declare exactly it: a semantic whose members disagree on the unit is not one semantic."
+          },
+          "counter": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["semantics", "aggregation"],
+            "description": "CAPT-REGIME — HOW THE VALUE MUST BE READ, when it is a running total rather than a measurement. Every member's profile must declare exactly this `counter` facet.\n\nThis is the sharpest edge in the whole registry. A cumulative counter and a per-event delta can carry the same name, the same unit, the same wire kind and the same delivery contract, and mean opposite things: `sum` over a cumulative counter double-counts the entire history, and `sum_of_positive_deltas` over a delta stream throws away every decrement. Neither failure looks like an error — both return a confident number. So an equivalence that does not pin the reading semantics is not an equivalence; it is a trap with a canonical name.\n\nThis is also why `Act_Energy_Total` is NOT a member of `electrical_power`: a cumulative meter reading and an instantaneous rate are different semantics even though both are kW-adjacent numbers on the same profiles.\n\nOmit for a semantic that is a plain measurement (a temperature, a pressure, an instantaneous power) — then no member may declare a `counter` facet either.",
+            "properties": {
+              "semantics": {
+                "type": "string",
+                "enum": ["cumulative_resettable", "cumulative_monotonic", "delta", "unreadable"]
+              },
+              "aggregation": {
+                "type": "string",
+                "enum": ["sum_of_positive_deltas", "last_minus_first", "sum", "refuse"]
+              }
+            }
+          },
+          "delivery": { "type": "string", "enum": ["telemetry", "transactional"] },
+          "scope": { "type": "string", "enum": ["edge", "hub"] },
+          "promotion": {
+            "type": "string",
+            "description": "The promotion cadence every member must declare (`on_change`, `raw`, `5sec`, ...). Part of the contract on purpose: two attributes that reach the hub on different cadences are not interchangeable for anything that reads the hub, however alike they read on their profiles."
+          },
+          "members": {
+            "type": "array",
+            "minItems": 2,
+            "description": "At least two — a semantic with one member declares no equivalence and belongs on the profile, not here.",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["profileRef", "attribute"],
+              "properties": {
+                "profileRef": { "type": "string", "pattern": "^SMProfile-" },
+                "attribute": { "type": "string", "minLength": 1 }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
