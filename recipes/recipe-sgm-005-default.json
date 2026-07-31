@@ -1,0 +1,114 @@
+{
+  "recipeId": "RECIPE-sgm-005-default",
+  "version": "1.0.0",
+  "owner": "Process Engineering",
+  "profileRef": "SMProfile-InjectionMoldingMachine",
+  "displayName": "sgm-005 default band (equipment-scoped catch-all)",
+  "description": "FIX 5 (2026-07-31) — sgm-005 (Krauss-Maffei CX 130, v4-SGM-010) had NO recipe of its own, so its hot-runner was judged against a band authored for a different machine and its actual process sat exactly ON an alarm line (measured hotrunnerTempC mean 240.03 degC = the action-upper it was being judged against). A real machine does not hold its setpoint on its own alarm threshold. This recipe re-centres the bands on THIS machine's real setpoint: nozzle SOLL 240 degC (machines-sgm/src/config.ts:373 nozzleSetpointC=240, barrel [210,218,228,235]) so 240 sits in the MIDDLE of its band, not on the edge. Widths mirror the sgm-004 default. mouldTempC band [80,90] is the PA-resin norm (mould TCU target 87.5 degC, MOULD_TCU_TARGET_C). Only the two signals we can calibrate from the machine spec are bound here; pressures/cushion/partMass stay dormant (no per-machine drawing/process sheet yet) so no un-calibrated band can raise a false alarm.",
+  "match": {
+    "equipment": "sgm-005"
+  },
+  "values": {
+    "recipe:hotrunner_temp_band": [
+      233.5,
+      246.5
+    ],
+    "recipe:hotrunner_control_limits": {
+      "warn": [
+        236,
+        243
+      ],
+      "action": [
+        235,
+        244
+      ]
+    },
+    "recipe:mould_temp_band": [
+      80,
+      90
+    ]
+  },
+  "toleranceSource": {
+    "recipe:hotrunner_temp_band": "process_estimate",
+    "recipe:hotrunner_control_limits": "process_estimate",
+    "recipe:mould_temp_band": "norm"
+  },
+  "capability": {
+    "recipe:hotrunner_temp_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:hotrunner_control_limits": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:mould_temp_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "resin"
+          ],
+          "on_reset": [
+            "shotCount"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    }
+  },
+  "parameters": [
+    {
+      "param": "hotrunnerTempC",
+      "soll": 240,
+      "tolerance": [
+        233.5,
+        246.5
+      ],
+      "unit": "degC",
+      "monitored": true,
+      "valueFrom": "recipe:hotrunner_temp_band",
+      "constraintId": "recipe_hotrunner_temp_band",
+      "smAttribute": "hotrunnerTempC"
+    },
+    {
+      "param": "mouldTempC",
+      "soll": 85,
+      "tolerance": [
+        80,
+        90
+      ],
+      "unit": "degC",
+      "monitored": true,
+      "valueFrom": "recipe:mould_temp_band",
+      "constraintId": "recipe_mould_temp_band",
+      "smAttribute": "mouldTempC"
+    }
+  ]
+}
