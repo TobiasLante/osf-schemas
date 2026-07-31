@@ -1,10 +1,10 @@
 {
   "recipeId": "RECIPE-sgm-004-PA66GF30-bracket-B",
-  "version": "3.3.0",
+  "version": "3.4.0",
   "owner": "Process Engineering",
   "profileRef": "SMProfile-InjectionMoldingMachine",
   "displayName": "PA66-GF30 bracket-B on sgm-004 (mould-B)",
-  "description": "Second article on the SAME machine (sgm-004) with DIFFERENT bands — demonstrates the whole point of recipes: one rule (recipe_*_band), per-article limits. The it-evaluator resolves the active recipe from the running entity's (article x equipment x setup) key, so housing-A and bracket-B yield different tolerance bands from the identical constraints. --- 2026-07-12 (v3.2.0): kept in lockstep with recipe-sgm-004-default v3.3.0. mouldTempC SOLL 50 -> 85 degC, band [40,60] -> [80,90], toleranceSource -> 'norm' (BINDING): the mould temperature is a property of the RESIN, not of the article — the same PA66-GF30 needs 80-90 degC whether it is moulded into a housing or a bracket, so this band moves with the default recipe rather than staying behind as a contradiction that would resurrect the old, wrong 50 degC the moment this article-specific recipe ever won a match. The peak/hold pressure GATE doc-strings move from inCycle==true to phaseName==HOLD to match the corrected 'when' guards in the profile (the pressure BANDS themselves are article-specific and unchanged). NOTE: this recipe matches on article 'bracket-B', which the real ERP never emits (its articles are codes like _V4_14-1300-017); the equipment-scoped default recipe is the one that is actually active on sgm-004.",
+  "description": "Second article on the SAME machine (sgm-004) with DIFFERENT bands — demonstrates the whole point of recipes: one rule (recipe_*_band), per-article limits. The it-evaluator resolves the active recipe from the running entity's (article x equipment x setup) key, so housing-A and bracket-B yield different tolerance bands from the identical constraints. --- 2026-07-12 (v3.2.0): kept in lockstep with recipe-sgm-004-default v3.3.0. mouldTempC SOLL 50 -> 85 degC, band [40,60] -> [80,90], toleranceSource -> 'norm' (BINDING): the mould temperature is a property of the RESIN, not of the article — the same PA66-GF30 needs 80-90 degC whether it is moulded into a housing or a bracket, so this band moves with the default recipe rather than staying behind as a contradiction that would resurrect the old, wrong 50 degC the moment this article-specific recipe ever won a match. The peak/hold pressure GATE doc-strings move from inCycle==true to phaseName==HOLD to match the corrected 'when' guards in the profile (the pressure BANDS themselves are article-specific and unchanged). NOTE: this recipe matches on article 'bracket-B', which the real ERP never emits (its articles are codes like _V4_14-1300-017); the equipment-scoped default recipe is the one that is actually active on sgm-004. --- 2026-07-31 WAVE-3: hotrunnerTempC SOLL 242 -> 295 degC, band [238,246] -> [288.5,301.5]. sgm-004's configured nozzle setpoint IS 295 degC (sim-v5 packages/machines-sgm/src/config.ts:337 nozzleSetpointC 295, barrel [270,282,290,295]); hotrunnerTempC is published as nozzleC + normal(0,1.5) per cavity (machine.ts:1281-1283) and the consumer MEASURED mean 295.0 / range 289.9-300.5 over 6277 samples on 2026-07-31. WHERE THE OLD 242 CAME FROM: nowhere traceable. It was the one hot-runner number in the repo that differed from its sibling recipes (default and housing-A both said 230), and it was carried as toleranceSource 'process_estimate', i.e. never a drawing value. I checked whether this machine/article combination has its own documented setpoint that would justify keeping two different numbers: it does NOT. In the simulated plant the hot-runner temperature is a PER-MACHINE constant, not a per-article one — nozzleSetpointC lives in the static machine config, LOAD_PROGRAM overrides only program / cycle time / mouldId (machine.ts:481-562), the mould library carries no temperature fields, and @i3x/sim-schemas product/design-records.json carries none either. There is therefore no article-level truth for 242 to represent, and collapsing bracket-B onto the machine's real setpoint destroys no real distinction. UNLIKE the sibling files this one's half-width is ALSO changed, +-4 -> +-6.5, and that is deliberate rather than convenient: +-4 is only +-2.67 sigma against the measured sigma of 1.5, so it would place ~0.8 % of samples outside the band by construction and the measured range [289.9,300.5] would breach it at BOTH ends. Preserving +-4 would mean knowingly authoring a band this machine cannot hold. +-6.5 is the convention every other sgm recipe in this repo uses (default, housing-A, sgm-005, sgm-006) and gives Cp = 13/(6*1.5) = 1.44 against cp_min 1.33. The upper limit 301.5 stays inside the equipment envelope [180,310].",
   "match": {
     "article": "bracket-B",
     "equipment": "sgm-004",
@@ -12,8 +12,8 @@
   },
   "values": {
     "recipe:hotrunner_temp_band": [
-      238,
-      246
+      288.5,
+      301.5
     ],
     "recipe:part_mass_band": [
       6.8,
@@ -154,10 +154,10 @@
     },
     {
       "param": "hotrunnerTempC",
-      "soll": 242,
+      "soll": 295,
       "tolerance": [
-        238,
-        246
+        288.5,
+        301.5
       ],
       "unit": "degC",
       "monitored": true,

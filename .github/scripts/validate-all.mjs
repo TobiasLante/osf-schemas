@@ -88,6 +88,24 @@ const VALIDATORS = [
     schemaFile: 'validation/machine-type-alias-schema.json',
     match: (rel) => rel === 'mappings/machine-type-aliases.json',
   },
+  // Added 2026-07-31. Both of these shipped WITH a meta-schema under
+  // validation/ but WITHOUT a route to it, and this script fails closed on an
+  // unrouted file — so `validate` has been RED on main since 2026-07-31 09:32
+  // (the step runs under `shell: bash`, i.e. -o pipefail, so the failure is no
+  // longer swallowed by `tee`). Every commit of that day's fix waves landed on
+  // a red main, which is exactly how a merged fix gets believed to be live
+  // without anything having checked it. The meta-schemas existed all along;
+  // only the two lines that point at them were missing.
+  {
+    name: 'attribute-aliases',
+    schemaFile: 'validation/attribute-alias-schema.json',
+    match: (rel) => rel === 'mappings/attribute-aliases.json',
+  },
+  {
+    name: 'machine-identity',
+    schemaFile: 'validation/machine-identity-schema.json',
+    match: (rel) => rel === 'mappings/machine-identity.json',
+  },
 ];
 
 // Bookkeeping

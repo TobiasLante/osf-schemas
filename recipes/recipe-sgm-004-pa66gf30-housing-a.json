@@ -1,10 +1,10 @@
 {
   "recipeId": "RECIPE-sgm-004-PA66GF30-housing-A",
-  "version": "3.3.0",
+  "version": "3.4.0",
   "owner": "Process Engineering",
   "profileRef": "SMProfile-InjectionMoldingMachine",
   "displayName": "PA66-GF30 housing-A on sgm-004 (mould-A)",
-  "description": "GitHub-managed injection-molding recipe (Einstellparameter / SOLL) for article housing-A on sgm-004. The five monitored bands below are the active tolerance bands behind the recipe_* constraints. Edit + push to GitHub -> the it-evaluator GithubRecipeSource picks the new bands up at runtime (no redeploy). The IST is read at the edge; the active band is resolved centrally from this file by (article x equipment x setup). --- 2026-07-12 (v3.2.0): kept in lockstep with recipe-sgm-004-default v3.3.0. mouldTempC SOLL 50 -> 85 degC, band [40,60] -> [80,90], toleranceSource -> 'norm' (BINDING): the mould temperature is a property of the RESIN, not of the article — the same PA66-GF30 needs 80-90 degC whether it is moulded into a housing or a bracket, so this band moves with the default recipe rather than staying behind as a contradiction that would resurrect the old, wrong 50 degC the moment this article-specific recipe ever won a match. The peak/hold pressure GATE doc-strings move from inCycle==true to phaseName==HOLD to match the corrected 'when' guards in the profile (the pressure BANDS themselves are article-specific and unchanged). NOTE: this recipe matches on article 'housing-A', which the real ERP never emits (its articles are codes like _V4_14-1300-017); the equipment-scoped default recipe is the one that is actually active on sgm-004.",
+  "description": "GitHub-managed injection-molding recipe (Einstellparameter / SOLL) for article housing-A on sgm-004. The five monitored bands below are the active tolerance bands behind the recipe_* constraints. Edit + push to GitHub -> the it-evaluator GithubRecipeSource picks the new bands up at runtime (no redeploy). The IST is read at the edge; the active band is resolved centrally from this file by (article x equipment x setup). --- 2026-07-12 (v3.2.0): kept in lockstep with recipe-sgm-004-default v3.3.0. mouldTempC SOLL 50 -> 85 degC, band [40,60] -> [80,90], toleranceSource -> 'norm' (BINDING): the mould temperature is a property of the RESIN, not of the article — the same PA66-GF30 needs 80-90 degC whether it is moulded into a housing or a bracket, so this band moves with the default recipe rather than staying behind as a contradiction that would resurrect the old, wrong 50 degC the moment this article-specific recipe ever won a match. The peak/hold pressure GATE doc-strings move from inCycle==true to phaseName==HOLD to match the corrected 'when' guards in the profile (the pressure BANDS themselves are article-specific and unchanged). NOTE: this recipe matches on article 'housing-A', which the real ERP never emits (its articles are codes like _V4_14-1300-017); the equipment-scoped default recipe is the one that is actually active on sgm-004. --- 2026-07-31 WAVE-3: hotrunnerTempC SOLL 230 -> 295 degC, band [223.5,236.5] -> [288.5,301.5], kept in lockstep with recipe-sgm-004-default (see that file for the full derivation). Short form: sgm-004's configured nozzle setpoint IS 295 degC (sim-v5 packages/machines-sgm/src/config.ts:337), hotrunnerTempC is published as nozzleC + normal(0,1.5) per cavity (machine.ts:1281-1283), and the consumer MEASURED mean 295.0 / range 289.9-300.5 over 6277 samples on 2026-07-31. The half-width +-6.5 is UNCHANGED — only the centre moved onto the machine spec. This band is corrected here for exactly the reason the mouldTempC paragraph above gives: this recipe never wins a match today, so the wrong number is inert RIGHT NOW, and that is precisely why it must not be left behind as a contradiction waiting to resurrect itself the moment the match fires. NOTE that the hot-runner temperature is NOT article-specific in the simulated plant: nozzleSetpointC is a per-machine config constant and LOAD_PROGRAM overrides only program / cycle time / mouldId (machine.ts:481-562), while the mould design records and mould library carry no temperature fields at all. So housing-A and bracket-B legitimately share one hot-runner SOLL; the pressures and part mass stay article-specific because those the sim really does differentiate.",
   "match": {
     "article": "housing-A",
     "equipment": "sgm-004",
@@ -12,8 +12,8 @@
   },
   "values": {
     "recipe:hotrunner_temp_band": [
-      223.5,
-      236.5
+      288.5,
+      301.5
     ],
     "recipe:part_mass_band": [
       10.01,
@@ -154,10 +154,10 @@
     },
     {
       "param": "hotrunnerTempC",
-      "soll": 230,
+      "soll": 295,
       "tolerance": [
-        223.5,
-        236.5
+        288.5,
+        301.5
       ],
       "unit": "degC",
       "monitored": true,
