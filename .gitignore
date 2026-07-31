@@ -1,6 +1,10 @@
 # dependencies (node_modules is reinstalled; package-lock.json IS committed —
 # CI runs `npm ci` and needs the pinned lockfile, see .github/workflows/validate.yml)
 node_modules/
+# ...and the bare name: a SYMLINK called node_modules is not matched by the
+# trailing-slash form, and one got committed on 2026-07-31 by a `git add -A` in a
+# worktree that had node_modules symlinked to a sibling checkout.
+node_modules
 # build / generated
 dist/
 build/
