@@ -1,11 +1,12 @@
 {
   "mapId": "machine-identity",
-  "version": "1.0.0",
-  "description": "Per-BUS-machine identity facts that no other SSOT file states: which ERP `machine_ref` a machine's production orders are booked under, and whether the id is a second protocol view of a machine already present under another id (a MIRROR). WHY THIS FILE EXISTS: both facts were hard-declared in consumer code (i3x-v4 services/golden-shift/src/machine-identity.ts) because the SSOT had no place for them. That is exactly the drift this repo is supposed to prevent — a machine's identity is a property of the machine, not of whichever service happens to need it. SOURCE→BUS aliasing is NOT here: it is already derivable by joining a source descriptor's `machineId` with the `source.sourceRef` of a `sync/nats/*` mapping, and a fact that is already derivable must not be restated. EVERY entry carries the measurement that established it. An identity justified by name similarity alone is a bug even when it happens to be right: `sgm-006` books as `sgm-06` and `cnc-mtc-02` books as `cnc-03`, neither of which a leading-zero rule would produce. A machine with NO proven ERP ref belongs here with `erpMachineRef: null` — the consumer then leaves the order binding absent and greys the hour, which is the honest outcome. It must never guess something close. Validated by ci/lint-machine-identity.mjs against the source descriptors and sync mappings.",
+  "version": "1.1.0",
+  "description": "Per-BUS-machine identity facts that no other SSOT file states: which ERP `machine_ref` a machine's production orders are booked under, and whether the id is a second protocol view of a machine already present under another id (a MIRROR). WHY THIS FILE EXISTS: both facts were hard-declared in consumer code (i3x-v4 services/golden-shift/src/machine-identity.ts) because the SSOT had no place for them. That is exactly the drift this repo is supposed to prevent — a machine's identity is a property of the machine, not of whichever service happens to need it. SOURCE→BUS aliasing is NOT here: it is already derivable by joining a source descriptor's `machineId` with the `source.sourceRef` of a `sync/nats/*` mapping, and a fact that is already derivable must not be restated. EVERY entry carries the measurement that established it. An identity justified by name similarity alone is a bug even when it happens to be right: until 2026-07-31 `sgm-006` booked as `sgm-06` and `cnc-mtc-02` as `cnc-03`, neither of which a leading-zero rule would produce. A machine with NO proven ERP ref belongs here with `erpMachineRef: null` — the consumer then leaves the order binding absent and greys the hour, which is the honest outcome. It must never guess something close. A REF CAN BE RENAMED MID-WINDOW: `erpMachineRefAliases` lists the refs the SAME machine's orders were booked under before, and a consumer MUST join on the union of `erpMachineRef` and its aliases. A retrospective window is longer than the rename, so binding on the current ref alone greys every bucket before the flip, and binding on the old ref alone greys every bucket after it — both report a rename as an absent order. Validated by ci/lint-machine-identity.mjs against the source descriptors and sync mappings.",
   "machines": [
     {
       "busMachineId": "cnc-001",
       "erpMachineRef": "cnc-001",
+      "erpMachineRefAliases": null,
       "mirrorOf": null,
       "evidence": {
         "measured": "ERP emits cnc-001 directly since the 2026-07-07 zero-pad flip (business_events: slug cnc-01 ends 2026-07-20, cnc-001 starts 2026-07-07). Article-correlation control: top match is cnc-001 (10.5%, runner-up 3.7%).",
@@ -15,6 +16,7 @@
     {
       "busMachineId": "cnc-002",
       "erpMachineRef": "cnc-002",
+      "erpMachineRefAliases": null,
       "mirrorOf": null,
       "evidence": {
         "measured": "ERP emits cnc-002 directly since the 2026-07-07 flip (slug cnc-02 ends 2026-07-20). Article-correlation control: top match is cnc-002 (6.8%).",
@@ -24,6 +26,7 @@
     {
       "busMachineId": "sgm-001",
       "erpMachineRef": "sgm-001",
+      "erpMachineRefAliases": null,
       "mirrorOf": null,
       "evidence": {
         "measured": "ERP emits sgm-001 since 2026-07-07 (slug sgm-01 stops the same day — a clean flip). Article-correlation control: top match is sgm-001 (3.1%).",
@@ -33,6 +36,7 @@
     {
       "busMachineId": "sgm-004",
       "erpMachineRef": "sgm-004",
+      "erpMachineRefAliases": null,
       "mirrorOf": null,
       "evidence": {
         "measured": "ERP emits sgm-004 since 2026-07-07 (slug sgm-04 stops the same day). Article-correlation control: top match is sgm-004 (6.2%).",
@@ -42,6 +46,7 @@
     {
       "busMachineId": "sgm-005",
       "erpMachineRef": "sgm-005",
+      "erpMachineRefAliases": null,
       "mirrorOf": null,
       "evidence": {
         "measured": "ERP emits sgm-005 since 2026-07-07 (slug sgm-05 stops the same day).",
@@ -51,6 +56,7 @@
     {
       "busMachineId": "rockwell-01",
       "erpMachineRef": "rockwell-01",
+      "erpMachineRefAliases": null,
       "mirrorOf": null,
       "evidence": {
         "measured": "ERP emits rockwell-01 directly (business_events 2026-07-20..2026-07-29). Article-correlation control: top match is rockwell-01 (23.2%).",
@@ -59,20 +65,22 @@
     },
     {
       "busMachineId": "sgm-006",
-      "erpMachineRef": "sgm-06",
+      "erpMachineRef": "sgm-006",
+      "erpMachineRefAliases": ["sgm-06"],
       "mirrorOf": null,
       "evidence": {
-        "measured": "TWO independent ground truths agree, the same pair the 2026-07-07 zero-pad rule was established on. (1) PHYSICAL: the source endpoint is opc.tcp://192.168.178.154:36065; the machines-sgm range starts at 36060 = sgm-001, so 36065 = range start + 5 = sim machine #6 = slug sgm-06. (2) DATA: article correlation over 2103 currentProgram events gives sgm-06 as the top machine_ref (6.3%; the only other entry above noise is the POOL-SGM dispatch bucket at 4.7%).",
-        "on": "2026-07-29"
+        "measured": "RENAMED 2026-07-31 — the ERP now books this machine under its own id, so `sgm-006` is the current ref and `sgm-06` the historical alias. The rename is sim-v5 76eeb642 with i3x-sim-schemas V230 (canonical-machine-id phase 1), deployed on .154 at ~13:50Z: /api/orders.machine_no is canonicalised from the planning slug to the id the OT publishes. MEASURED on /api/orders (5000 rows, the exact path sources/rest/erp-production-orders.json polls): 31 rows carry sgm-006, ZERO carry sgm-06. MEASURED in business_events by day: 07-27..07-30 only sgm-06 (132/218/256/242), 07-31 BOTH — sgm-06 88 and sgm-006 62, the flip landing mid-day. Both refs are therefore live inside any retrospective window longer than a few hours, which is why the alias must stay. WHAT ESTABLISHED THE ALIAS (2026-07-29, two independent ground truths, the same pair the 2026-07-07 zero-pad rule was established on): (1) PHYSICAL: the source endpoint is opc.tcp://192.168.178.154:36065; the machines-sgm range starts at 36060 = sgm-001, so 36065 = range start + 5 = sim machine #6 = slug sgm-06. (2) DATA: article correlation over 2103 currentProgram events gives sgm-06 as the top machine_ref (6.3%; the only other entry above noise is the POOL-SGM dispatch bucket at 4.7%).",
+        "on": "2026-07-31"
       },
       "note": "sources/opcua/opcua-sgm-006-processdata.json describes this machine as 'v4-SGM-012'. The v4 token is explicitly NOT authoritative (2026-07-07 rule) and is off by one — MTConnect device sgm-01 is described 'v4-SGM-002'. Both measurements above say sgm-06; the description string should be corrected in osf-schemas."
     },
     {
       "busMachineId": "cnc-mtc-02",
-      "erpMachineRef": "cnc-03",
+      "erpMachineRef": "cnc-mtc-02",
+      "erpMachineRefAliases": ["cnc-03"],
       "mirrorOf": null,
       "evidence": {
-        "measured": "Article correlation, run in BOTH directions with the base rate controlled (Jaccard over (article, hour) sets, ERP restricted to status in_arbeit). cnc-mtc-02 → cnc-03 is a MUTUAL BEST PAIR: forward rank #1 (10.32 vs runner-up 4.49), backward rank #1 (cnc-03 → cnc-mtc-02, 10.32 vs runner-up 3.90). A raw ±5min hit count agrees: cnc-03 rank #1 at 54/731 (7.4%), runner-up 2.5%. Under the same base-rate-controlled test all six machines whose ref is independently known return their own ref at rank #1 in both directions (cnc-001 8.63/4.34, cnc-002 6.86/4.75, rockwell-01 20.04/6.14, sgm-001 3.91/2.42, sgm-004 7.98/5.51, sgm-005 3.22/1.81) — the control that makes this verdict usable.",
+        "measured": "RENAMED 2026-07-31 — same sim-v5 76eeb642 / i3x-sim-schemas V230 canonicalisation as sgm-006. MEASURED on /api/orders (5000 rows): 86 rows carry cnc-mtc-02, ZERO carry cnc-03. MEASURED in business_events by day: 07-27..07-30 only cnc-03 (194/61/59/56), 07-31 cnc-03 13 and cnc-mtc-02 216 — this ref flipped almost completely within the day. `cnc-03` stays as the historical alias for the pre-flip part of any retrospective window. WHAT ESTABLISHED THE ALIAS (2026-07-29): Article correlation, run in BOTH directions with the base rate controlled (Jaccard over (article, hour) sets, ERP restricted to status in_arbeit). cnc-mtc-02 → cnc-03 is a MUTUAL BEST PAIR: forward rank #1 (10.32 vs runner-up 4.49), backward rank #1 (cnc-03 → cnc-mtc-02, 10.32 vs runner-up 3.90). A raw ±5min hit count agrees: cnc-03 rank #1 at 54/731 (7.4%), runner-up 2.5%. Under the same base-rate-controlled test all six machines whose ref is independently known return their own ref at rank #1 in both directions (cnc-001 8.63/4.34, cnc-002 6.86/4.75, rockwell-01 20.04/6.14, sgm-001 3.91/2.42, sgm-004 7.98/5.51, sgm-005 3.22/1.81) — the control that makes this verdict usable.",
         "on": "2026-07-29"
       },
       "note": "CORRECTION to an earlier claim of mine: I first cited sources/mtconnect/mtconnect-cnc-mtc-02.json's connection.device = 'cnc-03' as an INDEPENDENT confirmation of the ERP ref. It is not. The MTConnect agent's device namespace is NOT the ERP machine_ref namespace — agent devices cnc-11..cnc-14 are the machines ERP books as HB600P/HB760/HB1000P/HB1500-1, and ERP carries cnc-11..cnc-20 as separate refs besides. The cnc-mtc-01 chain proves the device id can mislead outright (declared device cnc-01, measured identical to cnc-002). That the device id and the ERP ref coincide here is therefore a finding, not a second source; the ERP ref rests on the correlation above alone."
@@ -80,6 +88,7 @@
     {
       "busMachineId": "cnc-mtc-01",
       "erpMachineRef": "cnc-002",
+      "erpMachineRefAliases": null,
       "mirrorOf": "cnc-002",
       "evidence": {
         "measured": "Value-level identity with cnc-002, not a name match: over 2026-07-20..2026-07-26 the machine-specific Act_Amount_PartGood counter agrees on 5363 of 5364 co-timed samples (99.98%), while the same test against cnc-001 gives 0/4898 and against cnc-mtc-02 gives 9/4793. Act_Ref_Program agrees on 894/895 co-timed samples. A part counter is per-machine and monotonic — identical values mean one physical machine sampled twice.",
@@ -90,6 +99,7 @@
     {
       "busMachineId": "ftlinx-01",
       "erpMachineRef": "rockwell-01",
+      "erpMachineRefAliases": null,
       "mirrorOf": "rockwell-01",
       "evidence": {
         "measured": "Value-level identity with rockwell-01: over 2026-07-20..2026-07-23 Act_Amount_PartGood agrees on 1449 of 1450 co-timed samples (99.9%), while the same test against cnc-001 gives 0/1032 and against cnc-002 gives 0/762. Article correlation independently puts rockwell-01 top for ftlinx-01 at 36.7%.",

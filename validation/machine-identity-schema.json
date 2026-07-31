@@ -20,7 +20,7 @@
     "machineIdentity": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["busMachineId", "erpMachineRef", "mirrorOf", "evidence"],
+      "required": ["busMachineId", "erpMachineRef", "erpMachineRefAliases", "mirrorOf", "evidence"],
       "properties": {
         "busMachineId": {
           "type": "string",
@@ -30,7 +30,14 @@
         "erpMachineRef": {
           "type": ["string", "null"],
           "minLength": 1,
-          "description": "The ERP machine_ref this machine's production orders are booked under. NULL means no binding could be PROVEN; a consumer must then leave the order binding absent rather than guess a similar name."
+          "description": "The ERP machine_ref this machine's production orders are booked under NOW. NULL means no binding could be PROVEN; a consumer must then leave the order binding absent rather than guess a similar name."
+        },
+        "erpMachineRefAliases": {
+          "type": ["array", "null"],
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1,
+          "uniqueItems": true,
+          "description": "Refs the SAME machine's orders were booked under BEFORE the current one — the trail of an ERP-side rename. A consumer MUST join on the union of erpMachineRef and these, because a retrospective window is longer than the rename: binding on the current ref alone greys every bucket before the flip, binding on the old ref alone greys every bucket after it, and both report a rename as an absent order. NULL means the ref has never changed (the common case) — an empty array is not allowed, so 'no aliases' cannot be confused with 'nobody looked'. Each alias must be justified in evidence.measured like any other identity claim."
         },
         "mirrorOf": {
           "type": ["string", "null"],
