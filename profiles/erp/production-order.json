@@ -59,6 +59,16 @@
       "promotion": "on_change"
     },
     {
+      "name": "planned_start_time",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "Planned START of the order's next non-terminal operation. Added 2026-07-31: the profile carried only planned_end_time, and a due date cannot order a queue — two orders due the same hour on the same machine had no defined sequence, so 'what runs next here' was unanswerable even where a machine WAS assigned. sim-v5 populates this from erp.order_operations.planned_start (100% populated on machine-assigned IN_PRODUCTION orders) via /api/orders.planned_start_time. Non-NULL only INSIDE the 24 h dispatch horizon; beyond it the order legitimately has no committed start yet.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
       "name": "planned_end_time",
       "dataType": "DateTime",
       "required": false,
@@ -74,6 +84,36 @@
       "required": false,
       "category": "Planning",
       "description": "Planned cycle time per piece (s).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "dispatch_sequence",
+      "dataType": "Int32",
+      "required": false,
+      "category": "Planning",
+      "description": "1-based position of this order in its machine's dispatch queue, inside the 24 h horizon. A total order down to (planned_start, production_order_no, operation_number), so ties are impossible. NULL beyond the horizon — capacity planning does not know the machine there yet, and a fabricated sequence would be worse than the pool. Together with planned_start_time this is what makes a shift-end projection possible: an ordered, machine-assigned sequence instead of a due-date heap.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "parts_per_shot",
+      "dataType": "Int32",
+      "required": false,
+      "category": "Planning",
+      "description": "Number of good parts ONE machine cycle yields — the mould's cavity count on injection-moulding machines, 1 on single-part machines. Added 2026-07-31 because it was published nowhere readable and had to be RECOVERED by dividing two part counters (measured 4 on sgm-001/005, 8 on sgm-004/006). MUST be read together with cycle_time_planned_sec, which is a time per SHOT: parts per hour = 3600 / cycle_time_planned_sec * parts_per_shot. Reading the shot time as a per-part time is exactly the defect fixed in golden-shift 0.3.0.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "mould_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "Identity of the mounted mould/tool that determines parts_per_shot (e.g. 'MOULD-PART-D-v1'). Travels with parts_per_shot because the cavity count is a property of the MOULD. NOTE: in sim-v5 the mould is mounted on the machine and machines are article-blind, so this varies per MACHINE, not per article.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"

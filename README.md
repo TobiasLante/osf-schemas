@@ -128,7 +128,7 @@ osf-schemas/
 │   ├── operations/             ISA-95 Part 4: OperationsDefinition, ProcessSegment, Segment{Requirement,Response}, Workorder (5 json)
 │   ├── qms/                    InspectionLot, SPCAnalysis (2 json)
 │   └── wms/                    MaterialLot, Quant, StorageLocation (3 json)
-├── recipes/                GitHub-managed recipe master data (see recipes/README.md) (3 json)
+├── recipes/                GitHub-managed recipe master data (see recipes/README.md) (5 json)
 ├── sources/                Schema 2: Data Sources (instance binding)
 │   ├── mtconnect/              MTConnect agent mappings (2 json)
 │   ├── opcua/                  OPC-UA endpoint → machine mappings (15 json)
@@ -158,7 +158,7 @@ osf-schemas/
 | Sync — nats | 2 | jetstream-streams, opcua-to-nats-cnc-mtc-01 |
 | Sync — opcua-server | 1 | mtconnect-to-opcua-cnc-mtc-01 |
 | Sync — polling | 1 | sim-v5-poll |
-| Recipes | 3 (2 parked) | recipe-sgm-004-default, recipe-sgm-004-pa66gf30-bracket-b *(parked)*, recipe-sgm-004-pa66gf30-housing-a *(parked)* |
+| Recipes | 5 (2 parked) | recipe-sgm-004-default, recipe-sgm-004-pa66gf30-bracket-b *(parked)*, recipe-sgm-004-pa66gf30-housing-a *(parked)*, recipe-sgm-005-default, recipe-sgm-006-default |
 | KPIs | 6 (2 parked) | availability, energy-per-part *(parked)*, oee, performance *(parked)*, quality-rate, scrap-rate |
 
 Measured from the tree by `ci/gen-docs.mjs` — the same sums `npm run validate:refs` prints (`lint-refs: 27 profiles, 26 sources, 4 sync files`).
