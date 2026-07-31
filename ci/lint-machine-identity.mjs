@@ -27,8 +27,17 @@
 //   I5  mirrorOf points at itself
 //   I6  a mirror chain (a mirrors b, b mirrors c) — a mirror must name the CANONICAL
 //       machine directly, or consumers deduplicate to different survivors
-//   I7  a mirror and its target disagree about the ERP ref — the same physical
-//       machine cannot book its orders under two different refs
+//   I7  a mirror and its target disagree about the ERP ref (or its alias set) — the
+//       same physical machine cannot book its orders under two different refs
+//   I8  an alias repeats the entry's own current erpMachineRef — a rename trail that
+//       includes the destination says nothing and hides whether anyone looked
+//   I9  two different machines claim the same ERP ref (as current ref or alias) —
+//       the join is an equality over the union, so both machines would bind the same
+//       orders and the output would be counted twice. Mirrors are exempt: a mirror
+//       SHARING its target's ref is the whole point of a mirror.
+//  I10  an entry declares aliases but its evidence never mentions one of them — an
+//       identity claim without the measurement that established it, which is the one
+//       thing this registry exists to prevent
 //
 // WARNINGS (reported, exit 0):
 //   W1  a BUS machine this repo declares that the registry does not mention — its
@@ -60,6 +69,15 @@ function readJson(path) {
   } catch (e) {
     return { __error: e.message };
   }
+}
+
+/** The historical ERP refs of an entry, normalised to a sorted array of strings. */
+function aliasesOf(m) {
+  if (!Array.isArray(m.erpMachineRefAliases)) return [];
+  return m.erpMachineRefAliases
+    .filter((a) => typeof a === "string" && a.trim())
+    .map((a) => a.trim())
+    .sort();
 }
 
 function readJsonDir(dir) {
@@ -175,6 +193,67 @@ for (const [id, m] of byId) {
         `two ERP refs. One of the two measurements is wrong.`,
     );
   }
+  // The alias set is part of the ref: a mirror that remembers a rename its target
+  // forgot resolves to a different order set for the pre-flip half of a window.
+  const aa = JSON.stringify(aliasesOf(m));
+  const ba = JSON.stringify(aliasesOf(t));
+  if (aa !== ba) {
+    err(
+      "I7",
+      `'${id}' mirrors '${target}' but their historical ERP refs differ: ${aa} vs ${ba}. ` +
+        `A rename applies to the physical machine, so both views must carry the same trail — ` +
+        `otherwise the two ids bind different orders for the part of the window before the flip.`,
+    );
+  }
+}
+
+// ── I8/I9/I10: the rename trail ─────────────────────────────────────────────
+// An alias widens an equality join, so a wrong one does not grey a bucket (which is
+// visible) — it binds the WRONG order (which is not). Hence all three are errors.
+const refClaims = new Map(); // ref (lowercased) → [{ id, kind }]
+for (const [id, m] of byId) {
+  const current = typeof m.erpMachineRef === "string" ? m.erpMachineRef.trim() : null;
+  const aliases = aliasesOf(m);
+
+  for (const alias of aliases) {
+    if (current && alias.toLowerCase() === current.toLowerCase()) {
+      err(
+        "I8",
+        `'${id}' lists '${alias}' as a historical ERP ref but that IS its current ` +
+          `erpMachineRef — a rename trail that includes its own destination states nothing.`,
+      );
+    }
+  }
+
+  const measured = ((m.evidence && m.evidence.measured) || "").toLowerCase();
+  for (const alias of aliases) {
+    if (!measured.includes(alias.toLowerCase())) {
+      err(
+        "I10",
+        `'${id}' declares the historical ERP ref '${alias}' but evidence.measured never ` +
+          `mentions it — every identity claim in this registry must carry the measurement ` +
+          `that established it, aliases included.`,
+      );
+    }
+  }
+
+  // A mirror legitimately shares its target's refs; it is the same machine.
+  if (typeof m.mirrorOf === "string" && m.mirrorOf.trim()) continue;
+  for (const ref of [...(current ? [current] : []), ...aliases]) {
+    const key = ref.toLowerCase();
+    if (!refClaims.has(key)) refClaims.set(key, []);
+    refClaims.get(key).push({ id, kind: ref === current ? "current" : "historical" });
+  }
+}
+for (const [ref, claims] of refClaims) {
+  if (claims.length < 2) continue;
+  err(
+    "I9",
+    `ERP ref '${ref}' is claimed by ${claims.length} machines that are not mirrors of one ` +
+      `another: ${claims.map((c) => `${c.id} (${c.kind})`).join(", ")}. The order join is an ` +
+      `equality over the union of current ref + aliases, so every one of them would bind the ` +
+      `same orders and that output would be counted once per machine.`,
+  );
 }
 
 // ── warnings ────────────────────────────────────────────────────────────────
@@ -197,9 +276,11 @@ for (const [id, m] of byId) {
 // ── report ──────────────────────────────────────────────────────────────────
 const nullRefs = [...byId.values()].filter((m) => m.erpMachineRef === null).length;
 const mirrors = [...byId.values()].filter((m) => m.mirrorOf).length;
+const renamed = [...byId.values()].filter((m) => aliasesOf(m).length > 0).length;
 console.log(
   `machine-identity: ${byId.size} machine(s), ${mirrors} mirror(s), ` +
-    `${nullRefs} without a proven ERP ref, ${busIds.size} BUS id(s) declared in sources/sync`,
+    `${nullRefs} without a proven ERP ref, ${renamed} carrying a rename trail, ` +
+    `${busIds.size} BUS id(s) declared in sources/sync`,
 );
 for (const w of warnings) console.log(`  WARN  ${w}`);
 if (errors.length > 0) {
