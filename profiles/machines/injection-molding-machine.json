@@ -799,13 +799,13 @@
     },
     {
       "name": "equipment_hotrunner_temp_envelope",
-      "description": "Equipment / asset-per-se: hot-runner temperature must stay within the machine's safe operating envelope, independent of the running recipe. Outside [180,270] degC -> heater / thermocouple / controller fault (a machine problem regardless of the article). Deliberately wider than the recipe band on the same attribute. LITERAL value = machine-spec SSOT — adjust to the machine spec. --- 2026-07-12 CAPT-STURM: declares a `persistence` policy (anti-chatter). A single sample outside a band is not a deviation — an EPISODE is. `raise` is a Western-Electric run rule (2 of the last 3 evaluations must breach); `clear` is an ISA-18.2 dead-band (the value must return inside the limit by 15 % of the band width, for 3 evaluations). The LIMITS ARE UNCHANGED — this removes chatter, not signal. Declaring it is now MANDATORY for every live `between`/`within_limits` rule (ci/lint-constraints.mjs, fail-closed): a rule the detector cannot police is a rule that reports its own arithmetic instead of the machine.",
+      "description": "Equipment / asset-per-se: hot-runner temperature must stay within the machine's safe operating envelope, independent of the running recipe. Outside [180,310] degC -> heater / thermocouple / controller fault (a machine problem regardless of the article). Deliberately wider than the recipe band on the same attribute. LITERAL value = machine-spec SSOT — adjust to the machine spec. --- 2026-07-31 FIX 4: upper bound raised 270 -> 310. The envelope is a property of the machine class, and this SGM class legitimately runs high-temperature engineering resins: sgm-004 (Engel victory 120) processes PA66-GF30 with a nozzle SOLL of 295 degC (barrel [270,282,290,295], Tm ~262 degC needs a 275-300 degC melt window — machines-sgm/src/config.ts:331-337, the resin is fixed by the drawing). Measured on sgm-004 it ran mean 295.0, range 287-301 degC, i.e. permanently OUTSIDE the old [180,270] envelope — a standing action alarm against a machine doing exactly what its material requires. 270 was a mid-fleet figure, not the class maximum. 310 covers the PA66-GF30 nozzle SOLL + thermocouple noise with margin while still catching a genuine heater/controller runaway. The per-recipe tight SOLL stays in recipe_hotrunner_temp_band. --- 2026-07-12 CAPT-STURM: declares a `persistence` policy (anti-chatter). A single sample outside a band is not a deviation — an EPISODE is. `raise` is a Western-Electric run rule (2 of the last 3 evaluations must breach); `clear` is an ISA-18.2 dead-band (the value must return inside the limit by 15 % of the band width, for 3 evaluations). Declaring it is now MANDATORY for every live `between`/`within_limits` rule (ci/lint-constraints.mjs, fail-closed): a rule the detector cannot police is a rule that reports its own arithmetic instead of the machine.",
       "require": {
         "attr": "hotrunnerTempC",
         "op": "between",
         "value": [
           180,
-          270
+          310
         ]
       },
       "severity": "warning",
