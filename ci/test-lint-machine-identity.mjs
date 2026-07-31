@@ -43,13 +43,20 @@ function fixture(machines, { sources, syncs } = {}) {
   for (const s of syncs ?? []) {
     writeFileSync(join(dir, "sync", "nats", `${s.syncId}.json`), JSON.stringify(s));
   }
+  // `erpMachineRefAliases` is REQUIRED by the schema, but most cases below are about
+  // something else entirely. Default it to null (= "this ref never changed") only when
+  // a case does not speak about it, so those cases keep testing what they are named
+  // for instead of all failing on I1. A case that DOES set it is left untouched.
+  const normalised = machines.map((m) =>
+    "erpMachineRefAliases" in m ? m : { ...m, erpMachineRefAliases: null },
+  );
   writeFileSync(
     join(dir, "mappings", "machine-identity.json"),
     JSON.stringify({
       mapId: "machine-identity",
       version: "1.0.0",
       description: "fixture",
-      machines,
+      machines: normalised,
     }),
   );
   return dir;
@@ -215,6 +222,174 @@ const good = [{ busMachineId: "m1", erpMachineRef: "M-1", mirrorOf: null, eviden
     r.code === 0 && !/I2/.test(r.out) && !/W1\s+BUS machine 's1'/.test(r.out),
     r.out.trim(),
   );
+  rmSync(d, { recursive: true, force: true });
+}
+
+// ── the rename trail: erpMachineRefAliases ──────────────────────────────────
+// Measured motivation (2026-07-31): sim-v5 canonicalised /api/orders.machine_no, so
+// sgm-006's orders moved from `sgm-06` to `sgm-006` MID-DAY — both refs appear inside
+// one retrospective window. An alias widens an equality join, so a wrong one does not
+// grey a bucket (visible) but binds the WRONG order (invisible). Every guard fires.
+
+/** Evidence that names the given refs, so I10 is satisfied on purpose. */
+const evNaming = (...refs) => ({
+  measured:
+    `fixture evidence long enough for the schema minLength; the machine was renamed and ` +
+    `previously booked under ${refs.join(" and ")}, measured in business_events`,
+  on: "2026-07-31",
+});
+
+{
+  const d = fixture([
+    {
+      busMachineId: "m1",
+      erpMachineRef: "M-NEW",
+      erpMachineRefAliases: ["M-OLD"],
+      mirrorOf: null,
+      evidence: evNaming("M-OLD"),
+    },
+  ]);
+  const r = run(d);
+  check(
+    "a justified rename trail is accepted and counted",
+    r.code === 0 && /1 carrying a rename trail/.test(r.out),
+    r.out.trim(),
+  );
+  rmSync(d, { recursive: true, force: true });
+}
+
+{
+  const d = fixture([
+    {
+      busMachineId: "m1",
+      erpMachineRef: "M-1",
+      erpMachineRefAliases: ["M-1"],
+      mirrorOf: null,
+      evidence: evNaming("M-1"),
+    },
+  ]);
+  const r = run(d);
+  check("I8 rejects an alias that repeats the current ref", r.code === 1 && /I8/.test(r.out), r.out.trim());
+  rmSync(d, { recursive: true, force: true });
+}
+
+{
+  // Two unrelated machines, one claiming the other's ref as its own history.
+  const sources = [
+    { sourceId: "opcua-m1", machineId: "m1" },
+    { sourceId: "opcua-m2", machineId: "m2" },
+  ];
+  const d = fixture(
+    [
+      {
+        busMachineId: "m1",
+        erpMachineRef: "M-1",
+        erpMachineRefAliases: ["M-2"],
+        mirrorOf: null,
+        evidence: evNaming("M-2"),
+      },
+      { busMachineId: "m2", erpMachineRef: "M-2", mirrorOf: null, evidence: ev() },
+    ],
+    { sources },
+  );
+  const r = run(d);
+  check(
+    "I9 rejects two non-mirror machines claiming one ERP ref",
+    r.code === 1 && /I9/.test(r.out),
+    r.out.trim(),
+  );
+  rmSync(d, { recursive: true, force: true });
+}
+
+{
+  // A mirror SHARING its target's ref is the point of a mirror — I9 must not fire.
+  const sources = [
+    { sourceId: "opcua-m1", machineId: "m1" },
+    { sourceId: "opcua-m2", machineId: "m2" },
+  ];
+  const d = fixture(
+    [
+      {
+        busMachineId: "m1",
+        erpMachineRef: "M-2",
+        erpMachineRefAliases: ["M-OLD"],
+        mirrorOf: "m2",
+        evidence: evNaming("M-OLD"),
+      },
+      {
+        busMachineId: "m2",
+        erpMachineRef: "M-2",
+        erpMachineRefAliases: ["M-OLD"],
+        mirrorOf: null,
+        evidence: evNaming("M-OLD"),
+      },
+    ],
+    { sources },
+  );
+  const r = run(d);
+  check(
+    "a mirror sharing its target's ref and trail is NOT an I9",
+    r.code === 0 && !/I9/.test(r.out) && !/I7/.test(r.out),
+    r.out.trim(),
+  );
+  rmSync(d, { recursive: true, force: true });
+}
+
+{
+  // Same physical machine, but only one view remembers the rename.
+  const sources = [
+    { sourceId: "opcua-m1", machineId: "m1" },
+    { sourceId: "opcua-m2", machineId: "m2" },
+  ];
+  const d = fixture(
+    [
+      {
+        busMachineId: "m1",
+        erpMachineRef: "M-2",
+        erpMachineRefAliases: ["M-OLD"],
+        mirrorOf: "m2",
+        evidence: evNaming("M-OLD"),
+      },
+      { busMachineId: "m2", erpMachineRef: "M-2", erpMachineRefAliases: null, mirrorOf: null, evidence: ev() },
+    ],
+    { sources },
+  );
+  const r = run(d);
+  check(
+    "I7 rejects a mirror whose rename trail differs from its target's",
+    r.code === 1 && /I7/.test(r.out),
+    r.out.trim(),
+  );
+  rmSync(d, { recursive: true, force: true });
+}
+
+{
+  const d = fixture([
+    {
+      busMachineId: "m1",
+      erpMachineRef: "M-NEW",
+      erpMachineRefAliases: ["M-OLD"],
+      mirrorOf: null,
+      evidence: ev(), // never mentions M-OLD
+    },
+  ]);
+  const r = run(d);
+  check(
+    "I10 rejects an alias the evidence never mentions",
+    r.code === 1 && /I10/.test(r.out),
+    r.out.trim(),
+  );
+  rmSync(d, { recursive: true, force: true });
+}
+
+{
+  // An empty array must be impossible, so "no aliases" cannot be confused with
+  // "nobody looked" — the schema, not the linter, enforces this.
+  const d = fixture([
+    { busMachineId: "m1", erpMachineRef: "M-1", erpMachineRefAliases: [], mirrorOf: null, evidence: ev() },
+  ]);
+  const r = run(d);
+  check("an empty alias array is rejected by the schema", r.code === 1 && /I1/.test(r.out), r.out.trim());
   rmSync(d, { recursive: true, force: true });
 }
 
