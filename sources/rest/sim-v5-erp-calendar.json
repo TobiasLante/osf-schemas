@@ -1,0 +1,36 @@
+{
+  "sourceId": "sim-v5-erp-calendar",
+  "version": "2.0.0",
+  "sourceType": "rest",
+  "syncType": "polling",
+  "profileRef": "SMProfile-ShiftWindow",
+  "transport": ["nats"],
+  "description": "ERP shift calendar (GET /api/calendar -> week_pattern): per department x ISO weekday x shift the working-time window and its breaks. Supersedes the pre-next2.0 descriptor of the same sourceId, which was never in the active source set — it targeted the retired SMProfile-ShiftWindow under profiles/business/ and declared a `syntheticId` key that NO service implements (grepped across all of i3x-v4 services/ on 2026-08-03: zero hits), so it would have been accepted by source-schema.json (additionalProperties: true) and silently ignored at runtime. This descriptor uses `primaryKeyColumns`, which the it-edge really honours via change-detect.pkOf/encodeCompositePk. THE CALENDAR IS THE ANSWER TO 'WAS ANYTHING SUPPOSED TO RUN?': without it a consumer cannot separate an unscheduled hour from a failed one, and a weekend reads as an outage — see the profile description for the measurement that forced this source into the active set. full_refresh: the endpoint serves the complete 45-row week pattern on every call and honours no `since` param (verified 2026-08-03); the it-edge dedups via the per-key HWM, so a pattern that does not change emits nothing. Polled hourly — this is master data that changes when the plant changes its shift model, not per shift.",
+  "connection": {
+    "baseUrl": "http://192.168.178.154:38260",
+    "path": "/api/calendar",
+    "method": "GET",
+    "auth": null,
+    "timeoutMs": 10000
+  },
+  "response": {
+    "format": "json",
+    "rootPath": "$.week_pattern"
+  },
+  "primaryKeyColumns": ["department_id", "day_of_week", "shift_id"],
+  "polling": {
+    "changeDetection": "full",
+    "intervalMs": 3600000,
+    "batchSize": 200
+  },
+  "columnMappings": [
+    { "column": "department_id", "smAttribute": "department_id" },
+    { "column": "day_of_week", "smAttribute": "day_of_week" },
+    { "column": "shift_id", "smAttribute": "shift_id" },
+    { "column": "start_time", "smAttribute": "start_time" },
+    { "column": "end_time", "smAttribute": "end_time" },
+    { "column": "break_minutes", "smAttribute": "break_minutes" }
+  ],
+  "filter": null,
+  "edges": []
+}

@@ -1,0 +1,87 @@
+{
+  "profileId": "SMProfile-ShiftWindow",
+  "version": "1.0.0",
+  "standard": "CESMII",
+  "category": "business",
+  "displayName": "Shift Window (ERP shift calendar)",
+  "description": "One row of the ERP shift calendar (`/api/calendar` -> `week_pattern`): department x ISO weekday x shift, with the working-time window and its breaks. Master data — the PLANT CALENDAR, i.e. WHEN production is scheduled at all. WHY THIS PROFILE EXISTS: a consumer that measures a machine hour can only say 'nothing ran' — it cannot say WHETHER ANYTHING WAS SUPPOSED TO RUN. Without a calendar those two collapse into one grey bucket, and a weekend reads exactly like an outage. Measured 2026-08-03: golden-shift reported 23 % coverage over a rolling 73 h window whose 46 h were a Saturday and a Sunday, with 545 buckets blamed on `no_in_cycle_runtime`; the same window measured per calendar day showed 57-76 % on the weekdays. The number was not wrong, it was unreadable, and every consumer of a rolling window shares that defect. NOTE ON SMProfile-Shift (profiles/intelligence/shift.json): that profile is the golden-engine's shift COVARIATE — the S1/S2/S3 window a bucket is attributed to. It carries a `weekdays` field which no source has ever populated. This profile is the ERP-side master datum that can populate the same fact, and it is deliberately kept separate: SMProfile-Shift says WHICH SHIFT an hour belongs to, SMProfile-ShiftWindow says WHETHER THAT SHIFT IS SCHEDULED. --- A DEPARTMENT IS NOT DERIVABLE FROM A MACHINE TODAY, AND THE CONSUMER MUST NOT GUESS ONE. `department_id` takes LAGER | MECH | MONTAGE | SG, while the SSOT groups machines by ISA-95 `location.area` (`sgm`, `cnc`). The obvious mapping (sgm->SG, cnc->MECH) is NAME SIMILARITY, and this repo treats a name-similar identity as a bug even when it happens to be right (see mappings/machine-identity.json, where sgm-006 booked as sgm-06 and cnc-mtc-02 as cnc-03). The join was looked for and is NOT AVAILABLE: `department` and `department_id` exist on the ERP order shape but are NULL on every row served (measured 2026-08-03: 5000 of 5000 production orders and 500 of 500 customer orders). Until an evidenced join exists, a consumer may only ask this profile the DEPARTMENT-INDEPENDENT question: 'does ANY department schedule this hour?' A negative answer is a fact about the whole plant and needs no join — that alone settles Saturdays and Sundays, since `week_pattern` carries day_of_week 1..5 only. The department-level refinement (only SG runs a night shift; LAGER/MECH/MONTAGE run FS+SS, so their NS hours are unscheduled on a WEEKDAY too) is deliberately NOT derivable from this profile alone and must stay unanswered rather than be guessed.",
+  "parentType": null,
+  "abstract": false,
+  "isa95": {
+    "objectModel": "WorkCalendarEntry",
+    "momDomain": "production",
+    "level": 3,
+    "note": "One recurring entry of the plant WorkCalendar (B2MML WorkCalendar / WorkCalendarEntry). It is a WEEKLY PATTERN, not a dated schedule: the entry recurs on `day_of_week` rather than carrying a start/end instant, so it is a calendar DEFINITION and never an OperationsSchedule (which would carry actual dated segments). The department is the ISA-95 organisational unit the entry applies to; it is NOT joined to an EquipmentID here, because no evidenced machine->department mapping exists — see the profile description.",
+    "propertyMap": {
+      "department_id": "WorkCalendarEntry.HierarchyScope.EquipmentID",
+      "shift_id": "WorkCalendarEntry.ID",
+      "start_time": "WorkCalendarEntry.StartTime",
+      "end_time": "WorkCalendarEntry.EndTime"
+    }
+  },
+  "attributes": [
+    {
+      "name": "department_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "isId": true,
+      "description": "Department the window belongs to. Measured population 2026-08-03: LAGER | MECH | MONTAGE | SG. NOT declared as an enum: the plant may add a department without a schema change, and a consumer must never treat an unknown department as 'not scheduled'. Part of the composite key.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "day_of_week",
+      "dataType": "Int32",
+      "required": true,
+      "category": "Core",
+      "isId": true,
+      "description": "ISO-8601 weekday, 1=Monday .. 7=Sunday. THE ABSENCE OF A DAY IS THE STATEMENT: the calendar lists only days on which a department schedules work. Measured 2026-08-03: the live week_pattern carries 1..5 for every department — no row exists for 6 (Saturday) or 7 (Sunday), which is the machine-readable form of 'no production at the weekend'. A consumer must read a missing (department, day) pair as NOT SCHEDULED, not as unknown. Part of the composite key.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "shift_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "isId": true,
+      "description": "Shift code as the ERP names it. Measured population 2026-08-03: FS (Frueh) | SS (Spaet) | NS (Nacht). These are NOT the S1/S2/S3 ids the golden covariate uses; the two vocabularies are joined by their WINDOW, not by their name — measured identical on 2026-08-03: FS 06:00-14:00 = S1, SS 14:00-22:00 = S2, NS 22:00-06:00 = S3 (golden-shift DEFAULT_SHIFT_WINDOWS). A consumer must join on start_time/end_time and must not assume the code mapping holds. Part of the composite key.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "start_time",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Window start on the PLANT CLOCK as HH:MM:SS. No date and no timezone — this is a weekly pattern, not an instant. A consumer applies it in the same clock it attributes buckets in (golden-shift: tzOffsetMinutes, default 0 = UTC).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "end_time",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Window end on the plant clock as HH:MM:SS. MAY WRAP MIDNIGHT — measured 2026-08-03: NS is 22:00:00 -> 06:00:00, i.e. end_time < start_time means the window continues into the FOLLOWING day. A consumer that compares the two lexicographically without handling the wrap silently drops the entire night shift.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "break_minutes",
+      "dataType": "Int32",
+      "required": false,
+      "category": "Core",
+      "description": "Unpaid break minutes inside the window. Net capacity = (end_time - start_time) - break_minutes. Carried for capacity questions; it does NOT make the break minutes 'not scheduled' — a break is inside a scheduled shift, and a machine idle over its break is still a machine that was supposed to be manned.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    }
+  ]
+}
