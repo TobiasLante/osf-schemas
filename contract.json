@@ -31,6 +31,14 @@
       "abstract": false,
       "source": "profiles/erp/article.json"
     },
+    "BdeConfirmation": {
+      "key": "confirmation_no",
+      "profile": "SMProfile-BdeConfirmation",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "profiles/erp/bde-confirmation.json"
+    },
     "CustomerOrder": {
       "key": "order_no",
       "profile": "SMProfile-CustomerOrder",
@@ -225,6 +233,36 @@
       ],
       "targetIdProp": [
         "discrepancy_id"
+      ]
+    },
+    {
+      "type": "FOR_ARTICLE",
+      "from": "BdeConfirmation",
+      "to": [
+        "Article"
+      ],
+      "targetIdProp": [
+        "article_no"
+      ]
+    },
+    {
+      "type": "ON_MACHINE",
+      "from": "BdeConfirmation",
+      "to": [
+        "Machine"
+      ],
+      "targetIdProp": [
+        "machine_id"
+      ]
+    },
+    {
+      "type": "RESPONDS_TO",
+      "from": "BdeConfirmation",
+      "to": [
+        "ProductionOrder"
+      ],
+      "targetIdProp": [
+        "production_order_no"
       ]
     },
     {
@@ -818,6 +856,7 @@
     "Serial": "MaterialLot/Quant level (serialized part) — profile pending, see docs/agent-conformance.md"
   },
   "skippedFiles": [
-    "profiles/equipment/equipment-model.json"
+    "profiles/equipment/equipment-model.json",
+    "profiles/erp/shift-window.json"
   ]
 }
