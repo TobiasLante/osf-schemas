@@ -1,0 +1,119 @@
+{
+  "sourceId": "erp-bde-confirmations",
+  "version": "1.0.0",
+  "sourceType": "rest",
+  "syncType": "polling",
+  "profileRef": "SMProfile-BdeConfirmation",
+  "transport": [
+    "nats"
+  ],
+  "connection": {
+    "baseUrl": "http://192.168.178.154:38260",
+    "path": "/api/confirmations?limit=5000",
+    "method": "GET",
+    "auth": null,
+    "timeoutMs": 30000
+  },
+  "response": {
+    "format": "json",
+    "rootPath": "$",
+    "idProperty": "confirmation_no"
+  },
+  "polling": {
+    "changeDetection": "timestamp",
+    "timestampField": "recorded_at",
+    "intervalMs": 300000,
+    "batchSize": 5000,
+    "paginate": false
+  },
+  "columnMappings": [
+    {
+      "column": "confirmation_no",
+      "smAttribute": "confirmation_no",
+      "isId": true
+    },
+    {
+      "column": "production_order_no",
+      "smAttribute": "production_order_no"
+    },
+    {
+      "column": "article_no",
+      "smAttribute": "article_ref"
+    },
+    {
+      "column": "machine_no",
+      "smAttribute": "machine_ref"
+    },
+    {
+      "column": "operation_no",
+      "smAttribute": "operation_no"
+    },
+    {
+      "column": "shift",
+      "smAttribute": "shift"
+    },
+    {
+      "column": "good_qty",
+      "smAttribute": "good_qty"
+    },
+    {
+      "column": "scrap_qty",
+      "smAttribute": "scrap_qty"
+    },
+    {
+      "column": "rework_qty",
+      "smAttribute": "rework_qty"
+    },
+    {
+      "column": "scrap_reason",
+      "smAttribute": "scrap_reason"
+    },
+    {
+      "column": "labor_min",
+      "smAttribute": "labor_min"
+    },
+    {
+      "column": "machine_min",
+      "smAttribute": "machine_min"
+    },
+    {
+      "column": "setup_min",
+      "smAttribute": "setup_min"
+    },
+    {
+      "column": "cycle_time_actual",
+      "smAttribute": "cycle_time_actual_sec"
+    },
+    {
+      "column": "ts_start",
+      "smAttribute": "actual_start_time"
+    },
+    {
+      "column": "ts_end",
+      "smAttribute": "actual_end_time"
+    },
+    {
+      "column": "recorded_at",
+      "smAttribute": "updated_at"
+    }
+  ],
+  "filter": null,
+  "edges": [
+    {
+      "type": "RESPONDS_TO",
+      "fkColumn": "production_order_no",
+      "targetIdProp": "production_order_no"
+    },
+    {
+      "type": "FOR_ARTICLE",
+      "fkColumn": "article_no",
+      "targetIdProp": "article_no"
+    },
+    {
+      "type": "ON_MACHINE",
+      "fkColumn": "machine_no",
+      "targetIdProp": "machine_id"
+    }
+  ],
+  "description": "CAPT-BDE-CONTRACT (2026-08-03) — the BOOKING grain of the sim-v5 BDE feed. ADDED ALONGSIDE erp-operations-response, which is NOT touched. THE DECISION AND WHY IT IS NOT A PATH EDIT: erp-operations-response polls /api/confirmations?per_po=true with idProperty production_order_no. The effort, shift and scrap-reason fields the decision cockpit needs exist only on the RAW /api/confirmations projection, and the obvious move — repoint that source's path — would have changed the GRAIN of an existing source: production_order_no repeats on the raw list, so an id would have silently stopped being unique and every consumer joining on it (qty reconciliation, order status, OTD) would have started seeing many rows where it expects one. A one-line path edit that redefines an identity is exactly the class of change this repo's third law exists to prevent, so the grain gets its own profile and its own source instead. WHAT EACH GRAIN IS FOR: erp-operations-response answers 'what did the ERP book against this ORDER' (order-level reconciliation, OTD); this source answers 'what happened at this MACHINE, in this SHIFT, at this OPERATION, with this EFFORT'. MEASURED on the live producer before writing anything (2026-08-03, 192.168.178.154:38260): per_po=true returns 17 fields, 100 rows, 100 distinct production orders, machine_no non-null on 32 of 100. The raw list returns 32 fields, machine_no non-null on 2000 of 2000 across 81 distinct machines, shift on 1928 of 2000 (FS, SS), labor_min/machine_min/setup_min on 2000 of 2000, scrap_reason on 123 of 2000 (cavity-defect, quality-fail), operation_no on 1714 of 2000, rework_qty 0 on all 2000. PAGING — READ THIS BEFORE CHANGING batchSize OR paginate: the endpoint declares NO parameters in its OpenAPI document, returns a bare array with no total and no cursor, and CAPS SILENTLY AT 5000 ROWS (limit=100000 returns exactly 5000, which is indistinguishable from a plant that has 5000 bookings). An UNDECLARED `offset` IS honoured — verified: limit=5000&offset=5000 returns a full second page of different confirmation_no values. `page`, `skip`, `after` and `cursor` are all silently ignored and return page one; a poller that trusts any of them reads the same 5000 rows forever while looking healthy. WHY paginate IS FALSE, WHICH IS THE LOAD DECISION ON THIS SOURCE: the population is over a million bookings — offset=500000 still answers, offset=1000000 does not return within 120 s — so walking the whole set every interval is not a poll, it is an outage. What makes a bounded read correct instead is that the list is sorted NEWEST FIRST (verified: recorded_at strictly descending), so one page IS the head window. ⚠️ paginate=false means it-edge sends NO limit parameter of its own and `batchSize` is not applied (it is read only inside the paginating branch, poller.ts), so the head window has to be in the PATH — hence `?limit=5000`. Without it the fetch returns the endpoint's default of 100 rows, which at the measured rate is 1.6 minutes of coverage against a 300 s interval, i.e. silent loss on every single poll. MEASURED 2026-08-03: 61.3 bookings/min; a 5000-row page spans 81.6 minutes = 16.3x the interval. THE FAILURE MODE, stated rather than discovered later: if the plant ever books more than 5000 confirmations inside one interval, the older ones fall off the head and are never seen, silently, because the producer reports no total. If the booking rate rises by an order of magnitude this source needs a real time filter from sim-v5, not a bigger limit — 5000 is the producer's hard cap. WHY changeDetection IS timestamp AND NOT full_refresh, WHICH IS THE DANGEROUS ONE: full_refresh makes it-edge infer DELETES for every tracked id absent from the fetch. Its guard (deleteGuardMinFraction / deleteGuardMaxSkips) is built for a TRANSIENT short read, and it deliberately releases after maxSkips consecutive short polls on the reasoning that a persistent partial reduction is a real bulk delete. A permanently bounded head window over a million-row population is exactly that shape, so full_refresh here would not merely risk tombstoning everything outside the window — it would converge on doing it. changeDetection=timestamp skips the delete pass entirely (deletes are only inferable from a full snapshot) and advances a high-water mark on recorded_at instead. NOTE that timestampQueryParam is deliberately ABSENT: the API honours no time window at all — ?since, ?from, ?date_from, ?start, ?recorded_after and ?ts_start were each tested and every one returned the unfiltered head — so the HWM is applied client-side against the fetched page. it-edge's validate.ts warns about an un-paginated REST timestamp source being burst-lossy above batchSize churn; that warning is CORRECT and is the 16.3x margin above, accepted knowingly rather than silenced. NOT MAPPED, DELIBERATELY: worker_id, worker_pnr and operator_id are present as columns and NULL on 2000 of 2000 rows; recorded_by carries a bridge identity (factory-bde-bridge:station:M1-2, 34 distinct), not a person. See the profile for the second reason — the person axis is contractually not resolved below skill x department x shift, so a person key is not mapped ahead of that rule. final_confirmation is NOT mapped here either: it is the ORDER's completion predicate and it belongs to the per-order grain, where erp-operations-response derives status from it; deriving an order-level status from one of many bookings would be the same category error the sibling source was corrected for twice on 2026-08-03."
+}
