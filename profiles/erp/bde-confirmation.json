@@ -1,0 +1,238 @@
+{
+  "profileId": "SMProfile-BdeConfirmation",
+  "version": "1.0.0",
+  "standard": "CESMII",
+  "category": "business",
+  "displayName": "BDE Confirmation (shop-floor booking, one row per confirmation)",
+  "description": "CAPT-BDE-CONTRACT (2026-08-03) — the CONFIRMATION grain of the sim-v5 BDE feed, alongside and NOT replacing SMProfile-OperationsResponse. WHY A SECOND PROFILE RATHER THAN MORE ATTRIBUTES ON THE FIRST: the two are different GRAINS of the same producer. sources/rest/erp-operations-response.json polls /api/confirmations?per_po=true — one row per production order, idProperty production_order_no, 17 fields — and that grain is what its consumers (qty reconciliation, order status, OTD) join on. The raw /api/confirmations projection carries 32 fields at one row per BOOKING, so production_order_no repeats and would stop being an identity. Re-pointing the existing source at the raw path would therefore have changed the meaning of an id, silently, behind a one-line path edit. MEASURED 2026-08-03 on the live producer (192.168.178.154:38260) before anything was written: per_po=true returns 100 rows / 100 distinct POs / 17 fields with machine_no non-null on only 32 of 100 (the aggregation loses the machine binding); the raw list returns 32 fields with machine_no non-null on 2000 of 2000 across 81 distinct machines. Fields present ONLY at this grain: shift (1928/2000, values FS + SS observed), labor_min + machine_min + setup_min (2000/2000 each), scrap_reason (123/2000, 2 values), operation_no (1714/2000), confirmation_no, ts_start, rework_qty. PAGING CONTRACT, and it is a trap: the raw endpoint declares NO query parameters in its OpenAPI document, returns a bare JSON array with no total and no cursor, and CAPS SILENTLY AT 5000 ROWS — limit=100000 returns exactly 5000, indistinguishable from a plant with 5000 bookings. An undeclared `offset` IS honoured (verified: offset=5000 returns rows beyond the cap, limit=5000&offset=5000 returns a full second page), so the source pages on limit+offset; `page`, `skip`, `after` and `cursor` are all ignored and silently return page one. NOT MAPPED, DELIBERATELY: worker_id, worker_pnr and operator_id exist as columns on this projection and are NULL on 2000 of 2000 rows, and recorded_by carries a bridge identity (factory-bde-bridge:station:M1-2, 34 distinct) rather than a person. Mapping them would create attributes that are permanently absent AND would open a person-level surface that plans/golden-data-set-cockpit-v2.md §1.3 rules out on purpose: the person axis never resolves below skill x department x shift. When sim-v5 populates a worker reference, it is added HERE only together with that aggregation rule, not before it.",
+  "parentType": null,
+  "abstract": false,
+  "attributes": [
+    {
+      "name": "confirmation_no",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "The booking's own identity (e.g. BDE-2026-08-03-2208427). UNIQUE per confirmation — this is what makes the grain safe to key, where production_order_no repeats.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "production_order_no",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The production order this booking confirms (RESPONDS_TO). NOT the identity at this grain — many confirmations share one order.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "article_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "Manufactured article (join key to Article).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "machine_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "Executing machine (machine_no). MEASURED 2026-08-03: non-null on 2000 of 2000 rows at this grain across 81 distinct values, where the per-production-order aggregate carries it on only 32 of 100. The machine binding survives here and is lost there.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "operation_no",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "The routing operation (Arbeitsgang) this booking belongs to. MEASURED: 1714 of 2000 rows, 30 distinct. Absent on the rest — a booking without an operation is not an error here, and it must stay absent rather than default to a first operation.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "shift",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Shift of record for the booking, derived upstream from machine_departments x machine_pools x shift_config x shift_weekly_pattern (sim-v5, 2026-08-03). MEASURED: 1928 of 2000 rows; values FS and SS observed in that sample. NOT an enum here — only SG runs a night shift, and pinning the observed two would reject NS the first time a night booking arrives.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "good_qty",
+      "dataType": "Int32",
+      "required": false,
+      "category": "Execution",
+      "description": "Pieces booked as good on this confirmation.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "quality": {
+        "onBad": "flag"
+      }
+    },
+    {
+      "name": "scrap_qty",
+      "dataType": "Int32",
+      "required": false,
+      "category": "Execution",
+      "description": "Pieces booked as scrap on this confirmation. The ERP half of the quantity axis — the counterpart the machine's own part_scrap counter is reconciled against.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "quality": {
+        "onBad": "flag"
+      }
+    },
+    {
+      "name": "rework_qty",
+      "dataType": "Int32",
+      "required": false,
+      "category": "Execution",
+      "description": "Pieces booked for rework — a THIRD disposition, deliberately not folded into scrap (same rule as the part_scrap semantic in mappings/attribute-aliases.json). MEASURED 2026-08-03: 0 on every one of 2000 rows, i.e. the producer emits the column but the plant books no rework yet. Mapped because a real 0 and an absent field are different statements and the consumer must be able to tell them apart.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "quality": {
+        "onBad": "flag"
+      }
+    },
+    {
+      "name": "scrap_reason",
+      "dataType": "String",
+      "required": false,
+      "category": "Quality",
+      "description": "Reason code for the scrap on this booking. MEASURED: only 123 of 2000 rows carry one, with 2 distinct values (cavity-defect, quality-fail). Thin by nature — most bookings have no scrap at all — so a consumer must treat absence as 'no reason recorded', never as a category.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "labor_min",
+      "dataType": "Double",
+      "required": false,
+      "category": "Effort",
+      "description": "Personnel minutes booked against this confirmation. MEASURED 2026-08-03: present on 2000 of 2000 rows and NOT a copy of machine_min — median ratio labor/machine is 0.30 over the rows with machine time. This is the only measured personnel quantity in the ERP; ⚠️ CORRECTED 2026-08-03 evening: an earlier version of this description said 'the routing declares no personnel factor at all, so effort is observed retrospectively while it is not planned forward'. That was FALSE and it was read off GET /api/arbeitsplaene, which is a projection that selects none of the labour columns — not off the table. erp.routing declares the planned side on all 582 operations: labor_time_min 582/582, setup_time_min 582/582, required_skill_code + required_skill_level 577/582, labor_cost_per_hour 582/582. Its ratio labor_time_min ÷ (cycle_time_seconds/60) is the planned ATTENDANCE RATIO — 1.00 at manual stations, 0.30 CNC, 0.20 SGM, 0.10 FB. So labor_min HERE is the BOOKED counterpart of a quantity that IS planned forward, and the pair is a real plan-vs-actual comparison rather than the only source of personnel information. The rule that failure produced: an 'X does not exist' claim must name where it was checked, and that place is the schema, never an endpoint.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "quality": {
+        "onBad": "flag"
+      }
+    },
+    {
+      "name": "machine_min",
+      "dataType": "Double",
+      "required": false,
+      "category": "Effort",
+      "description": "Machine minutes booked against this confirmation.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "quality": {
+        "onBad": "flag"
+      }
+    },
+    {
+      "name": "setup_min",
+      "dataType": "Double",
+      "required": false,
+      "category": "Effort",
+      "description": "Setup minutes booked against this confirmation. MEASURED: non-zero on 25 of 800 rows — setup is an event, not a per-booking constant, so a zero here is a real 'no setup on this booking'.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "quality": {
+        "onBad": "flag"
+      }
+    },
+    {
+      "name": "cycle_time_actual_sec",
+      "dataType": "Double",
+      "required": false,
+      "category": "Execution",
+      "description": "Actually measured cycle time per piece (s) for this booking.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "quality": {
+        "onBad": "flag"
+      }
+    },
+    {
+      "name": "actual_start_time",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "Start of the booked interval (ts_start). Absent at the per-production-order grain.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "quality": {
+        "onBad": "flag"
+      }
+    },
+    {
+      "name": "actual_end_time",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "End of the booked interval (ts_end).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "quality": {
+        "onBad": "flag"
+      }
+    },
+    {
+      "name": "updated_at",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "Last change (recorded_at). Server-managed and volatile on every read.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "RESPONDS_TO",
+      "target": "ProductionOrder",
+      "targetIdProp": "production_order_no",
+      "description": "The order this booking confirms. MANY confirmations respond to ONE order — that cardinality is the whole reason this grain has its own profile."
+    },
+    {
+      "type": "FOR_ARTICLE",
+      "target": "Article",
+      "targetIdProp": "article_no"
+    },
+    {
+      "type": "ON_MACHINE",
+      "target": "Machine",
+      "targetIdProp": "machine_id",
+      "description": "Resolves at this grain, unlike the per-production-order aggregate where machine_no is null on most rows."
+    }
+  ],
+  "constraints": [],
+  "semantics": {},
+  "kpiRefs": [],
+  "isa95": {
+    "level": 3,
+    "objectType": "OperationsResponse",
+    "note": "ISA-95 places the shop-floor booking under Operations Response. This profile is the per-booking grain of that object; SMProfile-OperationsResponse is the per-request aggregate. Both are Level-3 actuals."
+  },
+  "kgNodeLabel": "BdeConfirmation",
+  "kgIdProperty": "confirmation_no"
+}
