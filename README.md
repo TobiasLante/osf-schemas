@@ -99,7 +99,6 @@ are retired; those configs live under `backup/pre-next2.0/`.)
 <!-- gen:tree:begin -->
 ```
 osf-schemas/
-├── .claude/                 (3621 json)
 ├── backup/                 ARCHIVED (v3-era postgresql sources, mqtt/kafka/webhook/manual/bridge syncs; it-fleet; central-ts historian instance) — reference only, loaded by nothing (328 json)
 ├── branding/               brand/theme assets (1 json)
 ├── ci/                     linters + generators (lint-*.mjs, gen-contract.mjs, gen-docs.mjs)
