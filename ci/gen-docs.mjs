@@ -167,7 +167,13 @@ const ANNOTATIONS = {
   'CLAUDE.md': 'agent instructions',
 };
 const DEEP_DIRS = new Set(['profiles', 'sources', 'sync', 'historians']); // list subdirs
-const SKIP = new Set(['.git', 'node_modules', '.github', '.gitignore', 'package.json', 'package-lock.json']);
+// `.claude` holds per-developer agent session state, NOT schema content, and its
+// json count differs on every machine. Rendering it into the tree made
+// `npm run validate` machine-dependent: origin/main was already red on a clean
+// checkout on 2026-08-12 because the committed count (3621 json) was whoever last
+// ran gen:docs, and nobody else could reproduce it. A gate that cannot be green
+// for two people at once teaches everyone to ignore it.
+const SKIP = new Set(['.git', '.claude', 'node_modules', '.github', '.gitignore', 'package.json', 'package-lock.json']);
 
 function renderTree() {
   const lines = ['osf-schemas/'];
