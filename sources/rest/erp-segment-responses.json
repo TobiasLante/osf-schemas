@@ -1,39 +1,80 @@
 {
- "sourceId": "erp-segment-responses",
- "version": "2.0.0",
- "sourceType": "rest",
- "syncType": "polling",
- "profileRef": "SMProfile-SegmentResponse",
- "transport": ["nats"],
- "_comment": "next/ v2.0 — ISA-95 Part-4 SegmentResponse (IST per operation). Source = sim-v5 /api/operations (same combined SAP row; this projection maps ONLY the actuals). REQUIRES the API surrogate `operation_id`. isId=operation_id is ALSO the CORRESPONDS_TO fk → it-edge makes this a label-namespaced dependent (SegmentResponse:<operation_id>) coalescing onto the SegmentRequirement anchor — same pattern as ProductionOrder/OperationsResponse.",
- "connection": {
- "baseUrl": "http://192.168.178.154:38260",
- "path": "/api/operations",
- "method": "GET",
- "auth": null,
- "timeoutMs": 10000
- },
- "response": {
- "format": "json",
- "rootPath": "$",
- "idProperty": "operation_id"
- },
- "columnMappings": [
- { "column": "operation_id", "smAttribute": "segment_response_no", "isId": true },
- { "column": "production_order_no", "smAttribute": "operations_response_ref" },
- { "column": "operation_id", "smAttribute": "segment_requirement_ref" },
- { "column": "work_center", "smAttribute": "process_segment_ref" },
- { "column": "operation_number", "smAttribute": "sequence", "dataType": "Int32" },
- { "column": "qty_done", "smAttribute": "qty_actual", "dataType": "Double" },
- { "column": "machine_id", "smAttribute": "equipment_ref" },
- { "column": "started_at", "smAttribute": "actual_start_time" },
- { "column": "ended_at", "smAttribute": "actual_end_time" },
- { "column": "status", "smAttribute": "status" }
- ],
- "filter": null,
- "edges": [
- { "type": "PART_OF", "fkColumn": "production_order_no", "targetIdProp": "production_order_no" },
- { "type": "CORRESPONDS_TO", "fkColumn": "operation_id", "targetIdProp": "segment_requirement_no" },
- { "type": "USED_EQUIPMENT", "fkColumn": "machine_id", "targetIdProp": "machine_id" }
- ]
+  "sourceId": "erp-segment-responses",
+  "version": "2.1.0",
+  "sourceType": "rest",
+  "syncType": "polling",
+  "profileRef": "SMProfile-SegmentResponse",
+  "transport": [
+    "nats"
+  ],
+  "_comment": "CAPT-W4-ERP 2026-08-12: was keyed on `operation_id`, which /api/operations does NOT serve (16 fields, measured: order_id, production_order_no, operation_number, vorgangs_nr, work_center, machine_id, status, qty_planned, qty_done, qty_scrap, started_at, ended_at, planned_start, planned_end, setup_minutes, cycle_time_seconds). Activating the source in that state would have emitted ZERO events for every row. The static key linter could not see it: idProperty == isId == a declared column is INTERNALLY consistent, and the declaration was simply wrong about what the upstream serves - only LINT_SOURCE_KEYS_LIVE=1 catches this class (K1/L1). Re-keyed onto the composite that IS unique upstream: (production_order_no, operation_number) = 200/200 distinct, 0 rows with an empty part, while production_order_no alone is only 60/200. This needs NOTHING from sim-v5 - the previous comment asked for operation_id to be added upstream, which is unnecessary. it-edge supports composite keys on the REST path (poller.ts primaryKeyColumns / encodeCompositePk, both present in the running it-edge:0.4.1 image). STILL NOT in it-edge SOURCE_IDS - activating is a separate decision.",
+  "connection": {
+    "baseUrl": "http://192.168.178.154:38260",
+    "path": "/api/operations",
+    "method": "GET",
+    "auth": null,
+    "timeoutMs": 10000
+  },
+  "response": {
+    "format": "json",
+    "rootPath": "$"
+  },
+  "primaryKeyColumns": [
+    "production_order_no",
+    "operation_number"
+  ],
+  "columnMappings": [
+    {
+      "column": "production_order_no",
+      "smAttribute": "operations_response_ref"
+    },
+    {
+      "column": "work_center",
+      "smAttribute": "process_segment_ref"
+    },
+    {
+      "column": "operation_number",
+      "smAttribute": "sequence",
+      "dataType": "Int32"
+    },
+    {
+      "column": "qty_done",
+      "smAttribute": "qty_actual",
+      "dataType": "Double"
+    },
+    {
+      "column": "machine_id",
+      "smAttribute": "equipment_ref"
+    },
+    {
+      "column": "started_at",
+      "smAttribute": "actual_start_time"
+    },
+    {
+      "column": "ended_at",
+      "smAttribute": "actual_end_time"
+    },
+    {
+      "column": "status",
+      "smAttribute": "status"
+    }
+  ],
+  "filter": null,
+  "edges": [
+    {
+      "type": "PART_OF",
+      "fkColumn": "production_order_no",
+      "targetIdProp": "production_order_no"
+    },
+    {
+      "type": "CORRESPONDS_TO",
+      "fkColumn": "operation_id",
+      "targetIdProp": "segment_requirement_no"
+    },
+    {
+      "type": "USED_EQUIPMENT",
+      "fkColumn": "machine_id",
+      "targetIdProp": "machine_id"
+    }
+  ]
 }
