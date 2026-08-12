@@ -51,11 +51,39 @@ jobs:
         run: node ci/check-vocab-drift.mjs | tee vocab-drift-report.txt
         # `shell: bash` implies pipefail, so the exit code is the CHECK's, not tee's.
 
+      # ── CAPT-W4-ERP · the live key check had no gate at all ─────────────────
+      # `validate:source-keys` (static, in the `validate` chain) checks that a
+      # source's key declaration is INTERNALLY consistent: idProperty is a
+      # declared column, does not contradict an isId column, and so on. Two
+      # sources passed that for weeks while being wrong about REALITY:
+      # erp-segment-requirements / -responses were keyed on `operation_id`, and
+      # /api/operations does not serve a field by that name — activating them
+      # would have emitted ZERO events for every row. Internal consistency
+      # cannot see that; only asking the upstream can.
+      #
+      # `validate:source-keys:live` (LINT_SOURCE_KEYS_LIVE=1) is exactly that
+      # check and it existed already — it was wired into NOTHING. It cannot live
+      # in validate.yml: that job is `runs-on: ubuntu-latest` and has no route
+      # into 192.168.178.0/24. This workflow is the one built for checks that
+      # need the plant network (`runs-on: [self-hosted]`), so it belongs here.
+      #
+      # `continue-on-error: false` is the point — a source that would emit
+      # nothing must fail the run, not decorate it. If a transient .154 outage
+      # makes this flap, fix the retry inside the linter; do not soften the gate.
+      - name: Hold every source KEY against the live upstream
+        run: npm run validate:source-keys:live | tee source-keys-live-report.txt
+
       - name: Upload drift report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: vocab-drift-${{ github.run_id }}
-          path: vocab-drift-report.txt
+          # Both reports: the live key check runs BEFORE this step and can fail
+          # the job, so `if: always()` is what makes its report readable at all.
+          # Uploading only the drift report would leave the new gate's finding
+          # visible solely in the run log.
+          path: |
+            vocab-drift-report.txt
+            source-keys-live-report.txt
           if-no-files-found: ignore
           retention-days: 30
