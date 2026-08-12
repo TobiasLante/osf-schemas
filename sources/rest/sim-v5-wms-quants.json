@@ -1,6 +1,6 @@
 {
  "sourceId": "sim-v5-wms-quants",
- "version": "2.0.0",
+ "version": "2.0.1",
  "sourceType": "rest",
  "syncType": "polling",
  "profileRef": "SMProfile-Quant",
@@ -17,7 +17,7 @@
  "response": {
  "format": "json",
  "rootPath": "$.rows",
- "idProperty": "quant_no"
+ "idProperty": "quant_id"
  },
  "polling": {
  "changeDetection": "full_refresh",
@@ -71,5 +71,5 @@
  "targetIdProp": "storage_location_id"
  }
  ],
- "description": "next/ v4 — WMS stock levels (Quant) aligned to SMProfile-Quant (next/). Provides, over the it-edge/BUSINESS path, a business.* stream (entity_type=quant), keyed on quant_no. article_ref + blocked ('gesperrt' column) + quantity ('menge' column) drive the cross-domain deviation material_unavailable: an active OperationsResponse needs article_ref X, sum(free WMS stock X | blocked==0) == 0 -> multi_source discrepancy. full_refresh: delivers the current stock list per poll (no timestamp diff)."
+ "description": "next/ v4 — WMS stock levels (Quant) aligned to SMProfile-Quant (next/). Provides, over the it-edge/BUSINESS path, a business.* stream (entity_type=quant), keyed on the UPSTREAM column 'quant_id' (response.idProperty is an upstream RESPONSE FIELD name, not the smAttribute 'quant_no' it maps to — 2.0.0 named the smAttribute there, so every one of the 500 rows resolved to a null primary key and the source emitted nothing at all; see ci/lint-source-keys.mjs). article_ref + blocked ('gesperrt' column) + quantity ('menge' column) drive the cross-domain deviation material_unavailable: an active OperationsResponse needs article_ref X, sum(free WMS stock X | blocked==0) == 0 -> multi_source discrepancy. full_refresh: delivers the current stock list per poll (no timestamp diff)."
 }
