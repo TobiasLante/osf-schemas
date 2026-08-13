@@ -254,6 +254,29 @@
     },
     "kgIdProperty": {
       "type": "string"
+    },
+    "retired": {
+      "type": "boolean",
+      "description": "Profile-level tombstone. true = the profile is kept for history but nothing may bind it: no source may reference it and no node/edge may be created from it. Mirrors the constraint-level retirement vocabulary."
+    },
+    "retiredAt": {
+      "type": "string",
+      "description": "ISO date the profile was retired."
+    },
+    "retirementId": {
+      "type": "string",
+      "description": "Stable id of the retirement, e.g. retired:SMProfile-CustomerOrder@2026-08-13."
+    },
+    "retiredBy": {
+      "type": "string"
+    },
+    "retiredReason": {
+      "type": "string",
+      "description": "Why, with the measurement that decided it."
+    },
+    "retiredEvidence": {
+      "type": "object",
+      "description": "The numbers the retirement rests on."
     }
   },
   "additionalProperties": false,

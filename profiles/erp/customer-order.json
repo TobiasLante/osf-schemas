@@ -1,10 +1,65 @@
 {
   "profileId": "SMProfile-CustomerOrder",
-  "version": "2.1.0",
+  "version": "3.0.0",
+  "retired": true,
+  "retiredAt": "2026-08-13",
+  "retirementId": "retired:SMProfile-CustomerOrder@2026-08-13",
+  "retiredBy": "CAPT-ORDER",
+  "retiredReason": "RETIRED — the entity was a DUPLICATE OF SMProfile-ProductionOrder, not a level above it.\n\n(1) THE UPSTREAM SERVES ONE ROW, TWICE. Measured 2026-08-13 against sim-v5 PROD (.154), read-only: GET /api/orders and GET /api/customer-orders with the SAME query string (?exclude_status=CANCELLED,INVOICED,SHIPPED&limit=500) return BYTE-IDENTICAL bodies — identical md5 adbe865d603f1e27c562ae6054befb24, 665.809 bytes, 43 fields each, 500 rows each, identical key sets, and field-by-field across all 500 keys ZERO of the 43 fields differ. On every row the four id fields order_id, auftrag_nr, kundenauftrag_nr and production_order_no carry the SAME STRING. There is no field anywhere in the upstream that is a distinct customer-order number. This profile's identity (order_no <- kundenauftrag_nr) and SMProfile-ProductionOrder's identity (production_order_no) were therefore the same key wearing two names.\n\n(2) WHAT THAT COST IN THE GRAPH, measured on .99 the same day. 48.486 nodes carry BOTH :CustomerOrder and :ProductionOrder — that is 100 % of :CustomerOrder; :CustomerOrder WITHOUT :ProductionOrder is 0, which is also why withdrawing this profile orphans nothing. TRIGGERS is 48.485 edges of which 48.485 are SELF-LOOPS and 0 join two distinct nodes: the L4->L3 chain 'customer demand triggers a manufacturing order' pointed every order at itself. The reverse edge TRIGGERED_BY has 0 edges and is removed from SMProfile-ProductionOrder in the same change. In the audit log the same duplication is 330.495 business_events under source erp-customer-orders over 46.031 distinct entity ids, of which 46.031 — every single one — are ALSO carried under erp-production-orders.\n\n(3) THE MECHANISM WAS THIS FILE PLUS ITS SOURCE, NOT A SECOND WRITER. it-edge's buildKgSnapshot (services/it-edge/src/kg-snapshot.ts) emits one main object keyed on the source's idProperty and one STUB per declared edge, typed by the profile's relationship target. sources/rest/erp-customer-orders.json declared idProperty=kundenauftrag_nr and TRIGGERS(fkColumn=production_order_no, target ProductionOrder). Because those two columns hold the same string, every poll emitted {element_id: X, entity_type: 'CustomerOrder'} AND {element_id: X, entity_type: 'ProductionOrder'} plus a relationship X->X. kg-builder MERGEs on (id, owner) and SETs the label afterwards, so the two objects landed on ONE node wearing both labels. The duplication was self-inflicted by one declaration.\n\n(4) WHY NOT TYPE-SCOPE THE ID INSTEAD. Namespacing the CustomerOrder id would have invented a distinction the data does not have: it would turn 48.486 visibly-conflicted nodes into ~46.031 pairs of content-identical nodes — an invisible duplication is worse than a visible conflict. The only option that establishes a real L4/L3 separation is for sim-v5 to serve genuine, separately-keyed customer orders; that is a data-model project against the live sim and is filed as a backlog item, not a fix.\n\n(5) THE FILE STAYS. Its constraint order_overdue is a tombstone with 2.712 episodes still open in the KG, and discrepancy-engine resolves those episodes by constraint_defined_in='SMProfile-CustomerOrder'. Deleting the profile would make 2.712 standing findings unexplainable. The profile is retired, not deleted: nothing binds it (its source is withdrawn and erp-customer-orders is removed from it-edge SOURCE_IDS), so no :CustomerOrder node and no FOR_CUSTOMER/TRIGGERS edge can be created from it again.\n\n(6) WHERE THE ATTRIBUTES WENT. order_no, customer_ref, customer_name, total_amount, currency, due_date and quantity are adopted by SMProfile-ProductionOrder v3.0.0 from the SAME upstream columns (kundenauftrag_nr, kunde_id, kunde_name, gesamtbetrag, waehrung, lieferdatum_soll, geplante_stueckzahl) via sources/rest/erp-production-orders.json v3.0.0, together with FOR_CUSTOMER and FOR_ARTICLE. This profile was the SOLE writer of customer_name (48.486 nodes) and of order_no on order entities, which is why the adoption is a precondition of the withdrawal and not a follow-up. unit_price is NOT adopted: it is declared here but /api/orders serves no such field and it is set on 0 nodes live, so the it-evaluator's quantity x unit_price fallback for total_amount has never once fired.",
+  "retiredEvidence": {
+    "measuredAt": "2026-08-13",
+    "measuredAgainst": "sim-v5 PROD 192.168.178.154:38260 (read-only) + Neo4j on .99 + central-ts business_events",
+    "upstream": {
+      "endpointA": "/api/orders?exclude_status=CANCELLED,INVOICED,SHIPPED&limit=500",
+      "endpointB": "/api/customer-orders?exclude_status=CANCELLED,INVOICED,SHIPPED&limit=500",
+      "bytes": 665809,
+      "md5": "adbe865d603f1e27c562ae6054befb24",
+      "fieldsEach": 43,
+      "rowsEach": 500,
+      "fieldsDifferingAcrossAll500Keys": 0,
+      "rowsWhereTheFourIdFieldsDisagree": 0,
+      "idFieldsCarryingTheSameValue": [
+        "order_id",
+        "auftrag_nr",
+        "kundenauftrag_nr",
+        "production_order_no"
+      ],
+      "distinctCustomerOrderNumberField": null
+    },
+    "graph": {
+      "customerOrderNodes": 48486,
+      "alsoProductionOrder": 48486,
+      "customerOrderWithoutProductionOrder": 0,
+      "triggersEdges": 48485,
+      "triggersSelfLoops": 48485,
+      "triggersBetweenTwoNodes": 0,
+      "triggeredByEdges": 0,
+      "forCustomerEdges": 26295,
+      "forArticleEdgesFromCustomerOrder": 48490,
+      "soleWriterOf": {
+        "customer_name": 48486,
+        "customer_ref": 48486,
+        "due_date": 48486,
+        "currency": 47429,
+        "total_amount": 46271
+      },
+      "entityTypeConflictStampedTrue": 1368,
+      "entityTypeConflictStampedFalse": 26584,
+      "entityTypeConflictNeverStamped": 20534
+    },
+    "auditLog": {
+      "table": "central-ts backend_v4.business_events",
+      "erpCustomerOrdersRows": 330495,
+      "erpCustomerOrdersDistinctIds": 46031,
+      "erpProductionOrdersRows": 762688,
+      "erpProductionOrdersDistinctIds": 46033,
+      "idOverlap": 46031
+    }
+  },
   "standard": "CESMII",
   "category": "business",
   "displayName": "Customer Order (sales order)",
-  "description": "next/ v4 — Level-4 SALES order with a customer delivery commitment. Deliberately separated from the Level-3 OperationsRequest (ProductionOrder) it TRIGGERS: the sim currently conflates both onto one row (Sonderfall), but the clean MOM model keeps sales (L4) and production request/response (L3) apart. Plan-vs-actual deviations (late_delivery, qty_shortfall) are cross-entity OperationsRequest↔OperationsResponse checks and live in the cross-source phase, NOT here. Single-entity deviation: order_overdue (delivery commitment vs now).",
+  "description": "RETIRED 2026-08-13 (CAPT-ORDER) — see retiredReason. TOMBSTONE ONLY: nothing binds this profile, no node or edge can be created from it. Its commercial attributes and its FOR_CUSTOMER / FOR_ARTICLE edges are adopted by SMProfile-ProductionOrder v3.0.0. Kept because order_overdue below is a tombstone with 2.712 episodes still open in the KG that discrepancy-engine resolves by constraint_defined_in='SMProfile-CustomerOrder'. --- ORIGINAL: next/ v4 — Level-4 SALES order with a customer delivery commitment. Deliberately separated from the Level-3 OperationsRequest (ProductionOrder) it TRIGGERS: the sim currently conflates both onto one row (Sonderfall), but the clean MOM model keeps sales (L4) and production request/response (L3) apart. Plan-vs-actual deviations (late_delivery, qty_shortfall) are cross-entity OperationsRequest↔OperationsResponse checks and live in the cross-source phase, NOT here. Single-entity deviation: order_overdue (delivery commitment vs now).",
   "parentType": null,
   "abstract": false,
   "attributes": [

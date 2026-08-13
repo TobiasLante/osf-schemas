@@ -1,10 +1,10 @@
 {
   "profileId": "SMProfile-ProductionOrder",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "standard": "CESMII",
   "category": "business",
   "displayName": "Production Order (manufacturing order / OperationsRequest — PLAN/target)",
-  "description": "next/ v2.0 — Level-3 MOM OperationsRequest = the PLAN/target of manufacturing (B2MML OperationsRequest / ISA-95 Part 4). Opposite side to the OperationsResponse (the actuals). A Level-4 SalesOrder (SMProfile-CustomerOrder) TRIGGERS this L3 OperationsRequest; EXECUTED_AT a Machine (≡ EquipmentUnit level, consolidation 2026-07-15). v2.0: the order INSTANTIATES an OperationsDefinition (routing master) and decomposes per ProcessSegment into SegmentRequirements (HAS_SEGMENT_REQUIREMENT); temporal subdivisions (FO index) as Workorder (HAS_WORKORDER). Plan-vs-actual (qty_shortfall, late_delivery) is Cross-Source (it-evaluator), not a single-entity constraints block.",
+  "description": "next/ v2.0 — Level-3 MOM OperationsRequest = the PLAN/target of manufacturing (B2MML OperationsRequest / ISA-95 Part 4). Opposite side to the OperationsResponse (the actuals). A Level-4 SalesOrder (SMProfile-CustomerOrder) TRIGGERS this L3 OperationsRequest; EXECUTED_AT a Machine (≡ EquipmentUnit level, consolidation 2026-07-15). v2.0: the order INSTANTIATES an OperationsDefinition (routing master) and decomposes per ProcessSegment into SegmentRequirements (HAS_SEGMENT_REQUIREMENT); temporal subdivisions (FO index) as Workorder (HAS_WORKORDER). Plan-vs-actual (qty_shortfall, late_delivery) is Cross-Source (it-evaluator), not a single-entity constraints block. --- 2026-08-13, CAPT-ORDER: absorbs the commercial projection of the withdrawn SMProfile-CustomerOrder (order_no, customer_ref, customer_name, total_amount, currency, due_date, quantity) and its FOR_CUSTOMER / FOR_ARTICLE edges. TRIGGERED_BY is removed: it had 0 edges in the live graph and its target profile is retired.",
   "parentType": null,
   "abstract": false,
   "attributes": [
@@ -159,6 +159,76 @@
       "promotion": "on_change"
     },
     {
+      "name": "order_no",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "COMPATIBILITY KEY, adopted from the withdrawn SMProfile-CustomerOrder on 2026-08-13. Its value is the SAME STRING as production_order_no on every upstream row (measured: on 500/500 rows of /api/orders the four id fields order_id, auftrag_nr, kundenauftrag_nr and production_order_no are equal). It is NOT a second identity and MUST NOT be used as a merge key — kgIdProperty stays production_order_no. It exists solely so the consumers that read order_no today (view-engine order_reconciliation, deploy/scripts/kg-lineage-verify.sh, kg-legacy-purge.sh, it-evaluator's entity-label fallback) keep reading it after the CustomerOrder source is withdrawn. It writes order_no onto the 48.486 nodes that carry it today from the other side, so no consumer loses the field.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "customer_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "Customer of the triggering demand (kunde_id). Adopted from SMProfile-CustomerOrder 2026-08-13; the same column the withdrawn source read. FOR_CUSTOMER is built from it.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "customer_name",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Customer name (kunde_name). Adopted from SMProfile-CustomerOrder 2026-08-13. THIS SOURCE IS NOW THE ONLY WRITER: measured in the live KG, customer_name is set on 48.486 nodes and every one of them was written by the withdrawn erp-customer-orders binding. 100 % populated on the live feed.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "total_amount",
+      "dataType": "Float",
+      "required": false,
+      "category": "Commercial",
+      "description": "Order value (gesamtbetrag). Adopted from SMProfile-CustomerOrder 2026-08-13 — the driver of the EUR-impact ranking, read by it-evaluator pickImpactContext off the projected entity state (services/it-evaluator/src/evaluator.ts). Because that reader is entity-agnostic it keeps working unchanged once the field arrives on THIS profile. Fill rate measured on the live feed: 458/500 rows; 2.215 of the 48.486 order nodes carry no total_amount today, and that gap is upstream, not introduced here. unit_price is NOT adopted (see the source description): it is set on 0 nodes, so the quantity x unit_price fallback has never fired.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "currency",
+      "dataType": "String",
+      "required": false,
+      "category": "Commercial",
+      "description": "Currency of total_amount (waehrung). Adopted from SMProfile-CustomerOrder 2026-08-13. Fill rate measured on the live feed: 461/500 rows.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "due_date",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Planning",
+      "description": "Customer delivery commitment (lieferdatum_soll). Adopted from SMProfile-CustomerOrder 2026-08-13. READ THIS TOGETHER WITH planned_end_time: on this combined upstream projection BOTH map from lieferdatum_soll, so they carry the same value. That is the Sim's conflation of L4 and L3, faithfully reported rather than hidden — it is NOT evidence that the promise and the production target were separately planned. it-evaluator already coalesces due_date ?? planned_end_time, so the adoption changes no behaviour.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "quantity",
+      "dataType": "Int32",
+      "required": false,
+      "category": "Commercial",
+      "description": "Ordered piece count (geplante_stueckzahl). Adopted from SMProfile-CustomerOrder 2026-08-13. Carries the SAME column as qty_planned and customer_order_qty — on this projection the order qty IS the customer qty. Kept under its old name because it-evaluator reads state['quantity'] directly for affected-quantity, and dropping the name would silence that reader.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
       "name": "status",
       "dataType": "String",
       "required": false,
@@ -208,9 +278,16 @@
   ],
   "relationships": [
     {
-      "type": "TRIGGERED_BY",
-      "target": "CustomerOrder",
-      "targetIdProp": "order_no"
+      "type": "FOR_CUSTOMER",
+      "target": "Customer",
+      "targetIdProp": "customer_no",
+      "description": "Moved here from SMProfile-CustomerOrder 2026-08-13 together with customer_ref. Built from kunde_id, which /api/orders serves on 100 % of rows."
+    },
+    {
+      "type": "FOR_ARTICLE",
+      "target": "Article",
+      "targetIdProp": "article_no",
+      "description": "Carried over from SMProfile-CustomerOrder 2026-08-13 so the 48.490 order->article edges measured in the live KG keep a producer. It duplicates PRODUCES from the same column; consolidating the two is a separate, provable decision and is NOT part of this change."
     },
     {
       "type": "PRODUCES",
@@ -249,7 +326,7 @@
     "objectModel": "OperationsRequest",
     "momDomain": "production",
     "level": 3,
-    "note": "Level-3 MOM OperationsRequest (B2MML) = PLAN/target. v2.0: the earlier flat SegmentRequirement.MaterialRequirement projection (propertyMap) is now modeled out as a dedicated SMProfile-SegmentRequirement per ProcessSegment (HAS_SEGMENT_REQUIREMENT); the order INSTANTIATES an OperationsDefinition and can be subdivided via Workorder (FO index). article_ref/machine_ref remain a denormalized header shortcut. Plan-vs-actual = Cross-Source reconcile, not a constraints block. QUANTITY: qty_planned is optional and is omitted for continuous bulk/length-based goods (e.g. continuous web/strand goods, sold by length) — then only times/status drive the PLAN.",
+    "note": "Level-3 MOM OperationsRequest (B2MML) = PLAN/target. v2.0: the earlier flat SegmentRequirement.MaterialRequirement projection (propertyMap) is now modeled out as a dedicated SMProfile-SegmentRequirement per ProcessSegment (HAS_SEGMENT_REQUIREMENT); the order INSTANTIATES an OperationsDefinition and can be subdivided via Workorder (FO index). article_ref/machine_ref remain a denormalized header shortcut. Plan-vs-actual = Cross-Source reconcile, not a constraints block. QUANTITY: qty_planned is optional and is omitted for continuous bulk/length-based goods (e.g. continuous web/strand goods, sold by length) — then only times/status drive the PLAN. --- 2026-08-13, CAPT-ORDER: the Level-4 SalesOrder side is NO LONGER MODELLED AS A SEPARATE ENTITY. The upstream serves one row per order under four identical id fields and no distinct customer-order number, so a second entity on the same id was a duplication, not a level separation — it produced 48.486 double-labelled nodes and 48.485 TRIGGERS SELF-LOOPS. The commercial attributes of the demand (customer, value, currency, promised date, ordered qty) now live here as denormalised attributes of the OperationsRequest, which is what the data supports. A genuine L4/L3 separation requires sim-v5 to serve real, separately-keyed customer orders; that is a data-model project against the live sim and is filed as a backlog item, not attempted here.",
     "propertyMap": {
       "production_order_no": "OperationsRequest.ID",
       "sales_order_ref": "OperationsRequest.SalesOrderID",
@@ -258,7 +335,10 @@
       "machine_ref": "OperationsRequest.SegmentRequirement.EquipmentRequirement.EquipmentID",
       "qty_planned": "OperationsRequest.SegmentRequirement.MaterialRequirement.Quantity",
       "planned_end_time": "OperationsRequest.EndTime",
-      "status": "OperationsRequest.OperationsRequestState"
+      "status": "OperationsRequest.OperationsRequestState",
+      "order_no": "OperationsRequest.ID",
+      "customer_ref": "OperationsRequest.SalesOrderID",
+      "due_date": "OperationsRequest.EndTime"
     }
   },
   "kgNodeLabel": "ProductionOrder",
