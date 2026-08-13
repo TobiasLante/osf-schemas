@@ -45,6 +45,9 @@
       "category": "business",
       "parentType": null,
       "abstract": false,
+      "retired": true,
+      "retiredAt": "2026-08-13",
+      "retirementId": "retired:SMProfile-CustomerOrder@2026-08-13",
       "source": "profiles/erp/customer-order.json"
     },
     "Customer": {
@@ -283,36 +286,6 @@
       ],
       "targetIdProp": [
         "machine_id"
-      ]
-    },
-    {
-      "type": "FOR_ARTICLE",
-      "from": "CustomerOrder",
-      "to": [
-        "Article"
-      ],
-      "targetIdProp": [
-        "article_no"
-      ]
-    },
-    {
-      "type": "FOR_CUSTOMER",
-      "from": "CustomerOrder",
-      "to": [
-        "Customer"
-      ],
-      "targetIdProp": [
-        "customer_no"
-      ]
-    },
-    {
-      "type": "TRIGGERS",
-      "from": "CustomerOrder",
-      "to": [
-        "ProductionOrder"
-      ],
-      "targetIdProp": [
-        "production_order_no"
       ]
     },
     {
@@ -596,6 +569,26 @@
       ]
     },
     {
+      "type": "FOR_ARTICLE",
+      "from": "ProductionOrder",
+      "to": [
+        "Article"
+      ],
+      "targetIdProp": [
+        "article_no"
+      ]
+    },
+    {
+      "type": "FOR_CUSTOMER",
+      "from": "ProductionOrder",
+      "to": [
+        "Customer"
+      ],
+      "targetIdProp": [
+        "customer_no"
+      ]
+    },
+    {
       "type": "HAS_SEGMENT_REQUIREMENT",
       "from": "ProductionOrder",
       "to": [
@@ -633,16 +626,6 @@
       ],
       "targetIdProp": [
         "article_no"
-      ]
-    },
-    {
-      "type": "TRIGGERED_BY",
-      "from": "ProductionOrder",
-      "to": [
-        "CustomerOrder"
-      ],
-      "targetIdProp": [
-        "order_no"
       ]
     },
     {

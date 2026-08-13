@@ -41,7 +41,7 @@ osf-schemas/
 ├── sources/                Schema 2: Data Sources (instance binding)
 │   ├── mtconnect/              MTConnect agent mappings (2 json)
 │   ├── opcua/                  OPC-UA endpoint → machine mappings (15 json)
-│   └── rest/                   sim-v5 REST polling (ERP/QMS/WMS projections) (11 json)
+│   └── rest/                   sim-v5 REST polling (ERP/QMS/WMS projections) (10 json)
 ├── sync/                   Schema 3: Live Sync (transport layer)
 │   ├── nats/                   NATS subjects + JetStream stream declarations (suite hub) (2 json)
 │   ├── opcua-server/           Sonder-Edge re-publish (MTConnect → embedded OPC-UA server) (1 json)
@@ -71,14 +71,14 @@ Alles aus der v3-Ära (PostgreSQL-Sources, MQTT-UNS-/Kafka-/Webhook-Syncs) liegt
 | Profiles | 29 | equipment 3 · erp 8 · intelligence 5 · machines 3 · operations 5 · qms 2 · wms 3 |
 | Sources — mtconnect | 2 | mtconnect-cnc-01, mtconnect-cnc-mtc-02 |
 | Sources — opcua | 15 | opcua-cnc-001-event, opcua-cnc-001-telemetry, opcua-cnc-002-event, opcua-cnc-002-telemetry, opcua-ftlinx-01-event, opcua-ftlinx-01-telemetry, opcua-mtbridge-cnc-01, opcua-rockwell-01-event, opcua-rockwell-01-telemetry, opcua-sgm-001-event, opcua-sgm-001-telemetry, opcua-sgm-004-processdata, opcua-sgm-005-processdata, opcua-sgm-006-bde, opcua-sgm-006-processdata |
-| Sources — rest | 11 | erp-bde-confirmations, erp-customer-orders, erp-operations-response, erp-production-orders, erp-segment-requirements, erp-segment-responses, sim-v5-erp-articles, sim-v5-erp-calendar, sim-v5-erp-customers, sim-v5-qms-inspections, sim-v5-wms-quants |
+| Sources — rest | 10 | erp-bde-confirmations, erp-operations-response, erp-production-orders, erp-segment-requirements, erp-segment-responses, sim-v5-erp-articles, sim-v5-erp-calendar, sim-v5-erp-customers, sim-v5-qms-inspections, sim-v5-wms-quants |
 | Sync — nats | 2 | jetstream-streams, opcua-to-nats-cnc-mtc-01 |
 | Sync — opcua-server | 1 | mtconnect-to-opcua-cnc-mtc-01 |
 | Sync — polling | 1 | sim-v5-poll |
 | Recipes | 5 (2 parked) | recipe-sgm-004-default, recipe-sgm-004-pa66gf30-bracket-b *(parked)*, recipe-sgm-004-pa66gf30-housing-a *(parked)*, recipe-sgm-005-default, recipe-sgm-006-default |
 | KPIs | 6 (2 parked) | availability, energy-per-part *(parked)*, oee, performance *(parked)*, quality-rate, scrap-rate |
 
-Measured from the tree by `ci/gen-docs.mjs` — the same sums `npm run validate:refs` prints (`lint-refs: 29 profiles, 28 sources, 4 sync files`).
+Measured from the tree by `ci/gen-docs.mjs` — the same sums `npm run validate:refs` prints (`lint-refs: 29 profiles, 27 sources, 4 sync files`).
 <!-- gen:counts:end -->
 
 ---
@@ -479,11 +479,11 @@ Phase 5: Embeddings
 | `machine_id` | CNC_Machine, InjectionMoldingMachine, Machine | 10 |
 | `material_lot_no` | MaterialLot | 2 |
 | `operations_definition_no` | OperationsDefinition | 2 |
-| `order_no` | CustomerOrder | 1 |
+| `order_no` | CustomerOrder | — |
 | `process_cell_id` | ⚠ **none** — no profile declares this key (see `contract.json` → `unresolvedTargets`) | 1 |
 | `process_segment_no` | ProcessSegment | 3 |
 | `product_definition_no` | ProductDefinition | 1 |
-| `production_order_no` | OperationsResponse, ProductionOrder | 9 |
+| `production_order_no` | OperationsResponse, ProductionOrder | 8 |
 | `proposal_id` | ResolutionProposal | — |
 | `quant_no` | Quant | 1 |
 | `rule_id` | AutoResolveRule | 2 |

@@ -48,6 +48,17 @@ for (const f of files) {
     // parents (SMProfile-Machine, -Discrepancy) are not instantiated but ARE listed.
     parentType: null,
     abstract: p.abstract === true,
+    // A RETIRED profile is kept visible (its history — open episodes, old nodes —
+    // has to stay explainable) but it is not a live target: nothing may bind it
+    // and it can produce no node and no edge. Consumers must read this flag
+    // before treating the label as writable vocabulary.
+    ...(p.retired === true
+      ? {
+          retired: true,
+          retiredAt: p.retiredAt ?? null,
+          retirementId: p.retirementId ?? null,
+        }
+      : {}),
     source: rel,
   };
   rawParent.set(p.kgNodeLabel, p.parentType ?? null);
@@ -58,6 +69,11 @@ for (const f of files) {
     const short = p.profileId.slice('SMProfile-'.length);
     if (!aliasToLabel.has(short)) aliasToLabel.set(short, p.kgNodeLabel);
   }
+  // A retired profile emits NO edge rules. Its label stays listed (with
+  // retired:true) so history remains explainable, but a relationship it can no
+  // longer produce must not read as conformant, writable vocabulary — that is
+  // exactly how a consumer ends up querying a shape nothing writes.
+  if (p.retired === true) continue;
   for (const r of p.relationships ?? []) {
     const k = `${r.type}|${p.kgNodeLabel}`;
     if (!edgeMap.has(k)) edgeMap.set(k, { type: r.type, from: p.kgNodeLabel, to: new Set(), targetIdProp: new Set() });
