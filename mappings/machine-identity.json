@@ -6,51 +6,51 @@
     {
       "busMachineId": "cnc-001",
       "erpMachineRef": "cnc-001",
-      "erpMachineRefAliases": null,
+      "erpMachineRefAliases": ["cnc-01"],
       "mirrorOf": null,
       "evidence": {
-        "measured": "ERP emits cnc-001 directly since the 2026-07-07 zero-pad flip (business_events: slug cnc-01 ends 2026-07-20, cnc-001 starts 2026-07-07). Article-correlation control: top match is cnc-001 (10.5%, runner-up 3.7%).",
-        "on": "2026-07-29"
+        "measured": "ERP emits cnc-001 directly since the 2026-07-07 zero-pad flip (business_events: slug cnc-01 ends 2026-07-20, cnc-001 starts 2026-07-07). Article-correlation control: top match is cnc-001 (10.5%, runner-up 3.7%). ALIAS cnc-01 ADDED 2026-08-13 (CAPT-KGID) — THE ERP STATES THIS MAPPING ITSELF, AS DATA, so it is not the leading-zero inference this file forbids: the machine master GET http://192.168.178.154:38260/api/machines carries `machine_id` AND `machineNo` as two separate fields over 116 rows, and EXACTLY 7 rows disagree — this one reads machine_id 'cnc-01', machineNo 'cnc-001', name 'CNC Mill 1 (Haas VF-2, v4-7533)', goodParts 9856. A padding rule is REFUTED by the same 116 rows: sgm-07..sgm-22 all carry machine_id == machineNo, so 'sgm-07' is NOT 'sgm-007' and the flip applied only to the six OT-connected machines plus the cnc-03 rename. VALUE-LEVEL CORROBORATION on the live KG the same day: 177 distinct :ProductionOrder and 90 distinct :OperationsResponse nodes carry the SAME edge type to BOTH 'cnc-001' and 'cnc-01' — an order runs on one machine, so the two ids are one machine. WHY THE ALIAS WAS MISSING: this entry was written 2026-07-29 when the pre-flip part of the window was days old; the KG's window is unbounded and now holds 24 days of history under the slug (node 'cnc-01': 177 EXECUTED_AT + 90 ON_MACHINE, last write 2026-07-20, dead since). AMBIGUITY DELIBERATELY RECORDED, NOT RESOLVED HERE: 'cnc-01' is ALSO an MTConnect agent device name, and that device namespace is NOT the ERP machine_ref namespace (see the cnc-mtc-01 entry's note — its declared device cnc-01 measured identical to cnc-002). This alias is scoped to the ERP ref namespace; measured on the live KG 2026-08-13 the only node holding id 'cnc-01' is owned by edge_id 'it-erp-sap', so no MTConnect node is affected today. If an MTConnect producer ever publishes a machine node under the bare device id, that is a source-descriptor defect to fix at the producer, not a reason to drop this alias.",
+        "on": "2026-08-13"
       }
     },
     {
       "busMachineId": "cnc-002",
       "erpMachineRef": "cnc-002",
-      "erpMachineRefAliases": null,
+      "erpMachineRefAliases": ["cnc-02"],
       "mirrorOf": null,
       "evidence": {
-        "measured": "ERP emits cnc-002 directly since the 2026-07-07 flip (slug cnc-02 ends 2026-07-20). Article-correlation control: top match is cnc-002 (6.8%).",
-        "on": "2026-07-29"
+        "measured": "ERP emits cnc-002 directly since the 2026-07-07 flip (slug cnc-02 ends 2026-07-20). Article-correlation control: top match is cnc-002 (6.8%). ALIAS cnc-02 ADDED 2026-08-13 (CAPT-KGID) — stated by the ERP master itself, not inferred from padding: GET http://192.168.178.154:38260/api/machines, 116 rows, exactly 7 with machine_id != machineNo; this row reads machine_id 'cnc-02', machineNo 'cnc-002', name 'CNC Lathe 1 (Mazak Quick-Turn, v4-8011)', goodParts 9772. The same 116 rows REFUTE a padding rule (sgm-07..sgm-22 carry machine_id == machineNo). VALUE-LEVEL CORROBORATION on the live KG: 241 distinct :ProductionOrder and 131 distinct :OperationsResponse nodes carry the same edge type to BOTH 'cnc-002' and 'cnc-02'. Node 'cnc-02' last written 2026-07-20 (dead since), 374 edges. NOTE ON THE MTConnect NAMESPACE: agent device 'cnc-02' is declared 'unrelated' to OPC-UA cnc-002 by sources/mtconnect/mtconnect-cnc-01.json, and the cnc-mtc-01 entry below records that the DEPLOYED flow polling device cnc-02 measured identical to cnc-002. This alias is scoped to the ERP ref namespace; measured 2026-08-13 the only KG node holding id 'cnc-02' is owned by edge_id 'it-erp-sap'.",
+        "on": "2026-08-13"
       }
     },
     {
       "busMachineId": "sgm-001",
       "erpMachineRef": "sgm-001",
-      "erpMachineRefAliases": null,
+      "erpMachineRefAliases": ["sgm-01"],
       "mirrorOf": null,
       "evidence": {
-        "measured": "ERP emits sgm-001 since 2026-07-07 (slug sgm-01 stops the same day — a clean flip). Article-correlation control: top match is sgm-001 (3.1%).",
-        "on": "2026-07-29"
+        "measured": "ERP emits sgm-001 since 2026-07-07 (slug sgm-01 stops the same day — a clean flip). Article-correlation control: top match is sgm-001 (3.1%). ALIAS sgm-01 ADDED 2026-08-13 (CAPT-KGID) — stated by the ERP master itself, not inferred from padding: GET http://192.168.178.154:38260/api/machines, 116 rows, exactly 7 with machine_id != machineNo; this row reads machine_id 'sgm-01', machineNo 'sgm-001', name 'Spritzguss 1300kN Arburg Allrounder 470C (v4-SGM-002)', goodParts 66105. The same 116 rows REFUTE a padding rule (sgm-07..sgm-22 carry machine_id == machineNo, so sgm-07 is NOT sgm-007). VALUE-LEVEL CORROBORATION on the live KG: 61 distinct :OperationsResponse nodes carry the same edge type to BOTH 'sgm-001' and 'sgm-01' (0 :ProductionOrder — for this machine the pre-flip binding survives on the execution side only). Node 'sgm-01' last written 2026-07-20 (dead since), 62 edges.",
+        "on": "2026-08-13"
       }
     },
     {
       "busMachineId": "sgm-004",
       "erpMachineRef": "sgm-004",
-      "erpMachineRefAliases": null,
+      "erpMachineRefAliases": ["sgm-04"],
       "mirrorOf": null,
       "evidence": {
-        "measured": "ERP emits sgm-004 since 2026-07-07 (slug sgm-04 stops the same day). Article-correlation control: top match is sgm-004 (6.2%).",
-        "on": "2026-07-29"
+        "measured": "ERP emits sgm-004 since 2026-07-07 (slug sgm-04 stops the same day). Article-correlation control: top match is sgm-004 (6.2%). ALIAS sgm-04 ADDED 2026-08-13 (CAPT-KGID) — stated by the ERP master itself, not inferred from padding: GET http://192.168.178.154:38260/api/machines, 116 rows, exactly 7 with machine_id != machineNo; this row reads machine_id 'sgm-04', machineNo 'sgm-004', name 'Spritzguss 1300kN Engel victory 120 (v4-SGM-005)', goodParts 119731. The same 116 rows REFUTE a padding rule (sgm-07..sgm-22 carry machine_id == machineNo). VALUE-LEVEL CORROBORATION on the live KG: 24 distinct :OperationsResponse nodes carry the same edge type to BOTH 'sgm-004' and 'sgm-04'. Node 'sgm-04' last written 2026-07-20 (dead since), 25 edges.",
+        "on": "2026-08-13"
       }
     },
     {
       "busMachineId": "sgm-005",
       "erpMachineRef": "sgm-005",
-      "erpMachineRefAliases": null,
+      "erpMachineRefAliases": ["sgm-05"],
       "mirrorOf": null,
       "evidence": {
-        "measured": "ERP emits sgm-005 since 2026-07-07 (slug sgm-05 stops the same day).",
-        "on": "2026-07-29"
+        "measured": "ERP emits sgm-005 since 2026-07-07 (slug sgm-05 stops the same day). ALIAS sgm-05 ADDED 2026-08-13 (CAPT-KGID) — stated by the ERP master itself, not inferred from padding: GET http://192.168.178.154:38260/api/machines, 116 rows, exactly 7 with machine_id != machineNo; this row reads machine_id 'sgm-05', machineNo 'sgm-005', name 'Spritzguss 1300kN Krauss-Maffei CX 130 (v4-SGM-010)', goodParts 62259. The same 116 rows REFUTE a padding rule (sgm-07..sgm-22 carry machine_id == machineNo). VALUE-LEVEL CORROBORATION on the live KG: 214 distinct :OperationsResponse nodes carry the same edge type to BOTH 'sgm-005' and 'sgm-05'. Node 'sgm-05' last written 2026-07-20 (dead since), 215 edges.",
+        "on": "2026-08-13"
       }
     },
     {
@@ -88,11 +88,11 @@
     {
       "busMachineId": "cnc-mtc-01",
       "erpMachineRef": "cnc-002",
-      "erpMachineRefAliases": null,
+      "erpMachineRefAliases": ["cnc-02"],
       "mirrorOf": "cnc-002",
       "evidence": {
-        "measured": "Value-level identity with cnc-002, not a name match: over 2026-07-20..2026-07-26 the machine-specific Act_Amount_PartGood counter agrees on 5363 of 5364 co-timed samples (99.98%), while the same test against cnc-001 gives 0/4898 and against cnc-mtc-02 gives 9/4793. Act_Ref_Program agrees on 894/895 co-timed samples. A part counter is per-machine and monotonic — identical values mean one physical machine sampled twice.",
-        "on": "2026-07-29"
+        "measured": "Value-level identity with cnc-002, not a name match: over 2026-07-20..2026-07-26 the machine-specific Act_Amount_PartGood counter agrees on 5363 of 5364 co-timed samples (99.98%), while the same test against cnc-001 gives 0/4898 and against cnc-mtc-02 gives 9/4793. Act_Ref_Program agrees on 894/895 co-timed samples. A part counter is per-machine and monotonic — identical values mean one physical machine sampled twice. ALIAS cnc-02 ADDED 2026-08-13 (CAPT-KGID) — INHERITED, NOT INDEPENDENTLY MEASURED: this entry is a MIRROR of cnc-002, so it books under cnc-002's refs by definition and lint rule I7 requires the alias set to match its target's exactly. The measurement that established 'cnc-02' as a historical ERP ref is cnc-002's, quoted there (ERP master GET http://192.168.178.154:38260/api/machines row machine_id 'cnc-02' / machineNo 'cnc-002', plus 241 :ProductionOrder and 131 :OperationsResponse nodes double-bound on the live KG). Adding it here states nothing new about THIS chain; it keeps the mirror pair from disagreeing about the join set, which is what I7 exists to prevent.",
+        "on": "2026-08-13"
       },
       "note": "sources/mtconnect/mtconnect-cnc-01.json and sources/opcua/opcua-mtbridge-cnc-01.json declare this chain as MTConnect agent device 'cnc-01' and warn that agent device cnc-02 is 'unrelated' to the OPC-UA machine cnc-002. The counter measurement above contradicts that: the machine behind this chain IS cnc-002. --- 2026-07-31, THE CONTRADICTION IS RESOLVED AS A DEPLOY LAG, AND THIS ENTRY DELIBERATELY KEEPS THE MEASURED ANSWER. The two ends disagree because a descriptor in this repo does not reach an OT edge until the Node-RED flow is REGENERATED from it and REDEPLOYED (nr-codegen in the discovery service, README.md 'Edge codegen' row; nothing in this repo generates or deploys a flow, and flows/ holds only a template). TIMELINE, from this repo's own git history: the bridge chain was set to connection.device='cnc-02' on 2026-06-30 by efba70e ('fix cnc-mtc-01 agent .120->.154' — the wrong device slipped in with the endpoint move), and CORRECTED to 'cnc-01' on 2026-07-15 by 5cc3cb4, on /probe evidence (the agent serves cnc-01..cnc-20; the cnc-01-* dataItemIds this source maps exist ONLY under device cnc-01). The counter measurement that established cnc-002 was taken 2026-07-20..2026-07-26 — FIVE DAYS AFTER the descriptor was corrected. So the descriptor's INTENT (device cnc-01, i.e. the same physical machine as bus cnc-001) and the DEPLOYED reality (cnc-002's data) are both accurately reported; the deployed Sonder-Edge flow was generated before 5cc3cb4 and still polls device cnc-02. The same mechanism was proven on 2026-07-31: the sgm-006 mouldTempC rebind (7d23026) changed nothing at the edge until the flow was regenerated and redeployed, after which the signal moved from 3 samples/24h at a constant 195.00 to sgm-001's cadence at mean 87.49. WHY mirrorOf STAYS cnc-002: this registry states what a consumer must do to bind LIVE data, and every entry carries the measurement that established it. Writing mirrorOf='cnc-001' today would publish an intention as a fact and mis-bind the data that is actually on the bus — precisely the drift this file exists to prevent. PENDING CHANGE, DO NOT PRE-EMPT IT: when the Sonder-Edge flow is regenerated from the corrected descriptor, this chain will start carrying device cnc-01's data, the mirror pair becomes cnc-mtc-01 = cnc-001, and cnc-002 becomes an independent machine with no mirror. At that point this entry (mirrorOf AND erpMachineRef, which lint rule I7 keeps in step) must be RE-MEASURED with the same co-timed part-counter test, not re-guessed. FOR THE CONSUMER, A SEPARATE POINT ABOUT WHICH END TO SKIP: mirrorOf names the machine to KEEP. The redundant id on this pair is cnc-mtc-01, the second protocol view; cnc-002 is the machine it duplicates and must stay in every population. A consumer that suppresses the mirror TARGET instead of the mirror blanks a machine that really produces — cnc-002 was reported scoring 0 of 73 hours while producing in 60 of them."
     },
