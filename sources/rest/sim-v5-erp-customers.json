@@ -1,6 +1,6 @@
 {
  "sourceId": "sim-v5-erp-customers",
- "version": "2.0.0",
+ "version": "2.1.0",
  "sourceType": "rest",
  "syncType": "polling",
  "profileRef": "SMProfile-Customer",
@@ -17,6 +17,11 @@
  "rootPath": "$",
  "idProperty": "kunde_id"
  },
+ "polling": {
+ "changeDetection": "full_refresh",
+ "batchSize": 5000,
+ "paginate": true
+ },
  "columnMappings": [
  { "column": "kunde_id", "smAttribute": "customer_no", "isId": true },
  { "column": "name", "smAttribute": "name" },
@@ -24,5 +29,6 @@
  { "column": "segment", "smAttribute": "segment" }
  ],
  "filter": null,
- "edges": []
+ "edges": [],
+ "description": "2026-08-18: polling.paginate ENABLED. Before this, it-edge (DATA-7) refused every delete/tombstone pass on this source with reason unpaginated_full_refresh, logged every 30 s, roughly 2880 times a day, unread - so the source could ingest but never RETRACT, and a customer deleted upstream would have stayed in the KG for ever. paginate could NOT simply be declared: GET /api/customers ignored limit and offset outright. MEASURED against the live ERP .154:38260, with /api/orders as the positive control in the same run: ?limit=2 -> 6 rows, ?offset=99 -> 6 rows, while /api/orders?limit=5 -> 5. Declaring paginate against that endpoint would have been WORSE than the bug: it-edge advances the offset by the rows actually returned and stops only on an EMPTY page, so it would have looped to MAX_PAGES=10000 - ten thousand requests per poll, every 30 s, against an already loaded host - and still returned pagination_truncated, i.e. still no retraction. The fix therefore went UPSTREAM first: sim-v5 api-erp b06c699c (F-CUSTOMERS-PAGINATION) makes the endpoint honour limit/page_size/per_page/offset/page. VERIFIED on PROD after that deploy: ?limit=2 -> 2, ?offset=99 -> 0. Paging exhausts the population exactly - on dev, 48/48 distinct rows at page sizes 10 and 50, 0 duplicates, 0 missing, ordering monotone (customer_id is unique: 48 rows / 48 distinct). intervalMs is deliberately NOT set, so the poll cadence stays on the 30 s default and this change stays scoped to the retraction proof. batchSize 5000 is the server's MEASURED hard cap, not a guess."
 }
