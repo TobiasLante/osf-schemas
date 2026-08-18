@@ -1,6 +1,6 @@
 {
  "sourceId": "sim-v5-erp-articles",
- "version": "2.0.0",
+ "version": "2.1.0",
  "sourceType": "rest",
  "syncType": "polling",
  "profileRef": "SMProfile-Article",
@@ -17,6 +17,11 @@
  "rootPath": "$",
  "idProperty": "teil_id"
  },
+ "polling": {
+ "changeDetection": "full_refresh",
+ "batchSize": 5000,
+ "paginate": true
+ },
  "columnMappings": [
  { "column": "teil_id", "smAttribute": "article_no", "isId": true },
  { "column": "bezeichnung", "smAttribute": "name" },
@@ -29,5 +34,6 @@
  { "column": "waehrung", "smAttribute": "currency" }
  ],
  "filter": null,
- "edges": []
+ "edges": [],
+ "description": "2026-08-18: polling.paginate ENABLED, together with sim-v5-erp-customers (see that descriptor for the full reasoning). it-edge (DATA-7) refused every delete/tombstone pass on this source with reason unpaginated_full_refresh - 60 times in a 30-minute window, unread - so the source could ingest but never RETRACT and an article deleted upstream would have stayed in the KG for ever. paginate could NOT simply be declared: GET /api/articles ignored limit and offset outright. MEASURED against the live ERP .154:38260 with /api/orders as the positive control in the same run: ?limit=5 -> 221 rows, ?offset=9999 -> 221 rows, while /api/orders?limit=5 -> 5. Declaring paginate against that endpoint would have looped to MAX_PAGES=10000 (it-edge stops only on an EMPTY page) - 10k requests per poll, every 30 s - and still returned pagination_truncated. Fixed upstream first: sim-v5 api-erp b06c699c (F-ARTICLES-PAGINATION). VERIFIED on PROD after that deploy: ?limit=5 -> 5, ?offset=9999 -> 0, ?page_size=7 -> 7. Paging exhausts the population exactly - on dev, 221/221 distinct rows at page sizes 10 AND 50, 0 duplicates, 0 missing, ordering monotone; part_number is unique (222 rows / 222 distinct, 221/221 with active = true) and both joins in ARTICLE_WITH_STOCK_AND_PRICE_SQL are 1:1 by construction. THE MECHANISM WAS PROVEN BEFORE THIS COMMIT, not assumed: customers was changed first and went silent while THIS source kept refusing 60 times in the same window - an A/B with a live control. intervalMs deliberately unset, so the poll cadence stays on the 30 s default. batchSize 5000 is the server's MEASURED hard cap."
 }
