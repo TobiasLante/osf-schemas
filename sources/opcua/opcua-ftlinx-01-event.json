@@ -1,6 +1,7 @@
 {
+ "_comment": "CAPT-CLOSE 2026-08-20: this declaration pins the namespace INDEX ns=117 on the FactoryTalk Linx AGGREGATION gateway opc.tcp://192.168.178.154:36600 (118 namespaces, arrival-order dependent). Measured on that server at 2026-08-20T05:44:41Z: NamespaceArray[117] = urn:i3x:sim-v5:linx:HB760 (Machine/partsCount/good = 962, scrap = 16, status IDLE) and NamespaceArray[89] = urn:i3x:sim-v5:linx:rockwell-01 (good = 23826, scrap = 1614, status RUNNING). BOTH reads return Good - there is no error to notice. central-ts on .99 carries machine 'ftlinx-01' with Act_Amount_PartGood = 955 / Act_Amount_PartScrap = 16 (2026-08-20T05:28:01Z), i.e. HB760's counters, NOT rockwell-01's. machineName says 'Rockwell Cell (via FactoryTalk Linx)', so the declared INTENT is urn:i3x:sim-v5:linx:rockwell-01 and the pinned index contradicts it. The namespaceUri below makes that contradiction VISIBLE: services/discovery/src/logic/namespace-resolve.ts rule 3 turns index/URI disagreement into a REFUSAL (code namespace_index_drift), so the next schema deploy for this source is refused with both indices named instead of silently re-deploying a read of the wrong machine. WITHOUT namespaceUri the same declaration resolves as 'index_pinned' and the detector that was written for exactly this machine cannot fire at all. NOT DECIDED HERE, and deliberately so: whether ftlinx-01 should read rockwell-01 (drop the numeric pin, keep the URI -> resolves to 89) or whether the edge id 'ftlinx-01' should stop being used as a machineId at all. ftlinx-01 is an EDGE name; the ERP knows no such machine (GET /api/machines/ftlinx-01 -> 404) while HB760 answers 200. Changing the pin to 89 would publish rockwell-01's counters a SECOND time under a different name - that is a data-identity decision, not a namespace one.",
  "sourceId": "opcua-ftlinx-01-event",
- "version": "2.0.1",
+ "version": "2.1.0",
  "sourceType": "opcua",
  "syncType": "polling",
  "transport": [
@@ -17,6 +18,7 @@
  "endpoint": "opc.tcp://192.168.178.154:36600",
  "machineId": "ftlinx-01",
  "machineName": "Rockwell Cell (via FactoryTalk Linx)",
+ "namespaceUri": "urn:i3x:sim-v5:linx:rockwell-01",
  "location": {
  "enterprise": "factory",
  "site": "werk1",
