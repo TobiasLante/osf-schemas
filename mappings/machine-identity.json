@@ -1,56 +1,66 @@
 {
   "mapId": "machine-identity",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Per-BUS-machine identity facts that no other SSOT file states: which ERP `machine_ref` a machine's production orders are booked under, and whether the id is a second protocol view of a machine already present under another id (a MIRROR). WHY THIS FILE EXISTS: both facts were hard-declared in consumer code (i3x-v4 services/golden-shift/src/machine-identity.ts) because the SSOT had no place for them. That is exactly the drift this repo is supposed to prevent — a machine's identity is a property of the machine, not of whichever service happens to need it. SOURCE→BUS aliasing is NOT here: it is already derivable by joining a source descriptor's `machineId` with the `source.sourceRef` of a `sync/nats/*` mapping, and a fact that is already derivable must not be restated. EVERY entry carries the measurement that established it. An identity justified by name similarity alone is a bug even when it happens to be right: until 2026-07-31 `sgm-006` booked as `sgm-06` and `cnc-mtc-02` as `cnc-03`, neither of which a leading-zero rule would produce. A machine with NO proven ERP ref belongs here with `erpMachineRef: null` — the consumer then leaves the order binding absent and greys the hour, which is the honest outcome. It must never guess something close. A REF CAN BE RENAMED MID-WINDOW: `erpMachineRefAliases` lists the refs the SAME machine's orders were booked under before, and a consumer MUST join on the union of `erpMachineRef` and its aliases. A retrospective window is longer than the rename, so binding on the current ref alone greys every bucket before the flip, and binding on the old ref alone greys every bucket after it — both report a rename as an absent order. Validated by ci/lint-machine-identity.mjs against the source descriptors and sync mappings.",
   "machines": [
     {
       "busMachineId": "cnc-001",
       "erpMachineRef": "cnc-001",
-      "erpMachineRefAliases": null,
+      "erpMachineRefAliases": [
+        "cnc-01"
+      ],
       "mirrorOf": null,
       "evidence": {
-        "measured": "ERP emits cnc-001 directly since the 2026-07-07 zero-pad flip (business_events: slug cnc-01 ends 2026-07-20, cnc-001 starts 2026-07-07). Article-correlation control: top match is cnc-001 (10.5%, runner-up 3.7%).",
-        "on": "2026-07-29"
+        "measured": "ERP emits cnc-001 directly since the 2026-07-07 zero-pad flip (business_events: slug cnc-01 ends 2026-07-20, cnc-001 starts 2026-07-07). Article-correlation control: top match is cnc-001 (10.5%, runner-up 3.7%). RENAME TRAIL ADDED 2026-08-30 (CAPT-IDENT): the slug named above belongs in `erpMachineRefAliases`, and its absence was not a judgement — the field was simply never filled for the five 2026-07-07 zero-pad flips, while the two NON-derivable renames (sgm-006←sgm-06, cnc-mtc-02←cnc-03) were. It is not merely historical: MEASURED on GET http://192.168.178.154:38260/api/machines (116 records, HTTP 200, 2026-08-30) the master STILL serves `cnc-01` as this record's `machine_id` alongside `cnc-001` as its `machineNo` — ONE record, TWO identity fields, so the master itself asserts the pair. That is what justifies the alias; a leading zero on its own does NOT: ELEVEN further pairs (sgm-002/sgm-02, sgm-010/sgm-10, …) differ only by a zero and are joined by NO master record, and folding those would merge machines the ERP keeps apart. WHY IT MATTERED: the fold happened at ingest (the slug node is superseded with one `:SUPERSEDED_BY` edge), but the SET published on the node as `machine_id_aliases` is built from the literal SSOT spellings only, so it carried the machine's own id and nothing else — and every consumer reading Cypher instead of calling canonicalMachineId() could not reach this machine by the name the ERP prints.",
+        "on": "2026-08-30"
       }
     },
     {
       "busMachineId": "cnc-002",
       "erpMachineRef": "cnc-002",
-      "erpMachineRefAliases": null,
+      "erpMachineRefAliases": [
+        "cnc-02"
+      ],
       "mirrorOf": null,
       "evidence": {
-        "measured": "ERP emits cnc-002 directly since the 2026-07-07 flip (slug cnc-02 ends 2026-07-20). Article-correlation control: top match is cnc-002 (6.8%).",
-        "on": "2026-07-29"
+        "measured": "ERP emits cnc-002 directly since the 2026-07-07 flip (slug cnc-02 ends 2026-07-20). Article-correlation control: top match is cnc-002 (6.8%). RENAME TRAIL ADDED 2026-08-30 (CAPT-IDENT): the slug named above belongs in `erpMachineRefAliases`, and its absence was not a judgement — the field was simply never filled for the five 2026-07-07 zero-pad flips, while the two NON-derivable renames (sgm-006←sgm-06, cnc-mtc-02←cnc-03) were. It is not merely historical: MEASURED on GET http://192.168.178.154:38260/api/machines (116 records, HTTP 200, 2026-08-30) the master STILL serves `cnc-02` as this record's `machine_id` alongside `cnc-002` as its `machineNo` — ONE record, TWO identity fields, so the master itself asserts the pair. That is what justifies the alias; a leading zero on its own does NOT: ELEVEN further pairs (sgm-002/sgm-02, sgm-010/sgm-10, …) differ only by a zero and are joined by NO master record, and folding those would merge machines the ERP keeps apart. WHY IT MATTERED: the fold happened at ingest (the slug node is superseded with one `:SUPERSEDED_BY` edge), but the SET published on the node as `machine_id_aliases` is built from the literal SSOT spellings only, so it carried the machine's own id and nothing else — and every consumer reading Cypher instead of calling canonicalMachineId() could not reach this machine by the name the ERP prints.",
+        "on": "2026-08-30"
       }
     },
     {
       "busMachineId": "sgm-001",
       "erpMachineRef": "sgm-001",
-      "erpMachineRefAliases": null,
+      "erpMachineRefAliases": [
+        "sgm-01"
+      ],
       "mirrorOf": null,
       "evidence": {
-        "measured": "ERP emits sgm-001 since 2026-07-07 (slug sgm-01 stops the same day — a clean flip). Article-correlation control: top match is sgm-001 (3.1%).",
-        "on": "2026-07-29"
+        "measured": "ERP emits sgm-001 since 2026-07-07 (slug sgm-01 stops the same day — a clean flip). Article-correlation control: top match is sgm-001 (3.1%). RENAME TRAIL ADDED 2026-08-30 (CAPT-IDENT): the slug named above belongs in `erpMachineRefAliases`, and its absence was not a judgement — the field was simply never filled for the five 2026-07-07 zero-pad flips, while the two NON-derivable renames (sgm-006←sgm-06, cnc-mtc-02←cnc-03) were. It is not merely historical: MEASURED on GET http://192.168.178.154:38260/api/machines (116 records, HTTP 200, 2026-08-30) the master STILL serves `sgm-01` as this record's `machine_id` alongside `sgm-001` as its `machineNo` — ONE record, TWO identity fields, so the master itself asserts the pair. That is what justifies the alias; a leading zero on its own does NOT: ELEVEN further pairs (sgm-002/sgm-02, sgm-010/sgm-10, …) differ only by a zero and are joined by NO master record, and folding those would merge machines the ERP keeps apart. WHY IT MATTERED: the fold happened at ingest (the slug node is superseded with one `:SUPERSEDED_BY` edge), but the SET published on the node as `machine_id_aliases` is built from the literal SSOT spellings only, so it carried the machine's own id and nothing else — and every consumer reading Cypher instead of calling canonicalMachineId() could not reach this machine by the name the ERP prints.",
+        "on": "2026-08-30"
       }
     },
     {
       "busMachineId": "sgm-004",
       "erpMachineRef": "sgm-004",
-      "erpMachineRefAliases": null,
+      "erpMachineRefAliases": [
+        "sgm-04"
+      ],
       "mirrorOf": null,
       "evidence": {
-        "measured": "ERP emits sgm-004 since 2026-07-07 (slug sgm-04 stops the same day). Article-correlation control: top match is sgm-004 (6.2%).",
-        "on": "2026-07-29"
+        "measured": "ERP emits sgm-004 since 2026-07-07 (slug sgm-04 stops the same day). Article-correlation control: top match is sgm-004 (6.2%). RENAME TRAIL ADDED 2026-08-30 (CAPT-IDENT): the slug named above belongs in `erpMachineRefAliases`, and its absence was not a judgement — the field was simply never filled for the five 2026-07-07 zero-pad flips, while the two NON-derivable renames (sgm-006←sgm-06, cnc-mtc-02←cnc-03) were. It is not merely historical: MEASURED on GET http://192.168.178.154:38260/api/machines (116 records, HTTP 200, 2026-08-30) the master STILL serves `sgm-04` as this record's `machine_id` alongside `sgm-004` as its `machineNo` — ONE record, TWO identity fields, so the master itself asserts the pair. That is what justifies the alias; a leading zero on its own does NOT: ELEVEN further pairs (sgm-002/sgm-02, sgm-010/sgm-10, …) differ only by a zero and are joined by NO master record, and folding those would merge machines the ERP keeps apart. WHY IT MATTERED: the fold happened at ingest (the slug node is superseded with one `:SUPERSEDED_BY` edge), but the SET published on the node as `machine_id_aliases` is built from the literal SSOT spellings only, so it carried the machine's own id and nothing else — and every consumer reading Cypher instead of calling canonicalMachineId() could not reach this machine by the name the ERP prints.",
+        "on": "2026-08-30"
       }
     },
     {
       "busMachineId": "sgm-005",
       "erpMachineRef": "sgm-005",
-      "erpMachineRefAliases": null,
+      "erpMachineRefAliases": [
+        "sgm-05"
+      ],
       "mirrorOf": null,
       "evidence": {
-        "measured": "ERP emits sgm-005 since 2026-07-07 (slug sgm-05 stops the same day).",
-        "on": "2026-07-29"
+        "measured": "ERP emits sgm-005 since 2026-07-07 (slug sgm-05 stops the same day). RENAME TRAIL ADDED 2026-08-30 (CAPT-IDENT): the slug named above belongs in `erpMachineRefAliases`, and its absence was not a judgement — the field was simply never filled for the five 2026-07-07 zero-pad flips, while the two NON-derivable renames (sgm-006←sgm-06, cnc-mtc-02←cnc-03) were. It is not merely historical: MEASURED on GET http://192.168.178.154:38260/api/machines (116 records, HTTP 200, 2026-08-30) the master STILL serves `sgm-05` as this record's `machine_id` alongside `sgm-005` as its `machineNo` — ONE record, TWO identity fields, so the master itself asserts the pair. That is what justifies the alias; a leading zero on its own does NOT: ELEVEN further pairs (sgm-002/sgm-02, sgm-010/sgm-10, …) differ only by a zero and are joined by NO master record, and folding those would merge machines the ERP keeps apart. WHY IT MATTERED: the fold happened at ingest (the slug node is superseded with one `:SUPERSEDED_BY` edge), but the SET published on the node as `machine_id_aliases` is built from the literal SSOT spellings only, so it carried the machine's own id and nothing else — and every consumer reading Cypher instead of calling canonicalMachineId() could not reach this machine by the name the ERP prints.",
+        "on": "2026-08-30"
       }
     },
     {
@@ -66,7 +76,9 @@
     {
       "busMachineId": "sgm-006",
       "erpMachineRef": "sgm-006",
-      "erpMachineRefAliases": ["sgm-06"],
+      "erpMachineRefAliases": [
+        "sgm-06"
+      ],
       "mirrorOf": null,
       "evidence": {
         "measured": "RENAMED 2026-07-31 — the ERP now books this machine under its own id, so `sgm-006` is the current ref and `sgm-06` the historical alias. The rename is sim-v5 76eeb642 with i3x-sim-schemas V230 (canonical-machine-id phase 1), deployed on .154 at ~13:50Z: /api/orders.machine_no is canonicalised from the planning slug to the id the OT publishes. MEASURED on /api/orders (5000 rows, the exact path sources/rest/erp-production-orders.json polls): 31 rows carry sgm-006, ZERO carry sgm-06. MEASURED in business_events by day: 07-27..07-30 only sgm-06 (132/218/256/242), 07-31 BOTH — sgm-06 88 and sgm-006 62, the flip landing mid-day. Both refs are therefore live inside any retrospective window longer than a few hours, which is why the alias must stay. WHAT ESTABLISHED THE ALIAS (2026-07-29, two independent ground truths, the same pair the 2026-07-07 zero-pad rule was established on): (1) PHYSICAL: the source endpoint is opc.tcp://192.168.178.154:36065; the machines-sgm range starts at 36060 = sgm-001, so 36065 = range start + 5 = sim machine #6 = slug sgm-06. (2) DATA: article correlation over 2103 currentProgram events gives sgm-06 as the top machine_ref (6.3%; the only other entry above noise is the POOL-SGM dispatch bucket at 4.7%).",
@@ -77,7 +89,9 @@
     {
       "busMachineId": "cnc-mtc-02",
       "erpMachineRef": "cnc-mtc-02",
-      "erpMachineRefAliases": ["cnc-03"],
+      "erpMachineRefAliases": [
+        "cnc-03"
+      ],
       "mirrorOf": null,
       "evidence": {
         "measured": "RENAMED 2026-07-31 — same sim-v5 76eeb642 / i3x-sim-schemas V230 canonicalisation as sgm-006. MEASURED on /api/orders (5000 rows): 86 rows carry cnc-mtc-02, ZERO carry cnc-03. MEASURED in business_events by day: 07-27..07-30 only cnc-03 (194/61/59/56), 07-31 cnc-03 13 and cnc-mtc-02 216 — this ref flipped almost completely within the day. `cnc-03` stays as the historical alias for the pre-flip part of any retrospective window. WHAT ESTABLISHED THE ALIAS (2026-07-29): Article correlation, run in BOTH directions with the base rate controlled (Jaccard over (article, hour) sets, ERP restricted to status in_arbeit). cnc-mtc-02 → cnc-03 is a MUTUAL BEST PAIR: forward rank #1 (10.32 vs runner-up 4.49), backward rank #1 (cnc-03 → cnc-mtc-02, 10.32 vs runner-up 3.90). A raw ±5min hit count agrees: cnc-03 rank #1 at 54/731 (7.4%), runner-up 2.5%. Under the same base-rate-controlled test all six machines whose ref is independently known return their own ref at rank #1 in both directions (cnc-001 8.63/4.34, cnc-002 6.86/4.75, rockwell-01 20.04/6.14, sgm-001 3.91/2.42, sgm-004 7.98/5.51, sgm-005 3.22/1.81) — the control that makes this verdict usable.",
@@ -88,11 +102,13 @@
     {
       "busMachineId": "cnc-mtc-01",
       "erpMachineRef": "cnc-002",
-      "erpMachineRefAliases": null,
+      "erpMachineRefAliases": [
+        "cnc-02"
+      ],
       "mirrorOf": "cnc-002",
       "evidence": {
-        "measured": "Value-level identity with cnc-002, not a name match: over 2026-07-20..2026-07-26 the machine-specific Act_Amount_PartGood counter agrees on 5363 of 5364 co-timed samples (99.98%), while the same test against cnc-001 gives 0/4898 and against cnc-mtc-02 gives 9/4793. Act_Ref_Program agrees on 894/895 co-timed samples. A part counter is per-machine and monotonic — identical values mean one physical machine sampled twice.",
-        "on": "2026-07-29"
+        "measured": "Value-level identity with cnc-002, not a name match: over 2026-07-20..2026-07-26 the machine-specific Act_Amount_PartGood counter agrees on 5363 of 5364 co-timed samples (99.98%), while the same test against cnc-001 gives 0/4898 and against cnc-mtc-02 gives 9/4793. Act_Ref_Program agrees on 894/895 co-timed samples. A part counter is per-machine and monotonic — identical values mean one physical machine sampled twice. RENAME TRAIL ADDED 2026-08-30 (CAPT-IDENT), AND IT IS NOT A NEW IDENTITY CLAIM: this entry mirrors cnc-002, a rename applies to the PHYSICAL machine, and cnc-002's trail gained `cnc-02` in the same change — so lint rule I7 requires this view to carry it too, or the two ids would bind different orders for the part of any window before the 2026-07-07 flip. The pair itself is MEASURED above and unchanged; the slug is the ERP master's own second name for it, served today as `machine_id` on the record whose `machineNo` is `cnc-002` (GET http://192.168.178.154:38260/api/machines, 116 records, 2026-08-30). Nothing here pre-empts the PENDING CHANGE described in the note: if this chain is ever re-measured onto cnc-001, mirrorOf, erpMachineRef AND this trail move together.",
+        "on": "2026-08-30"
       },
       "note": "sources/mtconnect/mtconnect-cnc-01.json and sources/opcua/opcua-mtbridge-cnc-01.json declare this chain as MTConnect agent device 'cnc-01' and warn that agent device cnc-02 is 'unrelated' to the OPC-UA machine cnc-002. The counter measurement above contradicts that: the machine behind this chain IS cnc-002. --- 2026-07-31, THE CONTRADICTION IS RESOLVED AS A DEPLOY LAG, AND THIS ENTRY DELIBERATELY KEEPS THE MEASURED ANSWER. The two ends disagree because a descriptor in this repo does not reach an OT edge until the Node-RED flow is REGENERATED from it and REDEPLOYED (nr-codegen in the discovery service, README.md 'Edge codegen' row; nothing in this repo generates or deploys a flow, and flows/ holds only a template). TIMELINE, from this repo's own git history: the bridge chain was set to connection.device='cnc-02' on 2026-06-30 by efba70e ('fix cnc-mtc-01 agent .120->.154' — the wrong device slipped in with the endpoint move), and CORRECTED to 'cnc-01' on 2026-07-15 by 5cc3cb4, on /probe evidence (the agent serves cnc-01..cnc-20; the cnc-01-* dataItemIds this source maps exist ONLY under device cnc-01). The counter measurement that established cnc-002 was taken 2026-07-20..2026-07-26 — FIVE DAYS AFTER the descriptor was corrected. So the descriptor's INTENT (device cnc-01, i.e. the same physical machine as bus cnc-001) and the DEPLOYED reality (cnc-002's data) are both accurately reported; the deployed Sonder-Edge flow was generated before 5cc3cb4 and still polls device cnc-02. The same mechanism was proven on 2026-07-31: the sgm-006 mouldTempC rebind (7d23026) changed nothing at the edge until the flow was regenerated and redeployed, after which the signal moved from 3 samples/24h at a constant 195.00 to sgm-001's cadence at mean 87.49. WHY mirrorOf STAYS cnc-002: this registry states what a consumer must do to bind LIVE data, and every entry carries the measurement that established it. Writing mirrorOf='cnc-001' today would publish an intention as a fact and mis-bind the data that is actually on the bus — precisely the drift this file exists to prevent. PENDING CHANGE, DO NOT PRE-EMPT IT: when the Sonder-Edge flow is regenerated from the corrected descriptor, this chain will start carrying device cnc-01's data, the mirror pair becomes cnc-mtc-01 = cnc-001, and cnc-002 becomes an independent machine with no mirror. At that point this entry (mirrorOf AND erpMachineRef, which lint rule I7 keeps in step) must be RE-MEASURED with the same co-timed part-counter test, not re-guessed. FOR THE CONSUMER, A SEPARATE POINT ABOUT WHICH END TO SKIP: mirrorOf names the machine to KEEP. The redundant id on this pair is cnc-mtc-01, the second protocol view; cnc-002 is the machine it duplicates and must stay in every population. A consumer that suppresses the mirror TARGET instead of the mirror blanks a machine that really produces — cnc-002 was reported scoring 0 of 73 hours while producing in 60 of them."
     },
