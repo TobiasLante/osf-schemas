@@ -1,39 +1,93 @@
 {
  "sourceId": "sim-v5-erp-articles",
- "version": "2.1.0",
+ "version": "2.2.0",
  "sourceType": "rest",
  "syncType": "polling",
  "profileRef": "SMProfile-Article",
- "transport": ["nats"],
+ "transport": [
+  "nats"
+ ],
  "connection": {
- "baseUrl": "http://192.168.178.154:38260",
- "path": "/api/articles",
- "method": "GET",
- "auth": null,
- "timeoutMs": 10000
+  "baseUrl": "http://192.168.178.154:38260",
+  "path": "/api/articles",
+  "method": "GET",
+  "auth": null,
+  "timeoutMs": 10000
  },
  "response": {
- "format": "json",
- "rootPath": "$",
- "idProperty": "teil_id"
+  "format": "json",
+  "rootPath": "$",
+  "idProperty": "teil_id"
  },
  "polling": {
- "changeDetection": "full_refresh",
- "batchSize": 5000,
- "paginate": true
+  "changeDetection": "full_refresh",
+  "batchSize": 5000,
+  "paginate": true
  },
  "columnMappings": [
- { "column": "teil_id", "smAttribute": "article_no", "isId": true },
- { "column": "bezeichnung", "smAttribute": "name" },
- { "column": "kategorie", "smAttribute": "type" },
- { "column": "einheit", "smAttribute": "unit" },
- { "column": "lieferzeit_tage","smAttribute": "lead_time_days" },
- { "column": "abc_class", "smAttribute": "abc_class" },
- { "column": "std_kosten", "smAttribute": "cost_hk" },
- { "column": "std_verkaufspreis", "smAttribute": "price_vk" },
- { "column": "waehrung", "smAttribute": "currency" }
+  {
+   "column": "teil_id",
+   "smAttribute": "article_no",
+   "isId": true
+  },
+  {
+   "column": "bezeichnung",
+   "smAttribute": "name"
+  },
+  {
+   "column": "kategorie",
+   "smAttribute": "type"
+  },
+  {
+   "column": "einheit",
+   "smAttribute": "unit"
+  },
+  {
+   "column": "lieferzeit_tage",
+   "smAttribute": "lead_time_days"
+  },
+  {
+   "column": "abc_class",
+   "smAttribute": "abc_class"
+  },
+  {
+   "column": "std_kosten",
+   "smAttribute": "cost_hk"
+  },
+  {
+   "column": "std_verkaufspreis",
+   "smAttribute": "price_vk"
+  },
+  {
+   "column": "waehrung",
+   "smAttribute": "currency"
+  },
+  {
+   "column": "menge_frei",
+   "smAttribute": "stock_free"
+  },
+  {
+   "column": "menge_reserviert",
+   "smAttribute": "stock_reserved"
+  },
+  {
+   "column": "menge_blockiert",
+   "smAttribute": "stock_blocked"
+  },
+  {
+   "column": "verfuegbar",
+   "smAttribute": "stock_available"
+  },
+  {
+   "column": "mindestbestand",
+   "smAttribute": "reorder_level"
+  },
+  {
+   "column": "safety_stock",
+   "smAttribute": "safety_stock"
+  }
  ],
  "filter": null,
  "edges": [],
- "description": "2026-08-18: polling.paginate ENABLED, together with sim-v5-erp-customers (see that descriptor for the full reasoning). it-edge (DATA-7) refused every delete/tombstone pass on this source with reason unpaginated_full_refresh - 60 times in a 30-minute window, unread - so the source could ingest but never RETRACT and an article deleted upstream would have stayed in the KG for ever. paginate could NOT simply be declared: GET /api/articles ignored limit and offset outright. MEASURED against the live ERP .154:38260 with /api/orders as the positive control in the same run: ?limit=5 -> 221 rows, ?offset=9999 -> 221 rows, while /api/orders?limit=5 -> 5. Declaring paginate against that endpoint would have looped to MAX_PAGES=10000 (it-edge stops only on an EMPTY page) - 10k requests per poll, every 30 s - and still returned pagination_truncated. Fixed upstream first: sim-v5 api-erp b06c699c (F-ARTICLES-PAGINATION). VERIFIED on PROD after that deploy: ?limit=5 -> 5, ?offset=9999 -> 0, ?page_size=7 -> 7. Paging exhausts the population exactly - on dev, 221/221 distinct rows at page sizes 10 AND 50, 0 duplicates, 0 missing, ordering monotone; part_number is unique (222 rows / 222 distinct, 221/221 with active = true) and both joins in ARTICLE_WITH_STOCK_AND_PRICE_SQL are 1:1 by construction. THE MECHANISM WAS PROVEN BEFORE THIS COMMIT, not assumed: customers was changed first and went silent while THIS source kept refusing 60 times in the same window - an A/B with a live control. intervalMs deliberately unset, so the poll cadence stays on the 30 s default. batchSize 5000 is the server's MEASURED hard cap."
+ "description": "2026-08-30 CAPT-ITLANE, 2.2.0 — SIX STOCK COLUMNS ADDED, and the reason is that the only live IT deviation rule in the whole SSOT could not fire. GET /api/articles is ARTICLE_WITH_STOCK_AND_PRICE_SQL: it already served menge_frei / menge_reserviert / menge_blockiert / verfuegbar / mindestbestand / safety_stock on every one of its 221 rows, and this descriptor mapped NONE of them. The consequence was not a missing column but a misplaced rule: profiles/wms/quant.json carried a literal stock band [20,500] on ONE PALLET's quantity, because the per-article stock position the band is actually about had never been projected. MEASURED on .154:38260 2026-08-30 — 221 rows, mindestbestand present on 219 (values 8..5000, i.e. a PER-ARTICLE threshold, not one constant), safety_stock on 221/221, verfuegbar on 218/221. The three nulls are the honest absence case and the rule reads 'unknown' on them, never 'ok'. RE-OBSERVATION, the property the old pairing lacked, was measured over 21 min of 30 s polls: 0-11 articles change per tick, ~5.5/min, over a BOUNDED and COMPLETE population (it-edge logs fetched=221 keyed=221 tracked=221 populationComplete=true, every 30 s). Contrast sim-v5-wms-quants, whose key carries a mint timestamp so every production event is a NEW key and no entity is ever evaluated twice. Adding these columns makes stock movements PUBLISH (the mapped set is what change detection hashes; before this the poll wrote 0 rows for hours because the 9 mapped master-data columns never move). --- previous description follows. --- 2026-08-18: polling.paginate ENABLED, together with sim-v5-erp-customers (see that descriptor for the full reasoning). it-edge (DATA-7) refused every delete/tombstone pass on this source with reason unpaginated_full_refresh - 60 times in a 30-minute window, unread - so the source could ingest but never RETRACT and an article deleted upstream would have stayed in the KG for ever. paginate could NOT simply be declared: GET /api/articles ignored limit and offset outright. MEASURED against the live ERP .154:38260 with /api/orders as the positive control in the same run: ?limit=5 -> 221 rows, ?offset=9999 -> 221 rows, while /api/orders?limit=5 -> 5. Declaring paginate against that endpoint would have looped to MAX_PAGES=10000 (it-edge stops only on an EMPTY page) - 10k requests per poll, every 30 s - and still returned pagination_truncated. Fixed upstream first: sim-v5 api-erp b06c699c (F-ARTICLES-PAGINATION). VERIFIED on PROD after that deploy: ?limit=5 -> 5, ?offset=9999 -> 0, ?page_size=7 -> 7. Paging exhausts the population exactly - on dev, 221/221 distinct rows at page sizes 10 AND 50, 0 duplicates, 0 missing, ordering monotone; part_number is unique (222 rows / 222 distinct, 221/221 with active = true) and both joins in ARTICLE_WITH_STOCK_AND_PRICE_SQL are 1:1 by construction. THE MECHANISM WAS PROVEN BEFORE THIS COMMIT, not assumed: customers was changed first and went silent while THIS source kept refusing 60 times in the same window - an A/B with a live control. intervalMs deliberately unset, so the poll cadence stays on the 30 s default. batchSize 5000 is the server's MEASURED hard cap."
 }

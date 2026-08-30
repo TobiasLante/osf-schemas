@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-Quant",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "standard": "CESMII",
   "category": "business",
   "displayName": "Quant (inventory stock unit / MaterialSublot)",
@@ -104,7 +104,7 @@
   "constraints": [
     {
       "name": "stock_level_control_limits",
-      "description": "IT/inventory control limits (Warngrenze (warning limit) + action limit) on the free stock quantity (reorder level / maximum stock level). Stock should stay inside the warn band [20,500]; below 20 or above 500 -> 'warning'-tier alarm (reorder / overstock watch); below the action band lower bound 5 or above 800 -> 'error'-tier alarm (stockout risk / hard overstock). Two-sided control band evaluated centrally by the it-evaluator (IT acquisition); drives the IT alarm panel with a raise/clear lifecycle. LITERAL band = static SSOT for the pilot. --- 2026-07-12 CAPT-STURM: declares a `persistence` policy (anti-chatter). A single sample outside a band is not a deviation — an EPISODE is. `raise` is a Western-Electric run rule (2 of the last 3 evaluations must breach); `clear` is an ISA-18.2 dead-band (the value must return inside the limit by 15 % of the band width, for 3 evaluations). The LIMITS ARE UNCHANGED — this removes chatter, not signal. Declaring it is now MANDATORY for every live `between`/`within_limits` rule (ci/lint-constraints.mjs, fail-closed): a rule the detector cannot police is a rule that reports its own arithmetic instead of the machine.",
+      "description": "TOMBSTONE - the rule body below is preserved VERBATIM as it ran until 2026-08-30. It is evidence, not configuration; retired:true means it is loaded, never evaluated, and its open episodes are superseded with superseded_by=retirementId. Do NOT delete this file. SUCCESSOR: profiles/erp/article.json#stock_below_reorder_level. Original description follows. >>> IT/inventory control limits (Warngrenze (warning limit) + action limit) on the free stock quantity (reorder level / maximum stock level). Stock should stay inside the warn band [20,500]; below 20 or above 500 -> 'warning'-tier alarm (reorder / overstock watch); below the action band lower bound 5 or above 800 -> 'error'-tier alarm (stockout risk / hard overstock). Two-sided control band evaluated centrally by the it-evaluator (IT acquisition); drives the IT alarm panel with a raise/clear lifecycle. LITERAL band = static SSOT for the pilot. --- 2026-07-12 CAPT-STURM: declares a `persistence` policy (anti-chatter). A single sample outside a band is not a deviation — an EPISODE is. `raise` is a Western-Electric run rule (2 of the last 3 evaluations must breach); `clear` is an ISA-18.2 dead-band (the value must return inside the limit by 15 % of the band width, for 3 evaluations). The LIMITS ARE UNCHANGED — this removes chatter, not signal. Declaring it is now MANDATORY for every live `between`/`within_limits` rule (ci/lint-constraints.mjs, fail-closed): a rule the detector cannot police is a rule that reports its own arithmetic instead of the machine. <<<",
       "require": {
         "attr": "quantity",
         "op": "within_limits",
@@ -135,7 +135,53 @@
       "mom_category": "inventory",
       "accountable_role": "Production Planning",
       "since": "2026-06-23",
-      "impact_basis": "margin"
+      "impact_basis": "margin",
+      "retired": true,
+      "retiredAt": "2026-08-30",
+      "retirementId": "retired:stock_level_control_limits@2026-08-30",
+      "retiredBy": "CAPT-ITLANE",
+      "retiredReason": "RETIRED. TWO independent defects, and the rule needs only one of them to be dead.\n\n1. THE SUBJECT IS WRONG. A Quant is one lot in one storage bin, not a stock position. MEASURED 2026-08-30 over the largest window GET .154:38224/api/wms/quants will serve (limit=1000000 -> 5000 rows; the endpoint caps at 5000 and IGNORES offset, verified beyond the population, so 5000 is the observable population and the table's true size is not determinable through this endpoint): median quantity 1, min 0, max 20268.291, and 4745 of 5000 rows (94.9 %) outside the warn band [20,500] - 4659 below 20. A band that judges 95 % of its population as deviating is not a control limit on that population; it is a number from somewhere else. Where from is measurable too: the ERP article master carries a PER-ARTICLE reorder level (mindestbestand) taking 43 distinct values from 8 to 5000, of which 20 is the WIP value - the literal band's lower bound is one material class's threshold generalised to every pallet in the plant.\n\n2. THE RULE COULD NOT FIRE, ARITHMETICALLY. persistence.raise {k:2, of:3} needs two of the last three evaluations OF THE SAME ENTITY to breach. The it-evaluator keys detector state per entity (services/it-evaluator/src/evaluator.ts, `${sourceId} ${entityId}`), the entity is quant_no, and quant_no carries a mint timestamp (Q-<machine>-<YYYYMMDDhhmmss>-<article>), so every production event mints a NEW key. packages/constraint-detector/src/detector.ts:651 then reads `if (prevTier === 'ok' && breaches < p.k) return null` with breaches permanently 1. The 60 s tick cannot help: ConstraintDetector.tick() only refreshes $now and re-evaluates the rules indexed under it, and this rule is indexed under `quantity`, so onEvent is the ONLY evaluation occasion. One publication, one evaluation, forever.\n\nMEASURED CONSEQUENCE: the lane stopped on 2026-08-25T13:51:44Z and produced NOTHING for the following five days while the source polled normally the whole time (it-edge: fetched=500 keyed=500 wrote=3..8 every 60 s). Live subscribe on business.> for 21 min on 2026-08-30: 52 distinct quants, 49 seen exactly ONCE, 3 seen twice, 55 of 55 carrying a quantity outside [20,500].\n\nAND THE THREE THAT WERE SEEN TWICE ARE THE FINDING. They are byte-identical republications - same event_type 'created', same quantity, same updated_at - of the three rows the it-edge log reports under `DATA-1: durable publish not fully acked - NOT advancing dedup state`. They raised three episodes at 2026-08-30T20:59:22Z, the first output of this lane in five days. So the rule's entire measured output is produced by REDELIVERY, not by a second measurement: it reports the reliability of its own transport, not the warehouse. That is the same class of defect CAPT-STURM introduced `persistence` to prevent - a rule reporting its own sampling - arriving through the other door.\n\nNOT REPAIRED IN PLACE, ON PURPOSE. Relaxing to k=1 was measured and rejected: it would raise 4745 of 5000 immediately and then once per new quant forever, on a key space that grows with every production event. A lane that reports everything is exactly as useless as one that reports nothing, and neither is a statement about stock. The limits were NOT widened either - widening a band to buy silence is the comfortable lie. The subject was moved instead, to the only entity over which 'persistently outside the band' is a sentence at all.",
+      "retiredEvidence": {
+        "measuredAt": "2026-08-30",
+        "measuredAgainst": "GET http://192.168.178.154:38224/api/wms/quants (limit=1000000 -> 5000 rows); NATS core subscribe business.> inside the osf network on .99, 21 min; osf-it-edge-wms + osf-it-evaluator container logs; GET discrepancy-engine:8080/api/discrepancies?lane=it",
+        "population": {
+          "rows": 5000,
+          "note": "the endpoint's default limit is 500 and its hard ceiling 5000; offset is ignored (offset=100000 still returns 500), verified beyond the population. 5000 is therefore the OBSERVABLE population, ordered by aktualisiert_am desc - not the table."
+        },
+        "outsideWarnBand": {
+          "count": 4745,
+          "of": 5000,
+          "below20": 4659,
+          "above500": 86,
+          "pct": 94.9
+        },
+        "outsideActionBand": {
+          "count": 4631,
+          "of": 5000
+        },
+        "reObservation": {
+          "windowMinutes": 21,
+          "distinctEntities": 52,
+          "seenOnce": 49,
+          "seenTwice": 3,
+          "seenTwiceCause": "identical republication after `DATA-1: durable publish not fully acked`, not a second measurement"
+        },
+        "laneSilence": {
+          "lastEpisodeBefore": "2026-08-25T13:51:44.218Z",
+          "nextEpisode": "2026-08-30T20:59:22.623Z",
+          "gap": "5 d 7 h",
+          "episodesInGap": 0,
+          "sourceHealthyThroughout": true
+        },
+        "episodesEverRaised": 5623,
+        "note": "5623 episodes, all lifecycle_state=open, evenly spread over 13 days at ~430/day until the stop. Every one of them required a second observation of a once-observed entity, and the only mechanism that produces one is redelivery."
+      },
+      "successor": {
+        "profileRef": "SMProfile-Article",
+        "constraintId": "stock_below_reorder_level",
+        "rationale": "stock_available (verfuegbar = free minus reserved) vs the article's own reorder_level (mindestbestand). Bounded population (221, populationComplete=true every 30 s), real re-observation (~5.5 articles change per minute), a per-article threshold from the ERP master, and the threshold reaches the wire as a FIELD (constraint_observed.reorder_level). Measured yield 12 of 221 (5.4 %).",
+        "doNotResurrectAs": "the same band with k=1, or with widened limits - both were measured and both are worse than silence."
+      }
     }
   ],
   "semantics": [],
