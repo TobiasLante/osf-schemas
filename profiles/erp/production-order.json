@@ -320,7 +320,32 @@
       "targetIdProp": "workorder_no"
     }
   ],
-  "constraints": [],
+  "constraints": [
+    {
+      "name": "material_ready_after_planned_end",
+      "description": "Material is not available until AFTER the order's own planned finish date. The ERP states BOTH dates on the same order, so this is a contradiction inside one record, not an estimate: an order planned to finish at T cannot be built from material the ERP says arrives after T. The IT/planning counterpart to the OT machine bands - a materials-planning finding about an order, not about a machine, and raised BEFORE the order runs late rather than after.",
+      "when": {
+        "attr": "status",
+        "op": "in",
+        "value": [
+          "freigegeben",
+          "in_arbeit"
+        ]
+      },
+      "require": {
+        "attr": "material_ready_at",
+        "op": "lte",
+        "valueAttr": "planned_end_time"
+      },
+      "severity": "warning",
+      "discrepancyClass": "constraint",
+      "concern": "operations",
+      "mom_category": "production",
+      "accountable_role": "Materials Planning",
+      "since": "2026-08-31",
+      "$comment": "MEASURED 2026-08-31 by CAPT-ITLANE2 against the FULL production-order population of sim-v5 PROD (.154:38260 /api/orders, keyset-paginated over production_order_no, 17 pages): 84.229 distinct orders. (1) THE GUARD LITERALS ARE THE MEASURED VOCABULARY, not this profile's declared enum. The enum declares six values; the data carries exactly FOUR - abgeschlossen 43.010, storniert 25.859, in_arbeit 9.220, freigegeben 6.140. 'offen' and 'fertig' occur ZERO times, and a guard keyed on 'offen' is exactly how order_overdue on SMProfile-CustomerOrder became structurally unsatisfiable. The two literals above are both measured present. (2) POPULATION AND HIT RATE. material_ready_at is written on 9.220 of 84.229 rows, and on in_arbeit rows ONLY (9.220 of 9.220 in_arbeit); everywhere else the attribute is absent and the tri-state predicate reads 'unknown', never 'ok'. Of the 9.220 eligible orders, 10 carry material_ready_at LATER than planned_end_time: 0,11 % of the eligible set, 0,012 % of the population. A minority and a workable worklist - not a log storm. (3) WHY NOT THE OBVIOUS RULE. 'Open order past its due date' was measured in the same run and is NOT viable: 7.485 of 15.360 open orders are past lieferdatum_soll - 48,73 % of the open book, median 24 days over. A rule half the population violates describes the backlog, it does not find anything. It is also $now-keyed, and a $now constraint pins EVERY tracked entity against it-evaluator's idle eviction (ENTITY_EVICT_IDLE_MS), so it would hold all 84.229 orders in the working set for ever. This rule compares two attributes of the same record and is therefore evictable. (4) LANE. it-evaluator publishes domain='it'; the engine anchors an IT episode on about_order_no and sets NO about_machine_id (engine.ts constraintRaisedLocked). With concern=operations, mom_category=production and no deviation_class, laneOf returns 'it' - which is the point: the second living rule in a lane that had exactly one against OT's 22."
+    }
+  ],
   "semantics": [],
   "kpiRefs": [],
   "isa95": {
