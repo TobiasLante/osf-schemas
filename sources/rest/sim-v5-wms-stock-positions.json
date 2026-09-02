@@ -1,0 +1,79 @@
+{
+  "sourceId": "sim-v5-wms-stock-positions",
+  "version": "1.0.0",
+  "sourceType": "rest",
+  "syncType": "polling",
+  "profileRef": "SMProfile-StockPosition",
+  "transport": [
+    "nats"
+  ],
+  "connection": {
+    "baseUrl": "http://192.168.178.154:38224",
+    "path": "/api/wms/stock-positions",
+    "method": "GET",
+    "auth": null,
+    "timeoutMs": 30000
+  },
+  "response": {
+    "format": "json",
+    "rootPath": "$.rows",
+    "idProperty": "stock_key"
+  },
+  "polling": {
+    "changeDetection": "full_refresh",
+    "intervalMs": 300000,
+    "batchSize": 10000
+  },
+  "columnMappings": [
+    {
+      "column": "stock_key",
+      "smAttribute": "stock_key",
+      "isId": true
+    },
+    {
+      "column": "lager_nr",
+      "smAttribute": "warehouse"
+    },
+    {
+      "column": "lagerplatz_id",
+      "smAttribute": "storage_location"
+    },
+    {
+      "column": "artikel_nr",
+      "smAttribute": "article_ref"
+    },
+    {
+      "column": "menge",
+      "smAttribute": "quantity"
+    },
+    {
+      "column": "gesperrt",
+      "smAttribute": "quantity_blocked"
+    },
+    {
+      "column": "reserviert",
+      "smAttribute": "quantity_reserved"
+    },
+    {
+      "column": "chargen_anzahl",
+      "smAttribute": "lot_count"
+    },
+    {
+      "column": "aktualisiert_am",
+      "smAttribute": "updated_at"
+    }
+  ],
+  "edges": [
+    {
+      "type": "FOR_ARTICLE",
+      "fkColumn": "artikel_nr",
+      "targetIdProp": "article_no"
+    },
+    {
+      "type": "AT_LOCATION",
+      "fkColumn": "lagerplatz_id",
+      "targetIdProp": "storage_location_id"
+    }
+  ],
+  "description": "The BOUNDED stock projection feed (option F', owner decision 2026-09-02). Polls GET /api/wms/stock-positions on the live sim-v5 api-wms and binds it to SMProfile-StockPosition. SUPERSEDES sim-v5-wms-quants, whose own description named this as 'proposal (a), the bounded CURRENT-STOCK projection ... the right MODELLING fix and explicitly still open'.\n\nONE ROW PER (lager_nr, lagerplatz_id, artikel_nr) -- 8,517 positions against 4,415,236 ledger rows, measured three agreeing ways on the full live table 2026-09-02, with a HARD ceiling of 137,196 from two master-data tables frozen since 2026-05-16. Growth over the last 14 days: 12 new positions against 645,377 new charge_no values. That is the whole point: sim-v5-wms-quants hit it-edge's 600,000-key eager-restore ceiling and stopped dead for five days on 2026-08-25 because quant_id mints a key per movement; this key cannot do that.\n\nDEVIATION FROM 'proposal (a)' AS WRITTEN, and it is deliberate: (a) proposed (lager_nr, lagerplatz_id, artikel_nr, charge_nr) with qty > 0. charge_nr is REMOVED because it is itself a mint key carrying YYYYMMDDHH, so the four-field variant folds 1.000065 and reproduces exactly the unbounded key space it was meant to replace (audit/CAPT-F-20260902.md, refuted against the full table on two hosts). The qty > 0 filter is ALSO not applied: it would make the population oscillate between 7,258 and 8,517, turning every emptied and refilled bin into a delete/create cycle, and a zero-quantity position is information (this bin is assigned to this article and is currently empty), not absence.\n\nIDENTITY. response.idProperty is 'stock_key', the UPSTREAM RESPONSE FIELD name -- the same shape the 2026-08-12 record-key fix established for this family after 2.0.0 named an smAttribute there and emitted nothing for nine days (ci/lint-source-keys.mjs K1/K2). stock_key is computed SERVER-SIDE as lager_nr|lagerplatz_id|artikel_nr, so it arrives as one string and it-edge's pkOfDetailed takes the idProperty branch, exactly as it does for 26 other live sources. This deliberately AVOIDS declaring primaryKeyColumns and going through encodeCompositePk: that path has produced 0 nodes in this deployment (measured over all 3,821,239 KgNodes, with a positive control of 919,600 in the same query), so it is unexercised, and a canonicalised merge key travelling alongside a raw id field in the same property bag is the documented way every fold de-registers its own target node. There is no raw mint id to ride along here: an aggregate row HAS no quant_id.\n\nRETRACTION IS DELIBERATELY NOT ENABLED. polling.paginate remains UNSET, so DATA-7 will return incompleteFetch and this source may ingest and may never retract -- even though a single request now genuinely returns the COMPLETE population (8,517 rows against a batchSize of 10,000, and the endpoint serves positions_total plus a complete flag from the same scan so the claim is checkable rather than assumed). The reason for staying fail-closed: the safety of retraction here rests on the request actually returning everything, and an upstream cap change or growth past the limit would silently turn a complete read into a sliver -- at which point retraction becomes mass deletion, which is precisely how CAPT-RETRACT's 228,554 rows nearly went. Enable paginate only after 'complete': true has been OBSERVED in production over time. Silent first is better than wrong afterwards.\n\nTIMESTAMP DELTA IS NOT USED, deliberately, and this is a difference from sim-v5-wms-quants 2.1.0. That source needs changeDetection 'timestamp' to dodge the 600,000-key eager-restore ceiling; this one has 8,517 keys and does not, so it can use the honest full_refresh and keep a complete population per poll. The upstream ignores every spelling of a since-parameter anyway (measured 2026-08-30), so declaring one here would be an inert claim about a filter that is silently dropped.\n\nWRITE LOAD, measured rather than feared: 37 of the 8,517 positions move per 5-minute poll, 107 per hour, 326 per 24 h, and 3,434 (40.3 %) have not moved in 30 days. updated_at is mapped but carries promotion:never in SMProfile-StockPosition, so it does not trigger a re-publish -- without that, MAX(updated_at) would mark all 8,517 positions changed on every poll and this feed would be worse than the one it replaces.\n\nCOST at the upstream: one parallel sequential scan, 1,981 ms, 102,846 shared buffer hits, 0 disk reads (EXPLAIN ANALYZE against .154, 2026-09-02). No index helps a full GROUP BY and none was added."
+}

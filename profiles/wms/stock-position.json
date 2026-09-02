@@ -1,0 +1,124 @@
+{
+  "profileId": "SMProfile-StockPosition",
+  "version": "1.0.0",
+  "standard": "CESMII",
+  "category": "business",
+  "displayName": "Stock Position (bounded stock projection, per bin+article)",
+  "description": "The BOUNDED stock projection (option F', owner decision 2026-09-02). One node per (lager_nr, lagerplatz_id, artikel_nr) instead of one per minted quant_id.\n\nWHY IT EXISTS. SMProfile-Quant is keyed on quant_no, and quant_no carries a mint timestamp and its producer (Q-sgm-14-20260813054025-_V4_12-0044-005), so every stock movement mints a NEW identity over an UNBOUNDED key space. MEASURED on the full live table (erp.stock_quants, .154, read-only, 2026-09-02T18:35:46Z, 4,415,236 rows, one scan): count(DISTINCT quant_id) 4,415,236 -- every row its own identity.\n\nWHY THIS KEY IS BOUNDED, which is the whole claim and it is measured three ways that AGREE: GROUP BY 8,517 / count(DISTINCT tuple) 8,517 / count(DISTINCT concat) 8,517, so the fold is not the artefact of one instrument. The ceiling is NOT a hope about data volume, it is the cartesian product of two FROZEN master-data tables: erp.wms_locations 309 rows and erp.articles 222 rows, both with min(created_at) = max(created_at) = 2026-05-16, i.e. neither has gained a row in 109 days. 309 * 222 * 2 warehouses = 137,196 hard ceiling, and today's 8,517 is 6.21 % of it. Saturation is measured, not assumed: over the 14 days to 2026-09-02 the 3-tuple gained 12 members while charge_no gained 645,377 and the table gained 645,695 rows -- a ratio of 1 : 53,808 -- and all 10 3-tuples first seen since 2026-08-20 were new PAIRINGS of already-known master rows, never new master rows. Contrast the key this replaces: charge_no embeds YYYYMMDDHH (CH-sgm-13-2026090217-078) and is therefore itself a mint key, which is why the four-field variant (lager_nr, lagerplatz_id, artikel_nr, charge_nr) folds only 1.000065 and was REFUTED rather than built (audit/CAPT-F-20260902.md).\n\nWHAT IT IS WORTH. The graph carried sum(quantity) 29,954,514 against a ledger of 845,422,279 -- 3.544 %, and only 3,923 of the 8,517 live position tuples (46.06 %). The projection is a REGROUPING of the same rows, verified conservative to the byte (845,450,332.371 = 845,450,332.371, and 4,416,403 ledger rows = 4,416,403 rows covered), so it carries the ledger total exactly. Stated honestly: that is ledger-complete, NOT truth-complete -- erp.stock, the independent arbiter, sums to 730,254,126, i.e. 15.8 % lower, and which of the two is the WMS truth is an OPEN question (CAPT-F register #10). Write load collapses too: 37 of 8,517 positions move per 5-minute poll, 326 per 24 h, and 3,434 (40.3 %) have not moved in 30 days -- against 60,011 NEW NODES per day today.\n\nTHE PRICE, STATED AS A LOSS AND NOT AS A REFINEMENT. This entity CANNOT say which charge lies on a bin. Chargenrueckverfolgung (lot / charge_nr, category Traceability on SMProfile-Quant) is GONE, deliberately, by owner decision. The mean position folds 518 charge-tracked rows and the worst folds 237,342. lot_count carries that loss as a FIELD so no consumer has to infer a dropped dimension from a missing column. What made the price payable, measured rather than assumed: charge_nr has ZERO readers. Both cross-rules that SMProfile-Quant's own description names as the purpose of its stock fields (material_unavailable, qty_shortfall) carry retired:true since 2026-07-12; HAS_SUBLOT, the only edge addressing quant_no, has 0 edges live; charge_nr as a FILTER on /api/wms/quants was measured INERT on 2026-08-31 (sentinel returns the same 60 rows); and no source file reads :Quant.lot at all. The one surface that still offers it, /api/kg/aggregate?groupBy=lot, does not work either -- it killed osf-kg-query twice with a heap OOM on 2026-09-02, because 917,980 distinct groups are materialised in a 256 MiB heap before the limit is applied.\n\nWHY A NEW LABEL RATHER THAN A NEW KEY ON :Quant. Option F' is FORWARD-LOOKING: the 918,774 mint-keyed :Quant nodes already written do not disappear. Re-keying :Quant in place would put two populations under ONE label, and the discriminator for them (kg_merge_key =~ '^[0-9]+:') is applied by NO consumer -- measured 0 of 4, and measured to have 0 positive controls anywhere in the graph (0 of 3,821,239 KgNodes carry a composite merge key; positive control in the same query returned 919,600). A separate label needs no consumer to apply anything: every reader of the graph enumerates labels generically (kg-query repo/stats.ts, repo/aggregate.ts, apps/web build/page.tsx), so StockPosition and Quant are reported as two independent populations for free, and no single number can ever mix them.\n\nIDENTITY. stock_key is ONE string carrying the composite, formed UPSTREAM by GET /api/wms/stock-positions, because kgIdProperty is {\"type\":\"string\"} in validation/profile-unified-schema.json and cannot express a compound key at all. Separator safety is measured on the full population, not hoped: '|' occurs in 0 of the three key fields, NULL occurs in 0, and the longest key is 44 characters. This also avoids it-edge's composite path (encodeCompositePk), which has produced 0 nodes in this deployment and is therefore unexercised.",
+  "parentType": null,
+  "abstract": false,
+  "attributes": [
+    {
+      "name": "stock_key",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity: lager_nr|lagerplatz_id|artikel_nr, formed upstream by GET /api/wms/stock-positions. Bounded by frozen master data (ceiling 309*222*2 = 137,196; 8,517 live). Separator '|' verified absent from all three components on the full live population.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "warehouse",
+      "dataType": "String",
+      "required": false,
+      "category": "Location",
+      "description": "Warehouse (lager_nr). Key component 1 of 3. Cardinality 2 on the live table.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "storage_location",
+      "dataType": "String",
+      "required": false,
+      "category": "Location",
+      "description": "Storage bin (lagerplatz_id). Key component 2 of 3. Cardinality 309 = every row of erp.wms_locations, which has not grown since 2026-05-16.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "article_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "Article (artikel_nr). Key component 3 of 3 and the join key to Article. Cardinality 218 against 222 rows of erp.articles, which has not grown since 2026-05-16.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "quantity",
+      "dataType": "Float",
+      "required": false,
+      "category": "Stock",
+      "description": "SUM(qty_on_hand) over every charge on this bin+article. Summing the ledger is legitimate because consumption sets qty_on_hand to 0 and KEEPS the row, so the ledger is row-wise current state; verified conservative to the byte against the ungrouped total.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "quantity_blocked",
+      "dataType": "Float",
+      "required": false,
+      "category": "Quality",
+      "description": "SUM(qty_blocked). Deliberately NOT named 'blocked' like SMProfile-Quant's Int32 flag: this is a summed QUANTITY, and reusing the old name for a new meaning is vocabulary a consumer cannot trust. Free stock = quantity - quantity_blocked.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "quantity_reserved",
+      "dataType": "Float",
+      "required": false,
+      "category": "Stock",
+      "description": "SUM(qty_reserved). Present in erp.stock_quants and never carried by SMProfile-Quant; the projection gains it at no cost.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "lot_count",
+      "dataType": "Int32",
+      "required": false,
+      "category": "Traceability",
+      "description": "THE LOSS AS A FIELD. How many charge-tracked ledger rows this one position folds -- mean 518, maximum 237,342 measured. This entity cannot say WHICH charge lies on the bin (that is the declared price of option F'), so it states HOW MUCH traceability was folded away rather than leaving a consumer to infer a dropped dimension from a missing column.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "updated_at",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "MAX(updated_at) over the folded rows. promotion:never is LOAD-BEARING here, not cosmetic: this value moves whenever any of the folded charges moves, so as a change-trigger it would re-publish all 8,517 positions on every poll and be WORSE than the mint key it replaces. change-detect.ts:160-183 honours promotion:never on the trigger -- and triggers by DEFAULT for any attribute the profile does not declare, which is why every attribute above is declared.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "never"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "AT_LOCATION",
+      "target": "StorageLocation",
+      "targetIdProp": "storage_location_id"
+    },
+    {
+      "type": "FOR_ARTICLE",
+      "target": "Article",
+      "targetIdProp": "article_no"
+    }
+  ],
+  "constraints": [],
+  "semantics": [],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "MaterialLot",
+    "momDomain": "inventory",
+    "note": "Aggregated stock at a storage location. Deliberately MaterialLot and not MaterialSublot: a sublot is the charge-level unit, and this entity has folded the charge dimension away (lot_count says how far). SMProfile-Quant remains the MaterialSublot tombstone."
+  },
+  "kgNodeLabel": "StockPosition",
+  "kgIdProperty": "stock_key"
+}
