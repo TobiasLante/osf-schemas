@@ -216,7 +216,18 @@
       "category": "business",
       "parentType": null,
       "abstract": false,
+      "retired": true,
+      "retiredAt": "2026-09-02",
+      "retirementId": "retired:SMProfile-Quant@2026-09-02",
       "source": "profiles/wms/quant.json"
+    },
+    "StockPosition": {
+      "key": "stock_key",
+      "profile": "SMProfile-StockPosition",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "profiles/wms/stock-position.json"
     },
     "StorageLocation": {
       "key": "storage_location_id",
@@ -629,26 +640,6 @@
       ]
     },
     {
-      "type": "AT_LOCATION",
-      "from": "Quant",
-      "to": [
-        "StorageLocation"
-      ],
-      "targetIdProp": [
-        "storage_location_id"
-      ]
-    },
-    {
-      "type": "FOR_ARTICLE",
-      "from": "Quant",
-      "to": [
-        "Article"
-      ],
-      "targetIdProp": [
-        "article_no"
-      ]
-    },
-    {
       "type": "PROPOSED_BY_RULE",
       "from": "ResolutionProposal",
       "to": [
@@ -776,6 +767,26 @@
       ],
       "targetIdProp": [
         "lot_no"
+      ]
+    },
+    {
+      "type": "AT_LOCATION",
+      "from": "StockPosition",
+      "to": [
+        "StorageLocation"
+      ],
+      "targetIdProp": [
+        "storage_location_id"
+      ]
+    },
+    {
+      "type": "FOR_ARTICLE",
+      "from": "StockPosition",
+      "to": [
+        "Article"
+      ],
+      "targetIdProp": [
+        "article_no"
       ]
     },
     {

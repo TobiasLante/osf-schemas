@@ -1,8 +1,10 @@
 {
   "syncId": "sim-v5-poll",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "syncType": "polling",
-  "transport": ["nats"],
+  "transport": [
+    "nats"
+  ],
   "pollIntervalMs": 30000,
   "sources": [
     {
@@ -22,9 +24,9 @@
       "batchSize": 200
     },
     {
-      "sourceRef": "sim-v5-wms-quants",
+      "sourceRef": "sim-v5-wms-stock-positions",
       "changeDetection": "full_refresh",
-      "refreshIntervalMs": 60000
+      "refreshIntervalMs": 300000
     }
   ]
 }

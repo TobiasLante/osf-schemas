@@ -1,10 +1,10 @@
 {
   "profileId": "SMProfile-Quant",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "standard": "CESMII",
   "category": "business",
   "displayName": "Quant (inventory stock unit / MaterialSublot)",
-  "description": "next/ v4 — WMS stock unit (Quant) at the storage location, aligned to the LIVE projection of source sim-v5-wms-quants (article_ref/quantity/blocked/warehouse/storage_location), NOT the legacy base profile (article_no/quality_status). Keyed on quant_no. The cross-domain deviation material_unavailable (next/cross-constraints/material_unavailable.json) joins OperationsResponse <-> Quant on article_ref and aggregates the free stock (quantity, filtered to blocked==0). Pure stock carrier, no constraints block (cross-source).",
+  "description": "RETIRED 2026-09-02 (owner decision, option F') -- see retiredReason. TOMBSTONE: nothing new may bind this profile, and sources/rest/sim-v5-wms-quants.json is withdrawn in the same change. SUCCESSOR: SMProfile-StockPosition 1.0.0 (profiles/wms/stock-position.json, label StockPosition, key stock_key), which keeps warehouse / storage_location / article_ref / quantity and both edges, gains quantity_reserved and lot_count, and DROPS lot -- the Chargenrueckverfolgung is gone, deliberately. Kept, and not deletable: (1) 918,774 :Quant nodes are still in the live graph and F3 has no owner token, so the contract that named them must keep naming them; (2) kgIdProperty 'quant_no' is what profiles/wms/material-lot.json's HAS_SUBLOT.targetIdProp resolves against, and ci/lint-edges.mjs collects nodeKeys from every profile regardless of retired -- keeping the key keeps E3 green without touching material-lot.json or the linter; (3) the retired constraint stock_level_control_limits below is a tombstone with open episodes that discrepancy-engine resolves by constraint_defined_in. Original description follows. >>> next/ v4 \u2014 WMS stock unit (Quant) at the storage location, aligned to the LIVE projection of source sim-v5-wms-quants (article_ref/quantity/blocked/warehouse/storage_location), NOT the legacy base profile (article_no/quality_status). Keyed on quant_no. The cross-domain deviation material_unavailable (next/cross-constraints/material_unavailable.json) joins OperationsResponse <-> Quant on article_ref and aggregates the free stock (quantity, filtered to blocked==0). Pure stock carrier, no constraints block (cross-source). <<<",
   "parentType": null,
   "abstract": false,
   "attributes": [
@@ -23,7 +23,7 @@
       "dataType": "String",
       "required": false,
       "category": "Link",
-      "description": "Article (artikel_nr) — join key to Article / OperationsResponse for material availability.",
+      "description": "Article (artikel_nr) \u2014 join key to Article / OperationsResponse for material availability.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -83,7 +83,7 @@
       "dataType": "DateTime",
       "required": false,
       "category": "Timing",
-      "description": "Last change. Server-managed and volatile on every read (sim-v5 returns a fresh value per GET), so promotion:never — kept in the snapshot but excluded from the change-trigger and never published on its own.",
+      "description": "Last change. Server-managed and volatile on every read (sim-v5 returns a fresh value per GET), so promotion:never \u2014 kept in the snapshot but excluded from the change-trigger and never published on its own.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "never"
@@ -104,7 +104,7 @@
   "constraints": [
     {
       "name": "stock_level_control_limits",
-      "description": "TOMBSTONE - the rule body below is preserved VERBATIM as it ran until 2026-08-30. It is evidence, not configuration; retired:true means it is loaded, never evaluated, and its open episodes are superseded with superseded_by=retirementId. Do NOT delete this file. SUCCESSOR: profiles/erp/article.json#stock_below_reorder_level. Original description follows. >>> IT/inventory control limits (Warngrenze (warning limit) + action limit) on the free stock quantity (reorder level / maximum stock level). Stock should stay inside the warn band [20,500]; below 20 or above 500 -> 'warning'-tier alarm (reorder / overstock watch); below the action band lower bound 5 or above 800 -> 'error'-tier alarm (stockout risk / hard overstock). Two-sided control band evaluated centrally by the it-evaluator (IT acquisition); drives the IT alarm panel with a raise/clear lifecycle. LITERAL band = static SSOT for the pilot. --- 2026-07-12 CAPT-STURM: declares a `persistence` policy (anti-chatter). A single sample outside a band is not a deviation — an EPISODE is. `raise` is a Western-Electric run rule (2 of the last 3 evaluations must breach); `clear` is an ISA-18.2 dead-band (the value must return inside the limit by 15 % of the band width, for 3 evaluations). The LIMITS ARE UNCHANGED — this removes chatter, not signal. Declaring it is now MANDATORY for every live `between`/`within_limits` rule (ci/lint-constraints.mjs, fail-closed): a rule the detector cannot police is a rule that reports its own arithmetic instead of the machine. <<<",
+      "description": "TOMBSTONE - the rule body below is preserved VERBATIM as it ran until 2026-08-30. It is evidence, not configuration; retired:true means it is loaded, never evaluated, and its open episodes are superseded with superseded_by=retirementId. Do NOT delete this file. SUCCESSOR: profiles/erp/article.json#stock_below_reorder_level. Original description follows. >>> IT/inventory control limits (Warngrenze (warning limit) + action limit) on the free stock quantity (reorder level / maximum stock level). Stock should stay inside the warn band [20,500]; below 20 or above 500 -> 'warning'-tier alarm (reorder / overstock watch); below the action band lower bound 5 or above 800 -> 'error'-tier alarm (stockout risk / hard overstock). Two-sided control band evaluated centrally by the it-evaluator (IT acquisition); drives the IT alarm panel with a raise/clear lifecycle. LITERAL band = static SSOT for the pilot. --- 2026-07-12 CAPT-STURM: declares a `persistence` policy (anti-chatter). A single sample outside a band is not a deviation \u2014 an EPISODE is. `raise` is a Western-Electric run rule (2 of the last 3 evaluations must breach); `clear` is an ISA-18.2 dead-band (the value must return inside the limit by 15 % of the band width, for 3 evaluations). The LIMITS ARE UNCHANGED \u2014 this removes chatter, not signal. Declaring it is now MANDATORY for every live `between`/`within_limits` rule (ci/lint-constraints.mjs, fail-closed): a rule the detector cannot police is a rule that reports its own arithmetic instead of the machine. <<<",
       "require": {
         "attr": "quantity",
         "op": "within_limits",
@@ -192,5 +192,92 @@
     "note": "Stock unit at the storage location = MaterialSublot (ISA-95 Part 2). Free/blocked (blocked) separates available from blocked stock for material availability (cross-domain ERP<->WMS, material_unavailable)."
   },
   "kgNodeLabel": "Quant",
-  "kgIdProperty": "quant_no"
+  "kgIdProperty": "quant_no",
+  "retired": true,
+  "retiredAt": "2026-09-02",
+  "retirementId": "retired:SMProfile-Quant@2026-09-02",
+  "retiredBy": "CAPT-F2",
+  "retiredReason": "RETIRED 2026-09-02 (owner decision, option F') -- the entity's KEY was an unbounded mint key, and the bounded replacement CANNOT CARRY ITS TRACEABILITY. This is an ENTITY change, not a repair, and the loss is stated first.\n\nWHAT IS LOST. Chargenrueckverfolgung. SMProfile-StockPosition cannot say WHICH charge (lot / charge_nr, category Traceability) lies on a bin. The mean replacement position folds 518 charge-tracked rows and the worst folds 237,342 (measured on the full live table). lot_count on the successor carries that loss as a FIELD, so it is visible in the payload rather than inferred from a missing column. Nothing recovers the per-charge detail from the graph afterwards.\n\nWHY THE KEY HAD TO GO. quant_no is quant_id, which embeds a mint timestamp and its producer (Q-sgm-14-20260813054025-_V4_12-0044-005), so every stock movement mints a NEW identity. MEASURED, full live table, one scan, 2026-09-02T18:35:46Z: 4,415,236 rows, count(DISTINCT quant_id) 4,415,236. Consequences already paid: the source stopped dead for five days on 2026-08-25 at it-edge's 600,000-key eager-restore ceiling; KV bucket it_edge_state_wms_v2 holds 916,651 subjects unbounded; i3x_kg_snapshots stood at 86.2 % of its byte cap with discard:old, i.e. about to eat its own oldest end; and /api/kg/aggregate?label=Quant&groupBy=lot KILLED osf-kg-query twice with a heap OOM on 2026-09-02 because 917,980 distinct groups are materialised before the limit applies -- an unbounded key space is not only a storage cliff but a remote crash surface.\n\nWHY THE PRICE WAS PAYABLE -- charge_nr has ZERO readers, counted over the SHIPPED SURFACE and not by grep alone. (1) Both cross-rules this profile's own description named as the purpose of its stock fields, material_unavailable and qty_shortfall, carry retired:true since 2026-07-12. (2) HAS_SUBLOT, the only edge addressing quant_no, has 0 edges in the live graph. (3) charge_nr as a FILTER on /api/wms/quants was measured INERT on 2026-08-31 (a sentinel value returns the same 60 rows). (4) No source file reads :Quant.lot at all. (5) The one surface still offering it, groupBy=lot, crashes.\n\nWHAT REPLACES IT. SMProfile-StockPosition 1.0.0 (profiles/wms/stock-position.json, label StockPosition, key stock_key), fed by sources/rest/sim-v5-wms-stock-positions.json from GET /api/wms/stock-positions. It keeps warehouse, storage_location, article_ref, quantity and both edges (AT_LOCATION, FOR_ARTICLE), gains quantity_reserved and lot_count, and drops lot. 8,517 positions with a hard ceiling of 137,196 from two master-data tables frozen since 2026-05-16.\n\nA SEPARATE LABEL, NOT A RE-KEY OF THIS ONE, and that is the load-bearing part of this retirement. Option F' is forward-looking: the 918,774 mint-keyed :Quant nodes already in the graph do not disappear, and F3 (their withdrawal) needs an owner token that has NOT been given. Re-keying :Quant in place would therefore put TWO populations under ONE label, mixed into one total that is neither -- and the discriminator for them (kg_merge_key =~ '^[0-9]+:') is applied by NO consumer (0 of 4) and has NO positive control anywhere (0 composite merge keys among all 3,821,239 KgNodes, against a positive control of 919,600 mint keys in the same query). Under two labels every reader separates them for free, because they all enumerate labels generically.\n\nTHIS TOMBSTONE DELIBERATELY KEEPS kgNodeLabel 'Quant', kgIdProperty 'quant_no' AND the quant_no attribute. That is not leftovers: profiles/wms/material-lot.json declares HAS_SUBLOT with targetIdProp 'quant_no', and ci/lint-edges.mjs collects nodeKeys from EVERY profile without checking retired, so keeping the key is what keeps E3 green with no edit to material-lot.json and no weakening of the linter. It also keeps the 918,774 nodes already in the graph nameable by the contract that made them -- a tombstone whose population still exists must remain able to describe it.",
+  "retiredEvidence": {
+    "measuredAt": "2026-09-02",
+    "measuredAgainst": "erp.stock_quants + erp.stock + erp.wms_locations + erp.articles on sim-v5 PROD 192.168.178.154 (read-only, sshpass) + Neo4j osf-neo4j on .99 + kg-query /api/kg/* on .99",
+    "mintKey": {
+      "rows": 4415236,
+      "distinctQuantId": 4415236,
+      "foldFactor": 1.0,
+      "sample": "Q-sgm-14-20260813054025-_V4_12-0044-005",
+      "note": "every ledger row is its own identity -- the key space is the ledger"
+    },
+    "fourFieldVariantRefuted": {
+      "key": "(warehouse_id, location_id, part_number, charge_no)",
+      "distinct": 4414949,
+      "foldFactor": 1.000065,
+      "whyItFails": "charge_no is itself a mint key carrying YYYYMMDDHH, e.g. CH-sgm-13-2026090217-078",
+      "distinctChargeNo": 4409918,
+      "source": "audit/CAPT-F-20260902.md"
+    },
+    "threeFieldSuccessor": {
+      "key": "(warehouse_id, location_id, part_number)",
+      "positionsGroupBy": 8517,
+      "positionsCountDistinctTuple": 8517,
+      "positionsCountDistinctConcat": 8517,
+      "foldFactor": 518.4,
+      "ceiling": 137196,
+      "ceilingDerivation": "309 erp.wms_locations x 222 erp.articles x 2 warehouses; both master tables have min(created_at)=max(created_at)=2026-05-16",
+      "pctOfCeiling": 6.21,
+      "newPositionsLast14d": 12,
+      "newChargeNoLast14d": 645377,
+      "newRowsLast14d": 645695,
+      "growthRatio": "1 : 53808",
+      "newPositionsAreNewMasterRows": false,
+      "sightingsOf8517": [
+        "CAPT-F 18:11Z rows=4414044",
+        "orchestrator rows=4414392",
+        "CAPT-F2 18:35Z rows=4415236"
+      ]
+    },
+    "loss": {
+      "attributeDropped": "lot (charge_nr), category Traceability",
+      "meanChargesFoldedPerPosition": 518,
+      "maxChargesFoldedInOnePosition": 237342,
+      "carriedForwardAs": "lot_count on SMProfile-StockPosition",
+      "readersOfChargeNr": 0,
+      "readerEvidence": [
+        "cross-constraints/material_unavailable.json retired:true 2026-07-12",
+        "cross-constraints/qty_shortfall.json retired:true 2026-07-12",
+        "HAS_SUBLOT: 0 edges in byRelationship",
+        "charge_nr filter on /api/wms/quants measured INERT 2026-08-31 (sentinel returns same 60 rows)",
+        "no source file reads :Quant.lot",
+        "/api/kg/aggregate?label=Quant&groupBy=lot crashes kg-query (heap OOM, 917,980 groups)"
+      ]
+    },
+    "graphAtRetirement": {
+      "quantNodes": 918774,
+      "sumQuantity": 29954514.25,
+      "ledgerSum": 845422279.052,
+      "arbiterErpStockSum": 730254126.0,
+      "graphPctOfLedger": 3.544,
+      "graphPctOfArbiter": 4.101,
+      "ledgerVsArbiterSpread": "15.77 % -- which is the WMS truth is OPEN, see CAPT-F register #10",
+      "distinct3TuplesInGraph": 3923,
+      "distinct3TuplesLive": 8517,
+      "structuralCoverage": "46.06 %",
+      "projectionIsConservative": "845450332.371 = 845450332.371 and 4416403 ledger rows = 4416403 rows covered"
+    },
+    "nodesLeftBehind": {
+      "count": 918774,
+      "disposition": "NOT withdrawn -- F3 requires an owner token that was not given; nothing was deleted on .99",
+      "compositeMergeKeysInWholeGraph": 0,
+      "positiveControlSameQuery": 919600,
+      "discriminatorConsumers": "0 of 4 (kg-query stats.ts, kg-query aggregate.ts, orchestrator kg-tools.ts, apps/web build/page.tsx)",
+      "mitigation": "the successor uses a SEPARATE label, so no consumer has to apply a discriminator at all"
+    },
+    "writeLoadAfter": {
+      "positionsMovedPer5MinPoll": 37,
+      "positionsMovedPer1h": 107,
+      "positionsMovedPer24h": 326,
+      "positionsUnmoved30d": 3434,
+      "comparedToToday": "60,011 NEW NODES per day, unbounded"
+    }
+  }
 }

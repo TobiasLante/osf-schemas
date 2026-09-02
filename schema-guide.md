@@ -36,7 +36,7 @@ osf-schemas/
 │   ├── machines/               Machine (abstract parent), CNC_Machine, InjectionMoldingMachine (3 json)
 │   ├── operations/             ISA-95 Part 4: OperationsDefinition, ProcessSegment, Segment{Requirement,Response}, Workorder (5 json)
 │   ├── qms/                    InspectionLot, SPCAnalysis (2 json)
-│   └── wms/                    MaterialLot, Quant, StorageLocation (3 json)
+│   └── wms/                    MaterialLot, Quant, StorageLocation (4 json)
 ├── recipes/                GitHub-managed recipe master data (see recipes/README.md) (5 json)
 ├── sources/                Schema 2: Data Sources (instance binding)
 │   ├── mtconnect/              MTConnect agent mappings (2 json)
@@ -68,17 +68,17 @@ Alles aus der v3-Ära (PostgreSQL-Sources, MQTT-UNS-/Kafka-/Webhook-Syncs) liegt
 <!-- gen:counts:begin -->
 | Category | Count | Files |
 |---|---|---|
-| Profiles | 29 | equipment 3 · erp 8 · intelligence 5 · machines 3 · operations 5 · qms 2 · wms 3 |
+| Profiles | 30 | equipment 3 · erp 8 · intelligence 5 · machines 3 · operations 5 · qms 2 · wms 4 |
 | Sources — mtconnect | 2 | mtconnect-cnc-01, mtconnect-cnc-mtc-02 |
 | Sources — opcua | 15 | opcua-cnc-001-event, opcua-cnc-001-telemetry, opcua-cnc-002-event, opcua-cnc-002-telemetry, opcua-ftlinx-01-event, opcua-ftlinx-01-telemetry, opcua-mtbridge-cnc-01, opcua-rockwell-01-event, opcua-rockwell-01-telemetry, opcua-sgm-001-event, opcua-sgm-001-telemetry, opcua-sgm-004-processdata, opcua-sgm-005-processdata, opcua-sgm-006-bde, opcua-sgm-006-processdata |
-| Sources — rest | 10 | erp-bde-confirmations, erp-operations-response, erp-production-orders, erp-segment-requirements, erp-segment-responses, sim-v5-erp-articles, sim-v5-erp-calendar, sim-v5-erp-customers, sim-v5-qms-inspections, sim-v5-wms-quants |
+| Sources — rest | 10 | erp-bde-confirmations, erp-operations-response, erp-production-orders, erp-segment-requirements, erp-segment-responses, sim-v5-erp-articles, sim-v5-erp-calendar, sim-v5-erp-customers, sim-v5-qms-inspections, sim-v5-wms-stock-positions |
 | Sync — nats | 2 | jetstream-streams, opcua-to-nats-cnc-mtc-01 |
 | Sync — opcua-server | 1 | mtconnect-to-opcua-cnc-mtc-01 |
 | Sync — polling | 1 | sim-v5-poll |
 | Recipes | 5 (2 parked) | recipe-sgm-004-default, recipe-sgm-004-pa66gf30-bracket-b *(parked)*, recipe-sgm-004-pa66gf30-housing-a *(parked)*, recipe-sgm-005-default, recipe-sgm-006-default |
 | KPIs | 6 (2 parked) | availability, energy-per-part *(parked)*, oee, performance *(parked)*, quality-rate, scrap-rate |
 
-Measured from the tree by `ci/gen-docs.mjs` — the same sums `npm run validate:refs` prints (`lint-refs: 29 profiles, 27 sources, 4 sync files`).
+Measured from the tree by `ci/gen-docs.mjs` — the same sums `npm run validate:refs` prints (`lint-refs: 30 profiles, 27 sources, 4 sync files`).
 <!-- gen:counts:end -->
 
 ---
@@ -489,6 +489,7 @@ Phase 5: Embeddings
 | `rule_id` | AutoResolveRule | 2 |
 | `segment_requirement_no` | SegmentRequirement | 2 |
 | `segment_response_no` | SegmentResponse | 2 |
+| `stock_key` | StockPosition | — |
 | `storage_location_id` | StorageLocation | 2 |
 | `tool_id` | Tool | 1 |
 | `workorder_no` | Workorder | 2 |
