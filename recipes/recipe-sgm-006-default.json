@@ -1,10 +1,10 @@
 {
   "recipeId": "RECIPE-sgm-006-default",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "owner": "Process Engineering",
   "profileRef": "SMProfile-InjectionMoldingMachine",
   "displayName": "sgm-006 default band (equipment-scoped catch-all)",
-  "description": "FIX 5 (2026-07-31) — sgm-006 (Arburg Allrounder 470A, v4-SGM-012) had NO recipe of its own, so recipe:hotrunner_temp_band / hotrunner_control_limits stayed dormant or fell onto a band authored for a different machine — and its actual process then sat exactly ON an alarm line (measured hotrunnerTempC mean 225.00 degC = the warn-lower it was being judged against). A real machine does not hold its setpoint on its own alarm threshold. This recipe re-centres the bands on THIS machine's real setpoint: nozzle SOLL 225 degC (machines-sgm/src/config.ts:385 nozzleSetpointC=225, barrel [195,205,215,220]) so 225 sits in the MIDDLE of its band, not on the edge. Widths mirror the sgm-004 default. mouldTempC band [80,90] is the PA-resin norm (mould TCU target 87.5 degC, MOULD_TCU_TARGET_C). Only the two signals we can calibrate from the machine spec are bound here; pressures/cushion/partMass stay dormant (no per-machine drawing/process sheet yet) so no un-calibrated band can raise a false alarm. --- 2026-09-20 WELLE-A / CAPT-REZEPT: THE ESCALATION GEOMETRY WAS INSIDE OUT. MEASURED on this file before the change: the ACTION tier lay INSIDE the tolerance it is supposed to protect (action [220,229] inside tolerance [218.5,231.5]). Read together with the consumer's contract that is the wrong way round: brain-operator treats WARN as 'keep running, correct' and ACTION as 'stop the machine' (sim-v5 packages/brain-operator/src/decide.ts + deterministic-stop.ts), so the old numbers ordered a STOP at 219.5 degC — a value at which the part is still inside its own band and the press is still making good parts. THE RULE APPLIED HERE, to every tier in this file: (1) ACTION IS THE TOLERANCE LIMIT ITSELF. An Eingriffsgrenze that stops the line may not fire while the part is in spec, and it may not wait until scrap has been running for a while either — so it is not a second number, it IS the spec limit. (2) WARN IS THE TOLERANCE NARROWED BY 2 SIGMA of the signal's own measured scatter: the Warngrenze belongs where the process's ordinary 95 % spread first reaches the tolerance limit, because past that point noise alone starts producing out-of-spec parts and that is precisely when a setter must correct while the part is still good. Nesting is therefore warn subset tolerance = action, proven per machine in the PR's table, and no width was widened to buy silence — the only reason a limit moved outward is that it had been standing inside the spec. APPLIED TO THIS MACHINE: MEASURED hotrunnerTempC (host .120, 2026-09-20, SgmMachine over the shipped DEFAULT_CONFIG, 3 h at 1 Hz, first 15 min discarded) n = 79,200, mean 224.991, sd 1.4981, range [218.4, 231.4] — the generator is machines-sgm/src/machine.ts:1834 `nozzleC + normal(0, 1.5)`, the same sigma on every SGM, so 2 sigma = 3.0 degC and warn = [221.5, 228.5], action = [218.5, 231.5]. The retired warn was asymmetric about the SOLL (225): it carried a historical '+-3.5 / -4.5 about SOLL-0.5' offset inherited from sgm-004, i.e. 4.0 degC of reserve below the nominal and 3.0 above. Same rule on both sides now. Nesting: warn subset tolerance = action subset equipment envelope [180,310] (equipment_hotrunner_temp_envelope). The action half-width 6.5 degC is 4.33 sigma, so it is not reachable by noise, while the injected setpoint drift is a single step of 8-15 degC (machine.ts DRIFT_MAGNITUDE_MIN_C/MAX_C) and therefore always clears it — every drift on this axis escalates, none can hide inside the band. --- 2026-09-20 WELLE-A / CAPT-REZEPT: mouldTempC GETS CONTROL LIMITS, AND THE HALF-TRUTH ABOUT WHY IT HAD NONE. It is not that nothing judged mouldTempC: profiles/machines/injection-molding-machine.json declares `mould_temp_control_limits` (op within_limits, deviation_class recipe) with a LITERAL warn [82,88] / action [78,92]. The defect is that the literal is ONE global band for every injection-moulding machine in the fleet — the exact construction CAPT-STURM measured on hotrunner_control_limits on 2026-07-12 ('a control limit is meaningless without the setpoint it is centred on') and wave-3 retired on 2026-07-31 by moving that rule onto `valueFrom`. mouldTempC was left behind, so no RECIPE carried a warn/action split for it and every consumer that reads recipes rather than the baked profile was blind to it. This file now supplies the band. NO PROFILE EDIT IS NEEDED FOR IT TO BE READ: the it-evaluator's RecipeBandResolver derives a recipe-class constraint's ref as `c.require?.valueFrom ?? refByConstraint.get(cid) ?? recipe:<cid>` (recipe-band-resolver.ts, indexProfiles), and `mould_temp_control_limits` resolves through the third arm to exactly `recipe:mould_temp_control_limits`. GEOMETRY, same rule as above: action := the tolerance band [80,90] verbatim (the PA-resin norm, untouched); warn := narrowed by 2 sigma. MEASURED (host .120, 2026-09-20, SgmMachine driven over the shipped DEFAULT_CONFIG, 3 h at 1 Hz, first 15 min discarded): mouldTempC n = 9,900, mean 87.51, sd 0.795 — the generator is machines-sgm/src/machine.ts:1895 `mouldTempC + normal(0, MOULD_TEMP_SIGMA_C)` with MOULD_TEMP_SIGMA_C = 0.8. 2 sigma = 1.6 degC gives [81.6, 88.4]; published as [82, 88], i.e. TIGHTER than the rule demands. Two reasons, both deliberate: tighter is the safe direction for a warn tier, and [82,88] is byte-identical to the literal the EDGE OT detector still evaluates (the edge is literals-only and ignores valueFrom), so while that literal stands the central recipe-driven verdict and the edge verdict cannot contradict each other on this signal. WHAT IT CHANGES, MEASURED: a mouldSetpointC drift event (machine.ts injectSetpointDrift, one step of 8-15 degC, DRIFT_MAGNITUDE_MIN_C/MAX_C) moves the TCU target from 87.5 to 95.5-102.5 degC. In a run on this host sgm-005's target drifted +11.4 degC to 98.9 and mouldTempC settled at mean 98.52 / p99 100.8 — an ACTION excursion against [80,90], and previously an excursion with nothing in ANY recipe to escalate against. brain-operator states the gap in its own source: MONITORED_PARAMS holds a single entry because 'of the SGM parameters, only hotrunnerTempC has a warn/action split in any live recipe ... It is still ONE entry, and that is a DATA gap, not a code gap' (decide.ts). This closes that data gap; wiring the second entry is Welle B. THE HONEST CONSEQUENCE, STATED HERE RATHER THAN DISCOVERED IN PRODUCTION: the TCU aims at 87.5 degC (MOULD_TCU_TARGET_C) while this recipe's SOLL is 85 — the deliberate, documented 2.5 degC off-centre process (Ca = 2.5/5 = 0.50, four times the ca_max 0.125 this very file demands). 87.5 sits only 0.62 sigma under the warn upper limit, so WARN will be breached on roughly a quarter of all samples and, through the rule's 2-of-3 persistence, will stand essentially permanently. That is not a false alarm and the cure is not a wider band: it is the same verdict the capability rule already renders, finally visible on the tier a setter reads. ACTION stays clean — 90 degC is 3.1 sigma above the process centre and was not reached in 9,900 samples — so a standing WARN can never turn into a stop. --- 2026-09-20 WELLE-A / CAPT-REZEPT, cushionMm IS NOW LED HERE, AND IT IS DERIVED, NOT COPIED. This file used to lead two of the seven bands the injection-moulding profile can resolve, with the honest reason that 'pressures/cushion/partMass stay dormant (no per-machine drawing/process sheet yet)'. That reason holds for the pressures and for partMass_g and they stay dormant — but it does NOT hold for the cushion, and checking rather than repeating it is the whole point. The residual cushion is not a per-machine number in this plant at all: it is produced by ONE line that has no per-machine configuration, machines-sgm/src/machine.ts:1162 `this.cushionMm = 6 + this.prng.normal(0, 0.4)`, evaluated during COOL_PLAST on every SGM. So the SOLL 6.0 mm and the scatter sigma = 0.4 mm are properties of the process, and adopting sgm-004's band [4.35, 7.65] here is an arithmetic result, not a copy: half-width 1.65 mm = 4.125 sigma, Cp = 3.30 / (6 x 0.4) = 1.375, which clears the cp_min 1.33 this file demands. MEASURED on this machine (host .120, 2026-09-20, SgmMachine over the shipped DEFAULT_CONFIG, one full cycle, COOL_PLAST samples): 5.2, 5.9, 6.3, 6.2, 6.6, 5.6, 5.9, 5.1, 5.7, 5.5, 6.3, 6.0, 6.3 mm over 13 samples — inside the band with margin. The band is UNGATED here because the operative guard is, and must be mirrored: profile constraint recipe_cushion_band declares no `when`, so no `gate` is written on the parameter (ci/lint-recipes.mjs fails the build in both directions). NOTE on the population this implies: outside COOL_PLAST the signal HOLDS its last value rather than idling to zero, so the ungated aggregate is a step-held series, not a blend of a running and a standing machine — measured over 3 h it never left the band. No control limits are added for it: see the paragraph on the profile gap below. --- 2026-09-20 WELLE-A / CAPT-REZEPT, WHY partMass_g AND THE PRESSURES ARE STILL NOT LED HERE. partMass_g: this machine has no drawing. sgm-004 may carry `toleranceSource: drawing` because DWG-12-0044-003 exists in the PLM and the band is propagated from its wall-thickness tolerance; this machine's tool (see the machine config) has no design record, so the only available nominal would be the simulator's own partMassTargetG constant. A band drawn around a sim constant and then compared against that same constant is exactly the fiction this recipe family removed in sgm-004 v4.0.0 ('the celebrated Ca of 0.147 was the distance between a sim constant and a typed number, wearing a provenance that pointed at nothing'). It is not repeated here. The pressures: the HOLD plateau IS derivable from the machine constant — injectionPressureBar 980 x wearPressureFactor x 0.5, reported x 1.05 as peak and x 0.7 as hold, measured on this host at 514.5 / 343.0 bar at 100 % mould life — but two things make a static band dishonest today: the `phaseName==HOLD` gate admits one P-independent ramp-in sample per cycle (measured 483 / 322 bar) alongside the plateau, and wearPressureFactor = 1 + (100 - lifePercent) x 0.003 lifts the plateau by up to +30 % over the tool's life. A band authored now would be correct at 100 % mould life and wrong from roughly 78 % onward, and the repair for that is a wear-aware band or a plateau-only gate — both of which live in profiles/, not here. --- 2026-09-20 WELLE-A / CAPT-REZEPT, WHAT THIS FILE STILL DOES NOT HAVE, AND WHY IT IS NOT IN THIS COMMIT. cushionMm — the one band this file leads that is neither hotrunnerTempC nor mouldTempC — carries a band but NO control limits, and a recipe alone cannot give them one: a control limit only reaches the engine through a PROFILE constraint with op within_limits and deviation_class recipe, and profiles/machines/injection-molding-machine.json declares exactly two of those (hotrunner_control_limits, mould_temp_control_limits). The resolver asks the recipe only for the refs its own constraints name (recipe-band-resolver.ts indexProfiles -> resolveFromBindings), so a `recipe:part_mass_control_limits` key written here would be requested by nobody: dead data that READS like coverage, which is worse than the gap it hides. The missing constraints are a profiles/ change and belong to the wave that may touch profiles/. Same reason no parameter was added for the ~50 further values the machine publishes (barrel zone setpoints, nozzleSetpointC, mouldSetpointC, injectionSpeedMmPerSec, backPressureBar, shotVolumeCm3, coolingFlowLMin, cycleTimeSec, cavityPressureBar, mouldPressureBar): none of them has a recipe-class constraint, and the three setpoint axes are not even in the profile's 48-attribute vocabulary, so a band on them would be invisible to the engine and to the UI. --- CAPT-LEAD 2026-09-20: three bands ADDED, taking this recipe from 4 of the 7 refs the resolver asks for to 7 of 7. Every number is DERIVED from this machine's own published model, not copied from sgm-004 and not typed by hand. PRESSURES. machine.ts sets holdBar = peakBar * 0.5 with peakBar = injectionPressureBar * wearPressureFactor, and publishes peakPressureBar = currentPressureBar * 1.05 and holdPressureBar = currentPressureBar * 0.7. Both bands are guarded by phaseName eq HOLD, so the value they judge is the HOLD plateau: nominal peak = ipb * 0.5 * 1.05, nominal hold = ipb * 0.5 * 0.7. The derivation is checked against the recipe that already shipped: sgm-004 with ipb 1000 gives 525 / 350, and sgm-004-default carries soll 510 / 340 with bands [450,560] / [300,380]. SOLL IS THE NOMINAL ITSELF here, so Ca starts at 0 instead of the 0.27 sgm-004's peak band starts at. The band runs 0.90 to 1.12 of soll: wearPressureFactor = 1 + (100 - lifePercent) * 0.003 reaches 1.12 at 60 % mould life, so the upper bound is the point where THE TOOL, not the band, is the finding. Below 60 % life the process genuinely leaves the band - that is a true statement about an aging mould, and it must not be widened away. PART MASS. NOT a drawing tolerance, and it does not pretend to be: this article has no released drawing, so toleranceSource is process_estimate and NOT 'drawing'. This repo already removed one invented part-mass band that wore a 'drawing' stamp pointing at nothing, and this is deliberately not a second one. It is a process-capability band: drawShotPartMasses() finds no design record for this mould, so the true mean IS cfg.partMassTargetG and the noise is normal(0, mean * 0.008). The band is mean +- 4 sigma, which is exactly Cp = 1.33 - the cp_min this file declares - and Ca = 0. WHAT IT CANNOT DO: without a drawing this band can prove the process is STABLE and CENTRED, but it cannot prove the part is CORRECT. Only a released drawing can, and when one exists this band must be re-derived from it and the source changed to 'drawing'. See audits/2026-09-20/ in the sim-v5 repo. --- CAPT-LEAD 2026-09-20, five more parameters. A real injection-moulding recipe carries more than seven entries, and the ceiling was never this file - it was the profile: RecipeBandResolver only asks for refs that a deviation_class 'recipe' constraint names. SMProfile-InjectionMoldingMachine 2.4.0 adds five, and here are the bands. Every number is read out of machines-sgm, not estimated: melt temperature nozzleTempC follows activeNozzleSetpointC at 0.5 degC/tick with no noise (machine.ts), so soll IS the setpoint and the band mirrors the hot-runner tolerance of the same machine. injectionSpeedMmPerSec is jitter(60, 0.05) and backPressureBar is jitter(100, 0.10), and jitter(c, r) = c * (1 +- r) UNIFORM, so sigma = c*r/sqrt(3); the bands are mean +- 4 sigma, which is Cp = 1.33 at Ca = 0 - the back-pressure band is wide because the simulated jitter is wide, and narrowing it would manufacture a permanent capability finding out of nothing. coolingFlowLMin is a constant 22.0 L/min while RUNNING and 0 otherwise, hence the +-10 % band and the inCycle gate: 0 against a band is a category error, not a finding. cycleTimeSec is cfg.cycleTimeSec unless an assignment overrides it, +-10 %. DELIBERATELY ABSENT: shotVolumeCm3. machine.ts computes it as cavities * partMassTargetG / 1.1 when the mould has no design record, and its own comment calls that 'the causality of injection moulding exactly upside down' - a value the source flags as wrong gets no band. See audits/2026-09-20/ in the sim-v5 repo.",
+  "description": "FIX 5 (2026-07-31) — sgm-006 (Arburg Allrounder 470A, v4-SGM-012) had NO recipe of its own, so recipe:hotrunner_temp_band / hotrunner_control_limits stayed dormant or fell onto a band authored for a different machine — and its actual process then sat exactly ON an alarm line (measured hotrunnerTempC mean 225.00 degC = the warn-lower it was being judged against). A real machine does not hold its setpoint on its own alarm threshold. This recipe re-centres the bands on THIS machine's real setpoint: nozzle SOLL 225 degC (machines-sgm/src/config.ts:385 nozzleSetpointC=225, barrel [195,205,215,220]) so 225 sits in the MIDDLE of its band, not on the edge. Widths mirror the sgm-004 default. mouldTempC band [80,90] is the PA-resin norm (mould TCU target 87.5 degC, MOULD_TCU_TARGET_C). Only the two signals we can calibrate from the machine spec are bound here; pressures/cushion/partMass stay dormant (no per-machine drawing/process sheet yet) so no un-calibrated band can raise a false alarm. --- 2026-09-20 WELLE-A / CAPT-REZEPT: THE ESCALATION GEOMETRY WAS INSIDE OUT. MEASURED on this file before the change: the ACTION tier lay INSIDE the tolerance it is supposed to protect (action [220,229] inside tolerance [218.5,231.5]). Read together with the consumer's contract that is the wrong way round: brain-operator treats WARN as 'keep running, correct' and ACTION as 'stop the machine' (sim-v5 packages/brain-operator/src/decide.ts + deterministic-stop.ts), so the old numbers ordered a STOP at 219.5 degC — a value at which the part is still inside its own band and the press is still making good parts. THE RULE APPLIED HERE, to every tier in this file: (1) ACTION IS THE TOLERANCE LIMIT ITSELF. An Eingriffsgrenze that stops the line may not fire while the part is in spec, and it may not wait until scrap has been running for a while either — so it is not a second number, it IS the spec limit. (2) WARN IS THE TOLERANCE NARROWED BY 2 SIGMA of the signal's own measured scatter: the Warngrenze belongs where the process's ordinary 95 % spread first reaches the tolerance limit, because past that point noise alone starts producing out-of-spec parts and that is precisely when a setter must correct while the part is still good. Nesting is therefore warn subset tolerance = action, proven per machine in the PR's table, and no width was widened to buy silence — the only reason a limit moved outward is that it had been standing inside the spec. APPLIED TO THIS MACHINE: MEASURED hotrunnerTempC (host .120, 2026-09-20, SgmMachine over the shipped DEFAULT_CONFIG, 3 h at 1 Hz, first 15 min discarded) n = 79,200, mean 224.991, sd 1.4981, range [218.4, 231.4] — the generator is machines-sgm/src/machine.ts:1834 `nozzleC + normal(0, 1.5)`, the same sigma on every SGM, so 2 sigma = 3.0 degC and warn = [221.5, 228.5], action = [218.5, 231.5]. The retired warn was asymmetric about the SOLL (225): it carried a historical '+-3.5 / -4.5 about SOLL-0.5' offset inherited from sgm-004, i.e. 4.0 degC of reserve below the nominal and 3.0 above. Same rule on both sides now. Nesting: warn subset tolerance = action subset equipment envelope [180,310] (equipment_hotrunner_temp_envelope). The action half-width 6.5 degC is 4.33 sigma, so it is not reachable by noise, while the injected setpoint drift is a single step of 8-15 degC (machine.ts DRIFT_MAGNITUDE_MIN_C/MAX_C) and therefore always clears it — every drift on this axis escalates, none can hide inside the band. --- 2026-09-20 WELLE-A / CAPT-REZEPT: mouldTempC GETS CONTROL LIMITS, AND THE HALF-TRUTH ABOUT WHY IT HAD NONE. It is not that nothing judged mouldTempC: profiles/machines/injection-molding-machine.json declares `mould_temp_control_limits` (op within_limits, deviation_class recipe) with a LITERAL warn [82,88] / action [78,92]. The defect is that the literal is ONE global band for every injection-moulding machine in the fleet — the exact construction CAPT-STURM measured on hotrunner_control_limits on 2026-07-12 ('a control limit is meaningless without the setpoint it is centred on') and wave-3 retired on 2026-07-31 by moving that rule onto `valueFrom`. mouldTempC was left behind, so no RECIPE carried a warn/action split for it and every consumer that reads recipes rather than the baked profile was blind to it. This file now supplies the band. NO PROFILE EDIT IS NEEDED FOR IT TO BE READ: the it-evaluator's RecipeBandResolver derives a recipe-class constraint's ref as `c.require?.valueFrom ?? refByConstraint.get(cid) ?? recipe:<cid>` (recipe-band-resolver.ts, indexProfiles), and `mould_temp_control_limits` resolves through the third arm to exactly `recipe:mould_temp_control_limits`. GEOMETRY, same rule as above: action := the tolerance band [80,90] verbatim (the PA-resin norm, untouched); warn := narrowed by 2 sigma. MEASURED (host .120, 2026-09-20, SgmMachine driven over the shipped DEFAULT_CONFIG, 3 h at 1 Hz, first 15 min discarded): mouldTempC n = 9,900, mean 87.51, sd 0.795 — the generator is machines-sgm/src/machine.ts:1895 `mouldTempC + normal(0, MOULD_TEMP_SIGMA_C)` with MOULD_TEMP_SIGMA_C = 0.8. 2 sigma = 1.6 degC gives [81.6, 88.4]; published as [82, 88], i.e. TIGHTER than the rule demands. Two reasons, both deliberate: tighter is the safe direction for a warn tier, and [82,88] is byte-identical to the literal the EDGE OT detector still evaluates (the edge is literals-only and ignores valueFrom), so while that literal stands the central recipe-driven verdict and the edge verdict cannot contradict each other on this signal. WHAT IT CHANGES, MEASURED: a mouldSetpointC drift event (machine.ts injectSetpointDrift, one step of 8-15 degC, DRIFT_MAGNITUDE_MIN_C/MAX_C) moves the TCU target from 87.5 to 95.5-102.5 degC. In a run on this host sgm-005's target drifted +11.4 degC to 98.9 and mouldTempC settled at mean 98.52 / p99 100.8 — an ACTION excursion against [80,90], and previously an excursion with nothing in ANY recipe to escalate against. brain-operator states the gap in its own source: MONITORED_PARAMS holds a single entry because 'of the SGM parameters, only hotrunnerTempC has a warn/action split in any live recipe ... It is still ONE entry, and that is a DATA gap, not a code gap' (decide.ts). This closes that data gap; wiring the second entry is Welle B. THE HONEST CONSEQUENCE, STATED HERE RATHER THAN DISCOVERED IN PRODUCTION: the TCU aims at 87.5 degC (MOULD_TCU_TARGET_C) while this recipe's SOLL is 85 — the deliberate, documented 2.5 degC off-centre process (Ca = 2.5/5 = 0.50, four times the ca_max 0.125 this very file demands). 87.5 sits only 0.62 sigma under the warn upper limit, so WARN will be breached on roughly a quarter of all samples and, through the rule's 2-of-3 persistence, will stand essentially permanently. That is not a false alarm and the cure is not a wider band: it is the same verdict the capability rule already renders, finally visible on the tier a setter reads. ACTION stays clean — 90 degC is 3.1 sigma above the process centre and was not reached in 9,900 samples — so a standing WARN can never turn into a stop. --- 2026-09-20 WELLE-A / CAPT-REZEPT, cushionMm IS NOW LED HERE, AND IT IS DERIVED, NOT COPIED. This file used to lead two of the seven bands the injection-moulding profile can resolve, with the honest reason that 'pressures/cushion/partMass stay dormant (no per-machine drawing/process sheet yet)'. That reason holds for the pressures and for partMass_g and they stay dormant — but it does NOT hold for the cushion, and checking rather than repeating it is the whole point. The residual cushion is not a per-machine number in this plant at all: it is produced by ONE line that has no per-machine configuration, machines-sgm/src/machine.ts:1162 `this.cushionMm = 6 + this.prng.normal(0, 0.4)`, evaluated during COOL_PLAST on every SGM. So the SOLL 6.0 mm and the scatter sigma = 0.4 mm are properties of the process, and adopting sgm-004's band [4.35, 7.65] here is an arithmetic result, not a copy: half-width 1.65 mm = 4.125 sigma, Cp = 3.30 / (6 x 0.4) = 1.375, which clears the cp_min 1.33 this file demands. MEASURED on this machine (host .120, 2026-09-20, SgmMachine over the shipped DEFAULT_CONFIG, one full cycle, COOL_PLAST samples): 5.2, 5.9, 6.3, 6.2, 6.6, 5.6, 5.9, 5.1, 5.7, 5.5, 6.3, 6.0, 6.3 mm over 13 samples — inside the band with margin. The band is UNGATED here because the operative guard is, and must be mirrored: profile constraint recipe_cushion_band declares no `when`, so no `gate` is written on the parameter (ci/lint-recipes.mjs fails the build in both directions). NOTE on the population this implies: outside COOL_PLAST the signal HOLDS its last value rather than idling to zero, so the ungated aggregate is a step-held series, not a blend of a running and a standing machine — measured over 3 h it never left the band. No control limits are added for it: see the paragraph on the profile gap below. --- 2026-09-20 WELLE-A / CAPT-REZEPT, WHY partMass_g AND THE PRESSURES ARE STILL NOT LED HERE. partMass_g: this machine has no drawing. sgm-004 may carry `toleranceSource: drawing` because DWG-12-0044-003 exists in the PLM and the band is propagated from its wall-thickness tolerance; this machine's tool (see the machine config) has no design record, so the only available nominal would be the simulator's own partMassTargetG constant. A band drawn around a sim constant and then compared against that same constant is exactly the fiction this recipe family removed in sgm-004 v4.0.0 ('the celebrated Ca of 0.147 was the distance between a sim constant and a typed number, wearing a provenance that pointed at nothing'). It is not repeated here. The pressures: the HOLD plateau IS derivable from the machine constant — injectionPressureBar 980 x wearPressureFactor x 0.5, reported x 1.05 as peak and x 0.7 as hold, measured on this host at 514.5 / 343.0 bar at 100 % mould life — but two things make a static band dishonest today: the `phaseName==HOLD` gate admits one P-independent ramp-in sample per cycle (measured 483 / 322 bar) alongside the plateau, and wearPressureFactor = 1 + (100 - lifePercent) x 0.003 lifts the plateau by up to +30 % over the tool's life. A band authored now would be correct at 100 % mould life and wrong from roughly 78 % onward, and the repair for that is a wear-aware band or a plateau-only gate — both of which live in profiles/, not here. --- 2026-09-20 WELLE-A / CAPT-REZEPT, WHAT THIS FILE STILL DOES NOT HAVE, AND WHY IT IS NOT IN THIS COMMIT. cushionMm — the one band this file leads that is neither hotrunnerTempC nor mouldTempC — carries a band but NO control limits, and a recipe alone cannot give them one: a control limit only reaches the engine through a PROFILE constraint with op within_limits and deviation_class recipe, and profiles/machines/injection-molding-machine.json declares exactly two of those (hotrunner_control_limits, mould_temp_control_limits). The resolver asks the recipe only for the refs its own constraints name (recipe-band-resolver.ts indexProfiles -> resolveFromBindings), so a `recipe:part_mass_control_limits` key written here would be requested by nobody: dead data that READS like coverage, which is worse than the gap it hides. The missing constraints are a profiles/ change and belong to the wave that may touch profiles/. Same reason no parameter was added for the ~50 further values the machine publishes (barrel zone setpoints, nozzleSetpointC, mouldSetpointC, injectionSpeedMmPerSec, backPressureBar, shotVolumeCm3, coolingFlowLMin, cycleTimeSec, cavityPressureBar, mouldPressureBar): none of them has a recipe-class constraint, and the three setpoint axes are not even in the profile's 48-attribute vocabulary, so a band on them would be invisible to the engine and to the UI. --- CAPT-LEAD 2026-09-20: three bands ADDED, taking this recipe from 4 of the 7 refs the resolver asks for to 7 of 7. Every number is DERIVED from this machine's own published model, not copied from sgm-004 and not typed by hand. PRESSURES. machine.ts sets holdBar = peakBar * 0.5 with peakBar = injectionPressureBar * wearPressureFactor, and publishes peakPressureBar = currentPressureBar * 1.05 and holdPressureBar = currentPressureBar * 0.7. Both bands are guarded by phaseName eq HOLD, so the value they judge is the HOLD plateau: nominal peak = ipb * 0.5 * 1.05, nominal hold = ipb * 0.5 * 0.7. The derivation is checked against the recipe that already shipped: sgm-004 with ipb 1000 gives 525 / 350, and sgm-004-default carries soll 510 / 340 with bands [450,560] / [300,380]. SOLL IS THE NOMINAL ITSELF here, so Ca starts at 0 instead of the 0.27 sgm-004's peak band starts at. The band runs 0.90 to 1.12 of soll: wearPressureFactor = 1 + (100 - lifePercent) * 0.003 reaches 1.12 at 60 % mould life, so the upper bound is the point where THE TOOL, not the band, is the finding. Below 60 % life the process genuinely leaves the band - that is a true statement about an aging mould, and it must not be widened away. PART MASS. NOT a drawing tolerance, and it does not pretend to be: this article has no released drawing, so toleranceSource is process_estimate and NOT 'drawing'. This repo already removed one invented part-mass band that wore a 'drawing' stamp pointing at nothing, and this is deliberately not a second one. It is a process-capability band: drawShotPartMasses() finds no design record for this mould, so the true mean IS cfg.partMassTargetG and the noise is normal(0, mean * 0.008). The band is mean +- 4 sigma, which is exactly Cp = 1.33 - the cp_min this file declares - and Ca = 0. WHAT IT CANNOT DO: without a drawing this band can prove the process is STABLE and CENTRED, but it cannot prove the part is CORRECT. Only a released drawing can, and when one exists this band must be re-derived from it and the source changed to 'drawing'. See audits/2026-09-20/ in the sim-v5 repo. --- CAPT-LEAD 2026-09-20, five more parameters. A real injection-moulding recipe carries more than seven entries, and the ceiling was never this file - it was the profile: RecipeBandResolver only asks for refs that a deviation_class 'recipe' constraint names. SMProfile-InjectionMoldingMachine 2.4.0 adds five, and here are the bands. Every number is read out of machines-sgm, not estimated: melt temperature nozzleTempC follows activeNozzleSetpointC at 0.5 degC/tick with no noise (machine.ts), so soll IS the setpoint and the band mirrors the hot-runner tolerance of the same machine. injectionSpeedMmPerSec is jitter(60, 0.05) and backPressureBar is jitter(100, 0.10), and jitter(c, r) = c * (1 +- r) UNIFORM, so sigma = c*r/sqrt(3); the bands are mean +- 4 sigma, which is Cp = 1.33 at Ca = 0 - the back-pressure band is wide because the simulated jitter is wide, and narrowing it would manufacture a permanent capability finding out of nothing. coolingFlowLMin is a constant 22.0 L/min while RUNNING and 0 otherwise, hence the +-10 % band and the inCycle gate: 0 against a band is a category error, not a finding. cycleTimeSec is cfg.cycleTimeSec unless an assignment overrides it, +-10 %. DELIBERATELY ABSENT: shotVolumeCm3. machine.ts computes it as cavities * partMassTargetG / 1.1 when the mould has no design record, and its own comment calls that 'the causality of injection moulding exactly upside down' - a value the source flags as wrong gets no band. See audits/2026-09-20/ in the sim-v5 repo. --- CAPT-LEAD 2026-09-20, barrel zones. The drift injector moves the ZONE setpoints and nothing downstream could see it: 8 of 12 injected drifts were invisible because the zones had no attribute in the profile and no band here. Nominals are the machine's own cfg.barrelSetpointsC. Tolerance is +-6.5 degC, the same absolute margin the hot runner carries, chosen as an absolute rather than a percentage because these zones span 195-295 degC and a percentage would give the cold end a tighter window than the hot one for no physical reason. ACTION is the tolerance boundary itself. WARN is HALF the tolerance (+-3.25) and NOT the hot runner's tolerance-minus-2-sigma rule: the zones run approach(zone, setpoint, 0.5) with NO noise, so sigma is zero and a 2-sigma inset would put WARN exactly on ACTION. With a deterministic controller the only things that move a zone are a moved setpoint or a dead heater, so half the band is the honest place to warn - it leaves a full half-band of margin before the line stops.",
   "match": {
     "equipment": "sgm-006"
   },
@@ -72,7 +72,63 @@
     "recipe:cycle_time_band": [
       20.7,
       25.3
-    ]
+    ],
+    "recipe:barrel_zone1_temp_band": [
+      188.5,
+      201.5
+    ],
+    "recipe:barrel_zone1_control_limits": {
+      "warn": [
+        191.75,
+        198.25
+      ],
+      "action": [
+        188.5,
+        201.5
+      ]
+    },
+    "recipe:barrel_zone2_temp_band": [
+      198.5,
+      211.5
+    ],
+    "recipe:barrel_zone2_control_limits": {
+      "warn": [
+        201.75,
+        208.25
+      ],
+      "action": [
+        198.5,
+        211.5
+      ]
+    },
+    "recipe:barrel_zone3_temp_band": [
+      208.5,
+      221.5
+    ],
+    "recipe:barrel_zone3_control_limits": {
+      "warn": [
+        211.75,
+        218.25
+      ],
+      "action": [
+        208.5,
+        221.5
+      ]
+    },
+    "recipe:barrel_zone4_temp_band": [
+      213.5,
+      226.5
+    ],
+    "recipe:barrel_zone4_control_limits": {
+      "warn": [
+        216.75,
+        223.25
+      ],
+      "action": [
+        213.5,
+        226.5
+      ]
+    }
   },
   "toleranceSource": {
     "recipe:hotrunner_temp_band": "process_estimate",
@@ -87,7 +143,15 @@
     "recipe:injection_speed_band": "process_estimate",
     "recipe:back_pressure_band": "process_estimate",
     "recipe:cooling_flow_band": "process_estimate",
-    "recipe:cycle_time_band": "process_estimate"
+    "recipe:cycle_time_band": "process_estimate",
+    "recipe:barrel_zone1_temp_band": "process_estimate",
+    "recipe:barrel_zone1_control_limits": "process_estimate",
+    "recipe:barrel_zone2_temp_band": "process_estimate",
+    "recipe:barrel_zone2_control_limits": "process_estimate",
+    "recipe:barrel_zone3_temp_band": "process_estimate",
+    "recipe:barrel_zone3_control_limits": "process_estimate",
+    "recipe:barrel_zone4_temp_band": "process_estimate",
+    "recipe:barrel_zone4_control_limits": "process_estimate"
   },
   "capability": {
     "recipe:hotrunner_temp_band": {
@@ -290,6 +354,126 @@
         },
         "min_sample_n": 1000
       }
+    },
+    "recipe:barrel_zone1_temp_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:barrel_zone1_control_limits": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:barrel_zone2_temp_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:barrel_zone2_control_limits": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:barrel_zone3_temp_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:barrel_zone3_control_limits": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:barrel_zone4_temp_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:barrel_zone4_control_limits": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
     }
   },
   "parameters": [
@@ -443,6 +627,58 @@
       "valueFrom": "recipe:cycle_time_band",
       "constraintId": "recipe_cycle_time_band",
       "smAttribute": "cycleTimeSec"
+    },
+    {
+      "param": "barrelZone1TempC",
+      "soll": 195,
+      "tolerance": [
+        188.5,
+        201.5
+      ],
+      "unit": "degC",
+      "monitored": true,
+      "valueFrom": "recipe:barrel_zone1_temp_band",
+      "constraintId": "recipe_barrel_zone1_temp_band",
+      "smAttribute": "barrelZone1TempC"
+    },
+    {
+      "param": "barrelZone2TempC",
+      "soll": 205,
+      "tolerance": [
+        198.5,
+        211.5
+      ],
+      "unit": "degC",
+      "monitored": true,
+      "valueFrom": "recipe:barrel_zone2_temp_band",
+      "constraintId": "recipe_barrel_zone2_temp_band",
+      "smAttribute": "barrelZone2TempC"
+    },
+    {
+      "param": "barrelZone3TempC",
+      "soll": 215,
+      "tolerance": [
+        208.5,
+        221.5
+      ],
+      "unit": "degC",
+      "monitored": true,
+      "valueFrom": "recipe:barrel_zone3_temp_band",
+      "constraintId": "recipe_barrel_zone3_temp_band",
+      "smAttribute": "barrelZone3TempC"
+    },
+    {
+      "param": "barrelZone4TempC",
+      "soll": 220,
+      "tolerance": [
+        213.5,
+        226.5
+      ],
+      "unit": "degC",
+      "monitored": true,
+      "valueFrom": "recipe:barrel_zone4_temp_band",
+      "constraintId": "recipe_barrel_zone4_temp_band",
+      "smAttribute": "barrelZone4TempC"
     }
   ]
 }

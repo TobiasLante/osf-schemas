@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-InjectionMoldingMachine",
-  "version": "2.4.0",
+  "version": "2.5.0",
   "standard": "CESMII",
   "category": "machine",
   "displayName": "Injection Molding Machine",
@@ -637,6 +637,62 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
+    },
+    {
+      "name": "barrelZone1TempC",
+      "dataType": "Double",
+      "required": false,
+      "category": "Process",
+      "description": "Measured temperature of barrel heating zone 1. machines-sgm publishes it as barrel.zones[0].tempC and drives it with approach(zone, setpoint, 0.5) at 1 Hz. Added 2026-09-20: the drift injector moves the ZONE SETPOINTS (barrelZone1 five times, barrelZone3 twice in the 19.09 E2E window) and nothing could see it, because the zones had no attribute here at all — 8 of 12 injected drifts were invisible by construction, not by oversight.",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw",
+      "quality": {
+        "onBad": "flag"
+      },
+      "unit": "degC"
+    },
+    {
+      "name": "barrelZone2TempC",
+      "dataType": "Double",
+      "required": false,
+      "category": "Process",
+      "description": "Measured temperature of barrel heating zone 2. machines-sgm publishes it as barrel.zones[1].tempC and drives it with approach(zone, setpoint, 0.5) at 1 Hz. Added 2026-09-20: the drift injector moves the ZONE SETPOINTS (barrelZone1 five times, barrelZone3 twice in the 19.09 E2E window) and nothing could see it, because the zones had no attribute here at all — 8 of 12 injected drifts were invisible by construction, not by oversight.",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw",
+      "quality": {
+        "onBad": "flag"
+      },
+      "unit": "degC"
+    },
+    {
+      "name": "barrelZone3TempC",
+      "dataType": "Double",
+      "required": false,
+      "category": "Process",
+      "description": "Measured temperature of barrel heating zone 3. machines-sgm publishes it as barrel.zones[2].tempC and drives it with approach(zone, setpoint, 0.5) at 1 Hz. Added 2026-09-20: the drift injector moves the ZONE SETPOINTS (barrelZone1 five times, barrelZone3 twice in the 19.09 E2E window) and nothing could see it, because the zones had no attribute here at all — 8 of 12 injected drifts were invisible by construction, not by oversight.",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw",
+      "quality": {
+        "onBad": "flag"
+      },
+      "unit": "degC"
+    },
+    {
+      "name": "barrelZone4TempC",
+      "dataType": "Double",
+      "required": false,
+      "category": "Process",
+      "description": "Measured temperature of barrel heating zone 4. machines-sgm publishes it as barrel.zones[3].tempC and drives it with approach(zone, setpoint, 0.5) at 1 Hz. Added 2026-09-20: the drift injector moves the ZONE SETPOINTS (barrelZone1 five times, barrelZone3 twice in the 19.09 E2E window) and nothing could see it, because the zones had no attribute here at all — 8 of 12 injected drifts were invisible by construction, not by oversight.",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "promotion": "raw",
+      "quality": {
+        "onBad": "flag"
+      },
+      "unit": "degC"
     }
   ],
   "relationships": [
@@ -1195,6 +1251,222 @@
         "attr": "cycleTimeSec",
         "op": "between",
         "valueFrom": "recipe:cycle_time_band"
+      },
+      "severity": "warning",
+      "discrepancyClass": "constraint",
+      "persistence": {
+        "raise": {
+          "k": 2,
+          "of": 3
+        },
+        "clear": {
+          "deadband_pct": 0.15,
+          "consecutive": 3
+        }
+      },
+      "concern": "operations",
+      "mom_category": "quality",
+      "accountable_role": "Process Engineering",
+      "deviation_class": "recipe",
+      "since": "2026-09-20",
+      "impact_basis": "HK"
+    },
+    {
+      "name": "recipe_barrel_zone1_temp_band",
+      "description": "Barrel heating zone 1: the melt profile along the screw. A zone that leaves its band is either a failed heater or a setpoint somebody moved, and both change the melt the part is made of. The zones run deterministically — approach(zone, setpoint, 0.5) with no noise — so the measured value IS the setpoint in steady state and any excursion is a real change, not scatter. This is the tolerance.",
+      "require": {
+        "attr": "barrelZone1TempC",
+        "op": "between",
+        "valueFrom": "recipe:barrel_zone1_temp_band"
+      },
+      "severity": "warning",
+      "discrepancyClass": "constraint",
+      "persistence": {
+        "raise": {
+          "k": 2,
+          "of": 3
+        },
+        "clear": {
+          "deadband_pct": 0.15,
+          "consecutive": 3
+        }
+      },
+      "concern": "operations",
+      "mom_category": "quality",
+      "accountable_role": "Process Engineering",
+      "deviation_class": "recipe",
+      "since": "2026-09-20",
+      "impact_basis": "HK"
+    },
+    {
+      "name": "recipe_barrel_zone1_control_limits",
+      "description": "Barrel heating zone 1: the melt profile along the screw. A zone that leaves its band is either a failed heater or a setpoint somebody moved, and both change the melt the part is made of. The zones run deterministically — approach(zone, setpoint, 0.5) with no noise — so the measured value IS the setpoint in steady state and any excursion is a real change, not scatter. These are the intervention limits WARN/ACTION, read directly from the recipe by brain-operator (recipe-control-limits.ts) as well as by this engine.",
+      "require": {
+        "attr": "barrelZone1TempC",
+        "op": "within_limits",
+        "valueFrom": "recipe:barrel_zone1_control_limits"
+      },
+      "severity": "warning",
+      "discrepancyClass": "constraint",
+      "persistence": {
+        "raise": {
+          "k": 2,
+          "of": 3
+        },
+        "clear": {
+          "deadband_pct": 0.15,
+          "consecutive": 3
+        }
+      },
+      "concern": "operations",
+      "mom_category": "quality",
+      "accountable_role": "Process Engineering",
+      "deviation_class": "recipe",
+      "since": "2026-09-20",
+      "impact_basis": "HK"
+    },
+    {
+      "name": "recipe_barrel_zone2_temp_band",
+      "description": "Barrel heating zone 2: the melt profile along the screw. A zone that leaves its band is either a failed heater or a setpoint somebody moved, and both change the melt the part is made of. The zones run deterministically — approach(zone, setpoint, 0.5) with no noise — so the measured value IS the setpoint in steady state and any excursion is a real change, not scatter. This is the tolerance.",
+      "require": {
+        "attr": "barrelZone2TempC",
+        "op": "between",
+        "valueFrom": "recipe:barrel_zone2_temp_band"
+      },
+      "severity": "warning",
+      "discrepancyClass": "constraint",
+      "persistence": {
+        "raise": {
+          "k": 2,
+          "of": 3
+        },
+        "clear": {
+          "deadband_pct": 0.15,
+          "consecutive": 3
+        }
+      },
+      "concern": "operations",
+      "mom_category": "quality",
+      "accountable_role": "Process Engineering",
+      "deviation_class": "recipe",
+      "since": "2026-09-20",
+      "impact_basis": "HK"
+    },
+    {
+      "name": "recipe_barrel_zone2_control_limits",
+      "description": "Barrel heating zone 2: the melt profile along the screw. A zone that leaves its band is either a failed heater or a setpoint somebody moved, and both change the melt the part is made of. The zones run deterministically — approach(zone, setpoint, 0.5) with no noise — so the measured value IS the setpoint in steady state and any excursion is a real change, not scatter. These are the intervention limits WARN/ACTION, read directly from the recipe by brain-operator (recipe-control-limits.ts) as well as by this engine.",
+      "require": {
+        "attr": "barrelZone2TempC",
+        "op": "within_limits",
+        "valueFrom": "recipe:barrel_zone2_control_limits"
+      },
+      "severity": "warning",
+      "discrepancyClass": "constraint",
+      "persistence": {
+        "raise": {
+          "k": 2,
+          "of": 3
+        },
+        "clear": {
+          "deadband_pct": 0.15,
+          "consecutive": 3
+        }
+      },
+      "concern": "operations",
+      "mom_category": "quality",
+      "accountable_role": "Process Engineering",
+      "deviation_class": "recipe",
+      "since": "2026-09-20",
+      "impact_basis": "HK"
+    },
+    {
+      "name": "recipe_barrel_zone3_temp_band",
+      "description": "Barrel heating zone 3: the melt profile along the screw. A zone that leaves its band is either a failed heater or a setpoint somebody moved, and both change the melt the part is made of. The zones run deterministically — approach(zone, setpoint, 0.5) with no noise — so the measured value IS the setpoint in steady state and any excursion is a real change, not scatter. This is the tolerance.",
+      "require": {
+        "attr": "barrelZone3TempC",
+        "op": "between",
+        "valueFrom": "recipe:barrel_zone3_temp_band"
+      },
+      "severity": "warning",
+      "discrepancyClass": "constraint",
+      "persistence": {
+        "raise": {
+          "k": 2,
+          "of": 3
+        },
+        "clear": {
+          "deadband_pct": 0.15,
+          "consecutive": 3
+        }
+      },
+      "concern": "operations",
+      "mom_category": "quality",
+      "accountable_role": "Process Engineering",
+      "deviation_class": "recipe",
+      "since": "2026-09-20",
+      "impact_basis": "HK"
+    },
+    {
+      "name": "recipe_barrel_zone3_control_limits",
+      "description": "Barrel heating zone 3: the melt profile along the screw. A zone that leaves its band is either a failed heater or a setpoint somebody moved, and both change the melt the part is made of. The zones run deterministically — approach(zone, setpoint, 0.5) with no noise — so the measured value IS the setpoint in steady state and any excursion is a real change, not scatter. These are the intervention limits WARN/ACTION, read directly from the recipe by brain-operator (recipe-control-limits.ts) as well as by this engine.",
+      "require": {
+        "attr": "barrelZone3TempC",
+        "op": "within_limits",
+        "valueFrom": "recipe:barrel_zone3_control_limits"
+      },
+      "severity": "warning",
+      "discrepancyClass": "constraint",
+      "persistence": {
+        "raise": {
+          "k": 2,
+          "of": 3
+        },
+        "clear": {
+          "deadband_pct": 0.15,
+          "consecutive": 3
+        }
+      },
+      "concern": "operations",
+      "mom_category": "quality",
+      "accountable_role": "Process Engineering",
+      "deviation_class": "recipe",
+      "since": "2026-09-20",
+      "impact_basis": "HK"
+    },
+    {
+      "name": "recipe_barrel_zone4_temp_band",
+      "description": "Barrel heating zone 4: the melt profile along the screw. A zone that leaves its band is either a failed heater or a setpoint somebody moved, and both change the melt the part is made of. The zones run deterministically — approach(zone, setpoint, 0.5) with no noise — so the measured value IS the setpoint in steady state and any excursion is a real change, not scatter. This is the tolerance.",
+      "require": {
+        "attr": "barrelZone4TempC",
+        "op": "between",
+        "valueFrom": "recipe:barrel_zone4_temp_band"
+      },
+      "severity": "warning",
+      "discrepancyClass": "constraint",
+      "persistence": {
+        "raise": {
+          "k": 2,
+          "of": 3
+        },
+        "clear": {
+          "deadband_pct": 0.15,
+          "consecutive": 3
+        }
+      },
+      "concern": "operations",
+      "mom_category": "quality",
+      "accountable_role": "Process Engineering",
+      "deviation_class": "recipe",
+      "since": "2026-09-20",
+      "impact_basis": "HK"
+    },
+    {
+      "name": "recipe_barrel_zone4_control_limits",
+      "description": "Barrel heating zone 4: the melt profile along the screw. A zone that leaves its band is either a failed heater or a setpoint somebody moved, and both change the melt the part is made of. The zones run deterministically — approach(zone, setpoint, 0.5) with no noise — so the measured value IS the setpoint in steady state and any excursion is a real change, not scatter. These are the intervention limits WARN/ACTION, read directly from the recipe by brain-operator (recipe-control-limits.ts) as well as by this engine.",
+      "require": {
+        "attr": "barrelZone4TempC",
+        "op": "within_limits",
+        "valueFrom": "recipe:barrel_zone4_control_limits"
       },
       "severity": "warning",
       "discrepancyClass": "constraint",
