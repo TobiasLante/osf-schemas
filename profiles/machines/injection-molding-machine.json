@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-InjectionMoldingMachine",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "standard": "CESMII",
   "category": "machine",
   "displayName": "Injection Molding Machine",
@@ -1059,6 +1059,161 @@
       "accountable_role": "Maintenance",
       "deviation_class": "equipment",
       "since": "2026-06-25"
+    },
+    {
+      "name": "recipe_melt_temp_band",
+      "description": "Melt (nozzle) temperature must lie within the recipe band. This is THE process parameter of injection moulding - the resin's processing window - and until today the profile judged the hot runner but not the melt. machine.ts drives nozzleTempC toward activeNozzleSetpointC at 0.5 degC per tick, so a persistent offset is either a heater fault or a setpoint that was moved away from the recipe. No gate: a barrel that is heated but not cycling still has to hold its melt window, and gating on inCycle would hide exactly the cold-start and idle-drift cases. --- CAPT-LEAD 2026-09-20: added because a real injection-moulding recipe carries more than seven parameters, and the RESOLVER, not the recipe file, was the ceiling: RecipeBandResolver iterates the profile's deviation_class 'recipe' constraints and asks the recipe for nothing else, so a band nobody declared here could never be read. Persistence mirrors the existing recipe constraints (Western-Electric 2-of-3 to raise, ISA-18.2 15 % dead-band over 3 evaluations to clear) - one sample outside a band reports the sensor, an episode reports the machine.",
+      "require": {
+        "attr": "nozzleTempC",
+        "op": "between",
+        "valueFrom": "recipe:melt_temp_band"
+      },
+      "severity": "warning",
+      "discrepancyClass": "constraint",
+      "persistence": {
+        "raise": {
+          "k": 2,
+          "of": 3
+        },
+        "clear": {
+          "deadband_pct": 0.15,
+          "consecutive": 3
+        }
+      },
+      "concern": "operations",
+      "mom_category": "quality",
+      "accountable_role": "Process Engineering",
+      "deviation_class": "recipe",
+      "since": "2026-09-20",
+      "impact_basis": "HK"
+    },
+    {
+      "name": "recipe_injection_speed_band",
+      "description": "Injection speed must lie within the recipe band. A setter dials this to control shear, filling pattern and weld-line position; drift shows up as burn marks, flash or short shots long before a dimension moves. Gated on inCycle: the value a standing machine reports says nothing about the process. --- CAPT-LEAD 2026-09-20: added because a real injection-moulding recipe carries more than seven parameters, and the RESOLVER, not the recipe file, was the ceiling: RecipeBandResolver iterates the profile's deviation_class 'recipe' constraints and asks the recipe for nothing else, so a band nobody declared here could never be read. Persistence mirrors the existing recipe constraints (Western-Electric 2-of-3 to raise, ISA-18.2 15 % dead-band over 3 evaluations to clear) - one sample outside a band reports the sensor, an episode reports the machine.",
+      "when": {
+        "attr": "inCycle",
+        "op": "eq",
+        "value": true
+      },
+      "require": {
+        "attr": "injectionSpeedMmPerSec",
+        "op": "between",
+        "valueFrom": "recipe:injection_speed_band"
+      },
+      "severity": "warning",
+      "discrepancyClass": "constraint",
+      "persistence": {
+        "raise": {
+          "k": 2,
+          "of": 3
+        },
+        "clear": {
+          "deadband_pct": 0.15,
+          "consecutive": 3
+        }
+      },
+      "concern": "operations",
+      "mom_category": "quality",
+      "accountable_role": "Process Engineering",
+      "deviation_class": "recipe",
+      "since": "2026-09-20",
+      "impact_basis": "HK"
+    },
+    {
+      "name": "recipe_back_pressure_band",
+      "description": "Back pressure (Staudruck) must lie within the recipe band. It governs melt homogeneity and colour dispersion during plastification; too little leaves streaks and unmelted granulate, too much degrades the resin and drives regrind quality down. Gated on inCycle for the same reason as injection speed. --- CAPT-LEAD 2026-09-20: added because a real injection-moulding recipe carries more than seven parameters, and the RESOLVER, not the recipe file, was the ceiling: RecipeBandResolver iterates the profile's deviation_class 'recipe' constraints and asks the recipe for nothing else, so a band nobody declared here could never be read. Persistence mirrors the existing recipe constraints (Western-Electric 2-of-3 to raise, ISA-18.2 15 % dead-band over 3 evaluations to clear) - one sample outside a band reports the sensor, an episode reports the machine.",
+      "when": {
+        "attr": "inCycle",
+        "op": "eq",
+        "value": true
+      },
+      "require": {
+        "attr": "backPressureBar",
+        "op": "between",
+        "valueFrom": "recipe:back_pressure_band"
+      },
+      "severity": "warning",
+      "discrepancyClass": "constraint",
+      "persistence": {
+        "raise": {
+          "k": 2,
+          "of": 3
+        },
+        "clear": {
+          "deadband_pct": 0.15,
+          "consecutive": 3
+        }
+      },
+      "concern": "operations",
+      "mom_category": "quality",
+      "accountable_role": "Process Engineering",
+      "deviation_class": "recipe",
+      "since": "2026-09-20",
+      "impact_basis": "HK"
+    },
+    {
+      "name": "recipe_cooling_flow_band",
+      "description": "Mould cooling flow must lie within the recipe band. A partially blocked circuit does not change the mould's SETPOINT and often barely moves its average temperature - it changes the flow, and the part warps. This is the one parameter here that a temperature band genuinely cannot substitute for. Gated on inCycle: machine.ts reports 0 L/min whenever the machine is not RUNNING, and 0 against a band is a category error, not a finding. --- CAPT-LEAD 2026-09-20: added because a real injection-moulding recipe carries more than seven parameters, and the RESOLVER, not the recipe file, was the ceiling: RecipeBandResolver iterates the profile's deviation_class 'recipe' constraints and asks the recipe for nothing else, so a band nobody declared here could never be read. Persistence mirrors the existing recipe constraints (Western-Electric 2-of-3 to raise, ISA-18.2 15 % dead-band over 3 evaluations to clear) - one sample outside a band reports the sensor, an episode reports the machine.",
+      "when": {
+        "attr": "inCycle",
+        "op": "eq",
+        "value": true
+      },
+      "require": {
+        "attr": "coolingFlowLMin",
+        "op": "between",
+        "valueFrom": "recipe:cooling_flow_band"
+      },
+      "severity": "warning",
+      "discrepancyClass": "constraint",
+      "persistence": {
+        "raise": {
+          "k": 2,
+          "of": 3
+        },
+        "clear": {
+          "deadband_pct": 0.15,
+          "consecutive": 3
+        }
+      },
+      "concern": "operations",
+      "mom_category": "quality",
+      "accountable_role": "Process Engineering",
+      "deviation_class": "recipe",
+      "since": "2026-09-20",
+      "impact_basis": "HK"
+    },
+    {
+      "name": "recipe_cycle_time_band",
+      "description": "Cycle time must lie within the recipe band. It is the parameter the shop floor is most tempted to 'optimise' quietly: shortening cooling buys seconds and costs dimensional stability, and nothing else in this profile would notice. Gated on inCycle. --- CAPT-LEAD 2026-09-20: added because a real injection-moulding recipe carries more than seven parameters, and the RESOLVER, not the recipe file, was the ceiling: RecipeBandResolver iterates the profile's deviation_class 'recipe' constraints and asks the recipe for nothing else, so a band nobody declared here could never be read. Persistence mirrors the existing recipe constraints (Western-Electric 2-of-3 to raise, ISA-18.2 15 % dead-band over 3 evaluations to clear) - one sample outside a band reports the sensor, an episode reports the machine.",
+      "when": {
+        "attr": "inCycle",
+        "op": "eq",
+        "value": true
+      },
+      "require": {
+        "attr": "cycleTimeSec",
+        "op": "between",
+        "valueFrom": "recipe:cycle_time_band"
+      },
+      "severity": "warning",
+      "discrepancyClass": "constraint",
+      "persistence": {
+        "raise": {
+          "k": 2,
+          "of": 3
+        },
+        "clear": {
+          "deadband_pct": 0.15,
+          "consecutive": 3
+        }
+      },
+      "concern": "operations",
+      "mom_category": "quality",
+      "accountable_role": "Process Engineering",
+      "deviation_class": "recipe",
+      "since": "2026-09-20",
+      "impact_basis": "HK"
     }
   ],
   "semantics": [],
