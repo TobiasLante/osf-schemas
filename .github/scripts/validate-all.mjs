@@ -111,6 +111,11 @@ const VALIDATORS = [
     schemaFile: 'validation/unit-conversions-schema.json',
     match: (rel) => rel.startsWith('unit-conversions/'),
   },
+  {
+    name: 'flow',
+    schemaFile: 'validation/flow-schema.json',
+    match: (rel) => rel.startsWith('flows/'),
+  },
 ];
 
 // Bookkeeping
@@ -161,7 +166,7 @@ function walk(dir) {
   return out;
 }
 
-const targets = ['profiles', 'sources', 'sync', 'recipes', 'mappings', 'unit-conversions'].flatMap((d) => {
+const targets = ['profiles', 'sources', 'sync', 'recipes', 'mappings', 'unit-conversions', 'flows'].flatMap((d) => {
   try { return walk(join(ROOT, d)); } catch { return []; }
 });
 
