@@ -136,6 +136,11 @@ const VALIDATORS = [
     schemaFile: 'validation/historian-instance-schema.json',
     match: (rel) => rel.startsWith('historians/instances/'),
   },
+  {
+    name: 'ts-table-layout',
+    schemaFile: 'validation/ts-table-layout-schema.json',
+    match: (rel) => rel.startsWith('historians/central-ts-tables/'),
+  },
 ];
 
 // Bookkeeping
