@@ -1,0 +1,639 @@
+{
+  "elementId": "SMProfile-CNC-Machine",
+  "displayName": "CNC Machine",
+  "namespaceUri": "urn:osf:schemas:machines",
+  "version": "2.1.0",
+  "schema": {
+    "description": "CNC machining center + constraints facet. Full text: docs/history/profiles/machines/cnc-machine.md, description.",
+    "allOf": [
+      {
+        "$ref": "SMProfile-Machine.type.json#/schema"
+      },
+      {
+        "type": "object",
+        "properties": {
+          "Act_Status_Machine": {
+            "type": "string",
+            "description": "Actual machine status. Full text: docs/history/profiles/machines/cnc-machine.md, attributes › Act_Status_Machine › description.",
+            "enum": [
+              "RUNNING",
+              "IDLE",
+              "STOPPED",
+              "MAINTENANCE"
+            ],
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change",
+            "x-valueType": "PV"
+          },
+          "Act_Text_MachineMode": {
+            "type": "string",
+            "description": "Machine operating mode. Full text: docs/history/profiles/machines/cnc-machine.md, attributes › Act_Text_MachineMode › description.",
+            "enum": [
+              "AUTO",
+              "MANUAL",
+              "SETUP"
+            ],
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change",
+            "x-valueType": "PV"
+          },
+          "Act_Amount_PartGood": {
+            "type": "integer",
+            "description": "Good parts produced (cumulative). Full text: docs/history/profiles/machines/cnc-machine.md, attributes › Act_Amount_PartGood › description.",
+            "x-dataType": "Int32",
+            "x-counter": {
+              "semantics": "cumulative_resettable",
+              "aggregation": "sum_of_positive_deltas",
+              "resetsObserved": 15,
+              "measuredAt": "2026-07-29"
+            },
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change",
+            "x-valueType": "PV"
+          },
+          "Act_Amount_PartScrap": {
+            "type": "integer",
+            "description": "Scrap parts (cumulative). Full text: docs/history/profiles/machines/cnc-machine.md, attributes › Act_Amount_PartScrap › description.",
+            "x-dataType": "Int32",
+            "x-counter": {
+              "semantics": "cumulative_resettable",
+              "aggregation": "sum_of_positive_deltas",
+              "resetsObserved": 14,
+              "measuredAt": "2026-07-29"
+            },
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change",
+            "x-valueType": "PV"
+          },
+          "Act_Amount_PartRework": {
+            "type": "integer",
+            "x-dataType": "Int32",
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change",
+            "x-valueType": "PV"
+          },
+          "Act_Amount_Alarm": {
+            "type": "integer",
+            "x-dataType": "Int32",
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change",
+            "x-valueType": "PV"
+          },
+          "Plan_Time_Cycle": {
+            "type": "number",
+            "x-delivery": "telemetry",
+            "x-scope": "edge",
+            "x-promotion": "raw",
+            "x-valueType": "SP"
+          },
+          "Act_Time_Cycle": {
+            "type": "number",
+            "x-delivery": "telemetry",
+            "x-scope": "edge",
+            "x-promotion": "raw",
+            "x-unit": "SEC",
+            "x-valueType": "PV"
+          },
+          "Act_Energy_Power": {
+            "type": "number",
+            "description": "Actual electrical power draw (kW). Full text: docs/history/profiles/machines/cnc-machine.md, attributes › Act_Energy_Power › description.",
+            "x-unit": "KWT",
+            "x-delivery": "telemetry",
+            "x-scope": "hub",
+            "x-promotion": "5sec",
+            "x-valueType": "PV"
+          },
+          "Act_Energy_Total": {
+            "type": "number",
+            "x-delivery": "telemetry",
+            "x-scope": "edge",
+            "x-promotion": "raw",
+            "x-valueType": "PV"
+          },
+          "Act_Ref_ProductionOrder": {
+            "type": "string",
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change",
+            "x-valueType": "ID"
+          },
+          "Act_Ref_Article": {
+            "type": "string",
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change",
+            "x-valueType": "ID"
+          },
+          "Act_Ref_Tool": {
+            "type": "string",
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change",
+            "x-valueType": "ID"
+          },
+          "Act_Ref_Shift": {
+            "type": "integer",
+            "x-dataType": "Int32",
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change",
+            "x-valueType": "ID"
+          },
+          "Act_Ref_Operator": {
+            "type": "string",
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change",
+            "x-valueType": "ID"
+          },
+          "Act_Speed_Spindle": {
+            "type": "number",
+            "x-delivery": "telemetry",
+            "x-scope": "edge",
+            "x-promotion": "raw",
+            "x-unit": "RPM",
+            "x-valueType": "PV"
+          },
+          "Set_Speed_Spindle": {
+            "type": "number",
+            "x-delivery": "telemetry",
+            "x-scope": "edge",
+            "x-promotion": "raw",
+            "x-valueType": "SP"
+          },
+          "Act_Pct_SpindleLoad": {
+            "type": "number",
+            "x-delivery": "telemetry",
+            "x-scope": "edge",
+            "x-promotion": "raw",
+            "x-unit": "P1",
+            "x-valueType": "PV"
+          },
+          "Act_Torque_Spindle": {
+            "type": "number",
+            "x-delivery": "telemetry",
+            "x-scope": "edge",
+            "x-promotion": "raw",
+            "x-valueType": "PV"
+          },
+          "Act_Rate_Feed": {
+            "type": "number",
+            "x-delivery": "telemetry",
+            "x-scope": "edge",
+            "x-promotion": "raw",
+            "x-unit": "H81",
+            "x-valueType": "PV"
+          },
+          "Set_Rate_Feed": {
+            "type": "number",
+            "x-delivery": "telemetry",
+            "x-scope": "edge",
+            "x-promotion": "raw",
+            "x-valueType": "SP"
+          },
+          "Act_Pct_FeedOverride": {
+            "type": "number",
+            "x-delivery": "telemetry",
+            "x-scope": "edge",
+            "x-promotion": "raw",
+            "x-valueType": "PV"
+          },
+          "Act_Pos_AxisX": {
+            "type": "number",
+            "x-delivery": "telemetry",
+            "x-scope": "edge",
+            "x-promotion": "raw",
+            "x-unit": "MMT",
+            "x-valueType": "PV"
+          },
+          "Set_Pos_AxisX": {
+            "type": "number",
+            "x-delivery": "telemetry",
+            "x-scope": "edge",
+            "x-promotion": "raw",
+            "x-valueType": "SP"
+          },
+          "Act_Pos_AxisY": {
+            "type": "number",
+            "x-delivery": "telemetry",
+            "x-scope": "edge",
+            "x-promotion": "raw",
+            "x-unit": "MMT",
+            "x-valueType": "PV"
+          },
+          "Set_Pos_AxisY": {
+            "type": "number",
+            "x-delivery": "telemetry",
+            "x-scope": "edge",
+            "x-promotion": "raw",
+            "x-valueType": "SP"
+          },
+          "Act_Pos_AxisZ": {
+            "type": "number",
+            "x-delivery": "telemetry",
+            "x-scope": "edge",
+            "x-promotion": "raw",
+            "x-unit": "MMT",
+            "x-valueType": "PV"
+          },
+          "Set_Pos_AxisZ": {
+            "type": "number",
+            "x-delivery": "telemetry",
+            "x-scope": "edge",
+            "x-promotion": "raw",
+            "x-valueType": "SP"
+          },
+          "Act_Ref_ToolNumber": {
+            "type": "integer",
+            "x-dataType": "Int32",
+            "x-delivery": "telemetry",
+            "x-scope": "edge",
+            "x-promotion": "raw",
+            "x-valueType": "ID"
+          },
+          "Act_Pct_ToolWear": {
+            "type": "number",
+            "x-delivery": "telemetry",
+            "x-scope": "edge",
+            "x-promotion": "raw",
+            "x-unit": "P1",
+            "x-valueType": "PV"
+          },
+          "Act_Time_ToolLifeRemaining": {
+            "type": "number",
+            "x-delivery": "telemetry",
+            "x-scope": "edge",
+            "x-promotion": "raw",
+            "x-valueType": "PV"
+          },
+          "Act_Ref_Program": {
+            "type": "string",
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change",
+            "x-valueType": "ID"
+          },
+          "Act_Ref_ProgramLine": {
+            "type": "integer",
+            "x-dataType": "Int32",
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change",
+            "x-valueType": "ID"
+          },
+          "Act_Status_Program": {
+            "type": "string",
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change",
+            "x-valueType": "PV"
+          },
+          "Act_State_InCycle": {
+            "type": "boolean",
+            "description": "Machine is in the machining cycle (TRUE/FALSE). Trigger for the cycle-detect FSM on the edge.",
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change",
+            "x-valueType": "PV"
+          },
+          "Act_Rate_CoolantFlow": {
+            "type": "number",
+            "x-delivery": "telemetry",
+            "x-scope": "edge",
+            "x-promotion": "raw",
+            "x-valueType": "PV"
+          },
+          "Act_Temp_Coolant": {
+            "type": "number",
+            "x-delivery": "telemetry",
+            "x-scope": "edge",
+            "x-promotion": "raw",
+            "x-valueType": "PV"
+          },
+          "Act_Pressure_Coolant": {
+            "type": "number",
+            "x-delivery": "telemetry",
+            "x-scope": "edge",
+            "x-promotion": "raw",
+            "x-valueType": "PV"
+          },
+          "Act_Vibration_X": {
+            "type": "number",
+            "x-delivery": "telemetry",
+            "x-scope": "edge",
+            "x-promotion": "raw",
+            "x-valueType": "PV"
+          },
+          "Act_Vibration_Y": {
+            "type": "number",
+            "x-delivery": "telemetry",
+            "x-scope": "edge",
+            "x-promotion": "raw",
+            "x-valueType": "PV"
+          },
+          "Act_Vibration_Z": {
+            "type": "number",
+            "x-delivery": "telemetry",
+            "x-scope": "edge",
+            "x-promotion": "raw",
+            "x-valueType": "PV"
+          },
+          "Act_Energy_PowerSpindle": {
+            "type": "number",
+            "x-delivery": "telemetry",
+            "x-scope": "edge",
+            "x-promotion": "raw",
+            "x-valueType": "PV"
+          },
+          "Act_Energy_Cycle": {
+            "type": "number",
+            "x-delivery": "telemetry",
+            "x-scope": "edge",
+            "x-promotion": "raw",
+            "x-valueType": "PV"
+          },
+          "Act_Temp_Spindle": {
+            "type": "number",
+            "x-unit": "CEL",
+            "x-delivery": "telemetry",
+            "x-scope": "edge",
+            "x-promotion": "raw",
+            "x-valueType": "PV"
+          }
+        }
+      }
+    ]
+  },
+  "x-osf": {
+    "source": "profiles/machines/cnc-machine.json",
+    "standard": "CESMII",
+    "category": "machine",
+    "abstract": false,
+    "relationships": [],
+    "constraints": [
+      {
+        "name": "spindle_load_control_limits",
+        "description": "Control limits (Warngrenze + Eingriffsgrenze) for spindle load %. Full text: docs/history/profiles/machines/cnc-machine.md, constraints › spindle_load_control_limits › description.",
+        "require": {
+          "attr": "Act_Pct_SpindleLoad",
+          "op": "within_limits",
+          "limits": {
+            "warn": [
+              0,
+              55
+            ],
+            "action": [
+              0,
+              70
+            ]
+          }
+        },
+        "severity": "warning",
+        "discrepancyClass": "control_limit",
+        "persistence": {
+          "raise": {
+            "k": 2,
+            "of": 3
+          },
+          "clear": {
+            "deadband_pct": 0.15,
+            "consecutive": 3
+          }
+        },
+        "concern": "operations",
+        "mom_category": "production",
+        "accountable_role": "Production",
+        "deviation_class": "equipment",
+        "since": "2026-06-30"
+      },
+      {
+        "name": "spindle_temp_control_limits",
+        "description": "Control limits (Warngrenze + Eingriffsgrenze) for spindle temperature degC. Full text: docs/history/profiles/machines/cnc-machine.md, constraints › spindle_temp_control_limits › description.",
+        "require": {
+          "attr": "Act_Temp_Spindle",
+          "op": "within_limits",
+          "limits": {
+            "warn": [
+              15,
+              45
+            ],
+            "action": [
+              10,
+              55
+            ]
+          }
+        },
+        "severity": "warning",
+        "discrepancyClass": "control_limit",
+        "persistence": {
+          "raise": {
+            "k": 2,
+            "of": 3
+          },
+          "clear": {
+            "deadband_pct": 0.15,
+            "consecutive": 3
+          }
+        },
+        "concern": "operations",
+        "mom_category": "production",
+        "accountable_role": "Maintenance",
+        "deviation_class": "equipment",
+        "since": "2026-06-30"
+      },
+      {
+        "name": "spindle_power_control_limits",
+        "description": "Control limits (Warngrenze + Eingriffsgrenze) for active power kW. Full text: docs/history/profiles/machines/cnc-machine.md, constraints › spindle_power_control_limits › description.",
+        "require": {
+          "attr": "Act_Energy_Power",
+          "op": "within_limits",
+          "limits": {
+            "warn": [
+              0,
+              45
+            ],
+            "action": [
+              0,
+              55
+            ]
+          }
+        },
+        "severity": "warning",
+        "discrepancyClass": "control_limit",
+        "persistence": {
+          "raise": {
+            "k": 2,
+            "of": 3
+          },
+          "clear": {
+            "deadband_pct": 0.15,
+            "consecutive": 3
+          }
+        },
+        "concern": "operations",
+        "mom_category": "production",
+        "accountable_role": "Production",
+        "deviation_class": "equipment",
+        "since": "2026-06-30"
+      },
+      {
+        "name": "spindle_when_in_cycle",
+        "description": "Machining cycle is running but the spindle is not turning — tool break / spindle-motor fault / controller bug.",
+        "when": {
+          "attr": "Act_State_InCycle",
+          "op": "eq",
+          "value": true
+        },
+        "require": {
+          "attr": "Act_Speed_Spindle",
+          "op": "gt",
+          "value": 0
+        },
+        "severity": "error",
+        "discrepancyClass": "constraint",
+        "concern": "operations",
+        "mom_category": "production",
+        "accountable_role": "Production",
+        "deviation_class": "equipment",
+        "since": "2026-06-08"
+      },
+      {
+        "name": "coolant_pressure_when_in_cycle",
+        "description": "Machining cycle is running without coolant pressure — risk of workpiece / tool damage.",
+        "when": {
+          "attr": "Act_State_InCycle",
+          "op": "eq",
+          "value": true
+        },
+        "require": {
+          "attr": "Act_Pressure_Coolant",
+          "op": "gt",
+          "value": 0
+        },
+        "severity": "error",
+        "discrepancyClass": "constraint",
+        "concern": "operations",
+        "mom_category": "production",
+        "accountable_role": "Maintenance",
+        "deviation_class": "equipment",
+        "since": "2026-06-08"
+      },
+      {
+        "name": "tool_wear_in_range",
+        "description": "Tool wear must lie between 0 and 100 percent — values outside indicate a sensor / scaling fault. Full text: docs/history/profiles/machines/cnc-machine.md, constraints › tool_wear_in_range › description.",
+        "require": {
+          "attr": "Act_Pct_ToolWear",
+          "op": "between",
+          "value": [
+            0,
+            100
+          ]
+        },
+        "severity": "warning",
+        "discrepancyClass": "constraint",
+        "persistence": {
+          "raise": {
+            "k": 2,
+            "of": 3
+          },
+          "clear": {
+            "deadband_pct": 0.15,
+            "consecutive": 3
+          }
+        },
+        "concern": "operations",
+        "mom_category": "production",
+        "accountable_role": "Maintenance",
+        "deviation_class": "equipment",
+        "since": "2026-06-08"
+      },
+      {
+        "name": "power_positive_when_running",
+        "description": "Machine reports status=RUNNING but draws 0 kW — sensor / edge-communication fault (equipment).",
+        "when": {
+          "attr": "Act_Status_Machine",
+          "op": "eq",
+          "value": "RUNNING"
+        },
+        "require": {
+          "attr": "Act_Energy_Power",
+          "op": "gt",
+          "value": 0
+        },
+        "severity": "warning",
+        "discrepancyClass": "constraint",
+        "concern": "operations",
+        "mom_category": "maintenance",
+        "accountable_role": "Maintenance",
+        "deviation_class": "equipment",
+        "since": "2026-06-25"
+      }
+    ],
+    "semantics": [],
+    "kpiRefs": [],
+    "isa95": {
+      "objectModel": "Equipment",
+      "momDomain": "production",
+      "equipmentLevel": "EquipmentUnit",
+      "equipmentClass": "CNCMachine",
+      "companionSpec": "OPC40077-CNC",
+      "opcuaTypeDefinition": "CNC_MachineType",
+      "deviceClass": "CNC Machine"
+    },
+    "kgNodeLabel": "CNC_Machine",
+    "kgIdProperty": "machine_id",
+    "parentType": "Machine",
+    "requiredDeclaredOn": [
+      "Act_Status_Machine",
+      "Act_Text_MachineMode",
+      "Act_Amount_PartGood",
+      "Act_Amount_PartScrap",
+      "Act_Amount_PartRework",
+      "Act_Amount_Alarm",
+      "Plan_Time_Cycle",
+      "Act_Time_Cycle",
+      "Act_Energy_Power",
+      "Act_Energy_Total",
+      "Act_Ref_ProductionOrder",
+      "Act_Ref_Article",
+      "Act_Ref_Tool",
+      "Act_Ref_Shift",
+      "Act_Ref_Operator",
+      "Act_Speed_Spindle",
+      "Set_Speed_Spindle",
+      "Act_Pct_SpindleLoad",
+      "Act_Torque_Spindle",
+      "Act_Rate_Feed",
+      "Set_Rate_Feed",
+      "Act_Pct_FeedOverride",
+      "Act_Pos_AxisX",
+      "Set_Pos_AxisX",
+      "Act_Pos_AxisY",
+      "Set_Pos_AxisY",
+      "Act_Pos_AxisZ",
+      "Set_Pos_AxisZ",
+      "Act_Ref_ToolNumber",
+      "Act_Pct_ToolWear",
+      "Act_Time_ToolLifeRemaining",
+      "Act_Ref_Program",
+      "Act_Ref_ProgramLine",
+      "Act_Status_Program",
+      "Act_State_InCycle",
+      "Act_Rate_CoolantFlow",
+      "Act_Temp_Coolant",
+      "Act_Pressure_Coolant",
+      "Act_Vibration_X",
+      "Act_Vibration_Y",
+      "Act_Vibration_Z",
+      "Act_Energy_PowerSpindle",
+      "Act_Energy_Cycle",
+      "Act_Temp_Spindle"
+    ]
+  }
+}
