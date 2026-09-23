@@ -50,7 +50,7 @@ import { join } from "node:path";
 
 // The op vocabulary has ONE home: properties.op.enum of the meta-schema.
 // Read it from there — never keep a second copy in this linter.
-const OPS_SCHEMA = join(BASE, "validation", "cross-constraint-schema.json");
+const OPS_SCHEMA = join(new URL(".", import.meta.url).pathname, "..", "validation", "cross-constraint-schema.json");
 let OPS;
 try {
   const _s = JSON.parse(readFileSync(OPS_SCHEMA, "utf8"));
