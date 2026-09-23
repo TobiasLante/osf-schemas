@@ -12,7 +12,7 @@ osf-schemas/
 ├── ci/                     linters + generators (lint-*.mjs, gen-contract.mjs, gen-docs.mjs)
 ├── companion-specs/        OPC-UA Companion-Spec registry (NodeSet2.xml URLs) (1 json)
 ├── cross-constraints/      cross-profile discrepancy constraints (PLAN vs IST rules) (4 json)
-├── docs/                   conventions, next2.0 standard, agent-conformance, variable shapes
+├── docs/                   conventions, next2.0 standard, agent-conformance, variable shapes; history/ = the reasoning moved out of the JSON
 ├── examples/               demo fixtures — NOT canonical (see examples/README.md) (5 json)
 ├── flows/                  Node-RED flow templates (OPC-UA → UNS standard flow) (1 json)
 ├── historians/             historian-sink templates + instances (OUTPUT: UNS → customer DB)
@@ -26,6 +26,7 @@ osf-schemas/
 │   ├── postgresql-cagg/         (1 json)
 │   ├── postgresql-pivot/        (1 json)
 │   └── views/                   (1 json)
+├── i3x/                    GENERATED i3X 1.0 form of profiles/ (gen-i3x.mjs): Object Types as JSON Schema, Relationship Types with reverseOf (30 json)
 ├── kpis/                   KPI definitions — inputs drawn from the source-fed vocabulary (lint-kpis) (6 json)
 ├── mappings/               protocol canon: DataItem/tag → SM attribute (SSOT for discovery + gen-flows) (4 json)
 ├── profiles/               Schema 1: SM Profiles (type system)

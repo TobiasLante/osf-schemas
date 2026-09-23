@@ -1,0 +1,174 @@
+{
+  "elementId": "SMProfile-OperationsResponse",
+  "displayName": "Operations Response (production actuals / confirmation)",
+  "namespaceUri": "urn:osf:schemas:erp",
+  "version": "2.2.1",
+  "schema": {
+    "description": "Level-3 MOM OperationsResponse = the manufacturing actuals (B2MML OperationsPerformance). Full text: docs/history/profiles/erp/operations-response.md, description.",
+    "type": "object",
+    "properties": {
+      "production_order_no": {
+        "type": "string",
+        "description": "Join key — the OperationsRequest whose actuals this confirms (RESPONDS_TO).",
+        "x-category": "Core",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change",
+        "x-valueType": "ID"
+      },
+      "article_ref": {
+        "type": "string",
+        "description": "Manufactured article (join key to Article).",
+        "x-category": "Link",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change",
+        "x-valueType": "ID"
+      },
+      "machine_ref": {
+        "type": "string",
+        "description": "Executing machine / line (machine_no).",
+        "x-category": "Link",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change",
+        "x-valueType": "ID"
+      },
+      "quantity_produced": {
+        "type": "integer",
+        "description": "Piece count actually produced (actual). Counterpart to qty_planned.",
+        "x-dataType": "Int32",
+        "x-category": "Execution",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change",
+        "x-quality": {
+          "onBad": "flag"
+        }
+      },
+      "cycle_time_actual_sec": {
+        "type": "number",
+        "description": "Actually measured cycle time per piece (s, actual).",
+        "x-dataType": "Double",
+        "x-category": "Execution",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change",
+        "x-quality": {
+          "onBad": "flag"
+        }
+      },
+      "actual_end_time": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Actual completion time (actual). Counterpart to planned_end_time.",
+        "x-dataType": "DateTime",
+        "x-category": "Timing",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change",
+        "x-quality": {
+          "onBad": "flag"
+        }
+      },
+      "status": {
+        "type": "string",
+        "description": "Actual status of the confirmation. Full text: docs/history/profiles/erp/operations-response.md, attributes › status › description.",
+        "enum": [
+          "in_arbeit",
+          "fertig"
+        ],
+        "x-category": "Core",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change",
+        "x-quality": {
+          "onBad": "flag"
+        }
+      },
+      "completed_at": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Completion timestamp of the confirmation, if set.",
+        "x-dataType": "DateTime",
+        "x-category": "Timing",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change"
+      },
+      "updated_at": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Last change. Server-managed and volatile on every read (sim-v5 returns a fresh value per GET), so promotion:never — kept in the snapshot but excluded from the change-trigger and never published on its own.",
+        "x-dataType": "DateTime",
+        "x-category": "Timing",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "never"
+      }
+    },
+    "required": [
+      "production_order_no"
+    ]
+  },
+  "x-osf": {
+    "source": "profiles/erp/operations-response.json",
+    "standard": "CESMII",
+    "category": "business",
+    "abstract": false,
+    "relationships": [
+      {
+        "type": "RESPONDS_TO",
+        "target": "ProductionOrder",
+        "targetIdProp": "production_order_no"
+      },
+      {
+        "type": "FOR_ARTICLE",
+        "target": "Article",
+        "targetIdProp": "article_no"
+      },
+      {
+        "type": "ON_MACHINE",
+        "target": "Machine",
+        "targetIdProp": "machine_id"
+      },
+      {
+        "type": "HAS_SEGMENT_RESPONSE",
+        "target": "SegmentResponse",
+        "description": "v2.0 — Inverse of SegmentResponse.PART_OF: the actuals per ProcessSegment.",
+        "targetIdProp": "segment_response_no"
+      }
+    ],
+    "constraints": [],
+    "semantics": [],
+    "kpiRefs": [],
+    "isa95": {
+      "objectModel": "OperationsResponse",
+      "momDomain": "production",
+      "level": 3,
+      "note": "Level-3 MOM OperationsResponse (B2MML) = the actuals. Full text: docs/history/profiles/erp/operations-response.md, isa95 › note.",
+      "propertyMap": {
+        "production_order_no": "OperationsResponse.OperationsRequestID",
+        "article_ref": "OperationsResponse.SegmentResponse.MaterialActual.MaterialDefinitionID",
+        "machine_ref": "OperationsResponse.SegmentResponse.EquipmentActual.EquipmentID",
+        "quantity_produced": "OperationsResponse.SegmentResponse.MaterialActual.Quantity",
+        "actual_end_time": "OperationsResponse.EndTime",
+        "status": "OperationsResponse.OperationsResponseState"
+      }
+    },
+    "kgNodeLabel": "OperationsResponse",
+    "kgIdProperty": "production_order_no",
+    "parentType": null,
+    "requiredDeclaredOn": [
+      "production_order_no",
+      "article_ref",
+      "machine_ref",
+      "quantity_produced",
+      "cycle_time_actual_sec",
+      "actual_end_time",
+      "status",
+      "completed_at",
+      "updated_at"
+    ]
+  }
+}

@@ -1,0 +1,119 @@
+{
+  "elementId": "SMProfile-Workorder",
+  "displayName": "Workorder (order sub-lot / FO index)",
+  "namespaceUri": "urn:osf:schemas:operations",
+  "version": "2.0.0",
+  "schema": {
+    "description": "Level-3 MOM Workorder (ISA-95 Part 4 / B2MML WorkRequest). Full text: docs/history/profiles/operations/work-order.md, description.",
+    "type": "object",
+    "properties": {
+      "workorder_no": {
+        "type": "string",
+        "description": "Identity of the Workorder (join key). Recommendation: <production_order_no>.<order_index>.",
+        "x-category": "Core",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change",
+        "x-valueType": "ID"
+      },
+      "production_order_ref": {
+        "type": "string",
+        "description": "FK to ProductionOrder.production_order_no (PART_OF). The FabricationOrder that this sub-lot subdivides.",
+        "x-category": "Link",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change",
+        "x-valueType": "ID"
+      },
+      "order_index": {
+        "type": "integer",
+        "description": "The FabricationOrder index (the MES FOIndex) = the slot number of this Workorder.",
+        "x-dataType": "Int32",
+        "x-category": "Core",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change"
+      },
+      "status": {
+        "type": "string",
+        "description": "Workorder status (e.g. released, running, complete).",
+        "x-category": "Core",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change"
+      },
+      "planned_start_time": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Planned start of this slot (target).",
+        "x-dataType": "DateTime",
+        "x-category": "Timing",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change"
+      },
+      "planned_end_time": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Planned end of this slot (target).",
+        "x-dataType": "DateTime",
+        "x-category": "Timing",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change"
+      }
+    },
+    "required": [
+      "workorder_no",
+      "production_order_ref"
+    ]
+  },
+  "x-osf": {
+    "source": "profiles/operations/work-order.json",
+    "standard": "ISA-95",
+    "category": "business",
+    "abstract": false,
+    "relationships": [
+      {
+        "type": "PART_OF",
+        "target": "ProductionOrder",
+        "targetIdProp": "production_order_no",
+        "description": "The ProductionOrder (OperationsRequest) that this Workorder subdivides."
+      },
+      {
+        "type": "YIELDS",
+        "target": "MaterialLot",
+        "description": "Inverse of MaterialLot.PRODUCED_BY — the material lots created in this slot.",
+        "targetIdProp": "material_lot_no"
+      }
+    ],
+    "constraints": [],
+    "semantics": [
+      "iso:62264-WorkRequest"
+    ],
+    "kpiRefs": [],
+    "isa95": {
+      "objectModel": "WorkRequest",
+      "momDomain": "production",
+      "level": 3,
+      "note": "ISA-95 Part 4 WorkRequest = dispatch subdivision of an OperationsRequest. RULE: FabricationOrder index == Workorder (subdivision of the FO across time slots). Creates/consumes MaterialLots. Relationship PART_OF to the ProductionOrder = ISA-95 SUBDIVISION_OF (order sub-lot / FO index).",
+      "propertyMap": {
+        "workorder_no": "WorkRequest.ID",
+        "production_order_ref": "WorkRequest.OperationsRequestID",
+        "order_index": "WorkRequest.WorkType",
+        "status": "WorkRequest.WorkRequestState"
+      }
+    },
+    "kgNodeLabel": "Workorder",
+    "kgIdProperty": "workorder_no",
+    "parentType": null,
+    "requiredDeclaredOn": [
+      "workorder_no",
+      "production_order_ref",
+      "order_index",
+      "status",
+      "planned_start_time",
+      "planned_end_time"
+    ]
+  }
+}
