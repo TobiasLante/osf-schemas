@@ -1,7 +1,7 @@
 {
   "mapId": "machine-type-aliases",
   "version": "1.0.0",
-  "description": "Canonical machine-type vocabulary. Maps the words an operator (or the discovery chat-LLM parsing them) actually uses for a machine class onto the SM profile that models it. Discovery resolves `machineType` through this table BEFORE it considers generating a new profile: v4 serves no live schema writes, so a profile the wizard invents can never be committed, and both map-tags-to-profile and the NATS schema-deploy refuse a profileRef they cannot resolve. Terms are compared NORMALISED — lowercased with every non-alphanumeric character removed, so `Spritzguss-Maschine` and `spritzgussmaschine` are the same term and `Fräsmaschine` becomes `frsmaschine`. List both spellings where a diacritic changes the normalised form (`spritzgiessmaschine` vs `spritzgießmaschine`). Terms must be unique across entries, and a profileRef must name a concrete (non-abstract) profile — a source cannot reference an abstract parent.",
+  "description": "Canonical machine-type vocabulary. Full text: docs/history/mappings/machine-type-aliases.md, description.",
   "aliases": [
     {
       "profileRef": "SMProfile-InjectionMoldingMachine",

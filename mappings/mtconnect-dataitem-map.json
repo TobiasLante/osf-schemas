@@ -1,7 +1,7 @@
 {
   "mapId": "mtconnect-dataitem-map",
   "version": "2.0.0",
-  "description": "Canonical MTConnect DataItem -> SM-attribute projection. Keyed by the DataItem-id SUFFIX (the id minus its device-id prefix, e.g. `cnc-03-spindle-speed` -> `-spindle-speed`), so one table serves every MTConnect device. Consumers match the LONGEST suffix first (`-tool-life` wins over `-tool`). One suffix may expand to several attributes: the EXECUTION DataItem drives three. DataItems with no entry here (AVAILABILITY, BLOCK, y/z feedrate ...) carry no SM attribute and are skipped by the consumer.",
+  "description": "Canonical MTConnect DataItem -> SM-attribute projection. Full text: docs/history/mappings/mtconnect-dataitem-map.md, description.",
   "profileRef": "SMProfile-CNC-Machine",
   "mappings": [
     { "dataItemSuffix": "-spindle-speed", "category": "SAMPLE", "smAttribute": "Act_Speed_Spindle", "dataType": "Float", "unit": "RPM" },

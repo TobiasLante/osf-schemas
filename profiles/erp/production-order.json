@@ -4,7 +4,7 @@
   "standard": "CESMII",
   "category": "business",
   "displayName": "Production Order (manufacturing order / OperationsRequest — PLAN/target)",
-  "description": "next/ v2.0 — Level-3 MOM OperationsRequest = the PLAN/target of manufacturing (B2MML OperationsRequest / ISA-95 Part 4). Opposite side to the OperationsResponse (the actuals). A Level-4 SalesOrder (SMProfile-CustomerOrder) TRIGGERS this L3 OperationsRequest; EXECUTED_AT a Machine (≡ EquipmentUnit level, consolidation 2026-07-15). v2.0: the order INSTANTIATES an OperationsDefinition (routing master) and decomposes per ProcessSegment into SegmentRequirements (HAS_SEGMENT_REQUIREMENT); temporal subdivisions (FO index) as Workorder (HAS_WORKORDER). Plan-vs-actual (qty_shortfall, late_delivery) is Cross-Source (it-evaluator), not a single-entity constraints block. --- 2026-08-13, CAPT-ORDER: absorbs the commercial projection of the withdrawn SMProfile-CustomerOrder (order_no, customer_ref, customer_name, total_amount, currency, due_date, quantity) and its FOR_CUSTOMER / FOR_ARTICLE edges. TRIGGERED_BY is removed: it had 0 edges in the live graph and its target profile is retired.",
+  "description": "Level-3 MOM OperationsRequest = the PLAN/target of manufacturing (B2MML OperationsRequest / ISA-95 Part 4). Full text: docs/history/profiles/erp/production-order.md, description.",
   "parentType": null,
   "abstract": false,
   "attributes": [
@@ -57,7 +57,7 @@
       "dataType": "String",
       "required": false,
       "category": "Core",
-      "description": "ERP department the order is routed to. Measured population 2026-08-03 on the live feed: SG | MECH | MONTAGE (LAGER and QMS exist in the ERP's department table but carry no orders on this projection). NOT declared as an enum: a plant may add a department without a schema change, and a consumer must never read an unknown department as 'no department'. WHY THIS ATTRIBUTE EXISTS: SMProfile-ShiftWindow (the plant calendar) is keyed by department_id, while the SSOT groups machines by ISA-95 location.area (sgm, cnc). Without a department on the order, a consumer can only ask the calendar the department-INDEPENDENT question 'does ANY department schedule this hour?' — enough to settle weekends, not enough to see that only SG runs a night shift. This attribute closes that join WITHOUT anyone guessing sgm->SG from name similarity. IT WAS NULL ON EVERY ROW UNTIL 2026-08-03, and the cause was upstream, not here: the ERP derives the department from erp.routing.work_center, which holds POOLS (POOL-SGM, POOL-CNC), while erp.machine_departments is keyed by INDIVIDUAL machine (sgm-01, cnc-01) — a LEFT JOIN that matched nothing and failed silently as NULL. sim-v5 6c6735f3 resolves the pool through erp.machine_pools.machine_ids; measured after: 4126/4126 released and 684/689 in-production orders carry a department. A consumer must still tolerate NULL — an order whose routing pool maps to no single department deliberately gets no answer rather than an arbitrary one.",
+      "description": "ERP department the order is routed to. Full text: docs/history/profiles/erp/production-order.md, attributes › department_ref › description.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
@@ -78,7 +78,7 @@
       "dataType": "DateTime",
       "required": false,
       "category": "Timing",
-      "description": "Planned START of the order's next non-terminal operation. Added 2026-07-31: the profile carried only planned_end_time, and a due date cannot order a queue — two orders due the same hour on the same machine had no defined sequence, so 'what runs next here' was unanswerable even where a machine WAS assigned. sim-v5 populates this from erp.order_operations.planned_start (100% populated on machine-assigned IN_PRODUCTION orders) via /api/orders.planned_start_time. Non-NULL only INSIDE the 24 h dispatch horizon; beyond it the order legitimately has no committed start yet.",
+      "description": "Planned START of the order's next non-terminal operation. Full text: docs/history/profiles/erp/production-order.md, attributes › planned_start_time › description.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -108,7 +108,7 @@
       "dataType": "Int32",
       "required": false,
       "category": "Planning",
-      "description": "1-based position of this order in its machine's dispatch queue, inside the 24 h horizon. A total order down to (planned_start, production_order_no, operation_number), so ties are impossible. NULL beyond the horizon — capacity planning does not know the machine there yet, and a fabricated sequence would be worse than the pool. Together with planned_start_time this is what makes a shift-end projection possible: an ordered, machine-assigned sequence instead of a due-date heap.",
+      "description": "1-based position of this order in its machine's dispatch queue, inside the 24 h horizon. Full text: docs/history/profiles/erp/production-order.md, attributes › dispatch_sequence › description.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -118,7 +118,7 @@
       "dataType": "Int32",
       "required": false,
       "category": "Planning",
-      "description": "Number of good parts ONE machine cycle yields — the mould's cavity count on injection-moulding machines, 1 on single-part machines. Added 2026-07-31 because it was published nowhere readable and had to be RECOVERED by dividing two part counters (measured 4 on sgm-001/005, 8 on sgm-004/006). MUST be read together with cycle_time_planned_sec, which is a time per SHOT: parts per hour = 3600 / cycle_time_planned_sec * parts_per_shot. Reading the shot time as a per-part time is exactly the defect fixed in golden-shift 0.3.0.",
+      "description": "Number of good parts ONE machine cycle yields — the mould's cavity count on injection-moulding machines, 1 on single-part machines. Full text: docs/history/profiles/erp/production-order.md, attributes › parts_per_shot › description.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -128,7 +128,7 @@
       "dataType": "String",
       "required": false,
       "category": "Link",
-      "description": "Identity of the mounted mould/tool that determines parts_per_shot (e.g. 'MOULD-PART-D-v1'). Travels with parts_per_shot because the cavity count is a property of the MOULD. NOTE: in sim-v5 the mould is mounted on the machine and machines are article-blind, so this varies per MACHINE, not per article.",
+      "description": "Identity of the mounted mould/tool that determines parts_per_shot (e.g. Full text: docs/history/profiles/erp/production-order.md, attributes › mould_ref › description.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
@@ -169,7 +169,7 @@
       "dataType": "String",
       "required": false,
       "category": "Core",
-      "description": "COMPATIBILITY KEY, adopted from the withdrawn SMProfile-CustomerOrder on 2026-08-13. Its value is the SAME STRING as production_order_no on every upstream row (measured: on 500/500 rows of /api/orders the four id fields order_id, auftrag_nr, kundenauftrag_nr and production_order_no are equal). It is NOT a second identity and MUST NOT be used as a merge key — kgIdProperty stays production_order_no. It exists solely so the consumers that read order_no today (view-engine order_reconciliation, deploy/scripts/kg-lineage-verify.sh, kg-legacy-purge.sh, it-evaluator's entity-label fallback) keep reading it after the CustomerOrder source is withdrawn. It writes order_no onto the 48.486 nodes that carry it today from the other side, so no consumer loses the field.",
+      "description": "COMPATIBILITY KEY, adopted from the withdrawn SMProfile-CustomerOrder on 2026-08-13. Full text: docs/history/profiles/erp/production-order.md, attributes › order_no › description.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -200,7 +200,7 @@
       "dataType": "Float",
       "required": false,
       "category": "Commercial",
-      "description": "Order value (gesamtbetrag). Adopted from SMProfile-CustomerOrder 2026-08-13 — the driver of the EUR-impact ranking, read by it-evaluator pickImpactContext off the projected entity state (services/it-evaluator/src/evaluator.ts). Because that reader is entity-agnostic it keeps working unchanged once the field arrives on THIS profile. Fill rate measured on the live feed: 458/500 rows; 2.215 of the 48.486 order nodes carry no total_amount today, and that gap is upstream, not introduced here. unit_price is NOT adopted (see the source description): it is set on 0 nodes, so the quantity x unit_price fallback has never fired.",
+      "description": "Order value (gesamtbetrag). Full text: docs/history/profiles/erp/production-order.md, attributes › total_amount › description.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -220,7 +220,7 @@
       "dataType": "DateTime",
       "required": false,
       "category": "Planning",
-      "description": "Customer delivery commitment (lieferdatum_soll). Adopted from SMProfile-CustomerOrder 2026-08-13. READ THIS TOGETHER WITH planned_end_time: on this combined upstream projection BOTH map from lieferdatum_soll, so they carry the same value. That is the Sim's conflation of L4 and L3, faithfully reported rather than hidden — it is NOT evidence that the promise and the production target were separately planned. it-evaluator already coalesces due_date ?? planned_end_time, so the adoption changes no behaviour.",
+      "description": "Customer delivery commitment (lieferdatum_soll). Full text: docs/history/profiles/erp/production-order.md, attributes › due_date › description.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -230,7 +230,7 @@
       "dataType": "Int32",
       "required": false,
       "category": "Commercial",
-      "description": "Ordered piece count (geplante_stueckzahl). Adopted from SMProfile-CustomerOrder 2026-08-13. Carries the SAME column as qty_planned and customer_order_qty — on this projection the order qty IS the customer qty. Kept under its old name because it-evaluator reads state['quantity'] directly for affected-quantity, and dropping the name would silence that reader.",
+      "description": "Ordered piece count (geplante_stueckzahl). Full text: docs/history/profiles/erp/production-order.md, attributes › quantity › description.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -240,7 +240,7 @@
       "dataType": "String",
       "required": false,
       "category": "Core",
-      "description": "Plan status of the OperationsRequest, as it reaches THIS profile through OUR source binding. VOCABULARY MEASURED 2026-07-12 against the full population of sim-v5 PROD (.154), not a sample and not the mapper's source code: the ERP contains 47.513 orders carrying exactly FIVE raw statuses — CANCELLED 21.676, INVOICED 19.827, IN_PRODUCTION 4.305, WAITING_PARTS 1.687, ON_HOLD 18. sources/rest/erp-production-orders.json binds /api/orders?exclude_status=CANCELLED,INVOICED,SHIPPED, so CANCELLED (-> storniert) and INVOICED (-> abgeschlossen) never arrive: 6.010 of 47.513 orders reach us, and the projection maps them onto exactly TWO canonical values — in_arbeit 4.305 (71,63 %) and freigegeben 1.705 (28,37 %, = WAITING_PARTS + ON_HOLD). THIS ENUM IS THE COMPLETE IMAGE, not a lower bound: the raw states that would be needed to produce any other value DO NOT EXIST IN THE ERP AT ALL. 'offen' requires raw DRAFT|PROPOSED|PLANNED and 'fertig' requires PRODUCED|COMPLETED — there is not ONE such row among all 47.513 (0,00 %); 'abgeschlossen' is reachable only from INVOICED, which our source excludes. Two earlier attempts got this wrong in opposite directions and BOTH were merged into this file's history: capt-qty-retire-shortfall measured the ENDPOINT and kept storniert+abgeschlossen (our own filter removes them); feat/ci-vocabulary-gate measured the PROJECTION's source code and kept offen+fertig+abgeschlossen (the raw states those branches need never occur, and its probe's 'fertig 1' is not reproducible — the true count is 0). The lesson is in the method: an enum must be measured where the data ENTERS US — endpoint AND source filter AND population — not at any one of the three. CONSEQUENCE: any `when` guard keying on 'offen' is structurally unsatisfiable and is a sleeping watchdog (this is why profiles/erp/customer-order.json#order_overdue is retired, and why ci/lint-vocabulary.mjs — which would have PASSED that guard against the fictional enum above — is only as honest as the enum it checks). Extend this enum ONLY against a fresh measurement of the full population. --- 2026-08-03, THE ENUM NOW COMES FROM THE PRODUCER'S CONTRACT, NOT FROM A SAMPLE. Chasing observed values one at a time was Sisyphus: the declared set was [freigegeben, in_arbeit], a paginated count added fertig (12) and abgeschlossen (5), and while I was committing that, `offen` appeared once. A live population moves; a vocabulary declared from a sample of it is stale by construction. sim-v5 declares the CLOSED set itself — packages/api-erp/src/shapes.ts:96, 'canonical DE: offen|freigegeben|in_arbeit|fertig|abgeschlossen|storniert'. That is the authority, and it is what is declared here. storniert is DELIBERATELY OMITTED: it is status_raw CANCELLED, which the exclude_status filter this source sends (CANCELLED,INVOICED,SHIPPED) removes, so it cannot arrive through THIS binding. The other five can. Raw mapping measured on the live feed: IN_PRODUCTION -> in_arbeit, WAITING_PARTS + ON_HOLD -> freigegeben, COMPLETED -> fertig, DELIVERED -> abgeschlossen. HOW THE TWO-VALUE DECLARATION SURVIVED SINCE 2026-07-12: the endpoint caps a page at 5000 rows and the FIRST page carries only in_arbeit/freigegeben, so a single unpaginated request CONFIRMS the wrong answer. It caught me too. All values beyond in_arbeit/freigegeben are TERMINAL or pre-release and change no behaviour: every consumer treats only in_arbeit and freigegeben as running (golden-shift ACTIVE_STATUSES, run-builder order-tracker, it-evaluator recipe-band-resolver). --- 2026-08-14, CAPT-FEED: storniert IS NOW REACHABLE AND IS THEREFORE DECLARED. The paragraph above omits it for exactly one reason -- 'it is status_raw CANCELLED, which the exclude_status filter this source sends removes, so it cannot arrive through THIS binding'. sources/rest/erp-production-orders.json v4.0.0 REMOVED that filter, so the premise is gone and the omission would now be a false statement about the feed. MEASURED the same day, /api/orders paged to exhaustion without the filter: 76.126 distinct orders, of which storniert 24.282 (31,9 %) -- the single largest status in the population, and previously 100 % invisible to us. The other four values were already declared and are unchanged (abgeschlossen 38.912, in_arbeit 8.062, freigegeben 4.870, fertig 2); 'offen' still does not occur (0 rows) and is kept only because the producer's own contract declares the closed set. BEHAVIOUR: storniert is TERMINAL and changes nothing downstream -- golden-shift ACTIVE_STATUSES, run-builder order-tracker and the it-evaluator recipe-band-resolver all treat only in_arbeit and freigegeben as running, so a cancelled order simply stops being active instead of being absent.",
+      "description": "Plan status of the OperationsRequest, as it reaches THIS profile through OUR source binding. Full text: docs/history/profiles/erp/production-order.md, attributes › status › description.",
       "enum": [
         "offen",
         "freigegeben",
@@ -331,7 +331,7 @@
   "constraints": [
     {
       "name": "material_ready_after_planned_end",
-      "description": "Material is not available until AFTER the order's own planned finish date. The ERP states BOTH dates on the same order, so this is a contradiction inside one record, not an estimate: an order planned to finish at T cannot be built from material the ERP says arrives after T. The IT/planning counterpart to the OT machine bands - a materials-planning finding about an order, not about a machine, and raised BEFORE the order runs late rather than after.",
+      "description": "Material is not available until AFTER the order's own planned finish date. Full text: docs/history/profiles/erp/production-order.md, constraints › material_ready_after_planned_end › description.",
       "when": {
         "attr": "status",
         "op": "in",
@@ -360,7 +360,7 @@
     "objectModel": "OperationsRequest",
     "momDomain": "production",
     "level": 3,
-    "note": "Level-3 MOM OperationsRequest (B2MML) = PLAN/target. v2.0: the earlier flat SegmentRequirement.MaterialRequirement projection (propertyMap) is now modeled out as a dedicated SMProfile-SegmentRequirement per ProcessSegment (HAS_SEGMENT_REQUIREMENT); the order INSTANTIATES an OperationsDefinition and can be subdivided via Workorder (FO index). article_ref/machine_ref remain a denormalized header shortcut. Plan-vs-actual = Cross-Source reconcile, not a constraints block. QUANTITY: qty_planned is optional and is omitted for continuous bulk/length-based goods (e.g. continuous web/strand goods, sold by length) — then only times/status drive the PLAN. --- 2026-08-13, CAPT-ORDER: the Level-4 SalesOrder side is NO LONGER MODELLED AS A SEPARATE ENTITY. The upstream serves one row per order under four identical id fields and no distinct customer-order number, so a second entity on the same id was a duplication, not a level separation — it produced 48.486 double-labelled nodes and 48.485 TRIGGERS SELF-LOOPS. The commercial attributes of the demand (customer, value, currency, promised date, ordered qty) now live here as denormalised attributes of the OperationsRequest, which is what the data supports. A genuine L4/L3 separation requires sim-v5 to serve real, separately-keyed customer orders; that is a data-model project against the live sim and is filed as a backlog item, not attempted here.",
+    "note": "Level-3 MOM OperationsRequest (B2MML) = PLAN/target. Full text: docs/history/profiles/erp/production-order.md, isa95 › note.",
     "propertyMap": {
       "production_order_no": "OperationsRequest.ID",
       "sales_order_ref": "OperationsRequest.SalesOrderID",
