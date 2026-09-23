@@ -141,6 +141,18 @@ const VALIDATORS = [
     schemaFile: 'validation/ts-table-layout-schema.json',
     match: (rel) => rel.startsWith('historians/central-ts-tables/'),
   },
+  {
+    name: 'historian-descriptor',
+    schemaFile: 'validation/historian-descriptor-schema.json',
+    // Every historians/ descriptor EXCEPT the two classes that have their own
+    // meta-schemas (instances/ and central-ts-tables/). The exclusion is stated
+    // here, not left to route order, so a reordering of VALIDATORS cannot
+    // silently re-route one of those folders to this schema.
+    match: (rel) =>
+      rel.startsWith('historians/') &&
+      !rel.startsWith('historians/instances/') &&
+      !rel.startsWith('historians/central-ts-tables/'),
+  },
 ];
 
 // Bookkeeping
