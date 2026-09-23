@@ -131,6 +131,11 @@ const VALIDATORS = [
     schemaFile: 'validation/cross-constraint-schema.json',
     match: (rel) => rel.startsWith('cross-constraints/'),
   },
+  {
+    name: 'historian-instance',
+    schemaFile: 'validation/historian-instance-schema.json',
+    match: (rel) => rel.startsWith('historians/instances/'),
+  },
 ];
 
 // Bookkeeping
@@ -181,7 +186,7 @@ function walk(dir) {
   return out;
 }
 
-const targets = ['profiles', 'sources', 'sync', 'recipes', 'mappings', 'unit-conversions', 'flows', 'companion-specs', 'kpis', 'cross-constraints'].flatMap((d) => {
+const targets = ['profiles', 'sources', 'sync', 'recipes', 'mappings', 'unit-conversions', 'flows', 'companion-specs', 'kpis', 'cross-constraints', 'historians'].flatMap((d) => {
   try { return walk(join(ROOT, d)); } catch { return []; }
 });
 
