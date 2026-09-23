@@ -8,7 +8,6 @@ No LLM is needed — the schemas are the single source of truth.
 <!-- gen:tree:begin -->
 ```
 osf-schemas/
-├── .aider.tags.cache.v4/   
 ├── backup/                 ARCHIVED (v3-era postgresql sources, mqtt/kafka/webhook/manual/bridge syncs; it-fleet; central-ts historian instance) — reference only, loaded by nothing (328 json)
 ├── branding/               brand/theme assets (1 json)
 ├── ci/                     linters + generators (lint-*.mjs, gen-contract.mjs, gen-docs.mjs)
@@ -49,7 +48,6 @@ osf-schemas/
 │   └── polling/                REST polling schedule (1 json)
 ├── unit-conversions/       UNECE unit table (discovery-time scale/offset lookup) (1 json)
 ├── validation/             ajv meta-schemas (per-file shape validation) (20 json)
-├── .aider.input.history
 ├── CLAUDE.md               agent instructions
 ├── contract.json           GENERATED ontology contract (gen-contract.mjs) — agents read this FIRST
 ├── README.md               this overview
