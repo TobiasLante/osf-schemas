@@ -109,7 +109,12 @@
             "type": "array"
           },
           "unit": {
-            "type": "string"
+            "type": "string",
+            "description": "UNECE Rec. 20 code (validation/unece-codes.json), e.g. CEL, BAR, MMT, P1. Required on numeric attributes unless declared in validation/open-units.json. Checked by ci/lint-units.mjs."
+          },
+          "currency": {
+            "type": "string",
+            "description": "ISO 4217 currency code for monetary attributes (EUR). Currencies are not UNECE units."
           },
           "delivery": {
             "type": "string",

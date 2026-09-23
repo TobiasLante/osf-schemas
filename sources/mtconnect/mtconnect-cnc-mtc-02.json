@@ -23,24 +23,24 @@
   "type": "CNC"
  },
  "dataItemMappings": [
-  { "dataItemId": "cnc-03-power", "category": "SAMPLE", "smAttribute": "Act_Energy_Power", "dataType": "Float", "unit": "kW" },
+  { "dataItemId": "cnc-03-power", "category": "SAMPLE", "smAttribute": "Act_Energy_Power", "dataType": "Float", "unit": "KWT" },
   { "dataItemId": "cnc-03-exec", "category": "EVENT", "smAttribute": "Act_Status_Program", "dataType": "String" },
   { "dataItemId": "cnc-03-exec", "category": "EVENT", "smAttribute": "Act_State_InCycle", "dataType": "Boolean", "valueMap": { "ACTIVE": true, "*": false } },
   { "dataItemId": "cnc-03-exec", "category": "EVENT", "smAttribute": "Act_Status_Machine", "dataType": "String", "valueMap": { "ACTIVE": "RUNNING", "*": "IDLE" }, "_note": "Derived status, aligned with the sim-v5 String vocabulary (profile contract): execution==ACTIVE -> RUNNING, else IDLE." },
   { "dataItemId": "cnc-03-mode", "category": "EVENT", "smAttribute": "Act_Text_MachineMode", "dataType": "String" },
   { "dataItemId": "cnc-03-program", "category": "EVENT", "smAttribute": "Act_Ref_Program", "dataType": "String" },
   { "dataItemId": "cnc-03-tool", "category": "EVENT", "smAttribute": "Act_Ref_Tool", "dataType": "String" },
-  { "dataItemId": "cnc-03-tool-life", "category": "SAMPLE", "smAttribute": "Act_Pct_ToolWear", "dataType": "Float", "unit": "pct" },
+  { "dataItemId": "cnc-03-tool-life", "category": "SAMPLE", "smAttribute": "Act_Pct_ToolWear", "dataType": "Float", "unit": "P1" },
   { "dataItemId": "cnc-03-parts-good", "category": "EVENT", "smAttribute": "Act_Amount_PartGood", "dataType": "Int32" },
   { "dataItemId": "cnc-03-parts-scrap", "category": "EVENT", "smAttribute": "Act_Amount_PartScrap", "dataType": "Int32" },
   { "dataItemId": "cnc-03-alarm", "category": "CONDITION", "smAttribute": "Act_Amount_Alarm", "dataType": "Int32", "valueMap": { "Normal": 0, "Warning": 1, "Fault": 1, "*": 0 } },
-  { "dataItemId": "cnc-03-x-pos", "category": "SAMPLE", "smAttribute": "Act_Pos_AxisX", "dataType": "Float", "unit": "mm" },
-  { "dataItemId": "cnc-03-x-feed", "category": "SAMPLE", "smAttribute": "Act_Rate_Feed", "dataType": "Float", "unit": "mm/min" },
-  { "dataItemId": "cnc-03-y-pos", "category": "SAMPLE", "smAttribute": "Act_Pos_AxisY", "dataType": "Float", "unit": "mm" },
-  { "dataItemId": "cnc-03-z-pos", "category": "SAMPLE", "smAttribute": "Act_Pos_AxisZ", "dataType": "Float", "unit": "mm" },
-  { "dataItemId": "cnc-03-spindle-speed", "category": "SAMPLE", "smAttribute": "Act_Speed_Spindle", "dataType": "Float", "unit": "rpm" },
-  { "dataItemId": "cnc-03-spindle-load", "category": "SAMPLE", "smAttribute": "Act_Pct_SpindleLoad", "dataType": "Float", "unit": "pct" },
-  { "dataItemId": "cnc-03-spindle-temp", "category": "SAMPLE", "smAttribute": "Act_Temp_Spindle", "dataType": "Float", "unit": "degC" }
+  { "dataItemId": "cnc-03-x-pos", "category": "SAMPLE", "smAttribute": "Act_Pos_AxisX", "dataType": "Float", "unit": "MMT" },
+  { "dataItemId": "cnc-03-x-feed", "category": "SAMPLE", "smAttribute": "Act_Rate_Feed", "dataType": "Float", "unit": "H81" },
+  { "dataItemId": "cnc-03-y-pos", "category": "SAMPLE", "smAttribute": "Act_Pos_AxisY", "dataType": "Float", "unit": "MMT" },
+  { "dataItemId": "cnc-03-z-pos", "category": "SAMPLE", "smAttribute": "Act_Pos_AxisZ", "dataType": "Float", "unit": "MMT" },
+  { "dataItemId": "cnc-03-spindle-speed", "category": "SAMPLE", "smAttribute": "Act_Speed_Spindle", "dataType": "Float", "unit": "RPM" },
+  { "dataItemId": "cnc-03-spindle-load", "category": "SAMPLE", "smAttribute": "Act_Pct_SpindleLoad", "dataType": "Float", "unit": "P1" },
+  { "dataItemId": "cnc-03-spindle-temp", "category": "SAMPLE", "smAttribute": "Act_Temp_Spindle", "dataType": "Float", "unit": "CEL" }
  ],
  "polling": {
   "mode": "sample",

@@ -47,7 +47,7 @@ osf-schemas/
 │   ├── opcua-server/           Sonder-Edge re-publish (MTConnect → embedded OPC-UA server) (1 json)
 │   └── polling/                REST polling schedule (1 json)
 ├── unit-conversions/       UNECE unit table (discovery-time scale/offset lookup) (1 json)
-├── validation/             ajv meta-schemas (per-file shape validation) (19 json)
+├── validation/             ajv meta-schemas (per-file shape validation) (20 json)
 ├── CLAUDE.md               agent instructions
 ├── contract.json           GENERATED ontology contract (gen-contract.mjs) — agents read this FIRST
 ├── README.md               this overview
@@ -200,7 +200,7 @@ Defines **what types of nodes exist** — their label, ID property, attributes, 
 | `kgIdProperty` | Property used as unique ID (e.g. `machine_id`) |
 | `parentType` | Parent profile — resolved by `profileId` or `kgNodeLabel` |
 | `abstract` | If `true`, skip index creation (parent-only, no direct instances) |
-| `attributes` | Array of `{ name, dataType, unit?, category, description?, enum? }` |
+| `attributes` | Array of `{ name, dataType, unit?, category, description?, enum? }`. `unit` is a UNECE Rec. 20 code (`CEL`, `BAR`, `MMT`, `P1`), see `validation/unece-codes.json`; money uses `currency` (ISO 4217). `ci/lint-units.mjs` enforces it. |
 | `relationships` | Array of `{ type, target, description? }` |
 
 ### `enum` — the vocabulary is part of the contract (enforced)
