@@ -121,6 +121,11 @@ const VALIDATORS = [
     schemaFile: 'validation/companion-spec-index-schema.json',
     match: (rel) => rel === 'companion-specs/index.json',
   },
+  {
+    name: 'kpi',
+    schemaFile: 'validation/kpi-schema.json',
+    match: (rel) => rel.startsWith('kpis/'),
+  },
 ];
 
 // Bookkeeping
@@ -171,7 +176,7 @@ function walk(dir) {
   return out;
 }
 
-const targets = ['profiles', 'sources', 'sync', 'recipes', 'mappings', 'unit-conversions', 'flows', 'companion-specs'].flatMap((d) => {
+const targets = ['profiles', 'sources', 'sync', 'recipes', 'mappings', 'unit-conversions', 'flows', 'companion-specs', 'kpis'].flatMap((d) => {
   try { return walk(join(ROOT, d)); } catch { return []; }
 });
 
