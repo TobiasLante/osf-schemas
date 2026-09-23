@@ -126,6 +126,11 @@ const VALIDATORS = [
     schemaFile: 'validation/kpi-schema.json',
     match: (rel) => rel.startsWith('kpis/'),
   },
+  {
+    name: 'cross-constraint',
+    schemaFile: 'validation/cross-constraint-schema.json',
+    match: (rel) => rel.startsWith('cross-constraints/'),
+  },
 ];
 
 // Bookkeeping
@@ -176,7 +181,7 @@ function walk(dir) {
   return out;
 }
 
-const targets = ['profiles', 'sources', 'sync', 'recipes', 'mappings', 'unit-conversions', 'flows', 'companion-specs', 'kpis'].flatMap((d) => {
+const targets = ['profiles', 'sources', 'sync', 'recipes', 'mappings', 'unit-conversions', 'flows', 'companion-specs', 'kpis', 'cross-constraints'].flatMap((d) => {
   try { return walk(join(ROOT, d)); } catch { return []; }
 });
 
