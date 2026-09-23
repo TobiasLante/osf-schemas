@@ -138,7 +138,7 @@ osf-schemas/
 │   ├── opcua-server/           Sonder-Edge re-publish (MTConnect → embedded OPC-UA server) (1 json)
 │   └── polling/                REST polling schedule (1 json)
 ├── unit-conversions/       UNECE unit table (discovery-time scale/offset lookup) (1 json)
-├── validation/             ajv meta-schemas (per-file shape validation) (20 json)
+├── validation/             ajv meta-schemas (per-file shape validation) (21 json)
 ├── CLAUDE.md               agent instructions
 ├── contract.json           GENERATED ontology contract (gen-contract.mjs) — agents read this FIRST
 ├── README.md               this overview
