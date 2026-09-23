@@ -102,7 +102,7 @@ osf-schemas/
 ├── branding/               brand/theme assets (1 json)
 ├── ci/                     linters + generators (lint-*.mjs, gen-contract.mjs, gen-docs.mjs)
 ├── companion-specs/        OPC-UA Companion-Spec registry (NodeSet2.xml URLs) (1 json)
-├── consumers/               (14 json)
+├── consumers/               (15 json)
 ├── cross-constraints/      cross-profile discrepancy constraints (PLAN vs IST rules) (4 json)
 ├── docs/                   conventions, next2.0 standard, agent-conformance, variable shapes; history/ = the reasoning moved out of the JSON
 ├── examples/               demo fixtures — NOT canonical (see examples/README.md) (5 json)
