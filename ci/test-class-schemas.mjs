@@ -129,6 +129,63 @@ const CLASSES = {
     ],
     extra: testCrossConstraintOpsSingleSource,
   },
+
+  // ---- historians (Welle 1b) — three classes, decided on the FIELDS, not the
+  // folders (audit CAPT-KLASSEN B2): instances, central-ts table layouts, and
+  // the syncId/syncType/version descriptors in every other subfolder.
+
+  "historian-instances": {
+    schema: "validation/historian-instance-schema.json",
+    route: "historian-instance",
+    dir: "historians/instances",
+    negatives: [
+      ["instanceId missing", "historians/instances/edge-cnc-001.json", (d) => { delete d.instanceId; return d; }],
+      ["tables empty", "historians/instances/edge-cnc-001.json", (d) => { d.tables = []; return d; }],
+      ["table without name", "historians/instances/edge-cnc-001.json", (d) => { delete d.tables[0].name; return d; }],
+      ["column without type", "historians/instances/edge-cnc-001.json", (d) => { delete d.tables[0].columns[0].type; return d; }],
+      ["servedMachines empty", "historians/instances/edge-cnc-001.json", (d) => { d.servedMachines = []; return d; }],
+      ["retention without default", "historians/instances/edge-cnc-001.json", (d) => { d.retention = {}; return d; }],
+      ["internalPort as string", "historians/instances/edge-cnc-001.json", (d) => { d.internalPort = "5432"; return d; }],
+      ["typo key top-level", "historians/instances/edge-cnc-001.json", (d) => { d.instanceID = "x"; return d; }],
+    ],
+  },
+
+  "ts-table-layouts": {
+    schema: "validation/ts-table-layout-schema.json",
+    route: "ts-table-layout",
+    dir: "historians/central-ts-tables",
+    negatives: [
+      ["profileRef missing", "historians/central-ts-tables/cnc.json", (d) => { delete d.profileRef; return d; }],
+      ["profileRef without SMProfile- prefix", "historians/central-ts-tables/cnc.json", (d) => { d.profileRef = "CNC-Machine"; return d; }],
+      ["tables empty", "historians/central-ts-tables/cnc.json", (d) => { d.tables = []; return d; }],
+      // the keys below are the ones historians/central-ts-tables/render-ddl.py dereferences hard
+      ["table without primaryKey", "historians/central-ts-tables/cnc.json", (d) => { delete d.tables[0].primaryKey; return d; }],
+      ["table without columns", "historians/central-ts-tables/sgm.json", (d) => { delete d.tables[1].columns; return d; }],
+      ["column without type", "historians/central-ts-tables/cnc.json", (d) => { delete d.tables[0].columns[0].type; return d; }],
+      ["index without columns", "historians/central-ts-tables/cnc.json", (d) => { delete d.tables[0].indexes[0].columns; return d; }],
+      ["typo key top-level", "historians/central-ts-tables/cnc.json", (d) => { d.table = []; return d; }],
+    ],
+  },
+
+  "historian-descriptors": {
+    schema: "validation/historian-descriptor-schema.json",
+    route: "historian-descriptor",
+    dir: "historians",
+    exclude: ["historians/instances/", "historians/central-ts-tables/"],
+    negatives: [
+      ["syncId missing", "historians/grafana-dashboards/plant-cockpit.json", (d) => { delete d.syncId; return d; }],
+      ["syncType outside vocabulary", "historians/grafana-dashboards/plant-cockpit.json", (d) => { d.syncType = "grafana"; return d; }],
+      ["version not semver", "historians/influxdb/historian-template.json", (d) => { d.version = "1.0"; return d; }],
+      ["dashboard without uid", "historians/grafana-dashboards/plant-cockpit.json", (d) => { delete d.uid; return d; }],
+      ["dashboard without datasource", "historians/grafana-dashboards/process-sgm.json", (d) => { delete d.datasource; return d; }],
+      ["sink template without connection", "historians/influxdb/historian-template.json", (d) => { delete d.connection; return d; }],
+      ["sink template without subscribeFilters", "historians/nats-jetstream/historian-template.json", (d) => { delete d.subscribeFilters; return d; }],
+      ["cagg without sourceTable", "historians/postgresql-cagg/oee-hourly.json", (d) => { delete d.sourceTable; return d; }],
+      ["view without definition", "historians/views/machine_index.json", (d) => { delete d.definition; return d; }],
+      ["pivot without rules", "historians/postgresql-pivot/routing.json", (d) => { delete d.rules; return d; }],
+      ["typo key top-level", "historians/mssql/historian-template.json", (d) => { d.syncTyp = "mssql"; return d; }],
+    ],
+  },
 };
 
 // ---- helpers ----------------------------------------------------------------
@@ -229,7 +286,7 @@ for (const cls of selected) {
   let validate;
   try { validate = ajv.compile(schema); } catch (e) { report(cls, { name: "schema compiles", ok: false, detail: e.message }); continue; }
 
-  const files = listJson(c.dir);
+  const files = listJson(c.dir).filter((f) => !(c.exclude || []).some((x) => f.startsWith(x)));
   for (const f of files) {
     const ok = validate(readJson(join(REPO, f)));
     report(cls, { name: `real file valid: ${f}`, ok, detail: ok ? "" : ajv.errorsText(validate.errors) });
