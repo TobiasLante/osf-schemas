@@ -16,7 +16,8 @@
       "description": "Identity of the material lot (join key). Often kept in the ERP as 'Charge/batch number' — here correctly as MaterialLot.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "valueType": "ID"
     },
     {
       "name": "article_ref",
@@ -26,7 +27,8 @@
       "description": "FK to Article.article_no (OF_ARTICLE) = MaterialLot.MaterialDefinitionID. The MaterialDefinition of this lot.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "valueType": "ID"
     },
     {
       "name": "quantity",
@@ -66,7 +68,8 @@
       "description": "FK to Workorder.workorder_no (PRODUCED_BY). The order slot that produced this lot.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "valueType": "ID"
     },
     {
       "name": "location_ref",
@@ -76,7 +79,8 @@
       "description": "FK to StorageLocation (AT_LOCATION). Current storage location of the lot.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "valueType": "ID"
     },
     {
       "name": "created_at",

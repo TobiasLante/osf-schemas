@@ -112,6 +112,11 @@
             "type": "string",
             "description": "UNECE Rec. 20 code (validation/unece-codes.json), e.g. CEL, BAR, MMT, P1. Required on numeric attributes unless declared in validation/open-units.json. Checked by ci/lint-units.mjs."
           },
+          "valueType": {
+            "type": "string",
+            "enum": ["PV", "SP", "ID", "LIM", "MD"],
+            "description": "What kind of value: PV measured/actual (IST), SP commanded/planned (SOLL), ID identifier or reference, LIM enforced bound, MD master data. Declared where the repo implies it (Act_/Set_/Plan_ prefixes, Setpoint, recipe targets, kgIdProperty, *_ref); never guessed. ci/lint-value-type.mjs."
+          },
           "currency": {
             "type": "string",
             "description": "ISO 4217 currency code for monetary attributes (EUR). Currencies are not UNECE units."

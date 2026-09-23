@@ -29,7 +29,8 @@
       "description": "Department the window belongs to. Measured population 2026-08-03: LAGER | MECH | MONTAGE | SG. NOT declared as an enum: the plant may add a department without a schema change, and a consumer must never treat an unknown department as 'not scheduled'. Part of the composite key.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "valueType": "ID"
     },
     {
       "name": "day_of_week",
@@ -51,7 +52,8 @@
       "description": "Shift code as the ERP names it. Measured population 2026-08-03: FS (Frueh) | SS (Spaet) | NS (Nacht). These are NOT the S1/S2/S3 ids the golden covariate uses; the two vocabularies are joined by their WINDOW, not by their name — measured identical on 2026-08-03: FS 06:00-14:00 = S1, SS 14:00-22:00 = S2, NS 22:00-06:00 = S3 (golden-shift DEFAULT_SHIFT_WINDOWS). A consumer must join on start_time/end_time and must not assume the code mapping holds. Part of the composite key.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "valueType": "ID"
     },
     {
       "name": "start_time",

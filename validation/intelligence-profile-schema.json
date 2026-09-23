@@ -95,7 +95,13 @@
             "type": "array"
           },
           "unit": {
-            "type": "string"
+            "type": "string",
+            "description": "UNECE Rec. 20 code (validation/unece-codes.json). ci/lint-units.mjs."
+          },
+          "valueType": {
+            "type": "string",
+            "enum": ["PV", "SP", "ID", "LIM", "MD"],
+            "description": "PV measured, SP commanded, ID identifier/reference, LIM bound, MD master data. ci/lint-value-type.mjs."
           }
         },
         "additionalProperties": false

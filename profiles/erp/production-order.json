@@ -16,7 +16,8 @@
       "description": "Join key — identity of the OperationsRequest. The OperationsResponse reports its actuals back via the same key (RESPONDS_TO).",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "valueType": "ID"
     },
     {
       "name": "sales_order_ref",
@@ -26,7 +27,8 @@
       "description": "Triggering Level-4 customer order (order_no, TRIGGERED_BY).",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "valueType": "ID"
     },
     {
       "name": "article_ref",
@@ -36,7 +38,8 @@
       "description": "Article to be manufactured (article_no, join key to Article).",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "valueType": "ID"
     },
     {
       "name": "machine_ref",
@@ -46,7 +49,8 @@
       "description": "Planned executing machine / line (machine_no). EXECUTED_AT Machine (machine_id).",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "valueType": "ID"
     },
     {
       "name": "department_ref",
@@ -56,7 +60,8 @@
       "description": "ERP department the order is routed to. Measured population 2026-08-03 on the live feed: SG | MECH | MONTAGE (LAGER and QMS exist in the ERP's department table but carry no orders on this projection). NOT declared as an enum: a plant may add a department without a schema change, and a consumer must never read an unknown department as 'no department'. WHY THIS ATTRIBUTE EXISTS: SMProfile-ShiftWindow (the plant calendar) is keyed by department_id, while the SSOT groups machines by ISA-95 location.area (sgm, cnc). Without a department on the order, a consumer can only ask the calendar the department-INDEPENDENT question 'does ANY department schedule this hour?' — enough to settle weekends, not enough to see that only SG runs a night shift. This attribute closes that join WITHOUT anyone guessing sgm->SG from name similarity. IT WAS NULL ON EVERY ROW UNTIL 2026-08-03, and the cause was upstream, not here: the ERP derives the department from erp.routing.work_center, which holds POOLS (POOL-SGM, POOL-CNC), while erp.machine_departments is keyed by INDIVIDUAL machine (sgm-01, cnc-01) — a LEFT JOIN that matched nothing and failed silently as NULL. sim-v5 6c6735f3 resolves the pool through erp.machine_pools.machine_ids; measured after: 4126/4126 released and 684/689 in-production orders carry a department. A consumer must still tolerate NULL — an order whose routing pool maps to no single department deliberately gets no answer rather than an arbitrary one.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "valueType": "ID"
     },
     {
       "name": "qty_planned",
@@ -126,7 +131,8 @@
       "description": "Identity of the mounted mould/tool that determines parts_per_shot (e.g. 'MOULD-PART-D-v1'). Travels with parts_per_shot because the cavity count is a property of the MOULD. NOTE: in sim-v5 the mould is mounted on the machine and machines are article-blind, so this varies per MACHINE, not per article.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "valueType": "ID"
     },
     {
       "name": "material_ready_at",
@@ -176,7 +182,8 @@
       "description": "Customer of the triggering demand (kunde_id). Adopted from SMProfile-CustomerOrder 2026-08-13; the same column the withdrawn source read. FOR_CUSTOMER is built from it.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "valueType": "ID"
     },
     {
       "name": "customer_name",
@@ -264,7 +271,8 @@
       "description": "v2.0 — instantiated routing (operations_definition_no, INSTANTIATES).",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "valueType": "ID"
     },
     {
       "name": "updated_at",
