@@ -37,7 +37,9 @@ if (!codes || !codes.codes) {
   process.exit(1);
 }
 
-const conversions = readJson(join(ROOT, FILE), "U1");
+// UNIT_CONVERSIONS_FILE may be an absolute path (the oracle plants temp files
+// outside the repo); only resolve relative paths against ROOT.
+const conversions = readJson(FILE.startsWith("/") ? FILE : join(ROOT, FILE), "U1");
 if (!conversions || !Array.isArray(conversions.conversions)) {
   if (errors.length === 0) errors.push(`U1  ${FILE}: missing or invalid conversions array`);
   for (const e of errors) console.error(`  ✗ ${e}`);
