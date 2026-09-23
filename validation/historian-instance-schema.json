@@ -4,9 +4,10 @@
   "title": "Historian Instance",
   "description": "Meta-schema for historians/instances/*.json. Declares a concrete historian-sink instance (edge or central) with its connection, tables, retention and compression policy.",
   "type": "object",
-  "required": ["instanceId", "kind", "tier", "displayName", "host", "database", "tables", "retention", "servedMachines", "machineTypes"],
+  "required": ["instanceId", "version", "kind", "tier", "displayName", "host", "database", "tables", "retention", "servedMachines", "machineTypes"],
   "properties": {
     "instanceId": { "type": "string", "minLength": 1 },
+    "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(-[0-9A-Za-z.-]+)?(\\+[0-9A-Za-z.-]+)?$" },
     "kind": { "type": "string", "minLength": 1 },
     "tier": { "type": "string", "minLength": 1 },
     "displayName": { "type": "string", "minLength": 1 },
