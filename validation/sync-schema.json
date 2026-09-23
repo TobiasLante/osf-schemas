@@ -1,46 +1,309 @@
 {
- "$schema": "http://json-schema.org/draft-07/schema#",
- "$id": "https://osf-schemas/next/validation/sync-schema.json",
- "title": "OSF Sync descriptor — next/ (AC-1 coverage: sync alongside profiles + sources) — v2.0",
- "description": "Permissive AJV meta-schema for files under next/sync/**. AC-1 requires the next/ pipeline to cover profiles AND sources/sync. next/sync/ is currently empty (the live sync descriptors live under the canonical sync/), so this schema is intentionally CONSERVATIVE/PERMISSIVE and forward-looking: it pins only the minimal spine (a 'version' + an identifier) and leaves every transport-specific block (nats/mqtt/kafka/polling/webhook/manual/bridge …) open ('additionalProperties': true). It is modelled on the canonical sync/** shapes, which themselves vary widely (some carry 'syncId', some only 'mappingId', some have no 'syncType' at all). Identifier rule: at least one of syncId / mappingId. When a next/sync descriptor IS added it MUST validate here without forcing a particular transport schema — coverage, not enforcement. Deeper per-syncType semantics are reviewed, not schema-pinned (same loose-facet pattern as the profile isa95 block).",
- "type": "object",
- "required": ["version"],
- "anyOf": [
- { "required": ["syncId"] },
- { "required": ["mappingId"] }
- ],
- "properties": {
- "_comment": { "type": "string" },
- "_example": { "type": "boolean" },
- "$description": { "type": "string" },
- "$note": { "type": "string" },
- "syncId": { "type": "string", "minLength": 1 },
- "mappingId": { "type": "string", "minLength": 1 },
- "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
- "syncType": { "type": "string" },
- "description": { "type": "string" },
- "transport": { "type": "array", "items": { "type": "string" } },
- "profileRef": { "type": "string" },
- "profileRefs": { "type": "array", "items": { "type": "string" } },
- "sources": {
- "type": "array",
- "description": "Polling-style sync: the source descriptors this sync drives. Loosely typed; sourceRef wires to a next/sources entry.",
- "items": {
- "type": "object",
- "properties": {
- "sourceRef": { "type": "string" }
- },
- "additionalProperties": true
- }
- },
- "nats": { "type": "object", "additionalProperties": true },
- "mqtt": { "type": "object", "additionalProperties": true },
- "kafka": { "type": "object", "additionalProperties": true },
- "broker": { "type": "object", "additionalProperties": true },
- "webhook": { "type": "object", "additionalProperties": true },
- "manual": { "type": "object", "additionalProperties": true },
- "source": { "type": "object", "additionalProperties": true },
- "sink": { "type": "object", "additionalProperties": true }
- },
- "additionalProperties": true
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/validation/sync-schema.json",
+  "title": "OSF sync descriptor — v3 (Vorschlag CAPT-SYNC): drei getrennte Klassen, fail closed",
+  "description": "Genau eine von drei Klassen, an Feldern erkannt (nicht am Ordner, nicht an syncType). Pflicht ist nur, was ein Leser braucht: audit/CAPT-SYNC.md B5/B6. mappingId ist kein Ersatz fuer syncId (schema-map verwirft Dateien ohne syncId). required = nur Felder mit brechendem Leser; version/sink/tiers sind typisiert, aber ohne Leser nicht Pflicht (Entscheid Eigentuemer).",
+  "type": "object",
+  "oneOf": [
+    {
+      "$ref": "#/definitions/route"
+    },
+    {
+      "$ref": "#/definitions/schedule"
+    },
+    {
+      "$ref": "#/definitions/streamTopology"
+    }
+  ],
+  "definitions": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*$"
+    },
+    "semver": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(-[0-9A-Za-z.-]+)?$"
+    },
+    "doc": {
+      "type": "string"
+    },
+    "route": {
+      "description": "Eine Maschine, eine Kante source → sink (NATS-Route oder OPC-UA-Bruecke).",
+      "type": "object",
+      "required": [
+        "syncId",
+        "machineId",
+        "source"
+      ],
+      "properties": {
+        "$description": {
+          "$ref": "#/definitions/doc"
+        },
+        "$note": {
+          "$ref": "#/definitions/doc"
+        },
+        "description": {
+          "$ref": "#/definitions/doc"
+        },
+        "syncId": {
+          "$ref": "#/definitions/id"
+        },
+        "mappingId": {
+          "$ref": "#/definitions/id"
+        },
+        "version": {
+          "$ref": "#/definitions/semver"
+        },
+        "syncType": {
+          "enum": [
+            "polling",
+            "bridge",
+            "route"
+          ]
+        },
+        "profileRef": {
+          "type": "string",
+          "minLength": 1
+        },
+        "machineId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source": {
+          "type": "object",
+          "required": [
+            "sourceRef"
+          ],
+          "properties": {
+            "sourceRef": {
+              "type": "string",
+              "minLength": 1
+            },
+            "type": {
+              "type": "string"
+            },
+            "endpoint": {
+              "type": "string"
+            },
+            "device": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "sink": {
+          "type": "object",
+          "required": [
+            "type"
+          ],
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "type",
+                "server",
+                "subjectPatterns",
+                "stream"
+              ],
+              "properties": {
+                "type": {
+                  "const": "nats"
+                },
+                "server": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "subjectPatterns": {
+                  "$ref": "#/definitions/subjectPatterns"
+                },
+                "stream": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "required": [
+                "type",
+                "broker",
+                "topicPatterns"
+              ],
+              "properties": {
+                "type": {
+                  "const": "mqtt"
+                },
+                "broker": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "topicPatterns": {
+                  "$ref": "#/definitions/subjectPatterns"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "required": [
+                "type",
+                "bootstrapServers",
+                "topics",
+                "schemaRegistryUrl"
+              ],
+              "properties": {
+                "type": {
+                  "const": "kafka"
+                },
+                "bootstrapServers": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "topics": {
+                  "$ref": "#/definitions/subjectPatterns"
+                },
+                "schemaRegistryUrl": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "required": [
+                "type",
+                "endpoint",
+                "namespaceUri",
+                "nodeIdPattern"
+              ],
+              "properties": {
+                "type": {
+                  "const": "opcua-server"
+                },
+                "endpoint": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "namespaceUri": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "nodeIdPattern": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "sourceRef": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "additionalProperties": false
+            }
+          ],
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "subjectPatterns": {
+      "type": "object",
+      "required": [
+        "telemetry",
+        "transactional"
+      ],
+      "properties": {
+        "telemetry": {
+          "type": "string",
+          "minLength": 1
+        },
+        "transactional": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "schedule": {
+      "description": "Liste von Source-Referenzen. Takt/changeDetection gehoeren in die SOURCE (it-edge poller.ts:389) — hier verboten, weil sie ignoriert werden und in 2/4 Eintraegen widersprechen.",
+      "type": "object",
+      "required": [
+        "syncId",
+        "sources"
+      ],
+      "properties": {
+        "$description": {
+          "$ref": "#/definitions/doc"
+        },
+        "$note": {
+          "$ref": "#/definitions/doc"
+        },
+        "description": {
+          "$ref": "#/definitions/doc"
+        },
+        "syncId": {
+          "$ref": "#/definitions/id"
+        },
+        "version": {
+          "$ref": "#/definitions/semver"
+        },
+        "syncType": {
+          "const": "polling"
+        },
+        "sources": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "sourceRef"
+            ],
+            "properties": {
+              "sourceRef": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "streamTopology": {
+      "description": "JetStream-Streams. Kein Code-Leser im Referenzstand (B2); Struktur nur gegen Tippfehler gepinnt.",
+      "type": "object",
+      "required": [
+        "syncId"
+      ],
+      "properties": {
+        "$description": {
+          "$ref": "#/definitions/doc"
+        },
+        "$topology": {
+          "$ref": "#/definitions/doc"
+        },
+        "syncId": {
+          "$ref": "#/definitions/id"
+        },
+        "version": {
+          "$ref": "#/definitions/semver"
+        },
+        "syncType": {
+          "const": "nats-jetstream"
+        },
+        "tiers": {
+          "type": "object"
+        },
+        "deliveryClassRouting": {
+          "type": "object"
+        },
+        "consumers": {
+          "type": "object"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
 }
