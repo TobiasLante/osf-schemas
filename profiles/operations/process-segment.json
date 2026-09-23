@@ -16,7 +16,8 @@
       "description": "Identity of the ProcessSegment (join key). Recommendation: path- / Function-prefixed, since Function codes are unique per line.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "valueType": "ID"
     },
     {
       "name": "process_segment_code",
@@ -83,7 +84,8 @@
       "description": "FK to OperationsDefinition.operations_definition_no (PART_OF). The routing to which this stage belongs.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "valueType": "ID"
     },
     {
       "name": "unit_ref",
@@ -93,7 +95,8 @@
       "description": "FK to Machine.machine_id (PERFORMED_AT; Machine ≡ EquipmentUnit level). The ISA-88 Unit / process stage on which the segment runs — the physical anchoring of the 'plant' / 'Function'.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "valueType": "ID"
     }
   ],
   "relationships": [

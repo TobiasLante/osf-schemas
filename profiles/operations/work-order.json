@@ -16,7 +16,8 @@
       "description": "Identity of the Workorder (join key). Recommendation: <production_order_no>.<order_index>.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "valueType": "ID"
     },
     {
       "name": "production_order_ref",
@@ -26,7 +27,8 @@
       "description": "FK to ProductionOrder.production_order_no (PART_OF). The FabricationOrder that this sub-lot subdivides.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "valueType": "ID"
     },
     {
       "name": "order_index",

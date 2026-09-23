@@ -16,7 +16,8 @@
       "description": "Identity of the SegmentRequirement (join key). Recommendation: <production_order_no>.<sequence>.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "valueType": "ID"
     },
     {
       "name": "production_order_ref",
@@ -26,7 +27,8 @@
       "description": "FK to ProductionOrder.production_order_no (PART_OF). The OperationsRequest to which this segment target belongs.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "valueType": "ID"
     },
     {
       "name": "process_segment_ref",
@@ -36,7 +38,8 @@
       "description": "FK to ProcessSegment.process_segment_no (FOR_SEGMENT). Which manufacturing stage (= plant = Function) is planned here.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "valueType": "ID"
     },
     {
       "name": "sequence",
@@ -56,7 +59,8 @@
       "description": "FK to Article.article_no (FOR_MATERIAL) = MaterialRequirement.MaterialDefinitionID. The target material of this stage.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "valueType": "ID"
     },
     {
       "name": "material_use",
@@ -105,7 +109,8 @@
       "description": "FK to Machine.machine_id (USES_EQUIPMENT; Machine ≡ EquipmentUnit level) = EquipmentRequirement.EquipmentID. The target equipment of the stage.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "valueType": "ID"
     },
     {
       "name": "planned_start_time",

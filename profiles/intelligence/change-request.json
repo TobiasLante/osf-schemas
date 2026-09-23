@@ -10,6 +10,7 @@
  "attributes": [
  {
  "name": "change_request_id",
+ "valueType": "ID",
  "dataType": "String",
  "category": "Core",
  "isKey": true,
@@ -17,18 +18,21 @@
  },
  {
  "name": "discrepancy_id",
+ "valueType": "ID",
  "dataType": "String",
  "category": "Reference",
  "description": "The Discrepancy this change-request answers — the divergence that motivated challenging the band/aim. Also drawn as the ABOUT_DISCREPANCY edge."
  },
  {
  "name": "machine_id",
+ "valueType": "ID",
  "dataType": "String",
  "category": "Reference",
  "description": "The machine the band/aim governs (the process the request is about). Also drawn as the ABOUT_MACHINE edge."
  },
  {
  "name": "constraint_id",
+ "valueType": "ID",
  "dataType": "String",
  "category": "Reference",
  "description": "The band/constraint being challenged — the recipe band ref or profile constraint id (e.g. 'recipe:part_mass_band' / 'recipe_part_mass_band' / 'spindle_temp_control_limits'). An attribute, not an edge: constraints live inside recipes/profiles, there is no Constraint KG node to point at."
@@ -125,6 +129,7 @@
  },
  {
  "name": "audit_ref",
+ "valueType": "ID",
  "dataType": "String",
  "category": "Audit",
  "description": "Hash-chain ref (vault-hashchain) for the change-request events — same Ed25519 chain as the Discrepancy lifecycle and ResolutionProposal events."

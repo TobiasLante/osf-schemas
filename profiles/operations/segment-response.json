@@ -16,7 +16,8 @@
       "description": "Identity of the SegmentResponse (join key). Recommendation: <production_order_no>.<sequence>.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "valueType": "ID"
     },
     {
       "name": "operations_response_ref",
@@ -26,7 +27,8 @@
       "description": "FK to OperationsResponse.production_order_no (PART_OF). The order actuals to which these segment actuals belong.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "valueType": "ID"
     },
     {
       "name": "segment_requirement_ref",
@@ -36,7 +38,8 @@
       "description": "FK to SegmentRequirement.segment_requirement_no (CORRESPONDS_TO). The target segment whose actuals are reported here.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "valueType": "ID"
     },
     {
       "name": "process_segment_ref",
@@ -46,7 +49,8 @@
       "description": "FK to ProcessSegment.process_segment_no (FOR_SEGMENT). Which manufacturing stage was executed.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "valueType": "ID"
     },
     {
       "name": "sequence",
@@ -66,7 +70,8 @@
       "description": "FK to MaterialLot.material_lot_no (PROCESSED_MATERIAL) = MaterialActual.MaterialLotID. The material lot actually consumed/produced; role via material_use.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "valueType": "ID"
     },
     {
       "name": "material_use",
@@ -118,7 +123,8 @@
       "description": "FK to Machine.machine_id (USED_EQUIPMENT; Machine ≡ EquipmentUnit level) = EquipmentActual.EquipmentID. The equipment actually used.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "valueType": "ID"
     },
     {
       "name": "actual_start_time",

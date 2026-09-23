@@ -16,7 +16,8 @@
       "description": "The booking's own identity (e.g. BDE-2026-08-03-2208427). UNIQUE per confirmation — this is what makes the grain safe to key, where production_order_no repeats.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "valueType": "ID"
     },
     {
       "name": "production_order_no",
@@ -36,7 +37,8 @@
       "description": "Manufactured article (join key to Article).",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "valueType": "ID"
     },
     {
       "name": "machine_ref",
@@ -46,7 +48,8 @@
       "description": "Executing machine (machine_no). MEASURED 2026-08-03: non-null on 2000 of 2000 rows at this grain across 81 distinct values, where the per-production-order aggregate carries it on only 32 of 100. The machine binding survives here and is lost there.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "valueType": "ID"
     },
     {
       "name": "operation_no",
