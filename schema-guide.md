@@ -27,7 +27,7 @@ osf-schemas/
 │   ├── postgresql-cagg/         (1 json)
 │   ├── postgresql-pivot/        (1 json)
 │   └── views/                   (1 json)
-├── i3x/                    GENERATED i3X 1.0 form of profiles/ (gen-i3x.mjs): Object Types as JSON Schema, Relationship Types with reverseOf (30 json)
+├── i3x/                    GENERATED i3X 1.0 form of profiles/ (i3x-v5 schemas-ci/gen-i3x.mjs): Object Types as JSON Schema, Relationship Types with reverseOf (30 json)
 ├── kpis/                   KPI definitions — inputs drawn from the source-fed vocabulary (lint-kpis) (6 json)
 ├── mappings/               protocol canon: DataItem/tag → SM attribute (SSOT for discovery + gen-flows) (4 json)
 ├── profiles/               Schema 1: SM Profiles (type system)
