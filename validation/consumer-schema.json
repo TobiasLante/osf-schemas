@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/validation/consumer-schema.json",
+  "title": "Consumer",
+  "description": "Meta-schema for consumers/*.json (NOT consumers/waivers/). Declares a UNS consumer (edge / middleware / gateway / script) with its stage, ring, carried sourceRefs, declared capacity and optional feedback contract.",
+  "type": "object",
+  "required": ["consumerId", "version", "kind", "stage", "ring", "carries", "capacity", "authoring"],
+  "properties": {
+    "consumerId": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+    "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(-[0-9A-Za-z.-]+)?(\\+[0-9A-Za-z.-]+)?$" },
+    "kind": { "type": "string", "enum": ["edge", "middleware", "gateway", "script"] },
+    "stage": { "type": "string", "enum": ["push", "pull", "export", "manual"] },
+    "ring": { "type": "integer", "minimum": 0 },
+    "carries": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "capacity": { "type": "integer", "minimum": 1 },
+    "authoring": { "type": "string", "enum": ["locked", "open"] },
+    "description": { "type": "string" },
+    "feedback": {
+      "type": "object",
+      "required": ["grains", "maxAgeSeconds"],
+      "properties": {
+        "grains": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "enum": ["loaded", "seen"] }
+        },
+        "maxAgeSeconds": { "type": "integer", "minimum": 1, "maximum": 86400 }
+      },
+      "additionalProperties": false
+    }
+  },
+  "patternProperties": {
+    "^\\$": { "type": "string" }
+  },
+  "additionalProperties": false
+}
