@@ -132,6 +132,21 @@ const VALIDATORS = [
     match: (rel) => rel.startsWith('cross-constraints/'),
   },
   {
+    name: 'consumer',
+    schemaFile: 'validation/consumer-schema.json',
+    // Consumers live under consumers/ EXCEPT the waivers subfolder, which has
+    // its own meta-schema (consumer-waiver). The exclusion is stated here, not
+    // left to route order, so a reordering of VALIDATORS cannot silently
+    // re-route a waiver to the consumer schema.
+    match: (rel) =>
+      rel.startsWith('consumers/') && !rel.startsWith('consumers/waivers/'),
+  },
+  {
+    name: 'consumer-waiver',
+    schemaFile: 'validation/consumer-waiver-schema.json',
+    match: (rel) => rel.startsWith('consumers/waivers/'),
+  },
+  {
     name: 'historian-instance',
     schemaFile: 'validation/historian-instance-schema.json',
     match: (rel) => rel.startsWith('historians/instances/'),
@@ -203,7 +218,7 @@ function walk(dir) {
   return out;
 }
 
-const targets = ['profiles', 'sources', 'sync', 'recipes', 'mappings', 'unit-conversions', 'flows', 'companion-specs', 'kpis', 'cross-constraints', 'historians'].flatMap((d) => {
+const targets = ['profiles', 'sources', 'sync', 'recipes', 'mappings', 'unit-conversions', 'flows', 'companion-specs', 'kpis', 'cross-constraints', 'consumers', 'historians'].flatMap((d) => {
   try { return walk(join(ROOT, d)); } catch { return []; }
 });
 
