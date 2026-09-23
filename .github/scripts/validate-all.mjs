@@ -106,6 +106,11 @@ const VALIDATORS = [
     schemaFile: 'validation/machine-identity-schema.json',
     match: (rel) => rel === 'mappings/machine-identity.json',
   },
+  {
+    name: 'unit-conversions',
+    schemaFile: 'validation/unit-conversions-schema.json',
+    match: (rel) => rel.startsWith('unit-conversions/'),
+  },
 ];
 
 // Bookkeeping
@@ -156,7 +161,7 @@ function walk(dir) {
   return out;
 }
 
-const targets = ['profiles', 'sources', 'sync', 'recipes', 'mappings'].flatMap((d) => {
+const targets = ['profiles', 'sources', 'sync', 'recipes', 'mappings', 'unit-conversions'].flatMap((d) => {
   try { return walk(join(ROOT, d)); } catch { return []; }
 });
 
