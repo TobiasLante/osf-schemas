@@ -106,6 +106,68 @@ const VALIDATORS = [
     schemaFile: 'validation/machine-identity-schema.json',
     match: (rel) => rel === 'mappings/machine-identity.json',
   },
+  {
+    name: 'unit-conversions',
+    schemaFile: 'validation/unit-conversions-schema.json',
+    match: (rel) => rel.startsWith('unit-conversions/'),
+  },
+  {
+    name: 'flow',
+    schemaFile: 'validation/flow-schema.json',
+    match: (rel) => rel.startsWith('flows/'),
+  },
+  {
+    name: 'companion-spec-index',
+    schemaFile: 'validation/companion-spec-index-schema.json',
+    match: (rel) => rel === 'companion-specs/index.json',
+  },
+  {
+    name: 'kpi',
+    schemaFile: 'validation/kpi-schema.json',
+    match: (rel) => rel.startsWith('kpis/'),
+  },
+  {
+    name: 'cross-constraint',
+    schemaFile: 'validation/cross-constraint-schema.json',
+    match: (rel) => rel.startsWith('cross-constraints/'),
+  },
+  {
+    name: 'consumer',
+    schemaFile: 'validation/consumer-schema.json',
+    // Consumers live under consumers/ EXCEPT the waivers subfolder, which has
+    // its own meta-schema (consumer-waiver). The exclusion is stated here, not
+    // left to route order, so a reordering of VALIDATORS cannot silently
+    // re-route a waiver to the consumer schema.
+    match: (rel) =>
+      rel.startsWith('consumers/') && !rel.startsWith('consumers/waivers/'),
+  },
+  {
+    name: 'consumer-waiver',
+    schemaFile: 'validation/consumer-waiver-schema.json',
+    match: (rel) => rel.startsWith('consumers/waivers/'),
+  },
+  {
+    name: 'historian-instance',
+    schemaFile: 'validation/historian-instance-schema.json',
+    match: (rel) => rel.startsWith('historians/instances/'),
+  },
+  {
+    name: 'ts-table-layout',
+    schemaFile: 'validation/ts-table-layout-schema.json',
+    match: (rel) => rel.startsWith('historians/central-ts-tables/'),
+  },
+  {
+    name: 'historian-descriptor',
+    schemaFile: 'validation/historian-descriptor-schema.json',
+    // Every historians/ descriptor EXCEPT the two classes that have their own
+    // meta-schemas (instances/ and central-ts-tables/). The exclusion is stated
+    // here, not left to route order, so a reordering of VALIDATORS cannot
+    // silently re-route one of those folders to this schema.
+    match: (rel) =>
+      rel.startsWith('historians/') &&
+      !rel.startsWith('historians/instances/') &&
+      !rel.startsWith('historians/central-ts-tables/'),
+  },
 ];
 
 // Bookkeeping
@@ -156,7 +218,7 @@ function walk(dir) {
   return out;
 }
 
-const targets = ['profiles', 'sources', 'sync', 'recipes', 'mappings'].flatMap((d) => {
+const targets = ['profiles', 'sources', 'sync', 'recipes', 'mappings', 'unit-conversions', 'flows', 'companion-specs', 'kpis', 'cross-constraints', 'consumers', 'historians'].flatMap((d) => {
   try { return walk(join(ROOT, d)); } catch { return []; }
 });
 
