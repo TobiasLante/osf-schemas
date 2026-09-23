@@ -1,7 +1,8 @@
-# OSF Naming Standard (DORMANT)
+# OSF Naming Standard
 
-**Status:** experimental, **DORMANT** — descriptive only. Nothing live reads or validates
-against this. It documents the identifier/label conventions **already in use** and pins one
+**Status:** descriptive. The level labels below are enforced by the `equipmentLevel` enum in
+`profile-unified-schema.json` and `intelligence-profile-schema.json`; `equipmentPath` is active since
+next2.0 (see the last section). Nothing else validates against this file. It documents the identifier/label conventions **already in use** and pins one
 reserved forward-looking alias (`equipmentPath`). Machine-readable companion:
 [`naming-standard.json`](./naming-standard.json).
 
@@ -75,3 +76,14 @@ equipmentPath = <enterprise>.<site>.<area>.<cell>.<unit>.<module>.<controlmodule
 ## next2.0 update — equipmentPath ADOPTED (active)
 
 Per the merged RW×next standard, `equipmentPath` is no longer dormant: it is the **active**, canonical containment-path key and is emitted as the UNS/MQTT topic (as proven on the Rockwool side). Same value as `element_id`/`kg_merge_key`; purely additive, no id migration.
+
+## Attribute names mirror the source
+
+An attribute name is the source tag, 1:1 ("source tag == profile attribute"). The style therefore
+follows the source family, not a repo-wide rule: the CNC profile uses the `Act_` / `Set_` / `Plan_`
+tag convention, the injection moulding profile the camelCase of its OPC-UA tags, business profiles
+the snake_case of their REST columns. Within one profile there is one style. Known exceptions:
+`machine_type` and `partMass_g` in `injection-molding-machine.json`.
+
+The prefixes carry meaning: `Act_` is measured (`valueType: PV`), `Set_` and `Plan_` are commanded
+(`SP`), `Act_Ref_` is a reference (`ID`). `ci/lint-value-type.mjs` keeps name and role in step.
