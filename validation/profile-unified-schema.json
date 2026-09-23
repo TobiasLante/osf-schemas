@@ -242,7 +242,9 @@
           "type": "boolean"
         },
         "equipmentLevel": {
-          "type": "string"
+          "type": "string",
+          "description": "Same list as intelligence-profile-schema.json: the ISA-88 levels of validation/naming-standard.md plus the ISA-95 Part 2 role-based equipment types.",
+          "enum": ["Enterprise", "Site", "Area", "ProcessCell", "EquipmentUnit", "EquipmentModule", "ControlModule", "ProductionLine", "WorkCell", "ProductionUnit", "StorageZone", "StorageUnit", "WorkCenter", "WorkUnit"]
         },
         "equipmentClass": {
           "type": "string"

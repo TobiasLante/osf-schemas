@@ -1,0 +1,15 @@
+{
+  "_note": "Edge types that are the inverse of each other. i3X 1.0 requires every relationship type to register exactly one reverseOf. Where both directions are authored (in two profiles), they must be registered here as a pair, so the two sides cannot drift apart. Checked by ci/lint-edge-pairs.mjs.",
+  "pairs": [
+    ["EXECUTED_AT", "EXECUTES"],
+    ["PRODUCED_BY", "YIELDS"],
+    ["RESOLVED_BY_RULE", "RESOLVES"]
+  ],
+  "open": [
+    {
+      "type": "PART_OF",
+      "inverseOf": ["CONTAINS_SEGMENT", "HAS_SEGMENT_REQUIREMENT", "HAS_SEGMENT_RESPONSE", "HAS_WORKORDER"],
+      "reason": "PART_OF is the reverse of four different HAS_* types. i3X allows one reverseOf per type, so this cannot be expressed as it stands: either the four collapse into one HAS_PART, or PART_OF splits into four. Model decision, not made here."
+    }
+  ]
+}

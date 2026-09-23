@@ -8,7 +8,6 @@ No LLM is needed — the schemas are the single source of truth.
 <!-- gen:tree:begin -->
 ```
 osf-schemas/
-├── backup/                 ARCHIVED (v3-era postgresql sources, mqtt/kafka/webhook/manual/bridge syncs; it-fleet; central-ts historian instance) — reference only, loaded by nothing (328 json)
 ├── branding/               brand/theme assets (1 json)
 ├── ci/                     linters + generators (lint-*.mjs, gen-contract.mjs, gen-docs.mjs)
 ├── companion-specs/        OPC-UA Companion-Spec registry (NodeSet2.xml URLs) (1 json)
@@ -47,7 +46,7 @@ osf-schemas/
 │   ├── opcua-server/           Sonder-Edge re-publish (MTConnect → embedded OPC-UA server) (1 json)
 │   └── polling/                REST polling schedule (1 json)
 ├── unit-conversions/       UNECE unit table (discovery-time scale/offset lookup) (1 json)
-├── validation/             ajv meta-schemas (per-file shape validation) (20 json)
+├── validation/             ajv meta-schemas (per-file shape validation) (21 json)
 ├── CLAUDE.md               agent instructions
 ├── contract.json           GENERATED ontology contract (gen-contract.mjs) — agents read this FIRST
 ├── README.md               this overview
@@ -63,7 +62,7 @@ Verbindlich sind die Linter-Zahlen (`npm run validate` → lint-refs meldet
 `npm run validate:docs` wird rot, wenn sie von einem frischen Render abweicht —
 eine Doku-Zahl, die niemand nachrechnet, ist eine Lüge mit Veröffentlichungsdatum).
 Alles aus der v3-Ära (PostgreSQL-Sources, MQTT-UNS-/Kafka-/Webhook-Syncs) liegt in
-`backup/pre-next2.0/` und wird von keinem Service mehr geladen.
+`main` at 07e137a, folder `backup/` und wird von keinem Service mehr geladen.
 
 <!-- gen:counts:begin -->
 | Category | Count | Files |
@@ -268,7 +267,7 @@ Defines **where to load instance data from** — which database/endpoint, how fi
 **File:** `sources/rest/<source-id>.json` — the ONLY active path for ERP/QMS/WMS
 entities: the sim-v5 REST projections, polled per `sync/polling/sim-v5-poll.json`.
 Direct-PostgreSQL sources are a v3-era pattern — archived under
-`backup/pre-next2.0/sources/`, loaded by nothing.
+`main` at 07e137a, folder `backup/` (`pre-next2.0/sources/`), loaded by nothing.
 
 Shortened from the real `sources/rest/erp-production-orders.json`:
 
@@ -344,7 +343,7 @@ Defines **how to keep the KG updated** in real-time or near-real-time.
 | `nats` / `nats-jetstream` | NATS subjects + JetStream streams (suite hub) | **Active** — the OT transport |
 | `polling` | REST periodic query (sim-v5) | **Active** — `sim-v5-poll` |
 | `bridge` / opcua-server | MTConnect → embedded OPC-UA re-publish (Sonder-Edge) | **Active** — `mtconnect-to-opcua-cnc-mtc-01` |
-| `mqtt`, `kafka`, `rest-webhook`, `manual` | v3-era UNS ingestion | **Archived** → `backup/pre-next2.0/sync/` (referenced deleted profiles/sources; see lint-refs) |
+| `mqtt`, `kafka`, `rest-webhook`, `manual` | v3-era UNS ingestion | **Archived** → `main` at 07e137a, folder `backup/` (`pre-next2.0/sync/`) (referenced deleted profiles/sources; see lint-refs) |
 
 ### Polling Sync
 
@@ -423,7 +422,7 @@ in this guide showed exactly that forbidden shape, and the streams it named
 ### Archived sync types (pre-next2.0)
 
 The v3-era MQTT-UNS subscriptions, Kafka consumers, webhook endpoints, manual
-CSV imports and MQTT→Kafka bridge configs live in `backup/pre-next2.0/sync/`.
+CSV imports and MQTT→Kafka bridge configs live in `main` at 07e137a, folder `backup/` (`pre-next2.0/sync/`).
 They referenced the pre-cutover profile/source catalog and are kept for
 reference only — no service loads them.
 
@@ -434,7 +433,7 @@ reference only — no service loads them.
 The phases below are what runs against the **active** next2.0 catalog. The
 v3-era phases this guide used to list — PostgreSQL direct load (2b), MCP tools
 (2c), MQTT live sync (3a), PG LISTEN/NOTIFY (3c), Kafka/Webhook/Manual (3d–f) —
-died with the cutover; their configs are archived under `backup/pre-next2.0/`
+died with the cutover; their configs are archived under `main` at 07e137a, folder `backup/`
 and the sync table above is the authoritative list of what is active.
 
 ```

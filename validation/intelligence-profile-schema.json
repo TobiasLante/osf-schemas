@@ -158,20 +158,8 @@
         },
         "equipmentLevel": {
           "type": "string",
-          "enum": [
-            "Enterprise",
-            "Site",
-            "Area",
-            "ProcessCell",
-            "Unit",
-            "ProductionLine",
-            "WorkCell",
-            "ProductionUnit",
-            "StorageZone",
-            "StorageUnit",
-            "WorkCenter",
-            "WorkUnit"
-          ]
+          "description": "ISA-88 physical levels as validation/naming-standard.md labels them (EquipmentUnit, not Unit), plus the ISA-95 Part 2 role-based equipment types. One list, shared with profile-unified-schema.json.",
+          "enum": ["Enterprise", "Site", "Area", "ProcessCell", "EquipmentUnit", "EquipmentModule", "ControlModule", "ProductionLine", "WorkCell", "ProductionUnit", "StorageZone", "StorageUnit", "WorkCenter", "WorkUnit"]
         },
         "level": {
           "type": "integer",
