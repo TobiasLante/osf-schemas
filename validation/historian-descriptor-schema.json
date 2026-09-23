@@ -1,0 +1,112 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/validation/historian-descriptor-schema.json",
+  "title": "HistorianDescriptor",
+  "description": "Meta-schema for the historian descriptors under historians/ EXCEPT historians/instances/ and historians/central-ts-tables/ (those have their own classes). Covers the 11 syncId/syncType/version descriptors in 8 folders: grafana-dashboards, influxdb, mssql, nats-jetstream, postgresql, postgresql-cagg, postgresql-pivot, views. The syncType vocabulary lives HERE (properties.syncType.enum) and is the single source of truth for the per-type required-field groups below.",
+  "type": "object",
+  "required": ["syncId", "syncType", "version"],
+  "properties": {
+    "syncId": { "type": "string", "minLength": 1 },
+    "syncType": {
+      "type": "string",
+      "enum": [
+        "grafana-dashboard",
+        "influxdb",
+        "mssql",
+        "postgresql",
+        "nats-jetstream",
+        "postgresql-cagg",
+        "postgresql-pivot",
+        "postgresql-view"
+      ]
+    },
+    "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(-[0-9A-Za-z.-]+)?(\\+[0-9A-Za-z.-]+)?$" },
+    "deployTarget": { "type": "string", "minLength": 1 },
+    "nodeRedContrib": { "type": "string", "minLength": 1 },
+    "connection": { "type": "object" },
+    "insertStrategy": { "type": "object" },
+    "subscribeFilters": { "type": "array", "items": { "type": "string" } },
+    "tableStructure": { "type": "object" },
+    "pointStructure": { "type": "object" },
+    "topicParser": { "type": "object" },
+    "subjectParser": { "type": "object" },
+    "consumer": { "type": "object" },
+    "influxVersion": { "type": "string", "minLength": 1 },
+    "uid": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 1 },
+    "tags": { "type": "array", "items": { "type": "string" } },
+    "datasource": { "type": "string", "minLength": 1 },
+    "variables": { "type": "array" },
+    "rows": { "type": "array" },
+    "sections": { "type": "array" },
+    "machineType": { "type": "string", "minLength": 1 },
+    "table": { "type": "string", "minLength": 1 },
+    "drilldownButtons": { "type": "array" },
+    "view": { "type": "string", "minLength": 1 },
+    "schema": { "type": "string", "minLength": 1 },
+    "definition": { "type": "string", "minLength": 1 },
+    "sourceTable": { "type": "string", "minLength": 1 },
+    "bucketInterval": { "type": "string", "minLength": 1 },
+    "timeColumn": { "type": "string", "minLength": 1 },
+    "groupBy": { "type": "array", "items": { "type": "string" } },
+    "select": { "type": "object" },
+    "refreshPolicy": { "type": "object" },
+    "compress": { "type": "string", "minLength": 1 },
+    "retention": { "type": "string", "minLength": 1 },
+    "rules": { "type": "array" },
+    "convention": { "type": "object" },
+    "opcuaDataTypeMap": { "type": "object" },
+    "description": { "type": "string" }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "syncType": { "const": "grafana-dashboard" } },
+        "required": ["syncType"]
+      },
+      "then": {
+        "required": ["uid", "title", "datasource", "variables"]
+      }
+    },
+    {
+      "if": {
+        "properties": { "syncType": { "enum": ["influxdb", "mssql", "postgresql", "nats-jetstream"] } },
+        "required": ["syncType"]
+      },
+      "then": {
+        "required": ["nodeRedContrib", "connection", "insertStrategy", "subscribeFilters"]
+      }
+    },
+    {
+      "if": {
+        "properties": { "syncType": { "const": "postgresql-cagg" } },
+        "required": ["syncType"]
+      },
+      "then": {
+        "required": ["view", "schema", "sourceTable", "bucketInterval", "timeColumn", "select"]
+      }
+    },
+    {
+      "if": {
+        "properties": { "syncType": { "const": "postgresql-view" } },
+        "required": ["syncType"]
+      },
+      "then": {
+        "required": ["view", "schema", "definition"]
+      }
+    },
+    {
+      "if": {
+        "properties": { "syncType": { "const": "postgresql-pivot" } },
+        "required": ["syncType"]
+      },
+      "then": {
+        "required": ["rules", "convention"]
+      }
+    }
+  ],
+  "patternProperties": {
+    "^\\$": { "type": "string" }
+  },
+  "additionalProperties": false
+}
