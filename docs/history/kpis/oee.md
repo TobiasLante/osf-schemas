@@ -1,0 +1,7 @@
+# kpis/oee.json — history and reasoning
+
+Moved verbatim out of `kpis/oee.json`, where each field now holds its first sentence. The JSON says what a thing is; this file keeps why it became that.
+
+## description
+
+HONEST SCOPE: this is NOT full OEE. It is the QUALITY factor only (good / (good + scrap)), computed live on the edge, since the last counter reset — no planned time and no planned cycle exist on the wire (measured 2026-07-15: Plan_Time_Cycle is declared on the CNC profile but fed by NO source; the IMM has no planned-time attribute at all), so availability x performance x quality cannot be computed here without inventing two of the three factors. AUTHORITY SPLIT with historians/postgresql-cagg/oee-hourly.json (view oee_hourly_v5): THAT file is authoritative for time-bucketed 3-factor OEE over bde_data (with its own documented hardcodes: planned_production_time=3600, downtime_minutes=0) — any reporting/EUR number must come from the cagg. THIS KPI is authoritative only as a live dashboard proxy on the edge wire and deliberately shares its formula with KPI-Quality-Rate (kept as a separate id because profiles reference both and thresholds differ). Input contract: canonical inputs bound per machine type via `inputMappings[<profileId>]` (= the consumer's KpiFlowOptions.inputMap shape); see KPI-Quality-Rate for the 2026-07-15 matcher measurement and why rework is deliberately absent. v1 computed on `Good_Parts`/`Scrap_Parts`/`Rework_Parts` — attributes that existed in NO profile and NO source.

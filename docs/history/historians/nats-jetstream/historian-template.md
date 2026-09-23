@@ -1,0 +1,15 @@
+# historians/nats-jetstream/historian-template.json — history and reasoning
+
+Moved verbatim out of `historians/nats-jetstream/historian-template.json`, where each field now holds its first sentence. The JSON says what a thing is; this file keeps why it became that.
+
+## $description
+
+Historian-Sink-Template via NATS JetStream durable consumer + TimescaleDB. Parallel to historians/postgresql/historian-template.json — same target table (uns_history) but reading from a JetStream consumer instead of an MQTT subscription. Used when the IPC's transport is 'nats' (or 'both' with this as the historian path). CORRECTED 2026-07-15 (CAPT-HIST) against the stream SSOT sync/nats/jetstream-streams.json v1.3.0: the previously named stream UNS_EVENTS exists in NO tier of the SSOT — a consumer generated from this template would have failed 'stream not found' (or bound to a hand-created shadow stream) instead of reading the real telemetry. The historian's consumer identity is the SSOT's consumers.historian-write on the hub FACTORY stream; this template describes THAT consumer, it does not define a second one.
+
+## subjectParser › $description
+
+CORRECTED 2026-07-15 (CAPT-HIST): the former single default pattern {enterprise}.{site}.{area}.{line}.{machine}.{domain}.{attribute} with machineSegment=4 described the 7-segment Class-A raw-telemetry shape — which NEVER reaches FACTORY: scope=edge telemetry is not published (jetstream-streams.json deliveryClassRouting) and nats-bridge deliberately classifies 7-seg factory.* as telemetry_raw and drops it (docs/conventions.md). Applied to the real 5-segment subjects, machineSegment=4 would have written the ATTRIBUTE into the machine column — every fallback-parsed row mis-assigned. The parser is therefore class-aware: route by root token + segment count, the exact same rule the nats-bridge classifier uses per docs/conventions.md — the two MUST stay in agreement.
+
+## description
+
+JetStream-backed historian write — durable, replayable, ack-on-insert. Writes to the same uns_history hypertable as the MQTT historian. NR-flow pattern: i3x-jetstream-sub-durable → row-builder → batch → postgres-insert → ack. CORRECTION 2026-07-15 (CAPT-HIST): stream UNS_EVENTS → FACTORY and 7-segment default parser → class-aware 5-segment routing, both aligned to sync/nats/jetstream-streams.json v1.3.0 + docs/conventions.md. Consumer measurement at fix time (i3x-v4 @ 094e994-era tree, i3x-v4-edge shallow @ HEAD): NO active code reads this template — in i3x-v4 the only references are path-convention comments in apps/web+it-web HistorianDeployCard.tsx whose backend POST /api/export/historian is a 501 stub (services/gateway/src/routers/edges.ts), and in i3x-v4-edge only edge-kg-publisher/src/config.ts names historians/ as bundle-layout docs while the edge OT write path goes render-fn → i3x-ts-write without any JetStream template. This file is a dormant contract, fixed BEFORE its first consumer is generated against it — a generator reading the old values would have created a consumer on a non-existent stream with a parser that mis-assigns machines.

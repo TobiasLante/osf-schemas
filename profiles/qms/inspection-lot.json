@@ -75,7 +75,7 @@
       "required": false,
       "category": "Core",
       "enum": ["DECIDED"],
-      "description": "Inspection workflow state. VOCABULARY MEASURED 2026-07-12 over the FULL population (qms.inspection_lots, 331.790 rows, GROUP BY state): exactly one value — DECIDED. The old prose claimed 'OPEN, IN_INSPECTION, DECIDED'; OPEN and IN_INSPECTION have never existed (the sim decides a lot in the same transaction it creates it). The lot_rejected gate `state eq 'DECIDED'` is therefore ALIVE — it just never excludes anything. Verified nightly by ci/check-vocab-drift.mjs.",
+      "description": "Inspection workflow state. Full text: docs/history/profiles/qms/inspection-lot.md, attributes › state › description.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
