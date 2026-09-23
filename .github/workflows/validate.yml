@@ -15,6 +15,10 @@
 #
 # On PRs additionally: breaking-change diff vs the base branch.
 #
+# next (v5): the checks added on next (units, value-type, prose, edge-pairs, i3x generator + lint,
+# mutation test) live in TobiasLante/i3x-v5 packages/schemas-ci — code never in osf-schemas. That repo's
+# workflow checks this branch out (check-next.sh). This workflow keeps the linters that were already here.
+#
 # History: until 2026-07-08 this ran on the self-hosted .120 runner and was
 # FAKE-GREEN — `node … | tee` masked an ERR_MODULE_NOT_FOUND crash because
 # the pipeline exit code was tee's. `shell: bash` (which implies -o pipefail)
@@ -23,7 +27,7 @@ name: validate
 
 on:
   push:
-    branches: [main, v3]
+    branches: [main, v3, next]
   pull_request:
     branches: [main, v3]
   workflow_dispatch:
@@ -65,9 +69,6 @@ jobs:
 
       - name: Referential-integrity + convention linters (ci/lint-*.mjs)
         run: npm run validate
-
-      - name: Mutation test — every linter must catch the defect it claims to
-        run: npm run test:mutate
 
       - name: Shape validation (validation/*.json meta-schemas)
         run: node .github/scripts/validate-all.mjs | tee validation-report.txt

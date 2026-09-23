@@ -1,7 +1,7 @@
 # Branch `next` — what changed against `main` (07e137a)
 
 Six commits, each with its own reasoning in the commit message. `npm run validate`, the shape
-validation and `npm run test:mutate` are green.
+validation and the mutation test are green. The checks added here moved to TobiasLante/i3x-v5 `packages/schemas-ci` (23.09.; code never in osf-schemas) and run there against this branch (`check-next.sh`).
 
 | commit | what | breaks a consumer? |
 |---|---|---|

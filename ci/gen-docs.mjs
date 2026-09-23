@@ -136,7 +136,7 @@ const ANNOTATIONS = {
   'companion-specs/': 'OPC-UA Companion-Spec registry (NodeSet2.xml URLs)',
   'cross-constraints/': 'cross-profile discrepancy constraints (PLAN vs IST rules)',
   'docs/': 'conventions, next2.0 standard, agent-conformance, variable shapes; history/ = the reasoning moved out of the JSON',
-  'i3x/': 'GENERATED i3X 1.0 form of profiles/ (gen-i3x.mjs): Object Types as JSON Schema, Relationship Types with reverseOf',
+  'i3x/': 'GENERATED i3X 1.0 form of profiles/ (i3x-v5 schemas-ci/gen-i3x.mjs): Object Types as JSON Schema, Relationship Types with reverseOf',
   'examples/': 'demo fixtures — NOT canonical (see examples/README.md)',
   'flows/': 'Node-RED flow templates (OPC-UA → UNS standard flow)',
   'historians/': 'historian-sink templates + instances (OUTPUT: UNS → customer DB)',

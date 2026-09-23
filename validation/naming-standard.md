@@ -86,4 +86,4 @@ the snake_case of their REST columns. Within one profile there is one style. Kno
 `machine_type` and `partMass_g` in `injection-molding-machine.json`.
 
 The prefixes carry meaning: `Act_` is measured (`valueType: PV`), `Set_` and `Plan_` are commanded
-(`SP`), `Act_Ref_` is a reference (`ID`). `ci/lint-value-type.mjs` keeps name and role in step.
+(`SP`), `Act_Ref_` is a reference (`ID`). `schemas-ci/lint-value-type.mjs` (i3x-v5) keeps name and role in step.
