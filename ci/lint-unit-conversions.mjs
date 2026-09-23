@@ -13,7 +13,9 @@
 import { readFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
 
-const ROOT = process.env.SCHEMAS_ROOT ?? process.cwd();
+const ROOT = process.env.SCHEMAS_ROOT
+  ? process.env.SCHEMAS_ROOT.replace(/\/$/, "")
+  : new URL("..", import.meta.url).pathname.replace(/\/$/, "");
 const FILE = process.env.UNIT_CONVERSIONS_FILE ?? "unit-conversions/conversions.json";
 const CODES_FILE = join(ROOT, "validation", "unece-codes.json");
 
@@ -31,6 +33,7 @@ function readJson(path, code) {
 const codes = readJson(CODES_FILE, "U1");
 if (!codes || !codes.codes) {
   console.error("FATAL: could not load validation/unece-codes.json");
+  for (const e of errors) console.error(`  ✗ ${e}`);
   process.exit(1);
 }
 
