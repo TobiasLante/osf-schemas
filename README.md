@@ -20,7 +20,7 @@ OSF schemas are inspired by [CESMII Smart Manufacturing Profiles](https://www.ce
 
 **Key advantages of the OSF approach:**
 
-1. **Source-agnostic graph** — The KG fuses data from OPC-UA, MTConnect and REST sources into one graph. The i3X API queries the graph, never a source directly. Whether data came from an ERP REST projection, an MTConnect agent or an OPC-UA server doesn't matter. (The v3-era PostgreSQL/MQTT/Kafka/MCP ingestion paths are archived under `main` at 07e137a, folder `backup/` — no service loads them.)
+1. **Source-agnostic graph** — The KG fuses data from OPC-UA, MTConnect and REST sources into one graph. The i3X API queries the graph, never a source directly. Whether data came from an ERP REST projection, an MTConnect agent or an OPC-UA server doesn't matter. (The v3-era PostgreSQL/MQTT/Kafka/MCP ingestion paths are archived under `backup/pre-next2.0/` — no service loads them.)
 
 2. **Polymorphic edge resolution** — `targetIdProp: "machine_id"` automatically resolves to all profile types sharing that ID property. Add a new machine type → all existing edges find it without source schema changes.
 
@@ -92,7 +92,7 @@ numbers are in the generated [Counts](#counts) block below.)
 | **i3X API** | Schema 1 (profiles) | REST API with type hierarchy |
 
 (The v3-era consumers of `sources/postgresql/` and `sync/mqtt|kafka|webhook|manual|bridge/`
-are retired; those configs live under `main` at 07e137a, folder `backup/`.)
+are retired; those configs live under `backup/pre-next2.0/`.)
 
 ## Structure
 
@@ -138,7 +138,7 @@ osf-schemas/
 │   ├── opcua-server/           Sonder-Edge re-publish (MTConnect → embedded OPC-UA server) (1 json)
 │   └── polling/                REST polling schedule (1 json)
 ├── unit-conversions/       UNECE unit table (discovery-time scale/offset lookup) (1 json)
-├── validation/             ajv meta-schemas (per-file shape validation) (21 json)
+├── validation/             ajv meta-schemas (per-file shape validation) (32 json)
 ├── CLAUDE.md               agent instructions
 ├── contract.json           GENERATED ontology contract (gen-contract.mjs) — agents read this FIRST
 ├── README.md               this overview

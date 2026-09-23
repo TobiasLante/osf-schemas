@@ -48,7 +48,19 @@
 import { readFileSync, readdirSync, statSync, existsSync } from "node:fs";
 import { join } from "node:path";
 
-const OPS = new Set(["lt", "lte", "gt", "gte", "eq", "ne"]);
+// The op vocabulary has ONE home: properties.op.enum of the meta-schema.
+// Read it from there — never keep a second copy in this linter.
+const OPS_SCHEMA = join(new URL(".", import.meta.url).pathname, "..", "validation", "cross-constraint-schema.json");
+let OPS;
+try {
+  const _s = JSON.parse(readFileSync(OPS_SCHEMA, "utf8"));
+  const _enum = _s?.properties?.op?.enum;
+  if (!Array.isArray(_enum) || !_enum.length) throw new Error("properties.op.enum missing or empty");
+  OPS = new Set(_enum);
+} catch (e) {
+  console.error(`lint-cross-constraints: cannot read op vocabulary from ${OPS_SCHEMA}: ${e.message}`);
+  process.exit(1);
+}
 const AGG_FNS = new Set(["sum", "min", "max", "count"]);
 
 // Roots: next/ overrides base. Profiles come from both tiers (next first).
