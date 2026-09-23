@@ -1,0 +1,51 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/validation/feedback-schema.json",
+  "title": "ConsumerFeedback",
+  "description": "Meta-schema for the consumer feedback runtime message (Welle 2). A wire message, not a repo object: no route in validate-all.mjs, no folder. grain: loaded reports a version load; grain: seen reports a window of observed UNS subjects.",
+  "type": "object",
+  "required": ["consumerId", "observedAt", "grain"],
+  "properties": {
+    "consumerId": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+    "observedAt": { "type": "string", "format": "date-time" },
+    "grain": { "type": "string", "enum": ["loaded", "seen"] },
+    "loadedVersion": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(-[0-9A-Za-z.-]+)?(\\+[0-9A-Za-z.-]+)?$" },
+    "window": {
+      "type": "object",
+      "required": ["from", "to"],
+      "properties": {
+        "from": { "type": "string", "format": "date-time" },
+        "to": { "type": "string", "format": "date-time" }
+      },
+      "additionalProperties": false
+    },
+    "seen": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "grain": { "const": "loaded" } },
+        "required": ["grain"]
+      },
+      "then": {
+        "required": ["loadedVersion"],
+        "not": { "anyOf": [ { "required": ["window"] }, { "required": ["seen"] } ] }
+      }
+    },
+    {
+      "if": {
+        "properties": { "grain": { "const": "seen" } },
+        "required": ["grain"]
+      },
+      "then": {
+        "required": ["window", "seen"],
+        "not": { "required": ["loadedVersion"] }
+      }
+    }
+  ],
+  "additionalProperties": false
+}
