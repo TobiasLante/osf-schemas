@@ -66,6 +66,9 @@ jobs:
       - name: Referential-integrity + convention linters (ci/lint-*.mjs)
         run: npm run validate
 
+      - name: Mutation test — every linter must catch the defect it claims to
+        run: npm run test:mutate
+
       - name: Shape validation (validation/*.json meta-schemas)
         run: node .github/scripts/validate-all.mjs | tee validation-report.txt
 
