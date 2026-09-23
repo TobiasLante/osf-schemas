@@ -139,7 +139,7 @@
           },
           "unit": {
             "type": "string",
-            "description": "Unit of `soll` and `tolerance` (e.g. 'g', 'degC', 'bar'). CAPT-EUR: for the material_overconsumption €-model this is the unit the per-part deviation is measured in, and it MUST be a MASS unit convertible to the ERP material article's unit ('g' or 'kg'). Anything else and the €-model refuses — a temperature deviation has no material mass and must never be priced."
+            "description": "Unit of `soll` and `tolerance` as a UNECE Rec. 20 code from validation/unece-codes.json (e.g. 'GRM', 'CEL', 'BAR'); empty for a non-numeric soll. CAPT-EUR: for the material_overconsumption €-model this is the unit the per-part deviation is measured in, and it MUST be a MASS unit convertible to the ERP material article's unit ('g' or 'kg'). Anything else and the €-model refuses — a temperature deviation has no material mass and must never be priced."
           },
           "monitored": {
             "type": "boolean"

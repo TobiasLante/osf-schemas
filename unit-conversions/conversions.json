@@ -8,8 +8,8 @@
     { "from": "KEL", "to": "CEL", "scale": 1,                  "offset": -273.15,           "formula": "K - 273.15" },
     { "from": "CEL", "to": "KEL", "scale": 1,                  "offset": 273.15,            "formula": "C + 273.15" },
 
-    { "from": "PSI", "to": "BAR", "scale": 0.0689476,          "offset": 0,                 "formula": "psi * 0.0689476" },
-    { "from": "BAR", "to": "PSI", "scale": 14.50377,           "offset": 0 },
+    { "from": "PS", "to": "BAR", "scale": 0.0689476,          "offset": 0,                 "formula": "psi * 0.0689476" },
+    { "from": "BAR", "to": "PS", "scale": 14.50377,           "offset": 0 },
     { "from": "KPA", "to": "BAR", "scale": 0.01,               "offset": 0 },
     { "from": "BAR", "to": "KPA", "scale": 100,                "offset": 0 },
     { "from": "MPA", "to": "BAR", "scale": 10,                 "offset": 0 },
@@ -24,12 +24,12 @@
     { "from": "MMT", "to": "CMT", "scale": 0.1,                "offset": 0 },
     { "from": "CMT", "to": "MMT", "scale": 10,                 "offset": 0 },
 
-    { "from": "MMS", "to": "MTS", "scale": 0.001,              "offset": 0, "formula": "mm/s → m/s" },
-    { "from": "MTS", "to": "MMS", "scale": 1000,               "offset": 0 },
-    { "from": "M4S", "to": "MMS", "scale": 0.01667,            "offset": 0, "formula": "mm/min → mm/s (÷60)" },
-    { "from": "MMS", "to": "M4S", "scale": 60,                 "offset": 0 },
-    { "from": "MTM", "to": "MTS", "scale": 0.01667,            "offset": 0, "formula": "m/min → m/s" },
-    { "from": "MTS", "to": "MTM", "scale": 60,                 "offset": 0 },
+    { "from": "C16", "to": "MTS", "scale": 0.001,              "offset": 0, "formula": "mm/s → m/s" },
+    { "from": "MTS", "to": "C16", "scale": 1000,               "offset": 0 },
+    { "from": "H81", "to": "C16", "scale": 0.01667,            "offset": 0, "formula": "mm/min → mm/s (÷60)" },
+    { "from": "C16", "to": "H81", "scale": 60,                 "offset": 0 },
+    { "from": "2X", "to": "MTS", "scale": 0.01667,            "offset": 0, "formula": "m/min → m/s" },
+    { "from": "MTS", "to": "2X", "scale": 60,                 "offset": 0 },
 
     { "from": "GRM", "to": "KGM", "scale": 0.001,              "offset": 0 },
     { "from": "KGM", "to": "GRM", "scale": 1000,               "offset": 0 },
@@ -57,18 +57,16 @@
     { "from": "WHR", "to": "KWH", "scale": 0.001,              "offset": 0 },
     { "from": "KWH", "to": "WHR", "scale": 1000,               "offset": 0 },
 
-    { "from": "MAM", "to": "AMP", "scale": 0.001,              "offset": 0 },
-    { "from": "AMP", "to": "MAM", "scale": 1000,               "offset": 0 },
-    { "from": "KAM", "to": "AMP", "scale": 1000,               "offset": 0 },
-    { "from": "AMP", "to": "KAM", "scale": 0.001,              "offset": 0 },
-    { "from": "MVT", "to": "VLT", "scale": 0.001,              "offset": 0 },
-    { "from": "VLT", "to": "MVT", "scale": 1000,               "offset": 0 },
+    { "from": "4K", "to": "AMP", "scale": 0.001,              "offset": 0 },
+    { "from": "AMP", "to": "4K", "scale": 1000,               "offset": 0 },
+    { "from": "B22", "to": "AMP", "scale": 1000,               "offset": 0 },
+    { "from": "AMP", "to": "B22", "scale": 0.001,              "offset": 0 },
+    { "from": "2Z", "to": "VLT", "scale": 0.001,              "offset": 0 },
+    { "from": "VLT", "to": "2Z", "scale": 1000,               "offset": 0 },
     { "from": "KVT", "to": "VLT", "scale": 1000,               "offset": 0 },
     { "from": "VLT", "to": "KVT", "scale": 0.001,              "offset": 0 },
 
-    { "from": "DAN", "to": "NEW", "scale": 10,                 "offset": 0, "formula": "daN → N" },
-    { "from": "NEW", "to": "DAN", "scale": 0.1,                "offset": 0 },
-    { "from": "KN",  "to": "NEW", "scale": 1000,               "offset": 0 },
-    { "from": "NEW", "to": "KN",  "scale": 0.001,              "offset": 0 }
+    { "from": "B47",  "to": "NEW", "scale": 1000,               "offset": 0 },
+    { "from": "NEW", "to": "B47",  "scale": 0.001,              "offset": 0 }
   ]
 }
