@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/validation/sync-schema.json",
-  "title": "OSF sync descriptor — v3 (Vorschlag CAPT-SYNC): drei getrennte Klassen, fail closed",
-  "description": "Genau eine von drei Klassen, an Feldern erkannt (nicht am Ordner, nicht an syncType). Pflicht ist nur, was ein Leser braucht: audit/CAPT-SYNC.md B5/B6. mappingId ist kein Ersatz fuer syncId (schema-map verwirft Dateien ohne syncId). required = nur Felder mit brechendem Leser; version/sink/tiers sind typisiert, aber ohne Leser nicht Pflicht (Entscheid Eigentuemer).",
+  "title": "OSF sync descriptor — v3 (Vorschlag CAPT-SYNC): vier getrennte Klassen, fail closed",
+  "description": "Genau eine von vier Klassen (route, schedule, streamTopology, convention — die vierte: CAPT-TOPICS, Eigentümer 24.09.), an Feldern erkannt (nicht am Ordner, nicht an syncType). Pflicht ist nur, was ein Leser braucht: audit/CAPT-SYNC.md B5/B6. mappingId ist kein Ersatz fuer syncId (schema-map verwirft Dateien ohne syncId). required = nur Felder mit brechendem Leser; version/sink/tiers sind typisiert, aber ohne Leser nicht Pflicht (Entscheid Eigentuemer).",
   "type": "object",
   "oneOf": [
     {
@@ -13,6 +13,9 @@
     },
     {
       "$ref": "#/definitions/streamTopology"
+    },
+    {
+      "$ref": "#/definitions/convention"
     }
   ],
   "definitions": {
@@ -296,6 +299,122 @@
         },
         "consumers": {
           "type": "object"
+        }
+      },
+      "additionalProperties": false
+    },
+    "convention": {
+      "description": "Die Namenskonvention des Modells (Eigentümer 24.09.): UNS-Pfad und Hub-Adresse jedes scope=hub-Signals, für das keine Route in sync/ etwas deklariert. Eine deklarierte Route (source.sourceRef) geht immer vor. Die Werte der Platzhalter kommen aus der Source (location, machineId, sourceId) und dem Profil (Entity-Token, isa95.level); einen Default gibt es nicht.",
+      "type": "object",
+      "required": [
+        "syncId",
+        "syncType",
+        "worlds"
+      ],
+      "properties": {
+        "$description": {
+          "$ref": "#/definitions/doc"
+        },
+        "description": {
+          "$ref": "#/definitions/doc"
+        },
+        "syncId": {
+          "$ref": "#/definitions/id"
+        },
+        "version": {
+          "$ref": "#/definitions/semver"
+        },
+        "syncType": {
+          "const": "convention"
+        },
+        "worlds": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "$ref": "#/definitions/conventionWorld"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "conventionWorld": {
+      "description": "Eine Welt (z.B. OT, IT): welche Profil-Kategorien zu ihr gehören, wie ihr UNS-Pfad lautet und auf welchen Stream ihre Signale gehen. Telemetrie- und Event-Muster müssen verschieden sein (Trennregel).",
+      "type": "object",
+      "required": [
+        "categories",
+        "path",
+        "sink"
+      ],
+      "properties": {
+        "$note": {
+          "$ref": "#/definitions/doc"
+        },
+        "categories": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "pathByLevel": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "payloadField": {
+          "type": "boolean"
+        },
+        "runtimeTokens": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "sink": {
+          "type": "object",
+          "required": [
+            "type",
+            "server",
+            "stream",
+            "subjectPatterns"
+          ],
+          "properties": {
+            "type": {
+              "const": "nats"
+            },
+            "server": {
+              "type": "string",
+              "minLength": 1
+            },
+            "stream": {
+              "type": "string",
+              "minLength": 1
+            },
+            "subjectPatterns": {
+              "type": "object",
+              "minProperties": 1,
+              "properties": {
+                "telemetry": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "transactional": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
         }
       },
       "additionalProperties": false

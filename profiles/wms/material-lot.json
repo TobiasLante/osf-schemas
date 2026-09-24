@@ -1,11 +1,11 @@
 {
   "profileId": "SMProfile-MaterialLot",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "standard": "ISA-95",
   "category": "business",
   "displayName": "Material Lot (the correct term for 'batch')",
   "description": "ISA-95 Part 2/4 MaterialLot (B2MML MaterialLot). Full text: docs/history/profiles/wms/material-lot.md, description.",
-  "parentType": null,
+  "parentType": "MaterialItem",
   "abstract": false,
   "attributes": [
     {
@@ -111,12 +111,6 @@
       "target": "Workorder",
       "targetIdProp": "workorder_no",
       "description": "The order slot (Workorder) that produced this lot."
-    },
-    {
-      "type": "AT_LOCATION",
-      "target": "StorageLocation",
-      "targetIdProp": "storage_location_id",
-      "description": "Current storage location."
     }
   ],
   "constraints": [],
