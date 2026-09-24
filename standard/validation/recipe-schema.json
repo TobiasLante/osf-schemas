@@ -9,7 +9,8 @@
     "version",
     "values",
     "toleranceSource",
-    "capability"
+    "capability",
+    "match"
   ],
   "properties": {
     "recipeId": {
@@ -38,22 +39,26 @@
     },
     "match": {
       "type": "object",
-      "description": "Binding axes (a subset of {article, equipment, setup}). An empty match is the catch-all default. The FIRST recipe whose match is a subset of the running entity's key wins per ref.",
+      "description": "Binding: a recipe is always part × machine class (owner 24.09.2026). article and equipmentClass are required, setup (mould) is optional. A recipe band may only NARROW the setting band of an instance of that class; lint-settings computes the instances a recipe fits.",
       "properties": {
         "article": {
           "type": "string",
           "minLength": 1
         },
-        "equipment": {
+        "equipmentClass": {
           "type": "string",
-          "minLength": 1
+          "pattern": "^SMProfile-"
         },
         "setup": {
           "type": "string",
           "minLength": 1
         }
       },
-      "additionalProperties": false
+      "additionalProperties": false,
+      "required": [
+        "article",
+        "equipmentClass"
+      ]
     },
     "values": {
       "type": "object",

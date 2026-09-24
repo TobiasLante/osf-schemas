@@ -1,42 +1,24 @@
 {
-  "recipeId": "RECIPE-sgm-004-default",
-  "version": "7.0.0",
-  "owner": "Process Engineering",
-  "profileRef": "SMProfile-InjectionMoldingMachine",
-  "displayName": "sgm-004 default band (equipment-scoped catch-all)",
-  "description": "Default recipe band for sgm-004, the equipment-scoped catch-all. partMass_g comes from the part drawing. Full text: docs/history/sites/werk1/recipes/recipe-sgm-004-default.md, description.",
-  "match": {
-    "equipment": "sgm-004"
-  },
+  "settingsId": "SETTINGS-sgm-006",
+  "instanceRef": "sgm-006",
+  "class": "SMProfile-InjectionMoldingMachine",
+  "version": "1.0.0",
+  "owner": "Maintenance",
+  "displayName": "sgm-006 machine settings",
+  "description": "Machine setting bands of sgm-006 (per instance, independent of any recipe; the class declares which settings exist). Moved from recipe-sgm-006-default.json (W8-RECIPE); history: docs/history/sites/werk1/settings/sgm-006.settings.md.",
   "values": {
     "recipe:hotrunner_temp_band": [
-      288.5,
-      301.5
-    ],
-    "recipe:part_mass_band": [
-      10.31,
-      11.27
-    ],
-    "recipe:cushion_band": [
-      4.35,
-      7.65
-    ],
-    "recipe:peak_pressure_band": [
-      450,
-      560
-    ],
-    "recipe:hold_pressure_band": [
-      300,
-      380
+      218.5,
+      231.5
     ],
     "recipe:hotrunner_control_limits": {
       "warn": [
-        291.5,
-        298.5
+        221.5,
+        228.5
       ],
       "action": [
-        288.5,
-        301.5
+        218.5,
+        231.5
       ]
     },
     "recipe:mould_temp_band": [
@@ -54,8 +36,8 @@
       ]
     },
     "recipe:melt_temp_band": [
-      288.5,
-      301.5
+      218.5,
+      231.5
     ],
     "recipe:injection_speed_band": [
       53.07,
@@ -70,72 +52,68 @@
       24.2
     ],
     "recipe:cycle_time_band": [
-      21.6,
-      26.4
+      20.7,
+      25.3
     ],
     "recipe:barrel_zone1_temp_band": [
-      263.5,
-      276.5
+      188.5,
+      201.5
     ],
     "recipe:barrel_zone1_control_limits": {
       "warn": [
-        266.75,
-        273.25
+        191.75,
+        198.25
       ],
       "action": [
-        263.5,
-        276.5
+        188.5,
+        201.5
       ]
     },
     "recipe:barrel_zone2_temp_band": [
-      275.5,
-      288.5
+      198.5,
+      211.5
     ],
     "recipe:barrel_zone2_control_limits": {
       "warn": [
-        278.75,
-        285.25
+        201.75,
+        208.25
       ],
       "action": [
-        275.5,
-        288.5
+        198.5,
+        211.5
       ]
     },
     "recipe:barrel_zone3_temp_band": [
-      283.5,
-      296.5
+      208.5,
+      221.5
     ],
     "recipe:barrel_zone3_control_limits": {
       "warn": [
-        286.75,
-        293.25
+        211.75,
+        218.25
       ],
       "action": [
-        283.5,
-        296.5
+        208.5,
+        221.5
       ]
     },
     "recipe:barrel_zone4_temp_band": [
-      288.5,
-      301.5
+      213.5,
+      226.5
     ],
     "recipe:barrel_zone4_control_limits": {
       "warn": [
-        291.75,
-        298.25
+        216.75,
+        223.25
       ],
       "action": [
-        288.5,
-        301.5
+        213.5,
+        226.5
       ]
     }
   },
   "toleranceSource": {
     "recipe:hotrunner_temp_band": "process_estimate",
-    "recipe:part_mass_band": "drawing",
-    "recipe:cushion_band": "process_estimate",
-    "recipe:peak_pressure_band": "process_estimate",
-    "recipe:hold_pressure_band": "process_estimate",
     "recipe:hotrunner_control_limits": "process_estimate",
     "recipe:mould_temp_band": "norm",
     "recipe:mould_temp_control_limits": "process_estimate",
@@ -155,66 +133,6 @@
   },
   "capability": {
     "recipe:hotrunner_temp_band": {
-      "cp_min": 1.33,
-      "ca_max": 0.125,
-      "max_stationarity_ratio": 2,
-      "population": {
-        "scope": "current_regime",
-        "regime_markers": {
-          "on_change": [
-            "mouldId",
-            "resin"
-          ]
-        },
-        "min_sample_n": 1000
-      }
-    },
-    "recipe:part_mass_band": {
-      "cp_min": 1.33,
-      "ca_max": 0.125,
-      "max_stationarity_ratio": 2,
-      "population": {
-        "scope": "current_regime",
-        "regime_markers": {
-          "on_change": [
-            "mouldId",
-            "resin"
-          ]
-        },
-        "min_sample_n": 1000
-      }
-    },
-    "recipe:cushion_band": {
-      "cp_min": 1.33,
-      "ca_max": 0.125,
-      "max_stationarity_ratio": 2,
-      "population": {
-        "scope": "current_regime",
-        "regime_markers": {
-          "on_change": [
-            "mouldId",
-            "resin"
-          ]
-        },
-        "min_sample_n": 1000
-      }
-    },
-    "recipe:peak_pressure_band": {
-      "cp_min": 1.33,
-      "ca_max": 0.125,
-      "max_stationarity_ratio": 2,
-      "population": {
-        "scope": "current_regime",
-        "regime_markers": {
-          "on_change": [
-            "mouldId",
-            "resin"
-          ]
-        },
-        "min_sample_n": 1000
-      }
-    },
-    "recipe:hold_pressure_band": {
       "cp_min": 1.33,
       "ca_max": 0.125,
       "max_stationarity_ratio": 2,
@@ -479,77 +397,16 @@
   "parameters": [
     {
       "param": "hotrunnerTempC",
-      "soll": 295,
+      "soll": 225,
       "tolerance": [
-        288.5,
-        301.5
+        218.5,
+        231.5
       ],
       "unit": "CEL",
       "monitored": true,
       "valueFrom": "recipe:hotrunner_temp_band",
       "constraintId": "recipe_hotrunner_temp_band",
       "smAttribute": "hotrunnerTempC"
-    },
-    {
-      "param": "partMass_g",
-      "soll": 10.79,
-      "tolerance": [
-        10.31,
-        11.27
-      ],
-      "unit": "GRM",
-      "monitored": true,
-      "gate": "inCycle==true",
-      "valueFrom": "recipe:part_mass_band",
-      "constraintId": "recipe_part_mass_band",
-      "smAttribute": "partMass_g",
-      "economics": {
-        "model": "material_overconsumption",
-        "materialArticleRef": "_V4_RM-PA66-GF30",
-        "counterAttribute": "good",
-        "impactBasis": "HK"
-      }
-    },
-    {
-      "param": "cushionMm",
-      "soll": 6,
-      "tolerance": [
-        4.35,
-        7.65
-      ],
-      "unit": "MMT",
-      "monitored": true,
-      "valueFrom": "recipe:cushion_band",
-      "constraintId": "recipe_cushion_band",
-      "smAttribute": "cushionMm"
-    },
-    {
-      "param": "peakPressureBar",
-      "soll": 510,
-      "tolerance": [
-        450,
-        560
-      ],
-      "unit": "BAR",
-      "monitored": true,
-      "gate": "phaseName==HOLD",
-      "valueFrom": "recipe:peak_pressure_band",
-      "constraintId": "recipe_peak_pressure_band",
-      "smAttribute": "peakPressureBar"
-    },
-    {
-      "param": "holdPressureBar",
-      "soll": 340,
-      "tolerance": [
-        300,
-        380
-      ],
-      "unit": "BAR",
-      "monitored": true,
-      "gate": "phaseName==HOLD",
-      "valueFrom": "recipe:hold_pressure_band",
-      "constraintId": "recipe_hold_pressure_band",
-      "smAttribute": "holdPressureBar"
     },
     {
       "param": "mouldTempC",
@@ -567,10 +424,10 @@
     },
     {
       "param": "nozzleTempC",
-      "soll": 295,
+      "soll": 225,
       "tolerance": [
-        288.5,
-        301.5
+        218.5,
+        231.5
       ],
       "unit": "CEL",
       "monitored": true,
@@ -622,10 +479,10 @@
     },
     {
       "param": "cycleTimeSec",
-      "soll": 24,
+      "soll": 23,
       "tolerance": [
-        21.6,
-        26.4
+        20.7,
+        25.3
       ],
       "unit": "SEC",
       "monitored": true,
@@ -636,10 +493,10 @@
     },
     {
       "param": "barrelZone1TempC",
-      "soll": 270,
+      "soll": 195,
       "tolerance": [
-        263.5,
-        276.5
+        188.5,
+        201.5
       ],
       "unit": "CEL",
       "monitored": true,
@@ -649,10 +506,10 @@
     },
     {
       "param": "barrelZone2TempC",
-      "soll": 282,
+      "soll": 205,
       "tolerance": [
-        275.5,
-        288.5
+        198.5,
+        211.5
       ],
       "unit": "CEL",
       "monitored": true,
@@ -662,10 +519,10 @@
     },
     {
       "param": "barrelZone3TempC",
-      "soll": 290,
+      "soll": 215,
       "tolerance": [
-        283.5,
-        296.5
+        208.5,
+        221.5
       ],
       "unit": "CEL",
       "monitored": true,
@@ -675,10 +532,10 @@
     },
     {
       "param": "barrelZone4TempC",
-      "soll": 295,
+      "soll": 220,
       "tolerance": [
-        288.5,
-        301.5
+        213.5,
+        226.5
       ],
       "unit": "CEL",
       "monitored": true,
@@ -686,23 +543,5 @@
       "constraintId": "recipe_barrel_zone4_temp_band",
       "smAttribute": "barrelZone4TempC"
     }
-  ],
-  "provenance": {
-    "$comment": "GENERATED — do not hand-edit the part-mass band. Re-run @i3x/sim-schemas scripts/gen-product-spec.ts.",
-    "recipe:part_mass_band": {
-      "generatedBy": "@i3x/sim-schemas scripts/gen-product-spec.ts",
-      "drawing": "DWG-12-0044-003 rev A",
-      "drawingStore": "windchill.documents (PLM) — content, not just a record",
-      "material": "PA66-GF30, 1.36 g/cm3 (ISO 1183) — erp.materials",
-      "characteristic": "CH-MAS in QMP-SPRITZ-INPROC — qms.characteristics",
-      "articleMaster": "erp.articles.gewicht_kg = 0.01079 (same source)",
-      "derivation": [
-        "V     = 48*32*18 - (48-2*2)*(32-2*2)*(18-2) = 7936 mm3 = 7.936 cm3",
-        "m_nom = 7.936 cm3 * 1.36 g/cm3 = 10.79296 g -> published 10.79 g   [geometry x density]",
-        "LSL   = V(t=1.9 mm) * 1.36 = 10.30923 g -> 10.31 g   [wall tolerance, rounded inward]",
-        "USL   = V(t=2.1 mm) * 1.36 = 11.27103 g -> 11.27 g   [wall tolerance, rounded inward]",
-        "band midpoint 10.79 g == published nominal 10.79 g (Ca is centred on the nominal)"
-      ]
-    }
-  }
+  ]
 }

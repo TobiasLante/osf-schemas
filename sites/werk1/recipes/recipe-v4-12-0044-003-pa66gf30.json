@@ -1,0 +1,179 @@
+{
+  "recipeId": "RECIPE-V4-12-0044-003-PA66GF30",
+  "version": "1.0.0",
+  "owner": "Process Engineering",
+  "profileRef": "SMProfile-InjectionMoldingMachine",
+  "displayName": "_V4_12-0044-003 (Steckergehäuse Typ C, PA66-GF30) × injection moulding machine",
+  "description": "Part values of _V4_12-0044-003 on the injection moulding machine class; partMass_g comes from drawing DWG-12-0044-003. Moved from recipe-sgm-004-default.json (W8-RECIPE); history: docs/history/sites/werk1/recipes/recipe-sgm-004-default.md.",
+  "match": {
+    "article": "_V4_12-0044-003",
+    "equipmentClass": "SMProfile-InjectionMoldingMachine"
+  },
+  "values": {
+    "recipe:part_mass_band": [
+      10.31,
+      11.27
+    ],
+    "recipe:cushion_band": [
+      4.35,
+      7.65
+    ],
+    "recipe:peak_pressure_band": [
+      450,
+      560
+    ],
+    "recipe:hold_pressure_band": [
+      300,
+      380
+    ]
+  },
+  "toleranceSource": {
+    "recipe:part_mass_band": "drawing",
+    "recipe:cushion_band": "process_estimate",
+    "recipe:peak_pressure_band": "process_estimate",
+    "recipe:hold_pressure_band": "process_estimate"
+  },
+  "capability": {
+    "recipe:part_mass_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:cushion_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:peak_pressure_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:hold_pressure_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    }
+  },
+  "parameters": [
+    {
+      "param": "partMass_g",
+      "soll": 10.79,
+      "tolerance": [
+        10.31,
+        11.27
+      ],
+      "unit": "GRM",
+      "monitored": true,
+      "gate": "inCycle==true",
+      "valueFrom": "recipe:part_mass_band",
+      "constraintId": "recipe_part_mass_band",
+      "smAttribute": "partMass_g",
+      "economics": {
+        "model": "material_overconsumption",
+        "materialArticleRef": "_V4_RM-PA66-GF30",
+        "counterAttribute": "good",
+        "impactBasis": "HK"
+      }
+    },
+    {
+      "param": "cushionMm",
+      "soll": 6,
+      "tolerance": [
+        4.35,
+        7.65
+      ],
+      "unit": "MMT",
+      "monitored": true,
+      "valueFrom": "recipe:cushion_band",
+      "constraintId": "recipe_cushion_band",
+      "smAttribute": "cushionMm"
+    },
+    {
+      "param": "peakPressureBar",
+      "soll": 510,
+      "tolerance": [
+        450,
+        560
+      ],
+      "unit": "BAR",
+      "monitored": true,
+      "gate": "phaseName==HOLD",
+      "valueFrom": "recipe:peak_pressure_band",
+      "constraintId": "recipe_peak_pressure_band",
+      "smAttribute": "peakPressureBar"
+    },
+    {
+      "param": "holdPressureBar",
+      "soll": 340,
+      "tolerance": [
+        300,
+        380
+      ],
+      "unit": "BAR",
+      "monitored": true,
+      "gate": "phaseName==HOLD",
+      "valueFrom": "recipe:hold_pressure_band",
+      "constraintId": "recipe_hold_pressure_band",
+      "smAttribute": "holdPressureBar"
+    }
+  ],
+  "provenance": {
+    "$comment": "GENERATED — do not hand-edit the part-mass band. Re-run @i3x/sim-schemas scripts/gen-product-spec.ts.",
+    "recipe:part_mass_band": {
+      "generatedBy": "@i3x/sim-schemas scripts/gen-product-spec.ts",
+      "drawing": "DWG-12-0044-003 rev A",
+      "drawingStore": "windchill.documents (PLM) — content, not just a record",
+      "material": "PA66-GF30, 1.36 g/cm3 (ISO 1183) — erp.materials",
+      "characteristic": "CH-MAS in QMP-SPRITZ-INPROC — qms.characteristics",
+      "articleMaster": "erp.articles.gewicht_kg = 0.01079 (same source)",
+      "derivation": [
+        "V     = 48*32*18 - (48-2*2)*(32-2*2)*(18-2) = 7936 mm3 = 7.936 cm3",
+        "m_nom = 7.936 cm3 * 1.36 g/cm3 = 10.79296 g -> published 10.79 g   [geometry x density]",
+        "LSL   = V(t=1.9 mm) * 1.36 = 10.30923 g -> 10.31 g   [wall tolerance, rounded inward]",
+        "USL   = V(t=2.1 mm) * 1.36 = 11.27103 g -> 11.27 g   [wall tolerance, rounded inward]",
+        "band midpoint 10.79 g == published nominal 10.79 g (Ca is centred on the nominal)"
+      ]
+    }
+  }
+}
