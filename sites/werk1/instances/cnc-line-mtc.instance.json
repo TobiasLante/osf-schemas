@@ -1,0 +1,27 @@
+{
+  "_note": "Line line-mtc in area cnc: the ProcessCell and its machines.",
+  "instances": [
+    {
+      "id": "cnc-line-mtc",
+      "equipmentLevel": "ProcessCell",
+      "code": "line-mtc",
+      "partOf": "cnc"
+    },
+    {
+      "id": "cnc-mtc-01",
+      "equipmentLevel": "Unit",
+      "code": "cnc-mtc-01",
+      "class": "SMProfile-CNC-Machine",
+      "name": "CNC-01 (via MTConnect bridge)",
+      "partOf": "cnc-line-mtc"
+    },
+    {
+      "id": "cnc-mtc-02",
+      "equipmentLevel": "Unit",
+      "code": "cnc-mtc-02",
+      "class": "SMProfile-CNC-Machine",
+      "name": "CNC-MTC-02 (MTConnect)",
+      "partOf": "cnc-line-mtc"
+    }
+  ]
+}

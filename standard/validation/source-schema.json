@@ -13,6 +13,7 @@
  "sourceType": { "type": "string", "enum": ["postgresql", "postgres", "rest", "static", "opcua", "mqtt", "mtconnect", "file", "csv"] },
  "syncType": { "type": "string", "enum": ["polling", "anchor", "webhook", "streaming", "manual", "full_refresh"] },
  "profileRef": { "type": "string" },
+ "instanceRef": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$", "description": "The equipment instance this source feeds: an id of sites/<site>/instances/*.instance.json (a Unit for a machine source, the Site for a site-wide IT source). Owner decision 24.09. (Welle 8): the UNS path comes from the partOf chain of that instance; location stays until the convention reads the tree (W8-CONV)." },
  "profileRefs": { "type": "array", "items": { "type": "string" } },
  "transport": { "type": "array", "items": { "type": "string" } },
  "description": { "type": "string" },
