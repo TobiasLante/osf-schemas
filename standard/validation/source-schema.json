@@ -76,6 +76,10 @@
  },
  "allOf": [
  {
+ "_comment": "W8-CONV (owner 24.09., R1 identity = element_id): every source names its instance; the UNS path and the hub subject come from the plant tree (instanceRef + partOf). location stays (owner 24.09. evening, variant b) but is read by no compiler; lint-location (i3x-v5) checks that it agrees with the tree.",
+ "required": ["instanceRef"]
+ },
+ {
  "_comment": "Machine-protocol sources (opcua, mtconnect) MUST declare where the machine stands — the UNS subject is built from it. Every green opcua/mtconnect source already does; a new one without a location would land on a default/empty subject just as silently as sgm-006 landed on a mis-spelled one. postgresql/static/etc. sources are not forced; rest sources are (next entry).",
  "if": {
  "properties": { "sourceType": { "enum": ["opcua", "mtconnect"] } },
