@@ -1,7 +1,7 @@
 {
-  "_comment": "ONTOLOGY CONTRACT — generated from standard/profiles/** by ci/gen-contract.mjs; do not edit by hand. For agents and sink validators: ONLY these node labels (with their key property) and ONLY these relationship triples may be written to a knowledge graph. Anything not listed here is non-conformant — extend the profile first, then regenerate. Background: docs/agent-conformance.md.",
+  "_comment": "ONTOLOGY CONTRACT — generated from standard/profiles/** by i3x-v5 packages/schemas-ci/osf/gen-contract.mjs; do not edit by hand. For agents and sink validators: ONLY these node labels (with their key property) and ONLY these relationship triples may be written to a knowledge graph. Anything not listed here is non-conformant — extend the profile first, then regenerate. Background: docs/agent-conformance.md.",
   "contractVersion": "1.0.0",
-  "generatedBy": "ci/gen-contract.mjs",
+  "generatedBy": "i3x-v5 packages/schemas-ci/osf/gen-contract.mjs",
   "identity": {
     "rule": "Machine/equipment nodes MUST use their profile kgNodeLabel with the key property declared in nodes.* below — never invent node identities from source-local ids (machineId, machineNo, pool names, vendor names); those are attributes at most.",
     "openConflict": "KNOWN CONSOLIDATION ISSUE: repo machine profiles key on machine_id, while the UNS/lab convention (osf_map.machine_map) keys equipment on element_id derived from equipmentPath. Until resolved, this contract reflects the repo profiles (machine_id). Do not mix both in one graph. RESOLVED AXIS 2026-07-15: the third identity unit_id (equipment-model EquipmentUnit) was consolidated into machine_id — Machine ≡ EquipmentUnit level, the operations edges (EXECUTED_AT, PERFORMED_AT, USES_EQUIPMENT, USED_EQUIPMENT, SET_UP_ON) target Machine/machine_id; element_id remains the one open UNS axis."

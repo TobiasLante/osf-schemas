@@ -99,49 +99,56 @@ are retired; those configs live under `backup/pre-next2.0/`.)
 <!-- gen:tree:begin -->
 ```
 osf-schemas/
-├── sites/werk1/branding/               brand/theme assets (1 json)
-├── ci/                     linters + generators (lint-*.mjs, gen-contract.mjs, gen-docs.mjs)
-├── standard/companion-specs/        OPC-UA Companion-Spec registry (NodeSet2.xml URLs) (1 json)
-├── sites/werk1/consumers/               (15 json)
-├── standard/cross-constraints/      cross-profile discrepancy constraints (PLAN vs IST rules) (4 json)
+├── ci/                     
 ├── docs/                   conventions, next2.0 standard, agent-conformance, variable shapes; history/ = the reasoning moved out of the JSON
 ├── examples/               demo fixtures — NOT canonical (see examples/README.md) (5 json)
-├── standard/flows/                  Node-RED flow templates (OPC-UA → UNS standard flow) (1 json)
-├── standard/historians/             historian-sink templates + instances (OUTPUT: UNS → customer DB)
-│   ├── central-ts-tables/       (2 json)
-│   ├── grafana-dashboards/      (4 json)
-│   ├── influxdb/                (1 json)
-│   ├── instances/               (3 json)
-│   ├── mssql/                   (1 json)
-│   ├── nats-jetstream/          (1 json)
-│   ├── postgresql/              (1 json)
-│   ├── postgresql-cagg/         (1 json)
-│   ├── postgresql-pivot/        (1 json)
-│   └── views/                   (1 json)
-├── standard/i3x/                    GENERATED i3X 1.0 form of standard/profiles/ (i3x-v5 schemas-ci/gen-i3x.mjs): Object Types as JSON Schema, Relationship Types with reverseOf (32 json)
-├── standard/kpis/                   KPI definitions — inputs drawn from the source-fed vocabulary (lint-kpis) (6 json)
-├── standard/mappings/               protocol canon: DataItem/tag → SM attribute (SSOT for discovery + gen-flows) (4 json)
-├── standard/profiles/               Schema 1: SM Profiles (type system)
-│   ├── equipment/              EquipmentClass, EquipmentModel (compact), Tool (3 json)
-│   ├── erp/                    Article, Customer(-Order), ProductionOrder, ProductDefinition, OperationsResponse (9 json)
-│   ├── intelligence/           multi-truth layer: Discrepancy, ResolutionProposal, AutoResolveRule, … (5 json)
-│   ├── machines/               Machine (abstract parent), CNC_Machine, InjectionMoldingMachine (3 json)
-│   ├── operations/             ISA-95 Part 4: OperationsDefinition, ProcessSegment, Segment{Requirement,Response}, Workorder (5 json)
-│   ├── qms/                    InspectionLot, SPCAnalysis (2 json)
-│   └── wms/                    MaterialLot, Quant, StorageLocation (4 json)
-├── sites/werk1/recipes/                GitHub-managed recipe master data (see sites/werk1/recipes/README.md) (5 json)
-├── sites/werk1/sources/                Schema 2: Data Sources (instance binding)
-│   ├── mtconnect/              MTConnect agent mappings (2 json)
-│   ├── opcua/                  OPC-UA endpoint → machine mappings (15 json)
-│   └── rest/                   sim-v5 REST polling (ERP/QMS/WMS projections) (10 json)
-├── sites/werk1/sync/                   Schema 3: Live Sync (transport layer)
-│   ├── nats/                   NATS subjects + JetStream stream declarations (suite hub) (2 json)
-│   ├── opcua-server/           Sonder-Edge re-publish (MTConnect → embedded OPC-UA server) (1 json)
-│   └── polling/                REST polling schedule (1 json)
-├── standard/unit-conversions/       UNECE unit table (discovery-time scale/offset lookup) (1 json)
-├── standard/validation/             ajv meta-schemas (per-file shape validation) (33 json)
+├── sites/                  one folder per plant (site): its instance tree, sources, syncs, consumers
+│   └── werk1/                  
+│       ├── branding/               brand/theme assets (1 json)
+│       ├── consumers/               (15 json)
+│       ├── historians/             historian-sink templates + instances (OUTPUT: UNS → customer DB)
+│       │   ├── grafana-dashboards/      (4 json)
+│       │   └── instances/               (3 json)
+│       ├── instances/              the plant tree: Enterprise → Site → Area → ProcessCell → Unit (ISA-88 equipment levels) (6 json)
+│       ├── mappings/               protocol canon: DataItem/tag → SM attribute (SSOT for discovery + gen-flows) (1 json)
+│       ├── recipes/                GitHub-managed recipe master data (see recipes/README.md) (5 json)
+│       ├── sources/                Schema 2: Data Sources (instance binding)
+│       │   ├── mtconnect/              MTConnect agent mappings (2 json)
+│       │   ├── opcua/                  OPC-UA endpoint → machine mappings (15 json)
+│       │   └── rest/                   sim-v5 REST polling (ERP/QMS/WMS projections) (10 json)
+│       └── sync/                   Schema 3: Live Sync (transport layer)
+│           ├── nats/                   NATS subjects + JetStream stream declarations (suite hub) (2 json)
+│           ├── opcua-server/           Sonder-Edge re-publish (MTConnect → embedded OPC-UA server) (1 json)
+│           └── polling/                REST polling schedule (1 json)
+├── standard/               CENTRAL — classes, contracts, vocabulary, edge catalogue; one per enterprise
+│   ├── companion-specs/        OPC-UA Companion-Spec registry (NodeSet2.xml URLs) (1 json)
+│   ├── cross-constraints/      cross-profile discrepancy constraints (PLAN vs IST rules) (4 json)
+│   ├── flows/                  Node-RED flow templates (OPC-UA → UNS standard flow) (1 json)
+│   ├── historians/             historian-sink templates + instances (OUTPUT: UNS → customer DB)
+│   │   ├── central-ts-tables/       (2 json)
+│   │   ├── influxdb/                (1 json)
+│   │   ├── mssql/                   (1 json)
+│   │   ├── nats-jetstream/          (1 json)
+│   │   ├── postgresql/              (1 json)
+│   │   ├── postgresql-cagg/         (1 json)
+│   │   ├── postgresql-pivot/        (1 json)
+│   │   └── views/                   (1 json)
+│   ├── i3x/                    GENERATED i3X 1.0 form of profiles/ (i3x-v5 schemas-ci/gen-i3x.mjs): Object Types as JSON Schema, Relationship Types with reverseOf (32 json)
+│   ├── kpis/                   KPI definitions — inputs drawn from the source-fed vocabulary (lint-kpis) (6 json)
+│   ├── mappings/               protocol canon: DataItem/tag → SM attribute (SSOT for discovery + gen-flows) (3 json)
+│   ├── profiles/               Schema 1: SM Profiles (type system)
+│   │   ├── equipment/              EquipmentClass, EquipmentModel (compact), Tool (3 json)
+│   │   ├── erp/                    Article, Customer(-Order), ProductionOrder, ProductDefinition, OperationsResponse (9 json)
+│   │   ├── intelligence/           multi-truth layer: Discrepancy, ResolutionProposal, AutoResolveRule, … (5 json)
+│   │   ├── machines/               Machine (abstract parent), CNC_Machine, InjectionMoldingMachine (3 json)
+│   │   ├── operations/             ISA-95 Part 4: OperationsDefinition, ProcessSegment, Segment{Requirement,Response}, Workorder (5 json)
+│   │   ├── qms/                    InspectionLot, SPCAnalysis (2 json)
+│   │   └── wms/                    MaterialLot, Quant, StorageLocation (4 json)
+│   ├── sync/                   Schema 3: Live Sync (transport layer) (1 json)
+│   ├── unit-conversions/       UNECE unit table (discovery-time scale/offset lookup) (1 json)
+│   ├── validation/             ajv meta-schemas (per-file shape validation) (34 json)
+│   └── contract.json           GENERATED ontology contract (gen-contract.mjs) — agents read this FIRST
 ├── CLAUDE.md               agent instructions
-├── contract.json           GENERATED ontology contract (gen-contract.mjs) — agents read this FIRST
 ├── LICENSE                 MIT
 ├── README.md               this overview
 └── schema-guide.md         the full schema documentation
@@ -164,7 +171,7 @@ osf-schemas/
 | Recipes | 5 (2 parked) | recipe-sgm-004-default, recipe-sgm-004-pa66gf30-bracket-b *(parked)*, recipe-sgm-004-pa66gf30-housing-a *(parked)*, recipe-sgm-005-default, recipe-sgm-006-default |
 | KPIs | 6 (2 parked) | availability, energy-per-part *(parked)*, oee, performance *(parked)*, quality-rate, scrap-rate |
 
-Measured from the tree by `ci/gen-docs.mjs` — the same sums `npm run validate:refs` prints (`lint-refs: 31 profiles, 27 sources, 5 sync files`).
+Measured from the tree by `i3x-v5 packages/schemas-ci/osf/gen-docs.mjs` — the same sums `lint-refs` prints (`lint-refs: 31 profiles, 27 sources, 5 sync files`).
 <!-- gen:counts:end -->
 
 ## Inheritance
