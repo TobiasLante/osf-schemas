@@ -1,5 +1,5 @@
 {
-  "_comment": "ONTOLOGY CONTRACT — generated from profiles/** by ci/gen-contract.mjs; do not edit by hand. For agents and sink validators: ONLY these node labels (with their key property) and ONLY these relationship triples may be written to a knowledge graph. Anything not listed here is non-conformant — extend the profile first, then regenerate. Background: docs/agent-conformance.md.",
+  "_comment": "ONTOLOGY CONTRACT — generated from standard/profiles/** by ci/gen-contract.mjs; do not edit by hand. For agents and sink validators: ONLY these node labels (with their key property) and ONLY these relationship triples may be written to a knowledge graph. Anything not listed here is non-conformant — extend the profile first, then regenerate. Background: docs/agent-conformance.md.",
   "contractVersion": "1.0.0",
   "generatedBy": "ci/gen-contract.mjs",
   "identity": {
@@ -13,7 +13,7 @@
       "category": "equipment",
       "parentType": null,
       "abstract": false,
-      "source": "profiles/equipment/equipment-class.json"
+      "source": "standard/profiles/equipment/equipment-class.json"
     },
     "Tool": {
       "key": "tool_id",
@@ -21,7 +21,7 @@
       "category": "equipment",
       "parentType": null,
       "abstract": false,
-      "source": "profiles/equipment/tool.json"
+      "source": "standard/profiles/equipment/tool.json"
     },
     "Article": {
       "key": "article_no",
@@ -29,7 +29,7 @@
       "category": "business",
       "parentType": null,
       "abstract": false,
-      "source": "profiles/erp/article.json"
+      "source": "standard/profiles/erp/article.json"
     },
     "BdeConfirmation": {
       "key": "confirmation_no",
@@ -37,7 +37,7 @@
       "category": "business",
       "parentType": "Response",
       "abstract": false,
-      "source": "profiles/erp/bde-confirmation.json"
+      "source": "standard/profiles/erp/bde-confirmation.json"
     },
     "CustomerOrder": {
       "key": "order_no",
@@ -48,7 +48,7 @@
       "retired": true,
       "retiredAt": "2026-08-13",
       "retirementId": "retired:SMProfile-CustomerOrder@2026-08-13",
-      "source": "profiles/erp/customer-order.json"
+      "source": "standard/profiles/erp/customer-order.json"
     },
     "Customer": {
       "key": "customer_no",
@@ -56,7 +56,7 @@
       "category": "business",
       "parentType": null,
       "abstract": false,
-      "source": "profiles/erp/customer.json"
+      "source": "standard/profiles/erp/customer.json"
     },
     "OperationsResponse": {
       "key": "production_order_no",
@@ -64,7 +64,7 @@
       "category": "business",
       "parentType": "Response",
       "abstract": false,
-      "source": "profiles/erp/operations-response.json"
+      "source": "standard/profiles/erp/operations-response.json"
     },
     "ProductDefinition": {
       "key": "product_definition_no",
@@ -72,7 +72,7 @@
       "category": "business",
       "parentType": null,
       "abstract": false,
-      "source": "profiles/erp/product-definition.json"
+      "source": "standard/profiles/erp/product-definition.json"
     },
     "ProductionOrder": {
       "key": "production_order_no",
@@ -80,7 +80,7 @@
       "category": "business",
       "parentType": null,
       "abstract": false,
-      "source": "profiles/erp/production-order.json"
+      "source": "standard/profiles/erp/production-order.json"
     },
     "Response": {
       "key": "response_id",
@@ -88,7 +88,7 @@
       "category": "business",
       "parentType": null,
       "abstract": true,
-      "source": "profiles/erp/response.json"
+      "source": "standard/profiles/erp/response.json"
     },
     "AutoResolveRule": {
       "key": "rule_id",
@@ -96,7 +96,7 @@
       "category": "intelligence",
       "parentType": null,
       "abstract": false,
-      "source": "profiles/intelligence/auto-resolve-rule.json"
+      "source": "standard/profiles/intelligence/auto-resolve-rule.json"
     },
     "ChangeRequest": {
       "key": "change_request_id",
@@ -104,7 +104,7 @@
       "category": "intelligence",
       "parentType": null,
       "abstract": false,
-      "source": "profiles/intelligence/change-request.json"
+      "source": "standard/profiles/intelligence/change-request.json"
     },
     "ConstraintDiscrepancy": {
       "key": "discrepancy_id",
@@ -112,7 +112,7 @@
       "category": "intelligence",
       "parentType": "Discrepancy",
       "abstract": false,
-      "source": "profiles/intelligence/discrepancy-constraint.json"
+      "source": "standard/profiles/intelligence/discrepancy-constraint.json"
     },
     "Discrepancy": {
       "key": "discrepancy_id",
@@ -120,7 +120,7 @@
       "category": "intelligence",
       "parentType": null,
       "abstract": true,
-      "source": "profiles/intelligence/discrepancy.json"
+      "source": "standard/profiles/intelligence/discrepancy.json"
     },
     "ResolutionProposal": {
       "key": "proposal_id",
@@ -128,7 +128,7 @@
       "category": "intelligence",
       "parentType": null,
       "abstract": false,
-      "source": "profiles/intelligence/resolution-proposal.json"
+      "source": "standard/profiles/intelligence/resolution-proposal.json"
     },
     "CNC_Machine": {
       "key": "machine_id",
@@ -136,7 +136,7 @@
       "category": "machine",
       "parentType": "Machine",
       "abstract": false,
-      "source": "profiles/machines/cnc-machine.json"
+      "source": "standard/profiles/machines/cnc-machine.json"
     },
     "InjectionMoldingMachine": {
       "key": "machine_id",
@@ -144,7 +144,7 @@
       "category": "machine",
       "parentType": "Machine",
       "abstract": false,
-      "source": "profiles/machines/injection-molding-machine.json"
+      "source": "standard/profiles/machines/injection-molding-machine.json"
     },
     "Machine": {
       "key": "machine_id",
@@ -152,7 +152,7 @@
       "category": "machine",
       "parentType": null,
       "abstract": true,
-      "source": "profiles/machines/machine.json"
+      "source": "standard/profiles/machines/machine.json"
     },
     "OperationsDefinition": {
       "key": "operations_definition_no",
@@ -160,7 +160,7 @@
       "category": "business",
       "parentType": null,
       "abstract": false,
-      "source": "profiles/operations/operations-definition.json"
+      "source": "standard/profiles/operations/operations-definition.json"
     },
     "ProcessSegment": {
       "key": "process_segment_no",
@@ -168,7 +168,7 @@
       "category": "business",
       "parentType": null,
       "abstract": false,
-      "source": "profiles/operations/process-segment.json"
+      "source": "standard/profiles/operations/process-segment.json"
     },
     "SegmentRequirement": {
       "key": "segment_requirement_no",
@@ -176,7 +176,7 @@
       "category": "business",
       "parentType": null,
       "abstract": false,
-      "source": "profiles/operations/segment-requirement.json"
+      "source": "standard/profiles/operations/segment-requirement.json"
     },
     "SegmentResponse": {
       "key": "segment_response_no",
@@ -184,7 +184,7 @@
       "category": "business",
       "parentType": null,
       "abstract": false,
-      "source": "profiles/operations/segment-response.json"
+      "source": "standard/profiles/operations/segment-response.json"
     },
     "Workorder": {
       "key": "workorder_no",
@@ -192,7 +192,7 @@
       "category": "business",
       "parentType": null,
       "abstract": false,
-      "source": "profiles/operations/work-order.json"
+      "source": "standard/profiles/operations/work-order.json"
     },
     "InspectionLot": {
       "key": "lot_no",
@@ -200,7 +200,7 @@
       "category": "business",
       "parentType": null,
       "abstract": false,
-      "source": "profiles/qms/inspection-lot.json"
+      "source": "standard/profiles/qms/inspection-lot.json"
     },
     "SPCAnalysis": {
       "key": "analysis_id",
@@ -208,7 +208,7 @@
       "category": "business",
       "parentType": null,
       "abstract": false,
-      "source": "profiles/qms/spcanalysis.json"
+      "source": "standard/profiles/qms/spcanalysis.json"
     },
     "MaterialItem": {
       "key": "material_item_id",
@@ -216,7 +216,7 @@
       "category": "business",
       "parentType": null,
       "abstract": true,
-      "source": "profiles/wms/material-item.json"
+      "source": "standard/profiles/wms/material-item.json"
     },
     "MaterialLot": {
       "key": "material_lot_no",
@@ -224,7 +224,7 @@
       "category": "business",
       "parentType": "MaterialItem",
       "abstract": false,
-      "source": "profiles/wms/material-lot.json"
+      "source": "standard/profiles/wms/material-lot.json"
     },
     "Quant": {
       "key": "quant_no",
@@ -232,7 +232,7 @@
       "category": "business",
       "parentType": "MaterialItem",
       "abstract": false,
-      "source": "profiles/wms/quant.json"
+      "source": "standard/profiles/wms/quant.json"
     },
     "StorageLocation": {
       "key": "storage_location_id",
@@ -240,7 +240,7 @@
       "category": "business",
       "parentType": null,
       "abstract": false,
-      "source": "profiles/wms/storage-location.json"
+      "source": "standard/profiles/wms/storage-location.json"
     }
   },
   "edges": [
@@ -815,7 +815,7 @@
     "Serial": "MaterialLot/Quant level (serialized part) — profile pending, see docs/agent-conformance.md"
   },
   "skippedFiles": [
-    "profiles/equipment/equipment-model.json",
-    "profiles/erp/shift-window.json"
+    "standard/profiles/equipment/equipment-model.json",
+    "standard/profiles/erp/shift-window.json"
   ]
 }

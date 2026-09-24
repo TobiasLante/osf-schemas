@@ -4,7 +4,7 @@
   "standard": "CESMII",
   "category": "machine",
   "displayName": "CNC Machine",
-  "description": "CNC machining center + constraints facet. Full text: docs/history/profiles/machines/cnc-machine.md, description.",
+  "description": "CNC machining center + constraints facet. Full text: docs/history/standard/profiles/machines/cnc-machine.md, description.",
   "parentType": "Machine",
   "abstract": false,
   "attributes": [
@@ -18,7 +18,7 @@
         "STOPPED",
         "MAINTENANCE"
       ],
-      "description": "Actual machine status. Full text: docs/history/profiles/machines/cnc-machine.md, attributes › Act_Status_Machine › description.",
+      "description": "Actual machine status. Full text: docs/history/standard/profiles/machines/cnc-machine.md, attributes › Act_Status_Machine › description.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
@@ -33,7 +33,7 @@
         "MANUAL",
         "SETUP"
       ],
-      "description": "Machine operating mode. Full text: docs/history/profiles/machines/cnc-machine.md, attributes › Act_Text_MachineMode › description.",
+      "description": "Machine operating mode. Full text: docs/history/standard/profiles/machines/cnc-machine.md, attributes › Act_Text_MachineMode › description.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
@@ -43,7 +43,7 @@
       "name": "Act_Amount_PartGood",
       "dataType": "Int32",
       "required": false,
-      "description": "Good parts produced (cumulative). Full text: docs/history/profiles/machines/cnc-machine.md, attributes › Act_Amount_PartGood › description.",
+      "description": "Good parts produced (cumulative). Full text: docs/history/standard/profiles/machines/cnc-machine.md, attributes › Act_Amount_PartGood › description.",
       "counter": {
         "semantics": "cumulative_resettable",
         "aggregation": "sum_of_positive_deltas",
@@ -59,7 +59,7 @@
       "name": "Act_Amount_PartScrap",
       "dataType": "Int32",
       "required": false,
-      "description": "Scrap parts (cumulative). Full text: docs/history/profiles/machines/cnc-machine.md, attributes › Act_Amount_PartScrap › description.",
+      "description": "Scrap parts (cumulative). Full text: docs/history/standard/profiles/machines/cnc-machine.md, attributes › Act_Amount_PartScrap › description.",
       "counter": {
         "semantics": "cumulative_resettable",
         "aggregation": "sum_of_positive_deltas",
@@ -112,7 +112,7 @@
       "name": "Act_Energy_Power",
       "dataType": "Float",
       "required": false,
-      "description": "Actual electrical power draw (kW). Full text: docs/history/profiles/machines/cnc-machine.md, attributes › Act_Energy_Power › description.",
+      "description": "Actual electrical power draw (kW). Full text: docs/history/standard/profiles/machines/cnc-machine.md, attributes › Act_Energy_Power › description.",
       "unit": "KWT",
       "delivery": "telemetry",
       "scope": "hub",
@@ -448,7 +448,7 @@
   "constraints": [
     {
       "name": "spindle_load_control_limits",
-      "description": "Control limits (Warngrenze + Eingriffsgrenze) for spindle load %. Full text: docs/history/profiles/machines/cnc-machine.md, constraints › spindle_load_control_limits › description.",
+      "description": "Control limits (Warngrenze + Eingriffsgrenze) for spindle load %. Full text: docs/history/standard/profiles/machines/cnc-machine.md, constraints › spindle_load_control_limits › description.",
       "require": {
         "attr": "Act_Pct_SpindleLoad",
         "op": "within_limits",
@@ -483,7 +483,7 @@
     },
     {
       "name": "spindle_temp_control_limits",
-      "description": "Control limits (Warngrenze + Eingriffsgrenze) for spindle temperature degC. Full text: docs/history/profiles/machines/cnc-machine.md, constraints › spindle_temp_control_limits › description.",
+      "description": "Control limits (Warngrenze + Eingriffsgrenze) for spindle temperature degC. Full text: docs/history/standard/profiles/machines/cnc-machine.md, constraints › spindle_temp_control_limits › description.",
       "require": {
         "attr": "Act_Temp_Spindle",
         "op": "within_limits",
@@ -518,7 +518,7 @@
     },
     {
       "name": "spindle_power_control_limits",
-      "description": "Control limits (Warngrenze + Eingriffsgrenze) for active power kW. Full text: docs/history/profiles/machines/cnc-machine.md, constraints › spindle_power_control_limits › description.",
+      "description": "Control limits (Warngrenze + Eingriffsgrenze) for active power kW. Full text: docs/history/standard/profiles/machines/cnc-machine.md, constraints › spindle_power_control_limits › description.",
       "require": {
         "attr": "Act_Energy_Power",
         "op": "within_limits",
@@ -595,7 +595,7 @@
     },
     {
       "name": "tool_wear_in_range",
-      "description": "Tool wear must lie between 0 and 100 percent — values outside indicate a sensor / scaling fault. Full text: docs/history/profiles/machines/cnc-machine.md, constraints › tool_wear_in_range › description.",
+      "description": "Tool wear must lie between 0 and 100 percent — values outside indicate a sensor / scaling fault. Full text: docs/history/standard/profiles/machines/cnc-machine.md, constraints › tool_wear_in_range › description.",
       "require": {
         "attr": "Act_Pct_ToolWear",
         "op": "between",

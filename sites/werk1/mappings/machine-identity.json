@@ -1,7 +1,7 @@
 {
   "mapId": "machine-identity",
   "version": "1.2.0",
-  "description": "Per-BUS-machine identity facts that no other SSOT file states: which ERP `machine_ref` a machine's production orders are booked under, and whether the id is a second protocol view of a machine already present under another id (a … Full text: docs/history/mappings/machine-identity.md, description.",
+  "description": "Per-BUS-machine identity facts that no other SSOT file states: which ERP `machine_ref` a machine's production orders are booked under, and whether the id is a second protocol view of a machine already present under another id (a … Full text: docs/history/sites/werk1/mappings/machine-identity.md, description.",
   "machines": [
     {
       "busMachineId": "cnc-001",
@@ -69,10 +69,10 @@
       "erpMachineRefAliases": ["sgm-06"],
       "mirrorOf": null,
       "evidence": {
-        "measured": "RENAMED 2026-07-31 — the ERP now books this machine under its own id, so `sgm-006` is the current ref and `sgm-06` the historical alias. The rename is sim-v5 76eeb642 with i3x-sim-schemas V230 (canonical-machine-id phase 1), deployed on .154 at ~13:50Z: /api/orders.machine_no is canonicalised from the planning slug to the id the OT publishes. MEASURED on /api/orders (5000 rows, the exact path sources/rest/erp-production-orders.json polls): 31 rows carry sgm-006, ZERO carry sgm-06. MEASURED in business_events by day: 07-27..07-30 only sgm-06 (132/218/256/242), 07-31 BOTH — sgm-06 88 and sgm-006 62, the flip landing mid-day. Both refs are therefore live inside any retrospective window longer than a few hours, which is why the alias must stay. WHAT ESTABLISHED THE ALIAS (2026-07-29, two independent ground truths, the same pair the 2026-07-07 zero-pad rule was established on): (1) PHYSICAL: the source endpoint is opc.tcp://192.168.178.154:36065; the machines-sgm range starts at 36060 = sgm-001, so 36065 = range start + 5 = sim machine #6 = slug sgm-06. (2) DATA: article correlation over 2103 currentProgram events gives sgm-06 as the top machine_ref (6.3%; the only other entry above noise is the POOL-SGM dispatch bucket at 4.7%).",
+        "measured": "RENAMED 2026-07-31 — the ERP now books this machine under its own id, so `sgm-006` is the current ref and `sgm-06` the historical alias. The rename is sim-v5 76eeb642 with i3x-sim-schemas V230 (canonical-machine-id phase 1), deployed on .154 at ~13:50Z: /api/orders.machine_no is canonicalised from the planning slug to the id the OT publishes. MEASURED on /api/orders (5000 rows, the exact path sites/werk1/sources/rest/erp-production-orders.json polls): 31 rows carry sgm-006, ZERO carry sgm-06. MEASURED in business_events by day: 07-27..07-30 only sgm-06 (132/218/256/242), 07-31 BOTH — sgm-06 88 and sgm-006 62, the flip landing mid-day. Both refs are therefore live inside any retrospective window longer than a few hours, which is why the alias must stay. WHAT ESTABLISHED THE ALIAS (2026-07-29, two independent ground truths, the same pair the 2026-07-07 zero-pad rule was established on): (1) PHYSICAL: the source endpoint is opc.tcp://192.168.178.154:36065; the machines-sgm range starts at 36060 = sgm-001, so 36065 = range start + 5 = sim machine #6 = slug sgm-06. (2) DATA: article correlation over 2103 currentProgram events gives sgm-06 as the top machine_ref (6.3%; the only other entry above noise is the POOL-SGM dispatch bucket at 4.7%).",
         "on": "2026-07-31"
       },
-      "note": "sources/opcua/opcua-sgm-006-processdata.json describes this machine as 'v4-SGM-012'. Full text: docs/history/mappings/machine-identity.md, machines › 6 › note."
+      "note": "sites/werk1/sources/opcua/opcua-sgm-006-processdata.json describes this machine as 'v4-SGM-012'. Full text: docs/history/sites/werk1/mappings/machine-identity.md, machines › 6 › note."
     },
     {
       "busMachineId": "cnc-mtc-02",
@@ -83,7 +83,7 @@
         "measured": "RENAMED 2026-07-31 — same sim-v5 76eeb642 / i3x-sim-schemas V230 canonicalisation as sgm-006. MEASURED on /api/orders (5000 rows): 86 rows carry cnc-mtc-02, ZERO carry cnc-03. MEASURED in business_events by day: 07-27..07-30 only cnc-03 (194/61/59/56), 07-31 cnc-03 13 and cnc-mtc-02 216 — this ref flipped almost completely within the day. `cnc-03` stays as the historical alias for the pre-flip part of any retrospective window. WHAT ESTABLISHED THE ALIAS (2026-07-29): Article correlation, run in BOTH directions with the base rate controlled (Jaccard over (article, hour) sets, ERP restricted to status in_arbeit). cnc-mtc-02 → cnc-03 is a MUTUAL BEST PAIR: forward rank #1 (10.32 vs runner-up 4.49), backward rank #1 (cnc-03 → cnc-mtc-02, 10.32 vs runner-up 3.90). A raw ±5min hit count agrees: cnc-03 rank #1 at 54/731 (7.4%), runner-up 2.5%. Under the same base-rate-controlled test all six machines whose ref is independently known return their own ref at rank #1 in both directions (cnc-001 8.63/4.34, cnc-002 6.86/4.75, rockwell-01 20.04/6.14, sgm-001 3.91/2.42, sgm-004 7.98/5.51, sgm-005 3.22/1.81) — the control that makes this verdict usable.",
         "on": "2026-07-29"
       },
-      "note": "CORRECTION to an earlier claim of mine: I first cited sources/mtconnect/mtconnect-cnc-mtc-02.json's connection.device = 'cnc-03' as an INDEPENDENT confirmation of the ERP ref. Full text: docs/history/mappings/machine-identity.md, machines › 7 › note."
+      "note": "CORRECTION to an earlier claim of mine: I first cited sites/werk1/sources/mtconnect/mtconnect-cnc-mtc-02.json's connection.device = 'cnc-03' as an INDEPENDENT confirmation of the ERP ref. Full text: docs/history/sites/werk1/mappings/machine-identity.md, machines › 7 › note."
     },
     {
       "busMachineId": "cnc-mtc-01",
@@ -94,7 +94,7 @@
         "measured": "Value-level identity with cnc-002, not a name match: over 2026-07-20..2026-07-26 the machine-specific Act_Amount_PartGood counter agrees on 5363 of 5364 co-timed samples (99.98%), while the same test against cnc-001 gives 0/4898 and against cnc-mtc-02 gives 9/4793. Act_Ref_Program agrees on 894/895 co-timed samples. A part counter is per-machine and monotonic — identical values mean one physical machine sampled twice.",
         "on": "2026-07-29"
       },
-      "note": "sources/mtconnect/mtconnect-cnc-01.json and sources/opcua/opcua-mtbridge-cnc-01.json declare this chain as MTConnect agent device 'cnc-01' and warn that agent device cnc-02 is 'unrelated' to the OPC-UA machine cnc-002. Full text: docs/history/mappings/machine-identity.md, machines › 8 › note."
+      "note": "sites/werk1/sources/mtconnect/mtconnect-cnc-01.json and sites/werk1/sources/opcua/opcua-mtbridge-cnc-01.json declare this chain as MTConnect agent device 'cnc-01' and warn that agent device cnc-02 is 'unrelated' to the OPC-UA machine cnc-002. Full text: docs/history/sites/werk1/mappings/machine-identity.md, machines › 8 › note."
     },
     {
       "busMachineId": "ftlinx-01",

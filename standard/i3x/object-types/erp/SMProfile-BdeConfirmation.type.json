@@ -4,7 +4,7 @@
   "namespaceUri": "urn:osf:schemas:erp",
   "version": "1.1.0",
   "schema": {
-    "description": "The CONFIRMATION grain of the sim-v5 BDE feed, alongside and NOT replacing SMProfile-OperationsResponse. Full text: docs/history/profiles/erp/bde-confirmation.md, description.",
+    "description": "The CONFIRMATION grain of the sim-v5 BDE feed, alongside and NOT replacing SMProfile-OperationsResponse. Full text: docs/history/standard/profiles/erp/bde-confirmation.md, description.",
     "allOf": [
       {
         "$ref": "SMProfile-Response.type.json#/schema"
@@ -57,7 +57,7 @@
           },
           "shift": {
             "type": "string",
-            "description": "Shift of record for the booking, derived upstream from machine_departments x machine_pools x shift_config x shift_weekly_pattern (sim-v5, 2026-08-03). Full text: docs/history/profiles/erp/bde-confirmation.md, attributes › shift › description.",
+            "description": "Shift of record for the booking, derived upstream from machine_departments x machine_pools x shift_config x shift_weekly_pattern (sim-v5, 2026-08-03). Full text: docs/history/standard/profiles/erp/bde-confirmation.md, attributes › shift › description.",
             "x-category": "Core",
             "x-delivery": "transactional",
             "x-scope": "hub",
@@ -89,7 +89,7 @@
           },
           "rework_qty": {
             "type": "integer",
-            "description": "Pieces booked for rework — a THIRD disposition, deliberately not folded into scrap (same rule as the part_scrap semantic in mappings/attribute-aliases.json). Full text: docs/history/profiles/erp/bde-confirmation.md, attributes › rework_qty › description.",
+            "description": "Pieces booked for rework — a THIRD disposition, deliberately not folded into scrap (same rule as the part_scrap semantic in standard/mappings/attribute-aliases.json). Full text: docs/history/standard/profiles/erp/bde-confirmation.md, attributes › rework_qty › description.",
             "x-dataType": "Int32",
             "x-category": "Execution",
             "x-delivery": "transactional",
@@ -109,7 +109,7 @@
           },
           "labor_min": {
             "type": "number",
-            "description": "Personnel minutes booked against this confirmation. Full text: docs/history/profiles/erp/bde-confirmation.md, attributes › labor_min › description.",
+            "description": "Personnel minutes booked against this confirmation. Full text: docs/history/standard/profiles/erp/bde-confirmation.md, attributes › labor_min › description.",
             "x-dataType": "Double",
             "x-category": "Effort",
             "x-delivery": "transactional",
@@ -199,7 +199,7 @@
     ]
   },
   "x-osf": {
-    "source": "profiles/erp/bde-confirmation.json",
+    "source": "standard/profiles/erp/bde-confirmation.json",
     "standard": "CESMII",
     "category": "business",
     "abstract": false,

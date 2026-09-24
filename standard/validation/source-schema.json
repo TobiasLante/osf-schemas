@@ -82,7 +82,7 @@
  "then": { "required": ["location"], "properties": { "location": { "required": ["enterprise", "site", "area", "line"] } } }
  },
  {
- "_comment": "REST sources (ERP/QMS/WMS, Level 3/4) MUST declare enterprise and site (owner 24.09.): the UNS path and the business subject of sync/uns-convention.json are built from them; a missing location is a check error, never a default.",
+ "_comment": "REST sources (ERP/QMS/WMS, Level 3/4) MUST declare enterprise and site (owner 24.09.): the UNS path and the business subject of standard/sync/uns-convention.json are built from them; a missing location is a check error, never a default.",
  "if": {
  "properties": { "sourceType": { "const": "rest" } },
  "required": ["sourceType"]

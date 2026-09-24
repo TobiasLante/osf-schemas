@@ -86,12 +86,12 @@ numbers are in the generated [Counts](#counts) block below.)
 | Consumer | Reads | Produces |
 |----------|-------|----------|
 | **KG Builder** | All 3 schemas | Knowledge Graph (nodes, edges, embeddings) |
-| **Edge codegen** (discovery / nr-codegen) | `mappings/` + `sources/` + `sync/nats/` + `historians/` | Node-RED flows, JetStream publishes, historian writers |
-| **JetStream provisioning** (`provision-jetstream.sh`) | `sync/nats/jetstream-streams.json` | streams + consumers on edge/hub NATS |
-| **it-evaluator** | `recipes/` (runtime fetch) + constraint facets | deviations, capability verdicts (Cp/Ca) |
+| **Edge codegen** (discovery / nr-codegen) | `standard/mappings/` + `sites/werk1/sources/` + `sites/werk1/sync/nats/` + `standard/historians/` | Node-RED flows, JetStream publishes, historian writers |
+| **JetStream provisioning** (`provision-jetstream.sh`) | `sites/werk1/sync/nats/jetstream-streams.json` | streams + consumers on edge/hub NATS |
+| **it-evaluator** | `sites/werk1/recipes/` (runtime fetch) + constraint facets | deviations, capability verdicts (Cp/Ca) |
 | **i3X API** | Schema 1 (profiles) | REST API with type hierarchy |
 
-(The v3-era consumers of `sources/postgresql/` and `sync/mqtt|kafka|webhook|manual|bridge/`
+(The v3-era consumers of `sites/werk1/sources/postgresql/` and `sites/werk1/sync/mqtt|kafka|webhook|manual|bridge/`
 are retired; those configs live under `backup/pre-next2.0/`.)
 
 ## Structure
@@ -99,15 +99,15 @@ are retired; those configs live under `backup/pre-next2.0/`.)
 <!-- gen:tree:begin -->
 ```
 osf-schemas/
-├── branding/               brand/theme assets (1 json)
+├── sites/werk1/branding/               brand/theme assets (1 json)
 ├── ci/                     linters + generators (lint-*.mjs, gen-contract.mjs, gen-docs.mjs)
-├── companion-specs/        OPC-UA Companion-Spec registry (NodeSet2.xml URLs) (1 json)
-├── consumers/               (15 json)
-├── cross-constraints/      cross-profile discrepancy constraints (PLAN vs IST rules) (4 json)
+├── standard/companion-specs/        OPC-UA Companion-Spec registry (NodeSet2.xml URLs) (1 json)
+├── sites/werk1/consumers/               (15 json)
+├── standard/cross-constraints/      cross-profile discrepancy constraints (PLAN vs IST rules) (4 json)
 ├── docs/                   conventions, next2.0 standard, agent-conformance, variable shapes; history/ = the reasoning moved out of the JSON
 ├── examples/               demo fixtures — NOT canonical (see examples/README.md) (5 json)
-├── flows/                  Node-RED flow templates (OPC-UA → UNS standard flow) (1 json)
-├── historians/             historian-sink templates + instances (OUTPUT: UNS → customer DB)
+├── standard/flows/                  Node-RED flow templates (OPC-UA → UNS standard flow) (1 json)
+├── standard/historians/             historian-sink templates + instances (OUTPUT: UNS → customer DB)
 │   ├── central-ts-tables/       (2 json)
 │   ├── grafana-dashboards/      (4 json)
 │   ├── influxdb/                (1 json)
@@ -118,10 +118,10 @@ osf-schemas/
 │   ├── postgresql-cagg/         (1 json)
 │   ├── postgresql-pivot/        (1 json)
 │   └── views/                   (1 json)
-├── i3x/                    GENERATED i3X 1.0 form of profiles/ (i3x-v5 schemas-ci/gen-i3x.mjs): Object Types as JSON Schema, Relationship Types with reverseOf (32 json)
-├── kpis/                   KPI definitions — inputs drawn from the source-fed vocabulary (lint-kpis) (6 json)
-├── mappings/               protocol canon: DataItem/tag → SM attribute (SSOT for discovery + gen-flows) (4 json)
-├── profiles/               Schema 1: SM Profiles (type system)
+├── standard/i3x/                    GENERATED i3X 1.0 form of standard/profiles/ (i3x-v5 schemas-ci/gen-i3x.mjs): Object Types as JSON Schema, Relationship Types with reverseOf (32 json)
+├── standard/kpis/                   KPI definitions — inputs drawn from the source-fed vocabulary (lint-kpis) (6 json)
+├── standard/mappings/               protocol canon: DataItem/tag → SM attribute (SSOT for discovery + gen-flows) (4 json)
+├── standard/profiles/               Schema 1: SM Profiles (type system)
 │   ├── equipment/              EquipmentClass, EquipmentModel (compact), Tool (3 json)
 │   ├── erp/                    Article, Customer(-Order), ProductionOrder, ProductDefinition, OperationsResponse (9 json)
 │   ├── intelligence/           multi-truth layer: Discrepancy, ResolutionProposal, AutoResolveRule, … (5 json)
@@ -129,17 +129,17 @@ osf-schemas/
 │   ├── operations/             ISA-95 Part 4: OperationsDefinition, ProcessSegment, Segment{Requirement,Response}, Workorder (5 json)
 │   ├── qms/                    InspectionLot, SPCAnalysis (2 json)
 │   └── wms/                    MaterialLot, Quant, StorageLocation (4 json)
-├── recipes/                GitHub-managed recipe master data (see recipes/README.md) (5 json)
-├── sources/                Schema 2: Data Sources (instance binding)
+├── sites/werk1/recipes/                GitHub-managed recipe master data (see sites/werk1/recipes/README.md) (5 json)
+├── sites/werk1/sources/                Schema 2: Data Sources (instance binding)
 │   ├── mtconnect/              MTConnect agent mappings (2 json)
 │   ├── opcua/                  OPC-UA endpoint → machine mappings (15 json)
 │   └── rest/                   sim-v5 REST polling (ERP/QMS/WMS projections) (10 json)
-├── sync/                   Schema 3: Live Sync (transport layer)
+├── sites/werk1/sync/                   Schema 3: Live Sync (transport layer)
 │   ├── nats/                   NATS subjects + JetStream stream declarations (suite hub) (2 json)
 │   ├── opcua-server/           Sonder-Edge re-publish (MTConnect → embedded OPC-UA server) (1 json)
 │   └── polling/                REST polling schedule (1 json)
-├── unit-conversions/       UNECE unit table (discovery-time scale/offset lookup) (1 json)
-├── validation/             ajv meta-schemas (per-file shape validation) (33 json)
+├── standard/unit-conversions/       UNECE unit table (discovery-time scale/offset lookup) (1 json)
+├── standard/validation/             ajv meta-schemas (per-file shape validation) (33 json)
 ├── CLAUDE.md               agent instructions
 ├── contract.json           GENERATED ontology contract (gen-contract.mjs) — agents read this FIRST
 ├── LICENSE                 MIT
@@ -220,11 +220,11 @@ periodic-emit rule and valid combinations.
 
 ## Quick Start
 
-1. Add a profile: `profiles/<domain>/<type>.json`
-2. Add a source with `profileRef` pointing to your profile: `sources/rest/<source>.json`
-   (business entities, REST polling) or `sources/opcua|mtconnect/<machine>.json` (OT)
-3. Wire sync: REST sources get a `sourceRef` entry in `sync/polling/sim-v5-poll.json`;
-   OT sources ride the NATS/JetStream path declared in `sync/nats/`
+1. Add a profile: `standard/profiles/<domain>/<type>.json`
+2. Add a source with `profileRef` pointing to your profile: `sites/<site>/sources/rest/<source>.json`
+   (business entities, REST polling) or `sites/werk1/sources/opcua|mtconnect/<machine>.json` (OT)
+3. Wire sync: REST sources get a `sourceRef` entry in `sites/werk1/sync/polling/sim-v5-poll.json`;
+   OT sources ride the NATS/JetStream path declared in `sites/werk1/sync/nats/`
 4. Regenerate the derived artefacts: `node ci/gen-contract.mjs && node ci/gen-docs.mjs`
 5. `npm run validate` must be green, then push to `main` — the KG Builder picks up changes within 1 hour
 

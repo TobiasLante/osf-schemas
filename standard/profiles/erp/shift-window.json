@@ -4,14 +4,14 @@
   "standard": "CESMII",
   "category": "business",
   "displayName": "Shift Window (ERP shift calendar)",
-  "description": "One row of the ERP shift calendar (`/api/calendar` -> `week_pattern`): department x ISO weekday x shift, with the working-time window and its breaks. Full text: docs/history/profiles/erp/shift-window.md, description.",
+  "description": "One row of the ERP shift calendar (`/api/calendar` -> `week_pattern`): department x ISO weekday x shift, with the working-time window and its breaks. Full text: docs/history/standard/profiles/erp/shift-window.md, description.",
   "parentType": null,
   "abstract": false,
   "isa95": {
     "objectModel": "WorkCalendarEntry",
     "momDomain": "production",
     "level": 3,
-    "note": "One recurring entry of the plant WorkCalendar (B2MML WorkCalendar / WorkCalendarEntry). Full text: docs/history/profiles/erp/shift-window.md, isa95 › note.",
+    "note": "One recurring entry of the plant WorkCalendar (B2MML WorkCalendar / WorkCalendarEntry). Full text: docs/history/standard/profiles/erp/shift-window.md, isa95 › note.",
     "propertyMap": {
       "department_id": "WorkCalendarEntry.HierarchyScope.EquipmentID",
       "shift_id": "WorkCalendarEntry.ID",
@@ -38,7 +38,7 @@
       "required": true,
       "category": "Core",
       "isId": true,
-      "description": "ISO-8601 weekday, 1=Monday .. Full text: docs/history/profiles/erp/shift-window.md, attributes › day_of_week › description.",
+      "description": "ISO-8601 weekday, 1=Monday .. Full text: docs/history/standard/profiles/erp/shift-window.md, attributes › day_of_week › description.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -49,7 +49,7 @@
       "required": true,
       "category": "Core",
       "isId": true,
-      "description": "Shift code as the ERP names it. Full text: docs/history/profiles/erp/shift-window.md, attributes › shift_id › description.",
+      "description": "Shift code as the ERP names it. Full text: docs/history/standard/profiles/erp/shift-window.md, attributes › shift_id › description.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
@@ -70,7 +70,7 @@
       "dataType": "String",
       "required": true,
       "category": "Core",
-      "description": "Window end on the plant clock as HH:MM:SS. Full text: docs/history/profiles/erp/shift-window.md, attributes › end_time › description.",
+      "description": "Window end on the plant clock as HH:MM:SS. Full text: docs/history/standard/profiles/erp/shift-window.md, attributes › end_time › description.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -80,7 +80,7 @@
       "dataType": "Int32",
       "required": false,
       "category": "Core",
-      "description": "Unpaid break minutes inside the window. Full text: docs/history/profiles/erp/shift-window.md, attributes › break_minutes › description.",
+      "description": "Unpaid break minutes inside the window. Full text: docs/history/standard/profiles/erp/shift-window.md, attributes › break_minutes › description.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"

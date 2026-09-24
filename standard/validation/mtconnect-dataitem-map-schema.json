@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/validation/mtconnect-dataitem-map-schema.json",
   "title": "OSF MTConnect DataItem -> SM-attribute map — v2.0",
-  "description": "Shape of mappings/mtconnect-dataitem-map.json, the SSOT for how an MTConnect DataItem projects onto a canonical SM attribute. Consumers (discovery's mtconnect probe, the gen-flows exporter) MUST read this file instead of carrying their own copy of the table — a hardcoded duplicate is what let Act_Status_Machine drift to Int32 while the CNC profile said String (audit 2026-07-08). Referential integrity (every smAttribute exists on profileRef, and every sources/mtconnect/*.json agrees with this table) is checked by ci/lint-mtconnect-canon.mjs, not here.",
+  "description": "Shape of standard/mappings/mtconnect-dataitem-map.json, the SSOT for how an MTConnect DataItem projects onto a canonical SM attribute. Consumers (discovery's mtconnect probe, the gen-flows exporter) MUST read this file instead of carrying their own copy of the table — a hardcoded duplicate is what let Act_Status_Machine drift to Int32 while the CNC profile said String (audit 2026-07-08). Referential integrity (every smAttribute exists on profileRef, and every sites/werk1/sources/mtconnect/*.json agrees with this table) is checked by ci/lint-mtconnect-canon.mjs, not here.",
   "type": "object",
   "required": ["mapId", "version", "profileRef", "mappings"],
   "additionalProperties": false,

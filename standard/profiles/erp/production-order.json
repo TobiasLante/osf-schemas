@@ -4,7 +4,7 @@
   "standard": "CESMII",
   "category": "business",
   "displayName": "Production Order (manufacturing order / OperationsRequest — PLAN/target)",
-  "description": "Level-3 MOM OperationsRequest = the PLAN/target of manufacturing (B2MML OperationsRequest / ISA-95 Part 4). Full text: docs/history/profiles/erp/production-order.md, description.",
+  "description": "Level-3 MOM OperationsRequest = the PLAN/target of manufacturing (B2MML OperationsRequest / ISA-95 Part 4). Full text: docs/history/standard/profiles/erp/production-order.md, description.",
   "parentType": null,
   "abstract": false,
   "attributes": [
@@ -57,7 +57,7 @@
       "dataType": "String",
       "required": false,
       "category": "Core",
-      "description": "ERP department the order is routed to. Full text: docs/history/profiles/erp/production-order.md, attributes › department_ref › description.",
+      "description": "ERP department the order is routed to. Full text: docs/history/standard/profiles/erp/production-order.md, attributes › department_ref › description.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
@@ -78,7 +78,7 @@
       "dataType": "DateTime",
       "required": false,
       "category": "Timing",
-      "description": "Planned START of the order's next non-terminal operation. Full text: docs/history/profiles/erp/production-order.md, attributes › planned_start_time › description.",
+      "description": "Planned START of the order's next non-terminal operation. Full text: docs/history/standard/profiles/erp/production-order.md, attributes › planned_start_time › description.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -108,7 +108,7 @@
       "dataType": "Int32",
       "required": false,
       "category": "Planning",
-      "description": "1-based position of this order in its machine's dispatch queue, inside the 24 h horizon. Full text: docs/history/profiles/erp/production-order.md, attributes › dispatch_sequence › description.",
+      "description": "1-based position of this order in its machine's dispatch queue, inside the 24 h horizon. Full text: docs/history/standard/profiles/erp/production-order.md, attributes › dispatch_sequence › description.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -118,7 +118,7 @@
       "dataType": "Int32",
       "required": false,
       "category": "Planning",
-      "description": "Number of good parts ONE machine cycle yields — the mould's cavity count on injection-moulding machines, 1 on single-part machines. Full text: docs/history/profiles/erp/production-order.md, attributes › parts_per_shot › description.",
+      "description": "Number of good parts ONE machine cycle yields — the mould's cavity count on injection-moulding machines, 1 on single-part machines. Full text: docs/history/standard/profiles/erp/production-order.md, attributes › parts_per_shot › description.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -128,7 +128,7 @@
       "dataType": "String",
       "required": false,
       "category": "Link",
-      "description": "Identity of the mounted mould/tool that determines parts_per_shot (e.g. Full text: docs/history/profiles/erp/production-order.md, attributes › mould_ref › description.",
+      "description": "Identity of the mounted mould/tool that determines parts_per_shot (e.g. Full text: docs/history/standard/profiles/erp/production-order.md, attributes › mould_ref › description.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
@@ -169,7 +169,7 @@
       "dataType": "String",
       "required": false,
       "category": "Core",
-      "description": "COMPATIBILITY KEY, adopted from the withdrawn SMProfile-CustomerOrder on 2026-08-13. Full text: docs/history/profiles/erp/production-order.md, attributes › order_no › description.",
+      "description": "COMPATIBILITY KEY, adopted from the withdrawn SMProfile-CustomerOrder on 2026-08-13. Full text: docs/history/standard/profiles/erp/production-order.md, attributes › order_no › description.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -200,7 +200,7 @@
       "dataType": "Float",
       "required": false,
       "category": "Commercial",
-      "description": "Order value (gesamtbetrag). Full text: docs/history/profiles/erp/production-order.md, attributes › total_amount › description.",
+      "description": "Order value (gesamtbetrag). Full text: docs/history/standard/profiles/erp/production-order.md, attributes › total_amount › description.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -220,7 +220,7 @@
       "dataType": "DateTime",
       "required": false,
       "category": "Planning",
-      "description": "Customer delivery commitment (lieferdatum_soll). Full text: docs/history/profiles/erp/production-order.md, attributes › due_date › description.",
+      "description": "Customer delivery commitment (lieferdatum_soll). Full text: docs/history/standard/profiles/erp/production-order.md, attributes › due_date › description.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -230,7 +230,7 @@
       "dataType": "Int32",
       "required": false,
       "category": "Commercial",
-      "description": "Ordered piece count (geplante_stueckzahl). Full text: docs/history/profiles/erp/production-order.md, attributes › quantity › description.",
+      "description": "Ordered piece count (geplante_stueckzahl). Full text: docs/history/standard/profiles/erp/production-order.md, attributes › quantity › description.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -240,7 +240,7 @@
       "dataType": "String",
       "required": false,
       "category": "Core",
-      "description": "Plan status of the OperationsRequest, as it reaches THIS profile through OUR source binding. Full text: docs/history/profiles/erp/production-order.md, attributes › status › description.",
+      "description": "Plan status of the OperationsRequest, as it reaches THIS profile through OUR source binding. Full text: docs/history/standard/profiles/erp/production-order.md, attributes › status › description.",
       "enum": [
         "offen",
         "freigegeben",
@@ -331,7 +331,7 @@
   "constraints": [
     {
       "name": "material_ready_after_planned_end",
-      "description": "Material is not available until AFTER the order's own planned finish date. Full text: docs/history/profiles/erp/production-order.md, constraints › material_ready_after_planned_end › description.",
+      "description": "Material is not available until AFTER the order's own planned finish date. Full text: docs/history/standard/profiles/erp/production-order.md, constraints › material_ready_after_planned_end › description.",
       "when": {
         "attr": "status",
         "op": "in",
@@ -360,7 +360,7 @@
     "objectModel": "OperationsRequest",
     "momDomain": "production",
     "level": 3,
-    "note": "Level-3 MOM OperationsRequest (B2MML) = PLAN/target. Full text: docs/history/profiles/erp/production-order.md, isa95 › note.",
+    "note": "Level-3 MOM OperationsRequest (B2MML) = PLAN/target. Full text: docs/history/standard/profiles/erp/production-order.md, isa95 › note.",
     "propertyMap": {
       "production_order_no": "OperationsRequest.ID",
       "operations_definition_ref": "OperationsRequest.OperationsDefinitionID",

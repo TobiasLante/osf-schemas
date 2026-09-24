@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/validation/historian-descriptor-schema.json",
   "title": "HistorianDescriptor",
-  "description": "Meta-schema for the historian descriptors under historians/ EXCEPT historians/instances/ and historians/central-ts-tables/ (those have their own classes). Covers the 11 syncId/syncType/version descriptors in 8 folders: grafana-dashboards, influxdb, mssql, nats-jetstream, postgresql, postgresql-cagg, postgresql-pivot, views. The syncType vocabulary lives HERE (properties.syncType.enum) and is the single source of truth for the per-type required-field groups below.",
+  "description": "Meta-schema for the historian descriptors under standard/historians/ EXCEPT sites/werk1/historians/instances/ and standard/historians/central-ts-tables/ (those have their own classes). Covers the 11 syncId/syncType/version descriptors in 8 folders: grafana-dashboards, influxdb, mssql, nats-jetstream, postgresql, postgresql-cagg, postgresql-pivot, views. The syncType vocabulary lives HERE (properties.syncType.enum) and is the single source of truth for the per-type required-field groups below.",
   "type": "object",
   "required": ["syncId", "syncType", "version"],
   "properties": {

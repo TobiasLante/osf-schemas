@@ -1,5 +1,5 @@
 {
-  "$description": "Historian-Write-Template für Postgres / TimescaleDB via node-red-contrib-postgresql. Full text: docs/history/historians/postgresql/historian-template.md, $description.",
+  "$description": "Historian-Write-Template für Postgres / TimescaleDB via node-red-contrib-postgresql. Full text: docs/history/standard/historians/postgresql/historian-template.md, $description.",
   "syncId": "postgres-historian",
   "version": "2.0.0",
   "syncType": "postgresql",
@@ -32,7 +32,7 @@
     ]
   },
   "topicParser": {
-    "$description": "Vor dem row-builder fügt der Generator einen Function-Node ein, der das 6-Segment-UNS-Topic parst (Factory/site/type/machineId/category/attribute) und msg._machine / _category / _variable setzt. Full text: docs/history/historians/postgresql/historian-template.md, topicParser › $description.",
+    "$description": "Vor dem row-builder fügt der Generator einen Function-Node ein, der das 6-Segment-UNS-Topic parst (Factory/site/type/machineId/category/attribute) und msg._machine / _category / _variable setzt. Full text: docs/history/standard/historians/postgresql/historian-template.md, topicParser › $description.",
     "pattern": "Factory/{site}/{type}/{machineId}/{category}/{attribute}",
     "machineSegment": 3,
     "categorySegment": 4,

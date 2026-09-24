@@ -1,4 +1,4 @@
-# recipes/ — GitHub-managed recipe master data (ISA-95 ProductDefinition SOLL)
+# sites/werk1/recipes/ — GitHub-managed recipe master data (ISA-95 ProductDefinition SOLL)
 
 This folder is the **single home for recipe / ProductDefinition master data**, managed in
 GitHub — **no other system**. Owner: **Process Engineering**.
@@ -11,7 +11,7 @@ so the **same** rule (`recipe_hotrunner_temp_band`, …) yields **per-article li
 ## How it goes live (runtime fetch, no redeploy)
 
 The `it-evaluator` is configured with `RECIPE_SOURCE=github:<owner>/<repo>[@ref][:path]`,
-pointed at this folder (`recipes/`). Its **`GithubRecipeSource`** fetches every `*.json`
+pointed at this folder (`sites/werk1/recipes/`). Its **`GithubRecipeSource`** fetches every `*.json`
 here at runtime and refreshes on an interval. **Edit a band, push to GitHub → the new band
 is live** on the next refresh. No image rebuild, no edge redeploy.
 
@@ -22,7 +22,7 @@ no crash) — exactly as with `RECIPE_SOURCE=none`.
 
 Shortened from the real `recipe-sgm-004-pa66gf30-housing-a.json`. Note that
 **`toleranceSource` and `capability` are REQUIRED** by
-`validation/recipe-schema.json` — a recipe without them fails CI. (An earlier
+`standard/validation/recipe-schema.json` — a recipe without them fails CI. (An earlier
 version of this README showed an example without both; the repo's own CI
 rejected the README's own example.)
 
@@ -77,10 +77,10 @@ rejected the README's own example.)
 
 ## Validation
 
-- Structure: `validation/recipe-schema.json` (ajv, via the CI shape-validation step).
+- Structure: `standard/validation/recipe-schema.json` (ajv, via the CI shape-validation step).
 - Cross-ref + types: `node ci/lint-recipes.mjs` (= `npm run validate:recipes`; band tuples
   numeric, ref namespace, no duplicate match within a profile, `match.equipment` must be a
-  machine id declared in `sources/**`).
+  machine id declared in `sites/werk1/sources/**`).
 
 ## Relation to the edge (sgm-004)
 

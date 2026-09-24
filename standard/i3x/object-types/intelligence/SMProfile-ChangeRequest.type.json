@@ -4,7 +4,7 @@
   "namespaceUri": "urn:osf:schemas:intelligence",
   "version": "1.0.0",
   "schema": {
-    "description": "A request to change a TOLERANCE BAND or a steering AIM, raised against a Discrepancy, and RESOLVED by an EXTERNAL authority (not the engine). Full text: docs/history/profiles/intelligence/change-request.md, description.",
+    "description": "A request to change a TOLERANCE BAND or a steering AIM, raised against a Discrepancy, and RESOLVED by an EXTERNAL authority (not the engine). Full text: docs/history/standard/profiles/intelligence/change-request.md, description.",
     "type": "object",
     "properties": {
       "change_request_id": {
@@ -34,7 +34,7 @@
       },
       "tolerance_source": {
         "type": "string",
-        "description": "Provenance of the band being challenged — the SAME vocabulary as recipe-schema.json toleranceSource. Full text: docs/history/profiles/intelligence/change-request.md, attributes › tolerance_source › description.",
+        "description": "Provenance of the band being challenged — the SAME vocabulary as recipe-schema.json toleranceSource. Full text: docs/history/standard/profiles/intelligence/change-request.md, attributes › tolerance_source › description.",
         "enum": [
           "drawing",
           "customer_spec",
@@ -46,12 +46,12 @@
       },
       "proposed_band": {
         "type": "string",
-        "description": "The proposed NEW tolerance band, serialized JSON [lo,hi] (same shape as recipe `values` bands). Full text: docs/history/profiles/intelligence/change-request.md, attributes › proposed_band › description.",
+        "description": "The proposed NEW tolerance band, serialized JSON [lo,hi] (same shape as recipe `values` bands). Full text: docs/history/standard/profiles/intelligence/change-request.md, attributes › proposed_band › description.",
         "x-category": "Proposal"
       },
       "proposed_aim": {
         "type": "number",
-        "description": "The proposed NEW steering aim (recipe parameters[].aim) — where the process should be centred inside the band. Full text: docs/history/profiles/intelligence/change-request.md, attributes › proposed_aim › description.",
+        "description": "The proposed NEW steering aim (recipe parameters[].aim) — where the process should be centred inside the band. Full text: docs/history/standard/profiles/intelligence/change-request.md, attributes › proposed_aim › description.",
         "x-category": "Proposal"
       },
       "rationale": {
@@ -93,7 +93,7 @@
       },
       "resolved_by": {
         "type": "string",
-        "description": "The EXTERNAL authority that resolved the request — the owner of the number's provenance (drawing/customer/standards owner for binding bands, Process Engineering for process_estimate). Full text: docs/history/profiles/intelligence/change-request.md, attributes › resolved_by › description.",
+        "description": "The EXTERNAL authority that resolved the request — the owner of the number's provenance (drawing/customer/standards owner for binding bands, Process Engineering for process_estimate). Full text: docs/history/standard/profiles/intelligence/change-request.md, attributes › resolved_by › description.",
         "x-category": "Resolution"
       },
       "resolved_at": {
@@ -122,7 +122,7 @@
     }
   },
   "x-osf": {
-    "source": "profiles/intelligence/change-request.json",
+    "source": "standard/profiles/intelligence/change-request.json",
     "standard": "OSF",
     "category": "intelligence",
     "abstract": false,

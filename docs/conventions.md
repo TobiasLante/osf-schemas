@@ -1,19 +1,19 @@
 # OSF Subject Conventions
 
-**Signal subjects and UNS paths are no longer described here.** They are model data: `sync/uns-convention.json`
+**Signal subjects and UNS paths are no longer described here.** They are model data: `standard/sync/uns-convention.json`
 (owner decision 24.09.2026). It is the single source of truth for
 
 - the UNS path of every signal (OT: `{enterprise}/{site}/{area}/{line}/{machine}`, IT: `{enterprise}/{site}/{entity}`,
   Level 4 `{enterprise}/{entity}`), built from `sources[].location` — every source carries one;
 - the hub subject per delivery class (OT `factory.{site}.{machine}.telemetry.{attr}` / `factory.{site}.{machine}.event.{attr}`
   on FACTORY; IT `business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}` on BUSINESS, tenant = the ISA-95 enterprise);
-- the rule that a route declared in `sync/` (with `source.sourceRef`) wins over the convention.
+- the rule that a route declared in `sites/werk1/sync/` (with `source.sourceRef`) wins over the convention.
 
-Its shape is `validation/sync-schema.json` › `definitions.convention`. The i3x-v5 compiler checks it fail-closed:
+Its shape is `standard/validation/sync-schema.json` › `definitions.convention`. The i3x-v5 compiler checks it fail-closed:
 every scope=hub signal has a hub target, telemetry and events never share a pattern, every address lands in its own
 world's stream and in no other, and no two signals share an address or a UNS path. The v3 class table that stood here
 (7-segment raw telemetry, `aggregate.*`, `cpp.*`) described the v4 bridge; the parser shapes of that bridge are in
-`historians/nats-jetstream/historian-template.json` › `subjectParser.byRoot`.
+`standard/historians/nats-jetstream/historian-template.json` › `subjectParser.byRoot`.
 
 The subjects below are NOT signals (management, snapshots, alerts/actions) and stay documented here.
 
@@ -76,7 +76,7 @@ i3x.kg.snapshot.it-edge-qms
 
 ## Operations subjects — alerts & actions (`uns.*`)
 
-Operational signals are a **third world**, distinct from telemetry (`factory.*`) and IT-events (`business.*`). They live under the fixed leading token `uns.` (Unified-Namespace operations root) and are captured by the hub JetStream streams `UNS_ALERTS` / `UNS_ACTIONS` (`sync/nats/jetstream-streams.json`).
+Operational signals are a **third world**, distinct from telemetry (`factory.*`) and IT-events (`business.*`). They live under the fixed leading token `uns.` (Unified-Namespace operations root) and are captured by the hub JetStream streams `UNS_ALERTS` / `UNS_ACTIONS` (`sites/werk1/sync/nats/jetstream-streams.json`).
 
 ```
 uns.alert.<source>.<severity>.<id>
@@ -113,6 +113,6 @@ uns.action.cnc-001.acknowledge.AC-3300     # plant→edge action request
 
 | Convention          | Lives in                                       |
 |---------------------|------------------------------------------------|
-| Signal subjects + UNS paths | `sync/uns-convention.json` (+ declared routes in `sync/<transport>/`) |
-| Profile definitions | `profiles/business/*.json`                     |
-| Validators          | `validation/business-profile-schema.json`, `validation/it-edge-source-schema.json` |
+| Signal subjects + UNS paths | `standard/sync/uns-convention.json` (+ declared routes in `sites/<site>/sync/<transport>/`) |
+| Profile definitions | `standard/profiles/business/*.json`                     |
+| Validators          | `standard/validation/business-profile-schema.json`, `standard/validation/it-edge-source-schema.json` |

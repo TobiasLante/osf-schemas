@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/validation/ts-table-layout-schema.json",
   "title": "TS Table Layout",
-  "description": "Meta-schema for historians/central-ts-tables/*.json. Declarative per-MachineType table-shape consumed by render-ddl.py to emit CREATE TABLE + hypertable + indexes + retention idempotently. Each table strictly telemetry XOR event XOR child.",
+  "description": "Meta-schema for standard/historians/central-ts-tables/*.json. Declarative per-MachineType table-shape consumed by render-ddl.py to emit CREATE TABLE + hypertable + indexes + retention idempotently. Each table strictly telemetry XOR event XOR child.",
   "type": "object",
   "required": ["layoutId", "version", "machineType", "profileRef", "tables"],
   "properties": {

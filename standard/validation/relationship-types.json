@@ -26,7 +26,7 @@
       "reason": "PART_OF is the reverse of four different HAS_* types. i3X allows one reverseOf per type, so this cannot be expressed as it stands: either the four collapse into one HAS_PART, or PART_OF splits into four. Model decision, not made here."
     }
   ],
-  "_isa95Note": "isa95: for every edge (type, from label) the B2MML field path that carries it, read from validation/isa95-b2mml.json. forward = the path starts at the from object, reverse = at the to object. extension = ISA-95 has no such link, with the reason. Checked by ci/lint-isa95.mjs.",
+  "_isa95Note": "isa95: for every edge (type, from label) the B2MML field path that carries it, read from standard/validation/isa95-b2mml.json. forward = the path starts at the from object, reverse = at the to object. extension = ISA-95 has no such link, with the reason. Checked by ci/lint-isa95.mjs.",
   "isa95": {
     "ABOUT_ARTICLE": {
       "Discrepancy": {
@@ -89,7 +89,7 @@
     },
     "AT_LOCATION": {
       "MaterialItem": {
-        "extension": "MaterialItem groups two B2MML objects (OSF extension). Both children realise the edge with the same field on their own object: MaterialLot.StorageLocation, MaterialSubLot.StorageLocation (profiles/wms/material-item.json isa95.childEdgePaths)."
+        "extension": "MaterialItem groups two B2MML objects (OSF extension). Both children realise the edge with the same field on their own object: MaterialLot.StorageLocation, MaterialSubLot.StorageLocation (standard/profiles/wms/material-item.json isa95.childEdgePaths)."
       }
     },
     "BASED_ON": {
