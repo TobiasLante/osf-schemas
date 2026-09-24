@@ -165,6 +165,7 @@ const ANNOTATIONS = {
   'schema-guide.md': 'the full schema documentation',
   'README.md': 'this overview',
   'CLAUDE.md': 'agent instructions',
+  'LICENSE': 'MIT',
 };
 const DEEP_DIRS = new Set(['profiles', 'sources', 'sync', 'historians']); // list subdirs
 // `.claude` holds per-developer agent session state, NOT schema content, and its

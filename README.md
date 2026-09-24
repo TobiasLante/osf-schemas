@@ -142,6 +142,7 @@ osf-schemas/
 ├── validation/             ajv meta-schemas (per-file shape validation) (32 json)
 ├── CLAUDE.md               agent instructions
 ├── contract.json           GENERATED ontology contract (gen-contract.mjs) — agents read this FIRST
+├── LICENSE                 MIT
 ├── README.md               this overview
 └── schema-guide.md         the full schema documentation
 ```
@@ -229,3 +230,7 @@ periodic-emit rule and valid combinations.
 ## Documentation
 
 See [schema-guide.md](schema-guide.md) for the full documentation.
+
+## License
+
+MIT, see [LICENSE](LICENSE).
