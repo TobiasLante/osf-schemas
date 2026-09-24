@@ -122,9 +122,12 @@
         "process_segment_no": "ProcessSegment.ID",
         "name": "ProcessSegment.Description",
         "operations_type": "ProcessSegment.OperationsType",
-        "duration_planned_sec": "ProcessSegment.Duration",
         "unit_ref": "ProcessSegment.EquipmentSegmentSpecification.EquipmentID"
-      }
+      },
+      "notInIsa95": [
+        "duration_planned_sec"
+      ],
+      "mappingNote": "B2MML carries a duration on OperationsSegment and SegmentRequirement, not on ProcessSegment."
     },
     "kgNodeLabel": "ProcessSegment",
     "kgIdProperty": "process_segment_no",

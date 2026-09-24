@@ -162,18 +162,21 @@
   "semantics": [],
   "kpiRefs": [],
   "isa95": {
-    "objectModel": "QualityTestResponse",
+    "objectModel": "TestResult",
     "momDomain": "quality",
     "level": 3,
-    "note": "Inspection lot = QualityTestResponse (ISA-95 Part 4 MOM Quality). The individual measurement is the nested MaterialTestResult (SMProfile-InspectionResult); the lot carries the usage decision.",
+    "note": "Inspection lot = TestResult (B2MML OperationsTest): the lot is the tested object, the usage decision is the evaluated criterion result.",
     "propertyMap": {
-      "lot_no": "QualityTestResponse.ID",
-      "order_ref": "QualityTestResponse.OperationsRequestID",
-      "article_ref": "QualityTestResponse.MaterialDefinitionID",
-      "state": "QualityTestResponse.State",
-      "decision": "QualityTestResponse.Result",
-      "created_at": "QualityTestResponse.EndTime"
-    }
+      "lot_no": "TestResult.ID",
+      "article_ref": "TestResult.TestableObjectID",
+      "decision": "TestResult.EvaluatedCriterionResult",
+      "created_at": "TestResult.EvaluationDate"
+    },
+    "notInIsa95": [
+      "order_ref",
+      "state"
+    ],
+    "mappingNote": "TestResult carries no order and no workflow state; both are OSF joins on the lot."
   },
   "kgNodeLabel": "InspectionLot",
   "kgIdProperty": "lot_no"

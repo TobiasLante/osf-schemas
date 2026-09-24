@@ -243,17 +243,18 @@
   "semantics": [],
   "kpiRefs": [],
   "isa95": {
-    "objectModel": "SalesOrder",
+    "objectModel": "Extension",
     "extension": true,
     "momDomain": "business",
     "level": 4,
     "note": "Level-4 sales order (B2MML/ERP, above the MOM boundary). Triggers a Level-3 OperationsRequest (ProductionOrder) — relationship TRIGGERS. due_date = customer delivery commitment, not the production EndTime.",
-    "propertyMap": {
-      "order_no": "SalesOrder.ID",
-      "customer_ref": "SalesOrder.CustomerID",
-      "due_date": "SalesOrder.RequestedDeliveryDate",
-      "priority": "SalesOrder.Priority"
-    }
+    "notInIsa95": [
+      "order_no",
+      "customer_ref",
+      "due_date",
+      "priority"
+    ],
+    "mappingNote": "Level 4 sales order. ISA-95 stops at the MOM boundary; B2MML 0700 has no SalesOrder object."
   },
   "kgNodeLabel": "CustomerOrder",
   "kgIdProperty": "order_no"

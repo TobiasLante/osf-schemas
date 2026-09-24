@@ -183,9 +183,12 @@
     "note": "Article / part = ISA-95 MaterialDefinition (Part 2). Physical stock is MaterialLot.",
     "propertyMap": {
       "article_no": "MaterialDefinition.ID",
-      "name": "MaterialDefinition.Description",
-      "unit": "MaterialDefinition.UnitOfMeasure"
-    }
+      "name": "MaterialDefinition.Description"
+    },
+    "notInIsa95": [
+      "unit"
+    ],
+    "mappingNote": "The unit of a MaterialDefinition sits on its property or quantity in B2MML, not on the definition itself."
   },
   "kgNodeLabel": "Article",
   "kgIdProperty": "article_no"
