@@ -22,9 +22,7 @@
     },
     "it": {
       "$note": "Profiles of category business (ERP/QMS/WMS, Level 3/4). One subject per source row; the attribute rides as a field of the payload. Level 4 (isa95.level) is enterprise-wide and has no site in its path. eventType (created|updated|deleted) and id (the row key) are filled at runtime.",
-      "categories": [
-        "business"
-      ],
+      "categories": ["business", "material", "quality"],
       "path": "{enterprise}/{site}/{entity}",
       "pathByLevel": {
         "4": "{enterprise}/{entity}"

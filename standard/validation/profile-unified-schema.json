@@ -44,9 +44,11 @@
       "enum": [
         "machine",
         "equipment",
-        "business"
+        "business",
+        "material",
+        "quality"
       ],
-      "description": "REQUIRED. Selects the per-category if/then branch. 'machine' = OT asset profile (edge-polled OPC). 'equipment' = ISA-88 physical equipment master-data anchor. 'business' = IT/MOM information object (it-edge-polled). intelligence/ profiles use a different (canonical) schema and are out of scope here."
+      "description": "REQUIRED. Selects the per-category if/then branch. 'machine' = OT asset profile (edge-polled OPC). 'equipment' = ISA-88 physical equipment master-data anchor. 'business' = IT/MOM information object (it-edge-polled). 'material' = a material lot or sublot, 'quality' = a test result or quality analysis: ISA-95 objects of their own, carried like 'business' (customer reference-concept 25.09.). intelligence/ profiles use a different (canonical) schema and are out of scope here."
     },
     "description": {
       "type": "string"
@@ -355,10 +357,7 @@
       "if": {
         "properties": {
           "category": {
-            "enum": [
-              "equipment",
-              "business"
-            ]
+            "enum": ["equipment", "business", "material", "quality"]
           }
         },
         "required": [
