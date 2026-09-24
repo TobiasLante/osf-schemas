@@ -379,9 +379,6 @@
       "from": "Machine",
       "to": [
         "ProcessCell"
-      ],
-      "targetIdProp": [
-        "process_cell_id"
       ]
     },
     {
@@ -759,9 +756,6 @@
       "from": "StorageLocation",
       "to": [
         "Area"
-      ],
-      "targetIdProp": [
-        "area_id"
       ]
     },
     {
@@ -797,6 +791,10 @@
   ],
   "unresolvedTargets": {
     "_comment": "Relationship targets declared in profiles that do not (yet) resolve to a kgNodeLabel in this repo. Each entry is consolidation work: add the missing profile or fix the target name. New entries should not be added.",
+    "entries": []
+  },
+  "treeTargets": {
+    "_comment": "Relationship targets that are equipment levels of the instance tree (instance-schema equipmentLevel): the edge resolves through the partOf chain of sites/<site>/instances, no targetIdProp (resolvedBy: instances).",
     "entries": [
       "Machine -[PART_OF]-> ProcessCell",
       "StorageLocation -[PART_OF]-> Area"

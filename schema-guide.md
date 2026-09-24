@@ -478,7 +478,6 @@ Phase 5: Embeddings
 | targetIdProp | Resolves to label(s) | Edge rules using it |
 |---|---|---|
 | `analysis_id` | SPCAnalysis | — |
-| `area_id` | ⚠ **none** — no profile declares this key (see `contract.json` → `unresolvedTargets`) | 1 |
 | `article_no` | Article | 11 |
 | `change_request_id` | ChangeRequest | — |
 | `confirmation_no` | BdeConfirmation | — |
@@ -491,7 +490,6 @@ Phase 5: Embeddings
 | `material_lot_no` | MaterialLot | 2 |
 | `operations_definition_no` | OperationsDefinition | 2 |
 | `order_no` | CustomerOrder | — |
-| `process_cell_id` | ⚠ **none** — no profile declares this key (see `contract.json` → `unresolvedTargets`) | 1 |
 | `process_segment_no` | ProcessSegment | 3 |
 | `product_definition_no` | ProductDefinition | 1 |
 | `production_order_no` | OperationsResponse, ProductionOrder | 7 |
