@@ -1,11 +1,11 @@
 {
   "profileId": "SMProfile-Quant",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "standard": "CESMII",
   "category": "business",
   "displayName": "Quant (inventory stock unit / MaterialSublot)",
   "description": "WMS stock unit (Quant) at the storage location, aligned to the LIVE projection of source sim-v5-wms-quants (article_ref/quantity/blocked/warehouse/storage_location), NOT the legacy base profile (article_no/quality_status). Full text: docs/history/profiles/wms/quant.md, description.",
-  "parentType": null,
+  "parentType": "MaterialItem",
   "abstract": false,
   "attributes": [
     {
@@ -93,14 +93,10 @@
   ],
   "relationships": [
     {
-      "type": "AT_LOCATION",
-      "target": "StorageLocation",
-      "targetIdProp": "storage_location_id"
-    },
-    {
-      "type": "FOR_ARTICLE",
+      "type": "OF_ARTICLE",
       "target": "Article",
-      "targetIdProp": "article_no"
+      "targetIdProp": "article_no",
+      "description": "The MaterialDefinition (Article) of this sublot, reached through its lot (B2MML MaterialSubLot.MaterialLotID → MaterialLot.MaterialDefinitionID). Same edge type as MaterialLot OF_ARTICLE, but NOT lifted to MaterialItem: the two B2MML paths differ."
     }
   ],
   "constraints": [

@@ -1,7 +1,7 @@
 {
   "$description": "Historian-Sink-Template via NATS JetStream durable consumer + TimescaleDB. Full text: docs/history/historians/nats-jetstream/historian-template.md, $description.",
   "syncId": "nats-jetstream-historian",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "syncType": "nats-jetstream",
   "deployTarget": "it",
   "nodeRedContrib": "@i3x/nr-nats",
@@ -43,10 +43,10 @@
   },
   "subjectParser": {
     "$description": "CORRECTED 2026-07-15 (CAPT-HIST): the former single default pattern {enterprise}.{site}.{area}.{line}.{machine}.{domain}.{attribute} with machineSegment=4 described the 7-segment Class-A … Full text: docs/history/historians/nats-jetstream/historian-template.md, subjectParser › $description.",
-    "routing": "root token + segment count (must agree with the class table in docs/conventions.md)",
+    "routing": "root token + segment count (must agree with the subject patterns of sync/uns-convention.json and byRoot below)",
     "fallbackOrder": [
       "msg.headers (I3x-Machine / I3x-Domain / I3x-Attribute — designed convention, absent on the live stream, see tableStructure.$headersReality)",
-      "payload fields (Class-C payloads MUST carry { machine, variable, ... } per docs/conventions.md — the only reliable source for the non-canonical 4/6-segment factory.* shapes the bridge also keeps)",
+      "payload fields (Class-C payloads MUST carry { machine, variable, ... } per the v3 class table (now: sync/uns-convention.json) — the only reliable source for the non-canonical 4/6-segment factory.* shapes the bridge also keeps)",
       "subject parse per byRoot below"
     ],
     "byRoot": {

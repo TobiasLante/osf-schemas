@@ -35,7 +35,7 @@
       "key": "confirmation_no",
       "profile": "SMProfile-BdeConfirmation",
       "category": "business",
-      "parentType": null,
+      "parentType": "Response",
       "abstract": false,
       "source": "profiles/erp/bde-confirmation.json"
     },
@@ -62,7 +62,7 @@
       "key": "production_order_no",
       "profile": "SMProfile-OperationsResponse",
       "category": "business",
-      "parentType": null,
+      "parentType": "Response",
       "abstract": false,
       "source": "profiles/erp/operations-response.json"
     },
@@ -81,6 +81,14 @@
       "parentType": null,
       "abstract": false,
       "source": "profiles/erp/production-order.json"
+    },
+    "Response": {
+      "key": "response_id",
+      "profile": "SMProfile-Response",
+      "category": "business",
+      "parentType": null,
+      "abstract": true,
+      "source": "profiles/erp/response.json"
     },
     "AutoResolveRule": {
       "key": "rule_id",
@@ -202,11 +210,19 @@
       "abstract": false,
       "source": "profiles/qms/spcanalysis.json"
     },
+    "MaterialItem": {
+      "key": "material_item_id",
+      "profile": "SMProfile-MaterialItem",
+      "category": "business",
+      "parentType": null,
+      "abstract": true,
+      "source": "profiles/wms/material-item.json"
+    },
     "MaterialLot": {
       "key": "material_lot_no",
       "profile": "SMProfile-MaterialLot",
       "category": "business",
-      "parentType": null,
+      "parentType": "MaterialItem",
       "abstract": false,
       "source": "profiles/wms/material-lot.json"
     },
@@ -214,7 +230,7 @@
       "key": "quant_no",
       "profile": "SMProfile-Quant",
       "category": "business",
-      "parentType": null,
+      "parentType": "MaterialItem",
       "abstract": false,
       "source": "profiles/wms/quant.json"
     },
@@ -236,36 +252,6 @@
       ],
       "targetIdProp": [
         "discrepancy_id"
-      ]
-    },
-    {
-      "type": "FOR_ARTICLE",
-      "from": "BdeConfirmation",
-      "to": [
-        "Article"
-      ],
-      "targetIdProp": [
-        "article_no"
-      ]
-    },
-    {
-      "type": "ON_MACHINE",
-      "from": "BdeConfirmation",
-      "to": [
-        "Machine"
-      ],
-      "targetIdProp": [
-        "machine_id"
-      ]
-    },
-    {
-      "type": "RESPONDS_TO",
-      "from": "BdeConfirmation",
-      "to": [
-        "ProductionOrder"
-      ],
-      "targetIdProp": [
-        "production_order_no"
       ]
     },
     {
@@ -410,7 +396,7 @@
     },
     {
       "type": "AT_LOCATION",
-      "from": "MaterialLot",
+      "from": "MaterialItem",
       "to": [
         "StorageLocation"
       ],
@@ -479,16 +465,6 @@
       ]
     },
     {
-      "type": "FOR_ARTICLE",
-      "from": "OperationsResponse",
-      "to": [
-        "Article"
-      ],
-      "targetIdProp": [
-        "article_no"
-      ]
-    },
-    {
       "type": "HAS_SEGMENT_RESPONSE",
       "from": "OperationsResponse",
       "to": [
@@ -496,26 +472,6 @@
       ],
       "targetIdProp": [
         "segment_response_no"
-      ]
-    },
-    {
-      "type": "ON_MACHINE",
-      "from": "OperationsResponse",
-      "to": [
-        "Machine"
-      ],
-      "targetIdProp": [
-        "machine_id"
-      ]
-    },
-    {
-      "type": "RESPONDS_TO",
-      "from": "OperationsResponse",
-      "to": [
-        "ProductionOrder"
-      ],
-      "targetIdProp": [
-        "production_order_no"
       ]
     },
     {
@@ -629,17 +585,7 @@
       ]
     },
     {
-      "type": "AT_LOCATION",
-      "from": "Quant",
-      "to": [
-        "StorageLocation"
-      ],
-      "targetIdProp": [
-        "storage_location_id"
-      ]
-    },
-    {
-      "type": "FOR_ARTICLE",
+      "type": "OF_ARTICLE",
       "from": "Quant",
       "to": [
         "Article"
@@ -666,6 +612,36 @@
       ],
       "targetIdProp": [
         "discrepancy_id"
+      ]
+    },
+    {
+      "type": "FOR_ARTICLE",
+      "from": "Response",
+      "to": [
+        "Article"
+      ],
+      "targetIdProp": [
+        "article_no"
+      ]
+    },
+    {
+      "type": "ON_MACHINE",
+      "from": "Response",
+      "to": [
+        "Machine"
+      ],
+      "targetIdProp": [
+        "machine_id"
+      ]
+    },
+    {
+      "type": "RESPONDS_TO",
+      "from": "Response",
+      "to": [
+        "ProductionOrder"
+      ],
+      "targetIdProp": [
+        "production_order_no"
       ]
     },
     {
