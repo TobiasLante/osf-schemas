@@ -4,7 +4,7 @@
   "generatedBy": "i3x-v5 packages/schemas-ci/osf/gen-contract.mjs",
   "identity": {
     "rule": "Machine/equipment nodes MUST use their profile kgNodeLabel with the key property declared in nodes.* below — never invent node identities from source-local ids (machineId, machineNo, pool names, vendor names); those are attributes at most.",
-    "decided": "OWNER 2026-09-24: the machine key is element_id (instance id + partOf chain of sites/<site>/instances); machine_id stays an alias attribute. MIGRATION OPEN (W8-R1): the repo machine profiles still key on machine_id, so nodes.* below still shows machine_id until W8-R1 moves kgIdProperty and every consumer. Do not mix both in one graph."
+    "decided": "OWNER 2026-09-24: the machine key is element_id (instance codes along the partOf chain of sites/<site>/instances). MIGRATED (W8-R1): every Machine node keys on element_id; machine_id is listed in keyAliases, so edges from sources that only know the machine code resolve through it. Do not mix both in one graph."
   },
   "nodes": {
     "EquipmentClass": {
@@ -131,7 +131,10 @@
       "source": "standard/profiles/intelligence/resolution-proposal.json"
     },
     "CNC_Machine": {
-      "key": "machine_id",
+      "key": "element_id",
+      "keyAliases": [
+        "machine_id"
+      ],
       "profile": "SMProfile-CNC-Machine",
       "category": "machine",
       "parentType": "Machine",
@@ -139,7 +142,10 @@
       "source": "standard/profiles/machines/cnc-machine.json"
     },
     "InjectionMoldingMachine": {
-      "key": "machine_id",
+      "key": "element_id",
+      "keyAliases": [
+        "machine_id"
+      ],
       "profile": "SMProfile-InjectionMoldingMachine",
       "category": "machine",
       "parentType": "Machine",
@@ -147,7 +153,10 @@
       "source": "standard/profiles/machines/injection-molding-machine.json"
     },
     "Machine": {
-      "key": "machine_id",
+      "key": "element_id",
+      "keyAliases": [
+        "machine_id"
+      ],
       "profile": "SMProfile-Machine",
       "category": "machine",
       "parentType": null,

@@ -485,9 +485,10 @@ Phase 5: Embeddings
 | `confirmation_no` | BdeConfirmation | — |
 | `customer_no` | Customer | 1 |
 | `discrepancy_id` | ConstraintDiscrepancy, Discrepancy | 4 |
+| `element_id` | CNC_Machine, InjectionMoldingMachine, Machine | — |
 | `equipment_class_id` | EquipmentClass | 1 |
 | `lot_no` | InspectionLot | 1 |
-| `machine_id` | CNC_Machine, InjectionMoldingMachine, Machine | 9 |
+| `machine_id` | ⚠ **none** — no profile declares this key (see `contract.json` → `unresolvedTargets`) | 9 |
 | `material_item_id` | MaterialItem | — |
 | `material_lot_no` | MaterialLot | 2 |
 | `operations_definition_no` | OperationsDefinition | 2 |

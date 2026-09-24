@@ -62,6 +62,7 @@
     "abstract": {
       "type": "boolean"
     },
+    "keyAliases": {"type": "array", "description": "Other properties that identify a node of this class (owner 24.09.2026: the machine key is element_id, machine_id stays an alias). An edge may target an alias (lint-edges E3); the contract lists them as nodes.<label>.keyAliases.", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
     "settings": {"type": "array", "description": "Machine setting parameters this class declares (W8-RECIPE, owner 24.09.2026): the class says WHICH settings exist, each instance holds its values in sites/<site>/settings/<instance>.settings.json. Independent of any recipe; part values never go here.", "items": {"type": "object", "required": ["ref", "shape"], "additionalProperties": false, "properties": {"ref": {"type": "string", "pattern": "^recipe:[a-z0-9_]+$"}, "shape": {"enum": ["band", "limits"], "description": "band = [lo, hi]; limits = { warn: [lo, hi], action: [lo, hi] }"}}}},
     "kpiRefs": {
       "type": "array",
