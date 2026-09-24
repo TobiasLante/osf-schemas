@@ -4,7 +4,7 @@
   "generatedBy": "i3x-v5 packages/schemas-ci/osf/gen-contract.mjs",
   "identity": {
     "rule": "Machine/equipment nodes MUST use their profile kgNodeLabel with the key property declared in nodes.* below — never invent node identities from source-local ids (machineId, machineNo, pool names, vendor names); those are attributes at most.",
-    "openConflict": "KNOWN CONSOLIDATION ISSUE: repo machine profiles key on machine_id, while the UNS/lab convention (osf_map.machine_map) keys equipment on element_id derived from equipmentPath. Until resolved, this contract reflects the repo profiles (machine_id). Do not mix both in one graph. RESOLVED AXIS 2026-07-15: the third identity unit_id (equipment-model EquipmentUnit) was consolidated into machine_id — Machine ≡ EquipmentUnit level, the operations edges (EXECUTED_AT, PERFORMED_AT, USES_EQUIPMENT, USED_EQUIPMENT, SET_UP_ON) target Machine/machine_id; element_id remains the one open UNS axis."
+    "decided": "OWNER 2026-09-24: the machine key is element_id (instance id + partOf chain of sites/<site>/instances); machine_id stays an alias attribute. MIGRATION OPEN (W8-R1): the repo machine profiles still key on machine_id, so nodes.* below still shows machine_id until W8-R1 moves kgIdProperty and every consumer. Do not mix both in one graph."
   },
   "nodes": {
     "EquipmentClass": {
