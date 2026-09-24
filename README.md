@@ -115,10 +115,11 @@ osf-schemas/
 │       │   ├── mtconnect/              MTConnect agent mappings (2 json)
 │       │   ├── opcua/                  OPC-UA endpoint → machine mappings (15 json)
 │       │   └── rest/                   sim-v5 REST polling (ERP/QMS/WMS projections) (10 json)
-│       └── sync/                   Schema 3: Live Sync (transport layer)
-│           ├── nats/                   NATS subjects + JetStream stream declarations (suite hub) (2 json)
-│           ├── opcua-server/           Sonder-Edge re-publish (MTConnect → embedded OPC-UA server) (1 json)
-│           └── polling/                REST polling schedule (1 json)
+│       ├── sync/                   Schema 3: Live Sync (transport layer)
+│       │   ├── nats/                   NATS subjects + JetStream stream declarations (suite hub) (2 json)
+│       │   ├── opcua-server/           Sonder-Edge re-publish (MTConnect → embedded OPC-UA server) (1 json)
+│       │   └── polling/                REST polling schedule (1 json)
+│       └── site.model.json
 ├── standard/               CENTRAL — classes, contracts, vocabulary, edge catalogue; one per enterprise
 │   ├── companion-specs/        OPC-UA Companion-Spec registry (NodeSet2.xml URLs) (1 json)
 │   ├── cross-constraints/      cross-profile discrepancy constraints (PLAN vs IST rules) (4 json)
@@ -146,7 +147,8 @@ osf-schemas/
 │   ├── sync/                   Schema 3: Live Sync (transport layer) (1 json)
 │   ├── unit-conversions/       UNECE unit table (discovery-time scale/offset lookup) (1 json)
 │   ├── validation/             ajv meta-schemas (per-file shape validation) (35 json)
-│   └── contract.json           GENERATED ontology contract (gen-contract.mjs) — agents read this FIRST
+│   ├── contract.json           GENERATED ontology contract (gen-contract.mjs) — agents read this FIRST
+│   └── standard.json
 ├── CLAUDE.md               agent instructions
 ├── LICENSE                 MIT
 ├── README.md               this overview
