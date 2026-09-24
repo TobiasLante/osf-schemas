@@ -2,9 +2,13 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/validation/consumer-schema.json",
   "title": "Consumer",
-  "description": "Meta-schema for consumers/*.json (NOT consumers/waivers/). Declares a UNS consumer (edge / middleware / gateway / script) with its stage, ring, carried sourceRefs, declared capacity and optional feedback contract.",
+  "description": "Meta-schema for consumers/*.json (NOT consumers/waivers/). Declares a UNS consumer (edge / middleware / gateway / script) with its stage, ring and (required) feedback contract. A CARRIER lists the sources it carries (carries, exclusive: a source has one carrier or one waiver) and its capacity. A READER lists what it reads of the model (reads: no coverage duty, never exclusive, not counted against capacity). EVERY consumer declares feedback (how it reports what it has loaded). A consumer may be both (Block B, 24.09.).",
   "type": "object",
-  "required": ["consumerId", "version", "kind", "stage", "ring", "carries", "capacity", "authoring"],
+  "required": ["consumerId", "version", "kind", "stage", "ring", "authoring", "feedback"],
+  "anyOf": [
+    { "required": ["carries", "capacity"] },
+    { "required": ["reads"] }
+  ],
   "properties": {
     "consumerId": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
     "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(-[0-9A-Za-z.-]+)?(\\+[0-9A-Za-z.-]+)?$" },
@@ -17,8 +21,15 @@
       "uniqueItems": true,
       "items": { "type": "string", "minLength": 1 }
     },
+    "reads": {
+      "description": "Paths of the model this consumer reads, relative to the tree root: a class directory ending in / (profiles/), a subdirectory (sources/opcua/) or one file (sources/it/x.json). Each path must exist in the tree.",
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*(/[A-Za-z0-9][A-Za-z0-9._-]*)*/?$" }
+    },
     "capacity": { "type": "integer", "minimum": 1 },
-    "authoring": { "type": "string", "enum": ["locked", "open"] },
+    "authoring": { "type": "string", "enum": ["locked", "open", "compiled"], "description": "locked: configured only from the model, no local editor · compiled: its configuration is generated from the model (bundle) and deployed, a local editor exists but does not change it · open: a local editor is the truth, the state is never known (always unknown)." },
     "description": { "type": "string" },
     "feedback": {
       "type": "object",

@@ -8,6 +8,13 @@
     "opcua-mtbridge-cnc-01"
   ],
   "capacity": 18,
-  "authoring": "open",
-  "description": "Standard OT edge of cnc-mtc-01: subscribes the Sonder-Edge OPC-UA server, publishes to the hub. Capacity = signal count today, measured 23.09."
+  "authoring": "compiled",
+  "description": "Standard OT edge of cnc-mtc-01: subscribes the Sonder-Edge OPC-UA server, publishes to the hub. Capacity = signal count today, measured 23.09.",
+  "feedback": {
+    "grains": [
+      "loaded"
+    ],
+    "maxAgeSeconds": 900
+  },
+  "$feedback": "loaded only (no v4 process observes its subjects; seen stays undeclared until one does). maxAgeSeconds 900 = 3 x the 300 s tick of edge-kg-publisher, the slowest periodic model reader on an edge (CAPT-SOLLIST Befund 2); edge-runtime itself is push-fed and has no cadence of its own."
 }
