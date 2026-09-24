@@ -792,6 +792,137 @@
     "FOPerformance": "OperationsResponse",
     "Serial": "MaterialLot/Quant level (serialized part) — profile pending, see docs/agent-conformance.md"
   },
+  "edgeAliases": {
+    "_comment": "Old edge names from W8-RENAME (standard 2.0.0) resolve to the ISA-95 type, or to reverseOf read backwards; they are read, never written.",
+    "entries": [
+      {
+        "alias": "CORRESPONDS_TO",
+        "from": "SegmentRequirement",
+        "reverseOf": {
+          "type": "RESPONDS_TO",
+          "from": "SegmentResponse"
+        },
+        "since": "2.0.0"
+      },
+      {
+        "alias": "CORRESPONDS_TO",
+        "from": "SegmentResponse",
+        "type": "RESPONDS_TO",
+        "since": "2.0.0"
+      },
+      {
+        "alias": "FOR_ARTICLE",
+        "from": "InspectionLot",
+        "type": "TESTS",
+        "since": "2.0.0"
+      },
+      {
+        "alias": "FOR_MATERIAL",
+        "from": "SegmentRequirement",
+        "type": "REQUIRES_MATERIAL",
+        "since": "2.0.0"
+      },
+      {
+        "alias": "FOR_SEGMENT",
+        "from": "SegmentRequirement",
+        "type": "FOR_PROCESS_SEGMENT",
+        "since": "2.0.0"
+      },
+      {
+        "alias": "FOR_SEGMENT",
+        "from": "SegmentResponse",
+        "type": "FOR_PROCESS_SEGMENT",
+        "since": "2.0.0"
+      },
+      {
+        "alias": "HAS_SEGMENT_REQUIREMENT",
+        "from": "ProductionOrder",
+        "type": "MADE_UP_OF",
+        "since": "2.0.0"
+      },
+      {
+        "alias": "HAS_SEGMENT_RESPONSE",
+        "from": "OperationsResponse",
+        "type": "MADE_UP_OF",
+        "since": "2.0.0"
+      },
+      {
+        "alias": "HAS_SUBLOT",
+        "from": "MaterialLot",
+        "type": "MADE_UP_OF",
+        "since": "2.0.0"
+      },
+      {
+        "alias": "HAS_WORKORDER",
+        "from": "ProductionOrder",
+        "reverseOf": {
+          "type": "FOR_OPERATIONS_REQUEST",
+          "from": "Workorder"
+        },
+        "since": "2.0.0"
+      },
+      {
+        "alias": "INSTANTIATES",
+        "from": "ProductionOrder",
+        "type": "FOR_OPERATIONS_DEFINITION",
+        "since": "2.0.0"
+      },
+      {
+        "alias": "OF_ARTICLE",
+        "from": "MaterialLot",
+        "type": "DEFINED_BY",
+        "since": "2.0.0"
+      },
+      {
+        "alias": "PART_OF",
+        "from": "StorageLocation",
+        "type": "IN_SCOPE_OF",
+        "since": "2.0.0"
+      },
+      {
+        "alias": "PART_OF",
+        "from": "Workorder",
+        "type": "FOR_OPERATIONS_REQUEST",
+        "since": "2.0.0"
+      },
+      {
+        "alias": "PERFORMED_AT",
+        "from": "ProcessSegment",
+        "type": "SPECIFIES_EQUIPMENT",
+        "since": "2.0.0"
+      },
+      {
+        "alias": "PROCESSED_MATERIAL",
+        "from": "SegmentResponse",
+        "type": "ACTUAL_MATERIAL",
+        "since": "2.0.0"
+      },
+      {
+        "alias": "SET_UP_ON",
+        "from": "Tool",
+        "type": "IMPLEMENTATION_OF",
+        "since": "2.0.0"
+      },
+      {
+        "alias": "USED_EQUIPMENT",
+        "from": "SegmentResponse",
+        "type": "ACTUAL_EQUIPMENT",
+        "since": "2.0.0"
+      },
+      {
+        "alias": "USES_EQUIPMENT",
+        "from": "SegmentRequirement",
+        "type": "REQUIRES_EQUIPMENT",
+        "since": "2.0.0"
+      },
+      {
+        "alias": "USES_TOOL",
+        "from": "InjectionMoldingMachine",
+        "type": "IMPLEMENTED_BY",
+        "since": "2.0.0"
+      }
+    ]
+  },
   "skippedFiles": [
     "standard/profiles/equipment/equipment-model.json",
     "standard/profiles/erp/shift-window.json"
