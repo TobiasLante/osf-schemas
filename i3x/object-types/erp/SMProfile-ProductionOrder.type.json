@@ -337,17 +337,19 @@
       "note": "Level-3 MOM OperationsRequest (B2MML) = PLAN/target. Full text: docs/history/profiles/erp/production-order.md, isa95 › note.",
       "propertyMap": {
         "production_order_no": "OperationsRequest.ID",
-        "sales_order_ref": "OperationsRequest.SalesOrderID",
         "operations_definition_ref": "OperationsRequest.OperationsDefinitionID",
         "article_ref": "OperationsRequest.SegmentRequirement.MaterialRequirement.MaterialDefinitionID",
         "machine_ref": "OperationsRequest.SegmentRequirement.EquipmentRequirement.EquipmentID",
         "qty_planned": "OperationsRequest.SegmentRequirement.MaterialRequirement.Quantity",
         "planned_end_time": "OperationsRequest.EndTime",
-        "status": "OperationsRequest.OperationsRequestState",
+        "status": "OperationsRequest.RequestState",
         "order_no": "OperationsRequest.ID",
-        "customer_ref": "OperationsRequest.SalesOrderID",
         "due_date": "OperationsRequest.EndTime"
-      }
+      },
+      "notInIsa95": [
+        "customer_ref",
+        "sales_order_ref"
+      ]
     },
     "kgNodeLabel": "ProductionOrder",
     "kgIdProperty": "production_order_no",
