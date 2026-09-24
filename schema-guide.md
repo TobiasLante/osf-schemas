@@ -8,7 +8,6 @@ No LLM is needed — the schemas are the single source of truth.
 <!-- gen:tree:begin -->
 ```
 osf-schemas/
-├── ci/                     
 ├── docs/                   conventions, next2.0 standard, agent-conformance, variable shapes; history/ = the reasoning moved out of the JSON
 ├── examples/               demo fixtures — NOT canonical (see examples/README.md) (5 json)
 ├── sites/                  one folder per plant (site): its instance tree, sources, syncs, consumers
@@ -66,10 +65,10 @@ osf-schemas/
 
 ## Counts
 
-Verbindlich sind die Linter-Zahlen (`npm run validate` → lint-refs meldet
+Verbindlich sind die Linter-Zahlen (i3x-v5 `check-next.sh` → lint-refs meldet
 `N profiles, M sources, K sync files`) — und die Tabelle hier wird von
-`ci/gen-docs.mjs` aus demselben Tree **generiert** (`npm run gen:docs`;
-`npm run validate:docs` wird rot, wenn sie von einem frischen Render abweicht —
+i3x-v5 `packages/schemas-ci/osf/gen-docs.mjs` aus demselben Tree **generiert**;
+`gen-docs.mjs --check` in check-next wird rot, wenn sie von einem frischen Render abweicht —
 eine Doku-Zahl, die niemand nachrechnet, ist eine Lüge mit Veröffentlichungsdatum).
 Alles aus der v3-Ära (PostgreSQL-Sources, MQTT-UNS-/Kafka-/Webhook-Syncs) liegt in
 `backup/pre-next2.0/` und wird von keinem Service mehr geladen.
@@ -167,7 +166,7 @@ bedient. Consumer matchen den **längsten** Suffix zuerst (`-tool-life` vor `-to
 Ein Suffix darf mehrere Attribute treiben: das EXECUTION-DataItem liefert drei.
 
 Gelesen von `discovery` (`${OSF_SCHEMAS_PATH}/mappings/…`, mtconnect-Probe) und vom
-gen-flows-Exporter. `ci/lint-mtconnect-canon.mjs` (`npm run validate:mtconnect`)
+gen-flows-Exporter. `lint-mtconnect-canon` (i3x-v5 check-next)
 prüft gegen das Profil und gegen jede `sites/werk1/sources/mtconnect/*.json`:
 
 - `dataType` des Kanons == `dataType` des Attributs auf `profileRef`
@@ -216,7 +215,7 @@ Defines **what types of nodes exist** — their label, ID property, attributes, 
 ### `enum` — the vocabulary is part of the contract (enforced)
 
 If an attribute has a finite value range, **declare it**: `"enum": ["OPEN", "CANCELLED", …]`.
-This is not decoration. `ci/lint-vocabulary.mjs` (in `npm run validate`, hard gate) refuses
+This is not decoration. `lint-vocabulary` (i3x-v5 check-next, hard gate) refuses
 any `eq` / `ne` / `in` guard whose literal is not drawn from a declared vocabulary:
 
 * **Fail-closed.** A `String` attribute compared to a literal **must** declare `enum`, or CI is red.
@@ -235,7 +234,7 @@ emits `in_arbeit`/`freigegeben`. Linting against the DB dialect would have flagg
 value as dead. And prefer the projection's **code** over a data snapshot — a snapshot of a live
 system is only a lower bound on what the attribute can hold.
 
-`ci/check-vocab-drift.mjs` (nightly, needs the plant network) then holds every declared `enum`
+`check-vocab-drift.mjs` (i3x-v5 osf/unported, nightly, needs the plant network) then holds every declared `enum`
 against the real source, pages it to exhaustion, and fails when reality delivers a value the SSOT
 does not know. It also reports **zombie guards** (a legal literal that currently matches no row)
 and **dead recipes** (`match.article` not in the article master) — loudly, without failing the
@@ -360,7 +359,7 @@ Defines **how to keep the KG updated** in real-time or near-real-time.
 
 **File:** `sites/<site>/sync/polling/<sync-id>.json` — every `sourceRef` MUST resolve to a
 `sourceId` in `sites/werk1/sources/` and its `changeDetection` should match the source's
-own `polling` contract (`npm run validate:refs` enforces the reference).
+own `polling` contract (`lint-refs` in i3x-v5 check-next enforces the reference).
 
 ```json
 {
@@ -520,7 +519,7 @@ Derived from `contract.json` (`nodes` grouped by key property; `edges` for usage
 1. Create `standard/profiles/erp/<entity>.json` with unique `kgNodeLabel` and `kgIdProperty`
 2. Create `sites/<site>/sources/rest/<source>.json` with `profileRef` and `columnMappings` against the sim-v5 REST projection (direct-DB `sites/werk1/sources/postgresql/` is a v3-era pattern — archived, loaded by nothing)
 3. Add `edges` if the entity references other entities (e.g. `article_no` → Article)
-4. Add a `sourceRef` entry to `sites/werk1/sync/polling/sim-v5-poll.json` for live updates (`npm run validate:refs` checks the reference)
+4. Add a `sourceRef` entry to `sites/werk1/sync/polling/sim-v5-poll.json` for live updates (`lint-refs` in i3x-v5 check-next checks the reference)
 
 ---
 

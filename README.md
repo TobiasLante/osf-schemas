@@ -99,7 +99,6 @@ are retired; those configs live under `backup/pre-next2.0/`.)
 <!-- gen:tree:begin -->
 ```
 osf-schemas/
-├── ci/                     
 ├── docs/                   conventions, next2.0 standard, agent-conformance, variable shapes; history/ = the reasoning moved out of the JSON
 ├── examples/               demo fixtures — NOT canonical (see examples/README.md) (5 json)
 ├── sites/                  one folder per plant (site): its instance tree, sources, syncs, consumers
@@ -232,8 +231,8 @@ periodic-emit rule and valid combinations.
    (business entities, REST polling) or `sites/werk1/sources/opcua|mtconnect/<machine>.json` (OT)
 3. Wire sync: REST sources get a `sourceRef` entry in `sites/werk1/sync/polling/sim-v5-poll.json`;
    OT sources ride the NATS/JetStream path declared in `sites/werk1/sync/nats/`
-4. Regenerate the derived artefacts: `node ci/gen-contract.mjs && node ci/gen-docs.mjs`
-5. `npm run validate` must be green, then push to `main` — the KG Builder picks up changes within 1 hour
+4. Regenerate the derived artefacts: `node <i3x-v5>/packages/schemas-ci/osf/gen-contract.mjs && node <i3x-v5>/packages/schemas-ci/osf/gen-docs.mjs` (the osf-schemas tree as working directory)
+5. i3x-v5 `check-next.sh` must be green, then push to `main` — the KG Builder picks up changes within 1 hour
 
 ## Documentation
 
