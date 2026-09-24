@@ -110,7 +110,8 @@ osf-schemas/
 │       │   └── instances/               (3 json)
 │       ├── instances/              the plant tree: Enterprise → Site → Area → ProcessCell → Unit (ISA-88 equipment levels) (6 json)
 │       ├── mappings/               protocol canon: DataItem/tag → SM attribute (SSOT for discovery + gen-flows) (1 json)
-│       ├── recipes/                GitHub-managed recipe master data (see recipes/README.md) (5 json)
+│       ├── recipes/                GitHub-managed recipe master data (see recipes/README.md) (3 json)
+│       ├── settings/                (3 json)
 │       ├── sources/                Schema 2: Data Sources (instance binding)
 │       │   ├── mtconnect/              MTConnect agent mappings (2 json)
 │       │   ├── opcua/                  OPC-UA endpoint → machine mappings (15 json)
@@ -146,7 +147,7 @@ osf-schemas/
 │   │   └── wms/                    MaterialLot, Quant, StorageLocation (4 json)
 │   ├── sync/                   Schema 3: Live Sync (transport layer) (1 json)
 │   ├── unit-conversions/       UNECE unit table (discovery-time scale/offset lookup) (1 json)
-│   ├── validation/             ajv meta-schemas (per-file shape validation) (35 json)
+│   ├── validation/             ajv meta-schemas (per-file shape validation) (36 json)
 │   ├── contract.json           GENERATED ontology contract (gen-contract.mjs) — agents read this FIRST
 │   └── standard.json
 ├── CLAUDE.md               agent instructions
@@ -169,7 +170,7 @@ osf-schemas/
 | Sync — opcua-server | 1 | mtconnect-to-opcua-cnc-mtc-01 |
 | Sync — polling | 1 | sim-v5-poll |
 | Sync — uns-convention.json | 1 | uns-convention |
-| Recipes | 5 (2 parked) | recipe-sgm-004-default, recipe-sgm-004-pa66gf30-bracket-b *(parked)*, recipe-sgm-004-pa66gf30-housing-a *(parked)*, recipe-sgm-005-default, recipe-sgm-006-default |
+| Recipes | 3 (2 parked) | recipe-sgm-004-pa66gf30-bracket-b *(parked)*, recipe-sgm-004-pa66gf30-housing-a *(parked)*, recipe-v4-12-0044-003-pa66gf30 |
 | KPIs | 6 (2 parked) | availability, energy-per-part *(parked)*, oee, performance *(parked)*, quality-rate, scrap-rate |
 
 Measured from the tree by `i3x-v5 packages/schemas-ci/osf/gen-docs.mjs` — the same sums `lint-refs` prints (`lint-refs: 31 profiles, 27 sources, 5 sync files`).
