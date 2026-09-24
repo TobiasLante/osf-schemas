@@ -1,11 +1,11 @@
 {
   "profileId": "SMProfile-OperationsResponse",
-  "version": "2.2.1",
+  "version": "2.3.0",
   "standard": "CESMII",
   "category": "business",
   "displayName": "Operations Response (production actuals / confirmation)",
   "description": "Level-3 MOM OperationsResponse = the manufacturing actuals (B2MML OperationsPerformance). Full text: docs/history/profiles/erp/operations-response.md, description.",
-  "parentType": null,
+  "parentType": "Response",
   "abstract": false,
   "attributes": [
     {
@@ -119,21 +119,6 @@
     }
   ],
   "relationships": [
-    {
-      "type": "RESPONDS_TO",
-      "target": "ProductionOrder",
-      "targetIdProp": "production_order_no"
-    },
-    {
-      "type": "FOR_ARTICLE",
-      "target": "Article",
-      "targetIdProp": "article_no"
-    },
-    {
-      "type": "ON_MACHINE",
-      "target": "Machine",
-      "targetIdProp": "machine_id"
-    },
     {
       "type": "HAS_SEGMENT_RESPONSE",
       "target": "SegmentResponse",

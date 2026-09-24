@@ -1,11 +1,11 @@
 {
   "profileId": "SMProfile-BdeConfirmation",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "standard": "CESMII",
   "category": "business",
   "displayName": "BDE Confirmation (shop-floor booking, one row per confirmation)",
   "description": "The CONFIRMATION grain of the sim-v5 BDE feed, alongside and NOT replacing SMProfile-OperationsResponse. Full text: docs/history/profiles/erp/bde-confirmation.md, description.",
-  "parentType": null,
+  "parentType": "Response",
   "abstract": false,
   "attributes": [
     {
@@ -209,25 +209,7 @@
       "promotion": "on_change"
     }
   ],
-  "relationships": [
-    {
-      "type": "RESPONDS_TO",
-      "target": "ProductionOrder",
-      "targetIdProp": "production_order_no",
-      "description": "The order this booking confirms. MANY confirmations respond to ONE order — that cardinality is the whole reason this grain has its own profile."
-    },
-    {
-      "type": "FOR_ARTICLE",
-      "target": "Article",
-      "targetIdProp": "article_no"
-    },
-    {
-      "type": "ON_MACHINE",
-      "target": "Machine",
-      "targetIdProp": "machine_id",
-      "description": "Resolves at this grain, unlike the per-production-order aggregate where machine_no is null on most rows."
-    }
-  ],
+  "relationships": [],
   "constraints": [],
   "semantics": {},
   "kpiRefs": [],
