@@ -98,7 +98,7 @@
         "type": "OF_ARTICLE",
         "target": "Article",
         "targetIdProp": "article_no",
-        "description": "The MaterialDefinition (Article) of this sublot, reached through its lot (B2MML MaterialSubLot.MaterialLotID → MaterialLot.MaterialDefinitionID). Same edge type as MaterialLot OF_ARTICLE, but NOT lifted to MaterialItem: the two B2MML paths differ."
+        "description": "The MaterialDefinition (Article) of this sublot, reached through its lot (B2MML MaterialSubLot.MaterialLotID → MaterialLot.MaterialDefinitionID). A shortcut through the lot (derived: MaterialLot MADE_UP_OF read backwards, then DEFINED_BY); the lot itself carries the ISA-95 edge DEFINED_BY."
       }
     ],
     "constraints": [

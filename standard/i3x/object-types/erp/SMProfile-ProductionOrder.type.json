@@ -232,7 +232,7 @@
       },
       "operations_definition_ref": {
         "type": "string",
-        "description": "v2.0 — instantiated routing (operations_definition_no, INSTANTIATES).",
+        "description": "v2.0 — instantiated routing (operations_definition_no, FOR_OPERATIONS_DEFINITION).",
         "x-category": "Link",
         "x-delivery": "transactional",
         "x-scope": "hub",
@@ -284,22 +284,16 @@
         "description": "Consolidation 2026-07-15: Machine ≡ EquipmentUnit level, keyed machine_id — matches what the ERP source actually delivers (machine ids)."
       },
       {
-        "type": "INSTANTIATES",
+        "type": "FOR_OPERATIONS_DEFINITION",
         "target": "OperationsDefinition",
         "targetIdProp": "operations_definition_no",
         "description": "v2.0 — the instantiated routing (master)."
       },
       {
-        "type": "HAS_SEGMENT_REQUIREMENT",
+        "type": "MADE_UP_OF",
         "target": "SegmentRequirement",
         "description": "v2.0 — Inverse of SegmentRequirement.PART_OF: the target segments per ProcessSegment.",
         "targetIdProp": "segment_requirement_no"
-      },
-      {
-        "type": "HAS_WORKORDER",
-        "target": "Workorder",
-        "description": "v2.0 — Inverse of Workorder.PART_OF: temporal subdivisions (FO index).",
-        "targetIdProp": "workorder_no"
       }
     ],
     "constraints": [

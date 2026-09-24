@@ -19,7 +19,7 @@ Customer-neutral by construction: the profiles define the *shape*, never a custo
 ## Terminology law (ISA-95, binding)
 
 - **ProcessSegment == "plant" (MES) == "Function" (the function naming standard).** A reusable production stage
- (a forming, dosing, or curing stage …), `PERFORMED_AT` an `EquipmentUnit`.
+ (a forming, dosing, or curing stage …), `SPECIFIES_EQUIPMENT` an `EquipmentUnit`.
 - **"batch" is forbidden** — not an ISA-95 term. The ERP word "batch" == **MaterialLot** (a *portion of
  physical material*, never an activity).
 - **Production Request** is the umbrella (production / planned / process / fabrication order, work order,
@@ -30,30 +30,30 @@ Customer-neutral by construction: the profiles define the *shape*, never a custo
 
 ```
 OperationsDefinition (master / Fertigungsweg) ProcessSegment (= plant = Function)
- │ CONTAINS_SEGMENT │ PERFORMED_AT
+ │ CONTAINS_SEGMENT │ SPECIFIES_EQUIPMENT
  ▼ ▼
-ProductionOrder ──INSTANTIATES──▶ OperationsDefinition EquipmentUnit (ISA-88)
+ProductionOrder ──FOR_OPERATIONS_DEFINITION──▶ OperationsDefinition EquipmentUnit (ISA-88)
  (OperationsRequest, PLAN) ▲
- │ HAS_SEGMENT_REQUIREMENT ┌── USES_EQUIPMENT ┘
+ │ MADE_UP_OF ┌── REQUIRES_EQUIPMENT ┘
  ▼ │
-SegmentRequirement ──FOR_SEGMENT──▶ ProcessSegment FOR_MATERIAL──▶ Article
- (PLAN per segment, material_use role) │ CORRESPONDS_TO
+SegmentRequirement ──FOR_PROCESS_SEGMENT──▶ ProcessSegment REQUIRES_MATERIAL──▶ Article
+ (PLAN per segment, material_use role) │ RESPONDS_TO
  ▲ ▼
-ProductionOrder.HAS_WORKORDER ▶ Workorder SegmentResponse (IST per segment)
- │ YIELDS │ PROCESSED_MATERIAL
+Workorder ─FOR_OPERATIONS_REQUEST▶ ProductionOrder SegmentResponse (IST per segment)
+ │ YIELDS │ ACTUAL_MATERIAL
  ▼ ▼
  MaterialLot ◀──── (Consumed / Produced) ──── MaterialLot
-OperationsResponse (IST) ──HAS_SEGMENT_RESPONSE──▶ SegmentResponse
+OperationsResponse (IST) ──MADE_UP_OF──▶ SegmentResponse
 ```
 
 | Profile | isa95.objectModel | role |
 |---|---|---|
 | `operations/operations-definition.json` | OperationsDefinition | master: ordered segments to make an article |
-| `operations/process-segment.json` | ProcessSegment | reusable stage = plant = Function; PERFORMED_AT EquipmentUnit |
+| `operations/process-segment.json` | ProcessSegment | reusable stage = plant = Function; SPECIFIES_EQUIPMENT EquipmentUnit |
 | `operations/segment-requirement.json` | SegmentRequirement | PLAN per segment: material(role)+equipment+qty+timing |
 | `operations/segment-response.json` | SegmentResponse | IST per segment: material actual(role)+equipment actual (quality facet) |
 | `operations/work-order.json` | WorkRequest | order time-slot subdivision (FO-index) |
-| `erp/production-order.json` | OperationsRequest | order header (PLAN), INSTANTIATES + decomposed by SegmentRequirement |
+| `erp/production-order.json` | OperationsRequest | order header (PLAN), FOR_OPERATIONS_DEFINITION + decomposed by SegmentRequirement |
 | `erp/operations-response.json` | OperationsResponse | order header (IST), decomposed by SegmentResponse |
 | `wms/material-lot.json` | MaterialLot | the correct term for "batch"; between Article (MaterialDefinition) and Quant (MaterialSublot) |
 

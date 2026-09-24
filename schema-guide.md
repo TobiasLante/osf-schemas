@@ -497,10 +497,10 @@ Phase 5: Embeddings
 | `response_id` | Response | — |
 | `rule_id` | AutoResolveRule | 2 |
 | `segment_requirement_no` | SegmentRequirement | 2 |
-| `segment_response_no` | SegmentResponse | 2 |
+| `segment_response_no` | SegmentResponse | 1 |
 | `storage_location_id` | StorageLocation | 1 |
 | `tool_id` | Tool | 1 |
-| `workorder_no` | Workorder | 2 |
+| `workorder_no` | Workorder | 1 |
 
 Derived from `contract.json` (`nodes` grouped by key property; `edges` for usage). A `targetIdProp` resolves to **every** label sharing that `kgIdProperty` — polymorphic resolution.
 <!-- gen:targetIdProp:end -->

@@ -23,7 +23,7 @@
           },
           "article_ref": {
             "type": "string",
-            "description": "FK to Article.article_no (OF_ARTICLE) = MaterialLot.MaterialDefinitionID. The MaterialDefinition of this lot.",
+            "description": "FK to Article.article_no (DEFINED_BY) = MaterialLot.MaterialDefinitionID. The MaterialDefinition of this lot.",
             "x-category": "Link",
             "x-delivery": "transactional",
             "x-scope": "hub",
@@ -97,13 +97,13 @@
     "abstract": false,
     "relationships": [
       {
-        "type": "OF_ARTICLE",
+        "type": "DEFINED_BY",
         "target": "Article",
         "targetIdProp": "article_no",
         "description": "The MaterialDefinition (Article) of this lot."
       },
       {
-        "type": "HAS_SUBLOT",
+        "type": "MADE_UP_OF",
         "target": "Quant",
         "description": "Inverse of Quant (MaterialSublot) — the inventory sublots of this lot.",
         "targetIdProp": "quant_no"

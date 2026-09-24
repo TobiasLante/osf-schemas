@@ -325,23 +325,13 @@
       ]
     },
     {
-      "type": "USES_TOOL",
+      "type": "IMPLEMENTED_BY",
       "from": "InjectionMoldingMachine",
       "to": [
         "Tool"
       ],
       "targetIdProp": [
         "tool_id"
-      ]
-    },
-    {
-      "type": "FOR_ARTICLE",
-      "from": "InspectionLot",
-      "to": [
-        "Article"
-      ],
-      "targetIdProp": [
-        "article_no"
       ]
     },
     {
@@ -362,6 +352,16 @@
       ],
       "targetIdProp": [
         "machine_id"
+      ]
+    },
+    {
+      "type": "TESTS",
+      "from": "InspectionLot",
+      "to": [
+        "Article"
+      ],
+      "targetIdProp": [
+        "article_no"
       ]
     },
     {
@@ -402,23 +402,23 @@
       ]
     },
     {
-      "type": "HAS_SUBLOT",
-      "from": "MaterialLot",
-      "to": [
-        "Quant"
-      ],
-      "targetIdProp": [
-        "quant_no"
-      ]
-    },
-    {
-      "type": "OF_ARTICLE",
+      "type": "DEFINED_BY",
       "from": "MaterialLot",
       "to": [
         "Article"
       ],
       "targetIdProp": [
         "article_no"
+      ]
+    },
+    {
+      "type": "MADE_UP_OF",
+      "from": "MaterialLot",
+      "to": [
+        "Quant"
+      ],
+      "targetIdProp": [
+        "quant_no"
       ]
     },
     {
@@ -462,7 +462,7 @@
       ]
     },
     {
-      "type": "HAS_SEGMENT_RESPONSE",
+      "type": "MADE_UP_OF",
       "from": "OperationsResponse",
       "to": [
         "SegmentResponse"
@@ -482,7 +482,7 @@
       ]
     },
     {
-      "type": "PERFORMED_AT",
+      "type": "SPECIFIES_EQUIPMENT",
       "from": "ProcessSegment",
       "to": [
         "Machine"
@@ -542,33 +542,23 @@
       ]
     },
     {
-      "type": "HAS_SEGMENT_REQUIREMENT",
-      "from": "ProductionOrder",
-      "to": [
-        "SegmentRequirement"
-      ],
-      "targetIdProp": [
-        "segment_requirement_no"
-      ]
-    },
-    {
-      "type": "HAS_WORKORDER",
-      "from": "ProductionOrder",
-      "to": [
-        "Workorder"
-      ],
-      "targetIdProp": [
-        "workorder_no"
-      ]
-    },
-    {
-      "type": "INSTANTIATES",
+      "type": "FOR_OPERATIONS_DEFINITION",
       "from": "ProductionOrder",
       "to": [
         "OperationsDefinition"
       ],
       "targetIdProp": [
         "operations_definition_no"
+      ]
+    },
+    {
+      "type": "MADE_UP_OF",
+      "from": "ProductionOrder",
+      "to": [
+        "SegmentRequirement"
+      ],
+      "targetIdProp": [
+        "segment_requirement_no"
       ]
     },
     {
@@ -642,27 +632,7 @@
       ]
     },
     {
-      "type": "CORRESPONDS_TO",
-      "from": "SegmentRequirement",
-      "to": [
-        "SegmentResponse"
-      ],
-      "targetIdProp": [
-        "segment_response_no"
-      ]
-    },
-    {
-      "type": "FOR_MATERIAL",
-      "from": "SegmentRequirement",
-      "to": [
-        "Article"
-      ],
-      "targetIdProp": [
-        "article_no"
-      ]
-    },
-    {
-      "type": "FOR_SEGMENT",
+      "type": "FOR_PROCESS_SEGMENT",
       "from": "SegmentRequirement",
       "to": [
         "ProcessSegment"
@@ -682,7 +652,7 @@
       ]
     },
     {
-      "type": "USES_EQUIPMENT",
+      "type": "REQUIRES_EQUIPMENT",
       "from": "SegmentRequirement",
       "to": [
         "Machine"
@@ -692,17 +662,37 @@
       ]
     },
     {
-      "type": "CORRESPONDS_TO",
-      "from": "SegmentResponse",
+      "type": "REQUIRES_MATERIAL",
+      "from": "SegmentRequirement",
       "to": [
-        "SegmentRequirement"
+        "Article"
       ],
       "targetIdProp": [
-        "segment_requirement_no"
+        "article_no"
       ]
     },
     {
-      "type": "FOR_SEGMENT",
+      "type": "ACTUAL_EQUIPMENT",
+      "from": "SegmentResponse",
+      "to": [
+        "Machine"
+      ],
+      "targetIdProp": [
+        "machine_id"
+      ]
+    },
+    {
+      "type": "ACTUAL_MATERIAL",
+      "from": "SegmentResponse",
+      "to": [
+        "MaterialLot"
+      ],
+      "targetIdProp": [
+        "material_lot_no"
+      ]
+    },
+    {
+      "type": "FOR_PROCESS_SEGMENT",
       "from": "SegmentResponse",
       "to": [
         "ProcessSegment"
@@ -722,23 +712,13 @@
       ]
     },
     {
-      "type": "PROCESSED_MATERIAL",
+      "type": "RESPONDS_TO",
       "from": "SegmentResponse",
       "to": [
-        "MaterialLot"
+        "SegmentRequirement"
       ],
       "targetIdProp": [
-        "material_lot_no"
-      ]
-    },
-    {
-      "type": "USED_EQUIPMENT",
-      "from": "SegmentResponse",
-      "to": [
-        "Machine"
-      ],
-      "targetIdProp": [
-        "machine_id"
+        "segment_requirement_no"
       ]
     },
     {
@@ -752,14 +732,14 @@
       ]
     },
     {
-      "type": "PART_OF",
+      "type": "IN_SCOPE_OF",
       "from": "StorageLocation",
       "to": [
         "Area"
       ]
     },
     {
-      "type": "SET_UP_ON",
+      "type": "IMPLEMENTATION_OF",
       "from": "Tool",
       "to": [
         "Machine"
@@ -769,7 +749,7 @@
       ]
     },
     {
-      "type": "PART_OF",
+      "type": "FOR_OPERATIONS_REQUEST",
       "from": "Workorder",
       "to": [
         "ProductionOrder"
@@ -797,7 +777,7 @@
     "_comment": "Relationship targets that are equipment levels of the instance tree (instance-schema equipmentLevel): the edge resolves through the partOf chain of sites/<site>/instances, no targetIdProp (resolvedBy: instances).",
     "entries": [
       "Machine -[PART_OF]-> ProcessCell",
-      "StorageLocation -[PART_OF]-> Area"
+      "StorageLocation -[IN_SCOPE_OF]-> Area"
     ]
   },
   "aliases": {

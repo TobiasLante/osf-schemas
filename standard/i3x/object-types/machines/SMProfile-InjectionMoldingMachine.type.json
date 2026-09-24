@@ -390,7 +390,7 @@
           },
           "mouldId": {
             "type": "string",
-            "description": "Mould / tool currently set up (= USES_TOOL tool_id).",
+            "description": "Mould / tool currently set up (= IMPLEMENTED_BY tool_id).",
             "x-category": "Link",
             "x-delivery": "transactional",
             "x-scope": "hub",
@@ -664,7 +664,7 @@
     "abstract": false,
     "relationships": [
       {
-        "type": "USES_TOOL",
+        "type": "IMPLEMENTED_BY",
         "target": "Tool",
         "targetIdProp": "tool_id"
       }
