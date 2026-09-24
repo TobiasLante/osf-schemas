@@ -9,5 +9,12 @@
   ],
   "capacity": 11,
   "authoring": "locked",
-  "description": "IT edge for the QMS REST source (it-edge, no flow editor). Capacity = signal count today, measured 23.09."
+  "description": "IT edge for the QMS REST source (it-edge, no flow editor). Capacity = signal count today, measured 23.09.",
+  "feedback": {
+    "grains": [
+      "loaded"
+    ],
+    "maxAgeSeconds": 180
+  },
+  "$feedback": "loaded only (no v4 process observes its subjects; seen stays undeclared until one does). maxAgeSeconds 180 = 3 x the 60 s tick of it-schema-publisher, which feeds this edge over NATS it_schemas (CAPT-SOLLIST Befund 2): a report older than three ticks cannot vouch for the current state."
 }
