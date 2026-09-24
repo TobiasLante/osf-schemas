@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/validation/feedback-schema.json",
   "title": "ConsumerFeedback",
-  "description": "Meta-schema for the consumer feedback runtime message (Welle 2; loadedCommit Block B, 24.09.). A wire message, not a repo object: no route in validate-all.mjs, no folder. grain: loaded reports the model state in effect in the process, as loadedVersion (a released UNSaC version) OR loadedCommit (the full commit of the osf-schemas tree it loaded; the receiver resolves it through its release tags unsac/<version>, and a commit without a release tag is drifting, never unknown and never in agreement). grain: seen reports a window of observed UNS subjects.",
+  "description": "Meta-schema for the consumer feedback runtime message (Welle 2; loadedCommit Block B, 24.09.). A wire message, not a repo object: no route in validate-all.mjs, no folder. grain: loaded reports the model state in effect in the process, as loadedVersion (a released UNSaC version) OR loadedCommit, optionally with loadedDigest (the content of its scope; same digest as the rolled-out release = same content) (the full commit of the osf-schemas tree it loaded; the receiver resolves it through its release tags unsac/<version>, and a commit without a release tag is drifting, never unknown and never in agreement). grain: seen reports a window of observed UNS subjects.",
   "type": "object",
   "required": ["consumerId", "observedAt", "grain"],
   "properties": {
@@ -10,6 +10,7 @@
     "observedAt": { "type": "string", "format": "date-time" },
     "grain": { "type": "string", "enum": ["loaded", "seen"] },
     "loadedVersion": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(-[0-9A-Za-z.-]+)?(\\+[0-9A-Za-z.-]+)?$" },
+    "loadedDigest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$", "description": "Optional content digest of the consumer's SCOPE as loaded (Block B). Scope = every *.json file below each reads[] entry that ends in / (recursively), each reads[] entry that names a file, and the file below sources/ declaring each sourceId of carries[]; each file once. Digest = 'sha256:' + lowercase hex SHA-256 of the UTF-8 text made of one pair of lines per scope file, the files in ascending code-unit order of their path: '<path>\\n<lowercase hex SHA-256 of the file's raw bytes>\\n', path relative to the tree root with / separators. An empty scope has no digest. Equal to the digest of the rolled-out release for this consumer = same content (in agreement) even on another commit; without it the commit or version decides." },
     "loadedCommit": { "type": "string", "pattern": "^[0-9a-f]{40}$", "description": "Full lowercase commit of the osf-schemas tree in effect in the process; never abbreviated (a short SHA can be ambiguous)." },
     "window": {
       "type": "object",
@@ -44,7 +45,7 @@
       },
       "then": {
         "required": ["window", "seen"],
-        "not": { "anyOf": [ { "required": ["loadedVersion"] }, { "required": ["loadedCommit"] } ] }
+        "not": { "anyOf": [ { "required": ["loadedVersion"] }, { "required": ["loadedCommit"] }, { "required": ["loadedDigest"] } ] }
       }
     }
   ],
