@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/validation/feedback-schema.json",
   "title": "ConsumerFeedback",
-  "description": "Meta-schema for the consumer feedback runtime message (Welle 2). A wire message, not a repo object: no route in validate-all.mjs, no folder. grain: loaded reports a version load; grain: seen reports a window of observed UNS subjects.",
+  "description": "Meta-schema for the consumer feedback runtime message (Welle 2; loadedCommit Block B, 24.09.). A wire message, not a repo object: no route in validate-all.mjs, no folder. grain: loaded reports the model state in effect in the process, as loadedVersion (a released UNSaC version) OR loadedCommit (the full commit of the osf-schemas tree it loaded; the receiver resolves it through its release tags unsac/<version>, and a commit without a release tag is drifting, never unknown and never in agreement). grain: seen reports a window of observed UNS subjects.",
   "type": "object",
   "required": ["consumerId", "observedAt", "grain"],
   "properties": {
@@ -10,6 +10,7 @@
     "observedAt": { "type": "string", "format": "date-time" },
     "grain": { "type": "string", "enum": ["loaded", "seen"] },
     "loadedVersion": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(-[0-9A-Za-z.-]+)?(\\+[0-9A-Za-z.-]+)?$" },
+    "loadedCommit": { "type": "string", "pattern": "^[0-9a-f]{40}$", "description": "Full lowercase commit of the osf-schemas tree in effect in the process; never abbreviated (a short SHA can be ambiguous)." },
     "window": {
       "type": "object",
       "required": ["from", "to"],
@@ -32,7 +33,7 @@
         "required": ["grain"]
       },
       "then": {
-        "required": ["loadedVersion"],
+        "oneOf": [ { "required": ["loadedVersion"] }, { "required": ["loadedCommit"] } ],
         "not": { "anyOf": [ { "required": ["window"] }, { "required": ["seen"] } ] }
       }
     },
@@ -43,7 +44,7 @@
       },
       "then": {
         "required": ["window", "seen"],
-        "not": { "required": ["loadedVersion"] }
+        "not": { "anyOf": [ { "required": ["loadedVersion"] }, { "required": ["loadedCommit"] } ] }
       }
     }
   ],
