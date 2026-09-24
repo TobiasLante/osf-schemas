@@ -3,7 +3,7 @@
 > CAPT-V3-PROFILE-PROPS. Companion to the appendix in `../schema-guide.md`.
 > Concrete, copy-pasteable snippets for the three required variable properties.
 
-## OT-Edge — machine SM Profile (`profiles/machines/*.json`)
+## OT-Edge — machine SM Profile (`standard/profiles/machines/*.json`)
 
 Attributes are JSON objects in the `attributes[]` array. The three properties
 are required on every one of them.
@@ -78,7 +78,7 @@ Equivalent in YAML for readability:
   promotion: on_cycle_end
 ```
 
-## IT-Edge — business SM Profile (`profiles/business/*.json`)
+## IT-Edge — business SM Profile (`standard/profiles/business/*.json`)
 
 For business profiles `scope` is always `hub` and `delivery` is always
 `transactional` — still spelled out on every attribute, no default.

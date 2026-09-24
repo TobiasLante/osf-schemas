@@ -26,7 +26,7 @@ Customer-neutral by construction: the profiles define the *shape*, never a custo
  job) → `ProductionOrder` (isa95 `OperationsRequest`).
 - **Order index == Workorder** = a time-slot subdivision of the order → `Workorder` (isa95 `WorkRequest`).
 
-## The Operations model (new in 2.0, `profiles/operations/`, `category: business`)
+## The Operations model (new in 2.0, `standard/profiles/operations/`, `category: business`)
 
 ```
 OperationsDefinition (master / Fertigungsweg) ProcessSegment (= plant = Function)
@@ -75,20 +75,20 @@ OperationsResponse (IST) ──HAS_SEGMENT_RESPONSE──▶ SegmentResponse
 ```
 next/
 ├── the design notes ← the 2.0 design SSOT (decisions + conventions)
-├── validation/ ← unified meta-schema (profile/constraint/source/sync/recipe) + naming-standard
-├── profiles/
+├── standard/validation/ ← unified meta-schema (profile/constraint/source/sync/recipe) + naming-standard
+├── standard/profiles/
 │ ├── operations/ ← NEW: the ISA-95 Part 4 operations layer
 │ ├── equipment/ ← Enterprise → ControlModule (ISA-95/ISA-88)
 │ ├── erp/ qms/ wms/ ← business/MOM information objects
 │ ├── machines/ ← OT asset profiles (edge-polled OPC)
 │ └── intelligence/ ← discrepancy / resolution (own canonical schema)
-├── recipes/ ← ProductDefinition / control-limit master data
-├── sources/ examples/ ci/ build/
+├── sites/werk1/recipes/ ← ProductDefinition / control-limit master data
+├── sites/werk1/sources/ examples/ ci/ build/
 ```
 
 ## Validation
 
-- AJV against `validation/profile-unified-schema.json` (+ `constraint-schema.json`); category↔folder by
+- AJV against `standard/validation/profile-unified-schema.json` (+ `constraint-schema.json`); category↔folder by
  `ci/lint-category.mjs` (now includes `operations/ → business`); guardrails by `ci/lint-delivery.mjs`;
  constraint cross-refs by `ci/lint-constraints.mjs`; recipe refs by `ci/lint-recipes.mjs`.
 - 2.0 status: profiles/sources/recipes validate clean; all linters pass (delivery raises only the known

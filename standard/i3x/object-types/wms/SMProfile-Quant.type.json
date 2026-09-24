@@ -4,7 +4,7 @@
   "namespaceUri": "urn:osf:schemas:wms",
   "version": "3.1.0",
   "schema": {
-    "description": "WMS stock unit (Quant) at the storage location, aligned to the LIVE projection of source sim-v5-wms-quants (article_ref/quantity/blocked/warehouse/storage_location), NOT the legacy base profile (article_no/quality_status). Full text: docs/history/profiles/wms/quant.md, description.",
+    "description": "WMS stock unit (Quant) at the storage location, aligned to the LIVE projection of source sim-v5-wms-quants (article_ref/quantity/blocked/warehouse/storage_location), NOT the legacy base profile (article_no/quality_status). Full text: docs/history/standard/profiles/wms/quant.md, description.",
     "allOf": [
       {
         "$ref": "SMProfile-MaterialItem.type.json#/schema"
@@ -89,7 +89,7 @@
     ]
   },
   "x-osf": {
-    "source": "profiles/wms/quant.json",
+    "source": "standard/profiles/wms/quant.json",
     "standard": "CESMII",
     "category": "business",
     "abstract": false,
@@ -104,7 +104,7 @@
     "constraints": [
       {
         "name": "stock_level_control_limits",
-        "description": "TOMBSTONE - the rule body below is preserved VERBATIM as it ran until 2026-08-30. Full text: docs/history/profiles/wms/quant.md, constraints › stock_level_control_limits › description.",
+        "description": "TOMBSTONE - the rule body below is preserved VERBATIM as it ran until 2026-08-30. Full text: docs/history/standard/profiles/wms/quant.md, constraints › stock_level_control_limits › description.",
         "require": {
           "attr": "quantity",
           "op": "within_limits",

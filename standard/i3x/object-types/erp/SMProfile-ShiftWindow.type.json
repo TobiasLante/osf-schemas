@@ -4,7 +4,7 @@
   "namespaceUri": "urn:osf:schemas:erp",
   "version": "1.1.0",
   "schema": {
-    "description": "One row of the ERP shift calendar (`/api/calendar` -> `week_pattern`): department x ISO weekday x shift, with the working-time window and its breaks. Full text: docs/history/profiles/erp/shift-window.md, description.",
+    "description": "One row of the ERP shift calendar (`/api/calendar` -> `week_pattern`): department x ISO weekday x shift, with the working-time window and its breaks. Full text: docs/history/standard/profiles/erp/shift-window.md, description.",
     "type": "object",
     "properties": {
       "department_id": {
@@ -19,7 +19,7 @@
       },
       "day_of_week": {
         "type": "integer",
-        "description": "ISO-8601 weekday, 1=Monday .. Full text: docs/history/profiles/erp/shift-window.md, attributes › day_of_week › description.",
+        "description": "ISO-8601 weekday, 1=Monday .. Full text: docs/history/standard/profiles/erp/shift-window.md, attributes › day_of_week › description.",
         "x-dataType": "Int32",
         "x-category": "Core",
         "x-isId": true,
@@ -29,7 +29,7 @@
       },
       "shift_id": {
         "type": "string",
-        "description": "Shift code as the ERP names it. Full text: docs/history/profiles/erp/shift-window.md, attributes › shift_id › description.",
+        "description": "Shift code as the ERP names it. Full text: docs/history/standard/profiles/erp/shift-window.md, attributes › shift_id › description.",
         "x-category": "Core",
         "x-isId": true,
         "x-delivery": "transactional",
@@ -47,7 +47,7 @@
       },
       "end_time": {
         "type": "string",
-        "description": "Window end on the plant clock as HH:MM:SS. Full text: docs/history/profiles/erp/shift-window.md, attributes › end_time › description.",
+        "description": "Window end on the plant clock as HH:MM:SS. Full text: docs/history/standard/profiles/erp/shift-window.md, attributes › end_time › description.",
         "x-category": "Core",
         "x-delivery": "transactional",
         "x-scope": "hub",
@@ -55,7 +55,7 @@
       },
       "break_minutes": {
         "type": "integer",
-        "description": "Unpaid break minutes inside the window. Full text: docs/history/profiles/erp/shift-window.md, attributes › break_minutes › description.",
+        "description": "Unpaid break minutes inside the window. Full text: docs/history/standard/profiles/erp/shift-window.md, attributes › break_minutes › description.",
         "x-dataType": "Int32",
         "x-category": "Core",
         "x-delivery": "transactional",
@@ -72,7 +72,7 @@
     ]
   },
   "x-osf": {
-    "source": "profiles/erp/shift-window.json",
+    "source": "standard/profiles/erp/shift-window.json",
     "standard": "CESMII",
     "category": "business",
     "abstract": false,
@@ -80,7 +80,7 @@
       "objectModel": "WorkCalendarEntry",
       "momDomain": "production",
       "level": 3,
-      "note": "One recurring entry of the plant WorkCalendar (B2MML WorkCalendar / WorkCalendarEntry). Full text: docs/history/profiles/erp/shift-window.md, isa95 › note.",
+      "note": "One recurring entry of the plant WorkCalendar (B2MML WorkCalendar / WorkCalendarEntry). Full text: docs/history/standard/profiles/erp/shift-window.md, isa95 › note.",
       "propertyMap": {
         "department_id": "WorkCalendarEntry.HierarchyScope.EquipmentID",
         "shift_id": "WorkCalendarEntry.ID",

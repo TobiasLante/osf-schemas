@@ -70,7 +70,7 @@ equipmentPath = <enterprise>.<site>.<area>.<cell>.<unit>.<module>.<controlmodule
 > A concrete, customer-specific instantiation of these levels (e.g. an Enterprise→…→ControlModule
 > tree with real codes) is a **demo fixture** — see [`examples/`](../examples/) and its
 > README. Never paste concrete plant codes into the neutral TYPE profiles under
-> [`profiles/equipment/`](../profiles/equipment/).
+> [`standard/profiles/equipment/`](../profiles/equipment/).
 
 
 ## next2.0 update — equipmentPath ADOPTED (active)

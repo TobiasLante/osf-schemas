@@ -2,7 +2,7 @@
  "$schema": "http://json-schema.org/draft-07/schema#",
  "$id": "https://osf-schemas/next/validation/constraint-schema.json",
  "title": "OSF Constraint Block (next/, Option C — JSON-as-SSOT) — v2.0",
- "description": "Meta-schema for the 'constraints' attribute facet added by the SDC-inspired augmentation track. Validates the STRUCTURE of constraint rules embedded in profiles/machines/*.json (or other profile categories). The actual TYPE-correctness of predicate values against the referenced attribute.dataType is enforced by next/ci/lint-constraints.mjs (separate lint step — JSON Schema cannot express the cross-reference). One meta-schema for all asset types; constraint instances live per profile and inherit via parentType.",
+ "description": "Meta-schema for the 'constraints' attribute facet added by the SDC-inspired augmentation track. Validates the STRUCTURE of constraint rules embedded in standard/profiles/machines/*.json (or other profile categories). The actual TYPE-correctness of predicate values against the referenced attribute.dataType is enforced by next/ci/lint-constraints.mjs (separate lint step — JSON Schema cannot express the cross-reference). One meta-schema for all asset types; constraint instances live per profile and inherit via parentType.",
  "type": "object",
  "additionalProperties": {
   "$ref": "#/$defs/constraint"

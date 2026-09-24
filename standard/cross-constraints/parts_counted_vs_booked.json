@@ -3,7 +3,7 @@
  "version": "0.1.0",
  "standard": "OSF",
  "displayName": "Parts counted (OT) vs. parts booked (ERP) — PARKED, the ERP cannot answer yet",
- "description": "The successor qty_shortfall's tombstone asked for: a left operand from OUTSIDE the ERP — the machine's own counted parts — against the ERP's booking. Full text: docs/history/cross-constraints/parts_counted_vs_booked.md, description.",
+ "description": "The successor qty_shortfall's tombstone asked for: a left operand from OUTSIDE the ERP — the machine's own counted parts — against the ERP's booking. Full text: docs/history/standard/cross-constraints/parts_counted_vs_booked.md, description.",
  "parked": true,
  "parkedAt": "2026-07-12",
  "parkedBy": "CAPT-ZUG4",
@@ -15,7 +15,7 @@
   "$comment": "Every number below was measured by CAPT-ZUG4 against the live systems, not carried over from a briefing. Two of the three claims that were HANDED to this captain turned out to be false and are corrected here — which is itself the argument for measuring.",
 
   "blocker_1_the_confirmation_feed_has_no_machine": {
-   "what": "/api/confirmations (-> SMProfile-OperationsResponse) is the only ERP actuals feed that can be polled in full. It carries machine_no = null and machine_id = null in 100 % of rows (measured: 100 of 100 sampled, and the source contract sources/rest/erp-operations-response.json already says so in prose: 'BDE bridge does not stamp the machine').",
+   "what": "/api/confirmations (-> SMProfile-OperationsResponse) is the only ERP actuals feed that can be polled in full. It carries machine_no = null and machine_id = null in 100 % of rows (measured: 100 of 100 sampled, and the source contract sites/werk1/sources/rest/erp-operations-response.json already says so in prose: 'BDE bridge does not stamp the machine').",
    "consequence": "An OperationsResponse cannot be attributed to a machine. The KG confirms it: the OperationsResponse node has quantity_produced and completed_at but NO machine_ref property at all.",
    "soThisRuleCannot": "use quantity_produced as the ERP's per-machine answer."
   },

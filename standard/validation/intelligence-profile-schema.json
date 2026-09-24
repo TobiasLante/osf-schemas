@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/validation/intelligence-profile-schema.json",
   "title": "OSF Intelligence Profile (v7, Multi-Truth / Golden / SetupMode)",
-  "description": "Schema for files under profiles/intelligence/*.json — central-computed knowledge entities (Discrepancy, ProductionPart lineage, SetupMode, GoldenProcessParameters + GoldenOutcome + ConditioningEffect, AutoResolveRule). A THIRD class beyond edge telemetry (profiles/machines/) and IT business events (profiles/business/, erp/qms/wms): these nodes are produced by the central intelligence engines (discrepancy-engine, golden-engine, view-engine) and written straight into the KG — they are NOT edge-sourced, so they deliberately carry NO delivery/scope/promotion wire-contract.",
+  "description": "Schema for files under standard/profiles/intelligence/*.json — central-computed knowledge entities (Discrepancy, ProductionPart lineage, SetupMode, GoldenProcessParameters + GoldenOutcome + ConditioningEffect, AutoResolveRule). A THIRD class beyond edge telemetry (standard/profiles/machines/) and IT business events (standard/profiles/business/, erp/qms/wms): these nodes are produced by the central intelligence engines (discrepancy-engine, golden-engine, view-engine) and written straight into the KG — they are NOT edge-sourced, so they deliberately carry NO delivery/scope/promotion wire-contract.",
   "type": "object",
   "required": [
     "profileId",
@@ -39,7 +39,7 @@
       "enum": [
         "intelligence"
       ],
-      "description": "Intelligence profiles only — telemetry lives in profiles/machines/, business events in profiles/business|erp|qms|wms/."
+      "description": "Intelligence profiles only — telemetry lives in standard/profiles/machines/, business events in standard/profiles/business|erp|qms|wms/."
     },
     "description": {
       "type": "string"
@@ -96,7 +96,7 @@
           },
           "unit": {
             "type": "string",
-            "description": "UNECE Rec. 20 code (validation/unece-codes.json). i3x-v5 schemas-ci/lint-units.mjs."
+            "description": "UNECE Rec. 20 code (standard/validation/unece-codes.json). i3x-v5 schemas-ci/lint-units.mjs."
           },
           "valueType": {
             "type": "string",
@@ -158,7 +158,7 @@
         },
         "equipmentLevel": {
           "type": "string",
-          "description": "ISA-88 physical levels as validation/naming-standard.md labels them (EquipmentUnit, not Unit), plus the ISA-95 Part 2 role-based equipment types. One list, shared with profile-unified-schema.json.",
+          "description": "ISA-88 physical levels as standard/validation/naming-standard.md labels them (EquipmentUnit, not Unit), plus the ISA-95 Part 2 role-based equipment types. One list, shared with profile-unified-schema.json.",
           "enum": ["Enterprise", "Site", "Area", "ProcessCell", "EquipmentUnit", "EquipmentModule", "ControlModule", "ProductionLine", "WorkCell", "ProductionUnit", "StorageZone", "StorageUnit", "WorkCenter", "WorkUnit"]
         },
         "level": {

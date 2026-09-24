@@ -8,9 +8,9 @@ separate from the reusable, customer-**neutral** schema assets.
 > **Generalize, don't copy.**
 
 Do not paste a specific customer's plant names, line names, unit codes or node
-counts into the TYPE assets under `profiles/`. The canonical equipment TYPE
+counts into the TYPE assets under `standard/profiles/`. The canonical equipment TYPE
 profiles that actually exist in this repo are
-[`profiles/equipment/`](../profiles/equipment/): `equipment-class.json`,
+[`standard/profiles/equipment/`](../profiles/equipment/): `equipment-class.json`,
 `equipment-model.json` (compact model, no SM profile) and `tool.json`.
 
 > **⚠ Honesty note (audit 2026-07-15):** an earlier version of this README
@@ -37,7 +37,7 @@ canonical and must not be treated as the contract.
 **Its labels are outside the contract.** The fixture seeds seven hierarchy
 labels — `Enterprise`, `Site`, `Area`, `ProcessCell`, `EquipmentUnit`,
 `EquipmentModule`, `ControlModule` — none of which appears in
-`contract.json` (no profile in `profiles/**` declares them; `contract.json`
+`contract.json` (no profile in `standard/profiles/**` declares them; `contract.json`
 even lists `Machine -[PART_OF]-> ProcessCell` and
 `StorageLocation -[PART_OF]-> Area` under `unresolvedTargets` for exactly this
 reason). They are **demo-only** vocabulary: agents and sink validators bound
