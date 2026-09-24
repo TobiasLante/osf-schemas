@@ -88,13 +88,8 @@
       }
     },
     "AT_LOCATION": {
-      "MaterialLot": {
-        "path": "MaterialLot.StorageLocation",
-        "direction": "forward"
-      },
-      "Quant": {
-        "path": "MaterialSubLot.StorageLocation",
-        "direction": "forward"
+      "MaterialItem": {
+        "extension": "MaterialItem groups two B2MML objects (OSF extension). Both children realise the edge with the same field on their own object: MaterialLot.StorageLocation, MaterialSubLot.StorageLocation (profiles/wms/material-item.json isa95.childEdgePaths)."
       }
     },
     "BASED_ON": {
@@ -131,10 +126,6 @@
       }
     },
     "FOR_ARTICLE": {
-      "BdeConfirmation": {
-        "path": "OperationsResponse.SegmentResponse.MaterialActual.MaterialDefinitionID",
-        "direction": "forward"
-      },
       "InspectionLot": {
         "path": "TestResult.TestableObjectID",
         "direction": "forward"
@@ -143,16 +134,12 @@
         "path": "OperationsDefinition.OperationsSegment.MaterialSpecification.MaterialDefinitionID",
         "direction": "forward"
       },
-      "OperationsResponse": {
-        "path": "OperationsResponse.SegmentResponse.MaterialActual.MaterialDefinitionID",
-        "direction": "forward"
-      },
       "ProductionOrder": {
         "path": "OperationsRequest.SegmentRequirement.MaterialRequirement.MaterialDefinitionID",
         "direction": "forward"
       },
-      "Quant": {
-        "path": "MaterialSubLot.MaterialLotID.MaterialDefinitionID",
+      "Response": {
+        "path": "OperationsResponse.SegmentResponse.MaterialActual.MaterialDefinitionID",
         "direction": "forward"
       }
     },
@@ -216,17 +203,17 @@
       "MaterialLot": {
         "path": "MaterialLot.MaterialDefinitionID",
         "direction": "forward"
+      },
+      "Quant": {
+        "path": "MaterialSubLot.MaterialLotID.MaterialDefinitionID",
+        "direction": "forward"
       }
     },
     "ON_MACHINE": {
-      "BdeConfirmation": {
-        "path": "OperationsResponse.SegmentResponse.EquipmentActual.EquipmentID",
-        "direction": "forward"
-      },
       "InspectionLot": {
         "extension": "The tested object here is material; a TestResult names no equipment. The machine is an OSF join."
       },
-      "OperationsResponse": {
+      "Response": {
         "path": "OperationsResponse.SegmentResponse.EquipmentActual.EquipmentID",
         "direction": "forward"
       }
@@ -285,11 +272,7 @@
       }
     },
     "RESPONDS_TO": {
-      "BdeConfirmation": {
-        "path": "OperationsResponse.OperationsRequestID",
-        "direction": "forward"
-      },
-      "OperationsResponse": {
+      "Response": {
         "path": "OperationsResponse.OperationsRequestID",
         "direction": "forward"
       }

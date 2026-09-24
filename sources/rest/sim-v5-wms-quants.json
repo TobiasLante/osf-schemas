@@ -1,9 +1,10 @@
 {
  "sourceId": "sim-v5-wms-quants",
- "version": "2.1.0",
+ "version": "2.2.0",
  "sourceType": "rest",
  "syncType": "polling",
  "profileRef": "SMProfile-Quant",
+ "location": { "enterprise": "factory", "site": "werk1" },
  "transport": [
  "nats"
  ],
@@ -63,7 +64,7 @@
  ],
  "edges": [
  {
- "type": "FOR_ARTICLE",
+ "type": "OF_ARTICLE",
  "fkColumn": "artikel_nr",
  "targetIdProp": "article_no"
  },
