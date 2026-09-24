@@ -6,12 +6,12 @@ You are working with the OSF schema repo. These rules are **binding** and take p
 
 1. **Read `contract.json` first.** It is the complete ontology contract of this repo: allowed node labels (with their key property) and allowed relationship triples, generated from `standard/profiles/**`. **Write nothing else into a knowledge graph.** Do not invent labels, do not invent edge types, do not use synonyms — `aliases` in the contract lists known wrong forms and their conformant replacement.
 2. **Node identity comes from the contract, never from the source.** Use the profile `kgNodeLabel` with the key property declared in `contract.nodes`. Source-local ids (`machineId`, `machineNo`, pool names, vendor strings) are attributes at most — never node identities. Mind `identity.openConflict` in the contract: the machine-key consolidation (`machine_id` vs `element_id`) is tracked there; do not mix both in one graph.
-3. **When something is missing: extend, don't improvise.** If a concept has no label in the contract, add or extend a profile in `standard/profiles/`, run `node ci/gen-contract.mjs`, make `npm run validate` pass — and only then write data.
+3. **When something is missing: extend, don't improvise.** If a concept has no label in the contract, add or extend a profile in `standard/profiles/`, regenerate it with i3x-v5 `packages/schemas-ci/osf/gen-contract.mjs`, make i3x-v5 `packages/schemas-ci/check-next.sh <this tree>` pass (the required PR check `i3x-v5/check-next` runs it) — and only then write data.
 
 ## Working rules
 
 - Column/NodeId mappings live in `sites/werk1/sources/**` — never guess a mapping that is already declared.
-- Before handing off: `npm run validate` must be green, and if you wrote to a live graph, measure yourself with `OSF_KEY=... node ci/conformance.mjs <target>` — the score must approach 100 %.
+- Before handing off: i3x-v5 `check-next.sh` must be green, and if you wrote to a live graph, measure yourself with `OSF_KEY=... node <i3x-v5>/packages/schemas-ci/osf/unported/conformance.mjs <target>` — the score must approach 100 %.
 - Never commit credentials, API keys or customer-identifying data to this repo.
 
 ## Why so strict?
