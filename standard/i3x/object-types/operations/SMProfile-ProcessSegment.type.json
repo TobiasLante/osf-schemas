@@ -1,0 +1,146 @@
+{
+  "elementId": "SMProfile-ProcessSegment",
+  "displayName": "Process Segment (reusable manufacturing stage)",
+  "namespaceUri": "urn:osf:schemas:operations",
+  "version": "2.0.0",
+  "schema": {
+    "description": "Level-3 MOM ProcessSegment (ISA-95 Part 4 / B2MML ProcessSegment). Full text: docs/history/standard/profiles/operations/process-segment.md, description.",
+    "type": "object",
+    "properties": {
+      "process_segment_no": {
+        "type": "string",
+        "description": "Identity of the ProcessSegment (join key). Recommendation: path- / Function-prefixed, since Function codes are unique per line.",
+        "x-category": "Core",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change",
+        "x-valueType": "ID"
+      },
+      "process_segment_code": {
+        "type": "string",
+        "description": "Raw segment / Function code from the naming source (the function naming standard Table 1 / the MES 'plant' code).",
+        "x-category": "Core",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change"
+      },
+      "name": {
+        "type": "string",
+        "description": "Display name of the manufacturing stage (e.g. a forming, dosing, or curing stage).",
+        "x-category": "Core",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change"
+      },
+      "operations_type": {
+        "type": "string",
+        "description": "ISA-95 'Mixed Operation Schedule' classification of the stage. Corresponds to the momDomain.",
+        "enum": [
+          "production",
+          "inventory",
+          "quality",
+          "maintenance"
+        ],
+        "x-category": "Core",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change"
+      },
+      "sequence": {
+        "type": "integer",
+        "description": "Sequence of the stage within the OperationsDefinition (routing).",
+        "x-dataType": "Int32",
+        "x-category": "Planning",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change"
+      },
+      "duration_planned_sec": {
+        "type": "integer",
+        "description": "Planned stage duration (s) as a capability default; overridden by the SegmentRequirement in the concrete order.",
+        "x-dataType": "Int32",
+        "x-category": "Planning",
+        "x-unit": "SEC",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change"
+      },
+      "operations_definition_ref": {
+        "type": "string",
+        "description": "FK to OperationsDefinition.operations_definition_no (PART_OF). The routing to which this stage belongs.",
+        "x-category": "Link",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change",
+        "x-valueType": "ID"
+      },
+      "unit_ref": {
+        "type": "string",
+        "description": "FK to Machine.machine_id (PERFORMED_AT; Machine ≡ EquipmentUnit level). The ISA-88 Unit / process stage on which the segment runs — the physical anchoring of the 'plant' / 'Function'.",
+        "x-category": "Link",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change",
+        "x-valueType": "ID"
+      }
+    },
+    "required": [
+      "process_segment_no"
+    ]
+  },
+  "x-osf": {
+    "source": "standard/profiles/operations/process-segment.json",
+    "standard": "ISA-95",
+    "category": "business",
+    "abstract": false,
+    "relationships": [
+      {
+        "type": "PART_OF",
+        "target": "OperationsDefinition",
+        "targetIdProp": "operations_definition_no",
+        "description": "The OperationsDefinition (routing) that sequences this stage."
+      },
+      {
+        "type": "PERFORMED_AT",
+        "target": "Machine",
+        "targetIdProp": "machine_id",
+        "description": "The Machine (≡ EquipmentUnit level, consolidation 2026-07-15; = plant = Function) on which the segment is executed."
+      }
+    ],
+    "constraints": [],
+    "semantics": [
+      "iso:62264-ProcessSegment",
+      "cesmii:ProcessSegment"
+    ],
+    "kpiRefs": [],
+    "isa95": {
+      "objectModel": "ProcessSegment",
+      "momDomain": "production",
+      "level": 3,
+      "note": "ISA-95 Part 4 ProcessSegment = reusable manufacturing stage. Full text: docs/history/standard/profiles/operations/process-segment.md, isa95 › note.",
+      "propertyMap": {
+        "process_segment_no": "ProcessSegment.ID",
+        "name": "ProcessSegment.Description",
+        "operations_type": "ProcessSegment.OperationsType",
+        "unit_ref": "ProcessSegment.EquipmentSegmentSpecification.EquipmentID"
+      },
+      "notInIsa95": [
+        "duration_planned_sec"
+      ],
+      "mappingNote": "B2MML carries a duration on OperationsSegment and SegmentRequirement, not on ProcessSegment."
+    },
+    "kgNodeLabel": "ProcessSegment",
+    "kgIdProperty": "process_segment_no",
+    "parentType": null,
+    "requiredDeclaredOn": [
+      "process_segment_no",
+      "process_segment_code",
+      "name",
+      "operations_type",
+      "sequence",
+      "duration_planned_sec",
+      "operations_definition_ref",
+      "unit_ref"
+    ]
+  }
+}

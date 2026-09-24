@@ -1,0 +1,197 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/validation/intelligence-profile-schema.json",
+  "title": "OSF Intelligence Profile (v7, Multi-Truth / Golden / SetupMode)",
+  "description": "Schema for files under standard/profiles/intelligence/*.json — central-computed knowledge entities (Discrepancy, ProductionPart lineage, SetupMode, GoldenProcessParameters + GoldenOutcome + ConditioningEffect, AutoResolveRule). A THIRD class beyond edge telemetry (standard/profiles/machines/) and IT business events (standard/profiles/business/, erp/qms/wms): these nodes are produced by the central intelligence engines (discrepancy-engine, golden-engine, view-engine) and written straight into the KG — they are NOT edge-sourced, so they deliberately carry NO delivery/scope/promotion wire-contract.",
+  "type": "object",
+  "required": [
+    "profileId",
+    "version",
+    "displayName",
+    "category",
+    "attributes",
+    "kgNodeLabel",
+    "kgIdProperty"
+  ],
+  "properties": {
+    "profileId": {
+      "type": "string",
+      "pattern": "^SMProfile-[A-Z][A-Za-z0-9]+$",
+      "description": "Globally unique profile ID, prefix SMProfile-"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "standard": {
+      "type": "string",
+      "enum": [
+        "CESMII",
+        "OSF",
+        "ISA-95"
+      ]
+    },
+    "displayName": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "intelligence"
+      ],
+      "description": "Intelligence profiles only — telemetry lives in standard/profiles/machines/, business events in standard/profiles/business|erp|qms|wms/."
+    },
+    "description": {
+      "type": "string"
+    },
+    "parentType": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "abstract": {
+      "type": "boolean",
+      "description": "Abstract parent profiles (e.g. SMProfile-Discrepancy, SMProfile-ProductionPart) are not instantiated directly; concrete children declare parentType to inherit attributes + relationships. Same flag semantics as machine/business schemas."
+    },
+    "attributes": {
+      "type": "array",
+      "minItems": 0,
+      "description": "Structural properties of the node. Concrete children may declare 0 attributes and rely entirely on inherited ones. No delivery/scope/promotion — intelligence entities are not wired from edges.",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "dataType",
+          "category"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "dataType": {
+            "type": "string",
+            "enum": [
+              "String",
+              "Int32",
+              "Int64",
+              "Float",
+              "Double",
+              "Boolean",
+              "DateTime",
+              "Json"
+            ]
+          },
+          "category": {
+            "type": "string"
+          },
+          "isKey": {
+            "type": "boolean"
+          },
+          "description": {
+            "type": "string"
+          },
+          "enum": {
+            "type": "array"
+          },
+          "unit": {
+            "type": "string",
+            "description": "UNECE Rec. 20 code (standard/validation/unece-codes.json). i3x-v5 schemas-ci/lint-units.mjs."
+          },
+          "valueType": {
+            "type": "string",
+            "enum": ["PV", "SP", "ID", "LIM", "MD"],
+            "description": "PV measured, SP commanded, ID identifier/reference, LIM bound, MD master data. i3x-v5 schemas-ci/lint-value-type.mjs."
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "relationships": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "type",
+          "target"
+        ],
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "target": {
+            "type": "string"
+          },
+          "targetIdProp": {
+            "type": "string"
+          },
+          "timeBounded": {
+            "type": "boolean"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "kgNodeLabel": {
+      "type": "string"
+    },
+    "kgIdProperty": {
+      "type": "string"
+    },
+    "isa95": {
+      "type": "object",
+      "description": "ISA-95/MOM-Alignment (additiv): Part-2-Objektmodell + Part-3-MOM-Domäne. objectModel 'Extension' = Standard kennt das Objekt nicht.",
+      "additionalProperties": false,
+      "required": [
+        "objectModel"
+      ],
+      "properties": {
+        "objectModel": {
+          "type": "string",
+          "minLength": 1
+        },
+        "equipmentClass": {
+          "type": "string"
+        },
+        "equipmentLevel": {
+          "type": "string",
+          "description": "ISA-88 physical levels as standard/validation/naming-standard.md labels them (EquipmentUnit, not Unit), plus the ISA-95 Part 2 role-based equipment types. One list, shared with profile-unified-schema.json.",
+          "enum": ["Enterprise", "Site", "Area", "ProcessCell", "EquipmentUnit", "EquipmentModule", "ControlModule", "ProductionLine", "WorkCell", "ProductionUnit", "StorageZone", "StorageUnit", "WorkCenter", "WorkUnit"]
+        },
+        "level": {
+          "type": "integer",
+          "enum": [
+            2,
+            3,
+            4
+          ]
+        },
+        "momDomain": {
+          "type": "string",
+          "enum": [
+            "production",
+            "quality",
+            "inventory",
+            "maintenance"
+          ]
+        },
+        "extension": {
+          "type": "boolean"
+        },
+        "note": {
+          "type": "string"
+        },
+        "propertyMap": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

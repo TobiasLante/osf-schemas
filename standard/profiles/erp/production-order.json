@@ -1,0 +1,382 @@
+{
+  "profileId": "SMProfile-ProductionOrder",
+  "version": "3.0.0",
+  "standard": "CESMII",
+  "category": "business",
+  "displayName": "Production Order (manufacturing order / OperationsRequest — PLAN/target)",
+  "description": "Level-3 MOM OperationsRequest = the PLAN/target of manufacturing (B2MML OperationsRequest / ISA-95 Part 4). Full text: docs/history/standard/profiles/erp/production-order.md, description.",
+  "parentType": null,
+  "abstract": false,
+  "attributes": [
+    {
+      "name": "production_order_no",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Join key — identity of the OperationsRequest. The OperationsResponse reports its actuals back via the same key (RESPONDS_TO).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "sales_order_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "Triggering Level-4 customer order (order_no, TRIGGERED_BY).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "article_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "Article to be manufactured (article_no, join key to Article).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "machine_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "Planned executing machine / line (machine_no). EXECUTED_AT Machine (machine_id).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "department_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ERP department the order is routed to. Full text: docs/history/standard/profiles/erp/production-order.md, attributes › department_ref › description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "qty_planned",
+      "dataType": "Int32",
+      "required": false,
+      "category": "Planning",
+      "description": "Planned piece count (target). Counterpart to OperationsResponse.quantity_produced. Driver of the qty_shortfall rule.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "planned_start_time",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "Planned START of the order's next non-terminal operation. Full text: docs/history/standard/profiles/erp/production-order.md, attributes › planned_start_time › description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "planned_end_time",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "Planned completion date (target). Counterpart to actual_end_time. Driver of the late_delivery rule.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "cycle_time_planned_sec",
+      "dataType": "Int32",
+      "required": false,
+      "category": "Planning",
+      "description": "Planned cycle time per piece (s).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "dispatch_sequence",
+      "dataType": "Int32",
+      "required": false,
+      "category": "Planning",
+      "description": "1-based position of this order in its machine's dispatch queue, inside the 24 h horizon. Full text: docs/history/standard/profiles/erp/production-order.md, attributes › dispatch_sequence › description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "parts_per_shot",
+      "dataType": "Int32",
+      "required": false,
+      "category": "Planning",
+      "description": "Number of good parts ONE machine cycle yields — the mould's cavity count on injection-moulding machines, 1 on single-part machines. Full text: docs/history/standard/profiles/erp/production-order.md, attributes › parts_per_shot › description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "mould_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "Identity of the mounted mould/tool that determines parts_per_shot (e.g. Full text: docs/history/standard/profiles/erp/production-order.md, attributes › mould_ref › description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "material_ready_at",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Planning",
+      "description": "Time from which material is available — material-ready constraint.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "customer_order_qty",
+      "dataType": "Int32",
+      "required": false,
+      "category": "Planning",
+      "description": "Customer order quantity of the triggering order (denormalized).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "customer_due_date",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "Customer delivery date of the triggering order (denormalized).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "order_no",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "COMPATIBILITY KEY, adopted from the withdrawn SMProfile-CustomerOrder on 2026-08-13. Full text: docs/history/standard/profiles/erp/production-order.md, attributes › order_no › description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "customer_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "Customer of the triggering demand (kunde_id). Adopted from SMProfile-CustomerOrder 2026-08-13; the same column the withdrawn source read. FOR_CUSTOMER is built from it.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "customer_name",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Customer name (kunde_name). Adopted from SMProfile-CustomerOrder 2026-08-13. THIS SOURCE IS NOW THE ONLY WRITER: measured in the live KG, customer_name is set on 48.486 nodes and every one of them was written by the withdrawn erp-customer-orders binding. 100 % populated on the live feed.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "total_amount",
+      "dataType": "Float",
+      "required": false,
+      "category": "Commercial",
+      "description": "Order value (gesamtbetrag). Full text: docs/history/standard/profiles/erp/production-order.md, attributes › total_amount › description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "currency",
+      "dataType": "String",
+      "required": false,
+      "category": "Commercial",
+      "description": "Currency of total_amount (waehrung). Adopted from SMProfile-CustomerOrder 2026-08-13. Fill rate measured on the live feed: 461/500 rows.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "due_date",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Planning",
+      "description": "Customer delivery commitment (lieferdatum_soll). Full text: docs/history/standard/profiles/erp/production-order.md, attributes › due_date › description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "quantity",
+      "dataType": "Int32",
+      "required": false,
+      "category": "Commercial",
+      "description": "Ordered piece count (geplante_stueckzahl). Full text: docs/history/standard/profiles/erp/production-order.md, attributes › quantity › description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "status",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Plan status of the OperationsRequest, as it reaches THIS profile through OUR source binding. Full text: docs/history/standard/profiles/erp/production-order.md, attributes › status › description.",
+      "enum": [
+        "offen",
+        "freigegeben",
+        "in_arbeit",
+        "fertig",
+        "abgeschlossen",
+        "storniert"
+      ],
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "priority",
+      "dataType": "String",
+      "required": false,
+      "category": "Planning",
+      "description": "Order priority.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "operations_definition_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "v2.0 — instantiated routing (operations_definition_no, INSTANTIATES).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "updated_at",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "Last change. Server-managed and volatile on every read (sim-v5 returns a fresh value per GET), so promotion:never — kept in the snapshot but excluded from the change-trigger and never published on its own.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "never"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "FOR_CUSTOMER",
+      "target": "Customer",
+      "targetIdProp": "customer_no",
+      "description": "Moved here from SMProfile-CustomerOrder 2026-08-13 together with customer_ref. Built from kunde_id, which /api/orders serves on 100 % of rows."
+    },
+    {
+      "type": "FOR_ARTICLE",
+      "target": "Article",
+      "targetIdProp": "article_no",
+      "description": "Carried over from SMProfile-CustomerOrder 2026-08-13 so the 48.490 order->article edges measured in the live KG keep a producer. It duplicates PRODUCES from the same column; consolidating the two is a separate, provable decision and is NOT part of this change."
+    },
+    {
+      "type": "PRODUCES",
+      "target": "Article",
+      "targetIdProp": "article_no"
+    },
+    {
+      "type": "EXECUTED_AT",
+      "target": "Machine",
+      "targetIdProp": "machine_id",
+      "description": "Consolidation 2026-07-15: Machine ≡ EquipmentUnit level, keyed machine_id — matches what the ERP source actually delivers (machine ids)."
+    },
+    {
+      "type": "INSTANTIATES",
+      "target": "OperationsDefinition",
+      "targetIdProp": "operations_definition_no",
+      "description": "v2.0 — the instantiated routing (master)."
+    },
+    {
+      "type": "HAS_SEGMENT_REQUIREMENT",
+      "target": "SegmentRequirement",
+      "description": "v2.0 — Inverse of SegmentRequirement.PART_OF: the target segments per ProcessSegment.",
+      "targetIdProp": "segment_requirement_no"
+    },
+    {
+      "type": "HAS_WORKORDER",
+      "target": "Workorder",
+      "description": "v2.0 — Inverse of Workorder.PART_OF: temporal subdivisions (FO index).",
+      "targetIdProp": "workorder_no"
+    }
+  ],
+  "constraints": [
+    {
+      "name": "material_ready_after_planned_end",
+      "description": "Material is not available until AFTER the order's own planned finish date. Full text: docs/history/standard/profiles/erp/production-order.md, constraints › material_ready_after_planned_end › description.",
+      "when": {
+        "attr": "status",
+        "op": "in",
+        "value": [
+          "freigegeben",
+          "in_arbeit"
+        ]
+      },
+      "require": {
+        "attr": "material_ready_at",
+        "op": "lte",
+        "valueAttr": "planned_end_time"
+      },
+      "severity": "warning",
+      "discrepancyClass": "constraint",
+      "concern": "operations",
+      "mom_category": "production",
+      "accountable_role": "Materials Planning",
+      "since": "2026-08-31",
+      "$comment": "MEASURED 2026-08-31 by CAPT-ITLANE2 against the FULL production-order population of sim-v5 PROD (.154:38260 /api/orders, keyset-paginated over production_order_no, 17 pages): 84.229 distinct orders. (1) THE GUARD LITERALS ARE THE MEASURED VOCABULARY, not this profile's declared enum. The enum declares six values; the data carries exactly FOUR - abgeschlossen 43.010, storniert 25.859, in_arbeit 9.220, freigegeben 6.140. 'offen' and 'fertig' occur ZERO times, and a guard keyed on 'offen' is exactly how order_overdue on SMProfile-CustomerOrder became structurally unsatisfiable. The two literals above are both measured present. (2) POPULATION AND HIT RATE. material_ready_at is written on 9.220 of 84.229 rows, and on in_arbeit rows ONLY (9.220 of 9.220 in_arbeit); everywhere else the attribute is absent and the tri-state predicate reads 'unknown', never 'ok'. Of the 9.220 eligible orders, 10 carry material_ready_at LATER than planned_end_time: 0,11 % of the eligible set, 0,012 % of the population. A minority and a workable worklist - not a log storm. (3) WHY NOT THE OBVIOUS RULE. 'Open order past its due date' was measured in the same run and is NOT viable: 7.485 of 15.360 open orders are past lieferdatum_soll - 48,73 % of the open book, median 24 days over. A rule half the population violates describes the backlog, it does not find anything. It is also $now-keyed, and a $now constraint pins EVERY tracked entity against it-evaluator's idle eviction (ENTITY_EVICT_IDLE_MS), so it would hold all 84.229 orders in the working set for ever. This rule compares two attributes of the same record and is therefore evictable. (4) LANE. it-evaluator publishes domain='it'; the engine anchors an IT episode on about_order_no and sets NO about_machine_id (engine.ts constraintRaisedLocked). With concern=operations, mom_category=production and no deviation_class, laneOf returns 'it' - which is the point: the second living rule in a lane that had exactly one against OT's 22."
+    }
+  ],
+  "semantics": [],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "OperationsRequest",
+    "momDomain": "production",
+    "level": 3,
+    "note": "Level-3 MOM OperationsRequest (B2MML) = PLAN/target. Full text: docs/history/standard/profiles/erp/production-order.md, isa95 › note.",
+    "propertyMap": {
+      "production_order_no": "OperationsRequest.ID",
+      "operations_definition_ref": "OperationsRequest.OperationsDefinitionID",
+      "article_ref": "OperationsRequest.SegmentRequirement.MaterialRequirement.MaterialDefinitionID",
+      "machine_ref": "OperationsRequest.SegmentRequirement.EquipmentRequirement.EquipmentID",
+      "qty_planned": "OperationsRequest.SegmentRequirement.MaterialRequirement.Quantity",
+      "planned_end_time": "OperationsRequest.EndTime",
+      "status": "OperationsRequest.RequestState",
+      "order_no": "OperationsRequest.ID",
+      "due_date": "OperationsRequest.EndTime"
+    },
+    "notInIsa95": [
+      "customer_ref",
+      "sales_order_ref"
+    ]
+  },
+  "kgNodeLabel": "ProductionOrder",
+  "kgIdProperty": "production_order_no"
+}

@@ -1,0 +1,39 @@
+{
+  "sourceId": "sim-v5-erp-calendar",
+  "version": "2.2.0",
+  "sourceType": "rest",
+  "syncType": "polling",
+  "profileRef": "SMProfile-ShiftWindow",
+  "instanceRef": "werk1",
+  "location": { "enterprise": "factory", "site": "werk1" },
+  "transport": ["nats"],
+  "description": "ERP shift calendar (GET /api/calendar -> week_pattern): per department x ISO weekday x shift the working-time window and its breaks. Full text: docs/history/sites/werk1/sources/rest/sim-v5-erp-calendar.md, description.",
+  "connection": {
+    "baseUrl": "http://192.168.178.154:38260",
+    "path": "/api/calendar",
+    "method": "GET",
+    "auth": null,
+    "timeoutMs": 10000
+  },
+  "response": {
+    "format": "json",
+    "rootPath": "$.week_pattern"
+  },
+  "primaryKeyColumns": ["department_id", "day_of_week", "shift_id"],
+  "polling": {
+    "changeDetection": "full",
+    "intervalMs": 3600000,
+    "batchSize": 200,
+    "paginate": true
+  },
+  "columnMappings": [
+    { "column": "department_id", "smAttribute": "department_id" },
+    { "column": "day_of_week", "smAttribute": "day_of_week" },
+    { "column": "shift_id", "smAttribute": "shift_id" },
+    { "column": "start_time", "smAttribute": "start_time" },
+    { "column": "end_time", "smAttribute": "end_time" },
+    { "column": "break_minutes", "smAttribute": "break_minutes" }
+  ],
+  "filter": null,
+  "edges": []
+}

@@ -1,0 +1,317 @@
+{
+  "_note": "Edge types that are the inverse of each other. i3X 1.0 requires every relationship type to register exactly one reverseOf. Where both directions are authored (in two profiles), they must be registered here as a pair, so the two sides cannot drift apart. Checked by ci/lint-edge-pairs.mjs.",
+  "pairs": [
+    [
+      "EXECUTED_AT",
+      "EXECUTES"
+    ],
+    [
+      "PRODUCED_BY",
+      "YIELDS"
+    ],
+    [
+      "RESOLVED_BY_RULE",
+      "RESOLVES"
+    ]
+  ],
+  "open": [
+    {
+      "type": "PART_OF",
+      "inverseOf": [
+        "CONTAINS_SEGMENT",
+        "HAS_SEGMENT_REQUIREMENT",
+        "HAS_SEGMENT_RESPONSE",
+        "HAS_WORKORDER"
+      ],
+      "reason": "PART_OF is the reverse of four different HAS_* types. i3X allows one reverseOf per type, so this cannot be expressed as it stands: either the four collapse into one HAS_PART, or PART_OF splits into four. Model decision, not made here."
+    }
+  ],
+  "_isa95Note": "isa95: for every edge (type, from label) the B2MML field path that carries it, read from standard/validation/isa95-b2mml.json. forward = the path starts at the from object, reverse = at the to object. extension = ISA-95 has no such link, with the reason. Checked by ci/lint-isa95.mjs.",
+  "isa95": {
+    "ABOUT_ARTICLE": {
+      "Discrepancy": {
+        "extension": "Multi-truth layer (discrepancies, rules, proposals). ISA-95 has no such objects."
+      }
+    },
+    "ABOUT_DISCREPANCY": {
+      "ChangeRequest": {
+        "extension": "Multi-truth layer (discrepancies, rules, proposals). ISA-95 has no such objects."
+      }
+    },
+    "ABOUT_MACHINE": {
+      "ChangeRequest": {
+        "extension": "Multi-truth layer (discrepancies, rules, proposals). ISA-95 has no such objects."
+      },
+      "Discrepancy": {
+        "extension": "Multi-truth layer (discrepancies, rules, proposals). ISA-95 has no such objects."
+      }
+    },
+    "ABOUT_ORDER": {
+      "Discrepancy": {
+        "extension": "Multi-truth layer (discrepancies, rules, proposals). ISA-95 has no such objects."
+      }
+    },
+    "PROPOSED_BY_RULE": {
+      "ResolutionProposal": {
+        "extension": "Multi-truth layer (discrepancies, rules, proposals). ISA-95 has no such objects."
+      }
+    },
+    "PROPOSES_FOR": {
+      "ResolutionProposal": {
+        "extension": "Multi-truth layer (discrepancies, rules, proposals). ISA-95 has no such objects."
+      }
+    },
+    "RESOLVED_BY_RULE": {
+      "Discrepancy": {
+        "extension": "Multi-truth layer (discrepancies, rules, proposals). ISA-95 has no such objects."
+      }
+    },
+    "RESOLVES": {
+      "AutoResolveRule": {
+        "extension": "Multi-truth layer (discrepancies, rules, proposals). ISA-95 has no such objects."
+      }
+    },
+    "SUPERSEDED_BY": {
+      "Discrepancy": {
+        "extension": "Multi-truth layer (discrepancies, rules, proposals). ISA-95 has no such objects."
+      }
+    },
+    "FOR_LOT": {
+      "SPCAnalysis": {
+        "extension": "Multi-truth layer (discrepancies, rules, proposals). ISA-95 has no such objects."
+      }
+    },
+    "APPLIES_TO": {
+      "ProductDefinition": {
+        "path": "OperationsDefinition.OperationsSegment.EquipmentSpecification.EquipmentClassID",
+        "direction": "forward"
+      }
+    },
+    "AT_LOCATION": {
+      "MaterialItem": {
+        "extension": "MaterialItem groups two B2MML objects (OSF extension). Both children realise the edge with the same field on their own object: MaterialLot.StorageLocation, MaterialSubLot.StorageLocation (standard/profiles/wms/material-item.json isa95.childEdgePaths)."
+      }
+    },
+    "BASED_ON": {
+      "OperationsDefinition": {
+        "extension": "In B2MML 0700 both ends are OperationsDefinitions; the link between a routing and its recipe is not modelled."
+      }
+    },
+    "CONTAINS_SEGMENT": {
+      "OperationsDefinition": {
+        "path": "OperationsDefinition.OperationsSegment.ProcessSegmentID",
+        "direction": "forward"
+      }
+    },
+    "CORRESPONDS_TO": {
+      "SegmentRequirement": {
+        "path": "SegmentResponse.SegmentRequirementID",
+        "direction": "reverse"
+      },
+      "SegmentResponse": {
+        "path": "SegmentResponse.SegmentRequirementID",
+        "direction": "forward"
+      }
+    },
+    "EXECUTED_AT": {
+      "ProductionOrder": {
+        "path": "OperationsRequest.SegmentRequirement.EquipmentRequirement.EquipmentID",
+        "direction": "forward"
+      }
+    },
+    "EXECUTES": {
+      "Machine": {
+        "path": "OperationsRequest.SegmentRequirement.EquipmentRequirement.EquipmentID",
+        "direction": "reverse"
+      }
+    },
+    "FOR_ARTICLE": {
+      "InspectionLot": {
+        "path": "TestResult.TestableObjectID",
+        "direction": "forward"
+      },
+      "OperationsDefinition": {
+        "path": "OperationsDefinition.OperationsSegment.MaterialSpecification.MaterialDefinitionID",
+        "direction": "forward"
+      },
+      "ProductionOrder": {
+        "path": "OperationsRequest.SegmentRequirement.MaterialRequirement.MaterialDefinitionID",
+        "direction": "forward"
+      },
+      "Response": {
+        "path": "OperationsResponse.SegmentResponse.MaterialActual.MaterialDefinitionID",
+        "direction": "forward"
+      }
+    },
+    "FOR_CUSTOMER": {
+      "ProductionOrder": {
+        "extension": "Level 4: ISA-95 has no customer; the link comes from the ERP order."
+      }
+    },
+    "FOR_MATERIAL": {
+      "SegmentRequirement": {
+        "path": "SegmentRequirement.MaterialRequirement.MaterialDefinitionID",
+        "direction": "forward"
+      }
+    },
+    "FOR_ORDER": {
+      "InspectionLot": {
+        "extension": "A TestResult carries no order in B2MML; the lot's order is an OSF join."
+      }
+    },
+    "FOR_SEGMENT": {
+      "SegmentRequirement": {
+        "path": "SegmentRequirement.ProcessSegmentID",
+        "direction": "forward"
+      },
+      "SegmentResponse": {
+        "path": "SegmentResponse.ProcessSegmentID",
+        "direction": "forward"
+      }
+    },
+    "HAS_SEGMENT_REQUIREMENT": {
+      "ProductionOrder": {
+        "path": "OperationsRequest.SegmentRequirement",
+        "direction": "forward"
+      }
+    },
+    "HAS_SEGMENT_RESPONSE": {
+      "OperationsResponse": {
+        "path": "OperationsResponse.SegmentResponse",
+        "direction": "forward"
+      }
+    },
+    "HAS_SUBLOT": {
+      "MaterialLot": {
+        "path": "MaterialLot.MaterialSubLot",
+        "direction": "forward"
+      }
+    },
+    "HAS_WORKORDER": {
+      "ProductionOrder": {
+        "path": "WorkRequest.OperationsRequestID",
+        "direction": "reverse"
+      }
+    },
+    "INSTANTIATES": {
+      "ProductionOrder": {
+        "path": "OperationsRequest.OperationsDefinitionID",
+        "direction": "forward"
+      }
+    },
+    "OF_ARTICLE": {
+      "MaterialLot": {
+        "path": "MaterialLot.MaterialDefinitionID",
+        "direction": "forward"
+      },
+      "Quant": {
+        "path": "MaterialSubLot.MaterialLotID.MaterialDefinitionID",
+        "direction": "forward"
+      }
+    },
+    "ON_MACHINE": {
+      "InspectionLot": {
+        "extension": "The tested object here is material; a TestResult names no equipment. The machine is an OSF join."
+      },
+      "Response": {
+        "path": "OperationsResponse.SegmentResponse.EquipmentActual.EquipmentID",
+        "direction": "forward"
+      }
+    },
+    "PART_OF": {
+      "Machine": {
+        "path": "Equipment.EquipmentChild",
+        "direction": "reverse"
+      },
+      "ProcessSegment": {
+        "path": "OperationsDefinition.OperationsSegment.ProcessSegmentID",
+        "direction": "reverse"
+      },
+      "SegmentRequirement": {
+        "path": "OperationsRequest.SegmentRequirement",
+        "direction": "reverse"
+      },
+      "SegmentResponse": {
+        "path": "OperationsResponse.SegmentResponse",
+        "direction": "reverse"
+      },
+      "StorageLocation": {
+        "path": "OperationalLocation.HierarchyScope.EquipmentID",
+        "direction": "forward"
+      },
+      "Workorder": {
+        "path": "WorkRequest.OperationsRequestID",
+        "direction": "forward"
+      }
+    },
+    "PERFORMED_AT": {
+      "ProcessSegment": {
+        "path": "ProcessSegment.EquipmentSegmentSpecification.EquipmentID",
+        "direction": "forward"
+      }
+    },
+    "PROCESSED_MATERIAL": {
+      "SegmentResponse": {
+        "path": "SegmentResponse.MaterialActual.MaterialLotID",
+        "direction": "forward"
+      }
+    },
+    "PRODUCED_BY": {
+      "MaterialLot": {
+        "path": "WorkRequest.JobOrder.MaterialRequirement.MaterialLotID",
+        "direction": "reverse"
+      }
+    },
+    "PRODUCES": {
+      "Machine": {
+        "extension": "What a machine has produced is derived from responses; B2MML has no direct Equipment-to-MaterialDefinition link."
+      },
+      "ProductionOrder": {
+        "path": "OperationsRequest.SegmentRequirement.MaterialRequirement.MaterialDefinitionID",
+        "direction": "forward"
+      }
+    },
+    "RESPONDS_TO": {
+      "Response": {
+        "path": "OperationsResponse.OperationsRequestID",
+        "direction": "forward"
+      }
+    },
+    "SET_UP_ON": {
+      "Tool": {
+        "path": "Equipment.PhysicalAssetID",
+        "direction": "reverse"
+      }
+    },
+    "SPEC_FOR": {
+      "ProductDefinition": {
+        "path": "OperationsDefinition.OperationsSegment.MaterialSpecification.MaterialDefinitionID",
+        "direction": "forward"
+      }
+    },
+    "USED_EQUIPMENT": {
+      "SegmentResponse": {
+        "path": "SegmentResponse.EquipmentActual.EquipmentID",
+        "direction": "forward"
+      }
+    },
+    "USES_EQUIPMENT": {
+      "SegmentRequirement": {
+        "path": "SegmentRequirement.EquipmentRequirement.EquipmentID",
+        "direction": "forward"
+      }
+    },
+    "USES_TOOL": {
+      "InjectionMoldingMachine": {
+        "path": "Equipment.PhysicalAssetID",
+        "direction": "forward"
+      }
+    },
+    "YIELDS": {
+      "Workorder": {
+        "path": "WorkRequest.JobOrder.MaterialRequirement.MaterialLotID",
+        "direction": "forward"
+      }
+    }
+  }
+}

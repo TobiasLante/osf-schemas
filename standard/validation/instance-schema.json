@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "osf-schemas/instance-schema.json",
+  "title": "Equipment instances of one site",
+  "description": "The plant tree of sites/<site>/instances/*.instance.json. One entry per node; partOf builds the equipment path, equipmentLevel follows the ISA-88 / ISA-95 role-based equipment hierarchy (Enterprise > Site > Area > ProcessCell > Unit > EquipmentModule > ControlModule; B2MML EquipmentLevel). A class is a released profile of standard/profiles; plain hierarchy nodes carry none. Owner decision 24.09.; structure after the customer reference-concept instances.",
+  "type": "object",
+  "required": ["instances"],
+  "properties": {
+    "_note": { "type": "string", "description": "One sentence. Reasoning belongs in the site README." },
+    "instances": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "equipmentLevel", "partOf"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$", "description": "Unique within the site; sources bind to it by instanceRef." },
+          "equipmentLevel": { "enum": ["Enterprise", "Site", "Area", "ProcessCell", "Unit", "EquipmentModule", "ControlModule"] },
+          "code": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$", "description": "The segment of this node in the UNS path; defaults to id." },
+          "class": { "type": "string", "pattern": "^SMProfile-", "description": "The equipment class (profileId); absent on plain hierarchy nodes." },
+          "name": { "type": "string", "description": "Display name." },
+          "partOf": { "type": ["string", "null"], "description": "id of the parent node; null only on the Enterprise." }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,674 @@
+{
+  "recipeId": "RECIPE-sgm-004-PA66GF30-bracket-B",
+  "version": "5.0.0",
+  "owner": "Process Engineering",
+  "profileRef": "SMProfile-InjectionMoldingMachine",
+  "displayName": "PA66-GF30 bracket-B on sgm-004 (mould-B)",
+  "description": "Second article on the SAME machine (sgm-004) with DIFFERENT bands — demonstrates the whole point of recipes: one rule (recipe_*_band), per-article limits. Full text: docs/history/sites/werk1/recipes/recipe-sgm-004-pa66gf30-bracket-b.md, description.",
+  "match": {
+    "article": "bracket-B",
+    "equipment": "sgm-004",
+    "setup": "mould-B"
+  },
+  "values": {
+    "recipe:hotrunner_temp_band": [
+      288.5,
+      301.5
+    ],
+    "recipe:hotrunner_control_limits": {
+      "warn": [
+        291.5,
+        298.5
+      ],
+      "action": [
+        288.5,
+        301.5
+      ]
+    },
+    "recipe:part_mass_band": [
+      6.8,
+      7.05
+    ],
+    "recipe:cushion_band": [
+      3.5,
+      5.5
+    ],
+    "recipe:peak_pressure_band": [
+      520,
+      640
+    ],
+    "recipe:hold_pressure_band": [
+      360,
+      440
+    ],
+    "recipe:mould_temp_band": [
+      80,
+      90
+    ],
+    "recipe:melt_temp_band": [
+      288.5,
+      301.5
+    ],
+    "recipe:injection_speed_band": [
+      53.07,
+      66.93
+    ],
+    "recipe:back_pressure_band": [
+      76.91,
+      123.09
+    ],
+    "recipe:cooling_flow_band": [
+      19.8,
+      24.2
+    ],
+    "recipe:cycle_time_band": [
+      21.6,
+      26.4
+    ],
+    "recipe:barrel_zone1_temp_band": [
+      263.5,
+      276.5
+    ],
+    "recipe:barrel_zone1_control_limits": {
+      "warn": [
+        266.75,
+        273.25
+      ],
+      "action": [
+        263.5,
+        276.5
+      ]
+    },
+    "recipe:barrel_zone2_temp_band": [
+      275.5,
+      288.5
+    ],
+    "recipe:barrel_zone2_control_limits": {
+      "warn": [
+        278.75,
+        285.25
+      ],
+      "action": [
+        275.5,
+        288.5
+      ]
+    },
+    "recipe:barrel_zone3_temp_band": [
+      283.5,
+      296.5
+    ],
+    "recipe:barrel_zone3_control_limits": {
+      "warn": [
+        286.75,
+        293.25
+      ],
+      "action": [
+        283.5,
+        296.5
+      ]
+    },
+    "recipe:barrel_zone4_temp_band": [
+      288.5,
+      301.5
+    ],
+    "recipe:barrel_zone4_control_limits": {
+      "warn": [
+        291.75,
+        298.25
+      ],
+      "action": [
+        288.5,
+        301.5
+      ]
+    }
+  },
+  "toleranceSource": {
+    "recipe:hotrunner_temp_band": "process_estimate",
+    "recipe:hotrunner_control_limits": "process_estimate",
+    "recipe:part_mass_band": "drawing",
+    "recipe:cushion_band": "process_estimate",
+    "recipe:peak_pressure_band": "process_estimate",
+    "recipe:hold_pressure_band": "process_estimate",
+    "recipe:mould_temp_band": "norm",
+    "recipe:melt_temp_band": "process_estimate",
+    "recipe:injection_speed_band": "process_estimate",
+    "recipe:back_pressure_band": "process_estimate",
+    "recipe:cooling_flow_band": "process_estimate",
+    "recipe:cycle_time_band": "process_estimate",
+    "recipe:barrel_zone1_temp_band": "process_estimate",
+    "recipe:barrel_zone1_control_limits": "process_estimate",
+    "recipe:barrel_zone2_temp_band": "process_estimate",
+    "recipe:barrel_zone2_control_limits": "process_estimate",
+    "recipe:barrel_zone3_temp_band": "process_estimate",
+    "recipe:barrel_zone3_control_limits": "process_estimate",
+    "recipe:barrel_zone4_temp_band": "process_estimate",
+    "recipe:barrel_zone4_control_limits": "process_estimate"
+  },
+  "capability": {
+    "recipe:hotrunner_temp_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "currentProgram",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:hotrunner_control_limits": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:part_mass_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "currentProgram",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:cushion_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "currentProgram",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:peak_pressure_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "currentProgram",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:hold_pressure_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "currentProgram",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:mould_temp_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "currentProgram",
+            "resin"
+          ],
+          "on_reset": [
+            "shotCount"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:melt_temp_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:injection_speed_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:back_pressure_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:cooling_flow_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:cycle_time_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:barrel_zone1_temp_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:barrel_zone1_control_limits": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:barrel_zone2_temp_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:barrel_zone2_control_limits": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:barrel_zone3_temp_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:barrel_zone3_control_limits": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:barrel_zone4_temp_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:barrel_zone4_control_limits": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    }
+  },
+  "parameters": [
+    {
+      "param": "resin",
+      "soll": "PA66-GF30",
+      "unit": "",
+      "monitored": false,
+      "smAttribute": "resin"
+    },
+    {
+      "param": "hotrunnerTempC",
+      "soll": 295,
+      "tolerance": [
+        288.5,
+        301.5
+      ],
+      "unit": "CEL",
+      "monitored": true,
+      "valueFrom": "recipe:hotrunner_temp_band",
+      "constraintId": "recipe_hotrunner_temp_band",
+      "smAttribute": "hotrunnerTempC"
+    },
+    {
+      "param": "partMass_g",
+      "soll": 6.95,
+      "tolerance": [
+        6.8,
+        7.05
+      ],
+      "unit": "GRM",
+      "monitored": true,
+      "gate": "inCycle==true",
+      "valueFrom": "recipe:part_mass_band",
+      "constraintId": "recipe_part_mass_band",
+      "smAttribute": "partMass_g"
+    },
+    {
+      "param": "cushionMm",
+      "soll": 4.5,
+      "tolerance": [
+        3.5,
+        5.5
+      ],
+      "unit": "MMT",
+      "monitored": true,
+      "valueFrom": "recipe:cushion_band",
+      "constraintId": "recipe_cushion_band",
+      "smAttribute": "cushionMm"
+    },
+    {
+      "param": "peakPressureBar",
+      "soll": 580,
+      "tolerance": [
+        520,
+        640
+      ],
+      "unit": "BAR",
+      "monitored": true,
+      "gate": "phaseName==HOLD",
+      "valueFrom": "recipe:peak_pressure_band",
+      "constraintId": "recipe_peak_pressure_band",
+      "smAttribute": "peakPressureBar"
+    },
+    {
+      "param": "holdPressureBar",
+      "soll": 400,
+      "tolerance": [
+        360,
+        440
+      ],
+      "unit": "BAR",
+      "monitored": true,
+      "gate": "phaseName==HOLD",
+      "valueFrom": "recipe:hold_pressure_band",
+      "constraintId": "recipe_hold_pressure_band",
+      "smAttribute": "holdPressureBar"
+    },
+    {
+      "param": "mouldTempC",
+      "soll": 85,
+      "tolerance": [
+        80,
+        90
+      ],
+      "unit": "CEL",
+      "monitored": true,
+      "gate": "inCycle==true",
+      "valueFrom": "recipe:mould_temp_band",
+      "constraintId": "recipe_mould_temp_band",
+      "smAttribute": "mouldTempC"
+    },
+    {
+      "param": "nozzleTempC",
+      "soll": 295,
+      "tolerance": [
+        288.5,
+        301.5
+      ],
+      "unit": "CEL",
+      "monitored": true,
+      "valueFrom": "recipe:melt_temp_band",
+      "constraintId": "recipe_melt_temp_band",
+      "smAttribute": "nozzleTempC"
+    },
+    {
+      "param": "injectionSpeedMmPerSec",
+      "soll": 60,
+      "tolerance": [
+        53.07,
+        66.93
+      ],
+      "unit": "C16",
+      "monitored": true,
+      "gate": "inCycle==true",
+      "valueFrom": "recipe:injection_speed_band",
+      "constraintId": "recipe_injection_speed_band",
+      "smAttribute": "injectionSpeedMmPerSec"
+    },
+    {
+      "param": "backPressureBar",
+      "soll": 100,
+      "tolerance": [
+        76.91,
+        123.09
+      ],
+      "unit": "BAR",
+      "monitored": true,
+      "gate": "inCycle==true",
+      "valueFrom": "recipe:back_pressure_band",
+      "constraintId": "recipe_back_pressure_band",
+      "smAttribute": "backPressureBar"
+    },
+    {
+      "param": "coolingFlowLMin",
+      "soll": 22.0,
+      "tolerance": [
+        19.8,
+        24.2
+      ],
+      "unit": "L2",
+      "monitored": true,
+      "gate": "inCycle==true",
+      "valueFrom": "recipe:cooling_flow_band",
+      "constraintId": "recipe_cooling_flow_band",
+      "smAttribute": "coolingFlowLMin"
+    },
+    {
+      "param": "cycleTimeSec",
+      "soll": 24,
+      "tolerance": [
+        21.6,
+        26.4
+      ],
+      "unit": "SEC",
+      "monitored": true,
+      "gate": "inCycle==true",
+      "valueFrom": "recipe:cycle_time_band",
+      "constraintId": "recipe_cycle_time_band",
+      "smAttribute": "cycleTimeSec"
+    },
+    {
+      "param": "barrelZone1TempC",
+      "soll": 270,
+      "tolerance": [
+        263.5,
+        276.5
+      ],
+      "unit": "CEL",
+      "monitored": true,
+      "valueFrom": "recipe:barrel_zone1_temp_band",
+      "constraintId": "recipe_barrel_zone1_temp_band",
+      "smAttribute": "barrelZone1TempC"
+    },
+    {
+      "param": "barrelZone2TempC",
+      "soll": 282,
+      "tolerance": [
+        275.5,
+        288.5
+      ],
+      "unit": "CEL",
+      "monitored": true,
+      "valueFrom": "recipe:barrel_zone2_temp_band",
+      "constraintId": "recipe_barrel_zone2_temp_band",
+      "smAttribute": "barrelZone2TempC"
+    },
+    {
+      "param": "barrelZone3TempC",
+      "soll": 290,
+      "tolerance": [
+        283.5,
+        296.5
+      ],
+      "unit": "CEL",
+      "monitored": true,
+      "valueFrom": "recipe:barrel_zone3_temp_band",
+      "constraintId": "recipe_barrel_zone3_temp_band",
+      "smAttribute": "barrelZone3TempC"
+    },
+    {
+      "param": "barrelZone4TempC",
+      "soll": 295,
+      "tolerance": [
+        288.5,
+        301.5
+      ],
+      "unit": "CEL",
+      "monitored": true,
+      "valueFrom": "recipe:barrel_zone4_temp_band",
+      "constraintId": "recipe_barrel_zone4_temp_band",
+      "smAttribute": "barrelZone4TempC"
+    }
+  ],
+  "parked": true,
+  "parkedAt": "2026-07-12",
+  "parkedBy": "CAPT-INTEGRATE",
+  "parkedReason": "PARKED — this recipe can NEVER match a production order, and it has never matched one. MEASURED 2026-07-12 against the FULL article master of sim-v5 PROD (.154): 222 articles, population exhausted. match.article \"bracket-B\" DOES NOT EXIST among them. The ERP keys its articles as PART-A/B/C, WIP-*, RAW-*, _V4_*. Consequence: match never fires, the bands never resolve, and NOTHING is ever checked against this recipe — silently. It has been shipped as if it were monitoring sgm-004 since it was written. It was not. The only recipe that actually binds sgm-004 is recipe-sgm-004-default.json, which matches on equipment (sgm-004), not on article.\n\nWHY IT IS PARKED AND NOT REPAIRED: repairing it means naming the article this recipe is FOR, and that is a product decision, not an inference. Plausible candidates exist — \"PART-B\" (FINISHED, \"Montagewinkel-Baugruppe\") and \"WIP-BRACKET-CNC\" (WIP, \"Montagewinkel CNC-vorbearbeitet\") — but picking one on resemblance would be inventing a fact about the customer's product. A wrong article is worse than a parked recipe: it would silently apply PA66-GF30 bands to the wrong part and then look like it was working.\n\nPRECONDITION TO UN-PARK: set match.article to an article_no that exists in SMProfile-Article, confirmed by the product owner. ci/check-vocab-drift.mjs then verifies it against the live article master on every run and FAILS (exit 1) if it ever goes dead again. Un-parking without that check passing is not allowed."
+}

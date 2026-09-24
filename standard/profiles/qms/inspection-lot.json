@@ -1,0 +1,183 @@
+{
+  "profileId": "SMProfile-InspectionLot",
+  "version": "2.0.0",
+  "standard": "CESMII",
+  "category": "quality",
+  "displayName": "Inspection Lot",
+  "description": "next/ v4 — QMS inspection lot. Attributes aligned to the LIVE projection of source sim-v5-qms-inspections (article_ref/order_ref/state/decision), NOT the legacy base profile. Carries the ISA-95 quality mapping AND the deviation constraint (lot_rejected), evaluated centrally by it-evaluator.",
+  "parentType": null,
+  "abstract": false,
+  "attributes": [
+    {
+      "name": "lot_no",
+      "valueType": "ID",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "order_ref",
+      "valueType": "ID",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "Referenced production order (join key to ProductionOrder / CustomerOrder).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "article_ref",
+      "valueType": "ID",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "machine_ref",
+      "valueType": "ID",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "lot_type",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "e.g. final, RMA_RECEIPT.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "status",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Lot status, e.g. open, closed.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "state",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "enum": ["DECIDED"],
+      "description": "Inspection workflow state. Full text: docs/history/standard/profiles/qms/inspection-lot.md, attributes › state › description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "decision",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "enum": ["ACCEPT", "REWORK", "REJECT"],
+      "description": "Usage decision. VOCABULARY MEASURED 2026-07-12 over the FULL population (qms.inspection_lots, GROUP BY decision): ACCEPT (281.698), REWORK (33.518), REJECT (16.574) — no NULLs. The lot_rejected rule `decision ne 'REJECT'` is ALIVE and hits real data. Verified nightly by ci/check-vocab-drift.mjs.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "quantity",
+      "dataType": "Int32",
+      "required": false,
+      "category": "Core",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "sample_size",
+      "dataType": "Int32",
+      "required": false,
+      "category": "Core",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "created_at",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "FOR_ORDER",
+      "target": "ProductionOrder",
+      "targetIdProp": "production_order_no"
+    },
+    {
+      "type": "FOR_ARTICLE",
+      "target": "Article",
+      "targetIdProp": "article_no"
+    },
+    {
+      "type": "ON_MACHINE",
+      "target": "Machine",
+      "targetIdProp": "machine_id"
+    }
+  ],
+  "constraints": [
+    {
+      "name": "lot_rejected",
+      "description": "Decided inspection lot was rejected (usage decision = REJECT) — quality escalation.",
+      "when": {
+        "attr": "state",
+        "op": "eq",
+        "value": "DECIDED"
+      },
+      "require": {
+        "attr": "decision",
+        "op": "ne",
+        "value": "REJECT"
+      },
+      "severity": "error",
+      "discrepancyClass": "constraint",
+      "concern": "operations",
+      "mom_category": "quality",
+      "accountable_role": "Quality Assurance",
+      "since": "2026-06-15",
+      "impact_basis": "HK"
+    }
+  ],
+  "semantics": [],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "TestResult",
+    "momDomain": "quality",
+    "level": 3,
+    "note": "Inspection lot = TestResult (B2MML OperationsTest): the lot is the tested object, the usage decision is the evaluated criterion result.",
+    "propertyMap": {
+      "lot_no": "TestResult.ID",
+      "article_ref": "TestResult.TestableObjectID",
+      "decision": "TestResult.EvaluatedCriterionResult",
+      "created_at": "TestResult.EvaluationDate"
+    },
+    "notInIsa95": [
+      "order_ref",
+      "state"
+    ],
+    "mappingNote": "TestResult carries no order and no workflow state; both are OSF joins on the lot."
+  },
+  "kgNodeLabel": "InspectionLot",
+  "kgIdProperty": "lot_no"
+}

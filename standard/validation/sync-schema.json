@@ -1,0 +1,423 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/validation/sync-schema.json",
+  "title": "OSF sync descriptor — v3 (Vorschlag CAPT-SYNC): vier getrennte Klassen, fail closed",
+  "description": "Genau eine von vier Klassen (route, schedule, streamTopology, convention — die vierte: CAPT-TOPICS, Eigentümer 24.09.), an Feldern erkannt (nicht am Ordner, nicht an syncType). Pflicht ist nur, was ein Leser braucht: audit/CAPT-SYNC.md B5/B6. mappingId ist kein Ersatz fuer syncId (schema-map verwirft Dateien ohne syncId). required = nur Felder mit brechendem Leser; version/sink/tiers sind typisiert, aber ohne Leser nicht Pflicht (Entscheid Eigentuemer).",
+  "type": "object",
+  "oneOf": [
+    {
+      "$ref": "#/definitions/route"
+    },
+    {
+      "$ref": "#/definitions/schedule"
+    },
+    {
+      "$ref": "#/definitions/streamTopology"
+    },
+    {
+      "$ref": "#/definitions/convention"
+    }
+  ],
+  "definitions": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*$"
+    },
+    "semver": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(-[0-9A-Za-z.-]+)?$"
+    },
+    "doc": {
+      "type": "string"
+    },
+    "route": {
+      "description": "Eine Maschine, eine Kante source → sink (NATS-Route oder OPC-UA-Bruecke).",
+      "type": "object",
+      "required": [
+        "syncId",
+        "machineId",
+        "source"
+      ],
+      "properties": {
+        "$description": {
+          "$ref": "#/definitions/doc"
+        },
+        "$note": {
+          "$ref": "#/definitions/doc"
+        },
+        "description": {
+          "$ref": "#/definitions/doc"
+        },
+        "syncId": {
+          "$ref": "#/definitions/id"
+        },
+        "mappingId": {
+          "$ref": "#/definitions/id"
+        },
+        "version": {
+          "$ref": "#/definitions/semver"
+        },
+        "syncType": {
+          "enum": [
+            "polling",
+            "bridge",
+            "route"
+          ]
+        },
+        "profileRef": {
+          "type": "string",
+          "minLength": 1
+        },
+        "machineId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source": {
+          "type": "object",
+          "required": [
+            "sourceRef"
+          ],
+          "properties": {
+            "sourceRef": {
+              "type": "string",
+              "minLength": 1
+            },
+            "type": {
+              "type": "string"
+            },
+            "endpoint": {
+              "type": "string"
+            },
+            "device": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "sink": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "type",
+                "server",
+                "subjectPatterns",
+                "stream"
+              ],
+              "properties": {
+                "type": {
+                  "const": "nats"
+                },
+                "server": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "subjectPatterns": {
+                  "$ref": "#/definitions/subjectPatterns"
+                },
+                "stream": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "required": [
+                "type",
+                "broker",
+                "topicPatterns"
+              ],
+              "properties": {
+                "type": {
+                  "const": "mqtt"
+                },
+                "broker": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "topicPatterns": {
+                  "$ref": "#/definitions/subjectPatterns"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "required": [
+                "type",
+                "bootstrapServers",
+                "topics",
+                "schemaRegistryUrl"
+              ],
+              "properties": {
+                "type": {
+                  "const": "kafka"
+                },
+                "bootstrapServers": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "topics": {
+                  "$ref": "#/definitions/subjectPatterns"
+                },
+                "schemaRegistryUrl": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "required": [
+                "type",
+                "endpoint",
+                "namespaceUri",
+                "nodeIdPattern"
+              ],
+              "properties": {
+                "type": {
+                  "const": "opcua-server"
+                },
+                "endpoint": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "namespaceUri": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "nodeIdPattern": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "sourceRef": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "subjectPatterns": {
+      "type": "object",
+      "required": [
+        "telemetry",
+        "transactional"
+      ],
+      "properties": {
+        "telemetry": {
+          "type": "string",
+          "minLength": 1
+        },
+        "transactional": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "schedule": {
+      "description": "Liste von Source-Referenzen. Takt/changeDetection gehoeren in die SOURCE (it-edge poller.ts:389) — hier verboten, weil sie ignoriert werden und in 2/4 Eintraegen widersprechen.",
+      "type": "object",
+      "required": [
+        "syncId",
+        "sources"
+      ],
+      "properties": {
+        "$description": {
+          "$ref": "#/definitions/doc"
+        },
+        "$note": {
+          "$ref": "#/definitions/doc"
+        },
+        "description": {
+          "$ref": "#/definitions/doc"
+        },
+        "syncId": {
+          "$ref": "#/definitions/id"
+        },
+        "version": {
+          "$ref": "#/definitions/semver"
+        },
+        "syncType": {
+          "const": "polling"
+        },
+        "sources": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "sourceRef"
+            ],
+            "properties": {
+              "sourceRef": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "streamTopology": {
+      "description": "JetStream-Streams. Kein Code-Leser im Referenzstand (B2); Struktur nur gegen Tippfehler gepinnt.",
+      "type": "object",
+      "required": [
+        "syncId"
+      ],
+      "properties": {
+        "$description": {
+          "$ref": "#/definitions/doc"
+        },
+        "$topology": {
+          "$ref": "#/definitions/doc"
+        },
+        "syncId": {
+          "$ref": "#/definitions/id"
+        },
+        "version": {
+          "$ref": "#/definitions/semver"
+        },
+        "syncType": {
+          "const": "nats-jetstream"
+        },
+        "tiers": {
+          "type": "object"
+        },
+        "deliveryClassRouting": {
+          "type": "object"
+        },
+        "consumers": {
+          "type": "object"
+        }
+      },
+      "additionalProperties": false
+    },
+    "convention": {
+      "description": "Die Namenskonvention des Modells (Eigentümer 24.09.): UNS-Pfad und Hub-Adresse jedes scope=hub-Signals, für das keine Route in sites/werk1/sync/ etwas deklariert. Eine deklarierte Route (source.sourceRef) geht immer vor. Die Werte der Platzhalter kommen aus der Source (location, machineId, sourceId) und dem Profil (Entity-Token, isa95.level); einen Default gibt es nicht.",
+      "type": "object",
+      "required": [
+        "syncId",
+        "syncType",
+        "worlds"
+      ],
+      "properties": {
+        "$description": {
+          "$ref": "#/definitions/doc"
+        },
+        "description": {
+          "$ref": "#/definitions/doc"
+        },
+        "syncId": {
+          "$ref": "#/definitions/id"
+        },
+        "version": {
+          "$ref": "#/definitions/semver"
+        },
+        "syncType": {
+          "const": "convention"
+        },
+        "worlds": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "$ref": "#/definitions/conventionWorld"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "conventionWorld": {
+      "description": "Eine Welt (z.B. OT, IT): welche Profil-Kategorien zu ihr gehören, wie ihr UNS-Pfad lautet und auf welchen Stream ihre Signale gehen. Telemetrie- und Event-Muster müssen verschieden sein (Trennregel).",
+      "type": "object",
+      "required": [
+        "categories",
+        "path",
+        "sink"
+      ],
+      "properties": {
+        "$note": {
+          "$ref": "#/definitions/doc"
+        },
+        "categories": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "pathByLevel": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "payloadField": {
+          "type": "boolean"
+        },
+        "runtimeTokens": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "sink": {
+          "type": "object",
+          "required": [
+            "type",
+            "server",
+            "stream",
+            "subjectPatterns"
+          ],
+          "properties": {
+            "type": {
+              "const": "nats"
+            },
+            "server": {
+              "type": "string",
+              "minLength": 1
+            },
+            "stream": {
+              "type": "string",
+              "minLength": 1
+            },
+            "subjectPatterns": {
+              "type": "object",
+              "minProperties": 1,
+              "properties": {
+                "telemetry": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "transactional": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

@@ -1,0 +1,138 @@
+{
+  "profileId": "SMProfile-MaterialLot",
+  "version": "2.1.0",
+  "standard": "ISA-95",
+  "category": "material",
+  "displayName": "Material Lot (the correct term for 'batch')",
+  "description": "ISA-95 Part 2/4 MaterialLot (B2MML MaterialLot). Full text: docs/history/standard/profiles/wms/material-lot.md, description.",
+  "parentType": "MaterialItem",
+  "abstract": false,
+  "attributes": [
+    {
+      "name": "material_lot_no",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the material lot (join key). Often kept in the ERP as 'Charge/batch number' — here correctly as MaterialLot.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "article_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "FK to Article.article_no (OF_ARTICLE) = MaterialLot.MaterialDefinitionID. The MaterialDefinition of this lot.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "quantity",
+      "dataType": "Double",
+      "required": false,
+      "category": "Core",
+      "description": "Quantity of the lot.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "unit_of_measure",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Unit of measure (UN/CEFACT code recommended).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "status",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Lot status (ISA-95 MaterialLotProperty / Status), e.g. available, in_production, consumed, blocked.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "workorder_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "FK to Workorder.workorder_no (PRODUCED_BY). The order slot that produced this lot.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "location_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "FK to StorageLocation (AT_LOCATION). Current storage location of the lot.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "created_at",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "Creation timestamp of the lot.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "OF_ARTICLE",
+      "target": "Article",
+      "targetIdProp": "article_no",
+      "description": "The MaterialDefinition (Article) of this lot."
+    },
+    {
+      "type": "HAS_SUBLOT",
+      "target": "Quant",
+      "description": "Inverse of Quant (MaterialSublot) — the inventory sublots of this lot.",
+      "targetIdProp": "quant_no"
+    },
+    {
+      "type": "PRODUCED_BY",
+      "target": "Workorder",
+      "targetIdProp": "workorder_no",
+      "description": "The order slot (Workorder) that produced this lot."
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iso:62264-MaterialLot",
+    "cesmii:MaterialLot"
+  ],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "MaterialLot",
+    "momDomain": "inventory",
+    "level": 3,
+    "note": "ISA-95 MaterialLot = identifiable material quantity of a MaterialDefinition. RULE: ERP 'batch' == MaterialLot (a portion of material), NEVER an activity. Sits between Article (MaterialDefinition) and Quant (MaterialSublot).",
+    "propertyMap": {
+      "material_lot_no": "MaterialLot.ID",
+      "article_ref": "MaterialLot.MaterialDefinitionID",
+      "quantity": "MaterialLot.Quantity.QuantityString",
+      "unit_of_measure": "MaterialLot.Quantity.UnitOfMeasure",
+      "status": "MaterialLot.Status",
+      "location_ref": "MaterialLot.AssemblyType"
+    }
+  },
+  "kgNodeLabel": "MaterialLot",
+  "kgIdProperty": "material_lot_no"
+}

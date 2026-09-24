@@ -1,0 +1,92 @@
+{
+  "sourceId": "erp-operations-response",
+  "version": "2.3.0",
+  "sourceType": "rest",
+  "syncType": "polling",
+  "profileRef": "SMProfile-OperationsResponse",
+  "instanceRef": "werk1",
+  "location": { "enterprise": "factory", "site": "werk1" },
+  "transport": [
+    "nats"
+  ],
+  "connection": {
+    "baseUrl": "http://192.168.178.154:38260",
+    "path": "/api/confirmations?per_po=true",
+    "method": "GET",
+    "auth": null,
+    "timeoutMs": 30000
+  },
+  "response": {
+    "format": "json",
+    "rootPath": "$",
+    "idProperty": "production_order_no"
+  },
+  "polling": {
+    "changeDetection": "full_refresh",
+    "intervalMs": 300000,
+    "batchSize": 5000,
+    "paginate": true
+  },
+  "columnMappings": [
+    {
+      "column": "production_order_no",
+      "smAttribute": "production_order_no",
+      "isId": true
+    },
+    {
+      "column": "article_no",
+      "smAttribute": "article_ref"
+    },
+    {
+      "column": "machine_no",
+      "smAttribute": "machine_ref"
+    },
+    {
+      "column": "confirmed_qty",
+      "smAttribute": "quantity_produced"
+    },
+    {
+      "column": "cycle_time_actual",
+      "smAttribute": "cycle_time_actual_sec"
+    },
+    {
+      "column": "ts_end",
+      "smAttribute": "actual_end_time"
+    },
+    {
+      "column": "ts_end",
+      "smAttribute": "completed_at"
+    },
+    {
+      "column": "recorded_at",
+      "smAttribute": "updated_at"
+    },
+    {
+      "column": "final_confirmation",
+      "smAttribute": "status",
+      "valueMap": {
+        "true": "fertig",
+        "false": "in_arbeit"
+      }
+    }
+  ],
+  "filter": null,
+  "edges": [
+    {
+      "type": "RESPONDS_TO",
+      "fkColumn": "production_order_no",
+      "targetIdProp": "production_order_no"
+    },
+    {
+      "type": "FOR_ARTICLE",
+      "fkColumn": "article_no",
+      "targetIdProp": "article_no"
+    },
+    {
+      "type": "ON_MACHINE",
+      "fkColumn": "machine_no",
+      "targetIdProp": "machine_id"
+    }
+  ],
+  "description": "ERP OperationsResponse (Level-3 actual feedback) from the sim-v5 ERP REST API. Full text: docs/history/sites/werk1/sources/rest/erp-operations-response.md, description."
+}

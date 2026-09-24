@@ -1,0 +1,35 @@
+{
+  "profileId": "SMProfile-MaterialItem",
+  "version": "1.0.0",
+  "standard": "CESMII",
+  "category": "material",
+  "displayName": "MaterialItem (abstract parent of MaterialLot and Quant)",
+  "description": "Abstract parent of SMProfile-MaterialLot (B2MML MaterialLot) and SMProfile-Quant (B2MML MaterialSubLot). Full text: docs/history/standard/profiles/wms/material-item.md, description.",
+  "parentType": null,
+  "abstract": true,
+  "attributes": [],
+  "relationships": [
+    {
+      "type": "AT_LOCATION",
+      "target": "StorageLocation",
+      "targetIdProp": "storage_location_id",
+      "description": "Where the material is held (B2MML MaterialLot.StorageLocation, MaterialSubLot.StorageLocation)."
+    }
+  ],
+  "isa95": {
+    "objectModel": "Extension",
+    "extension": true,
+    "momDomain": "inventory",
+    "level": 3,
+    "note": "OSF grouping of two B2MML objects; not an ISA-95 object of its own.",
+    "mappingNote": "B2MML 0700 has no common type of MaterialLot and MaterialSubLot.",
+    "childEdgePaths": {
+      "AT_LOCATION": {
+        "MaterialLot": "MaterialLot.StorageLocation",
+        "Quant": "MaterialSubLot.StorageLocation"
+      }
+    }
+  },
+  "kgNodeLabel": "MaterialItem",
+  "kgIdProperty": "material_item_id"
+}

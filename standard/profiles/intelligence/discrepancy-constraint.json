@@ -1,0 +1,55 @@
+{
+ "profileId": "SMProfile-ConstraintDiscrepancy",
+ "version": "2.0.0",
+ "standard": "OSF",
+ "displayName": "Constraint Discrepancy",
+ "category": "intelligence",
+ "description": "Per-class evidence profile for discrepancy_class 'constraint' (SDC-next) — analogous to discrepancy-multi-source.json. Full text: docs/history/standard/profiles/intelligence/discrepancy-constraint.md, description.",
+ "parentType": "Discrepancy",
+ "abstract": false,
+ "attributes": [
+ {
+ "name": "constraint_id",
+ "valueType": "ID",
+ "dataType": "String",
+ "category": "Evidence",
+ "description": "The violated profile constraint id, e.g. spindle_when_in_cycle"
+ },
+ {
+ "name": "constraint_defined_in",
+ "dataType": "String",
+ "category": "Evidence",
+ "description": "profileId in which the rule is defined (may be an ancestor via parentType)"
+ },
+ {
+ "name": "constraint_severity",
+ "dataType": "String",
+ "category": "Evidence",
+ "enum": [
+ "error",
+ "warning"
+ ],
+ "description": "Severity of the rule at raise time"
+ },
+ {
+ "name": "constraint_observed",
+ "dataType": "String",
+ "category": "Evidence",
+ "description": "Serialized attribute values at raise time (when/require attributes)"
+ },
+ {
+ "name": "constraint_rule",
+ "dataType": "String",
+ "category": "Evidence",
+ "description": "Serialized snapshot of the triggering rule version ({when, require, severity}) at raise time. Full text: docs/history/standard/profiles/intelligence/discrepancy-constraint.md, attributes › constraint_rule › description."
+ }
+ ],
+ "relationships": [],
+ "kgNodeLabel": "ConstraintDiscrepancy",
+ "kgIdProperty": "discrepancy_id",
+ "isa95": {
+ "objectModel": "Extension",
+ "extension": true,
+ "note": "Intelligence entity (Multi-Truth/SDC) — ISA-95 extension"
+ }
+}

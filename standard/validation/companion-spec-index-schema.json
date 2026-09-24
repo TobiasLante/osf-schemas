@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/validation/companion-spec-index-schema.json",
+  "title": "Companion Spec Index",
+  "description": "Meta-schema for standard/companion-specs/index.json. Defines the shape of the OPC-UA Companion-Spec registry (flat 'specs' map of NodeSet2.xml download URLs) read by the discovery pipeline.",
+  "type": "object",
+  "required": ["version", "specs"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "updated": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string"
+    },
+    "specs": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "required": ["url", "category", "description"],
+        "properties": {
+          "url": { "type": "string", "format": "uri" },
+          "category": {
+            "type": "string",
+            "enum": ["machines", "enterprise", "lab", "identification", "weighing"]
+          },
+          "description": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "patternProperties": {
+    "^\\$": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

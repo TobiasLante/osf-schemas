@@ -1,0 +1,158 @@
+{
+  "elementId": "SMProfile-Discrepancy",
+  "displayName": "Discrepancy (Abstract Parent)",
+  "namespaceUri": "urn:osf:schemas:intelligence",
+  "version": "2.0.0",
+  "schema": {
+    "description": "Abstract parent for the four discrepancy classes (Multi-Source, Drift, Confidence, Constraint). Full text: docs/history/standard/profiles/intelligence/discrepancy.md, description.",
+    "type": "object",
+    "properties": {
+      "discrepancy_id": {
+        "type": "string",
+        "description": "Unique discrepancy id (uuid)",
+        "x-valueType": "ID",
+        "x-category": "Core",
+        "x-isKey": true
+      },
+      "discrepancy_class": {
+        "type": "string",
+        "description": "Which detector class produced it (§17.1; 'constraint' = edge constraint-detector, next/ pilot; 'control_limit' = two-tier control-band breach (Warngrenze (warning … Full text: docs/history/standard/profiles/intelligence/discrepancy.md, attributes › discrepancy_class › description.",
+        "enum": [
+          "multi_source",
+          "drift",
+          "confidence",
+          "constraint",
+          "control_limit"
+        ],
+        "x-category": "Core"
+      },
+      "lifecycle_state": {
+        "type": "string",
+        "description": "Current lifecycle state (§17.2)",
+        "enum": [
+          "open",
+          "resolved",
+          "accepted_known_divergence",
+          "escalated",
+          "superseded"
+        ],
+        "x-category": "Lifecycle"
+      },
+      "resolution_mode": {
+        "type": "string",
+        "description": "Closure mode once terminal; null while open",
+        "enum": [
+          "resolved",
+          "accepted_known_divergence",
+          "escalated",
+          "superseded"
+        ],
+        "x-category": "Lifecycle"
+      },
+      "resolution_note": {
+        "type": "string",
+        "description": "Steward rationale for the closure decision",
+        "x-category": "Lifecycle"
+      },
+      "steward_domain": {
+        "type": "string",
+        "description": "Owning steward domain — domain-separation enforced for MVP (§16)",
+        "enum": [
+          "master_data",
+          "quality",
+          "process"
+        ],
+        "x-category": "Stewardship"
+      },
+      "assigned_to": {
+        "type": "string",
+        "description": "Person/role the discrepancy is assigned to",
+        "x-category": "Stewardship"
+      },
+      "due_at": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Deadline when escalated (§17.2 escalated)",
+        "x-dataType": "DateTime",
+        "x-category": "Stewardship"
+      },
+      "business_impact": {
+        "type": "number",
+        "description": "Estimated business impact for steward prioritization (§17.4)",
+        "x-category": "Prioritization"
+      },
+      "recurrence_key": {
+        "type": "string",
+        "description": "Stable signature for pattern-mining of repeated discrepancies — feeds auto-resolve-rule suggestion (§17.3 path 1). For class 'constraint': <machine_id>:<constraint_id>",
+        "x-category": "Learning"
+      },
+      "detected_at": {
+        "type": "string",
+        "format": "date-time",
+        "description": "When the detector first raised it",
+        "x-dataType": "DateTime",
+        "x-category": "Core"
+      },
+      "resolved_at": {
+        "type": "string",
+        "format": "date-time",
+        "description": "When it reached a terminal state",
+        "x-dataType": "DateTime",
+        "x-category": "Lifecycle"
+      },
+      "audit_ref": {
+        "type": "string",
+        "description": "Hash-chain ref into the vault (vault-hashchain) for the resolution event",
+        "x-valueType": "ID",
+        "x-category": "Audit"
+      }
+    }
+  },
+  "x-osf": {
+    "source": "standard/profiles/intelligence/discrepancy.json",
+    "standard": "OSF",
+    "category": "intelligence",
+    "abstract": true,
+    "relationships": [
+      {
+        "type": "ABOUT_ORDER",
+        "target": "ProductionOrder",
+        "targetIdProp": "production_order_no",
+        "description": "Order the discrepancy concerns (optional)"
+      },
+      {
+        "type": "ABOUT_MACHINE",
+        "target": "Machine",
+        "targetIdProp": "machine_id",
+        "description": "Machine the discrepancy concerns (optional)"
+      },
+      {
+        "type": "ABOUT_ARTICLE",
+        "target": "Article",
+        "targetIdProp": "article_no",
+        "description": "Article the discrepancy concerns (optional)"
+      },
+      {
+        "type": "SUPERSEDED_BY",
+        "target": "Discrepancy",
+        "targetIdProp": "discrepancy_id",
+        "description": "Newer discrepancy that overtook this one (§17.2 superseded)"
+      },
+      {
+        "type": "RESOLVED_BY_RULE",
+        "target": "AutoResolveRule",
+        "targetIdProp": "rule_id",
+        "description": "Auto-resolve rule that closed it, if any (§17.3 path 1)"
+      }
+    ],
+    "kgNodeLabel": "Discrepancy",
+    "kgIdProperty": "discrepancy_id",
+    "isa95": {
+      "objectModel": "Extension",
+      "extension": true,
+      "note": "Intelligence entity (Multi-Truth/SDC) — ISA-95 extension"
+    },
+    "parentType": null,
+    "requiredDeclaredOn": []
+  }
+}

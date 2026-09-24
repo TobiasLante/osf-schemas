@@ -8,49 +8,55 @@ No LLM is needed — the schemas are the single source of truth.
 <!-- gen:tree:begin -->
 ```
 osf-schemas/
-├── branding/               brand/theme assets (1 json)
-├── ci/                     linters + generators (lint-*.mjs, gen-contract.mjs, gen-docs.mjs)
-├── companion-specs/        OPC-UA Companion-Spec registry (NodeSet2.xml URLs) (1 json)
-├── consumers/               (15 json)
-├── cross-constraints/      cross-profile discrepancy constraints (PLAN vs IST rules) (4 json)
 ├── docs/                   conventions, next2.0 standard, agent-conformance, variable shapes; history/ = the reasoning moved out of the JSON
 ├── examples/               demo fixtures — NOT canonical (see examples/README.md) (5 json)
-├── flows/                  Node-RED flow templates (OPC-UA → UNS standard flow) (1 json)
-├── historians/             historian-sink templates + instances (OUTPUT: UNS → customer DB)
-│   ├── central-ts-tables/       (2 json)
-│   ├── grafana-dashboards/      (4 json)
-│   ├── influxdb/                (1 json)
-│   ├── instances/               (3 json)
-│   ├── mssql/                   (1 json)
-│   ├── nats-jetstream/          (1 json)
-│   ├── postgresql/              (1 json)
-│   ├── postgresql-cagg/         (1 json)
-│   ├── postgresql-pivot/        (1 json)
-│   └── views/                   (1 json)
-├── i3x/                    GENERATED i3X 1.0 form of profiles/ (i3x-v5 schemas-ci/gen-i3x.mjs): Object Types as JSON Schema, Relationship Types with reverseOf (32 json)
-├── kpis/                   KPI definitions — inputs drawn from the source-fed vocabulary (lint-kpis) (6 json)
-├── mappings/               protocol canon: DataItem/tag → SM attribute (SSOT for discovery + gen-flows) (4 json)
-├── profiles/               Schema 1: SM Profiles (type system)
-│   ├── equipment/              EquipmentClass, EquipmentModel (compact), Tool (3 json)
-│   ├── erp/                    Article, Customer(-Order), ProductionOrder, ProductDefinition, OperationsResponse (9 json)
-│   ├── intelligence/           multi-truth layer: Discrepancy, ResolutionProposal, AutoResolveRule, … (5 json)
-│   ├── machines/               Machine (abstract parent), CNC_Machine, InjectionMoldingMachine (3 json)
-│   ├── operations/             ISA-95 Part 4: OperationsDefinition, ProcessSegment, Segment{Requirement,Response}, Workorder (5 json)
-│   ├── qms/                    InspectionLot, SPCAnalysis (2 json)
-│   └── wms/                    MaterialLot, Quant, StorageLocation (4 json)
-├── recipes/                GitHub-managed recipe master data (see recipes/README.md) (5 json)
-├── sources/                Schema 2: Data Sources (instance binding)
-│   ├── mtconnect/              MTConnect agent mappings (2 json)
-│   ├── opcua/                  OPC-UA endpoint → machine mappings (15 json)
-│   └── rest/                   sim-v5 REST polling (ERP/QMS/WMS projections) (10 json)
-├── sync/                   Schema 3: Live Sync (transport layer)
-│   ├── nats/                   NATS subjects + JetStream stream declarations (suite hub) (2 json)
-│   ├── opcua-server/           Sonder-Edge re-publish (MTConnect → embedded OPC-UA server) (1 json)
-│   └── polling/                REST polling schedule (1 json)
-├── unit-conversions/       UNECE unit table (discovery-time scale/offset lookup) (1 json)
-├── validation/             ajv meta-schemas (per-file shape validation) (33 json)
+├── sites/                  one folder per plant (site): its instance tree, sources, syncs, consumers
+│   └── werk1/                  
+│       ├── branding/               brand/theme assets (1 json)
+│       ├── consumers/               (15 json)
+│       ├── historians/             historian-sink templates + instances (OUTPUT: UNS → customer DB)
+│       │   ├── grafana-dashboards/      (4 json)
+│       │   └── instances/               (3 json)
+│       ├── instances/              the plant tree: Enterprise → Site → Area → ProcessCell → Unit (ISA-88 equipment levels) (6 json)
+│       ├── mappings/               protocol canon: DataItem/tag → SM attribute (SSOT for discovery + gen-flows) (1 json)
+│       ├── recipes/                GitHub-managed recipe master data (see recipes/README.md) (5 json)
+│       ├── sources/                Schema 2: Data Sources (instance binding)
+│       │   ├── mtconnect/              MTConnect agent mappings (2 json)
+│       │   ├── opcua/                  OPC-UA endpoint → machine mappings (15 json)
+│       │   └── rest/                   sim-v5 REST polling (ERP/QMS/WMS projections) (10 json)
+│       └── sync/                   Schema 3: Live Sync (transport layer)
+│           ├── nats/                   NATS subjects + JetStream stream declarations (suite hub) (2 json)
+│           ├── opcua-server/           Sonder-Edge re-publish (MTConnect → embedded OPC-UA server) (1 json)
+│           └── polling/                REST polling schedule (1 json)
+├── standard/               CENTRAL — classes, contracts, vocabulary, edge catalogue; one per enterprise
+│   ├── companion-specs/        OPC-UA Companion-Spec registry (NodeSet2.xml URLs) (1 json)
+│   ├── cross-constraints/      cross-profile discrepancy constraints (PLAN vs IST rules) (4 json)
+│   ├── flows/                  Node-RED flow templates (OPC-UA → UNS standard flow) (1 json)
+│   ├── historians/             historian-sink templates + instances (OUTPUT: UNS → customer DB)
+│   │   ├── central-ts-tables/       (2 json)
+│   │   ├── influxdb/                (1 json)
+│   │   ├── mssql/                   (1 json)
+│   │   ├── nats-jetstream/          (1 json)
+│   │   ├── postgresql/              (1 json)
+│   │   ├── postgresql-cagg/         (1 json)
+│   │   ├── postgresql-pivot/        (1 json)
+│   │   └── views/                   (1 json)
+│   ├── i3x/                    GENERATED i3X 1.0 form of profiles/ (i3x-v5 schemas-ci/gen-i3x.mjs): Object Types as JSON Schema, Relationship Types with reverseOf (32 json)
+│   ├── kpis/                   KPI definitions — inputs drawn from the source-fed vocabulary (lint-kpis) (6 json)
+│   ├── mappings/               protocol canon: DataItem/tag → SM attribute (SSOT for discovery + gen-flows) (3 json)
+│   ├── profiles/               Schema 1: SM Profiles (type system)
+│   │   ├── equipment/              EquipmentClass, EquipmentModel (compact), Tool (3 json)
+│   │   ├── erp/                    Article, Customer(-Order), ProductionOrder, ProductDefinition, OperationsResponse (9 json)
+│   │   ├── intelligence/           multi-truth layer: Discrepancy, ResolutionProposal, AutoResolveRule, … (5 json)
+│   │   ├── machines/               Machine (abstract parent), CNC_Machine, InjectionMoldingMachine (3 json)
+│   │   ├── operations/             ISA-95 Part 4: OperationsDefinition, ProcessSegment, Segment{Requirement,Response}, Workorder (5 json)
+│   │   ├── qms/                    InspectionLot, SPCAnalysis (2 json)
+│   │   └── wms/                    MaterialLot, Quant, StorageLocation (4 json)
+│   ├── sync/                   Schema 3: Live Sync (transport layer) (1 json)
+│   ├── unit-conversions/       UNECE unit table (discovery-time scale/offset lookup) (1 json)
+│   ├── validation/             ajv meta-schemas (per-file shape validation) (35 json)
+│   └── contract.json           GENERATED ontology contract (gen-contract.mjs) — agents read this FIRST
 ├── CLAUDE.md               agent instructions
-├── contract.json           GENERATED ontology contract (gen-contract.mjs) — agents read this FIRST
 ├── LICENSE                 MIT
 ├── README.md               this overview
 └── schema-guide.md         the full schema documentation
@@ -59,10 +65,10 @@ osf-schemas/
 
 ## Counts
 
-Verbindlich sind die Linter-Zahlen (`npm run validate` → lint-refs meldet
+Verbindlich sind die Linter-Zahlen (i3x-v5 `check-next.sh` → lint-refs meldet
 `N profiles, M sources, K sync files`) — und die Tabelle hier wird von
-`ci/gen-docs.mjs` aus demselben Tree **generiert** (`npm run gen:docs`;
-`npm run validate:docs` wird rot, wenn sie von einem frischen Render abweicht —
+i3x-v5 `packages/schemas-ci/osf/gen-docs.mjs` aus demselben Tree **generiert**;
+`gen-docs.mjs --check` in check-next wird rot, wenn sie von einem frischen Render abweicht —
 eine Doku-Zahl, die niemand nachrechnet, ist eine Lüge mit Veröffentlichungsdatum).
 Alles aus der v3-Ära (PostgreSQL-Sources, MQTT-UNS-/Kafka-/Webhook-Syncs) liegt in
 `backup/pre-next2.0/` und wird von keinem Service mehr geladen.
@@ -81,12 +87,12 @@ Alles aus der v3-Ära (PostgreSQL-Sources, MQTT-UNS-/Kafka-/Webhook-Syncs) liegt
 | Recipes | 5 (2 parked) | recipe-sgm-004-default, recipe-sgm-004-pa66gf30-bracket-b *(parked)*, recipe-sgm-004-pa66gf30-housing-a *(parked)*, recipe-sgm-005-default, recipe-sgm-006-default |
 | KPIs | 6 (2 parked) | availability, energy-per-part *(parked)*, oee, performance *(parked)*, quality-rate, scrap-rate |
 
-Measured from the tree by `ci/gen-docs.mjs` — the same sums `npm run validate:refs` prints (`lint-refs: 31 profiles, 27 sources, 5 sync files`).
+Measured from the tree by `i3x-v5 packages/schemas-ci/osf/gen-docs.mjs` — the same sums `lint-refs` prints (`lint-refs: 31 profiles, 27 sources, 5 sync files`).
 <!-- gen:counts:end -->
 
 ---
 
-## Historians (`historians/<db>/<template>.json`)
+## Historians (`standard/historians/<db>/<template>.json`)
 
 Templates für Historian-Sinks. i3X liefert den Historian **nicht** mit —
 der Kunde bringt Postgres/Timescale, MSSQL oder InfluxDB. Diese Templates
@@ -95,15 +101,15 @@ benutzt werden muss und wie Verbindung / Tabelle / Insert-Strategie
 konfiguriert sind.
 
 **Richtung:** OUTPUT (UNS-Event → Historian-Write). Unterschied zu
-`sync/polling/` (das ist INPUT aus einer Kunden-DB).
+`sites/werk1/sync/polling/` (das ist INPUT aus einer Kunden-DB).
 
 **Unterstützt:**
-- `historians/postgresql/historian-template.json` — `node-red-contrib-postgresql`, optional Timescale-Hypertable + Compression + Retention.
-- `historians/mssql/historian-template.json` — `node-red-contrib-mssql-plus`.
-- `historians/influxdb/historian-template.json` — `node-red-contrib-influxdb` 2.x, Measurement pro Domain.
-- `historians/nats-jetstream/historian-template.json` (v3, additive) — `@i3x/nr-nats` durable consumer auf einem JetStream-Stream → Postgres-Insert in dieselbe `uns_history`-Tabelle. Wird verwendet wenn die Source `transport: ['nats']` setzt; bei `['mqtt','nats']` läuft der MQTT-Historian-Pfad parallel.
+- `standard/historians/postgresql/historian-template.json` — `node-red-contrib-postgresql`, optional Timescale-Hypertable + Compression + Retention.
+- `standard/historians/mssql/historian-template.json` — `node-red-contrib-mssql-plus`.
+- `standard/historians/influxdb/historian-template.json` — `node-red-contrib-influxdb` 2.x, Measurement pro Domain.
+- `standard/historians/nats-jetstream/historian-template.json` (v3, additive) — `@i3x/nr-nats` durable consumer auf einem JetStream-Stream → Postgres-Insert in dieselbe `uns_history`-Tabelle. Wird verwendet wenn die Source `transport: ['nats']` setzt; bei `['mqtt','nats']` läuft der MQTT-Historian-Pfad parallel.
 
-Daneben liegen unter `historians/` keine Templates, sondern konkrete Artefakte:
+Daneben liegen unter `standard/historians/` keine Templates, sondern konkrete Artefakte:
 `instances/` (deklarierte Historian-Instanzen edge/central), `central-ts-tables/`
 (Central-Timescale-Tabellendefinitionen), `postgresql-cagg/` (Continuous
 Aggregates), `postgresql-pivot/` (Pivot-Routing), `views/` und
@@ -119,13 +125,13 @@ Template-Shape gemeinsam:
 
 ---
 
-## Companion-Spec-Registry (`companion-specs/index.json`)
+## Companion-Spec-Registry (`standard/companion-specs/index.json`)
 
 Flat registry of OPC-UA Companion-Spec NodeSet2.xml download URLs.
 Referenced by `companionSpec` field on SM-Profiles so the discovery
 pipeline can fetch the authoritative NodeSet on demand.
 
-**File:** `companion-specs/index.json`
+**File:** `standard/companion-specs/index.json`
 
 ```json
 {
@@ -147,12 +153,12 @@ companion-spec feature disables itself (no hardcoded fallback in code).
 
 ---
 
-## Protokoll-Kanon (`mappings/`)
+## Protokoll-Kanon (`standard/mappings/`)
 
 Wie ein Protokoll-Tag auf ein kanonisches SM-Attribut projiziert. Hier liegt die
 SSOT für die Projektion — **kein Consumer führt seine eigene Kopie der Tabelle**.
 
-**File:** `mappings/mtconnect-dataitem-map.json`
+**File:** `standard/mappings/mtconnect-dataitem-map.json`
 
 Keyed auf den DataItem-id-**Suffix** (id minus Device-Prefix, z. B.
 `cnc-03-spindle-speed` → `-spindle-speed`), damit eine Tabelle jedes MTConnect-Gerät
@@ -160,8 +166,8 @@ bedient. Consumer matchen den **längsten** Suffix zuerst (`-tool-life` vor `-to
 Ein Suffix darf mehrere Attribute treiben: das EXECUTION-DataItem liefert drei.
 
 Gelesen von `discovery` (`${OSF_SCHEMAS_PATH}/mappings/…`, mtconnect-Probe) und vom
-gen-flows-Exporter. `ci/lint-mtconnect-canon.mjs` (`npm run validate:mtconnect`)
-prüft gegen das Profil und gegen jede `sources/mtconnect/*.json`:
+gen-flows-Exporter. `lint-mtconnect-canon` (i3x-v5 check-next)
+prüft gegen das Profil und gegen jede `sites/werk1/sources/mtconnect/*.json`:
 
 - `dataType` des Kanons == `dataType` des Attributs auf `profileRef`
 - `valueMap`-Werte passen zum eigenen `dataType`
@@ -178,7 +184,7 @@ weil kein Linter beide verglichen hat (Audit 2026-07-08).
 
 Defines **what types of nodes exist** — their label, ID property, attributes, relationships, and inheritance.
 
-**File:** `profiles/<domain>/<type>.json`
+**File:** `standard/profiles/<domain>/<type>.json`
 
 ```json
 {
@@ -209,7 +215,7 @@ Defines **what types of nodes exist** — their label, ID property, attributes, 
 ### `enum` — the vocabulary is part of the contract (enforced)
 
 If an attribute has a finite value range, **declare it**: `"enum": ["OPEN", "CANCELLED", …]`.
-This is not decoration. `ci/lint-vocabulary.mjs` (in `npm run validate`, hard gate) refuses
+This is not decoration. `lint-vocabulary` (i3x-v5 check-next, hard gate) refuses
 any `eq` / `ne` / `in` guard whose literal is not drawn from a declared vocabulary:
 
 * **Fail-closed.** A `String` attribute compared to a literal **must** declare `enum`, or CI is red.
@@ -219,7 +225,7 @@ any `eq` / `ne` / `in` guard whose literal is not drawn from a declared vocabula
   (`{ "const": "fertig" }`, or a `valueMap` with a `"*"` default), the deliverable set is known
   from the SSOT alone: a guard literal outside it is proven dead *offline*, and an `enum` that
   declares an undeliverable value is proven fictional.
-* **Recipes:** `match.equipment` must be a machine id declared in `sources/**` (closed set).
+* **Recipes:** `match.equipment` must be a machine id declared in `sites/werk1/sources/**` (closed set).
 
 **Measure the vocabulary — never write down what you assume.** Measure it at the boundary the
 pipeline actually consumes (the source projection), *not* in the database behind it: on 2026-07-12
@@ -228,7 +234,7 @@ emits `in_arbeit`/`freigegeben`. Linting against the DB dialect would have flagg
 value as dead. And prefer the projection's **code** over a data snapshot — a snapshot of a live
 system is only a lower bound on what the attribute can hold.
 
-`ci/check-vocab-drift.mjs` (nightly, needs the plant network) then holds every declared `enum`
+`check-vocab-drift.mjs` (i3x-v5 osf/unported, nightly, needs the plant network) then holds every declared `enum`
 against the real source, pages it to exhaustion, and fails when reality delivers a value the SSOT
 does not know. It also reports **zombie guards** (a legal literal that currently matches no row)
 and **dead recipes** (`match.article` not in the article master) — loudly, without failing the
@@ -268,12 +274,12 @@ Defines **where to load instance data from** — which database/endpoint, how fi
 
 ### REST Source (business entities)
 
-**File:** `sources/rest/<source-id>.json` — the ONLY active path for ERP/QMS/WMS
-entities: the sim-v5 REST projections, polled per `sync/polling/sim-v5-poll.json`.
+**File:** `sites/<site>/sources/rest/<source-id>.json` — the ONLY active path for ERP/QMS/WMS
+entities: the sim-v5 REST projections, polled per `sites/werk1/sync/polling/sim-v5-poll.json`.
 Direct-PostgreSQL sources are a v3-era pattern — archived under
 `backup/pre-next2.0/sources/`, loaded by nothing.
 
-Shortened from the real `sources/rest/erp-production-orders.json`:
+Shortened from the real `sites/werk1/sources/rest/erp-production-orders.json`:
 
 ```json
 {
@@ -303,9 +309,9 @@ Shortened from the real `sources/rest/erp-production-orders.json`:
 
 ### OPC-UA Source (machines)
 
-**File:** `sources/opcua/<machine-id>-<category>.json`
+**File:** `sites/<site>/sources/opcua/<machine-id>-<category>.json`
 
-Shortened from the real `sources/opcua/opcua-sgm-004-processdata.json`:
+Shortened from the real `sites/werk1/sources/opcua/opcua-sgm-004-processdata.json`:
 
 ```json
 {
@@ -326,7 +332,7 @@ Shortened from the real `sources/opcua/opcua-sgm-004-processdata.json`:
 
 ### Key concepts
 
-**`columnMappings` / `nodeMappings`**: source field → `smAttribute` (KG node property). `isId: true` marks the identity column. Every mapped `smAttribute` MUST exist in the referenced profile — `ci/lint-refs.mjs` (E4) enforces it, and `ci/lint-mtconnect-canon.mjs` holds MTConnect sources against the protocol canon in `mappings/`.
+**`columnMappings` / `nodeMappings`**: source field → `smAttribute` (KG node property). `isId: true` marks the identity column. Every mapped `smAttribute` MUST exist in the referenced profile — `ci/lint-refs.mjs` (E4) enforces it, and `ci/lint-mtconnect-canon.mjs` holds MTConnect sources against the protocol canon in `standard/mappings/`.
 
 **`edges`**: `fkColumn` → `targetIdProp`. The builder resolves `targetIdProp` to ALL profile labels sharing that `kgIdProperty` (polymorphic resolution).
 
@@ -351,9 +357,9 @@ Defines **how to keep the KG updated** in real-time or near-real-time.
 
 ### Polling Sync
 
-**File:** `sync/polling/<sync-id>.json` — every `sourceRef` MUST resolve to a
-`sourceId` in `sources/` and its `changeDetection` should match the source's
-own `polling` contract (`npm run validate:refs` enforces the reference).
+**File:** `sites/<site>/sync/polling/<sync-id>.json` — every `sourceRef` MUST resolve to a
+`sourceId` in `sites/werk1/sources/` and its `changeDetection` should match the source's
+own `polling` contract (`lint-refs` in i3x-v5 check-next enforces the reference).
 
 ```json
 {
@@ -369,7 +375,7 @@ own `polling` contract (`npm run validate:refs` enforces the reference).
 
 ### NATS / JetStream Sync
 
-**Files:** `sync/nats/<sync-id>.json` — two layers:
+**Files:** `sites/<site>/sync/nats/<sync-id>.json` — two layers:
 
 - `syncType: "nats"` — subject mapping for one OPC-UA→NATS republish
   (`opcua-to-nats-cnc-mtc-01`). Edge IPCs run a NATS Leaf Node which forwards
@@ -380,7 +386,7 @@ own `polling` contract (`npm run validate:refs` enforces the reference).
   the publish-target stream per delivery class) and by the nats-bridge
   consumers. No stream name is hardcoded in code.
 
-Real shape (shortened from `sync/nats/jetstream-streams.json` — the edge tier
+Real shape (shortened from `sites/werk1/sync/nats/jetstream-streams.json` — the edge tier
 buffers durably in `EDGE_EXPORT`, the hub tier `FACTORY` stream sources it
 cross-domain per edge):
 
@@ -446,11 +452,11 @@ Phase 1: Type System
   → Create range indexes on kgIdProperty per label (skip abstract)
 
 Phase 2: Instance Nodes
-  → REST sources (sources/rest/) polled per sync/polling/sim-v5-poll.json —
+  → REST sources (sites/werk1/sources/rest/) polled per sites/werk1/sync/polling/sim-v5-poll.json —
     UNWIND MERGE nodes, then edges (polymorphic targetIdProp resolution)
   → Machine nodes from the OPC-UA/MTConnect source registrations
-    (sources/opcua/, sources/mtconnect/); live values arrive over the
-    NATS/JetStream path (sync/nats/), not by direct builder pull
+    (sites/werk1/sources/opcua/, sites/werk1/sources/mtconnect/); live values arrive over the
+    NATS/JetStream path (sites/werk1/sync/nats/), not by direct builder pull
   → Anchor snapshots (demo fixture, see examples/README.md)
 
 Phase 3: Parent Labels
@@ -471,7 +477,6 @@ Phase 5: Embeddings
 | targetIdProp | Resolves to label(s) | Edge rules using it |
 |---|---|---|
 | `analysis_id` | SPCAnalysis | — |
-| `area_id` | ⚠ **none** — no profile declares this key (see `contract.json` → `unresolvedTargets`) | 1 |
 | `article_no` | Article | 11 |
 | `change_request_id` | ChangeRequest | — |
 | `confirmation_no` | BdeConfirmation | — |
@@ -484,7 +489,6 @@ Phase 5: Embeddings
 | `material_lot_no` | MaterialLot | 2 |
 | `operations_definition_no` | OperationsDefinition | 2 |
 | `order_no` | CustomerOrder | — |
-| `process_cell_id` | ⚠ **none** — no profile declares this key (see `contract.json` → `unresolvedTargets`) | 1 |
 | `process_segment_no` | ProcessSegment | 3 |
 | `product_definition_no` | ProductDefinition | 1 |
 | `production_order_no` | OperationsResponse, ProductionOrder | 7 |
@@ -505,17 +509,17 @@ Derived from `contract.json` (`nodes` grouped by key property; `edges` for usage
 
 ## Adding a New Machine Type
 
-1. Create `profiles/machines/<type>.json` with `parentType: "Machine"` and `kgIdProperty: "machine_id"`
+1. Create `standard/profiles/machines/<type>.json` with `parentType: "Machine"` and `kgIdProperty: "machine_id"`
 2. Add the machine's own attributes (the abstract `Machine` parent contributes identity + relationships — it has no attributes of its own)
-3. Add OPC-UA mapping in `sources/opcua/<machine-id>-<category>.json`
+3. Add OPC-UA mapping in `sites/<site>/sources/opcua/<machine-id>-<category>.json`
 4. All existing edges with `targetIdProp: "machine_id"` automatically find the new type — **no source schema changes needed**
 
 ## Adding a New ERP Entity
 
-1. Create `profiles/erp/<entity>.json` with unique `kgNodeLabel` and `kgIdProperty`
-2. Create `sources/rest/<source>.json` with `profileRef` and `columnMappings` against the sim-v5 REST projection (direct-DB `sources/postgresql/` is a v3-era pattern — archived, loaded by nothing)
+1. Create `standard/profiles/erp/<entity>.json` with unique `kgNodeLabel` and `kgIdProperty`
+2. Create `sites/<site>/sources/rest/<source>.json` with `profileRef` and `columnMappings` against the sim-v5 REST projection (direct-DB `sites/werk1/sources/postgresql/` is a v3-era pattern — archived, loaded by nothing)
 3. Add `edges` if the entity references other entities (e.g. `article_no` → Article)
-4. Add a `sourceRef` entry to `sync/polling/sim-v5-poll.json` for live updates (`npm run validate:refs` checks the reference)
+4. Add a `sourceRef` entry to `sites/werk1/sync/polling/sim-v5-poll.json` for live updates (`lint-refs` in i3x-v5 check-next checks the reference)
 
 ---
 
@@ -526,10 +530,10 @@ Derived from `contract.json` (`nodes` grouped by key property; `edges` for usage
 In v3 every variable in an SM Profile carries a three-property contract that
 declares how its data is wired, where it is allowed to land, and what triggers
 a publish. These are **required** on every attribute in
-`profiles/machines/*.json` (validated by `validation/machine-profile-schema.json`)
+`standard/profiles/machines/*.json` (validated by `standard/validation/machine-profile-schema.json`)
 and the business-category profiles under `profiles/{erp,operations,qms,wms}/`
-(validated by `validation/business-profile-schema.json` — there is no
-`profiles/business/` directory).
+(validated by `standard/validation/business-profile-schema.json` — there is no
+`standard/profiles/business/` directory).
 
 ### `delivery` — wire class
 

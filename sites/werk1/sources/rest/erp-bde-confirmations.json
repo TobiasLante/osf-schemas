@@ -1,0 +1,121 @@
+{
+  "sourceId": "erp-bde-confirmations",
+  "version": "1.1.0",
+  "sourceType": "rest",
+  "syncType": "polling",
+  "profileRef": "SMProfile-BdeConfirmation",
+  "instanceRef": "werk1",
+  "location": { "enterprise": "factory", "site": "werk1" },
+  "transport": [
+    "nats"
+  ],
+  "connection": {
+    "baseUrl": "http://192.168.178.154:38260",
+    "path": "/api/confirmations?limit=5000",
+    "method": "GET",
+    "auth": null,
+    "timeoutMs": 30000
+  },
+  "response": {
+    "format": "json",
+    "rootPath": "$",
+    "idProperty": "confirmation_no"
+  },
+  "polling": {
+    "changeDetection": "timestamp",
+    "timestampField": "recorded_at",
+    "intervalMs": 300000,
+    "batchSize": 5000,
+    "paginate": false
+  },
+  "columnMappings": [
+    {
+      "column": "confirmation_no",
+      "smAttribute": "confirmation_no",
+      "isId": true
+    },
+    {
+      "column": "production_order_no",
+      "smAttribute": "production_order_no"
+    },
+    {
+      "column": "article_no",
+      "smAttribute": "article_ref"
+    },
+    {
+      "column": "machine_no",
+      "smAttribute": "machine_ref"
+    },
+    {
+      "column": "operation_no",
+      "smAttribute": "operation_no"
+    },
+    {
+      "column": "shift",
+      "smAttribute": "shift"
+    },
+    {
+      "column": "good_qty",
+      "smAttribute": "good_qty"
+    },
+    {
+      "column": "scrap_qty",
+      "smAttribute": "scrap_qty"
+    },
+    {
+      "column": "rework_qty",
+      "smAttribute": "rework_qty"
+    },
+    {
+      "column": "scrap_reason",
+      "smAttribute": "scrap_reason"
+    },
+    {
+      "column": "labor_min",
+      "smAttribute": "labor_min"
+    },
+    {
+      "column": "machine_min",
+      "smAttribute": "machine_min"
+    },
+    {
+      "column": "setup_min",
+      "smAttribute": "setup_min"
+    },
+    {
+      "column": "cycle_time_actual",
+      "smAttribute": "cycle_time_actual_sec"
+    },
+    {
+      "column": "ts_start",
+      "smAttribute": "actual_start_time"
+    },
+    {
+      "column": "ts_end",
+      "smAttribute": "actual_end_time"
+    },
+    {
+      "column": "recorded_at",
+      "smAttribute": "updated_at"
+    }
+  ],
+  "filter": null,
+  "edges": [
+    {
+      "type": "RESPONDS_TO",
+      "fkColumn": "production_order_no",
+      "targetIdProp": "production_order_no"
+    },
+    {
+      "type": "FOR_ARTICLE",
+      "fkColumn": "article_no",
+      "targetIdProp": "article_no"
+    },
+    {
+      "type": "ON_MACHINE",
+      "fkColumn": "machine_no",
+      "targetIdProp": "machine_id"
+    }
+  ],
+  "description": "The BOOKING grain of the sim-v5 BDE feed. Full text: docs/history/sites/werk1/sources/rest/erp-bde-confirmations.md, description."
+}

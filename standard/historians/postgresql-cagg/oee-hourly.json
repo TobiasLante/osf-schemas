@@ -1,0 +1,33 @@
+{
+  "$description": "OEE Continuous Aggregate auf bde_data, refresh alle 5min. Full text: docs/history/standard/historians/postgresql-cagg/oee-hourly.md, $description.",
+  "syncId": "oee-hourly-cagg",
+  "syncType": "postgresql-cagg",
+  "version": "1.0.0",
+  "deployTarget": "it",
+  "view": "oee_hourly_v5",
+  "schema": "public",
+  "sourceTable": "bde_data",
+  "bucketInterval": "1 hour",
+  "timeColumn": "cycle_timestamp",
+  "groupBy": ["machine_id"],
+  "select": {
+    "good_parts_produced":     "SUM(good_parts)::int",
+    "defective_parts":         "SUM(scrap_parts)::int",
+    "total_parts_produced":    "(SUM(good_parts) + SUM(scrap_parts))::int",
+    "actual_operating_time":   "SUM((good_parts + scrap_parts) * cycle_time_actual)::int",
+    "planned_production_time": "3600",
+    "downtime_minutes":        "0",
+    "quality":      "CASE WHEN (SUM(good_parts) + SUM(scrap_parts)) > 0 THEN ROUND((SUM(good_parts)::numeric / NULLIF((SUM(good_parts) + SUM(scrap_parts))::numeric, 0)), 4) ELSE 0::numeric END",
+    "performance":  "CASE WHEN SUM(cycle_time_actual) > 0 THEN LEAST(ROUND((SUM(cycle_time_planned)::numeric / NULLIF(SUM(cycle_time_actual)::numeric, 0)), 4), 1::numeric) ELSE 0::numeric END",
+    "availability": "CASE WHEN SUM((good_parts + scrap_parts) * cycle_time_actual) > 0 THEN LEAST(ROUND((SUM((good_parts + scrap_parts) * cycle_time_actual)::numeric / 3600::numeric), 4), 1::numeric) ELSE 0::numeric END"
+  },
+  "$note": "OEE selbst (= quality * performance * availability) wird NICHT im CAGG materialisiert — ein nachgelagerter Plain-View oder die Grafana-Query rechnet das Produkt zur Read-Time. Begründung: würde nochmal die drei Aggregate referenzieren müssen, was im CAGG-SELECT mehr Verkomplizierung als Nutzen bringt. Drei Spalten statt einer ist billig.",
+  "$authority": "AUTHORITY SPLIT mit standard/kpis/oee.json (2026-07-15, CAPT-KPI): DIESES File ist autoritativ für zeitgefenstertes 3-Faktor-OEE (quality x performance x availability über Stunden-Buckets von bde_data — inkl. der hier dokumentierten Hardcodes planned_production_time=3600 und downtime_minutes=0). standard/kpis/oee.json ist KEIN konkurrierendes OEE: es ist ein Live-Quality-Faktor-Proxy auf dem Edge-Draht (since-counter-reset, keine Zeitfaktoren) und sagt das in seiner eigenen description. Jede Reporting-/EUR-Zahl kommt aus diesem CAGG, nie aus dem Edge-KPI.",
+  "refreshPolicy": {
+    "startOffset": "3 hours",
+    "endOffset":   "5 minutes",
+    "scheduleInterval": "5 minutes"
+  },
+  "compress": "30 days",
+  "retention": "365 days"
+}

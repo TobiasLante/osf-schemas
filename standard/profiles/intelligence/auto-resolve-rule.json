@@ -1,0 +1,53 @@
+{
+  "profileId": "SMProfile-AutoResolveRule",
+  "version": "2.0.0",
+  "standard": "OSF",
+  "displayName": "Auto-Resolve Rule",
+  "category": "intelligence",
+  "description": "Intelligence-engine configuration object: a rule that auto-resolves or proposes resolutions for discrepancies. Full text: docs/history/standard/profiles/intelligence/auto-resolve-rule.md, description.",
+  "parentType": null,
+  "abstract": false,
+  "attributes": [
+    {
+      "name": "rule_id",
+      "dataType": "String",
+      "category": "Core",
+      "description": "Rule identity / key.",
+      "isKey": true,
+      "valueType": "ID"
+    },
+    {
+      "name": "name",
+      "dataType": "String",
+      "category": "Core",
+      "description": "Human-readable rule name."
+    },
+    {
+      "name": "rule_type",
+      "dataType": "String",
+      "category": "Core",
+      "description": "Kind of rule (e.g. auto_resolve, propose, suppress)."
+    },
+    {
+      "name": "enabled",
+      "dataType": "Boolean",
+      "category": "Core",
+      "description": "Whether the rule is active."
+    }
+  ],
+  "relationships": [
+    {
+      "type": "RESOLVES",
+      "target": "Discrepancy",
+      "targetIdProp": "discrepancy_id",
+      "description": "The discrepancy class/instances this rule acts on."
+    }
+  ],
+  "kgNodeLabel": "AutoResolveRule",
+  "kgIdProperty": "rule_id",
+  "isa95": {
+    "objectModel": "Extension",
+    "extension": true,
+    "note": "OSF intelligence extension — engine config, not an ISA-95 MOM object."
+  }
+}
