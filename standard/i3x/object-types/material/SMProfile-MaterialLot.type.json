@@ -57,7 +57,7 @@
           },
           "workorder_ref": {
             "type": "string",
-            "description": "FK to Workorder.workorder_no (PRODUCED_BY). The order slot that produced this lot.",
+            "description": "FK to Workorder.workorder_no, reached via JobOrder REQUIRES_MATERIAL. The order slot that produced this lot.",
             "x-category": "Link",
             "x-delivery": "transactional",
             "x-scope": "hub",
@@ -107,12 +107,6 @@
         "target": "Quant",
         "description": "Inverse of Quant (MaterialSublot) — the inventory sublots of this lot.",
         "targetIdProp": "quant_no"
-      },
-      {
-        "type": "PRODUCED_BY",
-        "target": "Workorder",
-        "targetIdProp": "workorder_no",
-        "description": "The order slot (Workorder) that produced this lot."
       },
       {
         "type": "AT_LOCATION",

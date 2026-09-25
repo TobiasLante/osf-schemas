@@ -54,7 +54,7 @@
       "dataType": "String",
       "required": false,
       "category": "Link",
-      "description": "FK to Article.article_no (FOR_ARTICLE). The article that this routing manufactures.",
+      "description": "FK to Article.article_no, reached via OperationsSegment SPECIFIES_MATERIAL. The article that this routing manufactures.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
@@ -72,20 +72,7 @@
       "valueType": "ID"
     }
   ],
-  "relationships": [
-    {
-      "type": "FOR_ARTICLE",
-      "target": "Article",
-      "targetIdProp": "article_no",
-      "description": "The manufactured article (MaterialDefinition)."
-    },
-    {
-      "type": "CONTAINS_SEGMENT",
-      "target": "ProcessSegment",
-      "targetIdProp": "process_segment_no",
-      "description": "Inverse of ProcessSegment.PART_OF — the stages of this routing."
-    }
-  ],
+  "relationships": [],
   "constraints": [],
   "semantics": [
     "iso:62264-OperationsDefinition",

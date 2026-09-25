@@ -11,7 +11,7 @@ Neo4j + TimescaleDB via a structured write API. One day.
 ## Result
 
 Two complete factory graphs (12,758 nodes, 16,692 edges combined) — **mutually incompatible**:
-three names for the same edge semantics (`ON_MACHINE` / `AT_WORKCENTER` / `RUNS_ON`), machine
+three names for the same edge semantics (this repo's SegmentResponse `ACTUAL_EQUIPMENT` / `AT_WORKCENTER` / `RUNS_ON`), machine
 identity modelled three ways, zero shared merge keys.
 
 Measured with `ci/conformance.mjs` (nodes: declared label + its key property present; edges:
@@ -25,7 +25,7 @@ declared triple):
 ## The honest diagnosis
 
 1. **We shipped diverging sources of truth.** The repo says `ProductionOrder`, machines key on
-   `machine_id`, `RESPONDS_TO`/`ON_MACHINE` are canonical. The hackathon set says `CNC_Machine`
+   `machine_id`, `RESPONDS_TO`/SegmentResponse `ACTUAL_EQUIPMENT` are canonical. The hackathon set says `CNC_Machine`
    keys on `element_id`. The slides said `FabricationOrder` + `Serial`. Each agent locked onto a
    different one (team1 → repo, team2 → slides). No agent could be conformant, because
    "conformant" was not defined in one place.
@@ -55,5 +55,5 @@ the acceptance test ("round 2").
 - Resolve the 7 `unresolvedTargets` in `contract.json` (equipment hierarchy levels such as
   `Unit` are edge targets but have no node profile).
 - Add a serialized-part profile (the trace level under the order — the strongest edge in team2's
-  graph, 827× `Serial -PRODUCED_BY-> FabricationOrder`, currently has no home in this repo).
+  graph, 827× `Serial` traced to its `FabricationOrder` (reachable in ISA-95 terms via JobOrder `REQUIRES_MATERIAL`), currently has no home in this repo).
 - Sink-side 422 validation in the lab write API.

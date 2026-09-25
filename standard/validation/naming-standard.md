@@ -26,7 +26,7 @@ codes (those live only in demo fixtures under [`examples/`](../examples/)).
 5. **Labels & relationships.** Labels are PascalCase singular nouns
  (`Enterprise`, `Site`, `Area`, `ProcessCell`, `Unit`, `EquipmentModule`,
  `ControlModule`, `Machine`, `Equipment`); relationship types are `UPPER_SNAKE_CASE`
- (`PART_OF`, `EXECUTED_AT`).
+ (`PART_OF`, `REQUIRES_EQUIPMENT`).
 6. **Reference & identity properties.** References end in `_ref` and carry the parent/target
  `element_id` (e.g. `process_cell_ref`); per-level identity properties end in `_id`
  (e.g. `unit_id`).

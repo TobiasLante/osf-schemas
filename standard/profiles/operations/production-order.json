@@ -46,7 +46,7 @@
       "dataType": "String",
       "required": false,
       "category": "Link",
-      "description": "Planned executing machine / line (machine_no). EXECUTED_AT Machine (machine_id).",
+      "description": "Planned executing machine / line (machine_no), reached via SegmentRequirement REQUIRES_EQUIPMENT Machine (machine_id).",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
@@ -286,23 +286,6 @@
     }
   ],
   "relationships": [
-    {
-      "type": "FOR_ARTICLE",
-      "target": "Article",
-      "targetIdProp": "article_no",
-      "description": "Carried over from SMProfile-CustomerOrder 2026-08-13 so the 48.490 order->article edges measured in the live KG keep a producer. It duplicates PRODUCES from the same column; consolidating the two is a separate, provable decision and is NOT part of this change."
-    },
-    {
-      "type": "PRODUCES",
-      "target": "Article",
-      "targetIdProp": "article_no"
-    },
-    {
-      "type": "EXECUTED_AT",
-      "target": "Machine",
-      "targetIdProp": "machine_id",
-      "description": "Consolidation 2026-07-15: Machine ≡ Unit level, keyed machine_id — matches what the ERP source actually delivers (machine ids)."
-    },
     {
       "type": "FOR_OPERATIONS_DEFINITION",
       "target": "OperationsDefinition",
