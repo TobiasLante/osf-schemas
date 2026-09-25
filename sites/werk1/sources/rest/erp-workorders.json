@@ -1,0 +1,69 @@
+{
+ "sourceId": "erp-workorders",
+ "version": "1.0.0",
+ "sourceType": "rest",
+ "functionalLevel": 4,
+ "syncType": "polling",
+ "profileRef": "SMProfile-Workorder",
+ "instanceRef": "werk1",
+ "location": {
+  "enterprise": "factory",
+  "site": "werk1"
+ },
+ "transport": [
+  "nats"
+ ],
+ "connection": {
+  "baseUrl": "http://192.168.178.154:38060",
+  "path": "/workorders",
+  "method": "GET",
+  "auth": null,
+  "timeoutMs": 10000
+ },
+ "response": {
+  "format": "json",
+  "rootPath": "$.items",
+  "idProperty": "workorder_no"
+ },
+ "polling": {
+  "changeDetection": "full_refresh",
+  "intervalMs": 900000,
+  "batchSize": 500,
+  "paginate": true
+ },
+ "columnMappings": [
+  {
+   "column": "workorder_no",
+   "smAttribute": "workorder_no",
+   "isId": true
+  },
+  {
+   "column": "production_order_ref",
+   "smAttribute": "production_order_ref"
+  },
+  {
+   "column": "order_index",
+   "smAttribute": "order_index"
+  },
+  {
+   "column": "status",
+   "smAttribute": "status"
+  },
+  {
+   "column": "planned_start_time",
+   "smAttribute": "planned_start_time"
+  },
+  {
+   "column": "planned_end_time",
+   "smAttribute": "planned_end_time"
+  }
+ ],
+ "edges": [
+  {
+   "type": "FOR_OPERATIONS_REQUEST",
+   "fkColumn": "production_order_ref",
+   "targetIdProp": "production_order_no"
+  }
+ ],
+ "description": "Workorders (ISA-95 WorkRequest) from sim-v5 erp-operations GET /workorders, 63,074 rows, full refresh paged by offset. Full text: docs/history/sites/werk1/sources/rest/erp-workorders.md, description."
+}

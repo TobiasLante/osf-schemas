@@ -34,18 +34,6 @@
         "x-promotion": "on_change",
         "x-valueType": "ID"
       },
-      "material_use": {
-        "type": "string",
-        "description": "Whether the lot is consumed or produced by the job.",
-        "enum": [
-          "Consumed",
-          "Produced"
-        ],
-        "x-category": "Core",
-        "x-delivery": "transactional",
-        "x-scope": "hub",
-        "x-promotion": "on_change"
-      },
       "start_planned": {
         "type": "string",
         "format": "date-time",
@@ -119,7 +107,6 @@
       "propertyMap": {
         "job_order_no": "JobOrder.ID",
         "machine_ref": "JobOrder.EquipmentRequirement.EquipmentID",
-        "material_use": "JobOrder.MaterialRequirement.MaterialUse",
         "start_planned": "JobOrder.StartTime",
         "end_planned": "JobOrder.EndTime",
         "status": "JobOrder.DispatchStatus"
@@ -136,7 +123,6 @@
       "job_order_no",
       "workorder_ref",
       "machine_ref",
-      "material_use",
       "start_planned",
       "end_planned",
       "status"
