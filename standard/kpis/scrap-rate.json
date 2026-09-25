@@ -1,6 +1,6 @@
 {
   "kpiId": "KPI-Scrap-Rate",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "displayName": "Scrap Rate",
   "description": "Percentage of scrap parts out of (good + scrap), computed live on the edge over the CURRENT counter values (since-last-reset ratio — IMM counters are cumulative_resettable; windowed truth lives in the oee-hourly continuous aggregate). Full text: docs/history/standard/kpis/scrap-rate.md, description.",
   "unit": "%",
@@ -8,14 +8,8 @@
   "calculation": {
     "inputs": ["part_good", "part_scrap"],
     "inputMappings": {
-      "SMProfile-InjectionMoldingMachine": {
-        "good": "part_good",
-        "scrap": "part_scrap"
-      },
-      "SMProfile-CNC-Machine": {
-        "Act_Amount_PartGood": "part_good",
-        "Act_Amount_PartScrap": "part_scrap"
-      }
+      "SMProfile-InjectionMoldingMachine": { "qty_good": "part_good", "qty_scrap": "part_scrap" },
+      "SMProfile-CNC-Machine": { "qty_good": "part_good", "qty_scrap": "part_scrap" }
     },
     "cypher": "CASE WHEN (m.part_good + m.part_scrap) = 0 THEN null ELSE round(toFloat(m.part_scrap) / (m.part_good + m.part_scrap) * 1000) / 10 END"
   },

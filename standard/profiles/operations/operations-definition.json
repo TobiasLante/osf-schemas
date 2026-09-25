@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-OperationsDefinition",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "standard": "ISA-95",
   "category": "business",
   "displayName": "Operations Definition (routing master data / master)",
@@ -65,7 +65,7 @@
       "dataType": "String",
       "required": false,
       "category": "Link",
-      "description": "FK to ProductDefinition.product_definition_no (BASED_ON). The target-parameter / recipe binding of the article.",
+      "description": "FK to ProductDefinition.product_definition_no (the reference lives in this key, no ISA-95 edge — owner 25.09.). The target-parameter / recipe binding of the article.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
@@ -78,12 +78,6 @@
       "target": "Article",
       "targetIdProp": "article_no",
       "description": "The manufactured article (MaterialDefinition)."
-    },
-    {
-      "type": "BASED_ON",
-      "target": "ProductDefinition",
-      "targetIdProp": "product_definition_no",
-      "description": "Target parameters / recipe binding (ISA-95 ProductDefinition / definition leg)."
     },
     {
       "type": "CONTAINS_SEGMENT",
@@ -100,9 +94,10 @@
   "kpiRefs": [],
   "isa95": {
     "objectModel": "OperationsDefinition",
+    "part": 2,
     "momDomain": "production",
     "level": 3,
-    "note": "ISA-95 Part 4 OperationsDefinition = routing master (ordered ProcessSegments). Counterpart to OperationsRequest (PLAN, INSTANTIATES) and OperationsResponse (actuals). ISA-88: master recipe (static).",
+    "note": "ISA-95 Part 4 OperationsDefinition = routing master (ordered ProcessSegments). Counterpart to OperationsRequest (PLAN, FOR_OPERATIONS_DEFINITION) and OperationsResponse (actuals). ISA-88: master recipe (static).",
     "propertyMap": {
       "operations_definition_no": "OperationsDefinition.ID",
       "name": "OperationsDefinition.Description",

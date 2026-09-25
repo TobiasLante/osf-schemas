@@ -2,10 +2,14 @@
   "sourceId": "erp-production-orders",
   "version": "4.2.0",
   "sourceType": "rest",
+  "functionalLevel": 4,
   "syncType": "polling",
   "profileRef": "SMProfile-ProductionOrder",
   "instanceRef": "werk1",
-  "location": { "enterprise": "factory", "site": "werk1" },
+  "location": {
+    "enterprise": "factory",
+    "site": "werk1"
+  },
   "transport": [
     "nats"
   ],
@@ -132,19 +136,9 @@
   "filter": null,
   "edges": [
     {
-      "type": "PRODUCES",
-      "fkColumn": "article_no",
-      "targetIdProp": "article_no"
-    },
-    {
       "type": "EXECUTED_AT",
       "fkColumn": "machine_no",
       "targetIdProp": "machine_id"
-    },
-    {
-      "type": "FOR_CUSTOMER",
-      "fkColumn": "kunde_id",
-      "targetIdProp": "customer_no"
     },
     {
       "type": "FOR_ARTICLE",

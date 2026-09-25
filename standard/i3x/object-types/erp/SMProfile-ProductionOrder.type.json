@@ -2,7 +2,7 @@
   "elementId": "SMProfile-ProductionOrder",
   "displayName": "Production Order (manufacturing order / OperationsRequest — PLAN/target)",
   "namespaceUri": "urn:osf:schemas:erp",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "schema": {
     "description": "Level-3 MOM OperationsRequest = the PLAN/target of manufacturing (B2MML OperationsRequest / ISA-95 Part 4). Full text: docs/history/standard/profiles/erp/production-order.md, description.",
     "type": "object",
@@ -156,7 +156,7 @@
       },
       "customer_ref": {
         "type": "string",
-        "description": "Customer of the triggering demand (kunde_id). Adopted from SMProfile-CustomerOrder 2026-08-13; the same column the withdrawn source read. FOR_CUSTOMER is built from it.",
+        "description": "Customer of the triggering demand (kunde_id). Adopted from SMProfile-CustomerOrder 2026-08-13; the same column the withdrawn source read. The customer reference lives in this key (no ISA-95 edge, owner 25.09.).",
         "x-category": "Link",
         "x-delivery": "transactional",
         "x-scope": "hub",
@@ -232,7 +232,7 @@
       },
       "operations_definition_ref": {
         "type": "string",
-        "description": "v2.0 — instantiated routing (operations_definition_no, INSTANTIATES).",
+        "description": "v2.0 — instantiated routing (operations_definition_no, FOR_OPERATIONS_DEFINITION).",
         "x-category": "Link",
         "x-delivery": "transactional",
         "x-scope": "hub",
@@ -261,12 +261,6 @@
     "abstract": false,
     "relationships": [
       {
-        "type": "FOR_CUSTOMER",
-        "target": "Customer",
-        "targetIdProp": "customer_no",
-        "description": "Moved here from SMProfile-CustomerOrder 2026-08-13 together with customer_ref. Built from kunde_id, which /api/orders serves on 100 % of rows."
-      },
-      {
         "type": "FOR_ARTICLE",
         "target": "Article",
         "targetIdProp": "article_no",
@@ -281,25 +275,19 @@
         "type": "EXECUTED_AT",
         "target": "Machine",
         "targetIdProp": "machine_id",
-        "description": "Consolidation 2026-07-15: Machine ≡ EquipmentUnit level, keyed machine_id — matches what the ERP source actually delivers (machine ids)."
+        "description": "Consolidation 2026-07-15: Machine ≡ Unit level, keyed machine_id — matches what the ERP source actually delivers (machine ids)."
       },
       {
-        "type": "INSTANTIATES",
+        "type": "FOR_OPERATIONS_DEFINITION",
         "target": "OperationsDefinition",
         "targetIdProp": "operations_definition_no",
         "description": "v2.0 — the instantiated routing (master)."
       },
       {
-        "type": "HAS_SEGMENT_REQUIREMENT",
+        "type": "MADE_UP_OF",
         "target": "SegmentRequirement",
         "description": "v2.0 — Inverse of SegmentRequirement.PART_OF: the target segments per ProcessSegment.",
         "targetIdProp": "segment_requirement_no"
-      },
-      {
-        "type": "HAS_WORKORDER",
-        "target": "Workorder",
-        "description": "v2.0 — Inverse of Workorder.PART_OF: temporal subdivisions (FO index).",
-        "targetIdProp": "workorder_no"
       }
     ],
     "constraints": [
@@ -332,6 +320,7 @@
     "kpiRefs": [],
     "isa95": {
       "objectModel": "OperationsRequest",
+      "part": 2,
       "momDomain": "production",
       "level": 3,
       "note": "Level-3 MOM OperationsRequest (B2MML) = PLAN/target. Full text: docs/history/standard/profiles/erp/production-order.md, isa95 › note.",

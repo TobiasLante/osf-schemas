@@ -35,7 +35,7 @@
       "dataType": "String",
       "required": false,
       "category": "Link",
-      "description": "FK to ProcessSegment.process_segment_no (FOR_SEGMENT). Which manufacturing stage (= plant = Function) is planned here.",
+      "description": "FK to ProcessSegment.process_segment_no (FOR_PROCESS_SEGMENT). Which manufacturing stage (= plant = Function) is planned here.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
@@ -56,7 +56,7 @@
       "dataType": "String",
       "required": false,
       "category": "Link",
-      "description": "FK to Article.article_no (FOR_MATERIAL) = MaterialRequirement.MaterialDefinitionID. The target material of this stage.",
+      "description": "FK to Article.article_no (REQUIRES_MATERIAL) = MaterialRequirement.MaterialDefinitionID. The target material of this stage.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
@@ -106,7 +106,7 @@
       "dataType": "String",
       "required": false,
       "category": "Link",
-      "description": "FK to Machine.machine_id (USES_EQUIPMENT; Machine ≡ EquipmentUnit level) = EquipmentRequirement.EquipmentID. The target equipment of the stage.",
+      "description": "FK to Machine.machine_id (REQUIRES_EQUIPMENT; Machine ≡ Unit level) = EquipmentRequirement.EquipmentID. The target equipment of the stage.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
@@ -141,28 +141,22 @@
       "description": "The OperationsRequest that contains this segment target."
     },
     {
-      "type": "FOR_SEGMENT",
+      "type": "FOR_PROCESS_SEGMENT",
       "target": "ProcessSegment",
       "targetIdProp": "process_segment_no",
       "description": "The planned manufacturing stage (= plant = Function)."
     },
     {
-      "type": "FOR_MATERIAL",
+      "type": "REQUIRES_MATERIAL",
       "target": "Article",
       "targetIdProp": "article_no",
       "description": "The target material (MaterialDefinition); role via material_use."
     },
     {
-      "type": "USES_EQUIPMENT",
+      "type": "REQUIRES_EQUIPMENT",
       "target": "Machine",
       "targetIdProp": "machine_id",
-      "description": "The target equipment of the stage (Machine ≡ EquipmentUnit level, consolidation 2026-07-15 — the source fkColumn carries machine ids)."
-    },
-    {
-      "type": "CORRESPONDS_TO",
-      "target": "SegmentResponse",
-      "description": "ISA-95 'corresponds to' — the actuals of this stage (inverse on the response side).",
-      "targetIdProp": "segment_response_no"
+      "description": "The target equipment of the stage (Machine ≡ Unit level, consolidation 2026-07-15 — the source fkColumn carries machine ids)."
     }
   ],
   "constraints": [],
@@ -172,6 +166,7 @@
   "kpiRefs": [],
   "isa95": {
     "objectModel": "SegmentRequirement",
+    "part": 2,
     "momDomain": "production",
     "level": 3,
     "note": "ISA-95 Part 4 OperationsRequest.SegmentRequirement = PLAN per ProcessSegment, with MaterialRequirement (MaterialUse=role) + EquipmentRequirement. Full text: docs/history/standard/profiles/operations/segment-requirement.md, isa95 › note.",

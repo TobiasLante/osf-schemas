@@ -1,42 +1,28 @@
 {
   "sourceId": "opcua-sgm-005-processdata",
-  "version": "2.2.0",
+  "version": "3.0.0",
   "sourceType": "opcua",
+  "functionalLevel": 2,
   "syncType": "streaming",
   "transport": [
     "nats"
   ],
-  "connection": {
-    "endpoint": "opc.tcp://192.168.178.154:36064",
-    "securityMode": "None",
-    "securityPolicy": "None",
-    "auth": "Anonymous"
-  },
+  "connection": { "endpoint": "opc.tcp://192.168.178.154:36064", "securityMode": "None", "securityPolicy": "None", "auth": "Anonymous" },
   "dataCategory": "ProcessData",
   "profileRef": "SMProfile-InjectionMoldingMachine",
   "instanceRef": "sgm-005",
   "endpoint": "opc.tcp://192.168.178.154:36064",
   "machineId": "sgm-005",
   "machineName": "Spritzgussmaschine sgm-05",
-  "location": {
-    "enterprise": "factory",
-    "site": "werk1",
-    "area": "sgm",
-    "line": "line-a",
-    "type": "SGM"
-  },
+  "location": { "enterprise": "factory", "site": "werk1", "area": "sgm", "line": "line-a", "type": "SGM" },
   "nodeMappings": [
     { "opcuaNodeId": "ns=1;s=Machine/machineType", "smAttribute": "machine_type", "dataType": "String" },
     { "opcuaNodeId": "ns=1;s=Machine/status", "smAttribute": "status", "dataType": "String" },
     { "opcuaNodeId": "ns=1;s=Machine/mode", "smAttribute": "mode", "dataType": "String" },
-    { "opcuaNodeId": "ns=1;s=Machine/partsCount/good", "smAttribute": "good", "dataType": "Float64" },
-    { "opcuaNodeId": "ns=1;s=Machine/partsCount/scrap", "smAttribute": "scrap", "dataType": "Float64" },
-    { "opcuaNodeId": "ns=1;s=Machine/partsCount/total", "smAttribute": "total", "dataType": "Float64" },
     { "opcuaNodeId": "ns=1;s=Machine/uptimeSeconds", "smAttribute": "uptimeSeconds", "dataType": "Float64" },
     { "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shot/inCycle", "smAttribute": "inCycle", "dataType": "Boolean" },
     { "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shot/shotCount", "smAttribute": "shotCount", "dataType": "Float64" },
     { "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shot/cycleTimeSec", "smAttribute": "cycleTimeSec", "dataType": "Float64" },
-    { "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shot/currentProgram", "smAttribute": "currentProgram", "dataType": "String" },
     { "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shot/lastShotAt", "smAttribute": "lastShotAt", "dataType": "String" },
     { "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[0]/hotrunnerTempC", "smAttribute": "hotrunnerTempC", "dataType": "Float64" },
     { "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cavities/[0]/cavityPressureBar", "smAttribute": "cavityPressureBar", "dataType": "Float64" },
@@ -52,7 +38,6 @@
     { "opcuaNodeId": "ns=1;s=Machine/typeSpecific/injection/backPressureBar", "smAttribute": "backPressureBar", "dataType": "Float64" },
     { "opcuaNodeId": "ns=1;s=Machine/typeSpecific/injection/injectionSpeedMmPerSec", "smAttribute": "injectionSpeedMmPerSec", "dataType": "Float64" },
     { "opcuaNodeId": "ns=1;s=Machine/typeSpecific/injection/shotVolumeCm3", "smAttribute": "shotVolumeCm3", "dataType": "Float64" },
-    { "opcuaNodeId": "ns=1;s=Machine/typeSpecific/mould/mouldId", "smAttribute": "mouldId", "dataType": "String" },
     { "opcuaNodeId": "ns=1;s=Machine/typeSpecific/mould/lifePercent", "smAttribute": "lifePercent", "dataType": "Float64" },
     { "opcuaNodeId": "ns=1;s=Machine/typeSpecific/mould/totalShots", "smAttribute": "totalShots", "dataType": "Float64" },
     { "opcuaNodeId": "ns=1;s=Machine/typeSpecific/mould/tempC", "smAttribute": "mouldTempC", "dataType": "Float64" },
@@ -78,16 +63,19 @@
     { "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/colourMasterbatchPct", "smAttribute": "colourMasterbatchPct", "dataType": "Float64" },
     { "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/colourPurgeRemaining", "smAttribute": "colourPurgeRemaining", "dataType": "Float64" }
   ],
-  "staticProperties": {
-    "machineType": "injection molding machine"
-  },
-  "polling": {
-    "mode": "subscribe",
-    "intervalMs": 1000
-  },
-  "security": {
-    "mode": "None",
-    "policy": "None",
-    "auth": "Anonymous"
-  }
+  "staticProperties": { "machineType": "injection molding machine" },
+  "polling": { "mode": "subscribe", "intervalMs": 1000 },
+  "security": { "mode": "None", "policy": "None", "auth": "Anonymous" },
+  "objects": [
+    {
+      "profileRef": "SMProfile-SegmentResponse",
+      "nodeMappings": [
+        { "opcuaNodeId": "ns=1;s=Machine/partsCount/good", "smAttribute": "qty_good", "dataType": "Float64" },
+        { "opcuaNodeId": "ns=1;s=Machine/partsCount/scrap", "smAttribute": "qty_scrap", "dataType": "Float64" },
+        { "opcuaNodeId": "ns=1;s=Machine/partsCount/total", "smAttribute": "qty_total", "dataType": "Float64" },
+        { "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shot/currentProgram", "smAttribute": "program_ref", "dataType": "String" },
+        { "opcuaNodeId": "ns=1;s=Machine/typeSpecific/mould/mouldId", "smAttribute": "tool_ref", "dataType": "String" }
+      ]
+    }
+  ]
 }

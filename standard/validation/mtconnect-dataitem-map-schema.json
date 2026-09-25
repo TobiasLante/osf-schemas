@@ -10,10 +10,7 @@
     "mapId": { "type": "string", "minLength": 1 },
     "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
     "description": { "type": "string" },
-    "profileRef": {
-      "type": "string",
-      "description": "Profile whose attributes this table projects onto. Every smAttribute below must be an attribute of it (or of one of its parents)."
-    },
+    "profileRef": { "type": "string", "description": "Profile whose attributes this table projects onto. Every smAttribute below must be an attribute of it (or of one of its parents)." },
     "mappings": {
       "type": "array",
       "minItems": 1,
@@ -23,17 +20,15 @@
         "required": ["dataItemSuffix", "category", "smAttribute", "dataType"],
         "additionalProperties": false,
         "properties": {
-          "dataItemSuffix": {
-            "type": "string",
-            "pattern": "^-[a-z0-9-]+$",
-            "description": "DataItem id minus its device-id prefix, leading hyphen included (e.g. `-spindle-speed`)."
-          },
+          "dataItemSuffix": { "type": "string", "pattern": "^-[a-z0-9-]+$", "description": "DataItem id minus its device-id prefix, leading hyphen included (e.g. `-spindle-speed`)." },
           "category": { "type": "string", "enum": ["SAMPLE", "EVENT", "CONDITION"] },
-          "smAttribute": { "type": "string", "pattern": "^[A-Z][A-Za-z0-9_]*$" },
-          "dataType": {
+          "smAttribute": { "type": "string", "pattern": "^[A-Za-z][A-Za-z0-9_]*$" },
+          "profileRef": {
             "type": "string",
-            "enum": ["String", "Int32", "Int64", "Float", "Double", "Boolean", "DateTime", "Json"]
+            "pattern": "^SMProfile-",
+            "description": "The class the attribute belongs to when it is not the map's profileRef: an object the machine source reports through objects[] (owner 25.09.)."
           },
+          "dataType": { "type": "string", "enum": ["String", "Int32", "Int64", "Float", "Double", "Boolean", "DateTime", "Json"] },
           "unit": { "type": "string", "minLength": 1 },
           "valueMap": {
             "type": "object",

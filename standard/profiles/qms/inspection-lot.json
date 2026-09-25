@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-InspectionLot",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "standard": "CESMII",
   "category": "quality",
   "displayName": "Inspection Lot",
@@ -74,7 +74,9 @@
       "dataType": "String",
       "required": false,
       "category": "Core",
-      "enum": ["DECIDED"],
+      "enum": [
+        "DECIDED"
+      ],
       "description": "Inspection workflow state. Full text: docs/history/standard/profiles/qms/inspection-lot.md, attributes › state › description.",
       "delivery": "transactional",
       "scope": "hub",
@@ -85,7 +87,11 @@
       "dataType": "String",
       "required": false,
       "category": "Core",
-      "enum": ["ACCEPT", "REWORK", "REJECT"],
+      "enum": [
+        "ACCEPT",
+        "REWORK",
+        "REJECT"
+      ],
       "description": "Usage decision. VOCABULARY MEASURED 2026-07-12 over the FULL population (qms.inspection_lots, GROUP BY decision): ACCEPT (281.698), REWORK (33.518), REJECT (16.574) — no NULLs. The lot_rejected rule `decision ne 'REJECT'` is ALIVE and hits real data. Verified nightly by ci/check-vocab-drift.mjs.",
       "delivery": "transactional",
       "scope": "hub",
@@ -121,19 +127,9 @@
   ],
   "relationships": [
     {
-      "type": "FOR_ORDER",
-      "target": "ProductionOrder",
-      "targetIdProp": "production_order_no"
-    },
-    {
-      "type": "FOR_ARTICLE",
+      "type": "TESTS",
       "target": "Article",
       "targetIdProp": "article_no"
-    },
-    {
-      "type": "ON_MACHINE",
-      "target": "Machine",
-      "targetIdProp": "machine_id"
     }
   ],
   "constraints": [
@@ -163,6 +159,7 @@
   "kpiRefs": [],
   "isa95": {
     "objectModel": "TestResult",
+    "part": 2,
     "momDomain": "quality",
     "level": 3,
     "note": "Inspection lot = TestResult (B2MML OperationsTest): the lot is the tested object, the usage decision is the evaluated criterion result.",

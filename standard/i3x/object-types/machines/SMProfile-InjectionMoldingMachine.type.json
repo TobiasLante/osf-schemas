@@ -2,7 +2,7 @@
   "elementId": "SMProfile-InjectionMoldingMachine",
   "displayName": "Injection Molding Machine",
   "namespaceUri": "urn:osf:schemas:machines",
-  "version": "2.5.0",
+  "version": "3.0.0",
   "schema": {
     "description": "Injection molding machine (OT asset). Full text: docs/history/standard/profiles/machines/injection-molding-machine.md, description.",
     "allOf": [
@@ -35,51 +35,6 @@
             "x-delivery": "transactional",
             "x-scope": "hub",
             "x-promotion": "on_change"
-          },
-          "good": {
-            "type": "integer",
-            "description": "Good parts produced (cumulative). READ IT WITH `counter.aggregation`, NOT max-min: this counter resets.",
-            "x-dataType": "Int32",
-            "x-category": "BDE",
-            "x-delivery": "transactional",
-            "x-scope": "hub",
-            "x-promotion": "on_change",
-            "x-counter": {
-              "semantics": "cumulative_resettable",
-              "aggregation": "sum_of_positive_deltas",
-              "resetsObserved": 10,
-              "measuredAt": "2026-07-12"
-            }
-          },
-          "scrap": {
-            "type": "integer",
-            "description": "Scrap parts (cumulative). READ IT WITH `counter.aggregation`, NOT max-min: this counter resets.",
-            "x-dataType": "Int32",
-            "x-category": "BDE",
-            "x-delivery": "transactional",
-            "x-scope": "hub",
-            "x-promotion": "on_change",
-            "x-counter": {
-              "semantics": "cumulative_resettable",
-              "aggregation": "sum_of_positive_deltas",
-              "resetsObserved": 10,
-              "measuredAt": "2026-07-12"
-            }
-          },
-          "total": {
-            "type": "integer",
-            "description": "Total parts (cumulative). READ IT WITH `counter.aggregation`, NOT max-min: this counter resets.",
-            "x-dataType": "Int32",
-            "x-category": "BDE",
-            "x-delivery": "transactional",
-            "x-scope": "hub",
-            "x-promotion": "on_change",
-            "x-counter": {
-              "semantics": "cumulative_resettable",
-              "aggregation": "sum_of_positive_deltas",
-              "resetsObserved": 10,
-              "measuredAt": "2026-07-12"
-            }
           },
           "shotCount": {
             "type": "integer",
@@ -122,14 +77,6 @@
             "type": "boolean",
             "description": "Machine is in the injection cycle (cycle gate for pressure rules).",
             "x-category": "Process",
-            "x-delivery": "transactional",
-            "x-scope": "hub",
-            "x-promotion": "on_change"
-          },
-          "currentProgram": {
-            "type": "string",
-            "description": "Active program / job on the machine.",
-            "x-category": "BDE",
             "x-delivery": "transactional",
             "x-scope": "hub",
             "x-promotion": "on_change"
@@ -384,14 +331,6 @@
               "EJECT"
             ],
             "x-category": "Process",
-            "x-delivery": "transactional",
-            "x-scope": "hub",
-            "x-promotion": "on_change"
-          },
-          "mouldId": {
-            "type": "string",
-            "description": "Mould / tool currently set up (= USES_TOOL tool_id).",
-            "x-category": "Link",
             "x-delivery": "transactional",
             "x-scope": "hub",
             "x-promotion": "on_change"
@@ -664,7 +603,7 @@
     "abstract": false,
     "relationships": [
       {
-        "type": "USES_TOOL",
+        "type": "IMPLEMENTED_BY",
         "target": "Tool",
         "targetIdProp": "tool_id"
       }
@@ -1455,32 +1394,134 @@
         "impact_basis": "HK"
       }
     ],
+    "settings": [
+      {
+        "ref": "recipe:back_pressure_band",
+        "shape": "band"
+      },
+      {
+        "ref": "recipe:barrel_zone1_control_limits",
+        "shape": "limits"
+      },
+      {
+        "ref": "recipe:barrel_zone1_temp_band",
+        "shape": "band"
+      },
+      {
+        "ref": "recipe:barrel_zone2_control_limits",
+        "shape": "limits"
+      },
+      {
+        "ref": "recipe:barrel_zone2_temp_band",
+        "shape": "band"
+      },
+      {
+        "ref": "recipe:barrel_zone3_control_limits",
+        "shape": "limits"
+      },
+      {
+        "ref": "recipe:barrel_zone3_temp_band",
+        "shape": "band"
+      },
+      {
+        "ref": "recipe:barrel_zone4_control_limits",
+        "shape": "limits"
+      },
+      {
+        "ref": "recipe:barrel_zone4_temp_band",
+        "shape": "band"
+      },
+      {
+        "ref": "recipe:cooling_flow_band",
+        "shape": "band"
+      },
+      {
+        "ref": "recipe:cycle_time_band",
+        "shape": "band"
+      },
+      {
+        "ref": "recipe:hotrunner_control_limits",
+        "shape": "limits"
+      },
+      {
+        "ref": "recipe:hotrunner_temp_band",
+        "shape": "band"
+      },
+      {
+        "ref": "recipe:injection_speed_band",
+        "shape": "band"
+      },
+      {
+        "ref": "recipe:melt_temp_band",
+        "shape": "band"
+      },
+      {
+        "ref": "recipe:mould_temp_band",
+        "shape": "band"
+      },
+      {
+        "ref": "recipe:mould_temp_control_limits",
+        "shape": "limits"
+      }
+    ],
     "semantics": [],
     "kpiRefs": [],
     "isa95": {
       "objectModel": "Equipment",
+      "part": 2,
       "momDomain": "production",
-      "equipmentLevel": "EquipmentUnit",
+      "equipmentLevel": "Unit",
       "equipmentClass": "InjectionMoldingMachine",
       "companionSpec": "EUROMAP77",
       "opcuaTypeDefinition": "InjectionMouldingMachineType",
       "deviceClass": "Injection Moulding Machine"
     },
     "kgNodeLabel": "InjectionMoldingMachine",
-    "kgIdProperty": "machine_id",
+    "kgIdProperty": "element_id",
+    "keyAliases": [
+      "machine_id"
+    ],
+    "movedAttributes": [
+      {
+        "name": "good",
+        "to": "SMProfile-SegmentResponse",
+        "as": "qty_good",
+        "since": "3.0.0"
+      },
+      {
+        "name": "scrap",
+        "to": "SMProfile-SegmentResponse",
+        "as": "qty_scrap",
+        "since": "3.0.0"
+      },
+      {
+        "name": "total",
+        "to": "SMProfile-SegmentResponse",
+        "as": "qty_total",
+        "since": "3.0.0"
+      },
+      {
+        "name": "currentProgram",
+        "to": "SMProfile-SegmentResponse",
+        "as": "program_ref",
+        "since": "3.0.0"
+      },
+      {
+        "name": "mouldId",
+        "to": "SMProfile-SegmentResponse",
+        "as": "tool_ref",
+        "since": "3.0.0"
+      }
+    ],
     "parentType": "Machine",
     "requiredDeclaredOn": [
       "machine_type",
       "status",
       "mode",
-      "good",
-      "scrap",
-      "total",
       "shotCount",
       "uptimeSeconds",
       "alarmsCount",
       "inCycle",
-      "currentProgram",
       "lastShotAt",
       "shiftActive",
       "reason",
@@ -1501,7 +1542,6 @@
       "remainingSec",
       "switchoverReached",
       "phaseName",
-      "mouldId",
       "mouldTempC",
       "coolingFlowLMin",
       "lifePercent",

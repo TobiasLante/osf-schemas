@@ -92,7 +92,7 @@
       "dataType": "String",
       "required": false,
       "category": "Link",
-      "description": "FK to Machine.machine_id (PERFORMED_AT; Machine ≡ EquipmentUnit level). The ISA-88 Unit / process stage on which the segment runs — the physical anchoring of the 'plant' / 'Function'.",
+      "description": "FK to Machine.machine_id (SPECIFIES_EQUIPMENT; Machine ≡ Unit level). The ISA-88 Unit / process stage on which the segment runs — the physical anchoring of the 'plant' / 'Function'.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
@@ -107,10 +107,10 @@
       "description": "The OperationsDefinition (routing) that sequences this stage."
     },
     {
-      "type": "PERFORMED_AT",
+      "type": "SPECIFIES_EQUIPMENT",
       "target": "Machine",
       "targetIdProp": "machine_id",
-      "description": "The Machine (≡ EquipmentUnit level, consolidation 2026-07-15; = plant = Function) on which the segment is executed."
+      "description": "The Machine (≡ Unit level, consolidation 2026-07-15; = plant = Function) on which the segment is executed."
     }
   ],
   "constraints": [],
@@ -121,6 +121,7 @@
   "kpiRefs": [],
   "isa95": {
     "objectModel": "ProcessSegment",
+    "part": 2,
     "momDomain": "production",
     "level": 3,
     "note": "ISA-95 Part 4 ProcessSegment = reusable manufacturing stage. Full text: docs/history/standard/profiles/operations/process-segment.md, isa95 › note.",

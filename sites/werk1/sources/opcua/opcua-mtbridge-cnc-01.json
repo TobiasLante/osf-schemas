@@ -1,31 +1,21 @@
 {
  "sourceId": "opcua-mtbridge-cnc-01",
- "version": "2.0.1",
+ "version": "3.0.0",
  "sourceType": "opcua",
+ "functionalLevel": 2,
  "syncType": "polling",
  "transport": [
   "nats"
  ],
  "description": "STANDARD OPC-UA source descriptor — the normal OSF OT edge's view of the MTConnect Sonder-Edge's embedded OPC-UA server. Full text: docs/history/sites/werk1/sources/opcua/opcua-mtbridge-cnc-01.md, description.",
- "connection": {
-  "endpoint": "opc.tcp://MTBRIDGE_HOST:4840/osf/mtbridge",
-  "securityMode": "None",
-  "securityPolicy": "None",
-  "auth": "Anonymous"
- },
+ "connection": { "endpoint": "opc.tcp://MTBRIDGE_HOST:4840/osf/mtbridge", "securityMode": "None", "securityPolicy": "None", "auth": "Anonymous" },
  "dataCategory": "telemetry",
  "profileRef": "SMProfile-CNC-Machine",
  "instanceRef": "cnc-mtc-01",
  "endpoint": "opc.tcp://MTBRIDGE_HOST:4840/osf/mtbridge",
  "machineId": "cnc-mtc-01",
  "machineName": "CNC-01 (via MTConnect bridge)",
- "location": {
-  "enterprise": "factory",
-  "site": "werk1",
-  "area": "cnc",
-  "line": "line-mtc",
-  "type": "CNC"
- },
+ "location": { "enterprise": "factory", "site": "werk1", "area": "cnc", "line": "line-mtc", "type": "CNC" },
  "nodeMappings": [
   { "opcuaNodeId": "ns=2;s=cnc-mtc-01/Act_Speed_Spindle", "smAttribute": "Act_Speed_Spindle", "dataType": "ns=0;i=11", "unit": "RPM" },
   { "opcuaNodeId": "ns=2;s=cnc-mtc-01/Act_Pct_SpindleLoad", "smAttribute": "Act_Pct_SpindleLoad", "dataType": "ns=0;i=11", "unit": "P1" },
@@ -36,23 +26,23 @@
   { "opcuaNodeId": "ns=2;s=cnc-mtc-01/Act_Pos_AxisZ", "smAttribute": "Act_Pos_AxisZ", "dataType": "ns=0;i=11", "unit": "MMT" },
   { "opcuaNodeId": "ns=2;s=cnc-mtc-01/Act_Rate_Feed", "smAttribute": "Act_Rate_Feed", "dataType": "ns=0;i=11", "unit": "H81" },
   { "opcuaNodeId": "ns=2;s=cnc-mtc-01/Act_Pct_ToolWear", "smAttribute": "Act_Pct_ToolWear", "dataType": "ns=0;i=11", "unit": "P1" },
-  { "opcuaNodeId": "ns=2;s=cnc-mtc-01/Act_Amount_PartGood", "smAttribute": "Act_Amount_PartGood", "dataType": "ns=0;i=6" },
-  { "opcuaNodeId": "ns=2;s=cnc-mtc-01/Act_Amount_PartScrap", "smAttribute": "Act_Amount_PartScrap", "dataType": "ns=0;i=6" },
-  { "opcuaNodeId": "ns=2;s=cnc-mtc-01/Act_Ref_Program", "smAttribute": "Act_Ref_Program", "dataType": "ns=0;i=12" },
-  { "opcuaNodeId": "ns=2;s=cnc-mtc-01/Act_Ref_Tool", "smAttribute": "Act_Ref_Tool", "dataType": "ns=0;i=12" },
   { "opcuaNodeId": "ns=2;s=cnc-mtc-01/Act_Text_MachineMode", "smAttribute": "Act_Text_MachineMode", "dataType": "ns=0;i=12" },
-  { "opcuaNodeId": "ns=2;s=cnc-mtc-01/Act_Status_Program", "smAttribute": "Act_Status_Program", "dataType": "ns=0;i=12" },
   { "opcuaNodeId": "ns=2;s=cnc-mtc-01/Act_State_InCycle", "smAttribute": "Act_State_InCycle", "dataType": "ns=0;i=1" },
   { "opcuaNodeId": "ns=2;s=cnc-mtc-01/Act_Status_Machine", "smAttribute": "Act_Status_Machine", "dataType": "ns=0;i=12" },
   { "opcuaNodeId": "ns=2;s=cnc-mtc-01/Act_Amount_Alarm", "smAttribute": "Act_Amount_Alarm", "dataType": "ns=0;i=6" }
  ],
- "polling": {
-  "mode": "scan",
-  "intervalMs": 2000
- },
- "security": {
-  "mode": "None",
-  "policy": "None",
-  "auth": "Anonymous"
- }
+ "polling": { "mode": "scan", "intervalMs": 2000 },
+ "security": { "mode": "None", "policy": "None", "auth": "Anonymous" },
+ "objects": [
+  {
+   "profileRef": "SMProfile-SegmentResponse",
+   "nodeMappings": [
+    { "opcuaNodeId": "ns=2;s=cnc-mtc-01/qty_good", "smAttribute": "qty_good", "dataType": "ns=0;i=6" },
+    { "opcuaNodeId": "ns=2;s=cnc-mtc-01/qty_scrap", "smAttribute": "qty_scrap", "dataType": "ns=0;i=6" },
+    { "opcuaNodeId": "ns=2;s=cnc-mtc-01/program_ref", "smAttribute": "program_ref", "dataType": "ns=0;i=12" },
+    { "opcuaNodeId": "ns=2;s=cnc-mtc-01/tool_ref", "smAttribute": "tool_ref", "dataType": "ns=0;i=12" },
+    { "opcuaNodeId": "ns=2;s=cnc-mtc-01/program_status", "smAttribute": "program_status", "dataType": "ns=0;i=12" }
+   ]
+  }
+ ]
 }

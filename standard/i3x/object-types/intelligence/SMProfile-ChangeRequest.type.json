@@ -2,7 +2,7 @@
   "elementId": "SMProfile-ChangeRequest",
   "displayName": "Change Request",
   "namespaceUri": "urn:osf:schemas:intelligence",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "schema": {
     "description": "A request to change a TOLERANCE BAND or a steering AIM, raised against a Discrepancy, and RESOLVED by an EXTERNAL authority (not the engine). Full text: docs/history/standard/profiles/intelligence/change-request.md, description.",
     "type": "object",
@@ -16,13 +16,13 @@
       },
       "discrepancy_id": {
         "type": "string",
-        "description": "The Discrepancy this change-request answers — the divergence that motivated challenging the band/aim. Also drawn as the ABOUT_DISCREPANCY edge.",
+        "description": "The Discrepancy this change-request answers — the divergence that motivated challenging the band/aim. The reference lives in this key (no ISA-95 edge, owner 25.09.).",
         "x-valueType": "ID",
         "x-category": "Reference"
       },
       "machine_id": {
         "type": "string",
-        "description": "The machine the band/aim governs (the process the request is about). Also drawn as the ABOUT_MACHINE edge.",
+        "description": "The machine the band/aim governs (the process the request is about). The reference lives in this key (no ISA-95 edge, owner 25.09.).",
         "x-valueType": "ID",
         "x-category": "Reference"
       },
@@ -126,20 +126,7 @@
     "standard": "OSF",
     "category": "intelligence",
     "abstract": false,
-    "relationships": [
-      {
-        "type": "ABOUT_DISCREPANCY",
-        "target": "Discrepancy",
-        "targetIdProp": "discrepancy_id",
-        "description": "The Discrepancy this change-request answers."
-      },
-      {
-        "type": "ABOUT_MACHINE",
-        "target": "Machine",
-        "targetIdProp": "machine_id",
-        "description": "The machine whose band/aim the request concerns."
-      }
-    ],
+    "relationships": [],
     "kgNodeLabel": "ChangeRequest",
     "kgIdProperty": "change_request_id",
     "isa95": {

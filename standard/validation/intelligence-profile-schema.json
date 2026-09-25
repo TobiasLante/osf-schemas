@@ -52,7 +52,7 @@
     },
     "abstract": {
       "type": "boolean",
-      "description": "Abstract parent profiles (e.g. SMProfile-Discrepancy, SMProfile-ProductionPart) are not instantiated directly; concrete children declare parentType to inherit attributes + relationships. Same flag semantics as machine/business schemas."
+      "description": "Abstract parent profiles (e.g. SMProfile-Discrepancy, SMProfile-Machine) are not instantiated directly; concrete children declare parentType to inherit attributes + relationships. Same flag semantics as machine/business schemas."
     },
     "attributes": {
       "type": "array",
@@ -100,7 +100,13 @@
           },
           "valueType": {
             "type": "string",
-            "enum": ["PV", "SP", "ID", "LIM", "MD"],
+            "enum": [
+              "PV",
+              "SP",
+              "ID",
+              "LIM",
+              "MD"
+            ],
             "description": "PV measured, SP commanded, ID identifier/reference, LIM bound, MD master data. i3x-v5 schemas-ci/lint-value-type.mjs."
           }
         },
@@ -158,8 +164,16 @@
         },
         "equipmentLevel": {
           "type": "string",
-          "description": "ISA-88 physical levels as standard/validation/naming-standard.md labels them (EquipmentUnit, not Unit), plus the ISA-95 Part 2 role-based equipment types. One list, shared with profile-unified-schema.json.",
-          "enum": ["Enterprise", "Site", "Area", "ProcessCell", "EquipmentUnit", "EquipmentModule", "ControlModule", "ProductionLine", "WorkCell", "ProductionUnit", "StorageZone", "StorageUnit", "WorkCenter", "WorkUnit"]
+          "description": "ISA-88 physical levels as standard/validation/naming-standard.md labels them (owner 25.09.). One list, shared with profile-unified-schema.json.",
+          "enum": [
+            "Enterprise",
+            "Site",
+            "Area",
+            "ProcessCell",
+            "Unit",
+            "EquipmentModule",
+            "ControlModule"
+          ]
         },
         "level": {
           "type": "integer",

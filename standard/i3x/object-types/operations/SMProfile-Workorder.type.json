@@ -75,7 +75,7 @@
     "abstract": false,
     "relationships": [
       {
-        "type": "PART_OF",
+        "type": "FOR_OPERATIONS_REQUEST",
         "target": "ProductionOrder",
         "targetIdProp": "production_order_no",
         "description": "The ProductionOrder (OperationsRequest) that this Workorder subdivides."
@@ -94,6 +94,7 @@
     "kpiRefs": [],
     "isa95": {
       "objectModel": "WorkRequest",
+      "part": 4,
       "momDomain": "production",
       "level": 3,
       "note": "ISA-95 Part 4 WorkRequest = dispatch subdivision of an OperationsRequest. RULE: FabricationOrder index == Workorder (subdivision of the FO across time slots). Creates/consumes MaterialLots. Relationship PART_OF to the ProductionOrder = ISA-95 SUBDIVISION_OF (order sub-lot / FO index).",

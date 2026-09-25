@@ -2,7 +2,7 @@
   "elementId": "SMProfile-Machine",
   "displayName": "Machine (Abstract Parent)",
   "namespaceUri": "urn:osf:schemas:machines",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "schema": {
     "description": "Abstract parent for all machine types (CNC, IMM, …). Full text: docs/history/standard/profiles/machines/machine.md, description.",
     "type": "object",
@@ -19,11 +19,6 @@
         "target": "ProcessCell",
         "resolvedBy": "instances",
         "description": "ISA-88: the machine is part of a ProcessCell (line)."
-      },
-      {
-        "type": "PRODUCES",
-        "target": "Article",
-        "targetIdProp": "article_no"
       },
       {
         "type": "EXECUTES",
@@ -43,17 +38,21 @@
     ],
     "isa95": {
       "objectModel": "Equipment",
+      "part": 2,
       "momDomain": "production",
-      "equipmentLevel": "EquipmentUnit",
+      "equipmentLevel": "Unit",
       "propertyMap": {
-        "machine_id": "Equipment.ID"
+        "element_id": "Equipment.ID"
       },
       "companionSpec": "OPC40001-1",
       "opcuaTypeDefinition": "MachineType",
       "deviceClass": "Machine"
     },
     "kgNodeLabel": "Machine",
-    "kgIdProperty": "machine_id",
+    "kgIdProperty": "element_id",
+    "keyAliases": [
+      "machine_id"
+    ],
     "parentType": null,
     "requiredDeclaredOn": []
   }

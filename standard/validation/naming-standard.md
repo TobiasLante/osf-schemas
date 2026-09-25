@@ -24,7 +24,7 @@ codes (those live only in demo fixtures under [`examples/`](../examples/)).
 4. **ASCII, stable, opaque.** Tokens are `[A-Za-z0-9_-]`, segments joined by `.`; no spaces or
  locale-specific characters. Ids are opaque keys — use `name` for display.
 5. **Labels & relationships.** Labels are PascalCase singular nouns
- (`Enterprise`, `Site`, `Area`, `ProcessCell`, `EquipmentUnit`, `EquipmentModule`,
+ (`Enterprise`, `Site`, `Area`, `ProcessCell`, `Unit`, `EquipmentModule`,
  `ControlModule`, `Machine`, `Equipment`); relationship types are `UPPER_SNAKE_CASE`
  (`PART_OF`, `EXECUTED_AT`).
 6. **Reference & identity properties.** References end in `_ref` and carry the parent/target
@@ -63,7 +63,7 @@ equipmentPath = <enterprise>.<site>.<area>.<cell>.<unit>.<module>.<controlmodule
 | 2 | ISA-95 | `Site` | `site_id` | `enterprise_ref` |
 | 3 | ISA-95 | `Area` | `area_id` | `site_ref` |
 | 4 | ISA-88 | `ProcessCell` | `process_cell_id` | `area_ref` |
-| 5 | ISA-88 | `EquipmentUnit` | `unit_id` | `process_cell_ref` |
+| 5 | ISA-88 | `Unit` | `unit_id` | `process_cell_ref` |
 | 6 | ISA-88 | `EquipmentModule` | `equipment_module_id` | `unit_ref` |
 | 7 | ISA-88 | `ControlModule` | `control_module_id` | `equipment_module_ref` |
 
@@ -75,7 +75,7 @@ equipmentPath = <enterprise>.<site>.<area>.<cell>.<unit>.<module>.<controlmodule
 
 ## next2.0 update — equipmentPath ADOPTED (active)
 
-Per the merged reference × next standard, `equipmentPath` is no longer dormant: it is the **active**, canonical containment-path key and is emitted as the UNS/MQTT topic (as proven on the customer side). Same value as `element_id`/`kg_merge_key`; purely additive, no id migration.
+Per the merged reference × next standard, `equipmentPath` is no longer dormant: it is the **active**, canonical containment-path key and is emitted as the UNS/MQTT topic (as proven on the reference side). Same value as `element_id`/`kg_merge_key`; purely additive, no id migration.
 
 ## Attribute names mirror the source
 

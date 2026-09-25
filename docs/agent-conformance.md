@@ -53,7 +53,7 @@ the acceptance test ("round 2").
 
 - Resolve the machine-key conflict (decide: `element_id` everywhere, or document `machine_id`).
 - Resolve the 7 `unresolvedTargets` in `contract.json` (equipment hierarchy levels such as
-  `EquipmentUnit` are edge targets but have no node profile).
+  `Unit` are edge targets but have no node profile).
 - Add a serialized-part profile (the trace level under the order — the strongest edge in team2's
   graph, 827× `Serial -PRODUCED_BY-> FabricationOrder`, currently has no home in this repo).
 - Sink-side 422 validation in the lab write API.

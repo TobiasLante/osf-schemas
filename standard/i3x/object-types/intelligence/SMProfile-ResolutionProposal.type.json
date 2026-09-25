@@ -2,7 +2,7 @@
   "elementId": "SMProfile-ResolutionProposal",
   "displayName": "Resolution Proposal",
   "namespaceUri": "urn:osf:schemas:intelligence",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "schema": {
     "description": "A documented resolution proposal for a Discrepancy that precedes the lifecycle transition and carries the user approval (SDC visibility concept 2026-06-11). Full text: docs/history/standard/profiles/intelligence/resolution-proposal.md, description.",
     "type": "object",
@@ -122,20 +122,7 @@
     "standard": "OSF",
     "category": "intelligence",
     "abstract": false,
-    "relationships": [
-      {
-        "type": "PROPOSES_FOR",
-        "target": "Discrepancy",
-        "targetIdProp": "discrepancy_id",
-        "description": "The Discrepancy this proposal would resolve"
-      },
-      {
-        "type": "PROPOSED_BY_RULE",
-        "target": "AutoResolveRule",
-        "targetIdProp": "rule_id",
-        "description": "Only proposed_by_kind=rule: the AutoResolveRule that produced the proposal"
-      }
-    ],
+    "relationships": [],
     "kgNodeLabel": "ResolutionProposal",
     "kgIdProperty": "proposal_id",
     "isa95": {

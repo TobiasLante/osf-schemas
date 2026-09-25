@@ -4,7 +4,7 @@
   "generatedBy": "i3x-v5 packages/schemas-ci/osf/gen-contract.mjs",
   "identity": {
     "rule": "Machine/equipment nodes MUST use their profile kgNodeLabel with the key property declared in nodes.* below — never invent node identities from source-local ids (machineId, machineNo, pool names, vendor names); those are attributes at most.",
-    "openConflict": "KNOWN CONSOLIDATION ISSUE: repo machine profiles key on machine_id, while the UNS/lab convention (osf_map.machine_map) keys equipment on element_id derived from equipmentPath. Until resolved, this contract reflects the repo profiles (machine_id). Do not mix both in one graph. RESOLVED AXIS 2026-07-15: the third identity unit_id (equipment-model EquipmentUnit) was consolidated into machine_id — Machine ≡ EquipmentUnit level, the operations edges (EXECUTED_AT, PERFORMED_AT, USES_EQUIPMENT, USED_EQUIPMENT, SET_UP_ON) target Machine/machine_id; element_id remains the one open UNS axis."
+    "decided": "OWNER 2026-09-24: the machine key is element_id (instance codes along the partOf chain of sites/<site>/instances). MIGRATED (W8-R1): every Machine node keys on element_id; machine_id is listed in keyAliases, so edges from sources that only know the machine code resolve through it. Do not mix both in one graph."
   },
   "nodes": {
     "EquipmentClass": {
@@ -131,7 +131,10 @@
       "source": "standard/profiles/intelligence/resolution-proposal.json"
     },
     "CNC_Machine": {
-      "key": "machine_id",
+      "key": "element_id",
+      "keyAliases": [
+        "machine_id"
+      ],
       "profile": "SMProfile-CNC-Machine",
       "category": "machine",
       "parentType": "Machine",
@@ -139,7 +142,10 @@
       "source": "standard/profiles/machines/cnc-machine.json"
     },
     "InjectionMoldingMachine": {
-      "key": "machine_id",
+      "key": "element_id",
+      "keyAliases": [
+        "machine_id"
+      ],
       "profile": "SMProfile-InjectionMoldingMachine",
       "category": "machine",
       "parentType": "Machine",
@@ -147,7 +153,10 @@
       "source": "standard/profiles/machines/injection-molding-machine.json"
     },
     "Machine": {
-      "key": "machine_id",
+      "key": "element_id",
+      "keyAliases": [
+        "machine_id"
+      ],
       "profile": "SMProfile-Machine",
       "category": "machine",
       "parentType": null,
@@ -245,87 +254,7 @@
   },
   "edges": [
     {
-      "type": "RESOLVES",
-      "from": "AutoResolveRule",
-      "to": [
-        "Discrepancy"
-      ],
-      "targetIdProp": [
-        "discrepancy_id"
-      ]
-    },
-    {
-      "type": "ABOUT_DISCREPANCY",
-      "from": "ChangeRequest",
-      "to": [
-        "Discrepancy"
-      ],
-      "targetIdProp": [
-        "discrepancy_id"
-      ]
-    },
-    {
-      "type": "ABOUT_MACHINE",
-      "from": "ChangeRequest",
-      "to": [
-        "Machine"
-      ],
-      "targetIdProp": [
-        "machine_id"
-      ]
-    },
-    {
-      "type": "ABOUT_ARTICLE",
-      "from": "Discrepancy",
-      "to": [
-        "Article"
-      ],
-      "targetIdProp": [
-        "article_no"
-      ]
-    },
-    {
-      "type": "ABOUT_MACHINE",
-      "from": "Discrepancy",
-      "to": [
-        "Machine"
-      ],
-      "targetIdProp": [
-        "machine_id"
-      ]
-    },
-    {
-      "type": "ABOUT_ORDER",
-      "from": "Discrepancy",
-      "to": [
-        "ProductionOrder"
-      ],
-      "targetIdProp": [
-        "production_order_no"
-      ]
-    },
-    {
-      "type": "RESOLVED_BY_RULE",
-      "from": "Discrepancy",
-      "to": [
-        "AutoResolveRule"
-      ],
-      "targetIdProp": [
-        "rule_id"
-      ]
-    },
-    {
-      "type": "SUPERSEDED_BY",
-      "from": "Discrepancy",
-      "to": [
-        "Discrepancy"
-      ],
-      "targetIdProp": [
-        "discrepancy_id"
-      ]
-    },
-    {
-      "type": "USES_TOOL",
+      "type": "IMPLEMENTED_BY",
       "from": "InjectionMoldingMachine",
       "to": [
         "Tool"
@@ -335,33 +264,13 @@
       ]
     },
     {
-      "type": "FOR_ARTICLE",
+      "type": "TESTS",
       "from": "InspectionLot",
       "to": [
         "Article"
       ],
       "targetIdProp": [
         "article_no"
-      ]
-    },
-    {
-      "type": "FOR_ORDER",
-      "from": "InspectionLot",
-      "to": [
-        "ProductionOrder"
-      ],
-      "targetIdProp": [
-        "production_order_no"
-      ]
-    },
-    {
-      "type": "ON_MACHINE",
-      "from": "InspectionLot",
-      "to": [
-        "Machine"
-      ],
-      "targetIdProp": [
-        "machine_id"
       ]
     },
     {
@@ -382,18 +291,8 @@
       ]
     },
     {
-      "type": "PRODUCES",
-      "from": "Machine",
-      "to": [
-        "Article"
-      ],
-      "targetIdProp": [
-        "article_no"
-      ]
-    },
-    {
       "type": "AT_LOCATION",
-      "from": "MaterialItem",
+      "from": "MaterialLot",
       "to": [
         "StorageLocation"
       ],
@@ -402,23 +301,23 @@
       ]
     },
     {
-      "type": "HAS_SUBLOT",
-      "from": "MaterialLot",
-      "to": [
-        "Quant"
-      ],
-      "targetIdProp": [
-        "quant_no"
-      ]
-    },
-    {
-      "type": "OF_ARTICLE",
+      "type": "DEFINED_BY",
       "from": "MaterialLot",
       "to": [
         "Article"
       ],
       "targetIdProp": [
         "article_no"
+      ]
+    },
+    {
+      "type": "MADE_UP_OF",
+      "from": "MaterialLot",
+      "to": [
+        "Quant"
+      ],
+      "targetIdProp": [
+        "quant_no"
       ]
     },
     {
@@ -429,16 +328,6 @@
       ],
       "targetIdProp": [
         "workorder_no"
-      ]
-    },
-    {
-      "type": "BASED_ON",
-      "from": "OperationsDefinition",
-      "to": [
-        "ProductDefinition"
-      ],
-      "targetIdProp": [
-        "product_definition_no"
       ]
     },
     {
@@ -462,7 +351,7 @@
       ]
     },
     {
-      "type": "HAS_SEGMENT_RESPONSE",
+      "type": "MADE_UP_OF",
       "from": "OperationsResponse",
       "to": [
         "SegmentResponse"
@@ -482,7 +371,7 @@
       ]
     },
     {
-      "type": "PERFORMED_AT",
+      "type": "SPECIFIES_EQUIPMENT",
       "from": "ProcessSegment",
       "to": [
         "Machine"
@@ -532,43 +421,23 @@
       ]
     },
     {
-      "type": "FOR_CUSTOMER",
-      "from": "ProductionOrder",
-      "to": [
-        "Customer"
-      ],
-      "targetIdProp": [
-        "customer_no"
-      ]
-    },
-    {
-      "type": "HAS_SEGMENT_REQUIREMENT",
-      "from": "ProductionOrder",
-      "to": [
-        "SegmentRequirement"
-      ],
-      "targetIdProp": [
-        "segment_requirement_no"
-      ]
-    },
-    {
-      "type": "HAS_WORKORDER",
-      "from": "ProductionOrder",
-      "to": [
-        "Workorder"
-      ],
-      "targetIdProp": [
-        "workorder_no"
-      ]
-    },
-    {
-      "type": "INSTANTIATES",
+      "type": "FOR_OPERATIONS_DEFINITION",
       "from": "ProductionOrder",
       "to": [
         "OperationsDefinition"
       ],
       "targetIdProp": [
         "operations_definition_no"
+      ]
+    },
+    {
+      "type": "MADE_UP_OF",
+      "from": "ProductionOrder",
+      "to": [
+        "SegmentRequirement"
+      ],
+      "targetIdProp": [
+        "segment_requirement_no"
       ]
     },
     {
@@ -582,6 +451,16 @@
       ]
     },
     {
+      "type": "AT_LOCATION",
+      "from": "Quant",
+      "to": [
+        "StorageLocation"
+      ],
+      "targetIdProp": [
+        "storage_location_id"
+      ]
+    },
+    {
       "type": "OF_ARTICLE",
       "from": "Quant",
       "to": [
@@ -589,26 +468,6 @@
       ],
       "targetIdProp": [
         "article_no"
-      ]
-    },
-    {
-      "type": "PROPOSED_BY_RULE",
-      "from": "ResolutionProposal",
-      "to": [
-        "AutoResolveRule"
-      ],
-      "targetIdProp": [
-        "rule_id"
-      ]
-    },
-    {
-      "type": "PROPOSES_FOR",
-      "from": "ResolutionProposal",
-      "to": [
-        "Discrepancy"
-      ],
-      "targetIdProp": [
-        "discrepancy_id"
       ]
     },
     {
@@ -642,27 +501,7 @@
       ]
     },
     {
-      "type": "CORRESPONDS_TO",
-      "from": "SegmentRequirement",
-      "to": [
-        "SegmentResponse"
-      ],
-      "targetIdProp": [
-        "segment_response_no"
-      ]
-    },
-    {
-      "type": "FOR_MATERIAL",
-      "from": "SegmentRequirement",
-      "to": [
-        "Article"
-      ],
-      "targetIdProp": [
-        "article_no"
-      ]
-    },
-    {
-      "type": "FOR_SEGMENT",
+      "type": "FOR_PROCESS_SEGMENT",
       "from": "SegmentRequirement",
       "to": [
         "ProcessSegment"
@@ -682,7 +521,7 @@
       ]
     },
     {
-      "type": "USES_EQUIPMENT",
+      "type": "REQUIRES_EQUIPMENT",
       "from": "SegmentRequirement",
       "to": [
         "Machine"
@@ -692,17 +531,37 @@
       ]
     },
     {
-      "type": "CORRESPONDS_TO",
-      "from": "SegmentResponse",
+      "type": "REQUIRES_MATERIAL",
+      "from": "SegmentRequirement",
       "to": [
-        "SegmentRequirement"
+        "Article"
       ],
       "targetIdProp": [
-        "segment_requirement_no"
+        "article_no"
       ]
     },
     {
-      "type": "FOR_SEGMENT",
+      "type": "ACTUAL_EQUIPMENT",
+      "from": "SegmentResponse",
+      "to": [
+        "Machine"
+      ],
+      "targetIdProp": [
+        "machine_id"
+      ]
+    },
+    {
+      "type": "ACTUAL_MATERIAL",
+      "from": "SegmentResponse",
+      "to": [
+        "MaterialLot"
+      ],
+      "targetIdProp": [
+        "material_lot_no"
+      ]
+    },
+    {
+      "type": "FOR_PROCESS_SEGMENT",
       "from": "SegmentResponse",
       "to": [
         "ProcessSegment"
@@ -722,44 +581,24 @@
       ]
     },
     {
-      "type": "PROCESSED_MATERIAL",
+      "type": "RESPONDS_TO",
       "from": "SegmentResponse",
       "to": [
-        "MaterialLot"
+        "SegmentRequirement"
       ],
       "targetIdProp": [
-        "material_lot_no"
+        "segment_requirement_no"
       ]
     },
     {
-      "type": "USED_EQUIPMENT",
-      "from": "SegmentResponse",
-      "to": [
-        "Machine"
-      ],
-      "targetIdProp": [
-        "machine_id"
-      ]
-    },
-    {
-      "type": "FOR_LOT",
-      "from": "SPCAnalysis",
-      "to": [
-        "InspectionLot"
-      ],
-      "targetIdProp": [
-        "lot_no"
-      ]
-    },
-    {
-      "type": "PART_OF",
+      "type": "IN_SCOPE_OF",
       "from": "StorageLocation",
       "to": [
         "Area"
       ]
     },
     {
-      "type": "SET_UP_ON",
+      "type": "IMPLEMENTATION_OF",
       "from": "Tool",
       "to": [
         "Machine"
@@ -769,7 +608,7 @@
       ]
     },
     {
-      "type": "PART_OF",
+      "type": "FOR_OPERATIONS_REQUEST",
       "from": "Workorder",
       "to": [
         "ProductionOrder"
@@ -797,7 +636,7 @@
     "_comment": "Relationship targets that are equipment levels of the instance tree (instance-schema equipmentLevel): the edge resolves through the partOf chain of sites/<site>/instances, no targetIdProp (resolvedBy: instances).",
     "entries": [
       "Machine -[PART_OF]-> ProcessCell",
-      "StorageLocation -[PART_OF]-> Area"
+      "StorageLocation -[IN_SCOPE_OF]-> Area"
     ]
   },
   "aliases": {
@@ -811,6 +650,137 @@
     "FabricationOrderPerformance": "OperationsResponse",
     "FOPerformance": "OperationsResponse",
     "Serial": "MaterialLot/Quant level (serialized part) — profile pending, see docs/agent-conformance.md"
+  },
+  "edgeAliases": {
+    "_comment": "Old edge names from W8-RENAME (standard 2.0.0) resolve to the ISA-95 type, or to reverseOf read backwards; they are read, never written.",
+    "entries": [
+      {
+        "alias": "CORRESPONDS_TO",
+        "from": "SegmentRequirement",
+        "reverseOf": {
+          "type": "RESPONDS_TO",
+          "from": "SegmentResponse"
+        },
+        "since": "2.0.0"
+      },
+      {
+        "alias": "CORRESPONDS_TO",
+        "from": "SegmentResponse",
+        "type": "RESPONDS_TO",
+        "since": "2.0.0"
+      },
+      {
+        "alias": "FOR_ARTICLE",
+        "from": "InspectionLot",
+        "type": "TESTS",
+        "since": "2.0.0"
+      },
+      {
+        "alias": "FOR_MATERIAL",
+        "from": "SegmentRequirement",
+        "type": "REQUIRES_MATERIAL",
+        "since": "2.0.0"
+      },
+      {
+        "alias": "FOR_SEGMENT",
+        "from": "SegmentRequirement",
+        "type": "FOR_PROCESS_SEGMENT",
+        "since": "2.0.0"
+      },
+      {
+        "alias": "FOR_SEGMENT",
+        "from": "SegmentResponse",
+        "type": "FOR_PROCESS_SEGMENT",
+        "since": "2.0.0"
+      },
+      {
+        "alias": "HAS_SEGMENT_REQUIREMENT",
+        "from": "ProductionOrder",
+        "type": "MADE_UP_OF",
+        "since": "2.0.0"
+      },
+      {
+        "alias": "HAS_SEGMENT_RESPONSE",
+        "from": "OperationsResponse",
+        "type": "MADE_UP_OF",
+        "since": "2.0.0"
+      },
+      {
+        "alias": "HAS_SUBLOT",
+        "from": "MaterialLot",
+        "type": "MADE_UP_OF",
+        "since": "2.0.0"
+      },
+      {
+        "alias": "HAS_WORKORDER",
+        "from": "ProductionOrder",
+        "reverseOf": {
+          "type": "FOR_OPERATIONS_REQUEST",
+          "from": "Workorder"
+        },
+        "since": "2.0.0"
+      },
+      {
+        "alias": "INSTANTIATES",
+        "from": "ProductionOrder",
+        "type": "FOR_OPERATIONS_DEFINITION",
+        "since": "2.0.0"
+      },
+      {
+        "alias": "OF_ARTICLE",
+        "from": "MaterialLot",
+        "type": "DEFINED_BY",
+        "since": "2.0.0"
+      },
+      {
+        "alias": "PART_OF",
+        "from": "StorageLocation",
+        "type": "IN_SCOPE_OF",
+        "since": "2.0.0"
+      },
+      {
+        "alias": "PART_OF",
+        "from": "Workorder",
+        "type": "FOR_OPERATIONS_REQUEST",
+        "since": "2.0.0"
+      },
+      {
+        "alias": "PERFORMED_AT",
+        "from": "ProcessSegment",
+        "type": "SPECIFIES_EQUIPMENT",
+        "since": "2.0.0"
+      },
+      {
+        "alias": "PROCESSED_MATERIAL",
+        "from": "SegmentResponse",
+        "type": "ACTUAL_MATERIAL",
+        "since": "2.0.0"
+      },
+      {
+        "alias": "SET_UP_ON",
+        "from": "Tool",
+        "type": "IMPLEMENTATION_OF",
+        "since": "2.0.0"
+      },
+      {
+        "alias": "USED_EQUIPMENT",
+        "from": "SegmentResponse",
+        "type": "ACTUAL_EQUIPMENT",
+        "since": "2.0.0"
+      },
+      {
+        "alias": "USES_EQUIPMENT",
+        "from": "SegmentRequirement",
+        "type": "REQUIRES_EQUIPMENT",
+        "since": "2.0.0"
+      },
+      {
+        "alias": "USES_TOOL",
+        "from": "InjectionMoldingMachine",
+        "type": "IMPLEMENTED_BY",
+        "since": "2.0.0"
+      }
+    ]
   },
   "skippedFiles": [
     "standard/profiles/equipment/equipment-model.json",

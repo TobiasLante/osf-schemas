@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-MaterialLot",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "standard": "ISA-95",
   "category": "material",
   "displayName": "Material Lot (the correct term for 'batch')",
@@ -24,7 +24,7 @@
       "dataType": "String",
       "required": false,
       "category": "Link",
-      "description": "FK to Article.article_no (OF_ARTICLE) = MaterialLot.MaterialDefinitionID. The MaterialDefinition of this lot.",
+      "description": "FK to Article.article_no (DEFINED_BY) = MaterialLot.MaterialDefinitionID. The MaterialDefinition of this lot.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
@@ -95,13 +95,13 @@
   ],
   "relationships": [
     {
-      "type": "OF_ARTICLE",
+      "type": "DEFINED_BY",
       "target": "Article",
       "targetIdProp": "article_no",
       "description": "The MaterialDefinition (Article) of this lot."
     },
     {
-      "type": "HAS_SUBLOT",
+      "type": "MADE_UP_OF",
       "target": "Quant",
       "description": "Inverse of Quant (MaterialSublot) — the inventory sublots of this lot.",
       "targetIdProp": "quant_no"
@@ -111,6 +111,12 @@
       "target": "Workorder",
       "targetIdProp": "workorder_no",
       "description": "The order slot (Workorder) that produced this lot."
+    },
+    {
+      "type": "AT_LOCATION",
+      "target": "StorageLocation",
+      "targetIdProp": "storage_location_id",
+      "description": "Where the material is held (B2MML MaterialLot.StorageLocation)."
     }
   ],
   "constraints": [],
@@ -121,6 +127,7 @@
   "kpiRefs": [],
   "isa95": {
     "objectModel": "MaterialLot",
+    "part": 2,
     "momDomain": "inventory",
     "level": 3,
     "note": "ISA-95 MaterialLot = identifiable material quantity of a MaterialDefinition. RULE: ERP 'batch' == MaterialLot (a portion of material), NEVER an activity. Sits between Article (MaterialDefinition) and Quant (MaterialSublot).",

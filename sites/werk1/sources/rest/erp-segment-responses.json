@@ -2,10 +2,14 @@
   "sourceId": "erp-segment-responses",
   "version": "2.3.0",
   "sourceType": "rest",
+  "functionalLevel": 4,
   "syncType": "polling",
   "profileRef": "SMProfile-SegmentResponse",
   "instanceRef": "werk1",
-  "location": { "enterprise": "factory", "site": "werk1" },
+  "location": {
+    "enterprise": "factory",
+    "site": "werk1"
+  },
   "transport": [
     "nats"
   ],
@@ -75,12 +79,12 @@
       "targetIdProp": "production_order_no"
     },
     {
-      "type": "CORRESPONDS_TO",
+      "type": "RESPONDS_TO",
       "fkColumn": "operation_id",
       "targetIdProp": "segment_requirement_no"
     },
     {
-      "type": "USED_EQUIPMENT",
+      "type": "ACTUAL_EQUIPMENT",
       "fkColumn": "machine_id",
       "targetIdProp": "machine_id"
     }
