@@ -91,6 +91,16 @@
             "x-delivery": "transactional",
             "x-scope": "hub",
             "x-promotion": "on_change"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Last change of the lot; every writer sets it. Cursor of GET /material-lots?updated_since= (sim-v5, Welle 12).",
+            "x-dataType": "DateTime",
+            "x-category": "Timing",
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change"
           }
         },
         "required": [
@@ -157,7 +167,8 @@
       "workorder_ref",
       "job_order_ref",
       "location_ref",
-      "created_at"
+      "created_at",
+      "updated_at"
     ]
   }
 }

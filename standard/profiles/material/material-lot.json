@@ -102,6 +102,16 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
+    },
+    {
+      "name": "updated_at",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "Last change of the lot; every writer sets it. Cursor of GET /material-lots?updated_since= (sim-v5, Welle 12).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     }
   ],
   "relationships": [

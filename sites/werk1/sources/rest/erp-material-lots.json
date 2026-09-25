@@ -27,8 +27,8 @@
  },
  "polling": {
   "changeDetection": "timestamp",
-  "timestampQueryParam": "since",
-  "timestampField": "created_at",
+  "timestampQueryParam": "updated_since",
+  "timestampField": "updated_at",
   "intervalMs": 60000,
   "batchSize": 500
  },
@@ -69,6 +69,10 @@
   {
    "column": "created_at",
    "smAttribute": "created_at"
+  },
+  {
+   "column": "updated_at",
+   "smAttribute": "updated_at"
   }
  ],
  "edges": [
