@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/validation/edge-bundle-schema.json",
   "title": "Edge contract · hand-over (release bundle + manifest)",
-  "description": "Edge contract, part 1 (Welle 10, owner 25.09.): what UNSaC hands to a consumer — one bundle per consumer (format unsac.bundle/1) and one manifest (unsac.manifest/1) with the sha256 of every file. A consumer reports back what it loaded with feedback-schema.json: loadedVersion (the release), loadedCommit (the manifest's `commit`) and loadedDigest (the manifest's sha256 of its bundle). Any edge that accepts this bundle and reports that feedback is as good for UNSaC as unsac-edge. Written from what i3x-v5 packages/uns-compiler/bundle.mjs emits. Transport: UNSaC delivers with POST <target endpoint>/v1/unsac/release, body = a delivery request (the manifest + the consumer's bundle), bearer = the target's secret; the edge answers with a receipt (HTTP 202 accepted / 409 refused). The receipt is NOT 'loaded': loaded comes later through the feedback contract.",
+  "description": "Edge contract, part 1 (Welle 10, owner 25.09.): what UNSaC hands to a consumer — one bundle per consumer (format unsac.bundle/1) and one manifest (unsac.manifest/1) with the sha256 of every file. A consumer reports back what it loaded with feedback-schema.json: loadedVersion (the release), loadedCommit (the manifest's `commit`) and loadedDigest (the manifest's scopeDigests[consumerId], verbatim). Any edge that accepts this bundle and reports that feedback is as good for UNSaC as unsac-edge. Written from what i3x-v5 packages/uns-compiler/bundle.mjs emits. Transport: UNSaC delivers with POST <target endpoint>/v1/unsac/release, body = a delivery request (the manifest + the consumer's bundle), bearer = the target's secret; the edge answers with a receipt (HTTP 202 accepted / 409 refused). The receipt is NOT 'loaded': loaded comes later through the feedback contract.",
   "oneOf": [
     {
       "$ref": "#/$defs/bundle"
@@ -127,7 +127,8 @@
         "format",
         "ref",
         "files",
-        "commit"
+        "commit",
+        "scopeDigests"
       ],
       "additionalProperties": false,
       "properties": {
@@ -141,6 +142,17 @@
           "type": "string",
           "pattern": "^[0-9a-f]{40}$",
           "description": "The full osf-schemas commit the release was compiled from; the consumer reports it back as loadedCommit (feedback-schema.json). It lives here and not in the bundles, so a bundle's digest does not change when only the commit does."
+        },
+        "scopeDigests": {
+          "type": "object",
+          "description": "consumerId → the digest of that consumer's SCOPE at this commit, exactly as feedback-schema.json defines loadedDigest ('sha256:' + …; null for an empty scope). The consumer reports its own entry back VERBATIM as loadedDigest: equal to the rolled-out release = same content, even on another commit. (The sha256 in `files` is only the integrity check of the bundle bytes.)",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          }
         },
         "files": {
           "type": "object",
