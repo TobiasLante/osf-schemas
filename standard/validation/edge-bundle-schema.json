@@ -94,7 +94,7 @@
         },
         "files": {
           "type": "object",
-          "description": "Published path → sha256 (hex) of its canonical JSON; the digest of bundles/<consumerId>.json is what the consumer reports as loadedDigest.",
+          "description": "Published path → sha256 (hex) of its canonical JSON; the digest of bundles/<consumerId>.json is what the consumer reports as loadedDigest. Canonical form (the bytes that are hashed): UTF-8 JSON, object keys sorted by UTF-16 code unit, 2-space indentation, one element per line, LF line ends, exactly one trailing LF, empty array [] and empty object {}, -0 written as 0, no undefined/NaN/Infinity. A consumer recomputes sha256 over exactly these bytes.",
           "additionalProperties": {
             "type": "string",
             "pattern": "^[0-9a-f]{64}$"
