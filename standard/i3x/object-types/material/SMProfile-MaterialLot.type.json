@@ -2,7 +2,7 @@
   "elementId": "SMProfile-MaterialLot",
   "displayName": "Material Lot (the correct term for 'batch')",
   "namespaceUri": "urn:osf:schemas:material",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "schema": {
     "description": "ISA-95 Part 2/4 MaterialLot (B2MML MaterialLot). Full text: docs/history/standard/profiles/material/material-lot.md, description.",
     "allOf": [
@@ -58,6 +58,15 @@
           "workorder_ref": {
             "type": "string",
             "description": "FK to Workorder.workorder_no, reached via JobOrder REQUIRES_MATERIAL. The order slot that produced this lot.",
+            "x-category": "Link",
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change",
+            "x-valueType": "ID"
+          },
+          "job_order_ref": {
+            "type": "string",
+            "description": "FK to JobOrder.job_order_no: the job (one workorder operation) that produced this lot. Full text: docs/history/standard/profiles/material/material-lot.md, attributes › job_order_ref › description.",
             "x-category": "Link",
             "x-delivery": "transactional",
             "x-scope": "hub",
@@ -126,7 +135,7 @@
       "part": 2,
       "momDomain": "inventory",
       "level": 3,
-      "note": "ISA-95 MaterialLot = identifiable material quantity of a MaterialDefinition. RULE: ERP 'batch' == MaterialLot (a portion of material), NEVER an activity. Sits between Article (MaterialDefinition) and Quant (MaterialSublot).",
+      "note": "ISA-95 MaterialLot = identifiable material quantity of a MaterialDefinition. RULE: ERP 'batch' == MaterialLot, NEVER an activity. Sits between Article (MaterialDefinition) and Quant (MaterialSublot). Full text: docs/history/standard/profiles/material/material-lot.md, isa95 › note.",
       "propertyMap": {
         "material_lot_no": "MaterialLot.ID",
         "article_ref": "MaterialLot.MaterialDefinitionID",
@@ -146,6 +155,7 @@
       "unit_of_measure",
       "status",
       "workorder_ref",
+      "job_order_ref",
       "location_ref",
       "created_at"
     ]

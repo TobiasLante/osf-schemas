@@ -1,0 +1,11 @@
+{
+  "waiverId": "erp-job-order-lot-sources",
+  "version": "1.0.0",
+  "sourceRefs": [
+    "erp-job-orders",
+    "erp-material-lots"
+  ],
+  "reason": "No edge loads these two sources yet (Welle 12, 25.09.2026): it-erp-sap is authoring-locked with its measured capacity, and sim-v5 serves job_order_no / job_order_ref only after the Welle 12 S2 deploy. Not streamed until a consumer is chosen.",
+  "signedBy": "claude-orchestrator (Welle 12) - owner to countersign before merge",
+  "signedAt": "2026-09-25T20:30:00Z"
+}

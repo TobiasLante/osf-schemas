@@ -13,7 +13,7 @@ osf-schemas/
 ├── sites/                  one folder per plant (site): its instance tree, sources, syncs, consumers
 │   └── werk1/                  
 │       ├── branding/               brand/theme assets (1 json)
-│       ├── consumers/               (15 json)
+│       ├── consumers/               (16 json)
 │       ├── historians/             historian-sink templates + instances (OUTPUT: UNS → customer DB)
 │       │   ├── grafana-dashboards/      (4 json)
 │       │   └── instances/               (3 json)
@@ -24,7 +24,7 @@ osf-schemas/
 │       ├── sources/                Schema 2: Data Sources (instance binding)
 │       │   ├── mtconnect/              MTConnect agent mappings (2 json)
 │       │   ├── opcua/                  OPC-UA endpoint → machine mappings (15 json)
-│       │   └── rest/                   sim-v5 REST polling (ERP/QMS/WMS projections) (10 json)
+│       │   └── rest/                   sim-v5 REST polling (ERP/QMS/WMS projections) (12 json)
 │       ├── sync/                   Schema 3: Live Sync (transport layer)
 │       │   ├── nats/                   NATS subjects + JetStream stream declarations (suite hub) (2 json)
 │       │   ├── opcua-server/           Sonder-Edge re-publish (MTConnect → embedded OPC-UA server) (1 json)
@@ -80,7 +80,7 @@ Alles aus der v3-Ära (PostgreSQL-Sources, MQTT-UNS-/Kafka-/Webhook-Syncs) liegt
 | Profiles | 33 | equipment 6 · intelligence 5 · material 5 · operations 15 · quality 2 |
 | Sources — mtconnect | 2 | mtconnect-cnc-01, mtconnect-cnc-mtc-02 |
 | Sources — opcua | 15 | opcua-cnc-001-event, opcua-cnc-001-telemetry, opcua-cnc-002-event, opcua-cnc-002-telemetry, opcua-ftlinx-01-event, opcua-ftlinx-01-telemetry, opcua-mtbridge-cnc-01, opcua-rockwell-01-event, opcua-rockwell-01-telemetry, opcua-sgm-001-event, opcua-sgm-001-telemetry, opcua-sgm-004-processdata, opcua-sgm-005-processdata, opcua-sgm-006-bde, opcua-sgm-006-processdata |
-| Sources — rest | 10 | erp-bde-confirmations, erp-operations-response, erp-production-orders, erp-segment-requirements, erp-segment-responses, sim-v5-erp-articles, sim-v5-erp-calendar, sim-v5-erp-customers, sim-v5-qms-inspections, sim-v5-wms-quants |
+| Sources — rest | 12 | erp-bde-confirmations, erp-job-orders, erp-material-lots, erp-operations-response, erp-production-orders, erp-segment-requirements, erp-segment-responses, sim-v5-erp-articles, sim-v5-erp-calendar, sim-v5-erp-customers, sim-v5-qms-inspections, sim-v5-wms-quants |
 | Sync — nats | 2 | jetstream-streams, opcua-to-nats-cnc-mtc-01 |
 | Sync — opcua-server | 1 | mtconnect-to-opcua-cnc-mtc-01 |
 | Sync — polling | 1 | sim-v5-poll |
@@ -88,7 +88,7 @@ Alles aus der v3-Ära (PostgreSQL-Sources, MQTT-UNS-/Kafka-/Webhook-Syncs) liegt
 | Recipes | 5 (2 parked) | recipe-sgm-004-pa66gf30-bracket-b *(parked)*, recipe-sgm-004-pa66gf30-housing-a *(parked)*, recipe-v4-12-0044-003-pa66gf30, recipe-v4-14-1300-040-pmma, recipe-wip-housing-base-asa-pc |
 | KPIs | 6 (2 parked) | availability, energy-per-part *(parked)*, oee, performance *(parked)*, quality-rate, scrap-rate |
 
-Measured from the tree by `i3x-v5 packages/schemas-ci/osf/gen-docs.mjs` — the same sums `lint-refs` prints (`lint-refs: 33 profiles, 27 sources, 5 sync files`).
+Measured from the tree by `i3x-v5 packages/schemas-ci/osf/gen-docs.mjs` — the same sums `lint-refs` prints (`lint-refs: 33 profiles, 29 sources, 5 sync files`).
 <!-- gen:counts:end -->
 
 ---
@@ -485,10 +485,10 @@ Phase 5: Embeddings
 | `element_id` | CNC_Machine, InjectionMoldingMachine, Machine | — |
 | `equipment_class_id` | EquipmentClass | 1 |
 | `job_order_no` | JobOrder | — |
-| `lot_no` | InspectionLot | 1 |
+| `lot_no` | InspectionLot | — |
 | `machine_id` | ⚠ **none** — no profile declares this key (see `contract.json` → `unresolvedTargets`) | 5 |
 | `material_item_id` | MaterialItem | — |
-| `material_lot_no` | MaterialLot | 1 |
+| `material_lot_no` | MaterialLot | 2 |
 | `operations_definition_no` | OperationsDefinition | 2 |
 | `operations_segment_no` | OperationsSegment | — |
 | `order_no` | CustomerOrder | — |
