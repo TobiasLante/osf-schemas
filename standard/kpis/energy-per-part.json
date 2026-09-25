@@ -11,8 +11,7 @@
   "calculation": {
     "inputs": ["Act_Energy_Total", "Act_Amount_PartGood"],
     "inputMappings": {
-      "SMProfile-CNC-Machine": { "Act_Energy_Total": "Act_Energy_Total" },
-      "SMProfile-SegmentResponse": { "qty_good": "Act_Amount_PartGood" }
+      "SMProfile-CNC-Machine": { "Act_Energy_Total": "Act_Energy_Total", "qty_good": "Act_Amount_PartGood" }
     },
     "cypher": "CASE WHEN coalesce(m.Act_Amount_PartGood, 0) = 0 THEN null ELSE round(toFloat(m.Act_Energy_Total) / m.Act_Amount_PartGood * 1000) / 1000 END"
   },

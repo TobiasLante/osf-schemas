@@ -8,7 +8,8 @@
   "calculation": {
     "inputs": ["part_good", "part_scrap"],
     "inputMappings": {
-      "SMProfile-SegmentResponse": { "qty_good": "part_good", "qty_scrap": "part_scrap" }
+      "SMProfile-InjectionMoldingMachine": { "qty_good": "part_good", "qty_scrap": "part_scrap" },
+      "SMProfile-CNC-Machine": { "qty_good": "part_good", "qty_scrap": "part_scrap" }
     },
     "cypher": "CASE WHEN (m.part_good + m.part_scrap) = 0 THEN null ELSE round(toFloat(m.part_good) / (m.part_good + m.part_scrap) * 1000) / 10 END"
   },
