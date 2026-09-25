@@ -1,0 +1,31 @@
+{
+  "_note": "Owner 25.09.2026 (after the customer reference-concept 26.09. snapshot): every source declares the ISA-95 functional level (IEC 62264-1) of the system it reads; the level decides which ISA-95 part its objects belong to. Here the ERP (sim-v5) and the PLCs report Part 2 objects; a Level-3 MES would report Part 4 (work) objects. Checked by lint-functional-level.",
+  "levels": {
+    "0": {
+      "name": "physical process",
+      "parts": []
+    },
+    "1": {
+      "name": "sensing and manipulation",
+      "parts": []
+    },
+    "2": {
+      "name": "monitoring and control (PLC, SCADA)",
+      "parts": [
+        2
+      ]
+    },
+    "3": {
+      "name": "manufacturing operations (MES, historian)",
+      "parts": [
+        4
+      ]
+    },
+    "4": {
+      "name": "business planning and logistics (ERP)",
+      "parts": [
+        2
+      ]
+    }
+  }
+}
