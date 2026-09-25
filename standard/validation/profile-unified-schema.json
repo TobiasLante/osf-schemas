@@ -350,22 +350,15 @@
         },
         "equipmentLevel": {
           "type": "string",
-          "description": "Same list as intelligence-profile-schema.json: the ISA-88 levels of standard/validation/naming-standard.md plus the ISA-95 Part 2 role-based equipment types.",
+          "description": "ISA-88 physical model level (owner 25.09.: the plant tree speaks ISA-88) — the same list as instance-schema.json equipmentLevel; lint-isa95 I17.",
           "enum": [
             "Enterprise",
             "Site",
             "Area",
             "ProcessCell",
-            "EquipmentUnit",
+            "Unit",
             "EquipmentModule",
-            "ControlModule",
-            "ProductionLine",
-            "WorkCell",
-            "ProductionUnit",
-            "StorageZone",
-            "StorageUnit",
-            "WorkCenter",
-            "WorkUnit"
+            "ControlModule"
           ]
         },
         "equipmentClass": {

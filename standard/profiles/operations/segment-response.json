@@ -118,7 +118,7 @@
       "dataType": "String",
       "required": false,
       "category": "Link",
-      "description": "FK to Machine.machine_id (ACTUAL_EQUIPMENT; Machine ≡ EquipmentUnit level) = EquipmentActual.EquipmentID. The equipment actually used.",
+      "description": "FK to Machine.machine_id (ACTUAL_EQUIPMENT; Machine ≡ Unit level) = EquipmentActual.EquipmentID. The equipment actually used.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
@@ -308,7 +308,7 @@
       "type": "ACTUAL_EQUIPMENT",
       "target": "Machine",
       "targetIdProp": "machine_id",
-      "description": "The equipment actually used (Machine ≡ EquipmentUnit level, consolidation 2026-07-15 — the source fkColumn carries machine ids)."
+      "description": "The equipment actually used (Machine ≡ Unit level, consolidation 2026-07-15 — the source fkColumn carries machine ids)."
     }
   ],
   "constraints": [],

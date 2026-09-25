@@ -88,7 +88,7 @@
       },
       "equipment_ref": {
         "type": "string",
-        "description": "FK to Machine.machine_id (REQUIRES_EQUIPMENT; Machine ≡ EquipmentUnit level) = EquipmentRequirement.EquipmentID. The target equipment of the stage.",
+        "description": "FK to Machine.machine_id (REQUIRES_EQUIPMENT; Machine ≡ Unit level) = EquipmentRequirement.EquipmentID. The target equipment of the stage.",
         "x-category": "Link",
         "x-delivery": "transactional",
         "x-scope": "hub",
@@ -149,7 +149,7 @@
         "type": "REQUIRES_EQUIPMENT",
         "target": "Machine",
         "targetIdProp": "machine_id",
-        "description": "The target equipment of the stage (Machine ≡ EquipmentUnit level, consolidation 2026-07-15 — the source fkColumn carries machine ids)."
+        "description": "The target equipment of the stage (Machine ≡ Unit level, consolidation 2026-07-15 — the source fkColumn carries machine ids)."
       }
     ],
     "constraints": [],
@@ -159,6 +159,7 @@
     "kpiRefs": [],
     "isa95": {
       "objectModel": "SegmentRequirement",
+      "part": 2,
       "momDomain": "production",
       "level": 3,
       "note": "ISA-95 Part 4 OperationsRequest.SegmentRequirement = PLAN per ProcessSegment, with MaterialRequirement (MaterialUse=role) + EquipmentRequirement. Full text: docs/history/standard/profiles/operations/segment-requirement.md, isa95 › note.",

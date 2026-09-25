@@ -19,7 +19,7 @@ Customer-neutral by construction: the profiles define the *shape*, never a custo
 ## Terminology law (ISA-95, binding)
 
 - **ProcessSegment == "plant" (MES) == "Function" (the function naming standard).** A reusable production stage
- (a forming, dosing, or curing stage …), `SPECIFIES_EQUIPMENT` an `EquipmentUnit`.
+ (a forming, dosing, or curing stage …), `SPECIFIES_EQUIPMENT` an `Unit`.
 - **"batch" is forbidden** — not an ISA-95 term. The ERP word "batch" == **MaterialLot** (a *portion of
  physical material*, never an activity).
 - **Production Request** is the umbrella (production / planned / process / fabrication order, work order,
@@ -32,7 +32,7 @@ Customer-neutral by construction: the profiles define the *shape*, never a custo
 OperationsDefinition (master / Fertigungsweg) ProcessSegment (= plant = Function)
  │ CONTAINS_SEGMENT │ SPECIFIES_EQUIPMENT
  ▼ ▼
-ProductionOrder ──FOR_OPERATIONS_DEFINITION──▶ OperationsDefinition EquipmentUnit (ISA-88)
+ProductionOrder ──FOR_OPERATIONS_DEFINITION──▶ OperationsDefinition Unit (ISA-88)
  (OperationsRequest, PLAN) ▲
  │ MADE_UP_OF ┌── REQUIRES_EQUIPMENT ┘
  ▼ │
@@ -49,7 +49,7 @@ OperationsResponse (IST) ──MADE_UP_OF──▶ SegmentResponse
 | Profile | isa95.objectModel | role |
 |---|---|---|
 | `operations/operations-definition.json` | OperationsDefinition | master: ordered segments to make an article |
-| `operations/process-segment.json` | ProcessSegment | reusable stage = plant = Function; SPECIFIES_EQUIPMENT EquipmentUnit |
+| `operations/process-segment.json` | ProcessSegment | reusable stage = plant = Function; SPECIFIES_EQUIPMENT Unit |
 | `operations/segment-requirement.json` | SegmentRequirement | PLAN per segment: material(role)+equipment+qty+timing |
 | `operations/segment-response.json` | SegmentResponse | IST per segment: material actual(role)+equipment actual (quality facet) |
 | `operations/work-order.json` | WorkRequest | order time-slot subdivision (FO-index) |

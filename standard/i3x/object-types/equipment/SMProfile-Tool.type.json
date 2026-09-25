@@ -4,7 +4,7 @@
   "namespaceUri": "urn:osf:schemas:equipment",
   "version": "2.0.0",
   "schema": {
-    "description": "next/ v2.0 — ISA-95 physical asset / tooling (e.g. an injection mould, die, fixture). Neutral generalization of 'mould'. IMPLEMENTED_BY target of machine profiles; can be set up on an EquipmentUnit.",
+    "description": "next/ v2.0 — ISA-95 physical asset / tooling (e.g. an injection mould, die, fixture). Neutral generalization of 'mould'. IMPLEMENTED_BY target of machine profiles; can be set up on an Unit.",
     "type": "object",
     "properties": {
       "tool_id": {
@@ -34,7 +34,7 @@
       },
       "unit_ref": {
         "type": "string",
-        "description": "FK to Machine.machine_id (IMPLEMENTATION_OF; Machine ≡ EquipmentUnit level) — where the tool is currently set up.",
+        "description": "FK to Machine.machine_id (IMPLEMENTATION_OF; Machine ≡ Unit level) — where the tool is currently set up.",
         "x-category": "Link",
         "x-delivery": "transactional",
         "x-scope": "hub",
@@ -56,7 +56,7 @@
         "type": "IMPLEMENTATION_OF",
         "target": "Machine",
         "targetIdProp": "machine_id",
-        "description": "The machine the tool is currently set up on (Machine ≡ EquipmentUnit level, consolidation 2026-07-15)."
+        "description": "The machine the tool is currently set up on (Machine ≡ Unit level, consolidation 2026-07-15)."
       }
     ],
     "constraints": [],
@@ -64,6 +64,7 @@
     "kpiRefs": [],
     "isa95": {
       "objectModel": "PhysicalAsset",
+      "part": 2,
       "momDomain": "production",
       "equipmentClass": "tooling",
       "note": "ISA-95 PhysicalAsset (tooling). IMPLEMENTED_BY target of machine profiles; neutral replacement for 'Mould'."

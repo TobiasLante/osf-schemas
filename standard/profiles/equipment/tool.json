@@ -4,7 +4,7 @@
   "standard": "ISA-95",
   "category": "equipment",
   "displayName": "Tool (tooling / physical asset, e.g. mould)",
-  "description": "next/ v2.0 — ISA-95 physical asset / tooling (e.g. an injection mould, die, fixture). Neutral generalization of 'mould'. IMPLEMENTED_BY target of machine profiles; can be set up on an EquipmentUnit.",
+  "description": "next/ v2.0 — ISA-95 physical asset / tooling (e.g. an injection mould, die, fixture). Neutral generalization of 'mould'. IMPLEMENTED_BY target of machine profiles; can be set up on an Unit.",
   "parentType": null,
   "abstract": false,
   "attributes": [
@@ -44,7 +44,7 @@
       "dataType": "String",
       "required": false,
       "category": "Link",
-      "description": "FK to Machine.machine_id (IMPLEMENTATION_OF; Machine ≡ EquipmentUnit level) — where the tool is currently set up.",
+      "description": "FK to Machine.machine_id (IMPLEMENTATION_OF; Machine ≡ Unit level) — where the tool is currently set up.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
@@ -56,7 +56,7 @@
       "type": "IMPLEMENTATION_OF",
       "target": "Machine",
       "targetIdProp": "machine_id",
-      "description": "The machine the tool is currently set up on (Machine ≡ EquipmentUnit level, consolidation 2026-07-15)."
+      "description": "The machine the tool is currently set up on (Machine ≡ Unit level, consolidation 2026-07-15)."
     }
   ],
   "constraints": [],

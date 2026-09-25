@@ -92,7 +92,7 @@
       "dataType": "String",
       "required": false,
       "category": "Link",
-      "description": "FK to Machine.machine_id (SPECIFIES_EQUIPMENT; Machine ≡ EquipmentUnit level). The ISA-88 Unit / process stage on which the segment runs — the physical anchoring of the 'plant' / 'Function'.",
+      "description": "FK to Machine.machine_id (SPECIFIES_EQUIPMENT; Machine ≡ Unit level). The ISA-88 Unit / process stage on which the segment runs — the physical anchoring of the 'plant' / 'Function'.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
@@ -110,7 +110,7 @@
       "type": "SPECIFIES_EQUIPMENT",
       "target": "Machine",
       "targetIdProp": "machine_id",
-      "description": "The Machine (≡ EquipmentUnit level, consolidation 2026-07-15; = plant = Function) on which the segment is executed."
+      "description": "The Machine (≡ Unit level, consolidation 2026-07-15; = plant = Function) on which the segment is executed."
     }
   ],
   "constraints": [],

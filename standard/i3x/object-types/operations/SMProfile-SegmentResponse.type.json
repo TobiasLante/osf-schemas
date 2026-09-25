@@ -100,7 +100,7 @@
       },
       "equipment_ref": {
         "type": "string",
-        "description": "FK to Machine.machine_id (ACTUAL_EQUIPMENT; Machine ≡ EquipmentUnit level) = EquipmentActual.EquipmentID. The equipment actually used.",
+        "description": "FK to Machine.machine_id (ACTUAL_EQUIPMENT; Machine ≡ Unit level) = EquipmentActual.EquipmentID. The equipment actually used.",
         "x-category": "Link",
         "x-delivery": "transactional",
         "x-scope": "hub",
@@ -361,7 +361,7 @@
         "type": "ACTUAL_EQUIPMENT",
         "target": "Machine",
         "targetIdProp": "machine_id",
-        "description": "The equipment actually used (Machine ≡ EquipmentUnit level, consolidation 2026-07-15 — the source fkColumn carries machine ids)."
+        "description": "The equipment actually used (Machine ≡ Unit level, consolidation 2026-07-15 — the source fkColumn carries machine ids)."
       }
     ],
     "constraints": [],
@@ -371,6 +371,7 @@
     "kpiRefs": [],
     "isa95": {
       "objectModel": "SegmentResponse",
+      "part": 2,
       "momDomain": "production",
       "level": 3,
       "note": "ISA-95 Part 4 OperationsResponse.SegmentResponse = actuals per ProcessSegment, with MaterialActual (MaterialUse=role, MaterialLot) + EquipmentActual. Full text: docs/history/standard/profiles/operations/segment-response.md, isa95 › note.",
