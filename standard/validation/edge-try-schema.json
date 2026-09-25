@@ -1,0 +1,272 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/validation/edge-try-schema.json",
+  "title": "Edge contract · Try (read only)",
+  "description": "Edge contract, part 3 (Welle 10, owner 25.09.): the read-only questions UNSaC asks an edge while a person tries a draft. READ and PAGE are the i3X v1 (CESMII) value and history calls — POST /v1/objects/value and POST /v1/objects/history — with elementId = the UNSaC signalId (<instance>/<property>); an edge that speaks i3X already answers them. REPLAY is a UNSaC extension (POST /v1/unsac/replay): recompute one rule over a window of history and return where it would have fired. Nothing is written. An edge that cannot answer an operation says so with 501; UNSaC then shows 'not supported by target <kind>'.",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/readRequest"
+    },
+    {
+      "$ref": "#/$defs/readResponse"
+    },
+    {
+      "$ref": "#/$defs/pageRequest"
+    },
+    {
+      "$ref": "#/$defs/pageResponse"
+    },
+    {
+      "$ref": "#/$defs/replayRequest"
+    },
+    {
+      "$ref": "#/$defs/replayResponse"
+    }
+  ],
+  "$defs": {
+    "vqt": {
+      "type": "object",
+      "required": [
+        "value",
+        "quality",
+        "timestamp"
+      ],
+      "properties": {
+        "value": {},
+        "quality": {
+          "enum": [
+            "Good",
+            "GoodNoData",
+            "Bad",
+            "Uncertain"
+          ]
+        },
+        "timestamp": {
+          "type": "string",
+          "description": "RFC 3339, UTC."
+        }
+      }
+    },
+    "readRequest": {
+      "type": "object",
+      "required": [
+        "elementIds"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "elementIds": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "maxDepth": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "readResponse": {
+      "type": "object",
+      "required": [
+        "success",
+        "results"
+      ],
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "success",
+              "elementId"
+            ],
+            "properties": {
+              "success": {
+                "type": "boolean"
+              },
+              "elementId": {
+                "type": "string"
+              },
+              "result": {
+                "type": "object",
+                "required": [
+                  "value",
+                  "quality",
+                  "timestamp"
+                ],
+                "properties": {
+                  "value": {},
+                  "quality": {
+                    "enum": [
+                      "Good",
+                      "GoodNoData",
+                      "Bad",
+                      "Uncertain"
+                    ]
+                  },
+                  "timestamp": {
+                    "type": "string"
+                  },
+                  "unit": {
+                    "type": "string"
+                  }
+                }
+              },
+              "error": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "pageRequest": {
+      "type": "object",
+      "required": [
+        "elementIds",
+        "startTime",
+        "endTime"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "elementIds": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        },
+        "startTime": {
+          "type": "string"
+        },
+        "endTime": {
+          "type": "string"
+        },
+        "maxDepth": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "description": "One page = one time window. The next page starts at the last timestamp of the previous one (i3X has no cursor)."
+    },
+    "pageResponse": {
+      "type": "object",
+      "required": [
+        "success",
+        "results"
+      ],
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "truncated": {
+          "type": "boolean",
+          "description": "true (HTTP 206) when the edge cut the window at its row cap; ask again from the last timestamp."
+        },
+        "results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "success",
+              "elementId"
+            ],
+            "properties": {
+              "success": {
+                "type": "boolean"
+              },
+              "elementId": {
+                "type": "string"
+              },
+              "result": {
+                "type": "object",
+                "required": [
+                  "values"
+                ],
+                "properties": {
+                  "values": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/$defs/vqt"
+                    }
+                  }
+                }
+              },
+              "error": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "replayRequest": {
+      "type": "object",
+      "required": [
+        "rule",
+        "startTime",
+        "endTime"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "rule": {
+          "$ref": "https://osf-schemas/next/validation/constraint-schema.json#/$defs/constraint",
+          "description": "The rule (a profile constraint) as the draft has it."
+        },
+        "instance": {
+          "type": "string",
+          "description": "The instance the rule is evaluated for."
+        },
+        "startTime": {
+          "type": "string"
+        },
+        "endTime": {
+          "type": "string"
+        }
+      },
+      "x-extension": "UNSaC extension of i3X v1"
+    },
+    "replayResponse": {
+      "type": "object",
+      "required": [
+        "evaluated",
+        "verdicts"
+      ],
+      "properties": {
+        "evaluated": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of values the rule was evaluated on."
+        },
+        "verdicts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "at",
+              "state"
+            ],
+            "properties": {
+              "at": {
+                "type": "string"
+              },
+              "state": {
+                "enum": [
+                  "raised",
+                  "cleared"
+                ]
+              },
+              "value": {}
+            }
+          }
+        }
+      },
+      "x-extension": "UNSaC extension of i3X v1"
+    }
+  }
+}
