@@ -24,7 +24,8 @@
         "format",
         "consumerId",
         "ref",
-        "signals"
+        "signals",
+        "sources"
       ],
       "additionalProperties": false,
       "properties": {
@@ -67,6 +68,55 @@
           "type": "array",
           "items": {
             "$ref": "#/$defs/signal"
+          }
+        },
+        "sources": {
+          "type": "array",
+          "description": "The sources the bundle's signals come from, verbatim from their source files: what an edge needs to connect (endpoint, security, credentials by secret NAME only) and how often to read.",
+          "items": {
+            "type": "object",
+            "required": [
+              "sourceId",
+              "sourceType",
+              "instance",
+              "site",
+              "connection",
+              "polling"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "sourceId": {
+                "type": "string"
+              },
+              "sourceType": {
+                "type": "string"
+              },
+              "instance": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "site": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "connection": {
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "description": "As in the source file (e.g. OPC UA endpoint, securityMode, securityPolicy, auth)."
+              },
+              "polling": {
+                "type": [
+                  "object",
+                  "null"
+                ]
+              }
+            }
           }
         }
       }
