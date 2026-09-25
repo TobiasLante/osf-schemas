@@ -2,7 +2,7 @@
   "elementId": "SMProfile-Quant",
   "displayName": "Quant (inventory stock unit / MaterialSublot)",
   "namespaceUri": "urn:osf:schemas:wms",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "schema": {
     "description": "WMS stock unit (Quant) at the storage location, aligned to the LIVE projection of source sim-v5-wms-quants (article_ref/quantity/blocked/warehouse/storage_location), NOT the legacy base profile (article_no/quality_status). Full text: docs/history/standard/profiles/wms/quant.md, description.",
     "allOf": [
@@ -99,6 +99,12 @@
         "target": "Article",
         "targetIdProp": "article_no",
         "description": "The MaterialDefinition (Article) of this sublot, reached through its lot (B2MML MaterialSubLot.MaterialLotID → MaterialLot.MaterialDefinitionID). A shortcut through the lot (derived: MaterialLot MADE_UP_OF read backwards, then DEFINED_BY); the lot itself carries the ISA-95 edge DEFINED_BY."
+      },
+      {
+        "type": "AT_LOCATION",
+        "target": "StorageLocation",
+        "targetIdProp": "storage_location_id",
+        "description": "Where the material is held (B2MML MaterialSubLot.StorageLocation)."
       }
     ],
     "constraints": [

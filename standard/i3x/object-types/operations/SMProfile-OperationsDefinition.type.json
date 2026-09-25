@@ -2,7 +2,7 @@
   "elementId": "SMProfile-OperationsDefinition",
   "displayName": "Operations Definition (routing master data / master)",
   "namespaceUri": "urn:osf:schemas:operations",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "schema": {
     "description": "Level-3 MOM OperationsDefinition (ISA-95 Part 4 / B2MML OperationsDefinition). Full text: docs/history/standard/profiles/operations/operations-definition.md, description.",
     "type": "object",
@@ -74,12 +74,6 @@
         "target": "Article",
         "targetIdProp": "article_no",
         "description": "The manufactured article (MaterialDefinition)."
-      },
-      {
-        "type": "BASED_ON",
-        "target": "ProductDefinition",
-        "targetIdProp": "product_definition_no",
-        "description": "Target parameters / recipe binding (ISA-95 ProductDefinition / definition leg)."
       },
       {
         "type": "CONTAINS_SEGMENT",

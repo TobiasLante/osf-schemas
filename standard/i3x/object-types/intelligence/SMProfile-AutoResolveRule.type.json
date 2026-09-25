@@ -2,7 +2,7 @@
   "elementId": "SMProfile-AutoResolveRule",
   "displayName": "Auto-Resolve Rule",
   "namespaceUri": "urn:osf:schemas:intelligence",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "schema": {
     "description": "Intelligence-engine configuration object: a rule that auto-resolves or proposes resolutions for discrepancies. Full text: docs/history/standard/profiles/intelligence/auto-resolve-rule.md, description.",
     "type": "object",
@@ -36,14 +36,7 @@
     "standard": "OSF",
     "category": "intelligence",
     "abstract": false,
-    "relationships": [
-      {
-        "type": "RESOLVES",
-        "target": "Discrepancy",
-        "targetIdProp": "discrepancy_id",
-        "description": "The discrepancy class/instances this rule acts on."
-      }
-    ],
+    "relationships": [],
     "kgNodeLabel": "AutoResolveRule",
     "kgIdProperty": "rule_id",
     "isa95": {

@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-MaterialLot",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "standard": "ISA-95",
   "category": "material",
   "displayName": "Material Lot (the correct term for 'batch')",
@@ -111,6 +111,12 @@
       "target": "Workorder",
       "targetIdProp": "workorder_no",
       "description": "The order slot (Workorder) that produced this lot."
+    },
+    {
+      "type": "AT_LOCATION",
+      "target": "StorageLocation",
+      "targetIdProp": "storage_location_id",
+      "description": "Where the material is held (B2MML MaterialLot.StorageLocation)."
     }
   ],
   "constraints": [],

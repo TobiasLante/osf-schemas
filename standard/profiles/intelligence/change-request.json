@@ -1,6 +1,6 @@
 {
  "profileId": "SMProfile-ChangeRequest",
- "version": "1.0.0",
+ "version": "2.0.0",
  "standard": "OSF",
  "displayName": "Change Request",
  "category": "intelligence",
@@ -8,152 +8,115 @@
  "parentType": null,
  "abstract": false,
  "attributes": [
- {
- "name": "change_request_id",
- "valueType": "ID",
- "dataType": "String",
- "category": "Core",
- "isKey": true,
- "description": "Unique change-request id (uuid). This is the CR's own identity ('id' in the Golden brief); kept as change_request_id so it matches the <entity>_id convention every other intelligence node uses (discrepancy_id, proposal_id, rule_id) and is unambiguous as the kgIdProperty."
- },
- {
- "name": "discrepancy_id",
- "valueType": "ID",
- "dataType": "String",
- "category": "Reference",
- "description": "The Discrepancy this change-request answers — the divergence that motivated challenging the band/aim. Also drawn as the ABOUT_DISCREPANCY edge."
- },
- {
- "name": "machine_id",
- "valueType": "ID",
- "dataType": "String",
- "category": "Reference",
- "description": "The machine the band/aim governs (the process the request is about). Also drawn as the ABOUT_MACHINE edge."
- },
- {
- "name": "constraint_id",
- "valueType": "ID",
- "dataType": "String",
- "category": "Reference",
- "description": "The band/constraint being challenged — the recipe band ref or profile constraint id (e.g. 'recipe:part_mass_band' / 'recipe_part_mass_band' / 'spindle_temp_control_limits'). An attribute, not an edge: constraints live inside recipes/profiles, there is no Constraint KG node to point at."
- },
- {
- "name": "tolerance_source",
- "dataType": "String",
- "category": "Provenance",
- "enum": [
- "drawing",
- "customer_spec",
- "norm",
- "process_estimate",
- "unknown"
+  {
+   "name": "change_request_id",
+   "valueType": "ID",
+   "dataType": "String",
+   "category": "Core",
+   "isKey": true,
+   "description": "Unique change-request id (uuid). This is the CR's own identity ('id' in the Golden brief); kept as change_request_id so it matches the <entity>_id convention every other intelligence node uses (discrepancy_id, proposal_id, rule_id) and is unambiguous as the kgIdProperty."
+  },
+  {
+   "name": "discrepancy_id",
+   "valueType": "ID",
+   "dataType": "String",
+   "category": "Reference",
+   "description": "The Discrepancy this change-request answers — the divergence that motivated challenging the band/aim. Also drawn as the ABOUT_DISCREPANCY edge."
+  },
+  {
+   "name": "machine_id",
+   "valueType": "ID",
+   "dataType": "String",
+   "category": "Reference",
+   "description": "The machine the band/aim governs (the process the request is about). Also drawn as the ABOUT_MACHINE edge."
+  },
+  {
+   "name": "constraint_id",
+   "valueType": "ID",
+   "dataType": "String",
+   "category": "Reference",
+   "description": "The band/constraint being challenged — the recipe band ref or profile constraint id (e.g. 'recipe:part_mass_band' / 'recipe_part_mass_band' / 'spindle_temp_control_limits'). An attribute, not an edge: constraints live inside recipes/profiles, there is no Constraint KG node to point at."
+  },
+  {
+   "name": "tolerance_source",
+   "dataType": "String",
+   "category": "Provenance",
+   "enum": ["drawing", "customer_spec", "norm", "process_estimate", "unknown"],
+   "description": "Provenance of the band being challenged — the SAME vocabulary as recipe-schema.json toleranceSource. Full text: docs/history/standard/profiles/intelligence/change-request.md, attributes › tolerance_source › description."
+  },
+  {
+   "name": "proposed_band",
+   "dataType": "String",
+   "category": "Proposal",
+   "description": "The proposed NEW tolerance band, serialized JSON [lo,hi] (same shape as recipe `values` bands). Full text: docs/history/standard/profiles/intelligence/change-request.md, attributes › proposed_band › description."
+  },
+  {
+   "name": "proposed_aim",
+   "dataType": "Float",
+   "category": "Proposal",
+   "description": "The proposed NEW steering aim (recipe parameters[].aim) — where the process should be centred inside the band. Full text: docs/history/standard/profiles/intelligence/change-request.md, attributes › proposed_aim › description."
+  },
+  {
+   "name": "rationale",
+   "dataType": "String",
+   "category": "Core",
+   "description": "Why the change is requested — the evidence the authority rules on (e.g. Cp/Ca measured over the current regime, recurrence count, the drawing/spec the current band contradicts)."
+  },
+  {
+   "name": "requested_by",
+   "dataType": "String",
+   "category": "Provenance",
+   "description": "Who raised the request: steward/user id, rule_id or agent id. MUST differ from resolved_by (engine-enforced)."
+  },
+  { "name": "requested_at", "dataType": "DateTime", "category": "Core", "description": "When the request was raised." },
+  {
+   "name": "status",
+   "dataType": "String",
+   "category": "Lifecycle",
+   "enum": ["open", "resolved_approved", "resolved_rejected"],
+   "description": "open -> resolved_approved | resolved_rejected. resolved_approved means the authority granted a band/aim (see authoritative_*); resolved_rejected means the current band/aim stands (see resolution_note). Terminal states are both signed (resolution_signature)."
+  },
+  {
+   "name": "authoritative_band",
+   "dataType": "String",
+   "category": "Resolution",
+   "description": "The band the EXTERNAL authority ruled, copied in VERBATIM at resolution, serialized JSON [lo,hi]. This — not proposed_band — is the band that becomes truth; the proposal is only the ask. Set on resolved_approved when a band was granted."
+  },
+  {
+   "name": "authoritative_aim",
+   "dataType": "Float",
+   "category": "Resolution",
+   "description": "The steering aim the authority ruled, verbatim at resolution. Set on resolved_approved when an aim was granted (symmetric to proposed_aim)."
+  },
+  {
+   "name": "resolved_by",
+   "dataType": "String",
+   "category": "Resolution",
+   "description": "The EXTERNAL authority that resolved the request — the owner of the number's provenance (drawing/customer/standards owner for binding bands, Process Engineering for process_estimate). Full text: docs/history/standard/profiles/intelligence/change-request.md, attributes › resolved_by › description."
+  },
+  { "name": "resolved_at", "dataType": "DateTime", "category": "Resolution", "description": "Timestamp of the authority's decision." },
+  {
+   "name": "resolution_note",
+   "dataType": "String",
+   "category": "Resolution",
+   "description": "The authority's rationale for the decision — especially required for resolved_rejected (why the band/aim stands)."
+  },
+  {
+   "name": "resolution_signature",
+   "dataType": "String",
+   "category": "Resolution",
+   "description": "Signature over the resolution (Ed25519 / vault-hashchain ref) — the verbatim-authority proof that ties authoritative_band/authoritative_aim + resolved_by + resolved_at together into an auditable ruling. Same hash-chain the Discrepancy lifecycle events use."
+  },
+  {
+   "name": "audit_ref",
+   "valueType": "ID",
+   "dataType": "String",
+   "category": "Audit",
+   "description": "Hash-chain ref (vault-hashchain) for the change-request events — same Ed25519 chain as the Discrepancy lifecycle and ResolutionProposal events."
+  }
  ],
- "description": "Provenance of the band being challenged — the SAME vocabulary as recipe-schema.json toleranceSource. Full text: docs/history/standard/profiles/intelligence/change-request.md, attributes › tolerance_source › description."
- },
- {
- "name": "proposed_band",
- "dataType": "String",
- "category": "Proposal",
- "description": "The proposed NEW tolerance band, serialized JSON [lo,hi] (same shape as recipe `values` bands). Full text: docs/history/standard/profiles/intelligence/change-request.md, attributes › proposed_band › description."
- },
- {
- "name": "proposed_aim",
- "dataType": "Float",
- "category": "Proposal",
- "description": "The proposed NEW steering aim (recipe parameters[].aim) — where the process should be centred inside the band. Full text: docs/history/standard/profiles/intelligence/change-request.md, attributes › proposed_aim › description."
- },
- {
- "name": "rationale",
- "dataType": "String",
- "category": "Core",
- "description": "Why the change is requested — the evidence the authority rules on (e.g. Cp/Ca measured over the current regime, recurrence count, the drawing/spec the current band contradicts)."
- },
- {
- "name": "requested_by",
- "dataType": "String",
- "category": "Provenance",
- "description": "Who raised the request: steward/user id, rule_id or agent id. MUST differ from resolved_by (engine-enforced)."
- },
- {
- "name": "requested_at",
- "dataType": "DateTime",
- "category": "Core",
- "description": "When the request was raised."
- },
- {
- "name": "status",
- "dataType": "String",
- "category": "Lifecycle",
- "enum": [
- "open",
- "resolved_approved",
- "resolved_rejected"
- ],
- "description": "open -> resolved_approved | resolved_rejected. resolved_approved means the authority granted a band/aim (see authoritative_*); resolved_rejected means the current band/aim stands (see resolution_note). Terminal states are both signed (resolution_signature)."
- },
- {
- "name": "authoritative_band",
- "dataType": "String",
- "category": "Resolution",
- "description": "The band the EXTERNAL authority ruled, copied in VERBATIM at resolution, serialized JSON [lo,hi]. This — not proposed_band — is the band that becomes truth; the proposal is only the ask. Set on resolved_approved when a band was granted."
- },
- {
- "name": "authoritative_aim",
- "dataType": "Float",
- "category": "Resolution",
- "description": "The steering aim the authority ruled, verbatim at resolution. Set on resolved_approved when an aim was granted (symmetric to proposed_aim)."
- },
- {
- "name": "resolved_by",
- "dataType": "String",
- "category": "Resolution",
- "description": "The EXTERNAL authority that resolved the request — the owner of the number's provenance (drawing/customer/standards owner for binding bands, Process Engineering for process_estimate). Full text: docs/history/standard/profiles/intelligence/change-request.md, attributes › resolved_by › description."
- },
- {
- "name": "resolved_at",
- "dataType": "DateTime",
- "category": "Resolution",
- "description": "Timestamp of the authority's decision."
- },
- {
- "name": "resolution_note",
- "dataType": "String",
- "category": "Resolution",
- "description": "The authority's rationale for the decision — especially required for resolved_rejected (why the band/aim stands)."
- },
- {
- "name": "resolution_signature",
- "dataType": "String",
- "category": "Resolution",
- "description": "Signature over the resolution (Ed25519 / vault-hashchain ref) — the verbatim-authority proof that ties authoritative_band/authoritative_aim + resolved_by + resolved_at together into an auditable ruling. Same hash-chain the Discrepancy lifecycle events use."
- },
- {
- "name": "audit_ref",
- "valueType": "ID",
- "dataType": "String",
- "category": "Audit",
- "description": "Hash-chain ref (vault-hashchain) for the change-request events — same Ed25519 chain as the Discrepancy lifecycle and ResolutionProposal events."
- }
- ],
- "relationships": [
- {
- "type": "ABOUT_DISCREPANCY",
- "target": "Discrepancy",
- "targetIdProp": "discrepancy_id",
- "description": "The Discrepancy this change-request answers."
- },
- {
- "type": "ABOUT_MACHINE",
- "target": "Machine",
- "targetIdProp": "machine_id",
- "description": "The machine whose band/aim the request concerns."
- }
- ],
+ "relationships": [],
  "kgNodeLabel": "ChangeRequest",
  "kgIdProperty": "change_request_id",
- "isa95": {
- "objectModel": "Extension",
- "extension": true,
- "note": "Intelligence entity (Multi-Truth/SDC/Golden) — ISA-95 extension"
- }
+ "isa95": { "objectModel": "Extension", "extension": true, "note": "Intelligence entity (Multi-Truth/SDC/Golden) — ISA-95 extension" }
 }

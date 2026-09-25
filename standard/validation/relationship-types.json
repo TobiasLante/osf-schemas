@@ -8,10 +8,6 @@
     [
       "PRODUCED_BY",
       "YIELDS"
-    ],
-    [
-      "RESOLVED_BY_RULE",
-      "RESOLVES"
     ]
   ],
   "open": [
@@ -26,59 +22,6 @@
   ],
   "_isa95Note": "isa95: for every edge (type, from label) the B2MML field path that carries it, read from standard/validation/isa95-b2mml.json. forward = the path starts at the from object, reverse = at the to object. extension = ISA-95 has no such link, with the reason. derived = a shortcut through an intermediate object: the legs, each a path of the ISA-95 edge catalogue (standard/validation/isa95-edges.json) with its direction, in walking order from the from object. Checked by lint-isa95 and lint-isa95-edges (i3x-v5).",
   "isa95": {
-    "ABOUT_ARTICLE": {
-      "Discrepancy": {
-        "extension": "Multi-truth layer (discrepancies, rules, proposals). ISA-95 has no such objects."
-      }
-    },
-    "ABOUT_DISCREPANCY": {
-      "ChangeRequest": {
-        "extension": "Multi-truth layer (discrepancies, rules, proposals). ISA-95 has no such objects."
-      }
-    },
-    "ABOUT_MACHINE": {
-      "ChangeRequest": {
-        "extension": "Multi-truth layer (discrepancies, rules, proposals). ISA-95 has no such objects."
-      },
-      "Discrepancy": {
-        "extension": "Multi-truth layer (discrepancies, rules, proposals). ISA-95 has no such objects."
-      }
-    },
-    "ABOUT_ORDER": {
-      "Discrepancy": {
-        "extension": "Multi-truth layer (discrepancies, rules, proposals). ISA-95 has no such objects."
-      }
-    },
-    "PROPOSED_BY_RULE": {
-      "ResolutionProposal": {
-        "extension": "Multi-truth layer (discrepancies, rules, proposals). ISA-95 has no such objects."
-      }
-    },
-    "PROPOSES_FOR": {
-      "ResolutionProposal": {
-        "extension": "Multi-truth layer (discrepancies, rules, proposals). ISA-95 has no such objects."
-      }
-    },
-    "RESOLVED_BY_RULE": {
-      "Discrepancy": {
-        "extension": "Multi-truth layer (discrepancies, rules, proposals). ISA-95 has no such objects."
-      }
-    },
-    "RESOLVES": {
-      "AutoResolveRule": {
-        "extension": "Multi-truth layer (discrepancies, rules, proposals). ISA-95 has no such objects."
-      }
-    },
-    "SUPERSEDED_BY": {
-      "Discrepancy": {
-        "extension": "Multi-truth layer (discrepancies, rules, proposals). ISA-95 has no such objects."
-      }
-    },
-    "FOR_LOT": {
-      "SPCAnalysis": {
-        "extension": "Multi-truth layer (discrepancies, rules, proposals). ISA-95 has no such objects."
-      }
-    },
     "APPLIES_TO": {
       "ProductDefinition": {
         "derived": [
@@ -91,16 +34,6 @@
             "direction": "forward"
           }
         ]
-      }
-    },
-    "AT_LOCATION": {
-      "MaterialItem": {
-        "extension": "MaterialItem groups two B2MML objects (OSF extension). Both children realise the edge with the same field on their own object: MaterialLot.StorageLocation, MaterialSubLot.StorageLocation (standard/profiles/wms/material-item.json isa95.childEdgePaths)."
-      }
-    },
-    "BASED_ON": {
-      "OperationsDefinition": {
-        "extension": "In B2MML 0700 both ends are OperationsDefinitions; the link between a routing and its recipe is not modelled."
       }
     },
     "CONTAINS_SEGMENT": {
@@ -199,20 +132,10 @@
         ]
       }
     },
-    "FOR_CUSTOMER": {
-      "ProductionOrder": {
-        "extension": "Level 4: ISA-95 has no customer; the link comes from the ERP order."
-      }
-    },
     "REQUIRES_MATERIAL": {
       "SegmentRequirement": {
         "path": "SegmentRequirement.MaterialRequirement.MaterialDefinitionID",
         "direction": "forward"
-      }
-    },
-    "FOR_ORDER": {
-      "InspectionLot": {
-        "extension": "A TestResult carries no order in B2MML; the lot's order is an OSF join."
       }
     },
     "FOR_PROCESS_SEGMENT": {
@@ -266,9 +189,6 @@
       }
     },
     "ON_MACHINE": {
-      "InspectionLot": {
-        "extension": "The tested object here is material; a TestResult names no equipment. The machine is an OSF join."
-      },
       "Response": {
         "derived": [
           {
@@ -347,9 +267,6 @@
       }
     },
     "PRODUCES": {
-      "Machine": {
-        "extension": "What a machine has produced is derived from responses; B2MML has no direct Equipment-to-MaterialDefinition link."
-      },
       "ProductionOrder": {
         "derived": [
           {
@@ -413,6 +330,16 @@
             "direction": "forward"
           }
         ]
+      }
+    },
+    "AT_LOCATION": {
+      "MaterialLot": {
+        "path": "MaterialLot.StorageLocation",
+        "direction": "forward"
+      },
+      "Quant": {
+        "path": "MaterialSubLot.StorageLocation",
+        "direction": "forward"
       }
     }
   },
@@ -543,6 +470,145 @@
       "from": "InjectionMoldingMachine",
       "type": "IMPLEMENTED_BY",
       "since": "2.0.0"
+    }
+  ],
+  "_retiredNote": "Owner 25.09.2026 (after the customer reference-concept 26.09. snapshot): only ISA-95 edges. Every edge ISA-95 has no link for is retired; the reference lives in the key the edge carried (key). Nothing reads a retired edge; this list is the alias trail.",
+  "retired": [
+    {
+      "type": "FOR_CUSTOMER",
+      "from": "ProductionOrder",
+      "to": "Customer",
+      "key": "customer_no",
+      "reason": "Level 4: ISA-95 has no customer; the link comes from the ERP order.",
+      "since": "3.0.0"
+    },
+    {
+      "type": "RESOLVES",
+      "from": "AutoResolveRule",
+      "to": "Discrepancy",
+      "key": "discrepancy_id",
+      "reason": "Multi-truth layer (discrepancies, rules, proposals). ISA-95 has no such objects.",
+      "since": "3.0.0"
+    },
+    {
+      "type": "ABOUT_DISCREPANCY",
+      "from": "ChangeRequest",
+      "to": "Discrepancy",
+      "key": "discrepancy_id",
+      "reason": "Multi-truth layer (discrepancies, rules, proposals). ISA-95 has no such objects.",
+      "since": "3.0.0"
+    },
+    {
+      "type": "ABOUT_MACHINE",
+      "from": "ChangeRequest",
+      "to": "Machine",
+      "key": "machine_id",
+      "reason": "Multi-truth layer (discrepancies, rules, proposals). ISA-95 has no such objects.",
+      "since": "3.0.0"
+    },
+    {
+      "type": "ABOUT_ORDER",
+      "from": "Discrepancy",
+      "to": "ProductionOrder",
+      "key": "production_order_no",
+      "reason": "Multi-truth layer (discrepancies, rules, proposals). ISA-95 has no such objects.",
+      "since": "3.0.0"
+    },
+    {
+      "type": "ABOUT_MACHINE",
+      "from": "Discrepancy",
+      "to": "Machine",
+      "key": "machine_id",
+      "reason": "Multi-truth layer (discrepancies, rules, proposals). ISA-95 has no such objects.",
+      "since": "3.0.0"
+    },
+    {
+      "type": "ABOUT_ARTICLE",
+      "from": "Discrepancy",
+      "to": "Article",
+      "key": "article_no",
+      "reason": "Multi-truth layer (discrepancies, rules, proposals). ISA-95 has no such objects.",
+      "since": "3.0.0"
+    },
+    {
+      "type": "SUPERSEDED_BY",
+      "from": "Discrepancy",
+      "to": "Discrepancy",
+      "key": "discrepancy_id",
+      "reason": "Multi-truth layer (discrepancies, rules, proposals). ISA-95 has no such objects.",
+      "since": "3.0.0"
+    },
+    {
+      "type": "RESOLVED_BY_RULE",
+      "from": "Discrepancy",
+      "to": "AutoResolveRule",
+      "key": "rule_id",
+      "reason": "Multi-truth layer (discrepancies, rules, proposals). ISA-95 has no such objects.",
+      "since": "3.0.0"
+    },
+    {
+      "type": "PROPOSES_FOR",
+      "from": "ResolutionProposal",
+      "to": "Discrepancy",
+      "key": "discrepancy_id",
+      "reason": "Multi-truth layer (discrepancies, rules, proposals). ISA-95 has no such objects.",
+      "since": "3.0.0"
+    },
+    {
+      "type": "PROPOSED_BY_RULE",
+      "from": "ResolutionProposal",
+      "to": "AutoResolveRule",
+      "key": "rule_id",
+      "reason": "Multi-truth layer (discrepancies, rules, proposals). ISA-95 has no such objects.",
+      "since": "3.0.0"
+    },
+    {
+      "type": "PRODUCES",
+      "from": "Machine",
+      "to": "Article",
+      "key": "article_no",
+      "reason": "What a machine has produced is derived from responses; B2MML has no direct Equipment-to-MaterialDefinition link.",
+      "since": "3.0.0"
+    },
+    {
+      "type": "BASED_ON",
+      "from": "OperationsDefinition",
+      "to": "ProductDefinition",
+      "key": "product_definition_no",
+      "reason": "In B2MML 0700 both ends are OperationsDefinitions; the link between a routing and its recipe is not modelled.",
+      "since": "3.0.0"
+    },
+    {
+      "type": "FOR_ORDER",
+      "from": "InspectionLot",
+      "to": "ProductionOrder",
+      "key": "production_order_no",
+      "reason": "A TestResult carries no order in B2MML; the lot's order is an OSF join.",
+      "since": "3.0.0"
+    },
+    {
+      "type": "ON_MACHINE",
+      "from": "InspectionLot",
+      "to": "Machine",
+      "key": "machine_id",
+      "reason": "The tested object here is material; a TestResult names no equipment. The machine is an OSF join.",
+      "since": "3.0.0"
+    },
+    {
+      "type": "FOR_LOT",
+      "from": "SPCAnalysis",
+      "to": "InspectionLot",
+      "key": "lot_no",
+      "reason": "Multi-truth layer (discrepancies, rules, proposals). ISA-95 has no such objects.",
+      "since": "3.0.0"
+    },
+    {
+      "type": "AT_LOCATION",
+      "from": "MaterialItem",
+      "to": "StorageLocation",
+      "key": "storage_location_id",
+      "reason": "Lifted onto the OSF grouping parent MaterialItem, which ISA-95 does not have; moved DOWN to the children, which carry it in B2MML (MaterialLot.StorageLocation, MaterialSubLot.StorageLocation).",
+      "since": "3.0.0"
     }
   ]
 }

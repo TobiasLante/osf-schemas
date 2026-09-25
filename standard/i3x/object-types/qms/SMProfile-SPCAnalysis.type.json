@@ -2,7 +2,7 @@
   "elementId": "SMProfile-SPCAnalysis",
   "displayName": "SPC Analysis",
   "namespaceUri": "urn:osf:schemas:qms",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "schema": {
     "description": "Statistical Process Control analysis — Cp, Cpk, control limits",
     "type": "object",
@@ -78,13 +78,7 @@
   "x-osf": {
     "source": "standard/profiles/qms/spcanalysis.json",
     "standard": "CESMII",
-    "relationships": [
-      {
-        "type": "FOR_LOT",
-        "target": "InspectionLot",
-        "targetIdProp": "lot_no"
-      }
-    ],
+    "relationships": [],
     "kgNodeLabel": "SPCAnalysis",
     "kgIdProperty": "analysis_id",
     "category": "quality",

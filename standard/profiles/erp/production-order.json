@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-ProductionOrder",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "standard": "CESMII",
   "category": "business",
   "displayName": "Production Order (manufacturing order / OperationsRequest — PLAN/target)",
@@ -286,12 +286,6 @@
     }
   ],
   "relationships": [
-    {
-      "type": "FOR_CUSTOMER",
-      "target": "Customer",
-      "targetIdProp": "customer_no",
-      "description": "Moved here from SMProfile-CustomerOrder 2026-08-13 together with customer_ref. Built from kunde_id, which /api/orders serves on 100 % of rows."
-    },
     {
       "type": "FOR_ARTICLE",
       "target": "Article",

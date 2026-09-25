@@ -254,86 +254,6 @@
   },
   "edges": [
     {
-      "type": "RESOLVES",
-      "from": "AutoResolveRule",
-      "to": [
-        "Discrepancy"
-      ],
-      "targetIdProp": [
-        "discrepancy_id"
-      ]
-    },
-    {
-      "type": "ABOUT_DISCREPANCY",
-      "from": "ChangeRequest",
-      "to": [
-        "Discrepancy"
-      ],
-      "targetIdProp": [
-        "discrepancy_id"
-      ]
-    },
-    {
-      "type": "ABOUT_MACHINE",
-      "from": "ChangeRequest",
-      "to": [
-        "Machine"
-      ],
-      "targetIdProp": [
-        "machine_id"
-      ]
-    },
-    {
-      "type": "ABOUT_ARTICLE",
-      "from": "Discrepancy",
-      "to": [
-        "Article"
-      ],
-      "targetIdProp": [
-        "article_no"
-      ]
-    },
-    {
-      "type": "ABOUT_MACHINE",
-      "from": "Discrepancy",
-      "to": [
-        "Machine"
-      ],
-      "targetIdProp": [
-        "machine_id"
-      ]
-    },
-    {
-      "type": "ABOUT_ORDER",
-      "from": "Discrepancy",
-      "to": [
-        "ProductionOrder"
-      ],
-      "targetIdProp": [
-        "production_order_no"
-      ]
-    },
-    {
-      "type": "RESOLVED_BY_RULE",
-      "from": "Discrepancy",
-      "to": [
-        "AutoResolveRule"
-      ],
-      "targetIdProp": [
-        "rule_id"
-      ]
-    },
-    {
-      "type": "SUPERSEDED_BY",
-      "from": "Discrepancy",
-      "to": [
-        "Discrepancy"
-      ],
-      "targetIdProp": [
-        "discrepancy_id"
-      ]
-    },
-    {
       "type": "IMPLEMENTED_BY",
       "from": "InjectionMoldingMachine",
       "to": [
@@ -341,26 +261,6 @@
       ],
       "targetIdProp": [
         "tool_id"
-      ]
-    },
-    {
-      "type": "FOR_ORDER",
-      "from": "InspectionLot",
-      "to": [
-        "ProductionOrder"
-      ],
-      "targetIdProp": [
-        "production_order_no"
-      ]
-    },
-    {
-      "type": "ON_MACHINE",
-      "from": "InspectionLot",
-      "to": [
-        "Machine"
-      ],
-      "targetIdProp": [
-        "machine_id"
       ]
     },
     {
@@ -391,18 +291,8 @@
       ]
     },
     {
-      "type": "PRODUCES",
-      "from": "Machine",
-      "to": [
-        "Article"
-      ],
-      "targetIdProp": [
-        "article_no"
-      ]
-    },
-    {
       "type": "AT_LOCATION",
-      "from": "MaterialItem",
+      "from": "MaterialLot",
       "to": [
         "StorageLocation"
       ],
@@ -438,16 +328,6 @@
       ],
       "targetIdProp": [
         "workorder_no"
-      ]
-    },
-    {
-      "type": "BASED_ON",
-      "from": "OperationsDefinition",
-      "to": [
-        "ProductDefinition"
-      ],
-      "targetIdProp": [
-        "product_definition_no"
       ]
     },
     {
@@ -541,16 +421,6 @@
       ]
     },
     {
-      "type": "FOR_CUSTOMER",
-      "from": "ProductionOrder",
-      "to": [
-        "Customer"
-      ],
-      "targetIdProp": [
-        "customer_no"
-      ]
-    },
-    {
       "type": "FOR_OPERATIONS_DEFINITION",
       "from": "ProductionOrder",
       "to": [
@@ -581,6 +451,16 @@
       ]
     },
     {
+      "type": "AT_LOCATION",
+      "from": "Quant",
+      "to": [
+        "StorageLocation"
+      ],
+      "targetIdProp": [
+        "storage_location_id"
+      ]
+    },
+    {
       "type": "OF_ARTICLE",
       "from": "Quant",
       "to": [
@@ -588,26 +468,6 @@
       ],
       "targetIdProp": [
         "article_no"
-      ]
-    },
-    {
-      "type": "PROPOSED_BY_RULE",
-      "from": "ResolutionProposal",
-      "to": [
-        "AutoResolveRule"
-      ],
-      "targetIdProp": [
-        "rule_id"
-      ]
-    },
-    {
-      "type": "PROPOSES_FOR",
-      "from": "ResolutionProposal",
-      "to": [
-        "Discrepancy"
-      ],
-      "targetIdProp": [
-        "discrepancy_id"
       ]
     },
     {
@@ -728,16 +588,6 @@
       ],
       "targetIdProp": [
         "segment_requirement_no"
-      ]
-    },
-    {
-      "type": "FOR_LOT",
-      "from": "SPCAnalysis",
-      "to": [
-        "InspectionLot"
-      ],
-      "targetIdProp": [
-        "lot_no"
       ]
     },
     {

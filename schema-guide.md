@@ -480,29 +480,29 @@ Phase 5: Embeddings
 | targetIdProp | Resolves to label(s) | Edge rules using it |
 |---|---|---|
 | `analysis_id` | SPCAnalysis | — |
-| `article_no` | Article | 11 |
+| `article_no` | Article | 9 |
 | `change_request_id` | ChangeRequest | — |
 | `confirmation_no` | BdeConfirmation | — |
-| `customer_no` | Customer | 1 |
-| `discrepancy_id` | ConstraintDiscrepancy, Discrepancy | 4 |
+| `customer_no` | Customer | — |
+| `discrepancy_id` | ConstraintDiscrepancy, Discrepancy | — |
 | `element_id` | CNC_Machine, InjectionMoldingMachine, Machine | — |
 | `equipment_class_id` | EquipmentClass | 1 |
-| `lot_no` | InspectionLot | 1 |
-| `machine_id` | ⚠ **none** — no profile declares this key (see `contract.json` → `unresolvedTargets`) | 9 |
+| `lot_no` | InspectionLot | — |
+| `machine_id` | ⚠ **none** — no profile declares this key (see `contract.json` → `unresolvedTargets`) | 6 |
 | `material_item_id` | MaterialItem | — |
 | `material_lot_no` | MaterialLot | 2 |
 | `operations_definition_no` | OperationsDefinition | 2 |
 | `order_no` | CustomerOrder | — |
 | `process_segment_no` | ProcessSegment | 3 |
-| `product_definition_no` | ProductDefinition | 1 |
-| `production_order_no` | OperationsResponse, ProductionOrder | 7 |
+| `product_definition_no` | ProductDefinition | — |
+| `production_order_no` | OperationsResponse, ProductionOrder | 5 |
 | `proposal_id` | ResolutionProposal | — |
 | `quant_no` | Quant | 1 |
 | `response_id` | Response | — |
-| `rule_id` | AutoResolveRule | 2 |
+| `rule_id` | AutoResolveRule | — |
 | `segment_requirement_no` | SegmentRequirement | 2 |
 | `segment_response_no` | SegmentResponse | 1 |
-| `storage_location_id` | StorageLocation | 1 |
+| `storage_location_id` | StorageLocation | 2 |
 | `tool_id` | Tool | 1 |
 | `workorder_no` | Workorder | 1 |
 

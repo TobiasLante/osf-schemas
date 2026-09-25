@@ -2,7 +2,7 @@
   "elementId": "SMProfile-ProductionOrder",
   "displayName": "Production Order (manufacturing order / OperationsRequest — PLAN/target)",
   "namespaceUri": "urn:osf:schemas:erp",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "schema": {
     "description": "Level-3 MOM OperationsRequest = the PLAN/target of manufacturing (B2MML OperationsRequest / ISA-95 Part 4). Full text: docs/history/standard/profiles/erp/production-order.md, description.",
     "type": "object",
@@ -260,12 +260,6 @@
     "category": "business",
     "abstract": false,
     "relationships": [
-      {
-        "type": "FOR_CUSTOMER",
-        "target": "Customer",
-        "targetIdProp": "customer_no",
-        "description": "Moved here from SMProfile-CustomerOrder 2026-08-13 together with customer_ref. Built from kunde_id, which /api/orders serves on 100 % of rows."
-      },
       {
         "type": "FOR_ARTICLE",
         "target": "Article",

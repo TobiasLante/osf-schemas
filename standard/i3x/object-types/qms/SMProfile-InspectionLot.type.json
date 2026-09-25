@@ -2,7 +2,7 @@
   "elementId": "SMProfile-InspectionLot",
   "displayName": "Inspection Lot",
   "namespaceUri": "urn:osf:schemas:qms",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "schema": {
     "description": "next/ v4 — QMS inspection lot. Attributes aligned to the LIVE projection of source sim-v5-qms-inspections (article_ref/order_ref/state/decision), NOT the legacy base profile. Carries the ISA-95 quality mapping AND the deviation constraint (lot_rejected), evaluated centrally by it-evaluator.",
     "type": "object",
@@ -117,19 +117,9 @@
     "abstract": false,
     "relationships": [
       {
-        "type": "FOR_ORDER",
-        "target": "ProductionOrder",
-        "targetIdProp": "production_order_no"
-      },
-      {
         "type": "TESTS",
         "target": "Article",
         "targetIdProp": "article_no"
-      },
-      {
-        "type": "ON_MACHINE",
-        "target": "Machine",
-        "targetIdProp": "machine_id"
       }
     ],
     "constraints": [

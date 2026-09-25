@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-InspectionLot",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "standard": "CESMII",
   "category": "quality",
   "displayName": "Inspection Lot",
@@ -127,19 +127,9 @@
   ],
   "relationships": [
     {
-      "type": "FOR_ORDER",
-      "target": "ProductionOrder",
-      "targetIdProp": "production_order_no"
-    },
-    {
       "type": "TESTS",
       "target": "Article",
       "targetIdProp": "article_no"
-    },
-    {
-      "type": "ON_MACHINE",
-      "target": "Machine",
-      "targetIdProp": "machine_id"
     }
   ],
   "constraints": [
