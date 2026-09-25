@@ -2,13 +2,19 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/validation/edge-bundle-schema.json",
   "title": "Edge contract · hand-over (release bundle + manifest)",
-  "description": "Edge contract, part 1 (Welle 10, owner 25.09.): what UNSaC hands to a consumer — one bundle per consumer (format unsac.bundle/1) and one manifest (unsac.manifest/1) with the sha256 of every file. A consumer reports back what it loaded with feedback-schema.json: loadedVersion (the release), loadedCommit (the manifest's `commit`) and loadedDigest (the manifest's sha256 of its bundle). Any edge that accepts this bundle and reports that feedback is as good for UNSaC as unsac-edge. Written from what i3x-v5 packages/uns-compiler/bundle.mjs emits.",
+  "description": "Edge contract, part 1 (Welle 10, owner 25.09.): what UNSaC hands to a consumer — one bundle per consumer (format unsac.bundle/1) and one manifest (unsac.manifest/1) with the sha256 of every file. A consumer reports back what it loaded with feedback-schema.json: loadedVersion (the release), loadedCommit (the manifest's `commit`) and loadedDigest (the manifest's sha256 of its bundle). Any edge that accepts this bundle and reports that feedback is as good for UNSaC as unsac-edge. Written from what i3x-v5 packages/uns-compiler/bundle.mjs emits. Transport: UNSaC delivers with POST <target endpoint>/v1/unsac/release, body = a delivery request (the manifest + the consumer's bundle), bearer = the target's secret; the edge answers with a receipt (HTTP 202 accepted / 409 refused). The receipt is NOT 'loaded': loaded comes later through the feedback contract.",
   "oneOf": [
     {
       "$ref": "#/$defs/bundle"
     },
     {
       "$ref": "#/$defs/manifest"
+    },
+    {
+      "$ref": "#/$defs/deliveryRequest"
+    },
+    {
+      "$ref": "#/$defs/deliveryReceipt"
     }
   ],
   "$defs": {
@@ -222,6 +228,54 @@
         }
       },
       "additionalProperties": true
+    },
+    "deliveryRequest": {
+      "type": "object",
+      "required": [
+        "manifest",
+        "bundle"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "manifest": {
+          "$ref": "#/$defs/manifest"
+        },
+        "bundle": {
+          "$ref": "#/$defs/bundle"
+        }
+      },
+      "description": "What UNSaC POSTs to <endpoint>/v1/unsac/release. The edge checks sha256(canonical bundle) against manifest.files['bundles/<consumerId>.json'] before it accepts."
+    },
+    "deliveryReceipt": {
+      "type": "object",
+      "required": [
+        "accepted",
+        "consumerId",
+        "digest",
+        "commit"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "accepted": {
+          "type": "boolean"
+        },
+        "consumerId": {
+          "type": "string"
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$",
+          "description": "sha256 of the bundle as the edge received it."
+        },
+        "commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "reason": {
+          "type": "string",
+          "description": "Why a delivery was refused (accepted false)."
+        }
+      }
     }
   }
 }
