@@ -1,0 +1,155 @@
+{
+  "recipeId": "RECIPE-WIP-HOUSING-BASE-ASA-PC",
+  "version": "1.0.0",
+  "owner": "Process Engineering",
+  "profileRef": "SMProfile-InjectionMoldingMachine",
+  "displayName": "WIP-HOUSING-BASE (Gehäuseboden unbearbeitet, ASA + PC) × injection moulding machine",
+  "description": "Part values of WIP-HOUSING-BASE on the injection moulding machine class (process_estimate, no drawing yet). History: docs/history/sites/werk1/recipes/recipe-wip-housing-base-asa-pc.md.",
+  "match": {
+    "article": "WIP-HOUSING-BASE",
+    "equipmentClass": "SMProfile-InjectionMoldingMachine"
+  },
+  "values": {
+    "recipe:part_mass_band": [
+      19.46,
+      20.74
+    ],
+    "recipe:cushion_band": [
+      4.35,
+      7.65
+    ],
+    "recipe:peak_pressure_band": [
+      543,
+      676
+    ],
+    "recipe:hold_pressure_band": [
+      362,
+      451
+    ]
+  },
+  "toleranceSource": {
+    "recipe:part_mass_band": "process_estimate",
+    "recipe:cushion_band": "process_estimate",
+    "recipe:peak_pressure_band": "process_estimate",
+    "recipe:hold_pressure_band": "process_estimate"
+  },
+  "capability": {
+    "recipe:part_mass_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:cushion_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:peak_pressure_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:hold_pressure_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    }
+  },
+  "parameters": [
+    {
+      "param": "partMass_g",
+      "soll": 20.1,
+      "tolerance": [
+        19.46,
+        20.74
+      ],
+      "unit": "GRM",
+      "monitored": true,
+      "gate": "inCycle==true",
+      "valueFrom": "recipe:part_mass_band",
+      "constraintId": "recipe_part_mass_band",
+      "smAttribute": "partMass_g"
+    },
+    {
+      "param": "cushionMm",
+      "soll": 6,
+      "tolerance": [
+        4.35,
+        7.65
+      ],
+      "unit": "MMT",
+      "monitored": true,
+      "valueFrom": "recipe:cushion_band",
+      "constraintId": "recipe_cushion_band",
+      "smAttribute": "cushionMm"
+    },
+    {
+      "param": "peakPressureBar",
+      "soll": 604,
+      "tolerance": [
+        543,
+        676
+      ],
+      "unit": "BAR",
+      "monitored": true,
+      "gate": "phaseName==HOLD",
+      "valueFrom": "recipe:peak_pressure_band",
+      "constraintId": "recipe_peak_pressure_band",
+      "smAttribute": "peakPressureBar"
+    },
+    {
+      "param": "holdPressureBar",
+      "soll": 403,
+      "tolerance": [
+        362,
+        451
+      ],
+      "unit": "BAR",
+      "monitored": true,
+      "gate": "phaseName==HOLD",
+      "valueFrom": "recipe:hold_pressure_band",
+      "constraintId": "recipe_hold_pressure_band",
+      "smAttribute": "holdPressureBar"
+    }
+  ]
+}

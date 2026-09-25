@@ -1,0 +1,155 @@
+{
+  "recipeId": "RECIPE-V4-14-1300-040-PMMA",
+  "version": "1.0.0",
+  "owner": "Process Engineering",
+  "profileRef": "SMProfile-InjectionMoldingMachine",
+  "displayName": "_V4_14-1300-040 (Lichtleiter PMMA, PMMA) × injection moulding machine",
+  "description": "Part values of _V4_14-1300-040 on the injection moulding machine class (process_estimate, no drawing yet). History: docs/history/sites/werk1/recipes/recipe-v4-14-1300-040-pmma.md.",
+  "match": {
+    "article": "_V4_14-1300-040",
+    "equipmentClass": "SMProfile-InjectionMoldingMachine"
+  },
+  "values": {
+    "recipe:part_mass_band": [
+      8.71,
+      9.29
+    ],
+    "recipe:cushion_band": [
+      4.35,
+      7.65
+    ],
+    "recipe:peak_pressure_band": [
+      463,
+      576
+    ],
+    "recipe:hold_pressure_band": [
+      309,
+      384
+    ]
+  },
+  "toleranceSource": {
+    "recipe:part_mass_band": "process_estimate",
+    "recipe:cushion_band": "process_estimate",
+    "recipe:peak_pressure_band": "process_estimate",
+    "recipe:hold_pressure_band": "process_estimate"
+  },
+  "capability": {
+    "recipe:part_mass_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:cushion_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:peak_pressure_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:hold_pressure_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "mouldId",
+            "resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    }
+  },
+  "parameters": [
+    {
+      "param": "partMass_g",
+      "soll": 9.0,
+      "tolerance": [
+        8.71,
+        9.29
+      ],
+      "unit": "GRM",
+      "monitored": true,
+      "gate": "inCycle==true",
+      "valueFrom": "recipe:part_mass_band",
+      "constraintId": "recipe_part_mass_band",
+      "smAttribute": "partMass_g"
+    },
+    {
+      "param": "cushionMm",
+      "soll": 6,
+      "tolerance": [
+        4.35,
+        7.65
+      ],
+      "unit": "MMT",
+      "monitored": true,
+      "valueFrom": "recipe:cushion_band",
+      "constraintId": "recipe_cushion_band",
+      "smAttribute": "cushionMm"
+    },
+    {
+      "param": "peakPressureBar",
+      "soll": 515,
+      "tolerance": [
+        463,
+        576
+      ],
+      "unit": "BAR",
+      "monitored": true,
+      "gate": "phaseName==HOLD",
+      "valueFrom": "recipe:peak_pressure_band",
+      "constraintId": "recipe_peak_pressure_band",
+      "smAttribute": "peakPressureBar"
+    },
+    {
+      "param": "holdPressureBar",
+      "soll": 343,
+      "tolerance": [
+        309,
+        384
+      ],
+      "unit": "BAR",
+      "monitored": true,
+      "gate": "phaseName==HOLD",
+      "valueFrom": "recipe:hold_pressure_band",
+      "constraintId": "recipe_hold_pressure_band",
+      "smAttribute": "holdPressureBar"
+    }
+  ]
+}
