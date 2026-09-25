@@ -1,0 +1,233 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/validation/edge-bundle-schema.json",
+  "title": "Edge contract · hand-over (release bundle + manifest)",
+  "description": "Edge contract, part 1 (Welle 10, owner 25.09.): what UNSaC hands to a consumer — one bundle per consumer (format unsac.bundle/1) and one manifest (unsac.manifest/1) with the sha256 of every file. A consumer reports back what it loaded with feedback-schema.json: loadedVersion (the release), loadedCommit (the `commit` of the bundle) and loadedDigest (the manifest's sha256 of its bundle). Any edge that accepts this bundle and reports that feedback is as good for UNSaC as unsac-edge. Written from what i3x-v5 packages/uns-compiler/bundle.mjs emits.",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/bundle"
+    },
+    {
+      "$ref": "#/$defs/manifest"
+    }
+  ],
+  "$defs": {
+    "bundle": {
+      "type": "object",
+      "required": [
+        "format",
+        "consumerId",
+        "ref",
+        "signals",
+        "commit"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "format": {
+          "const": "unsac.bundle/1"
+        },
+        "consumerId": {
+          "type": "string"
+        },
+        "version": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Version of the consumer definition."
+        },
+        "kind": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "stage": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ring": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "ref": {
+          "type": "string",
+          "description": "The branch or release name the bundle was compiled from (e.g. next); the commit is in `commit`."
+        },
+        "commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$",
+          "description": "The full osf-schemas commit the bundle was compiled from; the consumer reports it back as loadedCommit (feedback-schema.json)."
+        },
+        "signals": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/signal"
+          }
+        }
+      }
+    },
+    "manifest": {
+      "type": "object",
+      "required": [
+        "format",
+        "ref",
+        "files",
+        "commit"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "format": {
+          "const": "unsac.manifest/1"
+        },
+        "ref": {
+          "type": "string"
+        },
+        "commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$",
+          "description": "The full osf-schemas commit the bundle was compiled from; the consumer reports it back as loadedCommit (feedback-schema.json)."
+        },
+        "files": {
+          "type": "object",
+          "description": "Published path → sha256 (hex) of its canonical JSON; the digest of bundles/<consumerId>.json is what the consumer reports as loadedDigest.",
+          "additionalProperties": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      }
+    },
+    "signal": {
+      "type": "object",
+      "required": [
+        "signalId",
+        "instance",
+        "class",
+        "property",
+        "dataType",
+        "delivery",
+        "carrier",
+        "targets"
+      ],
+      "properties": {
+        "signalId": {
+          "type": "string",
+          "description": "<instance>/<property> — the name UNSaC and every consumer use for this signal."
+        },
+        "instance": {
+          "type": "string",
+          "description": "Instance id of the plant tree (e.g. the machine)."
+        },
+        "path": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "ISA-95 equipment path of the instance, or null."
+        },
+        "class": {
+          "type": "string",
+          "description": "profileId of the class."
+        },
+        "property": {
+          "type": "string"
+        },
+        "index": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "sourceId": {
+          "type": "string"
+        },
+        "sourceType": {
+          "type": "string"
+        },
+        "sourceNode": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Address of the value in the source (OPC UA NodeId, MTConnect DataItem, column …)."
+        },
+        "dataType": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "unit": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "UNECE Rec. 20 code."
+        },
+        "valueType": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "delivery": {
+          "type": "string"
+        },
+        "scope": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "promotion": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "carrier": {
+          "type": "string",
+          "description": "consumerId that carries the signal."
+        },
+        "ring": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "transport"
+            ],
+            "properties": {
+              "routeId": {
+                "type": "string"
+              },
+              "transport": {
+                "type": "string"
+              },
+              "tier": {
+                "type": "string"
+              },
+              "address": {
+                "type": "string"
+              },
+              "topic": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}
