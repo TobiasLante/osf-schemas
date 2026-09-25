@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/validation/edge-bundle-schema.json",
   "title": "Edge contract · hand-over (release bundle + manifest)",
-  "description": "Edge contract, part 1 (Welle 10, owner 25.09.): what UNSaC hands to a consumer — one bundle per consumer (format unsac.bundle/1) and one manifest (unsac.manifest/1) with the sha256 of every file. A consumer reports back what it loaded with feedback-schema.json: loadedVersion (the release), loadedCommit (the `commit` of the bundle) and loadedDigest (the manifest's sha256 of its bundle). Any edge that accepts this bundle and reports that feedback is as good for UNSaC as unsac-edge. Written from what i3x-v5 packages/uns-compiler/bundle.mjs emits.",
+  "description": "Edge contract, part 1 (Welle 10, owner 25.09.): what UNSaC hands to a consumer — one bundle per consumer (format unsac.bundle/1) and one manifest (unsac.manifest/1) with the sha256 of every file. A consumer reports back what it loaded with feedback-schema.json: loadedVersion (the release), loadedCommit (the manifest's `commit`) and loadedDigest (the manifest's sha256 of its bundle). Any edge that accepts this bundle and reports that feedback is as good for UNSaC as unsac-edge. Written from what i3x-v5 packages/uns-compiler/bundle.mjs emits.",
   "oneOf": [
     {
       "$ref": "#/$defs/bundle"
@@ -18,8 +18,7 @@
         "format",
         "consumerId",
         "ref",
-        "signals",
-        "commit"
+        "signals"
       ],
       "additionalProperties": false,
       "properties": {
@@ -56,12 +55,7 @@
         },
         "ref": {
           "type": "string",
-          "description": "The branch or release name the bundle was compiled from (e.g. next); the commit is in `commit`."
-        },
-        "commit": {
-          "type": "string",
-          "pattern": "^[0-9a-f]{40}$",
-          "description": "The full osf-schemas commit the bundle was compiled from; the consumer reports it back as loadedCommit (feedback-schema.json)."
+          "description": "The branch or release name the bundle was compiled from (e.g. next). The commit is in the manifest, so the bundle's digest stays a digest of its CONTENT (same content = same digest, feedback-schema.json)."
         },
         "signals": {
           "type": "array",
@@ -90,7 +84,7 @@
         "commit": {
           "type": "string",
           "pattern": "^[0-9a-f]{40}$",
-          "description": "The full osf-schemas commit the bundle was compiled from; the consumer reports it back as loadedCommit (feedback-schema.json)."
+          "description": "The full osf-schemas commit the release was compiled from; the consumer reports it back as loadedCommit (feedback-schema.json). It lives here and not in the bundles, so a bundle's digest does not change when only the commit does."
         },
         "files": {
           "type": "object",
