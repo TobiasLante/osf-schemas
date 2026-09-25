@@ -21,37 +21,5 @@ profiles that actually exist in this repo are
 > repo.** The 7-level hierarchy exists only as the instance data inside the
 > demo fixture below.
 
-## The customer PLANT reference instance
+(The customer-specific plant hierarchy demo fixture was removed from next on 25.09.2026: customer data never lives in this repo.)
 
-A concrete, customer-specific instance of a 7-level hierarchy (Enterprise `ENT`
-→ Site `SITE` → Area `WL` → ProcessCell `PLANT` → 17 Units → 174
-EquipmentModules → 34 ControlModules, 229 nodes total) lives here as a **demo
-fixture**:
-
-- File: **`examples/anchor-customer-demo.json`**
-- Labeled in-file with `"_comment"` / `"_example": true`.
-
-It is an **example of how to populate** a plant hierarchy — it is **not**
-canonical and must not be treated as the contract.
-
-**Its labels are outside the contract.** The fixture seeds seven hierarchy
-labels — `Enterprise`, `Site`, `Area`, `ProcessCell`, `EquipmentUnit`,
-`EquipmentModule`, `ControlModule` — none of which appears in
-`contract.json` (no profile in `standard/profiles/**` declares them; `contract.json`
-even lists `Machine -[PART_OF]-> ProcessCell` and
-`StorageLocation -[PART_OF]-> Area` under `unresolvedTargets` for exactly this
-reason). They are **demo-only** vocabulary: agents and sink validators bound
-to the contract must not write them, and nothing in this repo may grow a
-dependency on them. Resolving the gap (adding hierarchy profiles, or
-re-anchoring the fixture onto contract labels) is tracked consolidation work —
-until then this note is the fence.
-
-## How the live KG seed works (cross-repo coordinated)
-
-The anchor-loader in the **i3x-v4** repo reads this file at runtime and
-publishes it as an OT KG-snapshot (`i3x.kg.snapshot.ot.anchor-customer-demo`)
-so kg-builder MERGEs the 229 master-data nodes + 228 `PART_OF` edges into
-Neo4j. The loader scans a configurable list of directories for
-`sourceType:"static"` files (override via the `ANCHOR_SOURCE_DIRS` env in
-i3x-v4); this `examples/` folder is part of the default scan set, so the demo
-seed works without extra configuration.

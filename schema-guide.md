@@ -9,7 +9,7 @@ No LLM is needed — the schemas are the single source of truth.
 ```
 osf-schemas/
 ├── docs/                   conventions, next2.0 standard, agent-conformance, variable shapes; history/ = the reasoning moved out of the JSON
-├── examples/               demo fixtures — NOT canonical (see examples/README.md) (5 json)
+├── examples/               demo fixtures — NOT canonical (see examples/README.md) (4 json)
 ├── sites/                  one folder per plant (site): its instance tree, sources, syncs, consumers
 │   └── werk1/                  
 │       ├── branding/               brand/theme assets (1 json)

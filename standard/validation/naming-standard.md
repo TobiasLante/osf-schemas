@@ -75,7 +75,7 @@ equipmentPath = <enterprise>.<site>.<area>.<cell>.<unit>.<module>.<controlmodule
 
 ## next2.0 update — equipmentPath ADOPTED (active)
 
-Per the merged reference × next standard, `equipmentPath` is no longer dormant: it is the **active**, canonical containment-path key and is emitted as the UNS/MQTT topic (as proven on the customer side). Same value as `element_id`/`kg_merge_key`; purely additive, no id migration.
+Per the merged reference × next standard, `equipmentPath` is no longer dormant: it is the **active**, canonical containment-path key and is emitted as the UNS/MQTT topic (as proven on the reference side). Same value as `element_id`/`kg_merge_key`; purely additive, no id migration.
 
 ## Attribute names mirror the source
 
