@@ -1,5 +1,5 @@
 {
-  "_note": "Owner 25.09.2026 (after the reference concept of 26.09.): every source declares the ISA-95 functional level (IEC 62264-1) of the system it reads; the level decides which ISA-95 part its objects belong to. Here the ERP (sim-v5) and the PLCs report Part 2 objects; a Level-3 MES would report Part 4 (work) objects. Checked by lint-functional-level.",
+  "_note": "Owner 25.09.2026 (after the reference concept of 26.09.): every source declares the ISA-95 functional level (IEC 62264-1) of the system it reads; the level decides which ISA-95 part its objects belong to. Here the ERP (sim-v5) and the PLCs report Part 2 objects; a Level-3 MES would report Part 4 (work) objects. Checked by lint-functional-level. 25.09.2026 (owner, after research): exactly as strict as the norm — ANSI/ISA-95.00.05-2018 (Part 5) defines the transactions between Levels 3 and 4 and within Level 3 for the objects of Part 2 AND Part 4 (scope; clause 6.17 work calendar), so a Level-3 or Level-4 source may report Part 2 and Part 4 objects. ISA-95 does not regulate Level 2; its entry is our own convention, not the norm.",
   "levels": {
     "0": {
       "name": "physical process",
@@ -18,13 +18,15 @@
     "3": {
       "name": "manufacturing operations (MES, historian)",
       "parts": [
+        2,
         4
       ]
     },
     "4": {
       "name": "business planning and logistics (ERP)",
       "parts": [
-        2
+        2,
+        4
       ]
     }
   }
