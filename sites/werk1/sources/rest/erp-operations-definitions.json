@@ -1,0 +1,62 @@
+{
+ "sourceId": "erp-operations-definitions",
+ "version": "1.0.0",
+ "sourceType": "rest",
+ "functionalLevel": 4,
+ "syncType": "polling",
+ "profileRef": "SMProfile-OperationsDefinition",
+ "instanceRef": "werk1",
+ "location": {
+  "enterprise": "factory",
+  "site": "werk1"
+ },
+ "transport": [
+  "nats"
+ ],
+ "connection": {
+  "baseUrl": "http://192.168.178.154:38060",
+  "path": "/operations-definitions",
+  "method": "GET",
+  "auth": null,
+  "timeoutMs": 10000
+ },
+ "response": {
+  "format": "json",
+  "rootPath": "$.items",
+  "idProperty": "operations_definition_no"
+ },
+ "polling": {
+  "changeDetection": "full_refresh",
+  "intervalMs": 900000,
+  "batchSize": 500,
+  "paginate": true
+ },
+ "columnMappings": [
+  {
+   "column": "operations_definition_no",
+   "smAttribute": "operations_definition_no",
+   "isId": true
+  },
+  {
+   "column": "name",
+   "smAttribute": "name"
+  },
+  {
+   "column": "version_label",
+   "smAttribute": "version_label"
+  },
+  {
+   "column": "status",
+   "smAttribute": "status"
+  },
+  {
+   "column": "article_ref",
+   "smAttribute": "article_ref"
+  },
+  {
+   "column": "product_definition_ref",
+   "smAttribute": "product_definition_ref"
+  }
+ ],
+ "description": "Routings (ISA-95 OperationsDefinition) from sim-v5 erp-operations GET /operations-definitions, 147 rows, full refresh. Full text: docs/history/sites/werk1/sources/rest/erp-operations-definitions.md, description."
+}

@@ -1,0 +1,74 @@
+{
+ "sourceId": "erp-job-orders",
+ "version": "1.0.0",
+ "sourceType": "rest",
+ "functionalLevel": 4,
+ "syncType": "polling",
+ "profileRef": "SMProfile-JobOrder",
+ "instanceRef": "werk1",
+ "location": {
+  "enterprise": "factory",
+  "site": "werk1"
+ },
+ "transport": [
+  "nats"
+ ],
+ "connection": {
+  "baseUrl": "http://192.168.178.154:38260",
+  "path": "/api/operations",
+  "method": "GET",
+  "auth": null,
+  "timeoutMs": 10000
+ },
+ "response": {
+  "format": "json",
+  "rootPath": "$"
+ },
+ "polling": {
+  "changeDetection": "full_refresh",
+  "intervalMs": 900000,
+  "batchSize": 5000,
+  "paginate": true
+ },
+ "columnMappings": [
+  {
+   "column": "job_order_no",
+   "smAttribute": "job_order_no",
+   "isId": true
+  },
+  {
+   "column": "production_order_no",
+   "smAttribute": "workorder_ref"
+  },
+  {
+   "column": "machine_id",
+   "smAttribute": "machine_ref"
+  },
+  {
+   "column": "planned_start",
+   "smAttribute": "start_planned"
+  },
+  {
+   "column": "planned_end",
+   "smAttribute": "end_planned"
+  },
+  {
+   "column": "status",
+   "smAttribute": "status"
+  }
+ ],
+ "filter": null,
+ "edges": [
+  {
+   "type": "PART_OF",
+   "fkColumn": "production_order_no",
+   "targetIdProp": "workorder_no"
+  },
+  {
+   "type": "REQUIRES_EQUIPMENT",
+   "fkColumn": "machine_id",
+   "targetIdProp": "machine_id"
+  }
+ ],
+ "description": "JobOrders = one row of erp.order_operations (workorder x operation x machine), sim-v5 api-erp GET /api/operations, paged by the immutable key (production_order_no, operation_number). Full text: docs/history/sites/werk1/sources/rest/erp-job-orders.md, description."
+}
