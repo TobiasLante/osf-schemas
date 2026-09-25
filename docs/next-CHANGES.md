@@ -1,6 +1,6 @@
 # Branch `next` — what changed against `main` (07e137a)
 
-Six commits, each with its own reasoning in the commit message. `npm run validate`, the shape
+The table groups the changes by topic; the branch itself has well over a hundred commits, each with its own reasoning in the commit message (`git log main..next`). `npm run validate`, the shape
 validation and the mutation test are green. The checks added here moved to TobiasLante/i3x-v5 `packages/schemas-ci` (23.09.; code never in osf-schemas) and run there against this branch (`check-next.sh`).
 
 | commit | what | breaks a consumer? |
@@ -10,6 +10,7 @@ validation and the mutation test are green. The checks added here moved to Tobia
 | prose | 162 long texts moved verbatim to `docs/history/`, the field keeps its first sentence | only if a consumer shows or embeds the long description |
 | structure | `backup/` out of the tree; one `equipmentLevel` enum; inverse edges registered | no |
 | i3x | `standard/i3x/` generated: the profiles as i3X 1.0 Object Types, proven lossless | no, additive |
+| domains | `standard/profiles/` by ISA-95 domain instead of by source system: `equipment/` (machines, equipment classes, tools), `material/` (article, material item/lot, quant, storage location), `operations/` (orders, segments, responses, calendar, customer), `quality/` (inspection lot, SPC), `intelligence/` unchanged; one owner per folder in the governance. The meta-schema of a profile follows its `category`, no longer its folder | **yes**: anything that reads a profile by its old path (`profiles/machines/…`, `profiles/erp/…`); by `profileId` nothing changes |
 | mutate | every gating linter proven to catch its defect | no |
 
 ## Declared open, not decided here

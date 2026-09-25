@@ -1,0 +1,90 @@
+{
+  "profileId": "SMProfile-ShiftWindow",
+  "version": "1.1.0",
+  "standard": "CESMII",
+  "category": "business",
+  "displayName": "Shift Window (ERP shift calendar)",
+  "description": "One row of the ERP shift calendar (`/api/calendar` -> `week_pattern`): department x ISO weekday x shift, with the working-time window and its breaks. Full text: docs/history/standard/profiles/operations/shift-window.md, description.",
+  "parentType": null,
+  "abstract": false,
+  "isa95": {
+    "objectModel": "WorkCalendarEntry",
+    "part": 2,
+    "momDomain": "production",
+    "level": 3,
+    "note": "One recurring entry of the plant WorkCalendar (B2MML WorkCalendar / WorkCalendarEntry). Full text: docs/history/standard/profiles/operations/shift-window.md, isa95 › note.",
+    "propertyMap": {
+      "department_id": "WorkCalendarEntry.HierarchyScope.EquipmentID",
+      "shift_id": "WorkCalendarEntry.ID",
+      "start_time": "WorkCalendarEntry.StartDateTime",
+      "end_time": "WorkCalendarEntry.FinishDateTime"
+    }
+  },
+  "attributes": [
+    {
+      "name": "department_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "isId": true,
+      "description": "Department the window belongs to. Measured population 2026-08-03: LAGER | MECH | MONTAGE | SG. NOT declared as an enum: the plant may add a department without a schema change, and a consumer must never treat an unknown department as 'not scheduled'. Part of the composite key.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "day_of_week",
+      "dataType": "Int32",
+      "required": true,
+      "category": "Core",
+      "isId": true,
+      "description": "ISO-8601 weekday, 1=Monday .. Full text: docs/history/standard/profiles/operations/shift-window.md, attributes › day_of_week › description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "shift_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "isId": true,
+      "description": "Shift code as the ERP names it. Full text: docs/history/standard/profiles/operations/shift-window.md, attributes › shift_id › description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "start_time",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Window start on the PLANT CLOCK as HH:MM:SS. No date and no timezone — this is a weekly pattern, not an instant. A consumer applies it in the same clock it attributes buckets in (golden-shift: tzOffsetMinutes, default 0 = UTC).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "end_time",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Window end on the plant clock as HH:MM:SS. Full text: docs/history/standard/profiles/operations/shift-window.md, attributes › end_time › description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "break_minutes",
+      "dataType": "Int32",
+      "required": false,
+      "category": "Core",
+      "description": "Unpaid break minutes inside the window. Full text: docs/history/standard/profiles/operations/shift-window.md, attributes › break_minutes › description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    }
+  ]
+}

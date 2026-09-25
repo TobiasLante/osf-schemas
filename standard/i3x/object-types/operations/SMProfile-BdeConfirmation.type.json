@@ -1,0 +1,239 @@
+{
+  "elementId": "SMProfile-BdeConfirmation",
+  "displayName": "BDE Confirmation (shop-floor booking, one row per confirmation)",
+  "namespaceUri": "urn:osf:schemas:operations",
+  "version": "1.1.0",
+  "schema": {
+    "description": "The CONFIRMATION grain of the sim-v5 BDE feed, alongside and NOT replacing SMProfile-OperationsResponse. Full text: docs/history/standard/profiles/operations/bde-confirmation.md, description.",
+    "allOf": [
+      {
+        "$ref": "SMProfile-Response.type.json#/schema"
+      },
+      {
+        "type": "object",
+        "properties": {
+          "confirmation_no": {
+            "type": "string",
+            "description": "The booking's own identity (e.g. BDE-2026-08-03-2208427). UNIQUE per confirmation — this is what makes the grain safe to key, where production_order_no repeats.",
+            "x-category": "Core",
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change",
+            "x-valueType": "ID"
+          },
+          "production_order_no": {
+            "type": "string",
+            "description": "The production order this booking confirms (RESPONDS_TO). NOT the identity at this grain — many confirmations share one order.",
+            "x-category": "Link",
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change"
+          },
+          "article_ref": {
+            "type": "string",
+            "description": "Manufactured article (join key to Article).",
+            "x-category": "Link",
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change",
+            "x-valueType": "ID"
+          },
+          "machine_ref": {
+            "type": "string",
+            "description": "Executing machine (machine_no). MEASURED 2026-08-03: non-null on 2000 of 2000 rows at this grain across 81 distinct values, where the per-production-order aggregate carries it on only 32 of 100. The machine binding survives here and is lost there.",
+            "x-category": "Link",
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change",
+            "x-valueType": "ID"
+          },
+          "operation_no": {
+            "type": "string",
+            "description": "The routing operation (Arbeitsgang) this booking belongs to. MEASURED: 1714 of 2000 rows, 30 distinct. Absent on the rest — a booking without an operation is not an error here, and it must stay absent rather than default to a first operation.",
+            "x-category": "Core",
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change"
+          },
+          "shift": {
+            "type": "string",
+            "description": "Shift of record for the booking, derived upstream from machine_departments x machine_pools x shift_config x shift_weekly_pattern (sim-v5, 2026-08-03). Full text: docs/history/standard/profiles/operations/bde-confirmation.md, attributes › shift › description.",
+            "x-category": "Core",
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change"
+          },
+          "good_qty": {
+            "type": "integer",
+            "description": "Pieces booked as good on this confirmation.",
+            "x-dataType": "Int32",
+            "x-category": "Execution",
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change",
+            "x-quality": {
+              "onBad": "flag"
+            }
+          },
+          "scrap_qty": {
+            "type": "integer",
+            "description": "Pieces booked as scrap on this confirmation. The ERP half of the quantity axis — the counterpart the machine's own part_scrap counter is reconciled against.",
+            "x-dataType": "Int32",
+            "x-category": "Execution",
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change",
+            "x-quality": {
+              "onBad": "flag"
+            }
+          },
+          "rework_qty": {
+            "type": "integer",
+            "description": "Pieces booked for rework — a THIRD disposition, deliberately not folded into scrap (same rule as the part_scrap semantic in standard/mappings/attribute-aliases.json). Full text: docs/history/standard/profiles/operations/bde-confirmation.md, attributes › rework_qty › description.",
+            "x-dataType": "Int32",
+            "x-category": "Execution",
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change",
+            "x-quality": {
+              "onBad": "flag"
+            }
+          },
+          "scrap_reason": {
+            "type": "string",
+            "description": "Reason code for the scrap on this booking. MEASURED: only 123 of 2000 rows carry one, with 2 distinct values (cavity-defect, quality-fail). Thin by nature — most bookings have no scrap at all — so a consumer must treat absence as 'no reason recorded', never as a category.",
+            "x-category": "Quality",
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change"
+          },
+          "labor_min": {
+            "type": "number",
+            "description": "Personnel minutes booked against this confirmation. Full text: docs/history/standard/profiles/operations/bde-confirmation.md, attributes › labor_min › description.",
+            "x-dataType": "Double",
+            "x-category": "Effort",
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change",
+            "x-quality": {
+              "onBad": "flag"
+            }
+          },
+          "machine_min": {
+            "type": "number",
+            "description": "Machine minutes booked against this confirmation.",
+            "x-dataType": "Double",
+            "x-category": "Effort",
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change",
+            "x-quality": {
+              "onBad": "flag"
+            }
+          },
+          "setup_min": {
+            "type": "number",
+            "description": "Setup minutes booked against this confirmation. MEASURED: non-zero on 25 of 800 rows — setup is an event, not a per-booking constant, so a zero here is a real 'no setup on this booking'.",
+            "x-dataType": "Double",
+            "x-category": "Effort",
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change",
+            "x-quality": {
+              "onBad": "flag"
+            }
+          },
+          "cycle_time_actual_sec": {
+            "type": "number",
+            "description": "Actually measured cycle time per piece (s) for this booking.",
+            "x-dataType": "Double",
+            "x-category": "Execution",
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change",
+            "x-quality": {
+              "onBad": "flag"
+            }
+          },
+          "actual_start_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Start of the booked interval (ts_start). Absent at the per-production-order grain.",
+            "x-dataType": "DateTime",
+            "x-category": "Timing",
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change",
+            "x-quality": {
+              "onBad": "flag"
+            }
+          },
+          "actual_end_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "End of the booked interval (ts_end).",
+            "x-dataType": "DateTime",
+            "x-category": "Timing",
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change",
+            "x-quality": {
+              "onBad": "flag"
+            }
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Last change (recorded_at). Server-managed and volatile on every read.",
+            "x-dataType": "DateTime",
+            "x-category": "Timing",
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change"
+          }
+        },
+        "required": [
+          "confirmation_no"
+        ]
+      }
+    ]
+  },
+  "x-osf": {
+    "source": "standard/profiles/operations/bde-confirmation.json",
+    "standard": "CESMII",
+    "category": "business",
+    "abstract": false,
+    "relationships": [],
+    "constraints": [],
+    "semantics": {},
+    "kpiRefs": [],
+    "isa95": {
+      "level": 3,
+      "objectModel": "OperationsResponse",
+      "part": 2,
+      "note": "ISA-95 places the shop-floor booking under Operations Response. This profile is the per-booking grain of that object; SMProfile-OperationsResponse is the per-request aggregate. Both are Level-3 actuals."
+    },
+    "kgNodeLabel": "BdeConfirmation",
+    "kgIdProperty": "confirmation_no",
+    "parentType": "Response",
+    "requiredDeclaredOn": [
+      "confirmation_no",
+      "production_order_no",
+      "article_ref",
+      "machine_ref",
+      "operation_no",
+      "shift",
+      "good_qty",
+      "scrap_qty",
+      "rework_qty",
+      "scrap_reason",
+      "labor_min",
+      "machine_min",
+      "setup_min",
+      "cycle_time_actual_sec",
+      "actual_start_time",
+      "actual_end_time",
+      "updated_at"
+    ]
+  }
+}

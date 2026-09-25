@@ -1,0 +1,75 @@
+{
+  "elementId": "SMProfile-Customer",
+  "displayName": "Customer",
+  "namespaceUri": "urn:osf:schemas:operations",
+  "version": "2.0.0",
+  "schema": {
+    "description": "next/ v2.0 — Level-4 business partner (the customer a CustomerOrder is FOR). Minimal master node so the sales-order chain is self-contained.",
+    "type": "object",
+    "properties": {
+      "customer_no": {
+        "type": "string",
+        "description": "Customer number / key.",
+        "x-category": "Core",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change",
+        "x-valueType": "ID"
+      },
+      "name": {
+        "type": "string",
+        "description": "Customer name.",
+        "x-category": "Core",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change"
+      },
+      "country": {
+        "type": "string",
+        "description": "Customer country (ISO code recommended).",
+        "x-category": "Core",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change"
+      },
+      "segment": {
+        "type": "string",
+        "description": "Customer segment / classification.",
+        "x-category": "Core",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change"
+      }
+    },
+    "required": [
+      "customer_no"
+    ]
+  },
+  "x-osf": {
+    "source": "standard/profiles/operations/customer.json",
+    "standard": "CESMII",
+    "category": "business",
+    "abstract": false,
+    "relationships": [],
+    "constraints": [],
+    "semantics": [],
+    "kpiRefs": [],
+    "isa95": {
+      "objectModel": "Extension",
+      "momDomain": "production",
+      "level": 4,
+      "note": "Level-4 business partner. Full text: docs/history/standard/profiles/operations/customer.md, isa95 › note.",
+      "extension": true,
+      "mappingNote": "Level 4 business partner. B2MML 0700 has no Customer object."
+    },
+    "kgNodeLabel": "Customer",
+    "kgIdProperty": "customer_no",
+    "parentType": null,
+    "requiredDeclaredOn": [
+      "customer_no",
+      "name",
+      "country",
+      "segment"
+    ]
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "profileId": "SMProfile-Response",
+  "version": "1.0.0",
+  "standard": "CESMII",
+  "category": "business",
+  "displayName": "Response (abstract parent of the Level-3 actuals)",
+  "description": "Abstract parent of every profile whose ISA-95 object is OperationsResponse. Full text: docs/history/standard/profiles/operations/response.md, description.",
+  "parentType": null,
+  "abstract": true,
+  "attributes": [],
+  "relationships": [
+    {
+      "type": "RESPONDS_TO",
+      "target": "ProductionOrder",
+      "targetIdProp": "production_order_no",
+      "description": "The OperationsRequest these actuals answer (B2MML OperationsResponse.OperationsRequestID)."
+    },
+    {
+      "type": "FOR_ARTICLE",
+      "target": "Article",
+      "targetIdProp": "article_no",
+      "description": "The material produced (B2MML OperationsResponse.SegmentResponse.MaterialActual.MaterialDefinitionID)."
+    },
+    {
+      "type": "ON_MACHINE",
+      "target": "Machine",
+      "targetIdProp": "machine_id",
+      "description": "The equipment that produced it (B2MML OperationsResponse.SegmentResponse.EquipmentActual.EquipmentID)."
+    }
+  ],
+  "isa95": {
+    "objectModel": "OperationsResponse",
+    "part": 2,
+    "momDomain": "production",
+    "level": 3,
+    "note": "All children are B2MML OperationsResponse; the parent is that object, not a new one."
+  },
+  "kgNodeLabel": "Response",
+  "kgIdProperty": "response_id"
+}

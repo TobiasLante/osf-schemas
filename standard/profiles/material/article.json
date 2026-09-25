@@ -1,0 +1,196 @@
+{
+  "profileId": "SMProfile-Article",
+  "version": "2.1.0",
+  "standard": "CESMII",
+  "category": "business",
+  "displayName": "Article (article / part)",
+  "description": "Product/material master. Full text: docs/history/standard/profiles/material/article.md, description.",
+  "parentType": null,
+  "abstract": false,
+  "attributes": [
+    {
+      "name": "article_no",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "name",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "type",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "unit",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "lead_time_days",
+      "dataType": "Int32",
+      "required": false,
+      "category": "Planning",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "abc_class",
+      "dataType": "String",
+      "required": false,
+      "category": "Commercial",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "cost_hk",
+      "dataType": "Double",
+      "required": false,
+      "category": "Valuation",
+      "currency": "EUR",
+      "description": "Standard manufacturing/purchase cost (HK = Herstellkosten), from ERP std_kosten. The €-basis for scrap / quality impact.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "price_vk",
+      "dataType": "Double",
+      "required": false,
+      "category": "Valuation",
+      "currency": "EUR",
+      "description": "Standard sales price (VK = Verkaufspreis), from ERP std_verkaufspreis. The basis for margin / lost-sales impact. Null for non-sellable articles (RAW/CONSUMABLE/WIP).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "currency",
+      "dataType": "String",
+      "required": false,
+      "category": "Valuation",
+      "description": "ISO-4217 currency code for cost_hk / price_vk, from ERP waehrung (e.g. EUR).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "stock_free",
+      "dataType": "Float",
+      "required": false,
+      "category": "Stock",
+      "description": "Free (unblocked) stock of this article across all warehouses (menge_frei). Served by GET /api/articles, which is ARTICLE_WITH_STOCK_AND_PRICE_SQL. This is the article-level figure the WMS Quant rows sum to; a single Quant is one pallet/lot in one bin and is NOT a stock position.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "stock_reserved",
+      "dataType": "Float",
+      "required": false,
+      "category": "Stock",
+      "description": "Quantity already committed to orders (menge_reserviert) — free stock that is spoken for.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "stock_blocked",
+      "dataType": "Float",
+      "required": false,
+      "category": "Stock",
+      "description": "Quantity blocked / on hold (menge_blockiert).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "stock_available",
+      "dataType": "Float",
+      "required": false,
+      "category": "Stock",
+      "description": "AVAILABLE-TO-PROMISE: free minus reserved (verfuegbar). Full text: docs/history/standard/profiles/material/article.md, attributes › stock_available › description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "reorder_level",
+      "dataType": "Float",
+      "required": false,
+      "category": "Planning",
+      "description": "Reorder level / Meldebestand from the ERP article master (mindestbestand). Full text: docs/history/standard/profiles/material/article.md, attributes › reorder_level › description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "safety_stock",
+      "dataType": "Float",
+      "required": false,
+      "category": "Planning",
+      "description": "Safety stock (safety_stock). Full text: docs/history/standard/profiles/material/article.md, attributes › safety_stock › description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    }
+  ],
+  "relationships": [],
+  "constraints": [
+    {
+      "name": "stock_below_reorder_level",
+      "description": "Stock below the reorder level: the article's available-to-promise stock (free minus reserved) has fallen under the reorder level the ERP article master declares FOR THIS ARTICLE. The IT/planning counterpart to the OT machine bands - a materials-planning finding about an article, not about a machine.",
+      "require": {
+        "attr": "stock_available",
+        "op": "gte",
+        "valueAttr": "reorder_level"
+      },
+      "severity": "warning",
+      "discrepancyClass": "constraint",
+      "concern": "operations",
+      "mom_category": "inventory",
+      "accountable_role": "Materials Planning",
+      "since": "2026-08-30"
+    }
+  ],
+  "semantics": [],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "MaterialDefinition",
+    "part": 2,
+    "momDomain": "inventory",
+    "level": 3,
+    "note": "Article / part = ISA-95 MaterialDefinition (Part 2). Physical stock is MaterialLot.",
+    "propertyMap": {
+      "article_no": "MaterialDefinition.ID",
+      "name": "MaterialDefinition.Description"
+    },
+    "notInIsa95": [
+      "unit"
+    ],
+    "mappingNote": "The unit of a MaterialDefinition sits on its property or quantity in B2MML, not on the definition itself."
+  },
+  "kgNodeLabel": "Article",
+  "kgIdProperty": "article_no"
+}

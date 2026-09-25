@@ -1,0 +1,59 @@
+{
+  "elementId": "SMProfile-Machine",
+  "displayName": "Machine (Abstract Parent)",
+  "namespaceUri": "urn:osf:schemas:equipment",
+  "version": "3.0.0",
+  "schema": {
+    "description": "Abstract parent for all machine types (CNC, IMM, …). Full text: docs/history/standard/profiles/equipment/machine.md, description.",
+    "type": "object",
+    "properties": {}
+  },
+  "x-osf": {
+    "source": "standard/profiles/equipment/machine.json",
+    "standard": "CESMII",
+    "category": "machine",
+    "abstract": true,
+    "relationships": [
+      {
+        "type": "PART_OF",
+        "target": "ProcessCell",
+        "resolvedBy": "instances",
+        "description": "ISA-88: the machine is part of a ProcessCell (line)."
+      },
+      {
+        "type": "EXECUTES",
+        "target": "ProductionOrder",
+        "targetIdProp": "production_order_no"
+      }
+    ],
+    "constraints": [],
+    "semantics": [],
+    "kpiRefs": [
+      "KPI-OEE",
+      "KPI-Availability",
+      "KPI-Performance",
+      "KPI-Quality-Rate",
+      "KPI-Energy-Per-Part",
+      "KPI-Scrap-Rate"
+    ],
+    "isa95": {
+      "objectModel": "Equipment",
+      "part": 2,
+      "momDomain": "production",
+      "equipmentLevel": "Unit",
+      "propertyMap": {
+        "element_id": "Equipment.ID"
+      },
+      "companionSpec": "OPC40001-1",
+      "opcuaTypeDefinition": "MachineType",
+      "deviceClass": "Machine"
+    },
+    "kgNodeLabel": "Machine",
+    "kgIdProperty": "element_id",
+    "keyAliases": [
+      "machine_id"
+    ],
+    "parentType": null,
+    "requiredDeclaredOn": []
+  }
+}

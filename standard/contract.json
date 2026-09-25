@@ -7,6 +7,17 @@
     "decided": "OWNER 2026-09-24: the machine key is element_id (instance codes along the partOf chain of sites/<site>/instances). MIGRATED (W8-R1): every Machine node keys on element_id; machine_id is listed in keyAliases, so edges from sources that only know the machine code resolve through it. Do not mix both in one graph."
   },
   "nodes": {
+    "CNC_Machine": {
+      "key": "element_id",
+      "keyAliases": [
+        "machine_id"
+      ],
+      "profile": "SMProfile-CNC-Machine",
+      "category": "machine",
+      "parentType": "Machine",
+      "abstract": false,
+      "source": "standard/profiles/equipment/cnc-machine.json"
+    },
     "EquipmentClass": {
       "key": "equipment_class_id",
       "profile": "SMProfile-EquipmentClass",
@@ -15,6 +26,28 @@
       "abstract": false,
       "source": "standard/profiles/equipment/equipment-class.json"
     },
+    "InjectionMoldingMachine": {
+      "key": "element_id",
+      "keyAliases": [
+        "machine_id"
+      ],
+      "profile": "SMProfile-InjectionMoldingMachine",
+      "category": "machine",
+      "parentType": "Machine",
+      "abstract": false,
+      "source": "standard/profiles/equipment/injection-molding-machine.json"
+    },
+    "Machine": {
+      "key": "element_id",
+      "keyAliases": [
+        "machine_id"
+      ],
+      "profile": "SMProfile-Machine",
+      "category": "machine",
+      "parentType": null,
+      "abstract": true,
+      "source": "standard/profiles/equipment/machine.json"
+    },
     "Tool": {
       "key": "tool_id",
       "profile": "SMProfile-Tool",
@@ -22,73 +55,6 @@
       "parentType": null,
       "abstract": false,
       "source": "standard/profiles/equipment/tool.json"
-    },
-    "Article": {
-      "key": "article_no",
-      "profile": "SMProfile-Article",
-      "category": "business",
-      "parentType": null,
-      "abstract": false,
-      "source": "standard/profiles/erp/article.json"
-    },
-    "BdeConfirmation": {
-      "key": "confirmation_no",
-      "profile": "SMProfile-BdeConfirmation",
-      "category": "business",
-      "parentType": "Response",
-      "abstract": false,
-      "source": "standard/profiles/erp/bde-confirmation.json"
-    },
-    "CustomerOrder": {
-      "key": "order_no",
-      "profile": "SMProfile-CustomerOrder",
-      "category": "business",
-      "parentType": null,
-      "abstract": false,
-      "retired": true,
-      "retiredAt": "2026-08-13",
-      "retirementId": "retired:SMProfile-CustomerOrder@2026-08-13",
-      "source": "standard/profiles/erp/customer-order.json"
-    },
-    "Customer": {
-      "key": "customer_no",
-      "profile": "SMProfile-Customer",
-      "category": "business",
-      "parentType": null,
-      "abstract": false,
-      "source": "standard/profiles/erp/customer.json"
-    },
-    "OperationsResponse": {
-      "key": "production_order_no",
-      "profile": "SMProfile-OperationsResponse",
-      "category": "business",
-      "parentType": "Response",
-      "abstract": false,
-      "source": "standard/profiles/erp/operations-response.json"
-    },
-    "ProductDefinition": {
-      "key": "product_definition_no",
-      "profile": "SMProfile-ProductDefinition",
-      "category": "business",
-      "parentType": null,
-      "abstract": false,
-      "source": "standard/profiles/erp/product-definition.json"
-    },
-    "ProductionOrder": {
-      "key": "production_order_no",
-      "profile": "SMProfile-ProductionOrder",
-      "category": "business",
-      "parentType": null,
-      "abstract": false,
-      "source": "standard/profiles/erp/production-order.json"
-    },
-    "Response": {
-      "key": "response_id",
-      "profile": "SMProfile-Response",
-      "category": "business",
-      "parentType": null,
-      "abstract": true,
-      "source": "standard/profiles/erp/response.json"
     },
     "AutoResolveRule": {
       "key": "rule_id",
@@ -130,38 +96,72 @@
       "abstract": false,
       "source": "standard/profiles/intelligence/resolution-proposal.json"
     },
-    "CNC_Machine": {
-      "key": "element_id",
-      "keyAliases": [
-        "machine_id"
-      ],
-      "profile": "SMProfile-CNC-Machine",
-      "category": "machine",
-      "parentType": "Machine",
+    "Article": {
+      "key": "article_no",
+      "profile": "SMProfile-Article",
+      "category": "business",
+      "parentType": null,
       "abstract": false,
-      "source": "standard/profiles/machines/cnc-machine.json"
+      "source": "standard/profiles/material/article.json"
     },
-    "InjectionMoldingMachine": {
-      "key": "element_id",
-      "keyAliases": [
-        "machine_id"
-      ],
-      "profile": "SMProfile-InjectionMoldingMachine",
-      "category": "machine",
-      "parentType": "Machine",
-      "abstract": false,
-      "source": "standard/profiles/machines/injection-molding-machine.json"
-    },
-    "Machine": {
-      "key": "element_id",
-      "keyAliases": [
-        "machine_id"
-      ],
-      "profile": "SMProfile-Machine",
-      "category": "machine",
+    "MaterialItem": {
+      "key": "material_item_id",
+      "profile": "SMProfile-MaterialItem",
+      "category": "material",
       "parentType": null,
       "abstract": true,
-      "source": "standard/profiles/machines/machine.json"
+      "source": "standard/profiles/material/material-item.json"
+    },
+    "MaterialLot": {
+      "key": "material_lot_no",
+      "profile": "SMProfile-MaterialLot",
+      "category": "material",
+      "parentType": "MaterialItem",
+      "abstract": false,
+      "source": "standard/profiles/material/material-lot.json"
+    },
+    "Quant": {
+      "key": "quant_no",
+      "profile": "SMProfile-Quant",
+      "category": "material",
+      "parentType": "MaterialItem",
+      "abstract": false,
+      "source": "standard/profiles/material/quant.json"
+    },
+    "StorageLocation": {
+      "key": "storage_location_id",
+      "profile": "SMProfile-StorageLocation",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/material/storage-location.json"
+    },
+    "BdeConfirmation": {
+      "key": "confirmation_no",
+      "profile": "SMProfile-BdeConfirmation",
+      "category": "business",
+      "parentType": "Response",
+      "abstract": false,
+      "source": "standard/profiles/operations/bde-confirmation.json"
+    },
+    "CustomerOrder": {
+      "key": "order_no",
+      "profile": "SMProfile-CustomerOrder",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "retired": true,
+      "retiredAt": "2026-08-13",
+      "retirementId": "retired:SMProfile-CustomerOrder@2026-08-13",
+      "source": "standard/profiles/operations/customer-order.json"
+    },
+    "Customer": {
+      "key": "customer_no",
+      "profile": "SMProfile-Customer",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/operations/customer.json"
     },
     "OperationsDefinition": {
       "key": "operations_definition_no",
@@ -171,6 +171,14 @@
       "abstract": false,
       "source": "standard/profiles/operations/operations-definition.json"
     },
+    "OperationsResponse": {
+      "key": "production_order_no",
+      "profile": "SMProfile-OperationsResponse",
+      "category": "business",
+      "parentType": "Response",
+      "abstract": false,
+      "source": "standard/profiles/operations/operations-response.json"
+    },
     "ProcessSegment": {
       "key": "process_segment_no",
       "profile": "SMProfile-ProcessSegment",
@@ -178,6 +186,30 @@
       "parentType": null,
       "abstract": false,
       "source": "standard/profiles/operations/process-segment.json"
+    },
+    "ProductDefinition": {
+      "key": "product_definition_no",
+      "profile": "SMProfile-ProductDefinition",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/operations/product-definition.json"
+    },
+    "ProductionOrder": {
+      "key": "production_order_no",
+      "profile": "SMProfile-ProductionOrder",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/operations/production-order.json"
+    },
+    "Response": {
+      "key": "response_id",
+      "profile": "SMProfile-Response",
+      "category": "business",
+      "parentType": null,
+      "abstract": true,
+      "source": "standard/profiles/operations/response.json"
     },
     "SegmentRequirement": {
       "key": "segment_requirement_no",
@@ -209,7 +241,7 @@
       "category": "quality",
       "parentType": null,
       "abstract": false,
-      "source": "standard/profiles/qms/inspection-lot.json"
+      "source": "standard/profiles/quality/inspection-lot.json"
     },
     "SPCAnalysis": {
       "key": "analysis_id",
@@ -217,39 +249,7 @@
       "category": "quality",
       "parentType": null,
       "abstract": false,
-      "source": "standard/profiles/qms/spcanalysis.json"
-    },
-    "MaterialItem": {
-      "key": "material_item_id",
-      "profile": "SMProfile-MaterialItem",
-      "category": "material",
-      "parentType": null,
-      "abstract": true,
-      "source": "standard/profiles/wms/material-item.json"
-    },
-    "MaterialLot": {
-      "key": "material_lot_no",
-      "profile": "SMProfile-MaterialLot",
-      "category": "material",
-      "parentType": "MaterialItem",
-      "abstract": false,
-      "source": "standard/profiles/wms/material-lot.json"
-    },
-    "Quant": {
-      "key": "quant_no",
-      "profile": "SMProfile-Quant",
-      "category": "material",
-      "parentType": "MaterialItem",
-      "abstract": false,
-      "source": "standard/profiles/wms/quant.json"
-    },
-    "StorageLocation": {
-      "key": "storage_location_id",
-      "profile": "SMProfile-StorageLocation",
-      "category": "business",
-      "parentType": null,
-      "abstract": false,
-      "source": "standard/profiles/wms/storage-location.json"
+      "source": "standard/profiles/quality/spcanalysis.json"
     }
   },
   "edges": [
@@ -784,6 +784,6 @@
   },
   "skippedFiles": [
     "standard/profiles/equipment/equipment-model.json",
-    "standard/profiles/erp/shift-window.json"
+    "standard/profiles/operations/shift-window.json"
   ]
 }
