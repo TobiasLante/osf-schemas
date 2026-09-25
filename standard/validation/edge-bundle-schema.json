@@ -1,0 +1,343 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/validation/edge-bundle-schema.json",
+  "title": "Edge contract · hand-over (release bundle + manifest)",
+  "description": "Edge contract, part 1 (Welle 10, owner 25.09.): what UNSaC hands to a consumer — one bundle per consumer (format unsac.bundle/1) and one manifest (unsac.manifest/1) with the sha256 of every file. A consumer reports back what it loaded with feedback-schema.json: loadedVersion (the release), loadedCommit (the manifest's `commit`) and loadedDigest (the manifest's scopeDigests[consumerId], verbatim). Any edge that accepts this bundle and reports that feedback is as good for UNSaC as unsac-edge. Written from what i3x-v5 packages/uns-compiler/bundle.mjs emits. Transport: UNSaC delivers with POST <target endpoint>/v1/unsac/release, body = a delivery request (the manifest + the consumer's bundle), bearer = the target's secret; the edge answers with a receipt (HTTP 202 accepted / 409 refused). The receipt is NOT 'loaded': loaded comes later through the feedback contract.",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/bundle"
+    },
+    {
+      "$ref": "#/$defs/manifest"
+    },
+    {
+      "$ref": "#/$defs/deliveryRequest"
+    },
+    {
+      "$ref": "#/$defs/deliveryReceipt"
+    }
+  ],
+  "$defs": {
+    "bundle": {
+      "type": "object",
+      "required": [
+        "format",
+        "consumerId",
+        "ref",
+        "signals",
+        "sources"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "format": {
+          "const": "unsac.bundle/1"
+        },
+        "consumerId": {
+          "type": "string"
+        },
+        "version": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Version of the consumer definition."
+        },
+        "kind": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "stage": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ring": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "ref": {
+          "type": "string",
+          "description": "The branch or release name the bundle was compiled from (e.g. next). The commit is in the manifest, so the bundle's digest stays a digest of its CONTENT (same content = same digest, feedback-schema.json)."
+        },
+        "signals": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/signal"
+          }
+        },
+        "sources": {
+          "type": "array",
+          "description": "The sources the bundle's signals come from, verbatim from their source files: what an edge needs to connect (endpoint, security, credentials by secret NAME only) and how often to read.",
+          "items": {
+            "type": "object",
+            "required": [
+              "sourceId",
+              "sourceType",
+              "instance",
+              "site",
+              "connection",
+              "polling"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "sourceId": {
+                "type": "string"
+              },
+              "sourceType": {
+                "type": "string"
+              },
+              "instance": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "site": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "connection": {
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "description": "As in the source file (e.g. OPC UA endpoint, securityMode, securityPolicy, auth)."
+              },
+              "polling": {
+                "type": [
+                  "object",
+                  "null"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "manifest": {
+      "type": "object",
+      "required": [
+        "format",
+        "ref",
+        "files",
+        "commit",
+        "scopeDigests"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "format": {
+          "const": "unsac.manifest/1"
+        },
+        "ref": {
+          "type": "string"
+        },
+        "commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$",
+          "description": "The full osf-schemas commit the release was compiled from; the consumer reports it back as loadedCommit (feedback-schema.json). It lives here and not in the bundles, so a bundle's digest does not change when only the commit does."
+        },
+        "scopeDigests": {
+          "type": "object",
+          "description": "consumerId → the digest of that consumer's SCOPE at this commit, exactly as feedback-schema.json defines loadedDigest ('sha256:' + …; null for an empty scope). The consumer reports its own entry back VERBATIM as loadedDigest: equal to the rolled-out release = same content, even on another commit. (The sha256 in `files` is only the integrity check of the bundle bytes.)",
+          "additionalProperties": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          }
+        },
+        "files": {
+          "type": "object",
+          "description": "Published path → sha256 (hex) of its canonical JSON; the digest of bundles/<consumerId>.json is what the consumer reports as loadedDigest. Canonical form (the bytes that are hashed): UTF-8 JSON, object keys sorted by UTF-16 code unit, 2-space indentation, one element per line, LF line ends, exactly one trailing LF, empty array [] and empty object {}, -0 written as 0, no undefined/NaN/Infinity. A consumer recomputes sha256 over exactly these bytes.",
+          "additionalProperties": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      }
+    },
+    "signal": {
+      "type": "object",
+      "required": [
+        "signalId",
+        "instance",
+        "class",
+        "property",
+        "dataType",
+        "delivery",
+        "carrier",
+        "targets"
+      ],
+      "properties": {
+        "signalId": {
+          "type": "string",
+          "description": "<instance>/<property> — the name UNSaC and every consumer use for this signal."
+        },
+        "instance": {
+          "type": "string",
+          "description": "Instance id of the plant tree (e.g. the machine)."
+        },
+        "path": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "ISA-95 equipment path of the instance, or null."
+        },
+        "class": {
+          "type": "string",
+          "description": "profileId of the class."
+        },
+        "property": {
+          "type": "string"
+        },
+        "index": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "sourceId": {
+          "type": "string"
+        },
+        "sourceType": {
+          "type": "string"
+        },
+        "sourceNode": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Address of the value in the source (OPC UA NodeId, MTConnect DataItem, column …)."
+        },
+        "dataType": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "unit": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "UNECE Rec. 20 code."
+        },
+        "valueType": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "delivery": {
+          "type": "string"
+        },
+        "scope": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "promotion": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "carrier": {
+          "type": "string",
+          "description": "consumerId that carries the signal."
+        },
+        "ring": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "targets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "transport"
+            ],
+            "properties": {
+              "routeId": {
+                "type": "string"
+              },
+              "transport": {
+                "type": "string"
+              },
+              "tier": {
+                "type": "string"
+              },
+              "address": {
+                "type": "string"
+              },
+              "topic": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "deliveryRequest": {
+      "type": "object",
+      "required": [
+        "manifest",
+        "bundle"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "manifest": {
+          "$ref": "#/$defs/manifest"
+        },
+        "bundle": {
+          "$ref": "#/$defs/bundle"
+        }
+      },
+      "description": "What UNSaC POSTs to <endpoint>/v1/unsac/release. The edge checks sha256(canonical bundle) against manifest.files['bundles/<consumerId>.json'] before it accepts."
+    },
+    "deliveryReceipt": {
+      "type": "object",
+      "required": [
+        "accepted",
+        "consumerId",
+        "digest",
+        "commit"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "accepted": {
+          "type": "boolean"
+        },
+        "consumerId": {
+          "type": "string"
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$",
+          "description": "sha256 of the bundle as the edge received it."
+        },
+        "commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "reason": {
+          "type": "string",
+          "description": "Why a delivery was refused (accepted false)."
+        }
+      }
+    }
+  }
+}

@@ -145,7 +145,7 @@ osf-schemas/
 │   │   └── quality/                ISA-95 quality: InspectionLot, SPCAnalysis (2 json)
 │   ├── sync/                   Schema 3: Live Sync (transport layer) (1 json)
 │   ├── unit-conversions/       UNECE unit table (discovery-time scale/offset lookup) (1 json)
-│   ├── validation/             ajv meta-schemas (per-file shape validation) (38 json)
+│   ├── validation/             ajv meta-schemas (per-file shape validation) (40 json)
 │   ├── contract.json           GENERATED ontology contract (gen-contract.mjs) — agents read this FIRST
 │   └── standard.json
 ├── CLAUDE.md               agent instructions
