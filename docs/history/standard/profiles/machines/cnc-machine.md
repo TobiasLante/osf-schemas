@@ -41,3 +41,29 @@ Control limits (Warngrenze + Eingriffsgrenze) for active power kW. Inside warn [
 ## constraints › tool_wear_in_range › description
 
 Tool wear must lie between 0 and 100 percent — values outside indicate a sensor / scaling fault. --- 2026-07-12 CAPT-STURM: declares a `persistence` policy (anti-chatter). A single sample outside a band is not a deviation — an EPISODE is. `raise` is a Western-Electric run rule (2 of the last 3 evaluations must breach); `clear` is an ISA-18.2 dead-band (the value must return inside the limit by 15 % of the band width, for 3 evaluations). The LIMITS ARE UNCHANGED — this removes chatter, not signal. Declaring it is now MANDATORY for every live `between`/`within_limits` rule (ci/lint-constraints.mjs, fail-closed): a rule the detector cannot police is a rule that reports its own arithmetic instead of the machine.
+
+## W8-OBJECTS (25.09.2026) — order actuals moved to SMProfile-SegmentResponse
+
+Owner 25.09.2026: an order actual measured at a machine (part counts, order, article, program, tool/mould) belongs to the ISA-95 object SegmentResponse, reported by the machine source through `objects[]`, its UNS path under the machine (`<machine>/segment_response/<attr>`). Full move, standard 3.0.0. The machine class keeps `movedAttributes` as the alias trail; each moved attribute on SegmentResponse names `movedFrom`. Kept on the machine as machine state: IMM `shotCount` (the machine's cycle counter) and CNC `Act_Ref_ToolNumber` (the tool in the spindle, edge telemetry).
+
+- `qty_good` counter as measured on SMProfile-InjectionMoldingMachine.good: {"semantics": "cumulative_resettable", "aggregation": "sum_of_positive_deltas", "resetsObserved": 10, "measuredAt": "2026-07-12"}
+- `SMProfile-InjectionMoldingMachine.good` → `SMProfile-SegmentResponse.qty_good`; its description was: Good parts produced (cumulative). READ IT WITH `counter.aggregation`, NOT max-min: this counter resets.
+- `qty_scrap` counter as measured on SMProfile-InjectionMoldingMachine.scrap: {"semantics": "cumulative_resettable", "aggregation": "sum_of_positive_deltas", "resetsObserved": 10, "measuredAt": "2026-07-12"}
+- `SMProfile-InjectionMoldingMachine.scrap` → `SMProfile-SegmentResponse.qty_scrap`; its description was: Scrap parts (cumulative). READ IT WITH `counter.aggregation`, NOT max-min: this counter resets.
+- `qty_total` counter as measured on SMProfile-InjectionMoldingMachine.total: {"semantics": "cumulative_resettable", "aggregation": "sum_of_positive_deltas", "resetsObserved": 10, "measuredAt": "2026-07-12"}
+- `SMProfile-InjectionMoldingMachine.total` → `SMProfile-SegmentResponse.qty_total`; its description was: Total parts (cumulative). READ IT WITH `counter.aggregation`, NOT max-min: this counter resets.
+- `SMProfile-InjectionMoldingMachine.currentProgram` → `SMProfile-SegmentResponse.program_ref`; its description was: Active program / job on the machine.
+- `SMProfile-InjectionMoldingMachine.mouldId` → `SMProfile-SegmentResponse.tool_ref`; its description was: Mould / tool currently set up (= IMPLEMENTED_BY tool_id).
+- `qty_good` counter as measured on SMProfile-CNC-Machine.Act_Amount_PartGood: {"semantics": "cumulative_resettable", "aggregation": "sum_of_positive_deltas", "resetsObserved": 15, "measuredAt": "2026-07-29"}
+- `SMProfile-CNC-Machine.Act_Amount_PartGood` → `SMProfile-SegmentResponse.qty_good`; its description was: Good parts produced (cumulative). Full text: docs/history/standard/profiles/machines/cnc-machine.md, attributes › Act_Amount_PartGood › description.
+- `qty_scrap` counter as measured on SMProfile-CNC-Machine.Act_Amount_PartScrap: {"semantics": "cumulative_resettable", "aggregation": "sum_of_positive_deltas", "resetsObserved": 14, "measuredAt": "2026-07-29"}
+- `SMProfile-CNC-Machine.Act_Amount_PartScrap` → `SMProfile-SegmentResponse.qty_scrap`; its description was: Scrap parts (cumulative). Full text: docs/history/standard/profiles/machines/cnc-machine.md, attributes › Act_Amount_PartScrap › description.
+- `SMProfile-CNC-Machine.Act_Amount_PartRework` → `SMProfile-SegmentResponse.qty_rework`; its description was: 
+- `SMProfile-CNC-Machine.Act_Ref_ProductionOrder` → `SMProfile-SegmentResponse.production_order_ref`; its description was: 
+- `SMProfile-CNC-Machine.Act_Ref_Article` → `SMProfile-SegmentResponse.article_ref`; its description was: 
+- `SMProfile-CNC-Machine.Act_Ref_Tool` → `SMProfile-SegmentResponse.tool_ref`; its description was: 
+- `SMProfile-CNC-Machine.Act_Ref_Program` → `SMProfile-SegmentResponse.program_ref`; its description was: 
+- `SMProfile-CNC-Machine.Act_Ref_ProgramLine` → `SMProfile-SegmentResponse.program_line`; its description was: 
+- `SMProfile-CNC-Machine.Act_Status_Program` → `SMProfile-SegmentResponse.program_status`; its description was: 
+- attribute-aliases entry [{"profileRef": "SMProfile-CNC-Machine", "attribute": "Act_Amount_PartGood"}, {"profileRef": "SMProfile-InjectionMoldingMachine", "attribute": "good"}] retired: all members are now SMProfile-SegmentResponse.qty_good
+- attribute-aliases entry [{"profileRef": "SMProfile-CNC-Machine", "attribute": "Act_Amount_PartScrap"}, {"profileRef": "SMProfile-InjectionMoldingMachine", "attribute": "scrap"}] retired: all members are now SMProfile-SegmentResponse.qty_scrap

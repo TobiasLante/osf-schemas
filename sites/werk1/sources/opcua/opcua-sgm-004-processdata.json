@@ -1,6 +1,6 @@
 {
   "sourceId": "opcua-sgm-004-processdata",
-  "version": "2.3.0",
+  "version": "3.0.0",
   "sourceType": "opcua",
   "syncType": "streaming",
   "transport": [
@@ -42,21 +42,6 @@
       "dataType": "String"
     },
     {
-      "opcuaNodeId": "ns=1;s=Machine/partsCount/good",
-      "smAttribute": "good",
-      "dataType": "Float64"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Machine/partsCount/scrap",
-      "smAttribute": "scrap",
-      "dataType": "Float64"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Machine/partsCount/total",
-      "smAttribute": "total",
-      "dataType": "Float64"
-    },
-    {
       "opcuaNodeId": "ns=1;s=Machine/uptimeSeconds",
       "smAttribute": "uptimeSeconds",
       "dataType": "Float64"
@@ -75,11 +60,6 @@
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shot/cycleTimeSec",
       "smAttribute": "cycleTimeSec",
       "dataType": "Float64"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shot/currentProgram",
-      "smAttribute": "currentProgram",
-      "dataType": "String"
     },
     {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shot/lastShotAt",
@@ -297,11 +277,6 @@
       "dataType": "Float64"
     },
     {
-      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/mould/mouldId",
-      "smAttribute": "mouldId",
-      "dataType": "String"
-    },
-    {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/mould/lifePercent",
       "smAttribute": "lifePercent",
       "dataType": "Float64"
@@ -433,5 +408,37 @@
     "mode": "None",
     "policy": "None",
     "auth": "Anonymous"
-  }
+  },
+  "objects": [
+    {
+      "profileRef": "SMProfile-SegmentResponse",
+      "nodeMappings": [
+        {
+          "opcuaNodeId": "ns=1;s=Machine/partsCount/good",
+          "smAttribute": "qty_good",
+          "dataType": "Float64"
+        },
+        {
+          "opcuaNodeId": "ns=1;s=Machine/partsCount/scrap",
+          "smAttribute": "qty_scrap",
+          "dataType": "Float64"
+        },
+        {
+          "opcuaNodeId": "ns=1;s=Machine/partsCount/total",
+          "smAttribute": "qty_total",
+          "dataType": "Float64"
+        },
+        {
+          "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shot/currentProgram",
+          "smAttribute": "program_ref",
+          "dataType": "String"
+        },
+        {
+          "opcuaNodeId": "ns=1;s=Machine/typeSpecific/mould/mouldId",
+          "smAttribute": "tool_ref",
+          "dataType": "String"
+        }
+      ]
+    }
+  ]
 }

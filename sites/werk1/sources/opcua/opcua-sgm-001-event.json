@@ -1,6 +1,6 @@
 {
   "sourceId": "opcua-sgm-001-event",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "sourceType": "opcua",
   "syncType": "polling",
   "transport": [
@@ -42,21 +42,6 @@
       "dataType": "ns=0;i=12"
     },
     {
-      "opcuaNodeId": "ns=1;s=Machine/partsCount/good",
-      "smAttribute": "good",
-      "dataType": "ns=0;i=11"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Machine/partsCount/scrap",
-      "smAttribute": "scrap",
-      "dataType": "ns=0;i=11"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Machine/partsCount/total",
-      "smAttribute": "total",
-      "dataType": "ns=0;i=11"
-    },
-    {
       "opcuaNodeId": "ns=1;s=Machine/alarms/_Count",
       "smAttribute": "alarmsCount",
       "dataType": "ns=0;i=6"
@@ -77,18 +62,8 @@
       "dataType": "ns=0;i=11"
     },
     {
-      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shot/currentProgram",
-      "smAttribute": "currentProgram",
-      "dataType": "ns=0;i=12"
-    },
-    {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shot/lastShotAt",
       "smAttribute": "lastShotAt",
-      "dataType": "ns=0;i=12"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/mould/mouldId",
-      "smAttribute": "mouldId",
       "dataType": "ns=0;i=12"
     },
     {
@@ -145,5 +120,37 @@
     "mode": "None",
     "policy": "None",
     "auth": "Anonymous"
-  }
+  },
+  "objects": [
+    {
+      "profileRef": "SMProfile-SegmentResponse",
+      "nodeMappings": [
+        {
+          "opcuaNodeId": "ns=1;s=Machine/partsCount/good",
+          "smAttribute": "qty_good",
+          "dataType": "ns=0;i=11"
+        },
+        {
+          "opcuaNodeId": "ns=1;s=Machine/partsCount/scrap",
+          "smAttribute": "qty_scrap",
+          "dataType": "ns=0;i=11"
+        },
+        {
+          "opcuaNodeId": "ns=1;s=Machine/partsCount/total",
+          "smAttribute": "qty_total",
+          "dataType": "ns=0;i=11"
+        },
+        {
+          "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shot/currentProgram",
+          "smAttribute": "program_ref",
+          "dataType": "ns=0;i=12"
+        },
+        {
+          "opcuaNodeId": "ns=1;s=Machine/typeSpecific/mould/mouldId",
+          "smAttribute": "tool_ref",
+          "dataType": "ns=0;i=12"
+        }
+      ]
+    }
+  ]
 }

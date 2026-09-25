@@ -1,6 +1,6 @@
 {
   "sourceId": "opcua-sgm-006-processdata",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "sourceType": "opcua",
   "syncType": "streaming",
   "transport": [
@@ -299,17 +299,6 @@
         "name"
       ],
       "smAttribute": "phaseName",
-      "dataType": "ns=0;i=12"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/mould/mouldId",
-      "browsePath": [
-        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
-        "typeSpecific",
-        "mould",
-        "mouldId"
-      ],
-      "smAttribute": "mouldId",
       "dataType": "ns=0;i=12"
     },
     {
@@ -1107,5 +1096,23 @@
         "explanation": "No unit reported and none expected"
       }
     ]
-  }
+  },
+  "objects": [
+    {
+      "profileRef": "SMProfile-SegmentResponse",
+      "nodeMappings": [
+        {
+          "opcuaNodeId": "ns=1;s=Machine/typeSpecific/mould/mouldId",
+          "browsePath": [
+            "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+            "typeSpecific",
+            "mould",
+            "mouldId"
+          ],
+          "smAttribute": "tool_ref",
+          "dataType": "ns=0;i=12"
+        }
+      ]
+    }
+  ]
 }

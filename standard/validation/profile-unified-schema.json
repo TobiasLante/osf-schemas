@@ -62,8 +62,40 @@
     "abstract": {
       "type": "boolean"
     },
-    "keyAliases": {"type": "array", "description": "Other properties that identify a node of this class (owner 24.09.2026: the machine key is element_id, machine_id stays an alias). An edge may target an alias (lint-edges E3); the contract lists them as nodes.<label>.keyAliases.", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
-    "settings": {"type": "array", "description": "Machine setting parameters this class declares (W8-RECIPE, owner 24.09.2026): the class says WHICH settings exist, each instance holds its values in sites/<site>/settings/<instance>.settings.json. Independent of any recipe; part values never go here.", "items": {"type": "object", "required": ["ref", "shape"], "additionalProperties": false, "properties": {"ref": {"type": "string", "pattern": "^recipe:[a-z0-9_]+$"}, "shape": {"enum": ["band", "limits"], "description": "band = [lo, hi]; limits = { warn: [lo, hi], action: [lo, hi] }"}}}},
+    "keyAliases": {
+      "type": "array",
+      "description": "Other properties that identify a node of this class (owner 24.09.2026: the machine key is element_id, machine_id stays an alias). An edge may target an alias (lint-edges E3); the contract lists them as nodes.<label>.keyAliases.",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "settings": {
+      "type": "array",
+      "description": "Machine setting parameters this class declares (W8-RECIPE, owner 24.09.2026): the class says WHICH settings exist, each instance holds its values in sites/<site>/settings/<instance>.settings.json. Independent of any recipe; part values never go here.",
+      "items": {
+        "type": "object",
+        "required": [
+          "ref",
+          "shape"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "ref": {
+            "type": "string",
+            "pattern": "^recipe:[a-z0-9_]+$"
+          },
+          "shape": {
+            "enum": [
+              "band",
+              "limits"
+            ],
+            "description": "band = [lo, hi]; limits = { warn: [lo, hi], action: [lo, hi] }"
+          }
+        }
+      }
+    },
     "kpiRefs": {
       "type": "array",
       "items": {
@@ -118,7 +150,13 @@
           },
           "valueType": {
             "type": "string",
-            "enum": ["PV", "SP", "ID", "LIM", "MD"],
+            "enum": [
+              "PV",
+              "SP",
+              "ID",
+              "LIM",
+              "MD"
+            ],
             "description": "What kind of value: PV measured/actual (IST), SP commanded/planned (SOLL), ID identifier or reference, LIM enforced bound, MD master data. Declared where the repo implies it (Act_/Set_/Plan_ prefixes, Setpoint, recipe targets, kgIdProperty, *_ref); never guessed. ci/lint-value-type.mjs."
           },
           "currency": {
@@ -178,9 +216,60 @@
           },
           "counter": {
             "$ref": "#/definitions/counter"
+          },
+          "movedFrom": {
+            "type": "array",
+            "description": "Alias trail (owner 25.09.): the attributes of other classes this one replaced — the machine class names the move in movedAttributes.",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "profileRef",
+                "attribute"
+              ],
+              "properties": {
+                "profileRef": {
+                  "type": "string",
+                  "pattern": "^SMProfile-"
+                },
+                "attribute": {
+                  "type": "string"
+                }
+              }
+            }
           }
         },
         "additionalProperties": false
+      }
+    },
+    "movedAttributes": {
+      "type": "array",
+      "description": "Alias trail of attributes that left this class for another (owner 25.09.): a source that still maps `name` on this class is told where it went.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "to",
+          "as",
+          "since"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "to": {
+            "type": "string",
+            "pattern": "^SMProfile-"
+          },
+          "as": {
+            "type": "string"
+          },
+          "since": {
+            "type": "string",
+            "pattern": "^\\d+\\.\\d+\\.\\d+$"
+          }
+        }
       }
     },
     "relationships": {
@@ -201,7 +290,13 @@
           },
           "targetIdProp": {
             "type": "string"
-          }, "resolvedBy": {"enum": ["instances"], "description": "The target is an equipment level (instance-schema equipmentLevel) and the edge resolves through the partOf chain of sites/<site>/instances; no targetIdProp then (Welle 8, customer reference-concept 25.09.)."},
+          },
+          "resolvedBy": {
+            "enum": [
+              "instances"
+            ],
+            "description": "The target is an equipment level (instance-schema equipmentLevel) and the edge resolves through the partOf chain of sites/<site>/instances; no targetIdProp then (Welle 8, customer reference-concept 25.09.)."
+          },
           "timeBounded": {
             "type": "boolean"
           },
@@ -248,7 +343,22 @@
         "equipmentLevel": {
           "type": "string",
           "description": "Same list as intelligence-profile-schema.json: the ISA-88 levels of standard/validation/naming-standard.md plus the ISA-95 Part 2 role-based equipment types.",
-          "enum": ["Enterprise", "Site", "Area", "ProcessCell", "EquipmentUnit", "EquipmentModule", "ControlModule", "ProductionLine", "WorkCell", "ProductionUnit", "StorageZone", "StorageUnit", "WorkCenter", "WorkUnit"]
+          "enum": [
+            "Enterprise",
+            "Site",
+            "Area",
+            "ProcessCell",
+            "EquipmentUnit",
+            "EquipmentModule",
+            "ControlModule",
+            "ProductionLine",
+            "WorkCell",
+            "ProductionUnit",
+            "StorageZone",
+            "StorageUnit",
+            "WorkCenter",
+            "WorkUnit"
+          ]
         },
         "equipmentClass": {
           "type": "string"
@@ -359,7 +469,12 @@
       "if": {
         "properties": {
           "category": {
-            "enum": ["equipment", "business", "material", "quality"]
+            "enum": [
+              "equipment",
+              "business",
+              "material",
+              "quality"
+            ]
           }
         },
         "required": [

@@ -10,6 +10,7 @@
         "machine"
       ],
       "path": "{enterprise}/{site}/{area}/{line}/{machine}",
+      "pathAtMachine": "{enterprise}/{site}/{area}/{line}/{machine}/{entity}",
       "sink": {
         "type": "nats",
         "server": "nats://osf-nats-hub:4222",
@@ -27,7 +28,6 @@
       "pathByLevel": {
         "4": "{enterprise}/{entity}"
       },
-      "pathAtMachine": "{enterprise}/{site}/{area}/{line}/{machine}/{entity}",
       "payloadField": true,
       "runtimeTokens": [
         "eventType",

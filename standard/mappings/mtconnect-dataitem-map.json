@@ -20,12 +20,12 @@
       "unit": "P1",
       "_note": "MTConnect TOOL_LIFE is remaining-life %; mapped to Act_Pct_ToolWear for the demo (semantic inversion documented, not corrected)."
     },
-    { "dataItemSuffix": "-parts-good", "category": "EVENT", "smAttribute": "Act_Amount_PartGood", "dataType": "Int32" },
-    { "dataItemSuffix": "-parts-scrap", "category": "EVENT", "smAttribute": "Act_Amount_PartScrap", "dataType": "Int32" },
-    { "dataItemSuffix": "-program", "category": "EVENT", "smAttribute": "Act_Ref_Program", "dataType": "String" },
-    { "dataItemSuffix": "-tool", "category": "EVENT", "smAttribute": "Act_Ref_Tool", "dataType": "String" },
+    { "dataItemSuffix": "-parts-good", "category": "EVENT", "smAttribute": "qty_good", "profileRef": "SMProfile-SegmentResponse", "dataType": "Int32" },
+    { "dataItemSuffix": "-parts-scrap", "category": "EVENT", "smAttribute": "qty_scrap", "profileRef": "SMProfile-SegmentResponse", "dataType": "Int32" },
+    { "dataItemSuffix": "-program", "category": "EVENT", "smAttribute": "program_ref", "profileRef": "SMProfile-SegmentResponse", "dataType": "String" },
+    { "dataItemSuffix": "-tool", "category": "EVENT", "smAttribute": "tool_ref", "profileRef": "SMProfile-SegmentResponse", "dataType": "String" },
     { "dataItemSuffix": "-mode", "category": "EVENT", "smAttribute": "Act_Text_MachineMode", "dataType": "String" },
-    { "dataItemSuffix": "-exec", "category": "EVENT", "smAttribute": "Act_Status_Program", "dataType": "String" },
+    { "dataItemSuffix": "-exec", "category": "EVENT", "smAttribute": "program_status", "profileRef": "SMProfile-SegmentResponse", "dataType": "String" },
     {
       "dataItemSuffix": "-exec",
       "category": "EVENT",

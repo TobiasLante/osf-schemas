@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-SegmentResponse",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "standard": "ISA-95",
   "category": "business",
   "displayName": "Segment Response (segment actuals per order)",
@@ -101,9 +101,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "quality": {
-        "onBad": "flag"
-      }
+      "quality": { "onBad": "flag" }
     },
     {
       "name": "unit_of_measure",
@@ -135,9 +133,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "quality": {
-        "onBad": "flag"
-      }
+      "quality": { "onBad": "flag" }
     },
     {
       "name": "actual_end_time",
@@ -148,9 +144,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "quality": {
-        "onBad": "flag"
-      }
+      "quality": { "onBad": "flag" }
     },
     {
       "name": "status",
@@ -161,36 +155,155 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "quality": {
-        "onBad": "flag"
-      }
+      "quality": { "onBad": "flag" }
+    },
+    {
+      "name": "qty_good",
+      "dataType": "Int32",
+      "required": false,
+      "category": "BDE",
+      "valueType": "PV",
+      "description": "Good parts counted at the machine for the running order. Reported by the machine source through objects[] (owner 25.09.); history: docs/history/standard/profiles/operations/segment-response.md.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "counter": { "semantics": "cumulative_resettable", "aggregation": "sum_of_positive_deltas" },
+      "movedFrom": [
+        { "profileRef": "SMProfile-InjectionMoldingMachine", "attribute": "good" },
+        { "profileRef": "SMProfile-CNC-Machine", "attribute": "Act_Amount_PartGood" }
+      ]
+    },
+    {
+      "name": "qty_scrap",
+      "dataType": "Int32",
+      "required": false,
+      "category": "BDE",
+      "valueType": "PV",
+      "description": "Scrap parts counted at the machine for the running order. Reported by the machine source through objects[] (owner 25.09.); history: docs/history/standard/profiles/operations/segment-response.md.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "counter": { "semantics": "cumulative_resettable", "aggregation": "sum_of_positive_deltas" },
+      "movedFrom": [
+        { "profileRef": "SMProfile-InjectionMoldingMachine", "attribute": "scrap" },
+        { "profileRef": "SMProfile-CNC-Machine", "attribute": "Act_Amount_PartScrap" }
+      ]
+    },
+    {
+      "name": "qty_total",
+      "dataType": "Int32",
+      "required": false,
+      "category": "BDE",
+      "description": "All parts (good + scrap) counted at the machine for the running order. Reported by the machine source through objects[] (owner 25.09.); history: docs/history/standard/profiles/operations/segment-response.md.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "counter": { "semantics": "cumulative_resettable", "aggregation": "sum_of_positive_deltas" },
+      "movedFrom": [
+        { "profileRef": "SMProfile-InjectionMoldingMachine", "attribute": "total" }
+      ]
+    },
+    {
+      "name": "program_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "BDE",
+      "valueType": "ID",
+      "description": "The NC or machine program the machine reports as active. Reported by the machine source through objects[] (owner 25.09.); history: docs/history/standard/profiles/operations/segment-response.md.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "movedFrom": [
+        { "profileRef": "SMProfile-InjectionMoldingMachine", "attribute": "currentProgram" },
+        { "profileRef": "SMProfile-CNC-Machine", "attribute": "Act_Ref_Program" }
+      ]
+    },
+    {
+      "name": "tool_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "valueType": "ID",
+      "description": "The tool or mould the machine reports as set up for the order. Reported by the machine source through objects[] (owner 25.09.); history: docs/history/standard/profiles/operations/segment-response.md.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "movedFrom": [
+        { "profileRef": "SMProfile-InjectionMoldingMachine", "attribute": "mouldId" },
+        { "profileRef": "SMProfile-CNC-Machine", "attribute": "Act_Ref_Tool" }
+      ]
+    },
+    {
+      "name": "qty_rework",
+      "dataType": "Int32",
+      "required": false,
+      "valueType": "PV",
+      "description": "Parts sent to rework, counted at the machine for the running order. Reported by the machine source through objects[] (owner 25.09.); history: docs/history/standard/profiles/operations/segment-response.md.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "movedFrom": [
+        { "profileRef": "SMProfile-CNC-Machine", "attribute": "Act_Amount_PartRework" }
+      ]
+    },
+    {
+      "name": "production_order_ref",
+      "dataType": "String",
+      "required": false,
+      "valueType": "ID",
+      "description": "The production order the machine reports it is running. Reported by the machine source through objects[] (owner 25.09.); history: docs/history/standard/profiles/operations/segment-response.md.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "movedFrom": [
+        { "profileRef": "SMProfile-CNC-Machine", "attribute": "Act_Ref_ProductionOrder" }
+      ]
+    },
+    {
+      "name": "article_ref",
+      "dataType": "String",
+      "required": false,
+      "valueType": "ID",
+      "description": "The article the machine reports it is producing. Reported by the machine source through objects[] (owner 25.09.); history: docs/history/standard/profiles/operations/segment-response.md.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "movedFrom": [
+        { "profileRef": "SMProfile-CNC-Machine", "attribute": "Act_Ref_Article" }
+      ]
+    },
+    {
+      "name": "program_line",
+      "dataType": "Int32",
+      "required": false,
+      "valueType": "ID",
+      "description": "The active line of the running program. Reported by the machine source through objects[] (owner 25.09.); history: docs/history/standard/profiles/operations/segment-response.md.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "movedFrom": [
+        { "profileRef": "SMProfile-CNC-Machine", "attribute": "Act_Ref_ProgramLine" }
+      ]
+    },
+    {
+      "name": "program_status",
+      "dataType": "String",
+      "required": false,
+      "valueType": "PV",
+      "description": "The state of the running program (running, stopped, …). Reported by the machine source through objects[] (owner 25.09.); history: docs/history/standard/profiles/operations/segment-response.md.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "movedFrom": [
+        { "profileRef": "SMProfile-CNC-Machine", "attribute": "Act_Status_Program" }
+      ]
     }
   ],
   "relationships": [
-    {
-      "type": "PART_OF",
-      "target": "OperationsResponse",
-      "targetIdProp": "production_order_no",
-      "description": "The order actuals that contain these segment actuals."
-    },
-    {
-      "type": "RESPONDS_TO",
-      "target": "SegmentRequirement",
-      "targetIdProp": "segment_requirement_no",
-      "description": "ISA-95 'corresponds to' — the target segment."
-    },
-    {
-      "type": "FOR_PROCESS_SEGMENT",
-      "target": "ProcessSegment",
-      "targetIdProp": "process_segment_no",
-      "description": "The executed manufacturing stage (= plant = Function)."
-    },
-    {
-      "type": "ACTUAL_MATERIAL",
-      "target": "MaterialLot",
-      "targetIdProp": "material_lot_no",
-      "description": "The material lot consumed/produced; role via material_use."
-    },
+    { "type": "PART_OF", "target": "OperationsResponse", "targetIdProp": "production_order_no", "description": "The order actuals that contain these segment actuals." },
+    { "type": "RESPONDS_TO", "target": "SegmentRequirement", "targetIdProp": "segment_requirement_no", "description": "ISA-95 'corresponds to' — the target segment." },
+    { "type": "FOR_PROCESS_SEGMENT", "target": "ProcessSegment", "targetIdProp": "process_segment_no", "description": "The executed manufacturing stage (= plant = Function)." },
+    { "type": "ACTUAL_MATERIAL", "target": "MaterialLot", "targetIdProp": "material_lot_no", "description": "The material lot consumed/produced; role via material_use." },
     {
       "type": "ACTUAL_EQUIPMENT",
       "target": "Machine",

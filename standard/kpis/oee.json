@@ -1,6 +1,6 @@
 {
   "kpiId": "KPI-OEE",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "displayName": "OEE (live quality-factor proxy)",
   "description": "HONEST SCOPE: this is NOT full OEE. Full text: docs/history/standard/kpis/oee.md, description.",
   "unit": "%",
@@ -8,14 +8,7 @@
   "calculation": {
     "inputs": ["part_good", "part_scrap"],
     "inputMappings": {
-      "SMProfile-InjectionMoldingMachine": {
-        "good": "part_good",
-        "scrap": "part_scrap"
-      },
-      "SMProfile-CNC-Machine": {
-        "Act_Amount_PartGood": "part_good",
-        "Act_Amount_PartScrap": "part_scrap"
-      }
+      "SMProfile-SegmentResponse": { "qty_good": "part_good", "qty_scrap": "part_scrap" }
     },
     "cypher": "CASE WHEN (m.part_good + m.part_scrap) = 0 THEN null ELSE round(toFloat(m.part_good) / (m.part_good + m.part_scrap) * 1000) / 10 END"
   },

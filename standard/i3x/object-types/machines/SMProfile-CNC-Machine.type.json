@@ -2,7 +2,7 @@
   "elementId": "SMProfile-CNC-Machine",
   "displayName": "CNC Machine",
   "namespaceUri": "urn:osf:schemas:machines",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "schema": {
     "description": "CNC machining center + constraints facet. Full text: docs/history/standard/profiles/machines/cnc-machine.md, description.",
     "allOf": [
@@ -34,44 +34,6 @@
               "MANUAL",
               "SETUP"
             ],
-            "x-delivery": "transactional",
-            "x-scope": "hub",
-            "x-promotion": "on_change",
-            "x-valueType": "PV"
-          },
-          "Act_Amount_PartGood": {
-            "type": "integer",
-            "description": "Good parts produced (cumulative). Full text: docs/history/standard/profiles/machines/cnc-machine.md, attributes › Act_Amount_PartGood › description.",
-            "x-dataType": "Int32",
-            "x-counter": {
-              "semantics": "cumulative_resettable",
-              "aggregation": "sum_of_positive_deltas",
-              "resetsObserved": 15,
-              "measuredAt": "2026-07-29"
-            },
-            "x-delivery": "transactional",
-            "x-scope": "hub",
-            "x-promotion": "on_change",
-            "x-valueType": "PV"
-          },
-          "Act_Amount_PartScrap": {
-            "type": "integer",
-            "description": "Scrap parts (cumulative). Full text: docs/history/standard/profiles/machines/cnc-machine.md, attributes › Act_Amount_PartScrap › description.",
-            "x-dataType": "Int32",
-            "x-counter": {
-              "semantics": "cumulative_resettable",
-              "aggregation": "sum_of_positive_deltas",
-              "resetsObserved": 14,
-              "measuredAt": "2026-07-29"
-            },
-            "x-delivery": "transactional",
-            "x-scope": "hub",
-            "x-promotion": "on_change",
-            "x-valueType": "PV"
-          },
-          "Act_Amount_PartRework": {
-            "type": "integer",
-            "x-dataType": "Int32",
             "x-delivery": "transactional",
             "x-scope": "hub",
             "x-promotion": "on_change",
@@ -115,27 +77,6 @@
             "x-scope": "edge",
             "x-promotion": "raw",
             "x-valueType": "PV"
-          },
-          "Act_Ref_ProductionOrder": {
-            "type": "string",
-            "x-delivery": "transactional",
-            "x-scope": "hub",
-            "x-promotion": "on_change",
-            "x-valueType": "ID"
-          },
-          "Act_Ref_Article": {
-            "type": "string",
-            "x-delivery": "transactional",
-            "x-scope": "hub",
-            "x-promotion": "on_change",
-            "x-valueType": "ID"
-          },
-          "Act_Ref_Tool": {
-            "type": "string",
-            "x-delivery": "transactional",
-            "x-scope": "hub",
-            "x-promotion": "on_change",
-            "x-valueType": "ID"
           },
           "Act_Ref_Shift": {
             "type": "integer",
@@ -270,28 +211,6 @@
             "x-delivery": "telemetry",
             "x-scope": "edge",
             "x-promotion": "raw",
-            "x-valueType": "PV"
-          },
-          "Act_Ref_Program": {
-            "type": "string",
-            "x-delivery": "transactional",
-            "x-scope": "hub",
-            "x-promotion": "on_change",
-            "x-valueType": "ID"
-          },
-          "Act_Ref_ProgramLine": {
-            "type": "integer",
-            "x-dataType": "Int32",
-            "x-delivery": "transactional",
-            "x-scope": "hub",
-            "x-promotion": "on_change",
-            "x-valueType": "ID"
-          },
-          "Act_Status_Program": {
-            "type": "string",
-            "x-delivery": "transactional",
-            "x-scope": "hub",
-            "x-promotion": "on_change",
             "x-valueType": "PV"
           },
           "Act_State_InCycle": {
@@ -591,21 +510,71 @@
     "keyAliases": [
       "machine_id"
     ],
+    "movedAttributes": [
+      {
+        "name": "Act_Amount_PartGood",
+        "to": "SMProfile-SegmentResponse",
+        "as": "qty_good",
+        "since": "3.0.0"
+      },
+      {
+        "name": "Act_Amount_PartScrap",
+        "to": "SMProfile-SegmentResponse",
+        "as": "qty_scrap",
+        "since": "3.0.0"
+      },
+      {
+        "name": "Act_Amount_PartRework",
+        "to": "SMProfile-SegmentResponse",
+        "as": "qty_rework",
+        "since": "3.0.0"
+      },
+      {
+        "name": "Act_Ref_ProductionOrder",
+        "to": "SMProfile-SegmentResponse",
+        "as": "production_order_ref",
+        "since": "3.0.0"
+      },
+      {
+        "name": "Act_Ref_Article",
+        "to": "SMProfile-SegmentResponse",
+        "as": "article_ref",
+        "since": "3.0.0"
+      },
+      {
+        "name": "Act_Ref_Tool",
+        "to": "SMProfile-SegmentResponse",
+        "as": "tool_ref",
+        "since": "3.0.0"
+      },
+      {
+        "name": "Act_Ref_Program",
+        "to": "SMProfile-SegmentResponse",
+        "as": "program_ref",
+        "since": "3.0.0"
+      },
+      {
+        "name": "Act_Ref_ProgramLine",
+        "to": "SMProfile-SegmentResponse",
+        "as": "program_line",
+        "since": "3.0.0"
+      },
+      {
+        "name": "Act_Status_Program",
+        "to": "SMProfile-SegmentResponse",
+        "as": "program_status",
+        "since": "3.0.0"
+      }
+    ],
     "parentType": "Machine",
     "requiredDeclaredOn": [
       "Act_Status_Machine",
       "Act_Text_MachineMode",
-      "Act_Amount_PartGood",
-      "Act_Amount_PartScrap",
-      "Act_Amount_PartRework",
       "Act_Amount_Alarm",
       "Plan_Time_Cycle",
       "Act_Time_Cycle",
       "Act_Energy_Power",
       "Act_Energy_Total",
-      "Act_Ref_ProductionOrder",
-      "Act_Ref_Article",
-      "Act_Ref_Tool",
       "Act_Ref_Shift",
       "Act_Ref_Operator",
       "Act_Speed_Spindle",
@@ -624,9 +593,6 @@
       "Act_Ref_ToolNumber",
       "Act_Pct_ToolWear",
       "Act_Time_ToolLifeRemaining",
-      "Act_Ref_Program",
-      "Act_Ref_ProgramLine",
-      "Act_Status_Program",
       "Act_State_InCycle",
       "Act_Rate_CoolantFlow",
       "Act_Temp_Coolant",
