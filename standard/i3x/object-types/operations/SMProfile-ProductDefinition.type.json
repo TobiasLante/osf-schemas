@@ -42,7 +42,7 @@
       },
       "article_ref": {
         "type": "string",
-        "description": "FK to Article.article_no (SPEC_FOR). The article this spec defines — the FO/recipe join point. First binding axis.",
+        "description": "FK to Article.article_no, reached via OperationsSegment SPECIFIES_MATERIAL. The article this spec defines — the FO/recipe join point. First binding axis.",
         "x-category": "Link",
         "x-delivery": "transactional",
         "x-scope": "hub",
@@ -51,7 +51,7 @@
       },
       "equipment_class_ref": {
         "type": "string",
-        "description": "Optional FK to an EquipmentClass/line the spec is restricted to (APPLIES_TO). Second binding axis.",
+        "description": "Optional FK to an EquipmentClass/line the spec is restricted to, reached via OperationsSegment SPECIFIES_EQUIPMENT. Second binding axis.",
         "x-category": "Link",
         "x-delivery": "transactional",
         "x-scope": "hub",
@@ -148,20 +148,7 @@
     "standard": "ISA-95",
     "category": "business",
     "abstract": false,
-    "relationships": [
-      {
-        "type": "SPEC_FOR",
-        "target": "Article",
-        "targetIdProp": "article_no",
-        "description": "The specification applies to this article (article_ref -> Article.article_no). First recipe-binding axis."
-      },
-      {
-        "type": "APPLIES_TO",
-        "target": "EquipmentClass",
-        "description": "Optionally restricted to an equipment class / line (equipment_class_ref). Second binding axis.",
-        "targetIdProp": "equipment_class_id"
-      }
-    ],
+    "relationships": [],
     "constraints": [],
     "semantics": [],
     "kpiRefs": [],

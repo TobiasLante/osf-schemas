@@ -30,7 +30,7 @@ Customer-neutral by construction: the profiles define the *shape*, never a custo
 
 ```
 OperationsDefinition (master / Fertigungsweg) ProcessSegment (= plant = Function)
- │ CONTAINS_SEGMENT │ SPECIFIES_EQUIPMENT
+ │ MADE_UP_OF→OperationsSegment→FOR_PROCESS_SEGMENT │ SPECIFIES_EQUIPMENT
  ▼ ▼
 ProductionOrder ──FOR_OPERATIONS_DEFINITION──▶ OperationsDefinition Unit (ISA-88)
  (OperationsRequest, PLAN) ▲
@@ -40,7 +40,7 @@ SegmentRequirement ──FOR_PROCESS_SEGMENT──▶ ProcessSegment REQUIRES_MA
  (PLAN per segment, material_use role) │ RESPONDS_TO
  ▲ ▼
 Workorder ─FOR_OPERATIONS_REQUEST▶ ProductionOrder SegmentResponse (IST per segment)
- │ YIELDS │ ACTUAL_MATERIAL
+ │ MADE_UP_OF→JobOrder→REQUIRES_MATERIAL │ ACTUAL_MATERIAL
  ▼ ▼
  MaterialLot ◀──── (Consumed / Produced) ──── MaterialLot
 OperationsResponse (IST) ──MADE_UP_OF──▶ SegmentResponse

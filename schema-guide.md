@@ -43,14 +43,14 @@ osf-schemas/
 │   │   ├── postgresql-cagg/         (1 json)
 │   │   ├── postgresql-pivot/        (1 json)
 │   │   └── views/                   (1 json)
-│   ├── i3x/                    GENERATED i3X 1.0 form of profiles/ (i3x-v5 schemas-ci/gen-i3x.mjs): Object Types as JSON Schema, Relationship Types with reverseOf (32 json)
+│   ├── i3x/                    GENERATED i3X 1.0 form of profiles/ (i3x-v5 schemas-ci/gen-i3x.mjs): Object Types as JSON Schema, Relationship Types with reverseOf (34 json)
 │   ├── kpis/                   KPI definitions — inputs drawn from the source-fed vocabulary (lint-kpis) (6 json)
 │   ├── mappings/               protocol canon: DataItem/tag → SM attribute (SSOT for discovery + gen-flows) (3 json)
 │   ├── profiles/               Schema 1: SM Profiles (type system)
 │   │   ├── equipment/              ISA-95 equipment: Machine (abstract parent), CNC_Machine, InjectionMoldingMachine, EquipmentClass, EquipmentModel (compact), Tool (6 json)
 │   │   ├── intelligence/           multi-truth layer: Discrepancy, ResolutionProposal, AutoResolveRule, … (5 json)
 │   │   ├── material/               ISA-95 material: Article (MaterialDefinition), MaterialItem, MaterialLot, Quant (MaterialSubLot), StorageLocation (5 json)
-│   │   ├── operations/             ISA-95 operations (Part 2 + WorkRequest): OperationsDefinition, ProcessSegment, Segment{Requirement,Response}, ProductionOrder, ProductDefinition, (Operations)Response, BdeConfirmation, Workorder, ShiftWindow, Customer(-Order) (13 json)
+│   │   ├── operations/             ISA-95 operations (Part 2 + WorkRequest): OperationsDefinition, ProcessSegment, Segment{Requirement,Response}, ProductionOrder, ProductDefinition, (Operations)Response, BdeConfirmation, Workorder, ShiftWindow, Customer(-Order) (15 json)
 │   │   └── quality/                ISA-95 quality: InspectionLot, SPCAnalysis (2 json)
 │   ├── sync/                   Schema 3: Live Sync (transport layer) (1 json)
 │   ├── unit-conversions/       UNECE unit table (discovery-time scale/offset lookup) (1 json)
@@ -77,7 +77,7 @@ Alles aus der v3-Ära (PostgreSQL-Sources, MQTT-UNS-/Kafka-/Webhook-Syncs) liegt
 <!-- gen:counts:begin -->
 | Category | Count | Files |
 |---|---|---|
-| Profiles | 31 | equipment 6 · intelligence 5 · material 5 · operations 13 · quality 2 |
+| Profiles | 33 | equipment 6 · intelligence 5 · material 5 · operations 15 · quality 2 |
 | Sources — mtconnect | 2 | mtconnect-cnc-01, mtconnect-cnc-mtc-02 |
 | Sources — opcua | 15 | opcua-cnc-001-event, opcua-cnc-001-telemetry, opcua-cnc-002-event, opcua-cnc-002-telemetry, opcua-ftlinx-01-event, opcua-ftlinx-01-telemetry, opcua-mtbridge-cnc-01, opcua-rockwell-01-event, opcua-rockwell-01-telemetry, opcua-sgm-001-event, opcua-sgm-001-telemetry, opcua-sgm-004-processdata, opcua-sgm-005-processdata, opcua-sgm-006-bde, opcua-sgm-006-processdata |
 | Sources — rest | 10 | erp-bde-confirmations, erp-operations-response, erp-production-orders, erp-segment-requirements, erp-segment-responses, sim-v5-erp-articles, sim-v5-erp-calendar, sim-v5-erp-customers, sim-v5-qms-inspections, sim-v5-wms-quants |
@@ -88,7 +88,7 @@ Alles aus der v3-Ära (PostgreSQL-Sources, MQTT-UNS-/Kafka-/Webhook-Syncs) liegt
 | Recipes | 5 (2 parked) | recipe-sgm-004-pa66gf30-bracket-b *(parked)*, recipe-sgm-004-pa66gf30-housing-a *(parked)*, recipe-v4-12-0044-003-pa66gf30, recipe-v4-14-1300-040-pmma, recipe-wip-housing-base-asa-pc |
 | KPIs | 6 (2 parked) | availability, energy-per-part *(parked)*, oee, performance *(parked)*, quality-rate, scrap-rate |
 
-Measured from the tree by `i3x-v5 packages/schemas-ci/osf/gen-docs.mjs` — the same sums `lint-refs` prints (`lint-refs: 31 profiles, 27 sources, 5 sync files`).
+Measured from the tree by `i3x-v5 packages/schemas-ci/osf/gen-docs.mjs` — the same sums `lint-refs` prints (`lint-refs: 33 profiles, 27 sources, 5 sync files`).
 <!-- gen:counts:end -->
 
 ---
@@ -255,7 +255,7 @@ When `parentType` is set, the KG Builder merges at load time:
 3. **Multi-level**: grandparent → parent → child works (resolved depth-first).
 4. **Cycles**: detected and broken silently (partial inheritance).
 
-**Example:** `CNC_Machine` has `parentType: "Machine"`. `Machine` is a **thin abstract parent** — it carries the identity (`machine_id`) and 3 relationships (`EXECUTES`, `PART_OF`, `PRODUCES`) and **zero attributes of its own**. After inheritance, `CNC_Machine` keeps its own attribute set and gains the 3 Machine relationships plus the `:Machine` parent label.
+**Example:** `CNC_Machine` has `parentType: "Machine"`. `Machine` is a **thin abstract parent** — it carries the identity (`machine_id`) and its relationships (`PART_OF` direct; Order/Article reached via SegmentRequirement/Response) and **zero attributes of its own**. After inheritance, `CNC_Machine` keeps its own attribute set and gains the Machine relationships plus the `:Machine` parent label.
 
 ### What the builder does
 
@@ -301,12 +301,11 @@ Shortened from the real `sites/werk1/sources/rest/erp-production-orders.json`:
     { "column": "article_no", "smAttribute": "article_ref" },
     { "column": "machine_no", "smAttribute": "machine_ref" }
   ],
-  "edges": [
-    { "type": "PRODUCES", "fkColumn": "article_no", "targetIdProp": "article_no" },
-    { "type": "EXECUTED_AT", "fkColumn": "machine_no", "targetIdProp": "machine_id" }
-  ]
+  "edges": []
 }
 ```
+
+`edges` is empty here — the article and machine now reach `ProductionOrder` through `SegmentRequirement` (`REQUIRES_MATERIAL` / `REQUIRES_EQUIPMENT`, declared in `erp-segment-requirements.json`), not a direct edge from this source.
 
 ### OPC-UA Source (machines)
 
@@ -478,22 +477,24 @@ Phase 5: Embeddings
 | targetIdProp | Resolves to label(s) | Edge rules using it |
 |---|---|---|
 | `analysis_id` | SPCAnalysis | — |
-| `article_no` | Article | 9 |
+| `article_no` | Article | 4 |
 | `change_request_id` | ChangeRequest | — |
 | `confirmation_no` | BdeConfirmation | — |
 | `customer_no` | Customer | — |
 | `discrepancy_id` | ConstraintDiscrepancy, Discrepancy | — |
 | `element_id` | CNC_Machine, InjectionMoldingMachine, Machine | — |
 | `equipment_class_id` | EquipmentClass | 1 |
-| `lot_no` | InspectionLot | — |
-| `machine_id` | ⚠ **none** — no profile declares this key (see `contract.json` → `unresolvedTargets`) | 6 |
+| `job_order_no` | JobOrder | — |
+| `lot_no` | InspectionLot | 1 |
+| `machine_id` | ⚠ **none** — no profile declares this key (see `contract.json` → `unresolvedTargets`) | 5 |
 | `material_item_id` | MaterialItem | — |
-| `material_lot_no` | MaterialLot | 2 |
+| `material_lot_no` | MaterialLot | 1 |
 | `operations_definition_no` | OperationsDefinition | 2 |
+| `operations_segment_no` | OperationsSegment | — |
 | `order_no` | CustomerOrder | — |
 | `process_segment_no` | ProcessSegment | 3 |
 | `product_definition_no` | ProductDefinition | — |
-| `production_order_no` | OperationsResponse, ProductionOrder | 5 |
+| `production_order_no` | OperationsResponse, ProductionOrder | 4 |
 | `proposal_id` | ResolutionProposal | — |
 | `quant_no` | Quant | 1 |
 | `response_id` | Response | — |

@@ -163,6 +163,14 @@
       "abstract": false,
       "source": "standard/profiles/operations/customer.json"
     },
+    "JobOrder": {
+      "key": "job_order_no",
+      "profile": "SMProfile-JobOrder",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/operations/job-order.json"
+    },
     "OperationsDefinition": {
       "key": "operations_definition_no",
       "profile": "SMProfile-OperationsDefinition",
@@ -178,6 +186,14 @@
       "parentType": "Response",
       "abstract": false,
       "source": "standard/profiles/operations/operations-response.json"
+    },
+    "OperationsSegment": {
+      "key": "operations_segment_no",
+      "profile": "SMProfile-OperationsSegment",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/operations/operations-segment.json"
     },
     "ProcessSegment": {
       "key": "process_segment_no",
@@ -274,13 +290,33 @@
       ]
     },
     {
-      "type": "EXECUTES",
-      "from": "Machine",
+      "type": "PART_OF",
+      "from": "JobOrder",
       "to": [
-        "ProductionOrder"
+        "Workorder"
       ],
       "targetIdProp": [
-        "production_order_no"
+        "workorder_no"
+      ]
+    },
+    {
+      "type": "REQUIRES_EQUIPMENT",
+      "from": "JobOrder",
+      "to": [
+        "Machine"
+      ],
+      "targetIdProp": [
+        "machine_id"
+      ]
+    },
+    {
+      "type": "REQUIRES_MATERIAL",
+      "from": "JobOrder",
+      "to": [
+        "MaterialLot"
+      ],
+      "targetIdProp": [
+        "lot_no"
       ]
     },
     {
@@ -321,36 +357,6 @@
       ]
     },
     {
-      "type": "PRODUCED_BY",
-      "from": "MaterialLot",
-      "to": [
-        "Workorder"
-      ],
-      "targetIdProp": [
-        "workorder_no"
-      ]
-    },
-    {
-      "type": "CONTAINS_SEGMENT",
-      "from": "OperationsDefinition",
-      "to": [
-        "ProcessSegment"
-      ],
-      "targetIdProp": [
-        "process_segment_no"
-      ]
-    },
-    {
-      "type": "FOR_ARTICLE",
-      "from": "OperationsDefinition",
-      "to": [
-        "Article"
-      ],
-      "targetIdProp": [
-        "article_no"
-      ]
-    },
-    {
       "type": "MADE_UP_OF",
       "from": "OperationsResponse",
       "to": [
@@ -361,13 +367,43 @@
       ]
     },
     {
+      "type": "FOR_PROCESS_SEGMENT",
+      "from": "OperationsSegment",
+      "to": [
+        "ProcessSegment"
+      ],
+      "targetIdProp": [
+        "process_segment_no"
+      ]
+    },
+    {
       "type": "PART_OF",
-      "from": "ProcessSegment",
+      "from": "OperationsSegment",
       "to": [
         "OperationsDefinition"
       ],
       "targetIdProp": [
         "operations_definition_no"
+      ]
+    },
+    {
+      "type": "SPECIFIES_EQUIPMENT",
+      "from": "OperationsSegment",
+      "to": [
+        "EquipmentClass"
+      ],
+      "targetIdProp": [
+        "equipment_class_id"
+      ]
+    },
+    {
+      "type": "SPECIFIES_MATERIAL",
+      "from": "OperationsSegment",
+      "to": [
+        "Article"
+      ],
+      "targetIdProp": [
+        "article_no"
       ]
     },
     {
@@ -378,46 +414,6 @@
       ],
       "targetIdProp": [
         "machine_id"
-      ]
-    },
-    {
-      "type": "APPLIES_TO",
-      "from": "ProductDefinition",
-      "to": [
-        "EquipmentClass"
-      ],
-      "targetIdProp": [
-        "equipment_class_id"
-      ]
-    },
-    {
-      "type": "SPEC_FOR",
-      "from": "ProductDefinition",
-      "to": [
-        "Article"
-      ],
-      "targetIdProp": [
-        "article_no"
-      ]
-    },
-    {
-      "type": "EXECUTED_AT",
-      "from": "ProductionOrder",
-      "to": [
-        "Machine"
-      ],
-      "targetIdProp": [
-        "machine_id"
-      ]
-    },
-    {
-      "type": "FOR_ARTICLE",
-      "from": "ProductionOrder",
-      "to": [
-        "Article"
-      ],
-      "targetIdProp": [
-        "article_no"
       ]
     },
     {
@@ -441,16 +437,6 @@
       ]
     },
     {
-      "type": "PRODUCES",
-      "from": "ProductionOrder",
-      "to": [
-        "Article"
-      ],
-      "targetIdProp": [
-        "article_no"
-      ]
-    },
-    {
       "type": "AT_LOCATION",
       "from": "Quant",
       "to": [
@@ -458,36 +444,6 @@
       ],
       "targetIdProp": [
         "storage_location_id"
-      ]
-    },
-    {
-      "type": "OF_ARTICLE",
-      "from": "Quant",
-      "to": [
-        "Article"
-      ],
-      "targetIdProp": [
-        "article_no"
-      ]
-    },
-    {
-      "type": "FOR_ARTICLE",
-      "from": "Response",
-      "to": [
-        "Article"
-      ],
-      "targetIdProp": [
-        "article_no"
-      ]
-    },
-    {
-      "type": "ON_MACHINE",
-      "from": "Response",
-      "to": [
-        "Machine"
-      ],
-      "targetIdProp": [
-        "machine_id"
       ]
     },
     {
@@ -615,16 +571,6 @@
       ],
       "targetIdProp": [
         "production_order_no"
-      ]
-    },
-    {
-      "type": "YIELDS",
-      "from": "Workorder",
-      "to": [
-        "MaterialLot"
-      ],
-      "targetIdProp": [
-        "material_lot_no"
       ]
     }
   ],

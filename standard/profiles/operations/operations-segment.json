@@ -1,0 +1,168 @@
+{
+  "profileId": "SMProfile-OperationsSegment",
+  "version": "1.0.0",
+  "standard": "ISA-95",
+  "category": "business",
+  "displayName": "Operations Segment (step of a routing)",
+  "description": "Level-3 MOM OperationsSegment (ISA-95 Part 2 / B2MML OperationsSegment): one step of an OperationsDefinition (routing), with the material and equipment class it needs. No source yet — fed in the sim-v5 wave (routings are write-only in sim-v5 today).",
+  "parentType": null,
+  "abstract": false,
+  "attributes": [
+    {
+      "name": "operations_segment_no",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the OperationsSegment (join key). Recommendation: <operations_definition_no>.<sequence>.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "name",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Display name of the step.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "operations_type",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 operations type of the step.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "enum": [
+        "production",
+        "inventory",
+        "quality",
+        "maintenance"
+      ]
+    },
+    {
+      "name": "sequence",
+      "dataType": "Int32",
+      "required": false,
+      "category": "Planning",
+      "description": "Position of the step within its OperationsDefinition.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "duration_planned_sec",
+      "dataType": "Double",
+      "required": false,
+      "category": "Planning",
+      "description": "Planned duration of the step.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "unit": "SEC"
+    },
+    {
+      "name": "operations_definition_ref",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "The OperationsDefinition (routing) this step belongs to.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "process_segment_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "The ProcessSegment (reusable stage) this step performs.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "material_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "The article (MaterialDefinition) this step specifies.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "equipment_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "The equipment class this step specifies.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "PART_OF",
+      "target": "OperationsDefinition",
+      "targetIdProp": "operations_definition_no",
+      "description": "The routing this step is part of (ISA-95: OperationsDefinition MADE_UP_OF OperationsSegment)."
+    },
+    {
+      "type": "FOR_PROCESS_SEGMENT",
+      "target": "ProcessSegment",
+      "targetIdProp": "process_segment_no",
+      "description": "The reusable stage this step performs."
+    },
+    {
+      "type": "SPECIFIES_MATERIAL",
+      "target": "Article",
+      "targetIdProp": "article_no",
+      "description": "The material this step specifies (B2MML MaterialSpecification)."
+    },
+    {
+      "type": "SPECIFIES_EQUIPMENT",
+      "target": "EquipmentClass",
+      "targetIdProp": "equipment_class_id",
+      "description": "The equipment class this step specifies (B2MML EquipmentSpecification)."
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iso:62264-OperationsSegment"
+  ],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "OperationsSegment",
+    "part": 2,
+    "momDomain": "production",
+    "level": 3,
+    "note": "ISA-95 Part 2 OperationsSegment = one step of a routing. Its FOR_PROCESS_SEGMENT, SPECIFIES_EQUIPMENT and SPECIFIES_MATERIAL edges now carry the ProcessSegment/EquipmentClass/Article links the old shortcuts drew directly (owner 25.09.).",
+    "propertyMap": {
+      "operations_segment_no": "OperationsSegment.ID",
+      "name": "OperationsSegment.Description",
+      "operations_type": "OperationsSegment.OperationsType",
+      "duration_planned_sec": "OperationsSegment.Duration",
+      "process_segment_ref": "OperationsSegment.ProcessSegmentID",
+      "material_ref": "OperationsSegment.MaterialSpecification.MaterialDefinitionID",
+      "equipment_class_ref": "OperationsSegment.EquipmentSpecification.EquipmentClassID"
+    },
+    "notInIsa95": [
+      "sequence",
+      "operations_definition_ref"
+    ],
+    "mappingNote": "sequence and the parent routing are carried by B2MML through the nesting of OperationsSegment in OperationsDefinition, not as fields."
+  },
+  "kgNodeLabel": "OperationsSegment",
+  "kgIdProperty": "operations_segment_no"
+}

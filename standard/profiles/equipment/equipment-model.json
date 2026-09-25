@@ -7,7 +7,7 @@
  "displayName": "Equipment Model (compact, 7 levels — the documented exception)",
  "isa95": { "objectModel": "Equipment", "momDomain": "production" },
  "attributeConvention": "each level: <node>_id (key) | <node>_code | name | <parent>_ref (FK -> parent.<parent>_id, realises PART_OF)",
- "foBinding": { "level": "Unit", "via": "EXECUTED_AT", "fkOnFo": "machine_ref", "joinTo": "unit_id" },
+ "foBinding": { "level": "Unit", "fkOnFo": "machine_ref", "joinTo": "unit_id" },
  "hierarchy": [
   { "node": "Enterprise", "key": "enterprise_id", "model": "ISA-95" },
   { "node": "Site", "key": "site_id", "parent": "Enterprise", "model": "ISA-95" },

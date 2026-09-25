@@ -1,0 +1,147 @@
+{
+  "profileId": "SMProfile-JobOrder",
+  "version": "1.0.0",
+  "standard": "ISA-95",
+  "category": "business",
+  "displayName": "Job Order (dispatched job on one machine)",
+  "description": "Level-3 MOM JobOrder (ISA-95 Part 4 / B2MML JobOrder): the job of one machine within a Workorder (WorkRequest), with the material lot it requires or produces. No source yet — fed in the sim-v5 wave (operations carry no lot link in sim-v5 today).",
+  "parentType": null,
+  "abstract": false,
+  "attributes": [
+    {
+      "name": "job_order_no",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the JobOrder (join key). Recommendation: <workorder_no>.<operation_no>.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "workorder_ref",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "The Workorder (WorkRequest) this job belongs to.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "machine_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "The machine (Equipment) the job runs on.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "material_lot_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "The material lot the job requires or produces.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "material_use",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Whether the lot is consumed or produced by the job.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "enum": [
+        "Consumed",
+        "Produced"
+      ]
+    },
+    {
+      "name": "start_planned",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Planning",
+      "description": "Planned start of the job.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "end_planned",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Planning",
+      "description": "Planned end of the job.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "status",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Dispatch state of the job as the source names it.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "PART_OF",
+      "target": "Workorder",
+      "targetIdProp": "workorder_no",
+      "description": "The Workorder this job is part of (ISA-95: WorkRequest MADE_UP_OF JobOrder)."
+    },
+    {
+      "type": "REQUIRES_EQUIPMENT",
+      "target": "Machine",
+      "targetIdProp": "machine_id",
+      "description": "The machine the job runs on (B2MML EquipmentRequirement)."
+    },
+    {
+      "type": "REQUIRES_MATERIAL",
+      "target": "MaterialLot",
+      "targetIdProp": "lot_no",
+      "description": "The lot the job consumes or produces (B2MML MaterialRequirement, material_use)."
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iso:62264-JobOrder"
+  ],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "JobOrder",
+    "part": 4,
+    "momDomain": "production",
+    "level": 3,
+    "note": "ISA-95 Part 4 JobOrder = one dispatched job of a WorkRequest. The MaterialLot link now runs both ways through JobOrder REQUIRES_MATERIAL (owner 25.09.).",
+    "propertyMap": {
+      "job_order_no": "JobOrder.ID",
+      "machine_ref": "JobOrder.EquipmentRequirement.EquipmentID",
+      "material_lot_ref": "JobOrder.MaterialRequirement.MaterialLotID",
+      "material_use": "JobOrder.MaterialRequirement.MaterialUse",
+      "start_planned": "JobOrder.StartTime",
+      "end_planned": "JobOrder.EndTime",
+      "status": "JobOrder.DispatchStatus"
+    },
+    "notInIsa95": [
+      "workorder_ref"
+    ],
+    "mappingNote": "The parent WorkRequest is carried by B2MML through the nesting of JobOrder in WorkRequest, not as a field."
+  },
+  "kgNodeLabel": "JobOrder",
+  "kgIdProperty": "job_order_no"
+}

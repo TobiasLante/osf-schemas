@@ -1,55 +1,24 @@
 {
   "_note": "Edge types that are the inverse of each other. i3X 1.0 requires every relationship type to register exactly one reverseOf. Where both directions are authored (in two profiles), they must be registered here as a pair, so the two sides cannot drift apart. Checked by ci/lint-edge-pairs.mjs.",
-  "pairs": [
+  "pairs": [],
+  "_inversesNote": "inverses: the ISA-95 name of the other direction of an edge (IEC 62264 / B2MML catalogue: MADE_UP_OF ↔ PART_OF, DEFINED_BY ↔ DEFINITION_OF, IMPLEMENTED_BY ↔ IMPLEMENTATION_OF). Unlike pairs, neither side has to be authored on every edge; i3x/relationship-types.json takes reverseOf from here instead of generating *_REVERSE (owner 25.09.).",
+  "inverses": [
     [
-      "EXECUTED_AT",
-      "EXECUTES"
+      "MADE_UP_OF",
+      "PART_OF"
     ],
     [
-      "PRODUCED_BY",
-      "YIELDS"
+      "DEFINED_BY",
+      "DEFINITION_OF"
+    ],
+    [
+      "IMPLEMENTED_BY",
+      "IMPLEMENTATION_OF"
     ]
   ],
-  "open": [
-    {
-      "type": "PART_OF",
-      "inverseOf": [
-        "CONTAINS_SEGMENT",
-        "MADE_UP_OF"
-      ],
-      "reason": "ISA-95 names PART_OF the reverse of MADE_UP_OF (catalogue). Registering the pair would demand both sides on every PART_OF / MADE_UP_OF edge, but the tree edges (Machine PART_OF ProcessCell) and MaterialLot MADE_UP_OF Quant are authored one way only. ProcessSegment PART_OF OperationsDefinition and its reverse CONTAINS_SEGMENT are a derived shortcut through OperationsSegment. Model decision (author the missing sides or let i3X derive them), not made here."
-    }
-  ],
+  "open": [],
   "_isa95Note": "isa95: for every edge (type, from label) the B2MML field path that carries it, read from standard/validation/isa95-b2mml.json. forward = the path starts at the from object, reverse = at the to object. extension = ISA-95 has no such link, with the reason. derived = a shortcut through an intermediate object: the legs, each a path of the ISA-95 edge catalogue (standard/validation/isa95-edges.json) with its direction, in walking order from the from object. Checked by lint-isa95 and lint-isa95-edges (i3x-v5).",
   "isa95": {
-    "APPLIES_TO": {
-      "ProductDefinition": {
-        "derived": [
-          {
-            "path": "OperationsDefinition.OperationsSegment",
-            "direction": "forward"
-          },
-          {
-            "path": "OperationsSegment.EquipmentSpecification.EquipmentClassID",
-            "direction": "forward"
-          }
-        ]
-      }
-    },
-    "CONTAINS_SEGMENT": {
-      "OperationsDefinition": {
-        "derived": [
-          {
-            "path": "OperationsDefinition.OperationsSegment",
-            "direction": "forward"
-          },
-          {
-            "path": "OperationsSegment.ProcessSegmentID",
-            "direction": "forward"
-          }
-        ]
-      }
-    },
     "RESPONDS_TO": {
       "SegmentResponse": {
         "path": "SegmentResponse.SegmentRequirementID",
@@ -60,81 +29,19 @@
         "direction": "forward"
       }
     },
-    "EXECUTED_AT": {
-      "ProductionOrder": {
-        "derived": [
-          {
-            "path": "OperationsRequest.SegmentRequirement",
-            "direction": "forward"
-          },
-          {
-            "path": "SegmentRequirement.EquipmentRequirement.EquipmentID",
-            "direction": "forward"
-          }
-        ]
-      }
-    },
-    "EXECUTES": {
-      "Machine": {
-        "derived": [
-          {
-            "path": "SegmentRequirement.EquipmentRequirement.EquipmentID",
-            "direction": "reverse"
-          },
-          {
-            "path": "OperationsRequest.SegmentRequirement",
-            "direction": "reverse"
-          }
-        ]
-      }
-    },
     "TESTS": {
       "InspectionLot": {
         "path": "TestResult.TestableObjectID",
         "direction": "forward"
       }
     },
-    "FOR_ARTICLE": {
-      "OperationsDefinition": {
-        "derived": [
-          {
-            "path": "OperationsDefinition.OperationsSegment",
-            "direction": "forward"
-          },
-          {
-            "path": "OperationsSegment.MaterialSpecification.MaterialDefinitionID",
-            "direction": "forward"
-          }
-        ]
-      },
-      "ProductionOrder": {
-        "derived": [
-          {
-            "path": "OperationsRequest.SegmentRequirement",
-            "direction": "forward"
-          },
-          {
-            "path": "SegmentRequirement.MaterialRequirement.MaterialDefinitionID",
-            "direction": "forward"
-          }
-        ]
-      },
-      "Response": {
-        "derived": [
-          {
-            "path": "OperationsResponse.SegmentResponse",
-            "direction": "forward"
-          },
-          {
-            "path": "SegmentResponse.MaterialActual.MaterialDefinitionID",
-            "direction": "forward"
-          }
-        ]
-      }
-    },
     "REQUIRES_MATERIAL": {
       "SegmentRequirement": {
         "path": "SegmentRequirement.MaterialRequirement.MaterialDefinitionID",
+        "direction": "forward"
+      },
+      "JobOrder": {
+        "path": "JobOrder.MaterialRequirement.MaterialLotID",
         "direction": "forward"
       }
     },
@@ -145,6 +52,10 @@
       },
       "SegmentResponse": {
         "path": "SegmentResponse.ProcessSegmentID",
+        "direction": "forward"
+      },
+      "OperationsSegment": {
+        "path": "OperationsSegment.ProcessSegmentID",
         "direction": "forward"
       }
     },
@@ -174,50 +85,10 @@
         "direction": "forward"
       }
     },
-    "OF_ARTICLE": {
-      "Quant": {
-        "derived": [
-          {
-            "path": "MaterialLot.MaterialSubLot",
-            "direction": "reverse"
-          },
-          {
-            "path": "MaterialLot.MaterialDefinitionID",
-            "direction": "forward"
-          }
-        ]
-      }
-    },
-    "ON_MACHINE": {
-      "Response": {
-        "derived": [
-          {
-            "path": "OperationsResponse.SegmentResponse",
-            "direction": "forward"
-          },
-          {
-            "path": "SegmentResponse.EquipmentActual.EquipmentID",
-            "direction": "forward"
-          }
-        ]
-      }
-    },
     "PART_OF": {
       "Machine": {
         "path": "Equipment.EquipmentChild",
         "direction": "reverse"
-      },
-      "ProcessSegment": {
-        "derived": [
-          {
-            "path": "OperationsSegment.ProcessSegmentID",
-            "direction": "reverse"
-          },
-          {
-            "path": "OperationsDefinition.OperationsSegment",
-            "direction": "reverse"
-          }
-        ]
       },
       "SegmentRequirement": {
         "path": "OperationsRequest.SegmentRequirement",
@@ -225,6 +96,14 @@
       },
       "SegmentResponse": {
         "path": "OperationsResponse.SegmentResponse",
+        "direction": "reverse"
+      },
+      "OperationsSegment": {
+        "path": "OperationsDefinition.OperationsSegment",
+        "direction": "reverse"
+      },
+      "JobOrder": {
+        "path": "WorkRequest.JobOrder",
         "direction": "reverse"
       }
     },
@@ -244,6 +123,10 @@
       "ProcessSegment": {
         "path": "ProcessSegment.EquipmentSegmentSpecification.EquipmentID",
         "direction": "forward"
+      },
+      "OperationsSegment": {
+        "path": "OperationsSegment.EquipmentSpecification.EquipmentClassID",
+        "direction": "forward"
       }
     },
     "ACTUAL_MATERIAL": {
@@ -252,52 +135,10 @@
         "direction": "forward"
       }
     },
-    "PRODUCED_BY": {
-      "MaterialLot": {
-        "derived": [
-          {
-            "path": "JobOrder.MaterialRequirement.MaterialLotID",
-            "direction": "reverse"
-          },
-          {
-            "path": "WorkRequest.JobOrder",
-            "direction": "reverse"
-          }
-        ]
-      }
-    },
-    "PRODUCES": {
-      "ProductionOrder": {
-        "derived": [
-          {
-            "path": "OperationsRequest.SegmentRequirement",
-            "direction": "forward"
-          },
-          {
-            "path": "SegmentRequirement.MaterialRequirement.MaterialDefinitionID",
-            "direction": "forward"
-          }
-        ]
-      }
-    },
     "IMPLEMENTATION_OF": {
       "Tool": {
         "path": "Equipment.PhysicalAssetID",
         "direction": "reverse"
-      }
-    },
-    "SPEC_FOR": {
-      "ProductDefinition": {
-        "derived": [
-          {
-            "path": "OperationsDefinition.OperationsSegment",
-            "direction": "forward"
-          },
-          {
-            "path": "OperationsSegment.MaterialSpecification.MaterialDefinitionID",
-            "direction": "forward"
-          }
-        ]
       }
     },
     "ACTUAL_EQUIPMENT": {
@@ -310,26 +151,16 @@
       "SegmentRequirement": {
         "path": "SegmentRequirement.EquipmentRequirement.EquipmentID",
         "direction": "forward"
+      },
+      "JobOrder": {
+        "path": "JobOrder.EquipmentRequirement.EquipmentID",
+        "direction": "forward"
       }
     },
     "IMPLEMENTED_BY": {
       "InjectionMoldingMachine": {
         "path": "Equipment.PhysicalAssetID",
         "direction": "forward"
-      }
-    },
-    "YIELDS": {
-      "Workorder": {
-        "derived": [
-          {
-            "path": "WorkRequest.JobOrder",
-            "direction": "forward"
-          },
-          {
-            "path": "JobOrder.MaterialRequirement.MaterialLotID",
-            "direction": "forward"
-          }
-        ]
       }
     },
     "AT_LOCATION": {
@@ -339,6 +170,12 @@
       },
       "Quant": {
         "path": "MaterialSubLot.StorageLocation",
+        "direction": "forward"
+      }
+    },
+    "SPECIFIES_MATERIAL": {
+      "OperationsSegment": {
+        "path": "OperationsSegment.MaterialSpecification.MaterialDefinitionID",
         "direction": "forward"
       }
     }
@@ -609,6 +446,118 @@
       "key": "storage_location_id",
       "reason": "Lifted onto the OSF grouping parent MaterialItem, which ISA-95 does not have; moved DOWN to the children, which carry it in B2MML (MaterialLot.StorageLocation, MaterialSubLot.StorageLocation).",
       "since": "3.0.0"
+    },
+    {
+      "type": "EXECUTES",
+      "from": "Machine",
+      "to": "ProductionOrder",
+      "key": "production_order_no",
+      "reason": "only ISA-95 edges (owner 25.09.): reverse of the EXECUTED_AT shortcut; the machine is reached through SegmentRequirement REQUIRES_EQUIPMENT",
+      "since": "4.0.0"
+    },
+    {
+      "type": "PRODUCED_BY",
+      "from": "MaterialLot",
+      "to": "Workorder",
+      "key": "workorder_no",
+      "reason": "only ISA-95 edges (owner 25.09.): shortcut through JobOrder: Workorder MADE_UP_OF JobOrder REQUIRES_MATERIAL MaterialLot",
+      "since": "4.0.0"
+    },
+    {
+      "type": "OF_ARTICLE",
+      "from": "Quant",
+      "to": "Article",
+      "key": "article_no",
+      "reason": "only ISA-95 edges (owner 25.09.): shortcut through MaterialLot: Quant PART_OF MaterialLot DEFINED_BY Article",
+      "since": "4.0.0"
+    },
+    {
+      "type": "FOR_ARTICLE",
+      "from": "OperationsDefinition",
+      "to": "Article",
+      "key": "article_no",
+      "reason": "only ISA-95 edges (owner 25.09.): shortcut; the article is reached through the segment's material (SegmentRequirement REQUIRES_MATERIAL, SegmentResponse ACTUAL_MATERIAL, OperationsSegment SPECIFIES_MATERIAL)",
+      "since": "4.0.0"
+    },
+    {
+      "type": "CONTAINS_SEGMENT",
+      "from": "OperationsDefinition",
+      "to": "ProcessSegment",
+      "key": "process_segment_no",
+      "reason": "only ISA-95 edges (owner 25.09.): shortcut through OperationsSegment: OperationsDefinition MADE_UP_OF OperationsSegment FOR_PROCESS_SEGMENT ProcessSegment",
+      "since": "4.0.0"
+    },
+    {
+      "type": "PART_OF",
+      "from": "ProcessSegment",
+      "to": "OperationsDefinition",
+      "key": "operations_definition_no",
+      "reason": "only ISA-95 edges (owner 25.09.): shortcut through OperationsSegment: ProcessSegment is reached from OperationsSegment FOR_PROCESS_SEGMENT",
+      "since": "4.0.0"
+    },
+    {
+      "type": "SPEC_FOR",
+      "from": "ProductDefinition",
+      "to": "Article",
+      "key": "article_no",
+      "reason": "only ISA-95 edges (owner 25.09.): shortcut through OperationsSegment: OperationsDefinition MADE_UP_OF OperationsSegment SPECIFIES_MATERIAL Article",
+      "since": "4.0.0"
+    },
+    {
+      "type": "APPLIES_TO",
+      "from": "ProductDefinition",
+      "to": "EquipmentClass",
+      "key": "equipment_class_id",
+      "reason": "only ISA-95 edges (owner 25.09.): shortcut through OperationsSegment: OperationsDefinition MADE_UP_OF OperationsSegment SPECIFIES_EQUIPMENT EquipmentClass",
+      "since": "4.0.0"
+    },
+    {
+      "type": "FOR_ARTICLE",
+      "from": "ProductionOrder",
+      "to": "Article",
+      "key": "article_no",
+      "reason": "only ISA-95 edges (owner 25.09.): shortcut; the article is reached through the segment's material (SegmentRequirement REQUIRES_MATERIAL, SegmentResponse ACTUAL_MATERIAL, OperationsSegment SPECIFIES_MATERIAL)",
+      "since": "4.0.0"
+    },
+    {
+      "type": "PRODUCES",
+      "from": "ProductionOrder",
+      "to": "Article",
+      "key": "article_no",
+      "reason": "only ISA-95 edges (owner 25.09.): shortcut through SegmentRequirement REQUIRES_MATERIAL",
+      "since": "4.0.0"
+    },
+    {
+      "type": "EXECUTED_AT",
+      "from": "ProductionOrder",
+      "to": "Machine",
+      "key": "machine_id",
+      "reason": "only ISA-95 edges (owner 25.09.): shortcut through SegmentRequirement: ProductionOrder MADE_UP_OF SegmentRequirement REQUIRES_EQUIPMENT Machine",
+      "since": "4.0.0"
+    },
+    {
+      "type": "FOR_ARTICLE",
+      "from": "Response",
+      "to": "Article",
+      "key": "article_no",
+      "reason": "only ISA-95 edges (owner 25.09.): shortcut; the article is reached through the segment's material (SegmentRequirement REQUIRES_MATERIAL, SegmentResponse ACTUAL_MATERIAL, OperationsSegment SPECIFIES_MATERIAL)",
+      "since": "4.0.0"
+    },
+    {
+      "type": "ON_MACHINE",
+      "from": "Response",
+      "to": "Machine",
+      "key": "machine_id",
+      "reason": "only ISA-95 edges (owner 25.09.): shortcut through SegmentResponse: Response MADE_UP_OF SegmentResponse ACTUAL_EQUIPMENT Machine",
+      "since": "4.0.0"
+    },
+    {
+      "type": "YIELDS",
+      "from": "Workorder",
+      "to": "MaterialLot",
+      "key": "material_lot_no",
+      "reason": "only ISA-95 edges (owner 25.09.): reverse of the PRODUCED_BY shortcut; the lot is reached through JobOrder REQUIRES_MATERIAL",
+      "since": "4.0.0"
     }
   ]
 }
