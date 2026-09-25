@@ -1,0 +1,102 @@
+{
+  "elementId": "SMProfile-ShiftWindow",
+  "displayName": "Shift Window (ERP shift calendar)",
+  "namespaceUri": "urn:osf:schemas:operations",
+  "version": "1.1.0",
+  "schema": {
+    "description": "One row of the ERP shift calendar (`/api/calendar` -> `week_pattern`): department x ISO weekday x shift, with the working-time window and its breaks. Full text: docs/history/standard/profiles/operations/shift-window.md, description.",
+    "type": "object",
+    "properties": {
+      "department_id": {
+        "type": "string",
+        "description": "Department the window belongs to. Measured population 2026-08-03: LAGER | MECH | MONTAGE | SG. NOT declared as an enum: the plant may add a department without a schema change, and a consumer must never treat an unknown department as 'not scheduled'. Part of the composite key.",
+        "x-category": "Core",
+        "x-isId": true,
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change",
+        "x-valueType": "ID"
+      },
+      "day_of_week": {
+        "type": "integer",
+        "description": "ISO-8601 weekday, 1=Monday .. Full text: docs/history/standard/profiles/operations/shift-window.md, attributes › day_of_week › description.",
+        "x-dataType": "Int32",
+        "x-category": "Core",
+        "x-isId": true,
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change"
+      },
+      "shift_id": {
+        "type": "string",
+        "description": "Shift code as the ERP names it. Full text: docs/history/standard/profiles/operations/shift-window.md, attributes › shift_id › description.",
+        "x-category": "Core",
+        "x-isId": true,
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change",
+        "x-valueType": "ID"
+      },
+      "start_time": {
+        "type": "string",
+        "description": "Window start on the PLANT CLOCK as HH:MM:SS. No date and no timezone — this is a weekly pattern, not an instant. A consumer applies it in the same clock it attributes buckets in (golden-shift: tzOffsetMinutes, default 0 = UTC).",
+        "x-category": "Core",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change"
+      },
+      "end_time": {
+        "type": "string",
+        "description": "Window end on the plant clock as HH:MM:SS. Full text: docs/history/standard/profiles/operations/shift-window.md, attributes › end_time › description.",
+        "x-category": "Core",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change"
+      },
+      "break_minutes": {
+        "type": "integer",
+        "description": "Unpaid break minutes inside the window. Full text: docs/history/standard/profiles/operations/shift-window.md, attributes › break_minutes › description.",
+        "x-dataType": "Int32",
+        "x-category": "Core",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change"
+      }
+    },
+    "required": [
+      "department_id",
+      "day_of_week",
+      "shift_id",
+      "start_time",
+      "end_time"
+    ]
+  },
+  "x-osf": {
+    "source": "standard/profiles/operations/shift-window.json",
+    "standard": "CESMII",
+    "category": "business",
+    "abstract": false,
+    "isa95": {
+      "objectModel": "WorkCalendarEntry",
+      "part": 4,
+      "momDomain": "production",
+      "level": 3,
+      "note": "One recurring entry of the plant WorkCalendar (B2MML WorkCalendar / WorkCalendarEntry). Full text: docs/history/standard/profiles/operations/shift-window.md, isa95 › note.",
+      "propertyMap": {
+        "department_id": "WorkCalendarEntry.HierarchyScope.EquipmentID",
+        "shift_id": "WorkCalendarEntry.ID",
+        "start_time": "WorkCalendarEntry.StartDateTime",
+        "end_time": "WorkCalendarEntry.FinishDateTime"
+      }
+    },
+    "parentType": null,
+    "requiredDeclaredOn": [
+      "department_id",
+      "day_of_week",
+      "shift_id",
+      "start_time",
+      "end_time",
+      "break_minutes"
+    ]
+  }
+}

@@ -1,0 +1,69 @@
+# profiles/equipment/cnc-machine.json — history and reasoning
+
+Moved verbatim out of `profiles/machines/cnc-machine.json`, where each field now holds its first sentence. The JSON says what a thing is; this file keeps why it became that.
+
+## description
+
+next/ v2.1 — CNC machining center + constraints facet. power_positive_when_running is declared LOCALLY in this file (the thin abstract parent SMProfile-Machine carries no constraints — earlier prose claimed an inheritance that does not exist). CNC-systems companion-spec process data (OPC 40502; NOTE: isa95.companionSpec still references the registry key 'OPC40077-CNC' — misnumbered, 40077 is EUROMAP 77 / injection moulding; the registry entry itself already points at the CNC NodeSet) — spindle, feed, axes, tool, coolant, vibration.
+
+## attributes › Act_Status_Machine › description
+
+Actual machine status. VOCABULARY MEASURED 2026-07-12 over the FULL population (factory.machine_state_history, 22.1 Mio rows, GROUP BY status): IDLE (13.518.442), RUNNING (8.099.280), STOPPED (470.620), MAINTENANCE (17.994); cross-checked at the wire by reading opc.tcp://192.168.178.154:36000 ns=1;s=Machine/status (returned "IDLE", same uppercase dialect) and against :38260/api/machines (status_raw RUNNING). The old prose additionally claimed FAULT and OFFLINE — neither has ever occurred; they are NOT declared, because an undeclared-but-real value is caught by the drift check while a declared-but-fictional value silently licenses a dead guard. MTConnect bridge derives the value via valueMap (ACTIVE -> RUNNING, * -> IDLE) — its image {RUNNING, IDLE} is a subset of this enum (checked by ci/lint-vocabulary.mjs).
+
+## attributes › Act_Text_MachineMode › description
+
+Machine operating mode. VOCABULARY MEASURED 2026-07-12 over the FULL population (factory.machine_state_history, GROUP BY mode): AUTO (20.195.187), MANUAL (1.166.249), SETUP (744.900); wire-checked via ns=1;s=Machine/mode (returned "AUTO"). Declared so that the FIRST guard written against this attribute is verified against reality instead of against a comment.
+
+## attributes › Act_Amount_PartGood › description
+
+Good parts produced (cumulative). READ IT WITH `counter.aggregation`, NOT max-min: this counter resets. --- CAPT-REGIME 2026-07-29: this attribute had NO description and NO `counter` facet, and that silence is why ci/lint-counters.mjs passed it — that linter keys on a prose claim ('cumulative') and there was no prose to key on. The gate is only as honest as the text it reads, and an empty description is not a statement that a value is a measurement. It surfaced the moment mappings/attribute-aliases.json declared this attribute equivalent to SMProfile-InjectionMoldingMachine.good, which HAS declared the facet since 2026-07-12: ci/lint-attribute-aliases.mjs refuses (B9) to certify two attributes as the same measurement when they do not agree on how they must be aggregated. MEASURED before declaring, on the hub the consumer reads (.99 machine_events, per-machine step analysis over the full retained history): cnc-001 26,568 increases / 5 flat / 15 DECREASES, cnc-002 24,610 / 5 / 15, rockwell-01 9,740 / 5 / 1 — overwhelmingly monotone with a handful of drops to a lower value, i.e. a running total that RESETS, identical in shape to `good` on sgm-004 (35,379 / 7 / 14). Hence cumulative_resettable + sum_of_positive_deltas. No value changes; only the reading rule stops being invisible.
+
+## attributes › Act_Amount_PartScrap › description
+
+Scrap parts (cumulative). READ IT WITH `counter.aggregation`, NOT max-min: this counter resets. Declared for the same reason and on the same evidence as Act_Amount_PartGood above — MEASURED 2026-07-29 on .99 machine_events: cnc-001 1,662 increases / 7 flat / 14 DECREASES, cnc-002 1,054 / 6 / 12, rockwell-01 755 / 7 / 1, against sgm-004's `scrap` at 3,684 / 7 / 13. Same shape, same reading rule. Rework is a third disposition and is counted separately in Act_Amount_PartRework, which is delivered by no source and is therefore left undeclared here rather than given a plausible default.
+
+## attributes › Act_Energy_Power › description
+
+Actual electrical power draw (kW). Promoted to the hub at a fixed 5-second cadence (scope:hub, promotion:5sec) so the central OEE & Energy cockpit reads it from machine_events; the raw high-rate stream still lands edge-local in uns_history. The cadence is declared HERE (SSOT) — the edge codegen's periodic-emitter honours it, nothing is hardcoded downstream. --- CAPT-REGIME 2026-07-29: `unit` is now DECLARED rather than asserted in this sentence. It had been kW in the prose since the energy work of 07-20 and nowhere a machine could read it — this attribute was 1 of 44 on this profile carrying a unit at all, against 28 of 48 on the injection-moulding sibling. That mattered the moment mappings/attribute-aliases.json declared it equivalent to SMProfile-InjectionMoldingMachine.powerKw (unit kW): ci/lint-attribute-aliases.mjs refuses to certify an equivalence where one side does not say what it measures, and it refused this one. Cross-checked before declaring, against the hub the consumer reads (.99 machine_events, exhausted): 515,408 numeric samples over cnc-001, cnc-002, cnc-mtc-01, cnc-mtc-02, ftlinx-01, rockwell-01, range 0.600 to 58.000 — a kW range for machines of this size, not W and not MW. No value changes; the unit that was always meant is now the unit that is checkable.
+
+## constraints › spindle_load_control_limits › description
+
+Control limits (Warngrenze + Eingriffsgrenze) for spindle load %. Two-tier band: inside warn [0,55] = ok; outside warn -> 'warning'-tier alarm (watch); outside the action band [0,70] -> 'error'-tier alarm (intervene). Raise/clear lifecycle, auto-clears once the value returns inside the warn band. LITERAL bands = static SSOT for the pilot. --- 2026-07-12 CAPT-STURM: declares a `persistence` policy (anti-chatter). A single sample outside a band is not a deviation — an EPISODE is. `raise` is a Western-Electric run rule (2 of the last 3 evaluations must breach); `clear` is an ISA-18.2 dead-band (the value must return inside the limit by 15 % of the band width, for 3 evaluations). The LIMITS ARE UNCHANGED — this removes chatter, not signal. Declaring it is now MANDATORY for every live `between`/`within_limits` rule (ci/lint-constraints.mjs, fail-closed): a rule the detector cannot police is a rule that reports its own arithmetic instead of the machine. MEASURED 2026-07-12: 4.235 episodes across cnc-001/002/mtc-02 — the same chatter as the hot-runner storm on sgm-006, one order of magnitude smaller.
+
+## constraints › spindle_temp_control_limits › description
+
+Control limits (Warngrenze + Eingriffsgrenze) for spindle temperature degC. Inside warn [15,45] = ok; outside warn -> 'warning'-tier; outside action [10,55] -> 'error'-tier. Raise/clear, auto-clears inside the warn band. --- 2026-07-12 CAPT-STURM: declares a `persistence` policy (anti-chatter). A single sample outside a band is not a deviation — an EPISODE is. `raise` is a Western-Electric run rule (2 of the last 3 evaluations must breach); `clear` is an ISA-18.2 dead-band (the value must return inside the limit by 15 % of the band width, for 3 evaluations). The LIMITS ARE UNCHANGED — this removes chatter, not signal. Declaring it is now MANDATORY for every live `between`/`within_limits` rule (ci/lint-constraints.mjs, fail-closed): a rule the detector cannot police is a rule that reports its own arithmetic instead of the machine.
+
+## constraints › spindle_power_control_limits › description
+
+Control limits (Warngrenze + Eingriffsgrenze) for active power kW. Inside warn [0,45] = ok; outside warn -> 'warning'-tier; outside action [0,55] -> 'error'-tier. Raise/clear, auto-clears inside the warn band. --- 2026-07-12 CAPT-STURM: declares a `persistence` policy (anti-chatter). A single sample outside a band is not a deviation — an EPISODE is. `raise` is a Western-Electric run rule (2 of the last 3 evaluations must breach); `clear` is an ISA-18.2 dead-band (the value must return inside the limit by 15 % of the band width, for 3 evaluations). The LIMITS ARE UNCHANGED — this removes chatter, not signal. Declaring it is now MANDATORY for every live `between`/`within_limits` rule (ci/lint-constraints.mjs, fail-closed): a rule the detector cannot police is a rule that reports its own arithmetic instead of the machine. MEASURED 2026-07-12: 236 episodes across the cnc fleet.
+
+## constraints › tool_wear_in_range › description
+
+Tool wear must lie between 0 and 100 percent — values outside indicate a sensor / scaling fault. --- 2026-07-12 CAPT-STURM: declares a `persistence` policy (anti-chatter). A single sample outside a band is not a deviation — an EPISODE is. `raise` is a Western-Electric run rule (2 of the last 3 evaluations must breach); `clear` is an ISA-18.2 dead-band (the value must return inside the limit by 15 % of the band width, for 3 evaluations). The LIMITS ARE UNCHANGED — this removes chatter, not signal. Declaring it is now MANDATORY for every live `between`/`within_limits` rule (ci/lint-constraints.mjs, fail-closed): a rule the detector cannot police is a rule that reports its own arithmetic instead of the machine.
+
+## W8-OBJECTS (25.09.2026) — order actuals moved to SMProfile-SegmentResponse
+
+Owner 25.09.2026: an order actual measured at a machine (part counts, order, article, program, tool/mould) belongs to the ISA-95 object SegmentResponse, reported by the machine source through `objects[]`, its UNS path under the machine (`<machine>/segment_response/<attr>`). Full move, standard 3.0.0. The machine class keeps `movedAttributes` as the alias trail; each moved attribute on SegmentResponse names `movedFrom`. Kept on the machine as machine state: IMM `shotCount` (the machine's cycle counter) and CNC `Act_Ref_ToolNumber` (the tool in the spindle, edge telemetry).
+
+- `qty_good` counter as measured on SMProfile-InjectionMoldingMachine.good: {"semantics": "cumulative_resettable", "aggregation": "sum_of_positive_deltas", "resetsObserved": 10, "measuredAt": "2026-07-12"}
+- `SMProfile-InjectionMoldingMachine.good` → `SMProfile-SegmentResponse.qty_good`; its description was: Good parts produced (cumulative). READ IT WITH `counter.aggregation`, NOT max-min: this counter resets.
+- `qty_scrap` counter as measured on SMProfile-InjectionMoldingMachine.scrap: {"semantics": "cumulative_resettable", "aggregation": "sum_of_positive_deltas", "resetsObserved": 10, "measuredAt": "2026-07-12"}
+- `SMProfile-InjectionMoldingMachine.scrap` → `SMProfile-SegmentResponse.qty_scrap`; its description was: Scrap parts (cumulative). READ IT WITH `counter.aggregation`, NOT max-min: this counter resets.
+- `qty_total` counter as measured on SMProfile-InjectionMoldingMachine.total: {"semantics": "cumulative_resettable", "aggregation": "sum_of_positive_deltas", "resetsObserved": 10, "measuredAt": "2026-07-12"}
+- `SMProfile-InjectionMoldingMachine.total` → `SMProfile-SegmentResponse.qty_total`; its description was: Total parts (cumulative). READ IT WITH `counter.aggregation`, NOT max-min: this counter resets.
+- `SMProfile-InjectionMoldingMachine.currentProgram` → `SMProfile-SegmentResponse.program_ref`; its description was: Active program / job on the machine.
+- `SMProfile-InjectionMoldingMachine.mouldId` → `SMProfile-SegmentResponse.tool_ref`; its description was: Mould / tool currently set up (= IMPLEMENTED_BY tool_id).
+- `qty_good` counter as measured on SMProfile-CNC-Machine.Act_Amount_PartGood: {"semantics": "cumulative_resettable", "aggregation": "sum_of_positive_deltas", "resetsObserved": 15, "measuredAt": "2026-07-29"}
+- `SMProfile-CNC-Machine.Act_Amount_PartGood` → `SMProfile-SegmentResponse.qty_good`; its description was: Good parts produced (cumulative). Full text: docs/history/standard/profiles/equipment/cnc-machine.md, attributes › Act_Amount_PartGood › description.
+- `qty_scrap` counter as measured on SMProfile-CNC-Machine.Act_Amount_PartScrap: {"semantics": "cumulative_resettable", "aggregation": "sum_of_positive_deltas", "resetsObserved": 14, "measuredAt": "2026-07-29"}
+- `SMProfile-CNC-Machine.Act_Amount_PartScrap` → `SMProfile-SegmentResponse.qty_scrap`; its description was: Scrap parts (cumulative). Full text: docs/history/standard/profiles/equipment/cnc-machine.md, attributes › Act_Amount_PartScrap › description.
+- `SMProfile-CNC-Machine.Act_Amount_PartRework` → `SMProfile-SegmentResponse.qty_rework`; its description was: 
+- `SMProfile-CNC-Machine.Act_Ref_ProductionOrder` → `SMProfile-SegmentResponse.production_order_ref`; its description was: 
+- `SMProfile-CNC-Machine.Act_Ref_Article` → `SMProfile-SegmentResponse.article_ref`; its description was: 
+- `SMProfile-CNC-Machine.Act_Ref_Tool` → `SMProfile-SegmentResponse.tool_ref`; its description was: 
+- `SMProfile-CNC-Machine.Act_Ref_Program` → `SMProfile-SegmentResponse.program_ref`; its description was: 
+- `SMProfile-CNC-Machine.Act_Ref_ProgramLine` → `SMProfile-SegmentResponse.program_line`; its description was: 
+- `SMProfile-CNC-Machine.Act_Status_Program` → `SMProfile-SegmentResponse.program_status`; its description was: 
+- attribute-aliases entry [{"profileRef": "SMProfile-CNC-Machine", "attribute": "Act_Amount_PartGood"}, {"profileRef": "SMProfile-InjectionMoldingMachine", "attribute": "good"}] retired: all members are now SMProfile-SegmentResponse.qty_good
+- attribute-aliases entry [{"profileRef": "SMProfile-CNC-Machine", "attribute": "Act_Amount_PartScrap"}, {"profileRef": "SMProfile-InjectionMoldingMachine", "attribute": "scrap"}] retired: all members are now SMProfile-SegmentResponse.qty_scrap

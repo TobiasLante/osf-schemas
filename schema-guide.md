@@ -47,13 +47,11 @@ osf-schemas/
 │   ├── kpis/                   KPI definitions — inputs drawn from the source-fed vocabulary (lint-kpis) (6 json)
 │   ├── mappings/               protocol canon: DataItem/tag → SM attribute (SSOT for discovery + gen-flows) (3 json)
 │   ├── profiles/               Schema 1: SM Profiles (type system)
-│   │   ├── equipment/              EquipmentClass, EquipmentModel (compact), Tool (3 json)
-│   │   ├── erp/                    Article, Customer(-Order), ProductionOrder, ProductDefinition, OperationsResponse (9 json)
+│   │   ├── equipment/              ISA-95 equipment: Machine (abstract parent), CNC_Machine, InjectionMoldingMachine, EquipmentClass, EquipmentModel (compact), Tool (6 json)
 │   │   ├── intelligence/           multi-truth layer: Discrepancy, ResolutionProposal, AutoResolveRule, … (5 json)
-│   │   ├── machines/               Machine (abstract parent), CNC_Machine, InjectionMoldingMachine (3 json)
-│   │   ├── operations/             ISA-95 Part 4: OperationsDefinition, ProcessSegment, Segment{Requirement,Response}, Workorder (5 json)
-│   │   ├── qms/                    InspectionLot, SPCAnalysis (2 json)
-│   │   └── wms/                    MaterialLot, Quant, StorageLocation (4 json)
+│   │   ├── material/               ISA-95 material: Article (MaterialDefinition), MaterialItem, MaterialLot, Quant (MaterialSubLot), StorageLocation (5 json)
+│   │   ├── operations/             ISA-95 operations (Part 2 + WorkRequest): OperationsDefinition, ProcessSegment, Segment{Requirement,Response}, ProductionOrder, ProductDefinition, (Operations)Response, BdeConfirmation, Workorder, ShiftWindow, Customer(-Order) (13 json)
+│   │   └── quality/                ISA-95 quality: InspectionLot, SPCAnalysis (2 json)
 │   ├── sync/                   Schema 3: Live Sync (transport layer) (1 json)
 │   ├── unit-conversions/       UNECE unit table (discovery-time scale/offset lookup) (1 json)
 │   ├── validation/             ajv meta-schemas (per-file shape validation) (38 json)
@@ -79,7 +77,7 @@ Alles aus der v3-Ära (PostgreSQL-Sources, MQTT-UNS-/Kafka-/Webhook-Syncs) liegt
 <!-- gen:counts:begin -->
 | Category | Count | Files |
 |---|---|---|
-| Profiles | 31 | equipment 3 · erp 9 · intelligence 5 · machines 3 · operations 5 · qms 2 · wms 4 |
+| Profiles | 31 | equipment 6 · intelligence 5 · material 5 · operations 13 · quality 2 |
 | Sources — mtconnect | 2 | mtconnect-cnc-01, mtconnect-cnc-mtc-02 |
 | Sources — opcua | 15 | opcua-cnc-001-event, opcua-cnc-001-telemetry, opcua-cnc-002-event, opcua-cnc-002-telemetry, opcua-ftlinx-01-event, opcua-ftlinx-01-telemetry, opcua-mtbridge-cnc-01, opcua-rockwell-01-event, opcua-rockwell-01-telemetry, opcua-sgm-001-event, opcua-sgm-001-telemetry, opcua-sgm-004-processdata, opcua-sgm-005-processdata, opcua-sgm-006-bde, opcua-sgm-006-processdata |
 | Sources — rest | 10 | erp-bde-confirmations, erp-operations-response, erp-production-orders, erp-segment-requirements, erp-segment-responses, sim-v5-erp-articles, sim-v5-erp-calendar, sim-v5-erp-customers, sim-v5-qms-inspections, sim-v5-wms-quants |
@@ -513,14 +511,14 @@ Derived from `contract.json` (`nodes` grouped by key property; `edges` for usage
 
 ## Adding a New Machine Type
 
-1. Create `standard/profiles/machines/<type>.json` with `parentType: "Machine"` and `kgIdProperty: "machine_id"`
+1. Create `standard/profiles/equipment/<type>.json` (`category: "machine"`) with `parentType: "Machine"` and `kgIdProperty: "machine_id"`
 2. Add the machine's own attributes (the abstract `Machine` parent contributes identity + relationships — it has no attributes of its own)
 3. Add OPC-UA mapping in `sites/<site>/sources/opcua/<machine-id>-<category>.json`
 4. All existing edges with `targetIdProp: "machine_id"` automatically find the new type — **no source schema changes needed**
 
 ## Adding a New ERP Entity
 
-1. Create `standard/profiles/erp/<entity>.json` with unique `kgNodeLabel` and `kgIdProperty`
+1. Create `standard/profiles/<domain>/<entity>.json` (domain = the ISA-95 domain: `equipment`, `material`, `operations` or `quality`) with unique `kgNodeLabel` and `kgIdProperty`
 2. Create `sites/<site>/sources/rest/<source>.json` with `profileRef` and `columnMappings` against the sim-v5 REST projection (direct-DB `sites/werk1/sources/postgresql/` is a v3-era pattern — archived, loaded by nothing)
 3. Add `edges` if the entity references other entities (e.g. `article_no` → Article)
 4. Add a `sourceRef` entry to `sites/werk1/sync/polling/sim-v5-poll.json` for live updates (`lint-refs` in i3x-v5 check-next checks the reference)
@@ -534,7 +532,7 @@ Derived from `contract.json` (`nodes` grouped by key property; `edges` for usage
 In v3 every variable in an SM Profile carries a three-property contract that
 declares how its data is wired, where it is allowed to land, and what triggers
 a publish. These are **required** on every attribute in
-`standard/profiles/machines/*.json` (validated by `standard/validation/machine-profile-schema.json`)
+profiles with `category: "machine"` (under `standard/profiles/equipment/`, validated by `standard/validation/machine-profile-schema.json`)
 and the business-category profiles under `profiles/{erp,operations,qms,wms}/`
 (validated by `standard/validation/business-profile-schema.json` — there is no
 `standard/profiles/business/` directory).

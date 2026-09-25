@@ -1,5 +1,5 @@
 {
-  "_note": "IEC 62264 part of each B2MML file (owner 25.09., after the reference concept of 26.09.): the work files (Part 4: work definition, schedule, performance, capability, alert, record, workflow) and everything else Part 2 (resources, operations definition/schedule/performance/capability/test/event, work calendar, operational location). Common/infrastructure files have no part. lint-isa95 I18 checks a profile's isa95.part against the file its objectModel is defined in (isa95-b2mml.json files).",
+  "_note": "IEC 62264 part of each B2MML file (owner 25.09., after the reference concept of 26.09.): the work files (Part 4: work definition, schedule, performance, capability, alert, record, workflow) and everything else Part 2 (resources, operations definition/schedule/performance/capability/test/event, work calendar, operational location). Common/infrastructure files have no part. lint-isa95 I18 checks a profile's isa95.part against the file its objectModel is defined in (isa95-b2mml.json files). 25.09.2026: WorkCalendar is Part 4 (ANSI/ISA-95.00.04-2018 clause 13 'Work calendar information'; the B2MML-WorkCalendar.xsd header says the same). ResourceRelationshipNetwork stays 2 but is UNSURE: the 2018 Part 4 TOC has it in clause 5, the B2MML header still cites Part 2 (2010).",
   "parts": {
     "B2MML-Common.xsd": null,
     "B2MML-ConfirmBOD.xsd": null,
@@ -23,7 +23,7 @@
     "B2MML-ResourceRelationshipNetwork.xsd": 2,
     "B2MML-TransactionProfile.xsd": null,
     "B2MML-WorkAlert.xsd": 4,
-    "B2MML-WorkCalendar.xsd": 2,
+    "B2MML-WorkCalendar.xsd": 4,
     "B2MML-WorkCapability.xsd": 4,
     "B2MML-WorkDefinition.xsd": 4,
     "B2MML-WorkPerformance.xsd": 4,

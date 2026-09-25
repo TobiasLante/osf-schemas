@@ -138,13 +138,11 @@ osf-schemas/
 │   ├── kpis/                   KPI definitions — inputs drawn from the source-fed vocabulary (lint-kpis) (6 json)
 │   ├── mappings/               protocol canon: DataItem/tag → SM attribute (SSOT for discovery + gen-flows) (3 json)
 │   ├── profiles/               Schema 1: SM Profiles (type system)
-│   │   ├── equipment/              EquipmentClass, EquipmentModel (compact), Tool (3 json)
-│   │   ├── erp/                    Article, Customer(-Order), ProductionOrder, ProductDefinition, OperationsResponse (9 json)
+│   │   ├── equipment/              ISA-95 equipment: Machine (abstract parent), CNC_Machine, InjectionMoldingMachine, EquipmentClass, EquipmentModel (compact), Tool (6 json)
 │   │   ├── intelligence/           multi-truth layer: Discrepancy, ResolutionProposal, AutoResolveRule, … (5 json)
-│   │   ├── machines/               Machine (abstract parent), CNC_Machine, InjectionMoldingMachine (3 json)
-│   │   ├── operations/             ISA-95 Part 4: OperationsDefinition, ProcessSegment, Segment{Requirement,Response}, Workorder (5 json)
-│   │   ├── qms/                    InspectionLot, SPCAnalysis (2 json)
-│   │   └── wms/                    MaterialLot, Quant, StorageLocation (4 json)
+│   │   ├── material/               ISA-95 material: Article (MaterialDefinition), MaterialItem, MaterialLot, Quant (MaterialSubLot), StorageLocation (5 json)
+│   │   ├── operations/             ISA-95 operations (Part 2 + WorkRequest): OperationsDefinition, ProcessSegment, Segment{Requirement,Response}, ProductionOrder, ProductDefinition, (Operations)Response, BdeConfirmation, Workorder, ShiftWindow, Customer(-Order) (13 json)
+│   │   └── quality/                ISA-95 quality: InspectionLot, SPCAnalysis (2 json)
 │   ├── sync/                   Schema 3: Live Sync (transport layer) (1 json)
 │   ├── unit-conversions/       UNECE unit table (discovery-time scale/offset lookup) (1 json)
 │   ├── validation/             ajv meta-schemas (per-file shape validation) (38 json)
@@ -162,7 +160,7 @@ osf-schemas/
 <!-- gen:counts:begin -->
 | Category | Count | Files |
 |---|---|---|
-| Profiles | 31 | equipment 3 · erp 9 · intelligence 5 · machines 3 · operations 5 · qms 2 · wms 4 |
+| Profiles | 31 | equipment 6 · intelligence 5 · material 5 · operations 13 · quality 2 |
 | Sources — mtconnect | 2 | mtconnect-cnc-01, mtconnect-cnc-mtc-02 |
 | Sources — opcua | 15 | opcua-cnc-001-event, opcua-cnc-001-telemetry, opcua-cnc-002-event, opcua-cnc-002-telemetry, opcua-ftlinx-01-event, opcua-ftlinx-01-telemetry, opcua-mtbridge-cnc-01, opcua-rockwell-01-event, opcua-rockwell-01-telemetry, opcua-sgm-001-event, opcua-sgm-001-telemetry, opcua-sgm-004-processdata, opcua-sgm-005-processdata, opcua-sgm-006-bde, opcua-sgm-006-processdata |
 | Sources — rest | 10 | erp-bde-confirmations, erp-operations-response, erp-production-orders, erp-segment-requirements, erp-segment-responses, sim-v5-erp-articles, sim-v5-erp-calendar, sim-v5-erp-customers, sim-v5-qms-inspections, sim-v5-wms-quants |

@@ -3,7 +3,7 @@
 > CAPT-V3-PROFILE-PROPS. Companion to the appendix in `../schema-guide.md`.
 > Concrete, copy-pasteable snippets for the three required variable properties.
 
-## OT-Edge — machine SM Profile (`standard/profiles/machines/*.json`)
+## OT-Edge — machine SM Profile (`standard/profiles/equipment/*.json`, `category: "machine"`)
 
 Attributes are JSON objects in the `attributes[]` array. The three properties
 are required on every one of them.
