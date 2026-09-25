@@ -1,6 +1,6 @@
 {
   "syncId": "uns-convention",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "syncType": "convention",
   "description": "The UNS path and the hub address of every scope=hub signal that no route in sites/werk1/sync/ declares (owner 24.09.). Full text: docs/history/standard/sync/uns-convention.md, description.",
   "worlds": {
@@ -22,8 +22,8 @@
       }
     },
     "it": {
-      "$note": "Profiles of category business (ERP/QMS/WMS, Level 3/4). One subject per source row; the attribute rides as a field of the payload. Level 4 (isa95.level) is enterprise-wide and has no site in its path. eventType (created|updated|deleted) and id (the row key) are filled at runtime.",
-      "categories": ["business", "material", "quality"],
+      "$note": "Profiles of category business, material, quality and equipment master data (ERP/QMS/WMS, Level 3/4). One subject per source row; the attribute rides as a field of the payload. Level 4 (isa95.level) is enterprise-wide and has no site in its path. eventType (created|updated|deleted) and id (the row key) are filled at runtime.",
+      "categories": ["business", "material", "quality", "equipment"],
       "path": "{enterprise}/{site}/{entity}",
       "pathByLevel": {
         "4": "{enterprise}/{entity}"

@@ -1,6 +1,6 @@
 {
  "sourceId": "erp-operations-segments",
- "version": "1.0.0",
+ "version": "1.1.0",
  "sourceType": "rest",
  "functionalLevel": 4,
  "syncType": "polling",
@@ -56,6 +56,14 @@
   {
    "column": "operations_definition_ref",
    "smAttribute": "operations_definition_ref"
+  },
+  {
+   "column": "process_segment_code",
+   "smAttribute": "process_segment_ref"
+  },
+  {
+   "column": "unit_ref",
+   "smAttribute": "equipment_class_ref"
   }
  ],
  "edges": [
@@ -63,6 +71,16 @@
    "type": "PART_OF",
    "fkColumn": "operations_definition_ref",
    "targetIdProp": "operations_definition_no"
+  },
+  {
+   "type": "FOR_PROCESS_SEGMENT",
+   "fkColumn": "process_segment_code",
+   "targetIdProp": "process_segment_no"
+  },
+  {
+   "type": "SPECIFIES_EQUIPMENT",
+   "fkColumn": "unit_ref",
+   "targetIdProp": "equipment_class_id"
   }
  ],
  "description": "Routing steps (ISA-95 OperationsSegment) from sim-v5 erp-operations GET /process-segments, 588 rows, full refresh. Full text: docs/history/sites/werk1/sources/rest/erp-operations-segments.md, description."
