@@ -326,6 +326,38 @@
         },
         "endTime": {
           "type": "string"
+        },
+        "recipeValues": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1000,
+          "description": "The values the rule's require.valueFrom (recipe:<key> / definition:<key>) takes over time, as UNSaC knows them from the model (the instance's machine settings, sites/<site>/settings). The edge keeps no recipe values of its own: the live detector gets them the same way, as a band handed to it (constraint generator cd_recipe_bands, delivered on i3x.recipe.band.<ipc>), and applies the numbers unchanged. Entries are ordered by from; an entry holds from its from until the next entry. A sample that no entry covers, or that falls under value null, has no right-hand side: it is not judged, gets no verdict and is counted in replayResponse.unresolved — never judged as inside the band. Only for a rule whose require has valueFrom.",
+          "items": {
+            "type": "object",
+            "required": [
+              "valueFrom",
+              "value"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "valueFrom": {
+                "type": "string",
+                "pattern": "^(recipe|definition):[A-Za-z0-9_.-]+$",
+                "description": "Must equal rule.require.valueFrom."
+              },
+              "from": {
+                "type": "string",
+                "description": "RFC-3339 time the value holds from. Absent = holds from before the window (only the first entry may omit it)."
+              },
+              "value": {
+                "description": "The right-hand side as the live detector would be handed it: [lo, hi] for op between, {warn:[lo,hi], action:[lo,hi]} for op within_limits, an array for op in, a literal otherwise. null = not known from this entry's from on."
+              },
+              "source": {
+                "type": "string",
+                "description": "Where the value comes from (e.g. the settings file and its version), for the reader. The edge does not interpret it."
+              }
+            }
+          }
         }
       },
       "x-extension": "UNSaC extension of i3X v1"
@@ -340,7 +372,7 @@
         "evaluated": {
           "type": "integer",
           "minimum": 0,
-          "description": "Number of values the rule was evaluated on."
+          "description": "Number of values the rule was evaluated on (values whose right-hand side was known; see unresolved)."
         },
         "verdicts": {
           "type": "array",
@@ -361,6 +393,45 @@
                 ]
               },
               "value": {}
+            }
+          }
+        },
+        "unresolved": {
+          "type": "object",
+          "required": [
+            "valueFrom",
+            "count",
+            "spans"
+          ],
+          "additionalProperties": false,
+          "description": "Present when rule.require has valueFrom: the in-window values that were NOT judged because the right-hand side was not known at their time (no recipeValues entry, or value null). evaluated + unresolved.count = all in-window values with a value.",
+          "properties": {
+            "valueFrom": {
+              "type": "string"
+            },
+            "count": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "spans": {
+              "type": "array",
+              "description": "Consecutive unresolved values, first and last timestamp of each run.",
+              "items": {
+                "type": "object",
+                "required": [
+                  "from",
+                  "to"
+                ],
+                "additionalProperties": false,
+                "properties": {
+                  "from": {
+                    "type": "string"
+                  },
+                  "to": {
+                    "type": "string"
+                  }
+                }
+              }
             }
           }
         }
