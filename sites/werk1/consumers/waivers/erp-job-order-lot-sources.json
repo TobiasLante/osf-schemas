@@ -1,14 +1,16 @@
 {
   "waiverId": "erp-job-order-lot-sources",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "sourceRefs": [
     "erp-job-orders",
+    "erp-machine-pools",
     "erp-material-lots",
     "erp-operations-definitions",
     "erp-operations-segments",
+    "erp-process-segments",
     "erp-workorders"
   ],
-  "reason": "No edge loads these sources yet (Welle 12, 25.09.2026): it-erp-sap is authoring-locked at its measured capacity, and sim-v5 serves job_order_no / job_order_ref only after the Welle 12 S2 deploy. Owner approved in session: until a consumer exists in Welle 13.",
+  "reason": "No edge loads these sources yet (Welle 12, 25.09.2026): it-erp-sap is authoring-locked at its measured capacity, and sim-v5 serves job_order_no / job_order_ref only after the Welle 12 S2 deploy. Owner approved in session: until a consumer exists in Welle 13. Welle 13 (26.09.2026): + erp-process-segments, erp-machine-pools (ProcessSegment / EquipmentClass for the OperationsSegment edges); owner approved the extended list in session.",
   "signedBy": "owner",
-  "signedAt": "2026-09-25T20:45:00Z"
+  "signedAt": "2026-09-26T05:47:30Z"
 }

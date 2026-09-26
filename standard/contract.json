@@ -586,10 +586,10 @@
     ]
   },
   "aliases": {
-    "_comment": "Observed non-conformant vocabulary (agent-conformance test 2026-07-09) -> conformant repo form. Never write the left side. Note: RESPONDS_TO, ON_MACHINE, TRIGGERS, FOR_* ARE conformant repo vocabulary (see edges).",
+    "_comment": "Observed non-conformant vocabulary (agent-conformance test 2026-07-09) -> conformant repo form. Never write the left side. Note: RESPONDS_TO, TRIGGERS, FOR_* ARE conformant repo vocabulary (see edges); ON_MACHINE and EXECUTED_AT are retired (only ISA-95 edges).",
     "PERFORMANCE_OF": "RESPONDS_TO (OperationsResponse -> ProductionOrder)",
-    "AT_WORKCENTER": "ON_MACHINE (responses/lots) or EXECUTED_AT (orders)",
-    "RUNS_ON": "ON_MACHINE (responses/lots) or EXECUTED_AT (orders)",
+    "AT_WORKCENTER": "plan: ProductionOrder MADE_UP_OF SegmentRequirement REQUIRES_EQUIPMENT Machine (or JobOrder REQUIRES_EQUIPMENT); actual: OperationsResponse MADE_UP_OF SegmentResponse ACTUAL_EQUIPMENT Machine",
+    "RUNS_ON": "plan: ProductionOrder MADE_UP_OF SegmentRequirement REQUIRES_EQUIPMENT Machine (or JobOrder REQUIRES_EQUIPMENT); actual: OperationsResponse MADE_UP_OF SegmentResponse ACTUAL_EQUIPMENT Machine",
     "Workcenter": "use the machine profile kgNodeLabel (e.g. CNC_Machine, Machine) with its declared key",
     "Order": "ProductionOrder",
     "FabricationOrder": "ProductionOrder (fabrication order / job / planned order are the same ISA-95 OperationsRequest)",
