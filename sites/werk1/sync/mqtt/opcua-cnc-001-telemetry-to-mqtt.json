@@ -1,0 +1,20 @@
+{
+  "syncId": "opcua-cnc-001-telemetry-to-mqtt",
+  "version": "1.0.0",
+  "syncType": "route",
+  "description": "Vendor software (HighByte, i-flow or Node-RED) reads the OPC UA server of cnc-001 directly and publishes its scope=hub attributes over MQTT. Full text: docs/history/sites/werk1/sync/mqtt/opcua-cnc-001-telemetry-to-mqtt.md, description.",
+  "profileRef": "SMProfile-CNC-Machine",
+  "machineId": "cnc-001",
+  "source": {
+    "type": "opcua",
+    "sourceRef": "opcua-cnc-001-telemetry"
+  },
+  "sink": {
+    "type": "mqtt",
+    "broker": "mqtt://192.168.178.150:31883",
+    "topicPatterns": {
+      "telemetry": "factory/{site}/{machine}/telemetry/{attr}",
+      "transactional": "factory/{site}/{machine}/event/{attr}"
+    }
+  }
+}
