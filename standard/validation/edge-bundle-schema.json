@@ -277,10 +277,15 @@
                 "type": "string"
               },
               "tier": {
-                "type": "string"
+                "type": "string",
+                "description": "hub (the UNS hub), edge (edge-local sink) or vendor (an mqtt route: vendor software reads the machine's OPC UA server directly and publishes to server)."
               },
               "address": {
                 "type": "string"
+              },
+              "server": {
+                "type": "string",
+                "description": "The broker of an mqtt route (its sink.broker, e.g. mqtt://host:1883); credentials never, they are named in targets.json broker.secret."
               },
               "topic": {
                 "type": "string"
