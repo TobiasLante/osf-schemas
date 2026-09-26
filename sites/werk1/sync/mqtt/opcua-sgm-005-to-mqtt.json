@@ -1,0 +1,20 @@
+{
+  "syncId": "opcua-sgm-005-to-mqtt",
+  "version": "1.0.0",
+  "syncType": "route",
+  "description": "Vendor software (HighByte, i-flow or Node-RED) reads the OPC UA server of sgm-005 directly and publishes its scope=hub attributes over MQTT. Full text: docs/history/sites/werk1/sync/mqtt/opcua-sgm-005-to-mqtt.md, description.",
+  "profileRef": "SMProfile-InjectionMoldingMachine",
+  "machineId": "sgm-005",
+  "source": {
+    "type": "opcua",
+    "sourceRef": "opcua-sgm-005-processdata"
+  },
+  "sink": {
+    "type": "mqtt",
+    "broker": "mqtt://192.168.178.150:31883",
+    "topicPatterns": {
+      "telemetry": "factory/{site}/{machine}/telemetry/{attr}",
+      "transactional": "factory/{site}/{machine}/event/{attr}"
+    }
+  }
+}

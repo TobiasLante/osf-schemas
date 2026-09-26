@@ -1,12 +1,12 @@
-# sync/mqtt/opcua-cnc-001-telemetry-to-mqtt.json — history and reasoning
+# sync/mqtt/opcua-cnc-001-event-to-mqtt.json — history and reasoning
 
 The JSON says what a thing is; this file keeps why it became that.
 
 ## description
 
 Separate MQTT route (owner 26.09.2026, W13b): the vendor software of a UNSaC target (`targets.json` kind `highbyte`, `iflow`
-or `node-red` — the target whose consumer carries `opcua-cnc-001-telemetry`) connects DIRECTLY to the OPC UA server of cnc-001 (the endpoint of
-`sites/werk1/sources/opcua/opcua-cnc-001-telemetry.json`) and publishes every scope=hub attribute of that source over MQTT, one topic per
+or `node-red` — the target whose consumer carries `opcua-cnc-001-event`) connects DIRECTLY to the OPC UA server of cnc-001 (the endpoint of
+`sites/werk1/sources/opcua/opcua-cnc-001-event.json`) and publishes every scope=hub attribute of that source over MQTT, one topic per
 attribute. UNSaC writes the product's configuration from this route and pushes it through the product's own API; our edge
 (unsac-edge) and our hub (unsac-hub) are not in this data path, and the UNS hub subject of each signal still comes from
 `standard/sync/uns-convention.json` (the compiler marks these targets tier `vendor`).

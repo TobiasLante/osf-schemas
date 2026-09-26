@@ -26,7 +26,7 @@ osf-schemas/
 │       │   ├── opcua/                  OPC-UA endpoint → machine mappings (15 json)
 │       │   └── rest/                   sim-v5 REST polling (ERP/QMS/WMS projections) (17 json)
 │       ├── sync/                   Schema 3: Live Sync (transport layer)
-│       │   ├── mqtt/                   vendor software (HighByte, i-flow, Node-RED): machine OPC UA server → MQTT broker (2 json)
+│       │   ├── mqtt/                   vendor software (HighByte, i-flow, Node-RED): machine OPC UA server → MQTT broker (4 json)
 │       │   ├── nats/                   NATS subjects + JetStream stream declarations (suite hub) (2 json)
 │       │   ├── opcua-server/           Sonder-Edge re-publish (MTConnect → embedded OPC-UA server) (1 json)
 │       │   └── polling/                REST polling schedule (1 json)
@@ -82,7 +82,7 @@ Alles aus der v3-Ära (PostgreSQL-Sources, MQTT-UNS-/Kafka-/Webhook-Syncs) liegt
 | Sources — mtconnect | 2 | mtconnect-cnc-01, mtconnect-cnc-mtc-02 |
 | Sources — opcua | 15 | opcua-cnc-001-event, opcua-cnc-001-telemetry, opcua-cnc-002-event, opcua-cnc-002-telemetry, opcua-ftlinx-01-event, opcua-ftlinx-01-telemetry, opcua-mtbridge-cnc-01, opcua-rockwell-01-event, opcua-rockwell-01-telemetry, opcua-sgm-001-event, opcua-sgm-001-telemetry, opcua-sgm-004-processdata, opcua-sgm-005-processdata, opcua-sgm-006-bde, opcua-sgm-006-processdata |
 | Sources — rest | 17 | erp-bde-confirmations, erp-job-orders, erp-machine-pools, erp-material-lots, erp-operations-definitions, erp-operations-response, erp-operations-segments, erp-process-segments, erp-production-orders, erp-segment-requirements, erp-segment-responses, erp-workorders, sim-v5-erp-articles, sim-v5-erp-calendar, sim-v5-erp-customers, sim-v5-qms-inspections, sim-v5-wms-quants |
-| Sync — mqtt | 2 | opcua-cnc-001-telemetry-to-mqtt, opcua-sgm-004-to-mqtt |
+| Sync — mqtt | 4 | opcua-cnc-001-event-to-mqtt, opcua-cnc-001-telemetry-to-mqtt, opcua-sgm-004-to-mqtt, opcua-sgm-005-to-mqtt |
 | Sync — nats | 2 | jetstream-streams, opcua-to-nats-cnc-mtc-01 |
 | Sync — opcua-server | 1 | mtconnect-to-opcua-cnc-mtc-01 |
 | Sync — polling | 1 | sim-v5-poll |
@@ -90,7 +90,7 @@ Alles aus der v3-Ära (PostgreSQL-Sources, MQTT-UNS-/Kafka-/Webhook-Syncs) liegt
 | Recipes | 5 (2 parked) | recipe-sgm-004-pa66gf30-bracket-b *(parked)*, recipe-sgm-004-pa66gf30-housing-a *(parked)*, recipe-v4-12-0044-003-pa66gf30, recipe-v4-14-1300-040-pmma, recipe-wip-housing-base-asa-pc |
 | KPIs | 6 (2 parked) | availability, energy-per-part *(parked)*, oee, performance *(parked)*, quality-rate, scrap-rate |
 
-Measured from the tree by `i3x-v5 packages/schemas-ci/osf/gen-docs.mjs` — the same sums `lint-refs` prints (`lint-refs: 33 profiles, 34 sources, 7 sync files`).
+Measured from the tree by `i3x-v5 packages/schemas-ci/osf/gen-docs.mjs` — the same sums `lint-refs` prints (`lint-refs: 33 profiles, 34 sources, 9 sync files`).
 <!-- gen:counts:end -->
 
 ---

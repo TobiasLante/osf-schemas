@@ -14,8 +14,11 @@ attribute. UNSaC writes the product's configuration from this route and pushes i
 - **Topics:** `topicPatterns` per delivery class. An indexed attribute (`name#i`, one source mapping the same attribute N
   times) is published as the topic level `name/i`, because `#` and `+` are MQTT wildcards and never part of a topic name.
 - **Broker:** the v4 vendor broker (v4 `deploy/compose/central.env.example` `VENDOR_MQTT_BROKER_HOST`/`PORT`, the broker the
-  v4 HighByte pipeline published to in the E2E proof of 2026-07-02). Credentials never live here: a target names them in
-  `targets.json` `broker.secret`. Open (owner): whether the vendor broker stays this one or moves to the broker of the
-  vendor host.
-- **Parallel options:** HighByte, i-flow and Node-RED are equal targets. Two targets serving the same machine on the same
-  broker publish the same topics twice — choose one target per machine.
+  v4 HighByte pipeline published to in the E2E proof of 2026-07-02). Decided 26.09. (orchestrator): it stays — reachable
+  from the vendor host .111, MQTT CONNECT anonymous accepted (CONNACK 0); the i-flow broker on .111 is not used (it refuses
+  anonymous clients and its password file is foreign configuration). The broker is anonymous, so no credentials; if one is
+  ever needed, a target names it in `targets.json` `broker.secret`, never here.
+- **One vendor target per machine:** HighByte, i-flow and Node-RED are equal options, chosen per machine. UNSaC's config
+  loader allows one vendor target per consumer (next to its unsac-edge target, another layer), so the UNS topics of a
+  machine have exactly one publisher on this broker; there is no product prefix. Demo choice 26.09.: sgm-004 → HighByte,
+  cnc-001 → Node-RED, sgm-005 → i-flow.
