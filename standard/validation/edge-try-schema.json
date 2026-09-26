@@ -93,7 +93,10 @@
                 "type": "string"
               },
               "result": {
-                "type": "object",
+                "type": [
+                  "object",
+                  "null"
+                ],
                 "required": [
                   "value",
                   "quality",
@@ -118,9 +121,50 @@
                 }
               },
               "error": {
-                "type": "object"
+                "type": "object",
+                "description": "Deprecated: the i3X v1 wire carries 'responseDetail'; an edge does not send 'error'."
+              },
+              "responseDetail": {
+                "type": "object",
+                "required": [
+                  "status",
+                  "detail"
+                ],
+                "description": "i3X v1 problem detail of a failed item (the edge's wire form).",
+                "properties": {
+                  "status": {
+                    "type": "integer"
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "detail": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
               }
-            }
+            },
+            "description": "One item per requested elementId, in request order. success true = the edge answered for the signal ('result', a GoodNoData result with value null when it has no value). success false = a real failure; 'responseDetail' (i3X v1 problem detail) says why, detail never empty.",
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "success": {
+                      "const": false
+                    }
+                  },
+                  "required": [
+                    "success"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "responseDetail"
+                  ]
+                }
+              }
+            ]
           }
         }
       }
@@ -184,7 +228,10 @@
                 "type": "string"
               },
               "result": {
-                "type": "object",
+                "type": [
+                  "object",
+                  "null"
+                ],
                 "required": [
                   "values"
                 ],
@@ -194,13 +241,65 @@
                     "items": {
                       "$ref": "#/$defs/vqt"
                     }
+                  },
+                  "lastBefore": {
+                    "description": "Present when 'values' is empty: the last stored row of the signal before startTime (not changed in the window), or null when the signal was never written before startTime. Absent when the window has values.",
+                    "oneOf": [
+                      {
+                        "type": "null"
+                      },
+                      {
+                        "$ref": "#/$defs/vqt"
+                      }
+                    ]
                   }
                 }
               },
               "error": {
-                "type": "object"
+                "type": "object",
+                "description": "Deprecated: the i3X v1 wire carries 'responseDetail'; an edge does not send 'error'."
+              },
+              "responseDetail": {
+                "type": "object",
+                "required": [
+                  "status",
+                  "detail"
+                ],
+                "description": "i3X v1 problem detail of a failed item (the edge's wire form).",
+                "properties": {
+                  "status": {
+                    "type": "integer"
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "detail": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
               }
-            }
+            },
+            "description": "One item per requested elementId, in request order. success true = the edge answered for the signal: 'values' are the samples IN the window. Setpoints are written on change only (owner 26.09.), so an empty window is not an error: 'lastBefore' then says whether the signal was written before the window (its last row before startTime, i.e. the value held through the window) or never (null). success false = a real failure; 'responseDetail' (i3X v1 problem detail) says why, detail never empty.",
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "success": {
+                      "const": false
+                    }
+                  },
+                  "required": [
+                    "success"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "responseDetail"
+                  ]
+                }
+              }
+            ]
           }
         }
       }
