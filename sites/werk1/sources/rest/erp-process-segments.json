@@ -1,0 +1,50 @@
+{
+ "sourceId": "erp-process-segments",
+ "version": "1.0.0",
+ "sourceType": "rest",
+ "functionalLevel": 4,
+ "syncType": "polling",
+ "profileRef": "SMProfile-ProcessSegment",
+ "instanceRef": "werk1",
+ "location": {
+  "enterprise": "factory",
+  "site": "werk1"
+ },
+ "transport": [
+  "nats"
+ ],
+ "connection": {
+  "baseUrl": "http://192.168.178.154:38060",
+  "path": "/process-segments",
+  "method": "GET",
+  "auth": null,
+  "timeoutMs": 10000
+ },
+ "response": {
+  "format": "json",
+  "rootPath": "$.items",
+  "idProperty": "process_segment_code"
+ },
+ "polling": {
+  "changeDetection": "full_refresh",
+  "intervalMs": 900000,
+  "batchSize": 500,
+  "paginate": true
+ },
+ "columnMappings": [
+  {
+   "column": "process_segment_code",
+   "smAttribute": "process_segment_no",
+   "isId": true
+  },
+  {
+   "column": "name",
+   "smAttribute": "name"
+  },
+  {
+   "column": "operations_type",
+   "smAttribute": "operations_type"
+  }
+ ],
+ "description": "Reusable stages (ISA-95 ProcessSegment) from sim-v5 erp-operations GET /process-segments, keyed by process_segment_code: 588 rows, 4 distinct stages, full refresh. Full text: docs/history/sites/werk1/sources/rest/erp-process-segments.md, description."
+}

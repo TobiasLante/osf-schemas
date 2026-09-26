@@ -1,0 +1,46 @@
+{
+ "sourceId": "erp-machine-pools",
+ "version": "1.0.0",
+ "sourceType": "rest",
+ "functionalLevel": 4,
+ "syncType": "polling",
+ "profileRef": "SMProfile-EquipmentClass",
+ "instanceRef": "werk1",
+ "location": {
+  "enterprise": "factory",
+  "site": "werk1"
+ },
+ "transport": [
+  "nats"
+ ],
+ "connection": {
+  "baseUrl": "http://192.168.178.154:38009",
+  "path": "/pools",
+  "method": "GET",
+  "auth": null,
+  "timeoutMs": 10000
+ },
+ "response": {
+  "format": "json",
+  "rootPath": "$.items",
+  "idProperty": "poolId"
+ },
+ "polling": {
+  "changeDetection": "full_refresh",
+  "intervalMs": 900000,
+  "batchSize": 500,
+  "paginate": false
+ },
+ "columnMappings": [
+  {
+   "column": "poolId",
+   "smAttribute": "equipment_class_id",
+   "isId": true
+  },
+  {
+   "column": "displayName",
+   "smAttribute": "name"
+  }
+ ],
+ "description": "Machine pools (ISA-95 EquipmentClass) from sim-v5 erp-machine-pools GET /pools, 13 rows, full refresh. Full text: docs/history/sites/werk1/sources/rest/erp-machine-pools.md, description."
+}

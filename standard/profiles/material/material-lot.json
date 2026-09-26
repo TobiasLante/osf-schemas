@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-MaterialLot",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "standard": "ISA-95",
   "category": "material",
   "displayName": "Material Lot (the correct term for 'batch')",
@@ -72,6 +72,17 @@
       "valueType": "ID"
     },
     {
+      "name": "job_order_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "FK to JobOrder.job_order_no: the job (one workorder operation) that produced this lot. Full text: docs/history/standard/profiles/material/material-lot.md, attributes › job_order_ref › description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
       "name": "location_ref",
       "dataType": "String",
       "required": false,
@@ -88,6 +99,16 @@
       "required": false,
       "category": "Timing",
       "description": "Creation timestamp of the lot.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "updated_at",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "Last change of the lot; every writer sets it. Cursor of GET /material-lots?updated_since= (sim-v5, Welle 12).",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -124,7 +145,7 @@
     "part": 2,
     "momDomain": "inventory",
     "level": 3,
-    "note": "ISA-95 MaterialLot = identifiable material quantity of a MaterialDefinition. RULE: ERP 'batch' == MaterialLot (a portion of material), NEVER an activity. Sits between Article (MaterialDefinition) and Quant (MaterialSublot).",
+    "note": "ISA-95 MaterialLot = identifiable material quantity of a MaterialDefinition. RULE: ERP 'batch' == MaterialLot, NEVER an activity. Sits between Article (MaterialDefinition) and Quant (MaterialSublot). Full text: docs/history/standard/profiles/material/material-lot.md, isa95 › note.",
     "propertyMap": {
       "material_lot_no": "MaterialLot.ID",
       "article_ref": "MaterialLot.MaterialDefinitionID",

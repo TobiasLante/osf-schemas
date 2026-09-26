@@ -132,7 +132,13 @@
     "properties": {
      "type": { "type": "string", "minLength": 1 },
      "fkColumn": { "type": "string" },
-     "targetIdProp": { "type": "string" }
+     "targetIdProp": { "type": "string" },
+     "direction": {
+      "type": "string",
+      "enum": ["out", "in"],
+      "default": "out",
+      "description": "Direction of the KG edge relative to the object of THIS source (Welle 12). \"out\" (default; an edge without the field is \"out\", so no existing source changes): this object -[type]-> the object whose targetIdProp equals fkColumn. \"in\": the object whose targetIdProp equals fkColumn -[type]-> this object. The key sits on this source because the edge is 1:n and the key lives on the n side (MaterialLot.job_order_ref for JobOrder REQUIRES_MATERIAL MaterialLot, which has no ISA-95 inverse name). For \"in\" the relationship is declared on the profile at the OTHER end, with this source's profile as its target (lint-edges)."
+     }
     },
     "additionalProperties": true
    }

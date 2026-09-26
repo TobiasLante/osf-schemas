@@ -1,0 +1,97 @@
+{
+ "sourceId": "erp-material-lots",
+ "version": "1.0.0",
+ "sourceType": "rest",
+ "functionalLevel": 4,
+ "syncType": "polling",
+ "profileRef": "SMProfile-MaterialLot",
+ "instanceRef": "werk1",
+ "location": {
+  "enterprise": "factory",
+  "site": "werk1"
+ },
+ "transport": [
+  "nats"
+ ],
+ "connection": {
+  "baseUrl": "http://192.168.178.154:38060",
+  "path": "/material-lots",
+  "method": "GET",
+  "auth": null,
+  "timeoutMs": 10000
+ },
+ "response": {
+  "format": "json",
+  "rootPath": "$.items",
+  "idProperty": "material_lot_no"
+ },
+ "polling": {
+  "changeDetection": "timestamp",
+  "timestampQueryParam": "updated_since",
+  "timestampField": "updated_at",
+  "intervalMs": 60000,
+  "batchSize": 500
+ },
+ "columnMappings": [
+  {
+   "column": "material_lot_no",
+   "smAttribute": "material_lot_no",
+   "isId": true
+  },
+  {
+   "column": "article_ref",
+   "smAttribute": "article_ref"
+  },
+  {
+   "column": "quantity",
+   "smAttribute": "quantity"
+  },
+  {
+   "column": "unit_of_measure",
+   "smAttribute": "unit_of_measure"
+  },
+  {
+   "column": "status",
+   "smAttribute": "status"
+  },
+  {
+   "column": "workorder_ref",
+   "smAttribute": "workorder_ref"
+  },
+  {
+   "column": "job_order_ref",
+   "smAttribute": "job_order_ref"
+  },
+  {
+   "column": "location_ref",
+   "smAttribute": "location_ref"
+  },
+  {
+   "column": "created_at",
+   "smAttribute": "created_at"
+  },
+  {
+   "column": "updated_at",
+   "smAttribute": "updated_at"
+  }
+ ],
+ "edges": [
+  {
+   "type": "DEFINED_BY",
+   "fkColumn": "article_ref",
+   "targetIdProp": "article_no"
+  },
+  {
+   "type": "AT_LOCATION",
+   "fkColumn": "location_ref",
+   "targetIdProp": "storage_location_id"
+  },
+  {
+   "type": "REQUIRES_MATERIAL",
+   "fkColumn": "job_order_ref",
+   "targetIdProp": "job_order_no",
+   "direction": "in"
+  }
+ ],
+ "description": "Material lots (sim-v5 erp-operations GET /material-lots, B2MML MaterialLot) for SMProfile-MaterialLot. Full text: docs/history/sites/werk1/sources/rest/erp-material-lots.md, description."
+}
