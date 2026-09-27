@@ -1,0 +1,39 @@
+{
+  "sourceId": "opcua-w24f-cnc-01-telemetry",
+  "version": "1.0.0",
+  "sourceType": "opcua",
+  "functionalLevel": 2,
+  "syncType": "polling",
+  "transport": [
+    "nats"
+  ],
+  "connection": {
+    "endpoint": "opc.tcp://192.168.178.154:36001",
+    "securityMode": "None",
+    "securityPolicy": "None",
+    "auth": "Anonymous"
+  },
+  "dataCategory": "telemetry",
+  "profileRef": "SMProfile-CNC-Machine",
+  "endpoint": "opc.tcp://192.168.178.154:36001",
+  "machineId": "w24f-cnc-01",
+  "machineName": "w24f CNC 01",
+  "location": {
+    "enterprise": "factory",
+    "site": "werk1",
+    "area": "cnc",
+    "line": "line-a"
+  },
+  "instanceRef": "w24f-cnc-01",
+  "nodeMappings": [
+    {
+      "opcuaNodeId": "ns=1;s=Machine/status",
+      "smAttribute": "Act_Status_Machine",
+      "dataType": "String"
+    }
+  ],
+  "polling": {
+    "mode": "scan",
+    "intervalMs": 5000
+  }
+}
