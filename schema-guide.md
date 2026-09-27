@@ -9,7 +9,7 @@ No LLM is needed — the schemas are the single source of truth.
 ```
 osf-schemas/
 ├── docs/                   conventions, next2.0 standard, agent-conformance, variable shapes; history/ = the reasoning moved out of the JSON
-├── examples/               demo fixtures — NOT canonical (see examples/README.md) (4 json)
+├── examples/               demo fixtures — NOT canonical (see examples/README.md) (5 json)
 ├── sites/                  one folder per plant (site): its instance tree, sources, syncs, consumers
 │   └── werk1/                  
 │       ├── branding/               brand/theme assets (1 json)
@@ -55,7 +55,7 @@ osf-schemas/
 │   │   └── quality/                ISA-95 quality: InspectionLot, SPCAnalysis (2 json)
 │   ├── sync/                   Schema 3: Live Sync (transport layer) (1 json)
 │   ├── unit-conversions/       UNECE unit table (discovery-time scale/offset lookup) (1 json)
-│   ├── validation/             ajv meta-schemas (per-file shape validation) (40 json)
+│   ├── validation/             ajv meta-schemas (per-file shape validation) (41 json)
 │   ├── contract.json           GENERATED ontology contract (gen-contract.mjs) — agents read this FIRST
 │   └── standard.json
 ├── CLAUDE.md               agent instructions
