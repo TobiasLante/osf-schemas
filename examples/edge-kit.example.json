@@ -1,0 +1,29 @@
+{
+  "format": "unsac.edge-kit/1",
+  "edgeId": "sgm-004",
+  "consumerId": "edge-sgm-004",
+  "site": "werk1",
+  "ring": 0,
+  "unsac": {
+    "feedbackUrl": "https://unsac.example.internal:38090/api/feedback",
+    "caFile": "ca/unsac-ca.pem"
+  },
+  "edge": {
+    "endpoint": "http://edge-sgm-004.example.internal:38100",
+    "bind": "0.0.0.0",
+    "port": 38100,
+    "dataPlane": false
+  },
+  "tokens": {
+    "release": "secrets/release-token",
+    "feedback": "secrets/feedback-token",
+    "try": "secrets/try-token"
+  },
+  "images": [
+    {
+      "image": "unsac-edge-api:0.5.6",
+      "file": "images/unsac-edge-api-0.5.6.tar.gz",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    }
+  ]
+}

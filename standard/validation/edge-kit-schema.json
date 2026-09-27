@@ -1,0 +1,118 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/validation/edge-kit-schema.json",
+  "title": "Edge contract · Edge kit (install hand-over)",
+  "description": "Edge contract, install part (Welle 21, C3-3): the kit.json of the folder UNSaC hands to the person who installs one edge (Add edge), read by unsac-edge install-edge.sh. It names where the edge reports to (the UNSaC feedback endpoint), where UNSaC delivers to (the edge endpoint), the machine, site and ring, the image tars with their checksums, and the credentials. Credentials are NEVER values in this file: every token is a FILE NAME inside the kit (secrets/<name>), so kit.json can be read, diffed and logged. The consumerId is edge-<edgeId> (the same convention as the hub account EDGE_<EDGEID> and its leaf user); install-edge.sh refuses a kit where the two disagree. No token is optional: the edge compose mounts all three, and an edge that could run without the release token would accept releases from anyone.",
+  "type": "object",
+  "required": ["format", "edgeId", "consumerId", "site", "ring", "unsac", "edge", "tokens", "images"],
+  "additionalProperties": false,
+  "properties": {
+    "format": { "const": "unsac.edge-kit/1" },
+    "edgeId": {
+      "type": "string",
+      "pattern": "^[a-z0-9]([a-z0-9-]{0,38}[a-z0-9])?$",
+      "description": "The machine id; the compose variable EDGE_ID. Names the compose project unsac-edge-<edgeId> and its containers."
+    },
+    "consumerId": {
+      "type": "string",
+      "pattern": "^edge-[a-z0-9]([a-z0-9-]{0,38}[a-z0-9])?$",
+      "description": "The UNSaC consumer of this edge (sites/<site>/consumers/<consumerId>.json); must be edge-<edgeId>."
+    },
+    "site": {
+      "type": "string",
+      "pattern": "^[a-z0-9]([a-z0-9-]{0,38}[a-z0-9])?$",
+      "description": "The site (plant) the consumer belongs to: the <site> of sites/<site>/."
+    },
+    "ring": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Rollout ring of the consumer (consumer-schema ring), informative for the installer; UNSaC decides deliveries."
+    },
+    "unsac": {
+      "type": "object",
+      "required": ["feedbackUrl"],
+      "additionalProperties": false,
+      "properties": {
+        "feedbackUrl": {
+          "type": "string",
+          "pattern": "^https?://[^\\s/]+(/[^\\s]*)?/api/feedback$",
+          "description": "UNSaC's feedback endpoint (POST /api/feedback) the edge reports grain loaded to."
+        },
+        "caFile": {
+          "$ref": "#/$defs/caFile",
+          "description": "Public CA certificate UNSaC's TLS is signed by, when not a public CA (ca/<name>.pem)."
+        }
+      }
+    },
+    "edge": {
+      "type": "object",
+      "required": ["endpoint", "port"],
+      "additionalProperties": false,
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "pattern": "^https?://[^\\s/]+$",
+          "description": "Where UNSaC reaches this edge (the target url in UNSaC's targets.json), scheme://host:port, no path."
+        },
+        "bind": {
+          "type": "string",
+          "pattern": "^[0-9a-fA-F.:]+$",
+          "description": "Host address the edge api is published on (default 0.0.0.0)."
+        },
+        "port": { "type": "integer", "minimum": 1, "maximum": 65535, "description": "Host port of the edge api." },
+        "dataPlane": {
+          "type": "boolean",
+          "description": "true = also start the edge's own NATS + Timescale + flow runtime (compose profile data-plane); needs those images in the kit. Default false: control plane only."
+        }
+      }
+    },
+    "tokens": {
+      "type": "object",
+      "required": ["release", "feedback", "try"],
+      "additionalProperties": false,
+      "properties": {
+        "release": { "$ref": "#/$defs/secretFile", "description": "Bearer secret UNSaC presents on POST /v1/unsac/release (UNSaC holds the same value as the target secret)." },
+        "feedback": { "$ref": "#/$defs/secretFile", "description": "Bearer token the edge presents on POST /api/feedback (UNSaC holds only its hash)." },
+        "try": { "$ref": "#/$defs/secretFile", "description": "The read-only Try credential (edge-try-schema), the target's trySecret in UNSaC." }
+      }
+    },
+    "leaf": {
+      "type": "object",
+      "description": "Leaf uplink to the unsac hub. Absent = no uplink. Only meaningful with edge.dataPlane.",
+      "required": ["hub", "user", "passwordFile", "caFile"],
+      "additionalProperties": false,
+      "properties": {
+        "hub": { "type": "string", "pattern": "^[^\\s:/]+:[0-9]{1,5}$", "description": "host:port of the hub's TLS leaf listener." },
+        "user": { "type": "string", "pattern": "^edge-[a-z0-9]([a-z0-9-]{0,38}[a-z0-9])?$", "description": "The leaf user on the hub; must be the consumerId." },
+        "passwordFile": { "$ref": "#/$defs/secretFile" },
+        "caFile": { "$ref": "#/$defs/caFile", "description": "The hub's own CA certificate (public)." }
+      }
+    },
+    "images": {
+      "type": "array",
+      "minItems": 1,
+      "description": "The image tars of the kit. install-edge.sh checks every sha256 BEFORE docker load and refuses the kit on any mismatch.",
+      "items": {
+        "type": "object",
+        "required": ["image", "file", "sha256"],
+        "additionalProperties": false,
+        "properties": {
+          "image": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._/-]*:[A-Za-z0-9._-]+$", "description": "repository:tag as docker load restores it." },
+          "file": { "type": "string", "pattern": "^images/[A-Za-z0-9._-]+\\.tar(\\.gz)?$" },
+          "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "secretFile": {
+      "type": "string",
+      "pattern": "^secrets/[a-z0-9][a-z0-9.-]{0,63}$",
+      "description": "A file name inside the kit, never the value."
+    },
+    "caFile": {
+      "type": "string",
+      "pattern": "^ca/[A-Za-z0-9][A-Za-z0-9._-]{0,63}\\.pem$"
+    }
+  }
+}
