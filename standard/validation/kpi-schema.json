@@ -2,9 +2,9 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/validation/kpi-schema.json",
   "title": "KPI",
-  "description": "Meta-schema for standard/kpis/*.json. Defines the shape of a KPI definition (inputs, per-profile input mappings, Cypher calculation, thresholds, applicable profiles) consumed by the KPI linter and the edge KPI flow generator.",
+  "description": "Meta-schema for standard/kpis/*.json. Defines the shape of a KPI definition (inputs, per-profile input mappings, the calculation, applicable profiles) consumed by the KPI linter and the edge KPI flow generator. Owner 28.09.: a KPI is the DEFINITION only — its formula as a tree (calculation.expression, built by drag & drop, the Cypher generated from it); the limits (target/warning/critical) live in standard/kpi-limits/ (kpi-limits-schema.json, a Rule 'KPI below/above X'). `thresholds` is deprecated and stays readable until the KPIs have migrated.",
   "type": "object",
-  "required": ["kpiId", "version", "displayName", "description", "unit", "category", "calculation", "thresholds", "appliesTo"],
+  "required": ["kpiId", "version", "displayName", "description", "unit", "category", "calculation", "appliesTo"],
   "properties": {
     "kpiId": { "type": "string", "pattern": "^KPI-" },
     "version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
@@ -18,7 +18,8 @@
       "properties": {
         "inputs": { "type": "array", "items": { "type": "string" } },
         "inputMappings": { "type": "object" },
-        "cypher": { "type": "string" }
+        "cypher": { "type": "string", "description": "The expression the Cypher lane runs on the machine's graph node (m.<input>). With an `expression`, it is generated from it and never edited by hand." },
+        "expression": { "$ref": "#/definitions/node", "description": "The formula as a tree (the KPI builder's blocks). Inputs are the names of `inputs`." }
       },
       "additionalProperties": false
     },
@@ -30,7 +31,9 @@
         "warning": { "type": "number" },
         "critical": { "type": "number" }
       },
-      "additionalProperties": false
+      "additionalProperties": false,
+      "deprecated": true,
+      "description": "Deprecated (owner 28.09.): the limits live in standard/kpi-limits/<kpi>.json (kpi-limits-schema.json). Kept readable until every KPI has migrated."
     },
     "appliesTo": {
       "type": "array",
@@ -51,5 +54,22 @@
   "patternProperties": {
     "^\\$": { "type": "string" }
   },
-  "additionalProperties": false
+  "additionalProperties": false,
+  "definitions": {
+    "node": {
+      "description": "One block of a KPI formula. Parentheses are the tree itself.",
+      "oneOf": [
+        {"type": "object", "required": ["input"], "properties": {"input": {"type": "string", "minLength": 1, "description": "A signal of the class (one of the KPI's inputs)"}}, "additionalProperties": false},
+        {"type": "object", "required": ["number"], "properties": {"number": {"type": "number"}}, "additionalProperties": false},
+        {"type": "object", "required": ["text"], "properties": {"text": {"type": "string", "description": "A text value, e.g. a machine state RUNNING"}}, "additionalProperties": false},
+        {"type": "object", "required": ["empty"], "properties": {"empty": {"const": true, "description": "No value (Cypher null): the KPI has no answer"}}, "additionalProperties": false},
+        {"type": "object", "required": ["op", "args"], "properties": {"op": {"enum": ["+", "-", "*", "/"]}, "args": {"type": "array", "items": {"$ref": "#/definitions/node"}, "minItems": 2, "maxItems": 2}}, "additionalProperties": false},
+        {"type": "object", "required": ["compare", "args"], "properties": {"compare": {"enum": ["=", "!=", "<", "<=", ">", ">="]}, "args": {"type": "array", "items": {"$ref": "#/definitions/node"}, "minItems": 2, "maxItems": 2}}, "additionalProperties": false},
+        {"type": "object", "required": ["oneOf", "values"], "properties": {"oneOf": {"$ref": "#/definitions/node"}, "values": {"type": "array", "minItems": 1, "items": {"type": ["string", "number"]}, "description": "The value is one of these"}}, "additionalProperties": false},
+        {"type": "object", "required": ["ifEmpty", "then"], "properties": {"ifEmpty": {"$ref": "#/definitions/node"}, "then": {"$ref": "#/definitions/node"}}, "additionalProperties": false},
+        {"type": "object", "required": ["if", "then", "else"], "properties": {"if": {"$ref": "#/definitions/node"}, "then": {"$ref": "#/definitions/node"}, "else": {"$ref": "#/definitions/node"}}, "additionalProperties": false},
+        {"type": "object", "required": ["round", "digits"], "properties": {"round": {"$ref": "#/definitions/node"}, "digits": {"type": "integer", "minimum": 0, "maximum": 6}}, "additionalProperties": false}
+      ]
+    }
+  }
 }
