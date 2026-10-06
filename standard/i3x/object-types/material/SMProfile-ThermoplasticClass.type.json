@@ -1,0 +1,166 @@
+{
+  "elementId": "SMProfile-ThermoplasticClass",
+  "displayName": "Thermoplastic material class",
+  "namespaceUri": "urn:osf:schemas:material",
+  "version": "1.0.0",
+  "schema": {
+    "description": "Material class for thermoplastic moulding compounds (resins): polymer and filler designation (ISO 1043) and the processing window from the supplier datasheet. Every attribute is an ISA-95 MaterialClassProperty of the class.",
+    "allOf": [
+      {
+        "$ref": "SMProfile-MaterialClass.type.json#/schema"
+      },
+      {
+        "type": "object",
+        "properties": {
+          "polymer_family": {
+            "type": "string",
+            "description": "Polymer as designated by ISO 1043-1 (e.g. PA66, PMMA, ASA+PC).",
+            "x-category": "Designation",
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change",
+            "x-valueType": "MD"
+          },
+          "filler_type": {
+            "type": "string",
+            "description": "Filler or reinforcement as designated by ISO 1043-2 (e.g. GF glass fibre, CF carbon fibre, MD mineral); absent when unfilled.",
+            "x-category": "Designation",
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change",
+            "x-valueType": "MD"
+          },
+          "filler_content": {
+            "type": "number",
+            "description": "Filler content in mass percent (the 30 in PA66-GF30).",
+            "x-unit": "P1",
+            "x-category": "Designation",
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change",
+            "x-valueType": "MD"
+          },
+          "drying_temp": {
+            "type": "number",
+            "description": "Drying temperature before processing (supplier datasheet).",
+            "x-unit": "CEL",
+            "x-category": "Processing",
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change",
+            "x-valueType": "MD"
+          },
+          "drying_time": {
+            "type": "number",
+            "description": "Drying time before processing (supplier datasheet).",
+            "x-unit": "HUR",
+            "x-category": "Processing",
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change",
+            "x-valueType": "MD"
+          },
+          "residual_moisture_max": {
+            "type": "number",
+            "description": "Maximum residual moisture at processing (supplier datasheet).",
+            "x-unit": "P1",
+            "x-category": "Processing",
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change",
+            "x-valueType": "LIM"
+          },
+          "melt_temp_min": {
+            "type": "number",
+            "description": "Lower end of the melt temperature window (supplier datasheet).",
+            "x-unit": "CEL",
+            "x-category": "Processing",
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change",
+            "x-valueType": "LIM"
+          },
+          "melt_temp_max": {
+            "type": "number",
+            "description": "Upper end of the melt temperature window (supplier datasheet).",
+            "x-unit": "CEL",
+            "x-category": "Processing",
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change",
+            "x-valueType": "LIM"
+          },
+          "mould_temp_min": {
+            "type": "number",
+            "description": "Lower end of the mould temperature window (supplier datasheet).",
+            "x-unit": "CEL",
+            "x-category": "Processing",
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change",
+            "x-valueType": "LIM"
+          },
+          "mould_temp_max": {
+            "type": "number",
+            "description": "Upper end of the mould temperature window (supplier datasheet).",
+            "x-unit": "CEL",
+            "x-category": "Processing",
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change",
+            "x-valueType": "LIM"
+          }
+        },
+        "required": [
+          "polymer_family"
+        ]
+      }
+    ]
+  },
+  "x-osf": {
+    "source": "standard/profiles/material/thermoplastic-class.json",
+    "standard": "ISA-95",
+    "category": "business",
+    "abstract": false,
+    "relationships": [],
+    "constraints": [],
+    "semantics": [
+      "iso:62264-MaterialClass"
+    ],
+    "kpiRefs": [],
+    "isa95": {
+      "objectModel": "MaterialClass",
+      "part": 2,
+      "momDomain": "production",
+      "level": 3,
+      "note": "MaterialClass specialisation. Attributes = nested MaterialClassProperty (MaterialClassPropertyChild) in three groups: designation (polymer, filler, content), drying, processing_window (melt, mould temperature).",
+      "propertyMap": {
+        "polymer_family": "MaterialClass.MaterialClassProperty.MaterialClassPropertyChild.Value",
+        "filler_type": "MaterialClass.MaterialClassProperty.MaterialClassPropertyChild.Value",
+        "filler_content": "MaterialClass.MaterialClassProperty.MaterialClassPropertyChild.Value",
+        "drying_temp": "MaterialClass.MaterialClassProperty.MaterialClassPropertyChild.Value",
+        "drying_time": "MaterialClass.MaterialClassProperty.MaterialClassPropertyChild.Value",
+        "residual_moisture_max": "MaterialClass.MaterialClassProperty.MaterialClassPropertyChild.Value",
+        "melt_temp_min": "MaterialClass.MaterialClassProperty.MaterialClassPropertyChild.Value",
+        "melt_temp_max": "MaterialClass.MaterialClassProperty.MaterialClassPropertyChild.Value",
+        "mould_temp_min": "MaterialClass.MaterialClassProperty.MaterialClassPropertyChild.Value",
+        "mould_temp_max": "MaterialClass.MaterialClassProperty.MaterialClassPropertyChild.Value"
+      }
+    },
+    "kgNodeLabel": "ThermoplasticClass",
+    "kgIdProperty": "material_class_id",
+    "parentType": "MaterialClass",
+    "requiredDeclaredOn": [
+      "polymer_family",
+      "filler_type",
+      "filler_content",
+      "drying_temp",
+      "drying_time",
+      "residual_moisture_max",
+      "melt_temp_min",
+      "melt_temp_max",
+      "mould_temp_min",
+      "mould_temp_max"
+    ]
+  }
+}

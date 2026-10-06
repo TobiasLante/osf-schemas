@@ -1,0 +1,95 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/quality/SMProfile-InspectionLot.payload.json",
+  "title": "SMProfile-InspectionLot payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/quality/inspection-lot.json 3.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-InspectionLot",
+  "x-profileVersion": "3.0.0",
+  "x-payloadVersion": "1.0.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "InspectionLot"
+    },
+    "profileRef": {
+      "const": "SMProfile-InspectionLot"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "lot_no": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$"
+        },
+        "order_ref": {
+          "type": "string",
+          "description": "Referenced production order (join key to ProductionOrder / CustomerOrder)."
+        },
+        "article_ref": {
+          "type": "string"
+        },
+        "machine_ref": {
+          "type": "string"
+        },
+        "lot_type": {
+          "type": "string",
+          "description": "e.g. final, RMA_RECEIPT."
+        },
+        "status": {
+          "type": "string",
+          "description": "Lot status, e.g. open, closed."
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "DECIDED"
+          ],
+          "description": "Inspection workflow state. Full text: docs/history/standard/profiles/quality/inspection-lot.md, attributes › state › description."
+        },
+        "decision": {
+          "type": "string",
+          "enum": [
+            "ACCEPT",
+            "REWORK",
+            "REJECT"
+          ],
+          "description": "Usage decision. VOCABULARY MEASURED 2026-07-12 over the FULL population (qms.inspection_lots, GROUP BY decision): ACCEPT (281.698), REWORK (33.518), REJECT (16.574) — no NULLs. The lot_rejected rule `decision ne 'REJECT'` is ALIVE and hits real data. Verified nightly by ci/check-vocab-drift.mjs."
+        },
+        "quantity": {
+          "type": "integer"
+        },
+        "sample_size": {
+          "type": "integer"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "lot_no"
+      ]
+    }
+  },
+  "x-delivery": {
+    "lot_no": "transactional",
+    "order_ref": "transactional",
+    "article_ref": "transactional",
+    "machine_ref": "transactional",
+    "lot_type": "transactional",
+    "status": "transactional",
+    "state": "transactional",
+    "decision": "transactional",
+    "quantity": "transactional",
+    "sample_size": "transactional",
+    "created_at": "transactional"
+  }
+}

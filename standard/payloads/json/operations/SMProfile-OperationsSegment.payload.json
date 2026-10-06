@@ -1,0 +1,90 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-OperationsSegment.payload.json",
+  "title": "SMProfile-OperationsSegment payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/operations/operations-segment.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-OperationsSegment",
+  "x-profileVersion": "1.0.0",
+  "x-payloadVersion": "1.0.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "OperationsSegment"
+    },
+    "profileRef": {
+      "const": "SMProfile-OperationsSegment"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "operations_segment_no": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the OperationsSegment (join key). Recommendation: <operations_definition_no>.<sequence>."
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name of the step."
+        },
+        "operations_type": {
+          "type": "string",
+          "enum": [
+            "production",
+            "inventory",
+            "quality",
+            "maintenance"
+          ],
+          "description": "ISA-95 operations type of the step."
+        },
+        "sequence": {
+          "type": "integer",
+          "description": "Position of the step within its OperationsDefinition."
+        },
+        "duration_planned_sec": {
+          "type": "number",
+          "x-unit": "SEC",
+          "description": "Planned duration of the step."
+        },
+        "operations_definition_ref": {
+          "type": "string",
+          "description": "The OperationsDefinition (routing) this step belongs to."
+        },
+        "process_segment_ref": {
+          "type": "string",
+          "description": "The ProcessSegment (reusable stage) this step performs."
+        },
+        "material_ref": {
+          "type": "string",
+          "description": "The article (MaterialDefinition) this step specifies."
+        },
+        "equipment_class_ref": {
+          "type": "string",
+          "description": "The equipment class this step specifies."
+        }
+      },
+      "required": [
+        "operations_segment_no",
+        "operations_definition_ref"
+      ]
+    }
+  },
+  "x-delivery": {
+    "operations_segment_no": "transactional",
+    "name": "transactional",
+    "operations_type": "transactional",
+    "sequence": "transactional",
+    "duration_planned_sec": "transactional",
+    "operations_definition_ref": "transactional",
+    "process_segment_ref": "transactional",
+    "material_ref": "transactional",
+    "equipment_class_ref": "transactional"
+  }
+}

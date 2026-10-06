@@ -1,0 +1,111 @@
+{
+  "type": "record",
+  "name": "OperationsDefinition",
+  "namespace": "org.openshopfloor.payload.operations",
+  "doc": "GENERATED from standard/profiles/operations/operations-definition.json 3.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "fields": [
+    {
+      "name": "eventType",
+      "type": {
+        "type": "enum",
+        "name": "EventType",
+        "symbols": [
+          "created",
+          "updated",
+          "deleted"
+        ]
+      }
+    },
+    {
+      "name": "id",
+      "type": "string",
+      "doc": "Row key (operations_definition_no); no + # * > / or space."
+    },
+    {
+      "name": "entity",
+      "type": "string",
+      "default": "OperationsDefinition"
+    },
+    {
+      "name": "timestamp",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      }
+    },
+    {
+      "name": "msgId",
+      "type": "string",
+      "doc": "Unique message id: the Kafka key, for deduplication."
+    },
+    {
+      "name": "profileRef",
+      "type": "string",
+      "default": "SMProfile-OperationsDefinition"
+    },
+    {
+      "name": "profileVersion",
+      "type": "string",
+      "default": "3.0.0"
+    },
+    {
+      "name": "data",
+      "type": {
+        "type": "record",
+        "name": "OperationsDefinitionData",
+        "fields": [
+          {
+            "name": "operations_definition_no",
+            "type": "string",
+            "doc": "Identity of the routing (join key)."
+          },
+          {
+            "name": "name",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "Display name of the routing."
+          },
+          {
+            "name": "version_label",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "Business version identifier of the routing (independent of the profile SemVer)."
+          },
+          {
+            "name": "status",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "Lifecycle status (e.g. draft, released, obsolete)."
+          },
+          {
+            "name": "article_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "FK to Article.article_no, reached via OperationsSegment SPECIFIES_MATERIAL. The article that this routing manufactures."
+          },
+          {
+            "name": "product_definition_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "FK to ProductDefinition.product_definition_no (the reference lives in this key, no ISA-95 edge — owner 25.09.). The target-parameter / recipe binding of the article."
+          }
+        ]
+      }
+    }
+  ]
+}

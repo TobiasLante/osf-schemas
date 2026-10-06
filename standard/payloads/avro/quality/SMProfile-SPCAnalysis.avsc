@@ -1,0 +1,130 @@
+{
+  "type": "record",
+  "name": "SPCAnalysis",
+  "namespace": "org.openshopfloor.payload.quality",
+  "doc": "GENERATED from standard/profiles/quality/spcanalysis.json 4.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "fields": [
+    {
+      "name": "eventType",
+      "type": {
+        "type": "enum",
+        "name": "EventType",
+        "symbols": [
+          "created",
+          "updated",
+          "deleted"
+        ]
+      }
+    },
+    {
+      "name": "id",
+      "type": "string",
+      "doc": "Row key (analysis_id); no + # * > / or space."
+    },
+    {
+      "name": "entity",
+      "type": "string",
+      "default": "SPCAnalysis"
+    },
+    {
+      "name": "timestamp",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      }
+    },
+    {
+      "name": "msgId",
+      "type": "string",
+      "doc": "Unique message id: the Kafka key, for deduplication."
+    },
+    {
+      "name": "profileRef",
+      "type": "string",
+      "default": "SMProfile-SPCAnalysis"
+    },
+    {
+      "name": "profileVersion",
+      "type": "string",
+      "default": "4.0.0"
+    },
+    {
+      "name": "data",
+      "type": {
+        "type": "record",
+        "name": "SPCAnalysisData",
+        "fields": [
+          {
+            "name": "analysis_id",
+            "type": "long"
+          },
+          {
+            "name": "lot_no",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null
+          },
+          {
+            "name": "characteristic_no",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null
+          },
+          {
+            "name": "mean_value",
+            "type": [
+              "null",
+              "double"
+            ],
+            "default": null
+          },
+          {
+            "name": "std_deviation",
+            "type": [
+              "null",
+              "double"
+            ],
+            "default": null
+          },
+          {
+            "name": "cp",
+            "type": [
+              "null",
+              "double"
+            ],
+            "default": null
+          },
+          {
+            "name": "cpk",
+            "type": [
+              "null",
+              "double"
+            ],
+            "default": null
+          },
+          {
+            "name": "is_in_control",
+            "type": [
+              "null",
+              "boolean"
+            ],
+            "default": null
+          },
+          {
+            "name": "trend",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "stable, improving, declining, out_of_control"
+          }
+        ]
+      }
+    }
+  ]
+}

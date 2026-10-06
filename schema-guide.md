@@ -9,7 +9,7 @@ No LLM is needed — the schemas are the single source of truth.
 ```
 osf-schemas/
 ├── docs/                   conventions, next2.0 standard, agent-conformance, variable shapes; history/ = the reasoning moved out of the JSON
-├── examples/               demo fixtures — NOT canonical (see examples/README.md) (5 json)
+├── examples/               demo fixtures — NOT canonical (see examples/README.md) (6 json)
 ├── sites/                  one folder per plant (site): its instance tree, sources, syncs, consumers
 │   └── werk1/                  
 │       ├── branding/               brand/theme assets (1 json)
@@ -44,13 +44,14 @@ osf-schemas/
 │   │   ├── postgresql-cagg/         (1 json)
 │   │   ├── postgresql-pivot/        (1 json)
 │   │   └── views/                   (1 json)
-│   ├── i3x/                    GENERATED i3X 1.0 form of profiles/ (i3x-v5 schemas-ci/gen-i3x.mjs): Object Types as JSON Schema, Relationship Types with reverseOf (34 json)
+│   ├── i3x/                    GENERATED i3X 1.0 form of profiles/ (i3x-v5 schemas-ci/gen-i3x.mjs): Object Types as JSON Schema, Relationship Types with reverseOf (36 json)
 │   ├── kpis/                   KPI definitions — inputs drawn from the source-fed vocabulary (lint-kpis) (6 json)
 │   ├── mappings/               protocol canon: DataItem/tag → SM attribute (SSOT for discovery + gen-flows) (3 json)
+│   ├── payloads/                (26 json)
 │   ├── profiles/               Schema 1: SM Profiles (type system)
 │   │   ├── equipment/              ISA-95 equipment: Machine (abstract parent), CNC_Machine, InjectionMoldingMachine, EquipmentClass, EquipmentModel (compact), Tool (6 json)
 │   │   ├── intelligence/           multi-truth layer: Discrepancy, ResolutionProposal, AutoResolveRule, … (5 json)
-│   │   ├── material/               ISA-95 material: Article (MaterialDefinition), MaterialItem, MaterialLot, Quant (MaterialSubLot), StorageLocation (5 json)
+│   │   ├── material/               ISA-95 material: Article (MaterialDefinition), MaterialItem, MaterialLot, Quant (MaterialSubLot), StorageLocation (7 json)
 │   │   ├── operations/             ISA-95 operations (Part 2 + WorkRequest): OperationsDefinition, ProcessSegment, Segment{Requirement,Response}, ProductionOrder, ProductDefinition, (Operations)Response, BdeConfirmation, Workorder, ShiftWindow, Customer(-Order) (15 json)
 │   │   └── quality/                ISA-95 quality: InspectionLot, SPCAnalysis (2 json)
 │   ├── sync/                   Schema 3: Live Sync (transport layer) (1 json)
@@ -78,7 +79,7 @@ Alles aus der v3-Ära (PostgreSQL-Sources, MQTT-UNS-/Kafka-/Webhook-Syncs) liegt
 <!-- gen:counts:begin -->
 | Category | Count | Files |
 |---|---|---|
-| Profiles | 33 | equipment 6 · intelligence 5 · material 5 · operations 15 · quality 2 |
+| Profiles | 35 | equipment 6 · intelligence 5 · material 7 · operations 15 · quality 2 |
 | Sources — mtconnect | 2 | mtconnect-cnc-01, mtconnect-cnc-mtc-02 |
 | Sources — opcua | 15 | opcua-cnc-001-event, opcua-cnc-001-telemetry, opcua-cnc-002-event, opcua-cnc-002-telemetry, opcua-ftlinx-01-event, opcua-ftlinx-01-telemetry, opcua-mtbridge-cnc-01, opcua-rockwell-01-event, opcua-rockwell-01-telemetry, opcua-sgm-001-event, opcua-sgm-001-telemetry, opcua-sgm-004-processdata, opcua-sgm-005-processdata, opcua-sgm-006-bde, opcua-sgm-006-processdata |
 | Sources — rest | 17 | erp-bde-confirmations, erp-job-orders, erp-machine-pools, erp-material-lots, erp-operations-definitions, erp-operations-response, erp-operations-segments, erp-process-segments, erp-production-orders, erp-segment-requirements, erp-segment-responses, erp-workorders, sim-v5-erp-articles, sim-v5-erp-calendar, sim-v5-erp-customers, sim-v5-qms-inspections, sim-v5-wms-quants |
@@ -90,7 +91,7 @@ Alles aus der v3-Ära (PostgreSQL-Sources, MQTT-UNS-/Kafka-/Webhook-Syncs) liegt
 | Recipes | 5 (2 parked) | recipe-sgm-004-pa66gf30-bracket-b *(parked)*, recipe-sgm-004-pa66gf30-housing-a *(parked)*, recipe-v4-12-0044-003-pa66gf30, recipe-v4-14-1300-040-pmma, recipe-wip-housing-base-asa-pc |
 | KPIs | 6 (2 parked) | availability, energy-per-part *(parked)*, oee, performance *(parked)*, quality-rate, scrap-rate |
 
-Measured from the tree by `i3x-v5 packages/schemas-ci/osf/gen-docs.mjs` — the same sums `lint-refs` prints (`lint-refs: 33 profiles, 34 sources, 9 sync files`).
+Measured from the tree by `i3x-v5 packages/schemas-ci/osf/gen-docs.mjs` — the same sums `lint-refs` prints (`lint-refs: 35 profiles, 34 sources, 9 sync files`).
 <!-- gen:counts:end -->
 
 ---
@@ -479,7 +480,7 @@ Phase 5: Embeddings
 | targetIdProp | Resolves to label(s) | Edge rules using it |
 |---|---|---|
 | `analysis_id` | SPCAnalysis | — |
-| `article_no` | Article | 4 |
+| `article_no` | Article | 5 |
 | `change_request_id` | ChangeRequest | — |
 | `confirmation_no` | BdeConfirmation | — |
 | `customer_no` | Customer | — |
@@ -489,8 +490,9 @@ Phase 5: Embeddings
 | `job_order_no` | JobOrder | — |
 | `lot_no` | InspectionLot | — |
 | `machine_id` | ⚠ **none** — no profile declares this key (see `contract.json` → `unresolvedTargets`) | 5 |
+| `material_class_id` | MaterialClass, ThermoplasticClass | 3 |
 | `material_item_id` | MaterialItem | — |
-| `material_lot_no` | MaterialLot | 2 |
+| `material_lot_no` | MaterialLot | 3 |
 | `operations_definition_no` | OperationsDefinition | 2 |
 | `operations_segment_no` | OperationsSegment | — |
 | `order_no` | CustomerOrder | — |

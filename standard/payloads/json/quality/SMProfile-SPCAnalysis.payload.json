@@ -1,0 +1,74 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/quality/SMProfile-SPCAnalysis.payload.json",
+  "title": "SMProfile-SPCAnalysis payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/quality/spcanalysis.json 4.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-SPCAnalysis",
+  "x-profileVersion": "4.0.0",
+  "x-payloadVersion": "1.0.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "SPCAnalysis"
+    },
+    "profileRef": {
+      "const": "SMProfile-SPCAnalysis"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "analysis_id": {
+          "type": "integer",
+          "pattern": "^[^+#*>/\\s]+$"
+        },
+        "lot_no": {
+          "type": "string"
+        },
+        "characteristic_no": {
+          "type": "string"
+        },
+        "mean_value": {
+          "type": "number"
+        },
+        "std_deviation": {
+          "type": "number"
+        },
+        "cp": {
+          "type": "number"
+        },
+        "cpk": {
+          "type": "number"
+        },
+        "is_in_control": {
+          "type": "boolean"
+        },
+        "trend": {
+          "type": "string",
+          "description": "stable, improving, declining, out_of_control"
+        }
+      },
+      "required": [
+        "analysis_id"
+      ]
+    }
+  },
+  "x-delivery": {
+    "analysis_id": "transactional",
+    "lot_no": "transactional",
+    "characteristic_no": "transactional",
+    "mean_value": "transactional",
+    "std_deviation": "transactional",
+    "cp": "transactional",
+    "cpk": "transactional",
+    "is_in_control": "transactional",
+    "trend": "transactional"
+  }
+}

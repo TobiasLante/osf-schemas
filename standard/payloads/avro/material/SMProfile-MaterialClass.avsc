@@ -1,0 +1,102 @@
+{
+  "type": "record",
+  "name": "MaterialClass",
+  "namespace": "org.openshopfloor.payload.material",
+  "doc": "GENERATED from standard/profiles/material/material-class.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "fields": [
+    {
+      "name": "eventType",
+      "type": {
+        "type": "enum",
+        "name": "EventType",
+        "symbols": [
+          "created",
+          "updated",
+          "deleted"
+        ]
+      }
+    },
+    {
+      "name": "id",
+      "type": "string",
+      "doc": "Row key (material_class_id); no + # * > / or space."
+    },
+    {
+      "name": "entity",
+      "type": "string",
+      "default": "MaterialClass"
+    },
+    {
+      "name": "timestamp",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      }
+    },
+    {
+      "name": "msgId",
+      "type": "string",
+      "doc": "Unique message id: the Kafka key, for deduplication."
+    },
+    {
+      "name": "profileRef",
+      "type": "string",
+      "default": "SMProfile-MaterialClass"
+    },
+    {
+      "name": "profileVersion",
+      "type": "string",
+      "default": "1.0.0"
+    },
+    {
+      "name": "data",
+      "type": {
+        "type": "record",
+        "name": "MaterialClassData",
+        "fields": [
+          {
+            "name": "material_class_id",
+            "type": "string",
+            "doc": "Identity of the material class (e.g. PA66-GF30)."
+          },
+          {
+            "name": "name",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "Description of the class."
+          },
+          {
+            "name": "parent_class_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The broader class whose properties this class includes (INCLUDES_PROPERTIES_OF)."
+          },
+          {
+            "name": "assembly_type",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "ISA-95 AssemblyType: Physical (the parts are physically joined) or Logical (a grouping, e.g. a compound of polymer and filler)."
+          },
+          {
+            "name": "assembly_relationship",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "ISA-95 AssemblyRelationship: Permanent (cannot be taken apart again) or Transient (temporary, e.g. a kit)."
+          }
+        ]
+      }
+    }
+  ]
+}

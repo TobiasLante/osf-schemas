@@ -1,0 +1,67 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-OperationsDefinition.payload.json",
+  "title": "SMProfile-OperationsDefinition payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/operations/operations-definition.json 3.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-OperationsDefinition",
+  "x-profileVersion": "3.0.0",
+  "x-payloadVersion": "1.0.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "OperationsDefinition"
+    },
+    "profileRef": {
+      "const": "SMProfile-OperationsDefinition"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "operations_definition_no": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the routing (join key)."
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name of the routing."
+        },
+        "version_label": {
+          "type": "string",
+          "description": "Business version identifier of the routing (independent of the profile SemVer)."
+        },
+        "status": {
+          "type": "string",
+          "description": "Lifecycle status (e.g. draft, released, obsolete)."
+        },
+        "article_ref": {
+          "type": "string",
+          "description": "FK to Article.article_no, reached via OperationsSegment SPECIFIES_MATERIAL. The article that this routing manufactures."
+        },
+        "product_definition_ref": {
+          "type": "string",
+          "description": "FK to ProductDefinition.product_definition_no (the reference lives in this key, no ISA-95 edge — owner 25.09.). The target-parameter / recipe binding of the article."
+        }
+      },
+      "required": [
+        "operations_definition_no"
+      ]
+    }
+  },
+  "x-delivery": {
+    "operations_definition_no": "transactional",
+    "name": "transactional",
+    "version_label": "transactional",
+    "status": "transactional",
+    "article_ref": "transactional",
+    "product_definition_ref": "transactional"
+  }
+}
