@@ -2,10 +2,14 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/material/SMProfile-Quant.payload.json",
   "title": "SMProfile-Quant payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/material/quant.json 3.2.0; do not edit by hand. Envelope: standard/payloads/envelope.schema.json.",
+  "description": "GENERATED from standard/profiles/material/quant.json 3.2.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-Quant",
   "x-profileVersion": "3.2.0",
-  "x-payloadVersion": "0.1.0",
+  "x-payloadVersion": "1.0.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
   "allOf": [
     {
       "$ref": "../../envelope.schema.json#/definitions/entity"
@@ -15,18 +19,20 @@
     "entity": {
       "const": "Quant"
     },
+    "profileRef": {
+      "const": "SMProfile-Quant"
+    },
     "data": {
       "type": "object",
       "properties": {
         "quant_no": {
           "type": "string",
-          "description": "Unique Quant id (quant_id of the WMS row).",
-          "x-valueType": "ID"
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Unique Quant id (quant_id of the WMS row)."
         },
         "article_ref": {
           "type": "string",
-          "description": "Article (artikel_nr) — join key to Article / OperationsResponse for material availability.",
-          "x-valueType": "ID"
+          "description": "Article (artikel_nr) — join key to Article / OperationsResponse for material availability."
         },
         "warehouse": {
           "type": "string",
@@ -54,10 +60,19 @@
           "description": "Last change. Server-managed and volatile on every read (sim-v5 returns a fresh value per GET), so promotion:never — kept in the snapshot but excluded from the change-trigger and never published on its own."
         }
       },
-      "additionalProperties": false,
       "required": [
         "quant_no"
       ]
     }
+  },
+  "x-delivery": {
+    "quant_no": "transactional",
+    "article_ref": "transactional",
+    "warehouse": "transactional",
+    "storage_location": "transactional",
+    "quantity": "transactional",
+    "lot": "transactional",
+    "blocked": "transactional",
+    "updated_at": "transactional"
   }
 }

@@ -4,8 +4,8 @@
   "standard": "ISA-95",
   "category": "business",
   "displayName": "Thermoplastic material class",
-  "description": "Material class for thermoplastic moulding compounds (resins). Declares the properties a thermoplastic class carries: the polymer and filler designation and the processing window from the supplier datasheet. A recipe band on the injection moulding machine must lie inside the window of its resin's class.",
-  "parentType": "SMProfile-MaterialClass",
+  "description": "Material class for thermoplastic moulding compounds (resins): polymer and filler designation (ISO 1043) and the processing window from the supplier datasheet. Every attribute is an ISA-95 MaterialClassProperty of the class.",
+  "parentType": "MaterialClass",
   "abstract": false,
   "attributes": [
     {
@@ -138,7 +138,19 @@
     "part": 2,
     "momDomain": "production",
     "level": 3,
-    "note": "A domain specialisation of MaterialClass: the typed attributes are MaterialClassProperty entries in B2MML (MaterialClass.MaterialClassProperty, one per attribute). The relationship INCLUDES_PROPERTIES_OF is inherited from SMProfile-MaterialClass."
+    "note": "MaterialClass specialisation. Attributes = nested MaterialClassProperty (MaterialClassPropertyChild) in three groups: designation (polymer, filler, content), drying, processing_window (melt, mould temperature).",
+    "propertyMap": {
+      "polymer_family": "MaterialClass.MaterialClassProperty.MaterialClassPropertyChild.Value",
+      "filler_type": "MaterialClass.MaterialClassProperty.MaterialClassPropertyChild.Value",
+      "filler_content": "MaterialClass.MaterialClassProperty.MaterialClassPropertyChild.Value",
+      "drying_temp": "MaterialClass.MaterialClassProperty.MaterialClassPropertyChild.Value",
+      "drying_time": "MaterialClass.MaterialClassProperty.MaterialClassPropertyChild.Value",
+      "residual_moisture_max": "MaterialClass.MaterialClassProperty.MaterialClassPropertyChild.Value",
+      "melt_temp_min": "MaterialClass.MaterialClassProperty.MaterialClassPropertyChild.Value",
+      "melt_temp_max": "MaterialClass.MaterialClassProperty.MaterialClassPropertyChild.Value",
+      "mould_temp_min": "MaterialClass.MaterialClassProperty.MaterialClassPropertyChild.Value",
+      "mould_temp_max": "MaterialClass.MaterialClassProperty.MaterialClassPropertyChild.Value"
+    }
   },
   "kgNodeLabel": "ThermoplasticClass",
   "kgIdProperty": "material_class_id"

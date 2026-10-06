@@ -109,7 +109,7 @@
       "profile": "SMProfile-MaterialClass",
       "category": "business",
       "parentType": null,
-      "abstract": true,
+      "abstract": false,
       "source": "standard/profiles/material/material-class.json"
     },
     "MaterialItem": {
@@ -286,6 +286,16 @@
   },
   "edges": [
     {
+      "type": "ASSEMBLED_FROM",
+      "from": "Article",
+      "to": [
+        "Article"
+      ],
+      "targetIdProp": [
+        "article_no"
+      ]
+    },
+    {
       "type": "DEFINED_BY",
       "from": "Article",
       "to": [
@@ -353,6 +363,16 @@
       ]
     },
     {
+      "type": "ASSEMBLED_FROM",
+      "from": "MaterialClass",
+      "to": [
+        "MaterialClass"
+      ],
+      "targetIdProp": [
+        "material_class_id"
+      ]
+    },
+    {
       "type": "INCLUDES_PROPERTIES_OF",
       "from": "MaterialClass",
       "to": [
@@ -360,6 +380,16 @@
       ],
       "targetIdProp": [
         "material_class_id"
+      ]
+    },
+    {
+      "type": "ASSEMBLED_FROM",
+      "from": "MaterialLot",
+      "to": [
+        "MaterialLot"
+      ],
+      "targetIdProp": [
+        "material_lot_no"
       ]
     },
     {

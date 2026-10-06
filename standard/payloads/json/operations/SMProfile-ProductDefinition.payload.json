@@ -2,10 +2,14 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-ProductDefinition.payload.json",
   "title": "SMProfile-ProductDefinition payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/operations/product-definition.json 2.0.0; do not edit by hand. Envelope: standard/payloads/envelope.schema.json.",
+  "description": "GENERATED from standard/profiles/operations/product-definition.json 2.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-ProductDefinition",
   "x-profileVersion": "2.0.0",
-  "x-payloadVersion": "0.1.0",
+  "x-payloadVersion": "1.0.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
   "allOf": [
     {
       "$ref": "../../envelope.schema.json#/definitions/entity"
@@ -15,13 +19,16 @@
     "entity": {
       "const": "ProductDefinition"
     },
+    "profileRef": {
+      "const": "SMProfile-ProductDefinition"
+    },
     "data": {
       "type": "object",
       "properties": {
         "product_definition_no": {
           "type": "string",
-          "description": "Spec identity / key.",
-          "x-valueType": "ID"
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Spec identity / key."
         },
         "name": {
           "type": "string",
@@ -37,18 +44,15 @@
         },
         "article_ref": {
           "type": "string",
-          "description": "FK to Article.article_no, reached via OperationsSegment SPECIFIES_MATERIAL. The article this spec defines — the FO/recipe join point. First binding axis.",
-          "x-valueType": "ID"
+          "description": "FK to Article.article_no, reached via OperationsSegment SPECIFIES_MATERIAL. The article this spec defines — the FO/recipe join point. First binding axis."
         },
         "equipment_class_ref": {
           "type": "string",
-          "description": "Optional FK to an EquipmentClass/line the spec is restricted to, reached via OperationsSegment SPECIFIES_EQUIPMENT. Second binding axis.",
-          "x-valueType": "ID"
+          "description": "Optional FK to an EquipmentClass/line the spec is restricted to, reached via OperationsSegment SPECIFIES_EQUIPMENT. Second binding axis."
         },
         "setup_ref": {
           "type": "string",
-          "description": "Optional setup/mould binding axis (third axis).",
-          "x-valueType": "ID"
+          "description": "Optional setup/mould binding axis (third axis)."
         },
         "param_name": {
           "type": "string",
@@ -84,10 +88,26 @@
           "description": "Last change. Server-managed and volatile on every read (sim-v5 returns a fresh value per GET), so promotion:never — kept in the snapshot but excluded from the change-trigger and never published on its own."
         }
       },
-      "additionalProperties": false,
       "required": [
         "product_definition_no"
       ]
     }
+  },
+  "x-delivery": {
+    "product_definition_no": "transactional",
+    "name": "transactional",
+    "version_label": "transactional",
+    "status": "transactional",
+    "article_ref": "transactional",
+    "equipment_class_ref": "transactional",
+    "setup_ref": "transactional",
+    "param_name": "transactional",
+    "target_value": "transactional",
+    "warn_lo": "transactional",
+    "warn_hi": "transactional",
+    "action_lo": "transactional",
+    "action_hi": "transactional",
+    "unit": "transactional",
+    "updated_at": "transactional"
   }
 }

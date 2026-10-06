@@ -2,10 +2,14 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-OperationsResponse.payload.json",
   "title": "SMProfile-OperationsResponse payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/operations/operations-response.json 2.3.0; do not edit by hand. Envelope: standard/payloads/envelope.schema.json.",
+  "description": "GENERATED from standard/profiles/operations/operations-response.json 2.3.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-OperationsResponse",
   "x-profileVersion": "2.3.0",
-  "x-payloadVersion": "0.1.0",
+  "x-payloadVersion": "1.0.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
   "allOf": [
     {
       "$ref": "../../envelope.schema.json#/definitions/entity"
@@ -15,23 +19,24 @@
     "entity": {
       "const": "OperationsResponse"
     },
+    "profileRef": {
+      "const": "SMProfile-OperationsResponse"
+    },
     "data": {
       "type": "object",
       "properties": {
         "production_order_no": {
           "type": "string",
-          "description": "Join key — the OperationsRequest whose actuals this confirms (RESPONDS_TO).",
-          "x-valueType": "ID"
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Join key — the OperationsRequest whose actuals this confirms (RESPONDS_TO)."
         },
         "article_ref": {
           "type": "string",
-          "description": "Manufactured article (join key to Article).",
-          "x-valueType": "ID"
+          "description": "Manufactured article (join key to Article)."
         },
         "machine_ref": {
           "type": "string",
-          "description": "Executing machine / line (machine_no).",
-          "x-valueType": "ID"
+          "description": "Executing machine / line (machine_no)."
         },
         "quantity_produced": {
           "type": "integer",
@@ -48,11 +53,11 @@
         },
         "status": {
           "type": "string",
-          "description": "Actual status of the confirmation. Full text: docs/history/standard/profiles/operations/operations-response.md, attributes › status › description.",
           "enum": [
             "in_arbeit",
             "fertig"
-          ]
+          ],
+          "description": "Actual status of the confirmation. Full text: docs/history/standard/profiles/operations/operations-response.md, attributes › status › description."
         },
         "completed_at": {
           "type": "string",
@@ -65,10 +70,20 @@
           "description": "Last change. Server-managed and volatile on every read (sim-v5 returns a fresh value per GET), so promotion:never — kept in the snapshot but excluded from the change-trigger and never published on its own."
         }
       },
-      "additionalProperties": false,
       "required": [
         "production_order_no"
       ]
     }
+  },
+  "x-delivery": {
+    "production_order_no": "transactional",
+    "article_ref": "transactional",
+    "machine_ref": "transactional",
+    "quantity_produced": "transactional",
+    "cycle_time_actual_sec": "transactional",
+    "actual_end_time": "transactional",
+    "status": "transactional",
+    "completed_at": "transactional",
+    "updated_at": "transactional"
   }
 }

@@ -2,10 +2,14 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/equipment/SMProfile-EquipmentClass.payload.json",
   "title": "SMProfile-EquipmentClass payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/equipment/equipment-class.json 2.0.0; do not edit by hand. Envelope: standard/payloads/envelope.schema.json.",
+  "description": "GENERATED from standard/profiles/equipment/equipment-class.json 2.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-EquipmentClass",
   "x-profileVersion": "2.0.0",
-  "x-payloadVersion": "0.1.0",
+  "x-payloadVersion": "1.0.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
   "allOf": [
     {
       "$ref": "../../envelope.schema.json#/definitions/entity"
@@ -15,13 +19,16 @@
     "entity": {
       "const": "EquipmentClass"
     },
+    "profileRef": {
+      "const": "SMProfile-EquipmentClass"
+    },
     "data": {
       "type": "object",
       "properties": {
         "equipment_class_id": {
           "type": "string",
-          "description": "Equipment class identity / key.",
-          "x-valueType": "ID"
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Equipment class identity / key."
         },
         "name": {
           "type": "string",
@@ -32,10 +39,14 @@
           "description": "What capability/role this class represents."
         }
       },
-      "additionalProperties": false,
       "required": [
         "equipment_class_id"
       ]
     }
+  },
+  "x-delivery": {
+    "equipment_class_id": "transactional",
+    "name": "transactional",
+    "description": "transactional"
   }
 }

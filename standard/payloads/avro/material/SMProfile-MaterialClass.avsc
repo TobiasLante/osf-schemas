@@ -1,8 +1,8 @@
 {
   "type": "record",
-  "name": "StorageLocation",
+  "name": "MaterialClass",
   "namespace": "org.openshopfloor.payload.material",
-  "doc": "GENERATED from standard/profiles/material/storage-location.json 2.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "doc": "GENERATED from standard/profiles/material/material-class.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
   "fields": [
     {
       "name": "eventType",
@@ -19,12 +19,12 @@
     {
       "name": "id",
       "type": "string",
-      "doc": "Row key (storage_location_id); no + # * > / or space."
+      "doc": "Row key (material_class_id); no + # * > / or space."
     },
     {
       "name": "entity",
       "type": "string",
-      "default": "StorageLocation"
+      "default": "MaterialClass"
     },
     {
       "name": "timestamp",
@@ -41,23 +41,23 @@
     {
       "name": "profileRef",
       "type": "string",
-      "default": "SMProfile-StorageLocation"
+      "default": "SMProfile-MaterialClass"
     },
     {
       "name": "profileVersion",
       "type": "string",
-      "default": "2.0.0"
+      "default": "1.0.0"
     },
     {
       "name": "data",
       "type": {
         "type": "record",
-        "name": "StorageLocationData",
+        "name": "MaterialClassData",
         "fields": [
           {
-            "name": "storage_location_id",
+            "name": "material_class_id",
             "type": "string",
-            "doc": "Storage location identity / key."
+            "doc": "Identity of the material class (e.g. PA66-GF30)."
           },
           {
             "name": "name",
@@ -66,34 +66,34 @@
               "string"
             ],
             "default": null,
-            "doc": "Display name of the location."
+            "doc": "Description of the class."
           },
           {
-            "name": "warehouse",
+            "name": "parent_class_ref",
             "type": [
               "null",
               "string"
             ],
             "default": null,
-            "doc": "Warehouse / building the location belongs to."
+            "doc": "The broader class whose properties this class includes (INCLUDES_PROPERTIES_OF)."
           },
           {
-            "name": "location_type",
+            "name": "assembly_type",
             "type": [
               "null",
               "string"
             ],
             "default": null,
-            "doc": "Type of location (e.g. rack, floor, buffer, silo)."
+            "doc": "ISA-95 AssemblyType: Physical (the parts are physically joined) or Logical (a grouping, e.g. a compound of polymer and filler)."
           },
           {
-            "name": "area_ref",
+            "name": "assembly_relationship",
             "type": [
               "null",
               "string"
             ],
             "default": null,
-            "doc": "FK to Area.area_id (PART_OF) — roots the location in the site/area hierarchy."
+            "doc": "ISA-95 AssemblyRelationship: Permanent (cannot be taken apart again) or Transient (temporary, e.g. a kit)."
           }
         ]
       }

@@ -165,6 +165,36 @@
       "scope": "hub",
       "promotion": "on_change",
       "valueType": "ID"
+    },
+    {
+      "name": "assembly_type",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 AssemblyType: Physical (the parts are physically joined) or Logical (a grouping, e.g. a compound of polymer and filler).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD",
+      "enum": [
+        "Physical",
+        "Logical"
+      ]
+    },
+    {
+      "name": "assembly_relationship",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 AssemblyRelationship: Permanent (cannot be taken apart again) or Transient (temporary, e.g. a kit).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD",
+      "enum": [
+        "Permanent",
+        "Transient"
+      ]
     }
   ],
   "relationships": [
@@ -173,6 +203,12 @@
       "target": "MaterialClass",
       "targetIdProp": "material_class_id",
       "description": "ISA-95 MaterialDefinition DEFINED_BY MaterialClass (B2MML MaterialDefinition.MaterialClassID)."
+    },
+    {
+      "type": "ASSEMBLED_FROM",
+      "target": "Article",
+      "targetIdProp": "article_no",
+      "description": "The material definitions this article is assembled from (B2MML MaterialDefinition.AssemblyDefinition, ISA-95 Part 2 cl. 5.7); one edge per component, delivered by the source."
     }
   ],
   "constraints": [
@@ -203,7 +239,9 @@
     "propertyMap": {
       "article_no": "MaterialDefinition.ID",
       "name": "MaterialDefinition.Description",
-      "material_class_ref": "MaterialDefinition.MaterialClassID"
+      "material_class_ref": "MaterialDefinition.MaterialClassID",
+      "assembly_type": "MaterialDefinition.AssemblyType",
+      "assembly_relationship": "MaterialDefinition.AssemblyRelationship"
     },
     "notInIsa95": [
       "unit"

@@ -2,10 +2,14 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-SegmentRequirement.payload.json",
   "title": "SMProfile-SegmentRequirement payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/operations/segment-requirement.json 2.0.0; do not edit by hand. Envelope: standard/payloads/envelope.schema.json.",
+  "description": "GENERATED from standard/profiles/operations/segment-requirement.json 2.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-SegmentRequirement",
   "x-profileVersion": "2.0.0",
-  "x-payloadVersion": "0.1.0",
+  "x-payloadVersion": "1.0.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
   "allOf": [
     {
       "$ref": "../../envelope.schema.json#/definitions/entity"
@@ -15,23 +19,24 @@
     "entity": {
       "const": "SegmentRequirement"
     },
+    "profileRef": {
+      "const": "SMProfile-SegmentRequirement"
+    },
     "data": {
       "type": "object",
       "properties": {
         "segment_requirement_no": {
           "type": "string",
-          "description": "Identity of the SegmentRequirement (join key). Recommendation: <production_order_no>.<sequence>.",
-          "x-valueType": "ID"
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the SegmentRequirement (join key). Recommendation: <production_order_no>.<sequence>."
         },
         "production_order_ref": {
           "type": "string",
-          "description": "FK to ProductionOrder.production_order_no (PART_OF). The OperationsRequest to which this segment target belongs.",
-          "x-valueType": "ID"
+          "description": "FK to ProductionOrder.production_order_no (PART_OF). The OperationsRequest to which this segment target belongs."
         },
         "process_segment_ref": {
           "type": "string",
-          "description": "FK to ProcessSegment.process_segment_no (FOR_PROCESS_SEGMENT). Which manufacturing stage (= plant = Function) is planned here.",
-          "x-valueType": "ID"
+          "description": "FK to ProcessSegment.process_segment_no (FOR_PROCESS_SEGMENT). Which manufacturing stage (= plant = Function) is planned here."
         },
         "sequence": {
           "type": "integer",
@@ -39,12 +44,10 @@
         },
         "material_ref": {
           "type": "string",
-          "description": "FK to Article.article_no (REQUIRES_MATERIAL) = MaterialRequirement.MaterialDefinitionID. The target material of this stage.",
-          "x-valueType": "ID"
+          "description": "FK to Article.article_no (REQUIRES_MATERIAL) = MaterialRequirement.MaterialDefinitionID. The target material of this stage."
         },
         "material_use": {
           "type": "string",
-          "description": "ISA-95 MaterialRequirement.MaterialUse — the ROLE of the material in this stage. Encodes the 'Being Consumed/Produced/Tested/Moved'.",
           "enum": [
             "Consumed",
             "Produced",
@@ -53,7 +56,8 @@
             "Sample",
             "MovedFrom",
             "MovedTo"
-          ]
+          ],
+          "description": "ISA-95 MaterialRequirement.MaterialUse — the ROLE of the material in this stage. Encodes the 'Being Consumed/Produced/Tested/Moved'."
         },
         "qty_planned": {
           "type": "number",
@@ -65,8 +69,7 @@
         },
         "equipment_ref": {
           "type": "string",
-          "description": "FK to Machine.machine_id (REQUIRES_EQUIPMENT; Machine ≡ Unit level) = EquipmentRequirement.EquipmentID. The target equipment of the stage.",
-          "x-valueType": "ID"
+          "description": "FK to Machine.machine_id (REQUIRES_EQUIPMENT; Machine ≡ Unit level) = EquipmentRequirement.EquipmentID. The target equipment of the stage."
         },
         "planned_start_time": {
           "type": "string",
@@ -79,11 +82,23 @@
           "description": "Planned stage end (target)."
         }
       },
-      "additionalProperties": false,
       "required": [
         "segment_requirement_no",
         "production_order_ref"
       ]
     }
+  },
+  "x-delivery": {
+    "segment_requirement_no": "transactional",
+    "production_order_ref": "transactional",
+    "process_segment_ref": "transactional",
+    "sequence": "transactional",
+    "material_ref": "transactional",
+    "material_use": "transactional",
+    "qty_planned": "transactional",
+    "unit_of_measure": "transactional",
+    "equipment_ref": "transactional",
+    "planned_start_time": "transactional",
+    "planned_end_time": "transactional"
   }
 }

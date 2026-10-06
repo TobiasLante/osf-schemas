@@ -2,10 +2,14 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-ShiftWindow.payload.json",
   "title": "SMProfile-ShiftWindow payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/operations/shift-window.json 1.1.0; do not edit by hand. Envelope: standard/payloads/envelope.schema.json.",
+  "description": "GENERATED from standard/profiles/operations/shift-window.json 1.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-ShiftWindow",
   "x-profileVersion": "1.1.0",
-  "x-payloadVersion": "0.1.0",
+  "x-payloadVersion": "1.0.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
   "allOf": [
     {
       "$ref": "../../envelope.schema.json#/definitions/entity"
@@ -15,13 +19,15 @@
     "entity": {
       "const": "ShiftWindow"
     },
+    "profileRef": {
+      "const": "SMProfile-ShiftWindow"
+    },
     "data": {
       "type": "object",
       "properties": {
         "department_id": {
           "type": "string",
-          "description": "Department the window belongs to. Measured population 2026-08-03: LAGER | MECH | MONTAGE | SG. NOT declared as an enum: the plant may add a department without a schema change, and a consumer must never treat an unknown department as 'not scheduled'. Part of the composite key.",
-          "x-valueType": "ID"
+          "description": "Department the window belongs to. Measured population 2026-08-03: LAGER | MECH | MONTAGE | SG. NOT declared as an enum: the plant may add a department without a schema change, and a consumer must never treat an unknown department as 'not scheduled'. Part of the composite key."
         },
         "day_of_week": {
           "type": "integer",
@@ -29,8 +35,7 @@
         },
         "shift_id": {
           "type": "string",
-          "description": "Shift code as the ERP names it. Full text: docs/history/standard/profiles/operations/shift-window.md, attributes › shift_id › description.",
-          "x-valueType": "ID"
+          "description": "Shift code as the ERP names it. Full text: docs/history/standard/profiles/operations/shift-window.md, attributes › shift_id › description."
         },
         "start_time": {
           "type": "string",
@@ -45,7 +50,6 @@
           "description": "Unpaid break minutes inside the window. Full text: docs/history/standard/profiles/operations/shift-window.md, attributes › break_minutes › description."
         }
       },
-      "additionalProperties": false,
       "required": [
         "department_id",
         "day_of_week",
@@ -54,5 +58,13 @@
         "end_time"
       ]
     }
+  },
+  "x-delivery": {
+    "department_id": "transactional",
+    "day_of_week": "transactional",
+    "shift_id": "transactional",
+    "start_time": "transactional",
+    "end_time": "transactional",
+    "break_minutes": "transactional"
   }
 }

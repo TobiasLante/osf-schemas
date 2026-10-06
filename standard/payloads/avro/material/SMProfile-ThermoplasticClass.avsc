@@ -2,7 +2,7 @@
   "type": "record",
   "name": "ThermoplasticClass",
   "namespace": "org.openshopfloor.payload.material",
-  "doc": "GENERATED from standard/profiles/material/thermoplastic-class.json 1.0.0; do not edit by hand. Kafka value schema (TopicNameStrategy).",
+  "doc": "GENERATED from standard/profiles/material/thermoplastic-class.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
   "fields": [
     {
       "name": "eventType",
@@ -18,7 +18,13 @@
     },
     {
       "name": "id",
-      "type": "string"
+      "type": "string",
+      "doc": "Row key (material_class_id); no + # * > / or space."
+    },
+    {
+      "name": "entity",
+      "type": "string",
+      "default": "ThermoplasticClass"
     },
     {
       "name": "timestamp",
@@ -28,126 +34,155 @@
       }
     },
     {
+      "name": "msgId",
+      "type": "string",
+      "doc": "Unique message id: the Kafka key, for deduplication."
+    },
+    {
+      "name": "profileRef",
+      "type": "string",
+      "default": "SMProfile-ThermoplasticClass"
+    },
+    {
       "name": "profileVersion",
       "type": "string",
       "default": "1.0.0"
     },
     {
-      "name": "material_class_id",
-      "type": [
-        "null",
-        "string"
-      ],
-      "default": null,
-      "doc": "Identity of the material class (e.g. PA66-GF30)."
-    },
-    {
-      "name": "name",
-      "type": [
-        "null",
-        "string"
-      ],
-      "default": null,
-      "doc": "Description of the class."
-    },
-    {
-      "name": "parent_class_ref",
-      "type": [
-        "null",
-        "string"
-      ],
-      "default": null,
-      "doc": "The broader class whose properties this class includes (INCLUDES_PROPERTIES_OF)."
-    },
-    {
-      "name": "polymer_family",
-      "type": [
-        "null",
-        "string"
-      ],
-      "default": null,
-      "doc": "Polymer as designated by ISO 1043-1 (e.g. PA66, PMMA, ASA+PC)."
-    },
-    {
-      "name": "filler_type",
-      "type": [
-        "null",
-        "string"
-      ],
-      "default": null,
-      "doc": "Filler or reinforcement as designated by ISO 1043-2 (e.g. GF glass fibre, CF carbon fibre, MD mineral); absent when unfilled."
-    },
-    {
-      "name": "filler_content",
-      "type": [
-        "null",
-        "float"
-      ],
-      "default": null,
-      "doc": "Filler content in mass percent (the 30 in PA66-GF30)."
-    },
-    {
-      "name": "drying_temp",
-      "type": [
-        "null",
-        "float"
-      ],
-      "default": null,
-      "doc": "Drying temperature before processing (supplier datasheet)."
-    },
-    {
-      "name": "drying_time",
-      "type": [
-        "null",
-        "float"
-      ],
-      "default": null,
-      "doc": "Drying time before processing (supplier datasheet)."
-    },
-    {
-      "name": "residual_moisture_max",
-      "type": [
-        "null",
-        "float"
-      ],
-      "default": null,
-      "doc": "Maximum residual moisture at processing (supplier datasheet)."
-    },
-    {
-      "name": "melt_temp_min",
-      "type": [
-        "null",
-        "float"
-      ],
-      "default": null,
-      "doc": "Lower end of the melt temperature window (supplier datasheet)."
-    },
-    {
-      "name": "melt_temp_max",
-      "type": [
-        "null",
-        "float"
-      ],
-      "default": null,
-      "doc": "Upper end of the melt temperature window (supplier datasheet)."
-    },
-    {
-      "name": "mould_temp_min",
-      "type": [
-        "null",
-        "float"
-      ],
-      "default": null,
-      "doc": "Lower end of the mould temperature window (supplier datasheet)."
-    },
-    {
-      "name": "mould_temp_max",
-      "type": [
-        "null",
-        "float"
-      ],
-      "default": null,
-      "doc": "Upper end of the mould temperature window (supplier datasheet)."
+      "name": "data",
+      "type": {
+        "type": "record",
+        "name": "ThermoplasticClassData",
+        "fields": [
+          {
+            "name": "material_class_id",
+            "type": "string",
+            "doc": "Identity of the material class (e.g. PA66-GF30)."
+          },
+          {
+            "name": "name",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "Description of the class."
+          },
+          {
+            "name": "parent_class_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The broader class whose properties this class includes (INCLUDES_PROPERTIES_OF)."
+          },
+          {
+            "name": "assembly_type",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "ISA-95 AssemblyType: Physical (the parts are physically joined) or Logical (a grouping, e.g. a compound of polymer and filler)."
+          },
+          {
+            "name": "assembly_relationship",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "ISA-95 AssemblyRelationship: Permanent (cannot be taken apart again) or Transient (temporary, e.g. a kit)."
+          },
+          {
+            "name": "polymer_family",
+            "type": "string",
+            "doc": "Polymer as designated by ISO 1043-1 (e.g. PA66, PMMA, ASA+PC)."
+          },
+          {
+            "name": "filler_type",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "Filler or reinforcement as designated by ISO 1043-2 (e.g. GF glass fibre, CF carbon fibre, MD mineral); absent when unfilled."
+          },
+          {
+            "name": "filler_content",
+            "type": [
+              "null",
+              "double"
+            ],
+            "default": null,
+            "doc": "Filler content in mass percent (the 30 in PA66-GF30)."
+          },
+          {
+            "name": "drying_temp",
+            "type": [
+              "null",
+              "double"
+            ],
+            "default": null,
+            "doc": "Drying temperature before processing (supplier datasheet)."
+          },
+          {
+            "name": "drying_time",
+            "type": [
+              "null",
+              "double"
+            ],
+            "default": null,
+            "doc": "Drying time before processing (supplier datasheet)."
+          },
+          {
+            "name": "residual_moisture_max",
+            "type": [
+              "null",
+              "double"
+            ],
+            "default": null,
+            "doc": "Maximum residual moisture at processing (supplier datasheet)."
+          },
+          {
+            "name": "melt_temp_min",
+            "type": [
+              "null",
+              "double"
+            ],
+            "default": null,
+            "doc": "Lower end of the melt temperature window (supplier datasheet)."
+          },
+          {
+            "name": "melt_temp_max",
+            "type": [
+              "null",
+              "double"
+            ],
+            "default": null,
+            "doc": "Upper end of the melt temperature window (supplier datasheet)."
+          },
+          {
+            "name": "mould_temp_min",
+            "type": [
+              "null",
+              "double"
+            ],
+            "default": null,
+            "doc": "Lower end of the mould temperature window (supplier datasheet)."
+          },
+          {
+            "name": "mould_temp_max",
+            "type": [
+              "null",
+              "double"
+            ],
+            "default": null,
+            "doc": "Upper end of the mould temperature window (supplier datasheet)."
+          }
+        ]
+      }
     }
   ]
 }

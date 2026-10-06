@@ -1,5 +1,5 @@
 {
-  "_comment": "Example material classes for the resins the werk1 recipes name (PA66-GF30, PMMA, ASA+PC). Only what the designation itself says is filled in (ISO 1043: PA66-GF30 = polyamide 66 with 30 % glass fibre). Processing windows come from the supplier datasheet and are null until it is supplied.",
+  "_comment": "Example material classes for the resins the werk1 recipes name (PA66-GF30, PMMA, ASA+PC), shown the way ISA-95 Part 2 models materials: a class hierarchy (parent_class_ref = MaterialClassBaseID: PA66-GF30 includes the properties of PA66), an assembly (ASSEMBLED_FROM = AssemblyClass: the compound PA66-GF30 is assembled from PA66 and glass fibre GF, the blend ASA-PC from ASA and PC, both Physical/Permanent) and nested class properties (designation, drying, processing_window). A class id is a topic token (MQTT/NATS): no + # * > / or space, so the blend ASA+PC has the id ASA-PC and keeps its ISO 1043 designation in polymer_family. Only what the designation itself says is filled in; processing windows come from the supplier datasheet and are null until it is supplied.",
   "_example": true,
   "profileRef": "SMProfile-ThermoplasticClass",
   "classes": [
@@ -7,46 +7,140 @@
       "material_class_id": "PA66",
       "name": "Polyamide 66",
       "parent_class_ref": null,
+      "assembly_type": null,
+      "assembly_relationship": null,
       "polymer_family": "PA66",
       "filler_type": null,
       "filler_content": null,
-      "drying_temp": null, "drying_time": null, "residual_moisture_max": null,
-      "melt_temp_min": null, "melt_temp_max": null, "mould_temp_min": null, "mould_temp_max": null
+      "drying_temp": null,
+      "drying_time": null,
+      "residual_moisture_max": null,
+      "melt_temp_min": null,
+      "melt_temp_max": null,
+      "mould_temp_min": null,
+      "mould_temp_max": null
     },
     {
       "material_class_id": "PA66-GF30",
       "name": "Polyamide 66, 30 % glass fibre",
       "parent_class_ref": "PA66",
+      "assembly_type": "Physical",
+      "assembly_relationship": "Permanent",
       "polymer_family": "PA66",
       "filler_type": "GF",
       "filler_content": 30,
-      "drying_temp": null, "drying_time": null, "residual_moisture_max": null,
-      "melt_temp_min": null, "melt_temp_max": null, "mould_temp_min": null, "mould_temp_max": null
+      "drying_temp": null,
+      "drying_time": null,
+      "residual_moisture_max": null,
+      "melt_temp_min": null,
+      "melt_temp_max": null,
+      "mould_temp_min": null,
+      "mould_temp_max": null
     },
     {
       "material_class_id": "PMMA",
       "name": "Polymethyl methacrylate",
       "parent_class_ref": null,
+      "assembly_type": null,
+      "assembly_relationship": null,
       "polymer_family": "PMMA",
       "filler_type": null,
       "filler_content": null,
-      "drying_temp": null, "drying_time": null, "residual_moisture_max": null,
-      "melt_temp_min": null, "melt_temp_max": null, "mould_temp_min": null, "mould_temp_max": null
+      "drying_temp": null,
+      "drying_time": null,
+      "residual_moisture_max": null,
+      "melt_temp_min": null,
+      "melt_temp_max": null,
+      "mould_temp_min": null,
+      "mould_temp_max": null
     },
     {
-      "material_class_id": "ASA+PC",
+      "material_class_id": "ASA-PC",
       "name": "ASA/PC blend",
       "parent_class_ref": null,
+      "assembly_type": "Physical",
+      "assembly_relationship": "Permanent",
       "polymer_family": "ASA+PC",
       "filler_type": null,
       "filler_content": null,
-      "drying_temp": null, "drying_time": null, "residual_moisture_max": null,
-      "melt_temp_min": null, "melt_temp_max": null, "mould_temp_min": null, "mould_temp_max": null
+      "drying_temp": null,
+      "drying_time": null,
+      "residual_moisture_max": null,
+      "melt_temp_min": null,
+      "melt_temp_max": null,
+      "mould_temp_min": null,
+      "mould_temp_max": null
+    },
+    {
+      "material_class_id": "ASA",
+      "name": "Acrylonitrile styrene acrylate",
+      "parent_class_ref": null,
+      "assembly_type": null,
+      "assembly_relationship": null,
+      "polymer_family": "ASA",
+      "filler_type": null,
+      "filler_content": null,
+      "drying_temp": null,
+      "drying_time": null,
+      "residual_moisture_max": null,
+      "melt_temp_min": null,
+      "melt_temp_max": null,
+      "mould_temp_min": null,
+      "mould_temp_max": null
+    },
+    {
+      "material_class_id": "PC",
+      "name": "Polycarbonate",
+      "parent_class_ref": null,
+      "assembly_type": null,
+      "assembly_relationship": null,
+      "polymer_family": "PC",
+      "filler_type": null,
+      "filler_content": null,
+      "drying_temp": null,
+      "drying_time": null,
+      "residual_moisture_max": null,
+      "melt_temp_min": null,
+      "melt_temp_max": null,
+      "mould_temp_min": null,
+      "mould_temp_max": null
     }
   ],
   "sources": {
     "PA66-GF30": "sites/werk1/recipes/recipe-sgm-004-pa66gf30-*.json, parameter resin = PA66-GF30",
     "PMMA": "sites/werk1/recipes/recipe-v4-14-1300-040-pmma.json",
-    "ASA+PC": "sites/werk1/recipes/recipe-wip-housing-base-asa-pc.json (file name)"
-  }
+    "ASA-PC": "sites/werk1/recipes/recipe-wip-housing-base-asa-pc.json (file name)"
+  },
+  "otherClasses": [
+    {
+      "profileRef": "SMProfile-MaterialClass",
+      "material_class_id": "GF",
+      "name": "Glass fibre (ISO 1043-2 filler GF)",
+      "parent_class_ref": null,
+      "assembly_type": null,
+      "assembly_relationship": null
+    }
+  ],
+  "assemblies": [
+    {
+      "type": "ASSEMBLED_FROM",
+      "from": "PA66-GF30",
+      "to": "PA66"
+    },
+    {
+      "type": "ASSEMBLED_FROM",
+      "from": "PA66-GF30",
+      "to": "GF"
+    },
+    {
+      "type": "ASSEMBLED_FROM",
+      "from": "ASA-PC",
+      "to": "ASA"
+    },
+    {
+      "type": "ASSEMBLED_FROM",
+      "from": "ASA-PC",
+      "to": "PC"
+    }
+  ]
 }

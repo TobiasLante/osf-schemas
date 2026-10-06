@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-MaterialLot",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "standard": "ISA-95",
   "category": "material",
   "displayName": "Material Lot (the correct term for 'batch')",
@@ -112,6 +112,36 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
+    },
+    {
+      "name": "assembly_type",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 AssemblyType: Physical (the parts are physically joined) or Logical (a grouping, e.g. a compound of polymer and filler).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD",
+      "enum": [
+        "Physical",
+        "Logical"
+      ]
+    },
+    {
+      "name": "assembly_relationship",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 AssemblyRelationship: Permanent (cannot be taken apart again) or Transient (temporary, e.g. a kit).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD",
+      "enum": [
+        "Permanent",
+        "Transient"
+      ]
     }
   ],
   "relationships": [
@@ -132,6 +162,12 @@
       "target": "StorageLocation",
       "targetIdProp": "storage_location_id",
       "description": "Where the material is held (B2MML MaterialLot.StorageLocation)."
+    },
+    {
+      "type": "ASSEMBLED_FROM",
+      "target": "MaterialLot",
+      "targetIdProp": "material_lot_no",
+      "description": "The lots this lot is assembled from (B2MML MaterialLot.AssemblyLot, ISA-95 Part 2 cl. 5.7), e.g. a mixed lot from its component lots; one edge per component, delivered by the source."
     }
   ],
   "constraints": [],
@@ -152,7 +188,9 @@
       "quantity": "MaterialLot.Quantity.QuantityString",
       "unit_of_measure": "MaterialLot.Quantity.UnitOfMeasure",
       "status": "MaterialLot.Status",
-      "location_ref": "MaterialLot.AssemblyType"
+      "location_ref": "MaterialLot.AssemblyType",
+      "assembly_type": "MaterialLot.AssemblyType",
+      "assembly_relationship": "MaterialLot.AssemblyRelationship"
     }
   },
   "kgNodeLabel": "MaterialLot",

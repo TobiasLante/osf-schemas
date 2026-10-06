@@ -2,10 +2,14 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-Customer.payload.json",
   "title": "SMProfile-Customer payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/operations/customer.json 2.0.0; do not edit by hand. Envelope: standard/payloads/envelope.schema.json.",
+  "description": "GENERATED from standard/profiles/operations/customer.json 2.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-Customer",
   "x-profileVersion": "2.0.0",
-  "x-payloadVersion": "0.1.0",
+  "x-payloadVersion": "1.0.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
   "allOf": [
     {
       "$ref": "../../envelope.schema.json#/definitions/entity"
@@ -15,13 +19,16 @@
     "entity": {
       "const": "Customer"
     },
+    "profileRef": {
+      "const": "SMProfile-Customer"
+    },
     "data": {
       "type": "object",
       "properties": {
         "customer_no": {
           "type": "string",
-          "description": "Customer number / key.",
-          "x-valueType": "ID"
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Customer number / key."
         },
         "name": {
           "type": "string",
@@ -36,10 +43,15 @@
           "description": "Customer segment / classification."
         }
       },
-      "additionalProperties": false,
       "required": [
         "customer_no"
       ]
     }
+  },
+  "x-delivery": {
+    "customer_no": "transactional",
+    "name": "transactional",
+    "country": "transactional",
+    "segment": "transactional"
   }
 }

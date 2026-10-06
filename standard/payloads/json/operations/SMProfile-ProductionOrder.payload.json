@@ -2,10 +2,14 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-ProductionOrder.payload.json",
   "title": "SMProfile-ProductionOrder payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/operations/production-order.json 4.0.0; do not edit by hand. Envelope: standard/payloads/envelope.schema.json.",
+  "description": "GENERATED from standard/profiles/operations/production-order.json 4.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-ProductionOrder",
   "x-profileVersion": "4.0.0",
-  "x-payloadVersion": "0.1.0",
+  "x-payloadVersion": "1.0.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
   "allOf": [
     {
       "$ref": "../../envelope.schema.json#/definitions/entity"
@@ -15,33 +19,32 @@
     "entity": {
       "const": "ProductionOrder"
     },
+    "profileRef": {
+      "const": "SMProfile-ProductionOrder"
+    },
     "data": {
       "type": "object",
       "properties": {
         "production_order_no": {
           "type": "string",
-          "description": "Join key — identity of the OperationsRequest. The OperationsResponse reports its actuals back via the same key (RESPONDS_TO).",
-          "x-valueType": "ID"
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Join key — identity of the OperationsRequest. The OperationsResponse reports its actuals back via the same key (RESPONDS_TO)."
         },
         "sales_order_ref": {
           "type": "string",
-          "description": "Triggering Level-4 customer order (order_no, TRIGGERED_BY).",
-          "x-valueType": "ID"
+          "description": "Triggering Level-4 customer order (order_no, TRIGGERED_BY)."
         },
         "article_ref": {
           "type": "string",
-          "description": "Article to be manufactured (article_no, join key to Article).",
-          "x-valueType": "ID"
+          "description": "Article to be manufactured (article_no, join key to Article)."
         },
         "machine_ref": {
           "type": "string",
-          "description": "Planned executing machine / line (machine_no), reached via SegmentRequirement REQUIRES_EQUIPMENT Machine (machine_id).",
-          "x-valueType": "ID"
+          "description": "Planned executing machine / line (machine_no), reached via SegmentRequirement REQUIRES_EQUIPMENT Machine (machine_id)."
         },
         "department_ref": {
           "type": "string",
-          "description": "ERP department the order is routed to. Full text: docs/history/standard/profiles/operations/production-order.md, attributes › department_ref › description.",
-          "x-valueType": "ID"
+          "description": "ERP department the order is routed to. Full text: docs/history/standard/profiles/operations/production-order.md, attributes › department_ref › description."
         },
         "qty_planned": {
           "type": "integer",
@@ -71,8 +74,7 @@
         },
         "mould_ref": {
           "type": "string",
-          "description": "Identity of the mounted mould/tool that determines parts_per_shot (e.g. Full text: docs/history/standard/profiles/operations/production-order.md, attributes › mould_ref › description.",
-          "x-valueType": "ID"
+          "description": "Identity of the mounted mould/tool that determines parts_per_shot (e.g. Full text: docs/history/standard/profiles/operations/production-order.md, attributes › mould_ref › description."
         },
         "material_ready_at": {
           "type": "string",
@@ -94,8 +96,7 @@
         },
         "customer_ref": {
           "type": "string",
-          "description": "Customer of the triggering demand (kunde_id). Adopted from SMProfile-CustomerOrder 2026-08-13; the same column the withdrawn source read. The customer reference lives in this key (no ISA-95 edge, owner 25.09.).",
-          "x-valueType": "ID"
+          "description": "Customer of the triggering demand (kunde_id). Adopted from SMProfile-CustomerOrder 2026-08-13; the same column the withdrawn source read. The customer reference lives in this key (no ISA-95 edge, owner 25.09.)."
         },
         "customer_name": {
           "type": "string",
@@ -120,7 +121,6 @@
         },
         "status": {
           "type": "string",
-          "description": "Plan status of the OperationsRequest, as it reaches THIS profile through OUR source binding. Full text: docs/history/standard/profiles/operations/production-order.md, attributes › status › description.",
           "enum": [
             "offen",
             "freigegeben",
@@ -128,7 +128,8 @@
             "fertig",
             "abgeschlossen",
             "storniert"
-          ]
+          ],
+          "description": "Plan status of the OperationsRequest, as it reaches THIS profile through OUR source binding. Full text: docs/history/standard/profiles/operations/production-order.md, attributes › status › description."
         },
         "priority": {
           "type": "string",
@@ -136,8 +137,7 @@
         },
         "operations_definition_ref": {
           "type": "string",
-          "description": "v2.0 — instantiated routing (operations_definition_no, FOR_OPERATIONS_DEFINITION).",
-          "x-valueType": "ID"
+          "description": "v2.0 — instantiated routing (operations_definition_no, FOR_OPERATIONS_DEFINITION)."
         },
         "updated_at": {
           "type": "string",
@@ -145,10 +145,37 @@
           "description": "Last change. Server-managed and volatile on every read (sim-v5 returns a fresh value per GET), so promotion:never — kept in the snapshot but excluded from the change-trigger and never published on its own."
         }
       },
-      "additionalProperties": false,
       "required": [
         "production_order_no"
       ]
     }
+  },
+  "x-delivery": {
+    "production_order_no": "transactional",
+    "sales_order_ref": "transactional",
+    "article_ref": "transactional",
+    "machine_ref": "transactional",
+    "department_ref": "transactional",
+    "qty_planned": "transactional",
+    "planned_start_time": "transactional",
+    "planned_end_time": "transactional",
+    "cycle_time_planned_sec": "transactional",
+    "dispatch_sequence": "transactional",
+    "parts_per_shot": "transactional",
+    "mould_ref": "transactional",
+    "material_ready_at": "transactional",
+    "customer_order_qty": "transactional",
+    "customer_due_date": "transactional",
+    "order_no": "transactional",
+    "customer_ref": "transactional",
+    "customer_name": "transactional",
+    "total_amount": "transactional",
+    "currency": "transactional",
+    "due_date": "transactional",
+    "quantity": "transactional",
+    "status": "transactional",
+    "priority": "transactional",
+    "operations_definition_ref": "transactional",
+    "updated_at": "transactional"
   }
 }
