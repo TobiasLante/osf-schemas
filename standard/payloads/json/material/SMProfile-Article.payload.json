@@ -1,0 +1,129 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/material/SMProfile-Article.payload.json",
+  "title": "SMProfile-Article payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/material/article.json 2.2.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-Article",
+  "x-profileVersion": "2.2.0",
+  "x-payloadVersion": "1.0.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "Article"
+    },
+    "profileRef": {
+      "const": "SMProfile-Article"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "article_no": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$"
+        },
+        "name": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "unit": {
+          "type": "string"
+        },
+        "lead_time_days": {
+          "type": "integer"
+        },
+        "abc_class": {
+          "type": "string"
+        },
+        "cost_hk": {
+          "type": "number",
+          "description": "Standard manufacturing/purchase cost (HK = Herstellkosten), from ERP std_kosten. The €-basis for scrap / quality impact."
+        },
+        "price_vk": {
+          "type": "number",
+          "description": "Standard sales price (VK = Verkaufspreis), from ERP std_verkaufspreis. The basis for margin / lost-sales impact. Null for non-sellable articles (RAW/CONSUMABLE/WIP)."
+        },
+        "currency": {
+          "type": "string",
+          "description": "ISO-4217 currency code for cost_hk / price_vk, from ERP waehrung (e.g. EUR)."
+        },
+        "stock_free": {
+          "type": "number",
+          "description": "Free (unblocked) stock of this article across all warehouses (menge_frei). Served by GET /api/articles, which is ARTICLE_WITH_STOCK_AND_PRICE_SQL. This is the article-level figure the WMS Quant rows sum to; a single Quant is one pallet/lot in one bin and is NOT a stock position."
+        },
+        "stock_reserved": {
+          "type": "number",
+          "description": "Quantity already committed to orders (menge_reserviert) — free stock that is spoken for."
+        },
+        "stock_blocked": {
+          "type": "number",
+          "description": "Quantity blocked / on hold (menge_blockiert)."
+        },
+        "stock_available": {
+          "type": "number",
+          "description": "AVAILABLE-TO-PROMISE: free minus reserved (verfuegbar). Full text: docs/history/standard/profiles/material/article.md, attributes › stock_available › description."
+        },
+        "reorder_level": {
+          "type": "number",
+          "description": "Reorder level / Meldebestand from the ERP article master (mindestbestand). Full text: docs/history/standard/profiles/material/article.md, attributes › reorder_level › description."
+        },
+        "safety_stock": {
+          "type": "number",
+          "description": "Safety stock (safety_stock). Full text: docs/history/standard/profiles/material/article.md, attributes › safety_stock › description."
+        },
+        "material_class_ref": {
+          "type": "string",
+          "description": "The material class this article belongs to (DEFINED_BY), e.g. PA66-GF30. Empty until the article master or a mapping supplies it."
+        },
+        "assembly_type": {
+          "type": "string",
+          "enum": [
+            "Physical",
+            "Logical"
+          ],
+          "description": "ISA-95 AssemblyType: Physical (the parts are physically joined) or Logical (a grouping, e.g. a compound of polymer and filler)."
+        },
+        "assembly_relationship": {
+          "type": "string",
+          "enum": [
+            "Permanent",
+            "Transient"
+          ],
+          "description": "ISA-95 AssemblyRelationship: Permanent (cannot be taken apart again) or Transient (temporary, e.g. a kit)."
+        }
+      },
+      "required": [
+        "article_no"
+      ]
+    }
+  },
+  "x-delivery": {
+    "article_no": "transactional",
+    "name": "transactional",
+    "type": "transactional",
+    "unit": "transactional",
+    "lead_time_days": "transactional",
+    "abc_class": "transactional",
+    "cost_hk": "transactional",
+    "price_vk": "transactional",
+    "currency": "transactional",
+    "stock_free": "transactional",
+    "stock_reserved": "transactional",
+    "stock_blocked": "transactional",
+    "stock_available": "transactional",
+    "reorder_level": "transactional",
+    "safety_stock": "transactional",
+    "material_class_ref": "transactional",
+    "assembly_type": "transactional",
+    "assembly_relationship": "transactional"
+  }
+}

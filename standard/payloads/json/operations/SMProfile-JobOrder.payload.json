@@ -1,0 +1,70 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-JobOrder.payload.json",
+  "title": "SMProfile-JobOrder payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/operations/job-order.json 2.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-JobOrder",
+  "x-profileVersion": "2.0.0",
+  "x-payloadVersion": "1.0.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "JobOrder"
+    },
+    "profileRef": {
+      "const": "SMProfile-JobOrder"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "job_order_no": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the JobOrder (join key). Recommendation: <workorder_no>.<operation_no>."
+        },
+        "workorder_ref": {
+          "type": "string",
+          "description": "The Workorder (WorkRequest) this job belongs to."
+        },
+        "machine_ref": {
+          "type": "string",
+          "description": "The machine (Equipment) the job runs on."
+        },
+        "start_planned": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Planned start of the job."
+        },
+        "end_planned": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Planned end of the job."
+        },
+        "status": {
+          "type": "string",
+          "description": "Dispatch state of the job as the source names it."
+        }
+      },
+      "required": [
+        "job_order_no",
+        "workorder_ref"
+      ]
+    }
+  },
+  "x-delivery": {
+    "job_order_no": "transactional",
+    "workorder_ref": "transactional",
+    "machine_ref": "transactional",
+    "start_planned": "transactional",
+    "end_planned": "transactional",
+    "status": "transactional"
+  }
+}

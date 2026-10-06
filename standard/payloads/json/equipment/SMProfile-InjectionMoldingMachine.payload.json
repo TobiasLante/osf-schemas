@@ -1,0 +1,493 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/equipment/SMProfile-InjectionMoldingMachine.payload.json",
+  "title": "SMProfile-InjectionMoldingMachine payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/equipment/injection-molding-machine.json 3.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: signal (envelope.schema.json).",
+  "x-profileRef": "SMProfile-InjectionMoldingMachine",
+  "x-profileVersion": "3.0.0",
+  "x-payloadVersion": "1.0.0",
+  "x-stream": "FACTORY",
+  "x-subjects": {
+    "telemetry": "factory.{site}.{machine}.telemetry.{attr}",
+    "transactional": "factory.{site}.{machine}.event.{attr}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/signal"
+    },
+    {
+      "if": {
+        "properties": {
+          "attr": {
+            "enum": [
+              "machine_type",
+              "status",
+              "mode",
+              "shotCount",
+              "alarmsCount",
+              "inCycle",
+              "lastShotAt",
+              "shiftActive",
+              "reason",
+              "switchoverReached",
+              "phaseName",
+              "totalShots",
+              "resin",
+              "hopperRefillCount",
+              "colourPurgeRemaining"
+            ]
+          }
+        },
+        "required": [
+          "attr"
+        ]
+      },
+      "then": {
+        "properties": {
+          "delivery": {
+            "const": "transactional"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "delivery": {
+            "const": "telemetry"
+          }
+        }
+      }
+    }
+  ],
+  "properties": {
+    "attr": {
+      "enum": [
+        "machine_type",
+        "status",
+        "mode",
+        "shotCount",
+        "uptimeSeconds",
+        "alarmsCount",
+        "inCycle",
+        "lastShotAt",
+        "shiftActive",
+        "reason",
+        "hotrunnerTempC",
+        "nozzleTempC",
+        "cavityPressureBar",
+        "mouldPressureBar",
+        "partMass_g",
+        "peakPressureBar",
+        "holdPressureBar",
+        "backPressureBar",
+        "injectionSpeedMmPerSec",
+        "shotVolumeCm3",
+        "cushionMm",
+        "plastProgress",
+        "cycleTimeSec",
+        "elapsedSec",
+        "remainingSec",
+        "switchoverReached",
+        "phaseName",
+        "mouldTempC",
+        "coolingFlowLMin",
+        "lifePercent",
+        "totalShots",
+        "powerKw",
+        "resin",
+        "dryerTempC",
+        "dryerSetpointC",
+        "dryerResidenceMin",
+        "dryerResidenceTargetMin",
+        "hopperFillPct",
+        "hopperRefillThresholdPct",
+        "hopperRefillCount",
+        "regrindRatioPct",
+        "colourMasterbatchPct",
+        "colourPurgeRemaining",
+        "barrelZone1TempC",
+        "barrelZone2TempC",
+        "barrelZone3TempC",
+        "barrelZone4TempC"
+      ]
+    },
+    "profileRef": {
+      "const": "SMProfile-InjectionMoldingMachine"
+    }
+  },
+  "x-telemetry": [
+    "uptimeSeconds",
+    "hotrunnerTempC",
+    "nozzleTempC",
+    "cavityPressureBar",
+    "mouldPressureBar",
+    "partMass_g",
+    "peakPressureBar",
+    "holdPressureBar",
+    "backPressureBar",
+    "injectionSpeedMmPerSec",
+    "shotVolumeCm3",
+    "cushionMm",
+    "plastProgress",
+    "cycleTimeSec",
+    "elapsedSec",
+    "remainingSec",
+    "mouldTempC",
+    "coolingFlowLMin",
+    "lifePercent",
+    "powerKw",
+    "dryerTempC",
+    "dryerSetpointC",
+    "dryerResidenceMin",
+    "dryerResidenceTargetMin",
+    "hopperFillPct",
+    "hopperRefillThresholdPct",
+    "regrindRatioPct",
+    "colourMasterbatchPct",
+    "barrelZone1TempC",
+    "barrelZone2TempC",
+    "barrelZone3TempC",
+    "barrelZone4TempC"
+  ],
+  "x-transactional": [
+    "machine_type",
+    "status",
+    "mode",
+    "shotCount",
+    "alarmsCount",
+    "inCycle",
+    "lastShotAt",
+    "shiftActive",
+    "reason",
+    "switchoverReached",
+    "phaseName",
+    "totalShots",
+    "resin",
+    "hopperRefillCount",
+    "colourPurgeRemaining"
+  ],
+  "x-signals": {
+    "machine_type": {
+      "type": "string",
+      "delivery": "transactional",
+      "scope": "hub",
+      "description": "Machine type / class (sim machineType)."
+    },
+    "status": {
+      "type": "string",
+      "delivery": "transactional",
+      "scope": "hub",
+      "description": "Actual machine status. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, attributes › status › description."
+    },
+    "mode": {
+      "type": "string",
+      "delivery": "transactional",
+      "scope": "hub",
+      "description": "Operating mode. VOCABULARY NOT MEASURED YET — the earlier '(auto / manual / semi)' was unverified prose (the CNC profile measured AUTO/MANUAL/SETUP, uppercase — a different dialect … Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, attributes › mode › description."
+    },
+    "shotCount": {
+      "type": "integer",
+      "delivery": "transactional",
+      "scope": "hub",
+      "description": "Shot count (cumulative). READ IT WITH `counter.aggregation`, NOT max-min: this counter resets."
+    },
+    "uptimeSeconds": {
+      "type": "number",
+      "unit": "SEC",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "description": "Machine uptime (seconds)."
+    },
+    "alarmsCount": {
+      "type": "integer",
+      "delivery": "transactional",
+      "scope": "hub",
+      "description": "Active alarm count."
+    },
+    "inCycle": {
+      "type": "boolean",
+      "delivery": "transactional",
+      "scope": "hub",
+      "description": "Machine is in the injection cycle (cycle gate for pressure rules)."
+    },
+    "lastShotAt": {
+      "type": "string",
+      "format": "date-time",
+      "delivery": "transactional",
+      "scope": "hub",
+      "description": "Timestamp of the last shot."
+    },
+    "shiftActive": {
+      "type": "boolean",
+      "delivery": "transactional",
+      "scope": "hub",
+      "description": "A production shift is active."
+    },
+    "reason": {
+      "type": "string",
+      "delivery": "transactional",
+      "scope": "hub",
+      "description": "Stoppage / state reason code."
+    },
+    "hotrunnerTempC": {
+      "type": "number",
+      "unit": "CEL",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "description": "Actual hot-runner temperature (recipe-monitored)."
+    },
+    "nozzleTempC": {
+      "type": "number",
+      "unit": "CEL",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "description": "Actual nozzle / barrel-end temperature."
+    },
+    "cavityPressureBar": {
+      "type": "number",
+      "unit": "BAR",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "description": "Actual cavity pressure."
+    },
+    "mouldPressureBar": {
+      "type": "number",
+      "unit": "BAR",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "description": "Actual mould pressure."
+    },
+    "partMass_g": {
+      "type": "number",
+      "unit": "GRM",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "description": "Actual part mass (recipe-monitored)."
+    },
+    "peakPressureBar": {
+      "type": "number",
+      "unit": "BAR",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "description": "Actual peak injection pressure (recipe-monitored, cycle-gated)."
+    },
+    "holdPressureBar": {
+      "type": "number",
+      "unit": "BAR",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "description": "Actual hold pressure (recipe-monitored, cycle-gated)."
+    },
+    "backPressureBar": {
+      "type": "number",
+      "unit": "BAR",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "description": "Actual back pressure during plasticising."
+    },
+    "injectionSpeedMmPerSec": {
+      "type": "number",
+      "unit": "C16",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "description": "Actual injection speed."
+    },
+    "shotVolumeCm3": {
+      "type": "number",
+      "unit": "CMQ",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "description": "Actual shot volume."
+    },
+    "cushionMm": {
+      "type": "number",
+      "unit": "MMT",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "description": "Actual residual material cushion (recipe-monitored)."
+    },
+    "plastProgress": {
+      "type": "number",
+      "unit": "P1",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "description": "Plasticising progress of the current cycle."
+    },
+    "cycleTimeSec": {
+      "type": "number",
+      "unit": "SEC",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "description": "Actual cycle time per shot."
+    },
+    "elapsedSec": {
+      "type": "number",
+      "unit": "SEC",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "description": "Elapsed time in the current phase."
+    },
+    "remainingSec": {
+      "type": "number",
+      "unit": "SEC",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "description": "Remaining time (setup / phase)."
+    },
+    "switchoverReached": {
+      "type": "boolean",
+      "delivery": "transactional",
+      "scope": "hub",
+      "description": "Injection-to-hold switchover point reached."
+    },
+    "phaseName": {
+      "type": "string",
+      "enum": [
+        "CLOSING",
+        "INJECT",
+        "HOLD",
+        "COOL_PLAST",
+        "OPENING",
+        "EJECT"
+      ],
+      "delivery": "transactional",
+      "scope": "hub",
+      "description": "Current Euromap-77 cycle phase of the injection cycle. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, attributes › phaseName › description."
+    },
+    "mouldTempC": {
+      "type": "number",
+      "unit": "CEL",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "description": "Actual mould temperature."
+    },
+    "coolingFlowLMin": {
+      "type": "number",
+      "unit": "L2",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "description": "Mould cooling-water flow."
+    },
+    "lifePercent": {
+      "type": "number",
+      "unit": "P1",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "description": "Mould life consumed (percent)."
+    },
+    "totalShots": {
+      "type": "integer",
+      "delivery": "transactional",
+      "scope": "hub",
+      "description": "Mould total shot counter (life). Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, attributes › totalShots › description."
+    },
+    "powerKw": {
+      "type": "number",
+      "unit": "KWT",
+      "delivery": "telemetry",
+      "scope": "hub",
+      "description": "Actual electrical power draw (kW). Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, attributes › powerKw › description."
+    },
+    "resin": {
+      "type": "string",
+      "delivery": "transactional",
+      "scope": "hub",
+      "description": "Resin / material grade being processed."
+    },
+    "dryerTempC": {
+      "type": "number",
+      "unit": "CEL",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "description": "Resin dryer actual temperature."
+    },
+    "dryerSetpointC": {
+      "type": "number",
+      "unit": "CEL",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "description": "Resin dryer setpoint temperature."
+    },
+    "dryerResidenceMin": {
+      "type": "number",
+      "unit": "MIN",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "description": "Actual dryer residence time."
+    },
+    "dryerResidenceTargetMin": {
+      "type": "number",
+      "unit": "MIN",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "description": "Target dryer residence time."
+    },
+    "hopperFillPct": {
+      "type": "number",
+      "unit": "P1",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "description": "Hopper fill level."
+    },
+    "hopperRefillThresholdPct": {
+      "type": "number",
+      "unit": "P1",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "description": "Hopper refill threshold."
+    },
+    "hopperRefillCount": {
+      "type": "integer",
+      "delivery": "transactional",
+      "scope": "hub",
+      "description": "Hopper refill count."
+    },
+    "regrindRatioPct": {
+      "type": "number",
+      "unit": "P1",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "description": "Regrind ratio."
+    },
+    "colourMasterbatchPct": {
+      "type": "number",
+      "unit": "P1",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "description": "Colour masterbatch dosing ratio."
+    },
+    "colourPurgeRemaining": {
+      "type": "integer",
+      "delivery": "transactional",
+      "scope": "hub",
+      "description": "Colour purge shots remaining."
+    },
+    "barrelZone1TempC": {
+      "type": "number",
+      "unit": "CEL",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "description": "Measured temperature of barrel heating zone 1. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, attributes › barrelZone1TempC › description."
+    },
+    "barrelZone2TempC": {
+      "type": "number",
+      "unit": "CEL",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "description": "Measured temperature of barrel heating zone 2. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, attributes › barrelZone2TempC › description."
+    },
+    "barrelZone3TempC": {
+      "type": "number",
+      "unit": "CEL",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "description": "Measured temperature of barrel heating zone 3. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, attributes › barrelZone3TempC › description."
+    },
+    "barrelZone4TempC": {
+      "type": "number",
+      "unit": "CEL",
+      "delivery": "telemetry",
+      "scope": "edge",
+      "description": "Measured temperature of barrel heating zone 4. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, attributes › barrelZone4TempC › description."
+    }
+  }
+}

@@ -1,0 +1,129 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/material/SMProfile-ThermoplasticClass.payload.json",
+  "title": "SMProfile-ThermoplasticClass payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/material/thermoplastic-class.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-ThermoplasticClass",
+  "x-profileVersion": "1.0.0",
+  "x-payloadVersion": "1.0.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "ThermoplasticClass"
+    },
+    "profileRef": {
+      "const": "SMProfile-ThermoplasticClass"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "material_class_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the material class (e.g. PA66-GF30)."
+        },
+        "name": {
+          "type": "string",
+          "description": "Description of the class."
+        },
+        "parent_class_ref": {
+          "type": "string",
+          "description": "The broader class whose properties this class includes (INCLUDES_PROPERTIES_OF)."
+        },
+        "assembly_type": {
+          "type": "string",
+          "enum": [
+            "Physical",
+            "Logical"
+          ],
+          "description": "ISA-95 AssemblyType: Physical (the parts are physically joined) or Logical (a grouping, e.g. a compound of polymer and filler)."
+        },
+        "assembly_relationship": {
+          "type": "string",
+          "enum": [
+            "Permanent",
+            "Transient"
+          ],
+          "description": "ISA-95 AssemblyRelationship: Permanent (cannot be taken apart again) or Transient (temporary, e.g. a kit)."
+        },
+        "polymer_family": {
+          "type": "string",
+          "description": "Polymer as designated by ISO 1043-1 (e.g. PA66, PMMA, ASA+PC)."
+        },
+        "filler_type": {
+          "type": "string",
+          "description": "Filler or reinforcement as designated by ISO 1043-2 (e.g. GF glass fibre, CF carbon fibre, MD mineral); absent when unfilled."
+        },
+        "filler_content": {
+          "type": "number",
+          "x-unit": "P1",
+          "description": "Filler content in mass percent (the 30 in PA66-GF30)."
+        },
+        "drying_temp": {
+          "type": "number",
+          "x-unit": "CEL",
+          "description": "Drying temperature before processing (supplier datasheet)."
+        },
+        "drying_time": {
+          "type": "number",
+          "x-unit": "HUR",
+          "description": "Drying time before processing (supplier datasheet)."
+        },
+        "residual_moisture_max": {
+          "type": "number",
+          "x-unit": "P1",
+          "description": "Maximum residual moisture at processing (supplier datasheet)."
+        },
+        "melt_temp_min": {
+          "type": "number",
+          "x-unit": "CEL",
+          "description": "Lower end of the melt temperature window (supplier datasheet)."
+        },
+        "melt_temp_max": {
+          "type": "number",
+          "x-unit": "CEL",
+          "description": "Upper end of the melt temperature window (supplier datasheet)."
+        },
+        "mould_temp_min": {
+          "type": "number",
+          "x-unit": "CEL",
+          "description": "Lower end of the mould temperature window (supplier datasheet)."
+        },
+        "mould_temp_max": {
+          "type": "number",
+          "x-unit": "CEL",
+          "description": "Upper end of the mould temperature window (supplier datasheet)."
+        }
+      },
+      "required": [
+        "material_class_id",
+        "polymer_family"
+      ]
+    }
+  },
+  "x-delivery": {
+    "material_class_id": "transactional",
+    "name": "transactional",
+    "parent_class_ref": "transactional",
+    "assembly_type": "transactional",
+    "assembly_relationship": "transactional",
+    "polymer_family": "transactional",
+    "filler_type": "transactional",
+    "filler_content": "transactional",
+    "drying_temp": "transactional",
+    "drying_time": "transactional",
+    "residual_moisture_max": "transactional",
+    "melt_temp_min": "transactional",
+    "melt_temp_max": "transactional",
+    "mould_temp_min": "transactional",
+    "mould_temp_max": "transactional"
+  }
+}

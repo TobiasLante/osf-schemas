@@ -2,7 +2,7 @@
   "elementId": "SMProfile-Article",
   "displayName": "Article (article / part)",
   "namespaceUri": "urn:osf:schemas:material",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "schema": {
     "description": "Product/material master. Full text: docs/history/standard/profiles/material/article.md, description.",
     "type": "object",
@@ -126,6 +126,41 @@
         "x-delivery": "transactional",
         "x-scope": "hub",
         "x-promotion": "on_change"
+      },
+      "material_class_ref": {
+        "type": "string",
+        "description": "The material class this article belongs to (DEFINED_BY), e.g. PA66-GF30. Empty until the article master or a mapping supplies it.",
+        "x-category": "Link",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change",
+        "x-valueType": "ID"
+      },
+      "assembly_type": {
+        "type": "string",
+        "description": "ISA-95 AssemblyType: Physical (the parts are physically joined) or Logical (a grouping, e.g. a compound of polymer and filler).",
+        "enum": [
+          "Physical",
+          "Logical"
+        ],
+        "x-category": "Core",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change",
+        "x-valueType": "MD"
+      },
+      "assembly_relationship": {
+        "type": "string",
+        "description": "ISA-95 AssemblyRelationship: Permanent (cannot be taken apart again) or Transient (temporary, e.g. a kit).",
+        "enum": [
+          "Permanent",
+          "Transient"
+        ],
+        "x-category": "Core",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change",
+        "x-valueType": "MD"
       }
     },
     "required": [
@@ -137,7 +172,20 @@
     "standard": "CESMII",
     "category": "business",
     "abstract": false,
-    "relationships": [],
+    "relationships": [
+      {
+        "type": "DEFINED_BY",
+        "target": "MaterialClass",
+        "targetIdProp": "material_class_id",
+        "description": "ISA-95 MaterialDefinition DEFINED_BY MaterialClass (B2MML MaterialDefinition.MaterialClassID)."
+      },
+      {
+        "type": "ASSEMBLED_FROM",
+        "target": "Article",
+        "targetIdProp": "article_no",
+        "description": "The material definitions this article is assembled from (B2MML MaterialDefinition.AssemblyDefinition, ISA-95 Part 2 cl. 5.7); one edge per component, delivered by the source."
+      }
+    ],
     "constraints": [
       {
         "name": "stock_below_reorder_level",
@@ -165,7 +213,10 @@
       "note": "Article / part = ISA-95 MaterialDefinition (Part 2). Physical stock is MaterialLot.",
       "propertyMap": {
         "article_no": "MaterialDefinition.ID",
-        "name": "MaterialDefinition.Description"
+        "name": "MaterialDefinition.Description",
+        "material_class_ref": "MaterialDefinition.MaterialClassID",
+        "assembly_type": "MaterialDefinition.AssemblyType",
+        "assembly_relationship": "MaterialDefinition.AssemblyRelationship"
       },
       "notInIsa95": [
         "unit"
@@ -190,7 +241,10 @@
       "stock_blocked",
       "stock_available",
       "reorder_level",
-      "safety_stock"
+      "safety_stock",
+      "material_class_ref",
+      "assembly_type",
+      "assembly_relationship"
     ]
   }
 }

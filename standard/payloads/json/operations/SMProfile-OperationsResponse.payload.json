@@ -1,0 +1,89 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-OperationsResponse.payload.json",
+  "title": "SMProfile-OperationsResponse payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/operations/operations-response.json 2.3.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-OperationsResponse",
+  "x-profileVersion": "2.3.0",
+  "x-payloadVersion": "1.0.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "OperationsResponse"
+    },
+    "profileRef": {
+      "const": "SMProfile-OperationsResponse"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "production_order_no": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Join key — the OperationsRequest whose actuals this confirms (RESPONDS_TO)."
+        },
+        "article_ref": {
+          "type": "string",
+          "description": "Manufactured article (join key to Article)."
+        },
+        "machine_ref": {
+          "type": "string",
+          "description": "Executing machine / line (machine_no)."
+        },
+        "quantity_produced": {
+          "type": "integer",
+          "description": "Piece count actually produced (actual). Counterpart to qty_planned."
+        },
+        "cycle_time_actual_sec": {
+          "type": "number",
+          "description": "Actually measured cycle time per piece (s, actual)."
+        },
+        "actual_end_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Actual completion time (actual). Counterpart to planned_end_time."
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "in_arbeit",
+            "fertig"
+          ],
+          "description": "Actual status of the confirmation. Full text: docs/history/standard/profiles/operations/operations-response.md, attributes › status › description."
+        },
+        "completed_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Completion timestamp of the confirmation, if set."
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last change. Server-managed and volatile on every read (sim-v5 returns a fresh value per GET), so promotion:never — kept in the snapshot but excluded from the change-trigger and never published on its own."
+        }
+      },
+      "required": [
+        "production_order_no"
+      ]
+    }
+  },
+  "x-delivery": {
+    "production_order_no": "transactional",
+    "article_ref": "transactional",
+    "machine_ref": "transactional",
+    "quantity_produced": "transactional",
+    "cycle_time_actual_sec": "transactional",
+    "actual_end_time": "transactional",
+    "status": "transactional",
+    "completed_at": "transactional",
+    "updated_at": "transactional"
+  }
+}

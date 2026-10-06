@@ -2,7 +2,7 @@
   "elementId": "SMProfile-MaterialLot",
   "displayName": "Material Lot (the correct term for 'batch')",
   "namespaceUri": "urn:osf:schemas:material",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "schema": {
     "description": "ISA-95 Part 2/4 MaterialLot (B2MML MaterialLot). Full text: docs/history/standard/profiles/material/material-lot.md, description.",
     "allOf": [
@@ -101,6 +101,32 @@
             "x-delivery": "transactional",
             "x-scope": "hub",
             "x-promotion": "on_change"
+          },
+          "assembly_type": {
+            "type": "string",
+            "description": "ISA-95 AssemblyType: Physical (the parts are physically joined) or Logical (a grouping, e.g. a compound of polymer and filler).",
+            "enum": [
+              "Physical",
+              "Logical"
+            ],
+            "x-category": "Core",
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change",
+            "x-valueType": "MD"
+          },
+          "assembly_relationship": {
+            "type": "string",
+            "description": "ISA-95 AssemblyRelationship: Permanent (cannot be taken apart again) or Transient (temporary, e.g. a kit).",
+            "enum": [
+              "Permanent",
+              "Transient"
+            ],
+            "x-category": "Core",
+            "x-delivery": "transactional",
+            "x-scope": "hub",
+            "x-promotion": "on_change",
+            "x-valueType": "MD"
           }
         },
         "required": [
@@ -132,6 +158,12 @@
         "target": "StorageLocation",
         "targetIdProp": "storage_location_id",
         "description": "Where the material is held (B2MML MaterialLot.StorageLocation)."
+      },
+      {
+        "type": "ASSEMBLED_FROM",
+        "target": "MaterialLot",
+        "targetIdProp": "material_lot_no",
+        "description": "The lots this lot is assembled from (B2MML MaterialLot.AssemblyLot, ISA-95 Part 2 cl. 5.7), e.g. a mixed lot from its component lots; one edge per component, delivered by the source."
       }
     ],
     "constraints": [],
@@ -152,7 +184,9 @@
         "quantity": "MaterialLot.Quantity.QuantityString",
         "unit_of_measure": "MaterialLot.Quantity.UnitOfMeasure",
         "status": "MaterialLot.Status",
-        "location_ref": "MaterialLot.AssemblyType"
+        "location_ref": "MaterialLot.AssemblyType",
+        "assembly_type": "MaterialLot.AssemblyType",
+        "assembly_relationship": "MaterialLot.AssemblyRelationship"
       }
     },
     "kgNodeLabel": "MaterialLot",
@@ -168,7 +202,9 @@
       "job_order_ref",
       "location_ref",
       "created_at",
-      "updated_at"
+      "updated_at",
+      "assembly_type",
+      "assembly_relationship"
     ]
   }
 }

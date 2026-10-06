@@ -1,0 +1,95 @@
+{
+  "type": "record",
+  "name": "ShiftWindow",
+  "namespace": "org.openshopfloor.payload.operations",
+  "doc": "GENERATED from standard/profiles/operations/shift-window.json 1.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "fields": [
+    {
+      "name": "eventType",
+      "type": {
+        "type": "enum",
+        "name": "EventType",
+        "symbols": [
+          "created",
+          "updated",
+          "deleted"
+        ]
+      }
+    },
+    {
+      "name": "id",
+      "type": "string",
+      "doc": "Row key (no kgIdProperty); no + # * > / or space."
+    },
+    {
+      "name": "entity",
+      "type": "string",
+      "default": "ShiftWindow"
+    },
+    {
+      "name": "timestamp",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      }
+    },
+    {
+      "name": "msgId",
+      "type": "string",
+      "doc": "Unique message id: the Kafka key, for deduplication."
+    },
+    {
+      "name": "profileRef",
+      "type": "string",
+      "default": "SMProfile-ShiftWindow"
+    },
+    {
+      "name": "profileVersion",
+      "type": "string",
+      "default": "1.1.0"
+    },
+    {
+      "name": "data",
+      "type": {
+        "type": "record",
+        "name": "ShiftWindowData",
+        "fields": [
+          {
+            "name": "department_id",
+            "type": "string",
+            "doc": "Department the window belongs to. Measured population 2026-08-03: LAGER | MECH | MONTAGE | SG. NOT declared as an enum: the plant may add a department without a schema change, and a consumer must never treat an unknown department as 'not scheduled'. Part of the composite key."
+          },
+          {
+            "name": "day_of_week",
+            "type": "long",
+            "doc": "ISO-8601 weekday, 1=Monday .. Full text: docs/history/standard/profiles/operations/shift-window.md, attributes › day_of_week › description."
+          },
+          {
+            "name": "shift_id",
+            "type": "string",
+            "doc": "Shift code as the ERP names it. Full text: docs/history/standard/profiles/operations/shift-window.md, attributes › shift_id › description."
+          },
+          {
+            "name": "start_time",
+            "type": "string",
+            "doc": "Window start on the PLANT CLOCK as HH:MM:SS. No date and no timezone — this is a weekly pattern, not an instant. A consumer applies it in the same clock it attributes buckets in (golden-shift: tzOffsetMinutes, default 0 = UTC)."
+          },
+          {
+            "name": "end_time",
+            "type": "string",
+            "doc": "Window end on the plant clock as HH:MM:SS. Full text: docs/history/standard/profiles/operations/shift-window.md, attributes › end_time › description."
+          },
+          {
+            "name": "break_minutes",
+            "type": [
+              "null",
+              "long"
+            ],
+            "default": null,
+            "doc": "Unpaid break minutes inside the window. Full text: docs/history/standard/profiles/operations/shift-window.md, attributes › break_minutes › description."
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,132 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/envelope.schema.json",
+  "title": "OSF payload envelope (NATS, MQTT, Kafka) - v1.0.0",
+  "description": "GENERATED from standard/sync/uns-convention.json 1.2.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Two shapes. signal = OT world (categories machine): one message per signal; telemetry on factory.{site}.{machine}.telemetry.{attr}, transactional on factory.{site}.{machine}.event.{attr} (stream FACTORY). entity = IT world (categories business, material, quality, equipment): one message per source row on business.{enterprise}.{sourceId}.{entity}.{eventType}.{id} (stream BUSINESS), always transactional. A transactional message carries msgId: the JetStream Nats-Msg-Id and the Kafka key, for deduplication.",
+  "definitions": {
+    "signal": {
+      "type": "object",
+      "required": [
+        "element_id",
+        "attr",
+        "value",
+        "timestamp",
+        "delivery"
+      ],
+      "properties": {
+        "element_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Machine key (contract nodes.Machine.key); a subject token."
+        },
+        "attr": {
+          "type": "string",
+          "description": "Attribute name of the machine profile."
+        },
+        "value": {
+          "description": "The value, typed by the attribute (x-signals of the profile payload)."
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Source timestamp, UTC."
+        },
+        "delivery": {
+          "enum": [
+            "telemetry",
+            "transactional"
+          ],
+          "description": "The delivery class of the attribute (profile `delivery`); it decides the subject."
+        },
+        "msgId": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Unique message id (Nats-Msg-Id / Kafka key). Required for transactional."
+        },
+        "quality": {
+          "type": "string",
+          "description": "OPC UA StatusCode of the reading (Good, Uncertain, Bad...)."
+        },
+        "unit": {
+          "type": "string",
+          "description": "UNECE Rec. 20 code of the attribute."
+        },
+        "profileRef": {
+          "type": "string",
+          "pattern": "^SMProfile-"
+        },
+        "profileVersion": {
+          "type": "string"
+        }
+      },
+      "if": {
+        "properties": {
+          "delivery": {
+            "const": "transactional"
+          }
+        },
+        "required": [
+          "delivery"
+        ]
+      },
+      "then": {
+        "required": [
+          "msgId"
+        ]
+      }
+    },
+    "entity": {
+      "type": "object",
+      "required": [
+        "eventType",
+        "id",
+        "entity",
+        "timestamp",
+        "msgId",
+        "data"
+      ],
+      "properties": {
+        "eventType": {
+          "enum": [
+            "created",
+            "updated",
+            "deleted"
+          ],
+          "description": "Runtime token of the subject."
+        },
+        "id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "The row key = the kgIdProperty value of the profile; a subject token."
+        },
+        "entity": {
+          "type": "string",
+          "description": "kgNodeLabel of the profile."
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "delivery": {
+          "const": "transactional"
+        },
+        "msgId": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Unique message id (Nats-Msg-Id / Kafka key)."
+        },
+        "profileRef": {
+          "type": "string",
+          "pattern": "^SMProfile-"
+        },
+        "profileVersion": {
+          "type": "string"
+        },
+        "data": {
+          "type": "object",
+          "description": "The attributes of the profile, typed per profile."
+        }
+      }
+    }
+  }
+}

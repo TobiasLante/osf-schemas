@@ -104,6 +104,14 @@
       "abstract": false,
       "source": "standard/profiles/material/article.json"
     },
+    "MaterialClass": {
+      "key": "material_class_id",
+      "profile": "SMProfile-MaterialClass",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/material/material-class.json"
+    },
     "MaterialItem": {
       "key": "material_item_id",
       "profile": "SMProfile-MaterialItem",
@@ -135,6 +143,14 @@
       "parentType": null,
       "abstract": false,
       "source": "standard/profiles/material/storage-location.json"
+    },
+    "ThermoplasticClass": {
+      "key": "material_class_id",
+      "profile": "SMProfile-ThermoplasticClass",
+      "category": "business",
+      "parentType": "MaterialClass",
+      "abstract": false,
+      "source": "standard/profiles/material/thermoplastic-class.json"
     },
     "BdeConfirmation": {
       "key": "confirmation_no",
@@ -270,6 +286,26 @@
   },
   "edges": [
     {
+      "type": "ASSEMBLED_FROM",
+      "from": "Article",
+      "to": [
+        "Article"
+      ],
+      "targetIdProp": [
+        "article_no"
+      ]
+    },
+    {
+      "type": "DEFINED_BY",
+      "from": "Article",
+      "to": [
+        "MaterialClass"
+      ],
+      "targetIdProp": [
+        "material_class_id"
+      ]
+    },
+    {
       "type": "IMPLEMENTED_BY",
       "from": "InjectionMoldingMachine",
       "to": [
@@ -324,6 +360,36 @@
       "from": "Machine",
       "to": [
         "ProcessCell"
+      ]
+    },
+    {
+      "type": "ASSEMBLED_FROM",
+      "from": "MaterialClass",
+      "to": [
+        "MaterialClass"
+      ],
+      "targetIdProp": [
+        "material_class_id"
+      ]
+    },
+    {
+      "type": "INCLUDES_PROPERTIES_OF",
+      "from": "MaterialClass",
+      "to": [
+        "MaterialClass"
+      ],
+      "targetIdProp": [
+        "material_class_id"
+      ]
+    },
+    {
+      "type": "ASSEMBLED_FROM",
+      "from": "MaterialLot",
+      "to": [
+        "MaterialLot"
+      ],
+      "targetIdProp": [
+        "material_lot_no"
       ]
     },
     {

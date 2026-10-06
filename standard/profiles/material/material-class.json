@@ -1,0 +1,110 @@
+{
+  "profileId": "SMProfile-MaterialClass",
+  "version": "1.0.0",
+  "standard": "ISA-95",
+  "category": "business",
+  "displayName": "Material class",
+  "description": "ISA-95 MaterialClass (Part 2): material definitions that share properties. A class may include the properties of a broader class and be assembled from other classes (PA66-GF30 from PA66 and glass fibre). Domain profiles such as ThermoplasticClass add typed properties.",
+  "parentType": null,
+  "abstract": false,
+  "attributes": [
+    {
+      "name": "material_class_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the material class (e.g. PA66-GF30).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "name",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Description of the class.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "parent_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The broader class whose properties this class includes (INCLUDES_PROPERTIES_OF).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "assembly_type",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 AssemblyType: Physical (the parts are physically joined) or Logical (a grouping, e.g. a compound of polymer and filler).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD",
+      "enum": [
+        "Physical",
+        "Logical"
+      ]
+    },
+    {
+      "name": "assembly_relationship",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 AssemblyRelationship: Permanent (cannot be taken apart again) or Transient (temporary, e.g. a kit).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD",
+      "enum": [
+        "Permanent",
+        "Transient"
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "type": "INCLUDES_PROPERTIES_OF",
+      "target": "MaterialClass",
+      "targetIdProp": "material_class_id",
+      "description": "Class hierarchy (B2MML MaterialClass.MaterialClassBaseID): e.g. PA66-GF30 includes the properties of PA66."
+    },
+    {
+      "type": "ASSEMBLED_FROM",
+      "target": "MaterialClass",
+      "targetIdProp": "material_class_id",
+      "description": "The classes this class is assembled from (B2MML MaterialClass.AssemblyClass, ISA-95 Part 2 cl. 5.7), e.g. PA66-GF30 from PA66 and glass fibre; one edge per component, delivered by the source."
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iso:62264-MaterialClass"
+  ],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "MaterialClass",
+    "part": 2,
+    "momDomain": "production",
+    "level": 3,
+    "note": "ISA-95 Part 2 MaterialClass: hierarchy by INCLUDES_PROPERTIES_OF (MaterialClassBaseID), composition by ASSEMBLED_FROM (AssemblyClass) with AssemblyType and AssemblyRelationship.",
+    "propertyMap": {
+      "material_class_id": "MaterialClass.ID",
+      "name": "MaterialClass.Description",
+      "parent_class_ref": "MaterialClass.MaterialClassBaseID",
+      "assembly_type": "MaterialClass.AssemblyType",
+      "assembly_relationship": "MaterialClass.AssemblyRelationship"
+    }
+  },
+  "kgNodeLabel": "MaterialClass",
+  "kgIdProperty": "material_class_id"
+}
