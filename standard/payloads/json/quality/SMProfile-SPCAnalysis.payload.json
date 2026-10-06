@@ -1,0 +1,54 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/quality/SMProfile-SPCAnalysis.payload.json",
+  "title": "SMProfile-SPCAnalysis payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/quality/spcanalysis.json 4.0.0; do not edit by hand. Envelope: standard/payloads/envelope.schema.json.",
+  "x-profileRef": "SMProfile-SPCAnalysis",
+  "x-profileVersion": "4.0.0",
+  "x-payloadVersion": "0.1.0",
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "SPCAnalysis"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "analysis_id": {
+          "type": "integer",
+          "x-valueType": "ID"
+        },
+        "lot_no": {
+          "type": "string"
+        },
+        "characteristic_no": {
+          "type": "string"
+        },
+        "mean_value": {
+          "type": "number"
+        },
+        "std_deviation": {
+          "type": "number"
+        },
+        "cp": {
+          "type": "number"
+        },
+        "cpk": {
+          "type": "number"
+        },
+        "is_in_control": {
+          "type": "boolean"
+        },
+        "trend": {
+          "type": "string",
+          "description": "stable, improving, declining, out_of_control"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

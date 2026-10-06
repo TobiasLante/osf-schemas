@@ -1,0 +1,154 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-ProductionOrder.payload.json",
+  "title": "SMProfile-ProductionOrder payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/operations/production-order.json 4.0.0; do not edit by hand. Envelope: standard/payloads/envelope.schema.json.",
+  "x-profileRef": "SMProfile-ProductionOrder",
+  "x-profileVersion": "4.0.0",
+  "x-payloadVersion": "0.1.0",
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "ProductionOrder"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "production_order_no": {
+          "type": "string",
+          "description": "Join key — identity of the OperationsRequest. The OperationsResponse reports its actuals back via the same key (RESPONDS_TO).",
+          "x-valueType": "ID"
+        },
+        "sales_order_ref": {
+          "type": "string",
+          "description": "Triggering Level-4 customer order (order_no, TRIGGERED_BY).",
+          "x-valueType": "ID"
+        },
+        "article_ref": {
+          "type": "string",
+          "description": "Article to be manufactured (article_no, join key to Article).",
+          "x-valueType": "ID"
+        },
+        "machine_ref": {
+          "type": "string",
+          "description": "Planned executing machine / line (machine_no), reached via SegmentRequirement REQUIRES_EQUIPMENT Machine (machine_id).",
+          "x-valueType": "ID"
+        },
+        "department_ref": {
+          "type": "string",
+          "description": "ERP department the order is routed to. Full text: docs/history/standard/profiles/operations/production-order.md, attributes › department_ref › description.",
+          "x-valueType": "ID"
+        },
+        "qty_planned": {
+          "type": "integer",
+          "description": "Planned piece count (target). Counterpart to OperationsResponse.quantity_produced. Driver of the qty_shortfall rule."
+        },
+        "planned_start_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Planned START of the order's next non-terminal operation. Full text: docs/history/standard/profiles/operations/production-order.md, attributes › planned_start_time › description."
+        },
+        "planned_end_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Planned completion date (target). Counterpart to actual_end_time. Driver of the late_delivery rule."
+        },
+        "cycle_time_planned_sec": {
+          "type": "integer",
+          "description": "Planned cycle time per piece (s)."
+        },
+        "dispatch_sequence": {
+          "type": "integer",
+          "description": "1-based position of this order in its machine's dispatch queue, inside the 24 h horizon. Full text: docs/history/standard/profiles/operations/production-order.md, attributes › dispatch_sequence › description."
+        },
+        "parts_per_shot": {
+          "type": "integer",
+          "description": "Number of good parts ONE machine cycle yields — the mould's cavity count on injection-moulding machines, 1 on single-part machines. Full text: docs/history/standard/profiles/operations/production-order.md, attributes › parts_per_shot › description."
+        },
+        "mould_ref": {
+          "type": "string",
+          "description": "Identity of the mounted mould/tool that determines parts_per_shot (e.g. Full text: docs/history/standard/profiles/operations/production-order.md, attributes › mould_ref › description.",
+          "x-valueType": "ID"
+        },
+        "material_ready_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Time from which material is available — material-ready constraint."
+        },
+        "customer_order_qty": {
+          "type": "integer",
+          "description": "Customer order quantity of the triggering order (denormalized)."
+        },
+        "customer_due_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Customer delivery date of the triggering order (denormalized)."
+        },
+        "order_no": {
+          "type": "string",
+          "description": "COMPATIBILITY KEY, adopted from the withdrawn SMProfile-CustomerOrder on 2026-08-13. Full text: docs/history/standard/profiles/operations/production-order.md, attributes › order_no › description."
+        },
+        "customer_ref": {
+          "type": "string",
+          "description": "Customer of the triggering demand (kunde_id). Adopted from SMProfile-CustomerOrder 2026-08-13; the same column the withdrawn source read. The customer reference lives in this key (no ISA-95 edge, owner 25.09.).",
+          "x-valueType": "ID"
+        },
+        "customer_name": {
+          "type": "string",
+          "description": "Customer name (kunde_name). Adopted from SMProfile-CustomerOrder 2026-08-13. THIS SOURCE IS NOW THE ONLY WRITER: measured in the live KG, customer_name is set on 48.486 nodes and every one of them was written by the withdrawn erp-customer-orders binding. 100 % populated on the live feed."
+        },
+        "total_amount": {
+          "type": "number",
+          "description": "Order value (gesamtbetrag). Full text: docs/history/standard/profiles/operations/production-order.md, attributes › total_amount › description."
+        },
+        "currency": {
+          "type": "string",
+          "description": "Currency of total_amount (waehrung). Adopted from SMProfile-CustomerOrder 2026-08-13. Fill rate measured on the live feed: 461/500 rows."
+        },
+        "due_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Customer delivery commitment (lieferdatum_soll). Full text: docs/history/standard/profiles/operations/production-order.md, attributes › due_date › description."
+        },
+        "quantity": {
+          "type": "integer",
+          "description": "Ordered piece count (geplante_stueckzahl). Full text: docs/history/standard/profiles/operations/production-order.md, attributes › quantity › description."
+        },
+        "status": {
+          "type": "string",
+          "description": "Plan status of the OperationsRequest, as it reaches THIS profile through OUR source binding. Full text: docs/history/standard/profiles/operations/production-order.md, attributes › status › description.",
+          "enum": [
+            "offen",
+            "freigegeben",
+            "in_arbeit",
+            "fertig",
+            "abgeschlossen",
+            "storniert"
+          ]
+        },
+        "priority": {
+          "type": "string",
+          "description": "Order priority."
+        },
+        "operations_definition_ref": {
+          "type": "string",
+          "description": "v2.0 — instantiated routing (operations_definition_no, FOR_OPERATIONS_DEFINITION).",
+          "x-valueType": "ID"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last change. Server-managed and volatile on every read (sim-v5 returns a fresh value per GET), so promotion:never — kept in the snapshot but excluded from the change-trigger and never published on its own."
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "production_order_no"
+      ]
+    }
+  }
+}

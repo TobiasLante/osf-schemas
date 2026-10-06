@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-Article",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "standard": "CESMII",
   "category": "business",
   "displayName": "Article (article / part)",
@@ -154,9 +154,27 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
+    },
+    {
+      "name": "material_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The material class this article belongs to (DEFINED_BY), e.g. PA66-GF30. Empty until the article master or a mapping supplies it.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
     }
   ],
-  "relationships": [],
+  "relationships": [
+    {
+      "type": "DEFINED_BY",
+      "target": "MaterialClass",
+      "targetIdProp": "material_class_id",
+      "description": "ISA-95 MaterialDefinition DEFINED_BY MaterialClass (B2MML MaterialDefinition.MaterialClassID)."
+    }
+  ],
   "constraints": [
     {
       "name": "stock_below_reorder_level",
@@ -184,7 +202,8 @@
     "note": "Article / part = ISA-95 MaterialDefinition (Part 2). Physical stock is MaterialLot.",
     "propertyMap": {
       "article_no": "MaterialDefinition.ID",
-      "name": "MaterialDefinition.Description"
+      "name": "MaterialDefinition.Description",
+      "material_class_ref": "MaterialDefinition.MaterialClassID"
     },
     "notInIsa95": [
       "unit"

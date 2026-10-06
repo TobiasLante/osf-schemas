@@ -1,0 +1,145 @@
+{
+  "profileId": "SMProfile-ThermoplasticClass",
+  "version": "1.0.0",
+  "standard": "ISA-95",
+  "category": "business",
+  "displayName": "Thermoplastic material class",
+  "description": "Material class for thermoplastic moulding compounds (resins). Declares the properties a thermoplastic class carries: the polymer and filler designation and the processing window from the supplier datasheet. A recipe band on the injection moulding machine must lie inside the window of its resin's class.",
+  "parentType": "SMProfile-MaterialClass",
+  "abstract": false,
+  "attributes": [
+    {
+      "name": "polymer_family",
+      "dataType": "String",
+      "required": true,
+      "category": "Designation",
+      "description": "Polymer as designated by ISO 1043-1 (e.g. PA66, PMMA, ASA+PC).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "filler_type",
+      "dataType": "String",
+      "required": false,
+      "category": "Designation",
+      "description": "Filler or reinforcement as designated by ISO 1043-2 (e.g. GF glass fibre, CF carbon fibre, MD mineral); absent when unfilled.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "filler_content",
+      "dataType": "Float",
+      "unit": "P1",
+      "required": false,
+      "category": "Designation",
+      "description": "Filler content in mass percent (the 30 in PA66-GF30).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "drying_temp",
+      "dataType": "Float",
+      "unit": "CEL",
+      "required": false,
+      "category": "Processing",
+      "description": "Drying temperature before processing (supplier datasheet).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "drying_time",
+      "dataType": "Float",
+      "unit": "HUR",
+      "required": false,
+      "category": "Processing",
+      "description": "Drying time before processing (supplier datasheet).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "residual_moisture_max",
+      "dataType": "Float",
+      "unit": "P1",
+      "required": false,
+      "category": "Processing",
+      "description": "Maximum residual moisture at processing (supplier datasheet).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "LIM"
+    },
+    {
+      "name": "melt_temp_min",
+      "dataType": "Float",
+      "unit": "CEL",
+      "required": false,
+      "category": "Processing",
+      "description": "Lower end of the melt temperature window (supplier datasheet).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "LIM"
+    },
+    {
+      "name": "melt_temp_max",
+      "dataType": "Float",
+      "unit": "CEL",
+      "required": false,
+      "category": "Processing",
+      "description": "Upper end of the melt temperature window (supplier datasheet).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "LIM"
+    },
+    {
+      "name": "mould_temp_min",
+      "dataType": "Float",
+      "unit": "CEL",
+      "required": false,
+      "category": "Processing",
+      "description": "Lower end of the mould temperature window (supplier datasheet).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "LIM"
+    },
+    {
+      "name": "mould_temp_max",
+      "dataType": "Float",
+      "unit": "CEL",
+      "required": false,
+      "category": "Processing",
+      "description": "Upper end of the mould temperature window (supplier datasheet).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "LIM"
+    }
+  ],
+  "relationships": [],
+  "constraints": [],
+  "semantics": [
+    "iso:62264-MaterialClass"
+  ],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "MaterialClass",
+    "part": 2,
+    "momDomain": "production",
+    "level": 3,
+    "note": "A domain specialisation of MaterialClass: the typed attributes are MaterialClassProperty entries in B2MML (MaterialClass.MaterialClassProperty, one per attribute). The relationship INCLUDES_PROPERTIES_OF is inherited from SMProfile-MaterialClass."
+  },
+  "kgNodeLabel": "ThermoplasticClass",
+  "kgIdProperty": "material_class_id"
+}

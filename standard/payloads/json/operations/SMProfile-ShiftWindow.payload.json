@@ -1,0 +1,58 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-ShiftWindow.payload.json",
+  "title": "SMProfile-ShiftWindow payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/operations/shift-window.json 1.1.0; do not edit by hand. Envelope: standard/payloads/envelope.schema.json.",
+  "x-profileRef": "SMProfile-ShiftWindow",
+  "x-profileVersion": "1.1.0",
+  "x-payloadVersion": "0.1.0",
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "ShiftWindow"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "department_id": {
+          "type": "string",
+          "description": "Department the window belongs to. Measured population 2026-08-03: LAGER | MECH | MONTAGE | SG. NOT declared as an enum: the plant may add a department without a schema change, and a consumer must never treat an unknown department as 'not scheduled'. Part of the composite key.",
+          "x-valueType": "ID"
+        },
+        "day_of_week": {
+          "type": "integer",
+          "description": "ISO-8601 weekday, 1=Monday .. Full text: docs/history/standard/profiles/operations/shift-window.md, attributes › day_of_week › description."
+        },
+        "shift_id": {
+          "type": "string",
+          "description": "Shift code as the ERP names it. Full text: docs/history/standard/profiles/operations/shift-window.md, attributes › shift_id › description.",
+          "x-valueType": "ID"
+        },
+        "start_time": {
+          "type": "string",
+          "description": "Window start on the PLANT CLOCK as HH:MM:SS. No date and no timezone — this is a weekly pattern, not an instant. A consumer applies it in the same clock it attributes buckets in (golden-shift: tzOffsetMinutes, default 0 = UTC)."
+        },
+        "end_time": {
+          "type": "string",
+          "description": "Window end on the plant clock as HH:MM:SS. Full text: docs/history/standard/profiles/operations/shift-window.md, attributes › end_time › description."
+        },
+        "break_minutes": {
+          "type": "integer",
+          "description": "Unpaid break minutes inside the window. Full text: docs/history/standard/profiles/operations/shift-window.md, attributes › break_minutes › description."
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "department_id",
+        "day_of_week",
+        "shift_id",
+        "start_time",
+        "end_time"
+      ]
+    }
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/equipment/SMProfile-InjectionMoldingMachine.payload.json",
+  "title": "SMProfile-InjectionMoldingMachine payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/equipment/injection-molding-machine.json 3.0.0; do not edit by hand. Envelope: standard/payloads/envelope.schema.json.",
+  "x-profileRef": "SMProfile-InjectionMoldingMachine",
+  "x-profileVersion": "3.0.0",
+  "x-payloadVersion": "0.1.0",
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/signal"
+    }
+  ],
+  "properties": {
+    "attr": {
+      "enum": [
+        "machine_type",
+        "status",
+        "mode",
+        "shotCount",
+        "alarmsCount",
+        "inCycle",
+        "lastShotAt",
+        "shiftActive",
+        "reason",
+        "switchoverReached",
+        "phaseName",
+        "totalShots",
+        "powerKw",
+        "resin",
+        "hopperRefillCount",
+        "colourPurgeRemaining"
+      ]
+    }
+  },
+  "x-signals": {
+    "machine_type": {
+      "type": "string",
+      "description": "Machine type / class (sim machineType)."
+    },
+    "status": {
+      "type": "string",
+      "description": "Actual machine status. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, attributes › status › description."
+    },
+    "mode": {
+      "type": "string",
+      "description": "Operating mode. VOCABULARY NOT MEASURED YET — the earlier '(auto / manual / semi)' was unverified prose (the CNC profile measured AUTO/MANUAL/SETUP, uppercase — a different dialect … Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, attributes › mode › description."
+    },
+    "shotCount": {
+      "type": "integer",
+      "description": "Shot count (cumulative). READ IT WITH `counter.aggregation`, NOT max-min: this counter resets."
+    },
+    "alarmsCount": {
+      "type": "integer",
+      "description": "Active alarm count."
+    },
+    "inCycle": {
+      "type": "boolean",
+      "description": "Machine is in the injection cycle (cycle gate for pressure rules)."
+    },
+    "lastShotAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of the last shot."
+    },
+    "shiftActive": {
+      "type": "boolean",
+      "description": "A production shift is active."
+    },
+    "reason": {
+      "type": "string",
+      "description": "Stoppage / state reason code."
+    },
+    "switchoverReached": {
+      "type": "boolean",
+      "description": "Injection-to-hold switchover point reached."
+    },
+    "phaseName": {
+      "type": "string",
+      "description": "Current Euromap-77 cycle phase of the injection cycle. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, attributes › phaseName › description.",
+      "enum": [
+        "CLOSING",
+        "INJECT",
+        "HOLD",
+        "COOL_PLAST",
+        "OPENING",
+        "EJECT"
+      ]
+    },
+    "totalShots": {
+      "type": "integer",
+      "description": "Mould total shot counter (life). Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, attributes › totalShots › description."
+    },
+    "powerKw": {
+      "type": "number",
+      "description": "Actual electrical power draw (kW). Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, attributes › powerKw › description.",
+      "x-unit": "KWT"
+    },
+    "resin": {
+      "type": "string",
+      "description": "Resin / material grade being processed.",
+      "x-valueType": "PV"
+    },
+    "hopperRefillCount": {
+      "type": "integer",
+      "description": "Hopper refill count."
+    },
+    "colourPurgeRemaining": {
+      "type": "integer",
+      "description": "Colour purge shots remaining."
+    }
+  }
+}

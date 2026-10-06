@@ -1,0 +1,58 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-JobOrder.payload.json",
+  "title": "SMProfile-JobOrder payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/operations/job-order.json 2.0.0; do not edit by hand. Envelope: standard/payloads/envelope.schema.json.",
+  "x-profileRef": "SMProfile-JobOrder",
+  "x-profileVersion": "2.0.0",
+  "x-payloadVersion": "0.1.0",
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "JobOrder"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "job_order_no": {
+          "type": "string",
+          "description": "Identity of the JobOrder (join key). Recommendation: <workorder_no>.<operation_no>.",
+          "x-valueType": "ID"
+        },
+        "workorder_ref": {
+          "type": "string",
+          "description": "The Workorder (WorkRequest) this job belongs to.",
+          "x-valueType": "ID"
+        },
+        "machine_ref": {
+          "type": "string",
+          "description": "The machine (Equipment) the job runs on.",
+          "x-valueType": "ID"
+        },
+        "start_planned": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Planned start of the job."
+        },
+        "end_planned": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Planned end of the job."
+        },
+        "status": {
+          "type": "string",
+          "description": "Dispatch state of the job as the source names it."
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "job_order_no",
+        "workorder_ref"
+      ]
+    }
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-ProductDefinition.payload.json",
+  "title": "SMProfile-ProductDefinition payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/operations/product-definition.json 2.0.0; do not edit by hand. Envelope: standard/payloads/envelope.schema.json.",
+  "x-profileRef": "SMProfile-ProductDefinition",
+  "x-profileVersion": "2.0.0",
+  "x-payloadVersion": "0.1.0",
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "ProductDefinition"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "product_definition_no": {
+          "type": "string",
+          "description": "Spec identity / key.",
+          "x-valueType": "ID"
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name of the product specification."
+        },
+        "version_label": {
+          "type": "string",
+          "description": "Functional spec/recipe version (independent of the profile SemVer)."
+        },
+        "status": {
+          "type": "string",
+          "description": "Lifecycle status, e.g. draft, released, obsolete."
+        },
+        "article_ref": {
+          "type": "string",
+          "description": "FK to Article.article_no, reached via OperationsSegment SPECIFIES_MATERIAL. The article this spec defines — the FO/recipe join point. First binding axis.",
+          "x-valueType": "ID"
+        },
+        "equipment_class_ref": {
+          "type": "string",
+          "description": "Optional FK to an EquipmentClass/line the spec is restricted to, reached via OperationsSegment SPECIFIES_EQUIPMENT. Second binding axis.",
+          "x-valueType": "ID"
+        },
+        "setup_ref": {
+          "type": "string",
+          "description": "Optional setup/mould binding axis (third axis).",
+          "x-valueType": "ID"
+        },
+        "param_name": {
+          "type": "string",
+          "description": "Name of the controlled product property (e.g. line_speed, produced_thickness, area_weight)."
+        },
+        "target_value": {
+          "type": "number",
+          "description": "Target / SOLL setpoint of the property."
+        },
+        "warn_lo": {
+          "type": "number",
+          "description": "Inner band lower limit — Warngrenze (warning tier)."
+        },
+        "warn_hi": {
+          "type": "number",
+          "description": "Inner band upper limit — Warngrenze (warning tier)."
+        },
+        "action_lo": {
+          "type": "number",
+          "description": "Outer band lower limit — Eingriffsgrenze (action tier)."
+        },
+        "action_hi": {
+          "type": "number",
+          "description": "Outer band upper limit — Eingriffsgrenze (action tier)."
+        },
+        "unit": {
+          "type": "string",
+          "description": "Unit of the property (UN/CEFACT code recommended)."
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last change. Server-managed and volatile on every read (sim-v5 returns a fresh value per GET), so promotion:never — kept in the snapshot but excluded from the change-trigger and never published on its own."
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "product_definition_no"
+      ]
+    }
+  }
+}

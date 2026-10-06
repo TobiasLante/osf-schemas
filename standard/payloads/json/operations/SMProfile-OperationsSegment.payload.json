@@ -1,0 +1,77 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-OperationsSegment.payload.json",
+  "title": "SMProfile-OperationsSegment payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/operations/operations-segment.json 1.0.0; do not edit by hand. Envelope: standard/payloads/envelope.schema.json.",
+  "x-profileRef": "SMProfile-OperationsSegment",
+  "x-profileVersion": "1.0.0",
+  "x-payloadVersion": "0.1.0",
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "OperationsSegment"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "operations_segment_no": {
+          "type": "string",
+          "description": "Identity of the OperationsSegment (join key). Recommendation: <operations_definition_no>.<sequence>.",
+          "x-valueType": "ID"
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name of the step."
+        },
+        "operations_type": {
+          "type": "string",
+          "description": "ISA-95 operations type of the step.",
+          "enum": [
+            "production",
+            "inventory",
+            "quality",
+            "maintenance"
+          ]
+        },
+        "sequence": {
+          "type": "integer",
+          "description": "Position of the step within its OperationsDefinition."
+        },
+        "duration_planned_sec": {
+          "type": "number",
+          "description": "Planned duration of the step.",
+          "x-unit": "SEC"
+        },
+        "operations_definition_ref": {
+          "type": "string",
+          "description": "The OperationsDefinition (routing) this step belongs to.",
+          "x-valueType": "ID"
+        },
+        "process_segment_ref": {
+          "type": "string",
+          "description": "The ProcessSegment (reusable stage) this step performs.",
+          "x-valueType": "ID"
+        },
+        "material_ref": {
+          "type": "string",
+          "description": "The article (MaterialDefinition) this step specifies.",
+          "x-valueType": "ID"
+        },
+        "equipment_class_ref": {
+          "type": "string",
+          "description": "The equipment class this step specifies.",
+          "x-valueType": "ID"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "operations_segment_no",
+        "operations_definition_ref"
+      ]
+    }
+  }
+}

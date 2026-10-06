@@ -1,0 +1,72 @@
+{
+  "profileId": "SMProfile-MaterialClass",
+  "version": "1.0.0",
+  "standard": "ISA-95",
+  "category": "business",
+  "displayName": "Material class",
+  "description": "ISA-95 MaterialClass: a group of material definitions that share properties. Abstract: a domain profile (e.g. SMProfile-ThermoplasticClass) declares which properties its classes carry. A material definition (Article) is DEFINED_BY its class; a class may INCLUDE_PROPERTIES_OF a broader class.",
+  "parentType": null,
+  "abstract": true,
+  "attributes": [
+    {
+      "name": "material_class_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the material class (e.g. PA66-GF30).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "name",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Description of the class.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "parent_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The broader class whose properties this class includes (INCLUDES_PROPERTIES_OF).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "INCLUDES_PROPERTIES_OF",
+      "target": "MaterialClass",
+      "targetIdProp": "material_class_id",
+      "description": "Class hierarchy (B2MML MaterialClass.MaterialClassBaseID): e.g. PA66-GF30 includes the properties of PA66."
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iso:62264-MaterialClass"
+  ],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "MaterialClass",
+    "part": 2,
+    "momDomain": "production",
+    "level": 3,
+    "note": "ISA-95 Part 2 MaterialClass. The class carries the properties that are the same for every material of the class; the material definition (Article) carries what is specific to one material, the recipe (ProductDefinition) what is set on the machine.",
+    "propertyMap": {
+      "material_class_id": "MaterialClass.ID",
+      "name": "MaterialClass.Description",
+      "parent_class_ref": "MaterialClass.MaterialClassBaseID"
+    }
+  },
+  "kgNodeLabel": "MaterialClass",
+  "kgIdProperty": "material_class_id"
+}

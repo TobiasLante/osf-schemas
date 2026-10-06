@@ -1,0 +1,117 @@
+{
+  "type": "record",
+  "name": "OperationsSegment",
+  "namespace": "org.openshopfloor.payload.operations",
+  "doc": "GENERATED from standard/profiles/operations/operations-segment.json 1.0.0; do not edit by hand. Kafka value schema (TopicNameStrategy).",
+  "fields": [
+    {
+      "name": "eventType",
+      "type": {
+        "type": "enum",
+        "name": "EventType",
+        "symbols": [
+          "created",
+          "updated",
+          "deleted"
+        ]
+      }
+    },
+    {
+      "name": "id",
+      "type": "string"
+    },
+    {
+      "name": "timestamp",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      }
+    },
+    {
+      "name": "profileVersion",
+      "type": "string",
+      "default": "1.0.0"
+    },
+    {
+      "name": "operations_segment_no",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Identity of the OperationsSegment (join key). Recommendation: <operations_definition_no>.<sequence>."
+    },
+    {
+      "name": "name",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Display name of the step."
+    },
+    {
+      "name": "operations_type",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "ISA-95 operations type of the step."
+    },
+    {
+      "name": "sequence",
+      "type": [
+        "null",
+        "int"
+      ],
+      "default": null,
+      "doc": "Position of the step within its OperationsDefinition."
+    },
+    {
+      "name": "duration_planned_sec",
+      "type": [
+        "null",
+        "double"
+      ],
+      "default": null,
+      "doc": "Planned duration of the step."
+    },
+    {
+      "name": "operations_definition_ref",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "The OperationsDefinition (routing) this step belongs to."
+    },
+    {
+      "name": "process_segment_ref",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "The ProcessSegment (reusable stage) this step performs."
+    },
+    {
+      "name": "material_ref",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "The article (MaterialDefinition) this step specifies."
+    },
+    {
+      "name": "equipment_class_ref",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "The equipment class this step specifies."
+    }
+  ]
+}

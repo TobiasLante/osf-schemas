@@ -1,0 +1,132 @@
+{
+  "type": "record",
+  "name": "InspectionLot",
+  "namespace": "org.openshopfloor.payload.quality",
+  "doc": "GENERATED from standard/profiles/quality/inspection-lot.json 3.0.0; do not edit by hand. Kafka value schema (TopicNameStrategy).",
+  "fields": [
+    {
+      "name": "eventType",
+      "type": {
+        "type": "enum",
+        "name": "EventType",
+        "symbols": [
+          "created",
+          "updated",
+          "deleted"
+        ]
+      }
+    },
+    {
+      "name": "id",
+      "type": "string"
+    },
+    {
+      "name": "timestamp",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      }
+    },
+    {
+      "name": "profileVersion",
+      "type": "string",
+      "default": "3.0.0"
+    },
+    {
+      "name": "lot_no",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null
+    },
+    {
+      "name": "order_ref",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Referenced production order (join key to ProductionOrder / CustomerOrder)."
+    },
+    {
+      "name": "article_ref",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null
+    },
+    {
+      "name": "machine_ref",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null
+    },
+    {
+      "name": "lot_type",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "e.g. final, RMA_RECEIPT."
+    },
+    {
+      "name": "status",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Lot status, e.g. open, closed."
+    },
+    {
+      "name": "state",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Inspection workflow state. Full text: docs/history/standard/profiles/quality/inspection-lot.md, attributes › state › description."
+    },
+    {
+      "name": "decision",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Usage decision. VOCABULARY MEASURED 2026-07-12 over the FULL population (qms.inspection_lots, GROUP BY decision): ACCEPT (281.698), REWORK (33.518), REJECT (16.574) — no NULLs. The lot_rejected rule `decision ne 'REJECT'` is ALIVE and hits real data. Verified nightly by ci/check-vocab-drift.mjs."
+    },
+    {
+      "name": "quantity",
+      "type": [
+        "null",
+        "int"
+      ],
+      "default": null
+    },
+    {
+      "name": "sample_size",
+      "type": [
+        "null",
+        "int"
+      ],
+      "default": null
+    },
+    {
+      "name": "created_at",
+      "type": [
+        "null",
+        {
+          "type": "long",
+          "logicalType": "timestamp-millis"
+        }
+      ],
+      "default": null
+    }
+  ]
+}

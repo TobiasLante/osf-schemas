@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-Customer.payload.json",
+  "title": "SMProfile-Customer payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/operations/customer.json 2.0.0; do not edit by hand. Envelope: standard/payloads/envelope.schema.json.",
+  "x-profileRef": "SMProfile-Customer",
+  "x-profileVersion": "2.0.0",
+  "x-payloadVersion": "0.1.0",
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "Customer"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "customer_no": {
+          "type": "string",
+          "description": "Customer number / key.",
+          "x-valueType": "ID"
+        },
+        "name": {
+          "type": "string",
+          "description": "Customer name."
+        },
+        "country": {
+          "type": "string",
+          "description": "Customer country (ISO code recommended)."
+        },
+        "segment": {
+          "type": "string",
+          "description": "Customer segment / classification."
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "customer_no"
+      ]
+    }
+  }
+}

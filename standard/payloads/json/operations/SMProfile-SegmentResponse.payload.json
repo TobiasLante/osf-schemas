@@ -1,0 +1,147 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-SegmentResponse.payload.json",
+  "title": "SMProfile-SegmentResponse payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/operations/segment-response.json 2.1.0; do not edit by hand. Envelope: standard/payloads/envelope.schema.json.",
+  "x-profileRef": "SMProfile-SegmentResponse",
+  "x-profileVersion": "2.1.0",
+  "x-payloadVersion": "0.1.0",
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "SegmentResponse"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "segment_response_no": {
+          "type": "string",
+          "description": "Identity of the SegmentResponse (join key). Recommendation: <production_order_no>.<sequence>.",
+          "x-valueType": "ID"
+        },
+        "operations_response_ref": {
+          "type": "string",
+          "description": "FK to OperationsResponse.production_order_no (PART_OF). The order actuals to which these segment actuals belong.",
+          "x-valueType": "ID"
+        },
+        "segment_requirement_ref": {
+          "type": "string",
+          "description": "FK to SegmentRequirement.segment_requirement_no (RESPONDS_TO). The target segment whose actuals are reported here.",
+          "x-valueType": "ID"
+        },
+        "process_segment_ref": {
+          "type": "string",
+          "description": "FK to ProcessSegment.process_segment_no (FOR_PROCESS_SEGMENT). Which manufacturing stage was executed.",
+          "x-valueType": "ID"
+        },
+        "sequence": {
+          "type": "integer",
+          "description": "Sequence of this segment within the order."
+        },
+        "material_lot_ref": {
+          "type": "string",
+          "description": "FK to MaterialLot.material_lot_no (ACTUAL_MATERIAL) = MaterialActual.MaterialLotID. The material lot actually consumed/produced; role via material_use.",
+          "x-valueType": "ID"
+        },
+        "material_use": {
+          "type": "string",
+          "description": "ISA-95 MaterialActual.MaterialUse — the ROLE of the material (actual). Mirrors the SegmentRequirement role.",
+          "enum": [
+            "Consumed",
+            "Produced",
+            "Consumable",
+            "ByProduct",
+            "Sample",
+            "MovedFrom",
+            "MovedTo"
+          ]
+        },
+        "qty_actual": {
+          "type": "number",
+          "description": "Actual quantity of this material role (actual). Counterpart to SegmentRequirement.qty_planned."
+        },
+        "unit_of_measure": {
+          "type": "string",
+          "description": "Unit of measure of qty_actual."
+        },
+        "equipment_ref": {
+          "type": "string",
+          "description": "FK to Machine.machine_id (ACTUAL_EQUIPMENT; Machine ≡ Unit level) = EquipmentActual.EquipmentID. The equipment actually used.",
+          "x-valueType": "ID"
+        },
+        "actual_start_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Actual stage start (actual)."
+        },
+        "actual_end_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Actual stage end (actual)."
+        },
+        "status": {
+          "type": "string",
+          "description": "Actual status of the stage (e.g. running, complete, aborted). Derived from the MES OrderState."
+        },
+        "qty_good": {
+          "type": "integer",
+          "description": "Good parts counted at the machine for the running order. Reported by the machine source through objects[] (owner 25.09.); history: docs/history/standard/profiles/operations/segment-response.md.",
+          "x-valueType": "PV"
+        },
+        "qty_scrap": {
+          "type": "integer",
+          "description": "Scrap parts counted at the machine for the running order. Reported by the machine source through objects[] (owner 25.09.); history: docs/history/standard/profiles/operations/segment-response.md.",
+          "x-valueType": "PV"
+        },
+        "qty_total": {
+          "type": "integer",
+          "description": "All parts (good + scrap) counted at the machine for the running order. Reported by the machine source through objects[] (owner 25.09.); history: docs/history/standard/profiles/operations/segment-response.md."
+        },
+        "program_ref": {
+          "type": "string",
+          "description": "The NC or machine program the machine reports as active. Reported by the machine source through objects[] (owner 25.09.); history: docs/history/standard/profiles/operations/segment-response.md.",
+          "x-valueType": "ID"
+        },
+        "tool_ref": {
+          "type": "string",
+          "description": "The tool or mould the machine reports as set up for the order. Reported by the machine source through objects[] (owner 25.09.); history: docs/history/standard/profiles/operations/segment-response.md.",
+          "x-valueType": "ID"
+        },
+        "qty_rework": {
+          "type": "integer",
+          "description": "Parts sent to rework, counted at the machine for the running order. Reported by the machine source through objects[] (owner 25.09.); history: docs/history/standard/profiles/operations/segment-response.md.",
+          "x-valueType": "PV"
+        },
+        "production_order_ref": {
+          "type": "string",
+          "description": "The production order the machine reports it is running. Reported by the machine source through objects[] (owner 25.09.); history: docs/history/standard/profiles/operations/segment-response.md.",
+          "x-valueType": "ID"
+        },
+        "article_ref": {
+          "type": "string",
+          "description": "The article the machine reports it is producing. Reported by the machine source through objects[] (owner 25.09.); history: docs/history/standard/profiles/operations/segment-response.md.",
+          "x-valueType": "ID"
+        },
+        "program_line": {
+          "type": "integer",
+          "description": "The active line of the running program. Reported by the machine source through objects[] (owner 25.09.); history: docs/history/standard/profiles/operations/segment-response.md.",
+          "x-valueType": "ID"
+        },
+        "program_status": {
+          "type": "string",
+          "description": "The state of the running program (running, stopped, …). Reported by the machine source through objects[] (owner 25.09.); history: docs/history/standard/profiles/operations/segment-response.md.",
+          "x-valueType": "PV"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "segment_response_no",
+        "operations_response_ref"
+      ]
+    }
+  }
+}

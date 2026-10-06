@@ -83,6 +83,10 @@
       "MaterialLot": {
         "path": "MaterialLot.MaterialDefinitionID",
         "direction": "forward"
+      },
+      "Article": {
+        "path": "MaterialDefinition.MaterialClassID",
+        "direction": "forward"
       }
     },
     "PART_OF": {
@@ -176,6 +180,12 @@
     "SPECIFIES_MATERIAL": {
       "OperationsSegment": {
         "path": "OperationsSegment.MaterialSpecification.MaterialDefinitionID",
+        "direction": "forward"
+      }
+    },
+    "INCLUDES_PROPERTIES_OF": {
+      "MaterialClass": {
+        "path": "MaterialClass.MaterialClassBaseID",
         "direction": "forward"
       }
     }

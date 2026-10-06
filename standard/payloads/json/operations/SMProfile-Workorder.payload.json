@@ -1,0 +1,57 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-Workorder.payload.json",
+  "title": "SMProfile-Workorder payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/operations/work-order.json 2.0.0; do not edit by hand. Envelope: standard/payloads/envelope.schema.json.",
+  "x-profileRef": "SMProfile-Workorder",
+  "x-profileVersion": "2.0.0",
+  "x-payloadVersion": "0.1.0",
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "Workorder"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "workorder_no": {
+          "type": "string",
+          "description": "Identity of the Workorder (join key). Recommendation: <production_order_no>.<order_index>.",
+          "x-valueType": "ID"
+        },
+        "production_order_ref": {
+          "type": "string",
+          "description": "FK to ProductionOrder.production_order_no (FOR_OPERATIONS_REQUEST). The FabricationOrder that this sub-lot subdivides.",
+          "x-valueType": "ID"
+        },
+        "order_index": {
+          "type": "integer",
+          "description": "The FabricationOrder index (the MES FOIndex) = the slot number of this Workorder."
+        },
+        "status": {
+          "type": "string",
+          "description": "Workorder status (e.g. released, running, complete)."
+        },
+        "planned_start_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Planned start of this slot (target)."
+        },
+        "planned_end_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Planned end of this slot (target)."
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "workorder_no",
+        "production_order_ref"
+      ]
+    }
+  }
+}

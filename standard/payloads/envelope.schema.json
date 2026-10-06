@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/envelope.schema.json",
+  "title": "OSF payload envelope (NATS, MQTT, Kafka) - v0.1.0",
+  "description": "The two message shapes of standard/sync/uns-convention.json. signal = OT world, one subject per signal (factory.{site}.{machine}.telemetry|event.{attr}). entity = IT world, one subject per source row (business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}); the attributes ride in data. Per profile, standard/payloads/json/** fixes attr and data, standard/payloads/avro/** is the Kafka value schema of the entity shape.",
+  "definitions": {
+    "signal": {
+      "type": "object",
+      "required": ["element_id", "attr", "value", "timestamp"],
+      "properties": {
+        "element_id": {"type": "string", "description": "Machine key (contract nodes.Machine.key)."},
+        "attr": {"type": "string", "description": "Attribute name of the machine profile."},
+        "value": {"description": "The value, typed by the attribute (x-signals in the profile payload)."},
+        "timestamp": {"type": "string", "format": "date-time", "description": "Source timestamp, UTC."},
+        "quality": {"type": "string", "description": "OPC UA StatusCode of the reading (Good, Uncertain, Bad...)."},
+        "unit": {"type": "string", "description": "UNECE Rec. 20 code of the attribute."},
+        "profileRef": {"type": "string", "pattern": "^SMProfile-"},
+        "profileVersion": {"type": "string"}
+      }
+    },
+    "entity": {
+      "type": "object",
+      "required": ["eventType", "id", "entity", "timestamp", "data"],
+      "properties": {
+        "eventType": {"enum": ["created", "updated", "deleted"], "description": "Runtime token of the subject (uns-convention runtimeTokens)."},
+        "id": {"type": "string", "description": "The row key = the kgIdProperty value of the profile."},
+        "entity": {"type": "string", "description": "kgNodeLabel of the profile."},
+        "timestamp": {"type": "string", "format": "date-time"},
+        "profileRef": {"type": "string", "pattern": "^SMProfile-"},
+        "profileVersion": {"type": "string"},
+        "data": {"type": "object", "description": "The attributes of the profile, typed per profile."}
+      }
+    }
+  }
+}

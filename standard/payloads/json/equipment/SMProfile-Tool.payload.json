@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/equipment/SMProfile-Tool.payload.json",
+  "title": "SMProfile-Tool payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/equipment/tool.json 2.0.0; do not edit by hand. Envelope: standard/payloads/envelope.schema.json.",
+  "x-profileRef": "SMProfile-Tool",
+  "x-profileVersion": "2.0.0",
+  "x-payloadVersion": "0.1.0",
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "Tool"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "tool_id": {
+          "type": "string",
+          "description": "Tool identity / key.",
+          "x-valueType": "ID"
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name of the tool."
+        },
+        "tool_type": {
+          "type": "string",
+          "description": "Type of tooling (e.g. mould, die, fixture)."
+        },
+        "unit_ref": {
+          "type": "string",
+          "description": "FK to Machine.machine_id (IMPLEMENTATION_OF; Machine ≡ Unit level) — where the tool is currently set up.",
+          "x-valueType": "ID"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "tool_id"
+      ]
+    }
+  }
+}

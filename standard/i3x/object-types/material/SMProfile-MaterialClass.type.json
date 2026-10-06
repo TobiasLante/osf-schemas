@@ -1,0 +1,42 @@
+{
+  "elementId": "SMProfile-MaterialClass",
+  "displayName": "Material class",
+  "namespaceUri": "urn:osf:schemas:material",
+  "version": "1.0.0",
+  "schema": {
+    "description": "ISA-95 MaterialClass: a group of material definitions that share properties. Abstract: a domain profile (e.g. SMProfile-ThermoplasticClass) declares which properties its classes carry. A material definition (Article) is DEFINED_BY its class; a class may INCLUDE_PROPERTIES_OF a broader class.",
+    "type": "object",
+    "properties": {
+      "material_class_id": {
+        "type": "string",
+        "description": "Identity of the material class (e.g. PA66-GF30).",
+        "x-category": "Core",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change",
+        "x-valueType": "ID"
+      },
+      "name": {
+        "type": "string",
+        "description": "Description of the class.",
+        "x-category": "Core",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change",
+        "x-valueType": "MD"
+      },
+      "parent_class_ref": {
+        "type": "string",
+        "description": "The broader class whose properties this class includes (INCLUDES_PROPERTIES_OF).",
+        "x-category": "Link",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change",
+        "x-valueType": "ID"
+      }
+    },
+    "required": [
+      "material_class_id"
+    ]
+  }
+}

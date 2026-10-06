@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/material/SMProfile-StorageLocation.payload.json",
+  "title": "SMProfile-StorageLocation payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/material/storage-location.json 2.0.0; do not edit by hand. Envelope: standard/payloads/envelope.schema.json.",
+  "x-profileRef": "SMProfile-StorageLocation",
+  "x-profileVersion": "2.0.0",
+  "x-payloadVersion": "0.1.0",
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "StorageLocation"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "storage_location_id": {
+          "type": "string",
+          "description": "Storage location identity / key.",
+          "x-valueType": "ID"
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name of the location."
+        },
+        "warehouse": {
+          "type": "string",
+          "description": "Warehouse / building the location belongs to."
+        },
+        "location_type": {
+          "type": "string",
+          "description": "Type of location (e.g. rack, floor, buffer, silo)."
+        },
+        "area_ref": {
+          "type": "string",
+          "description": "FK to Area.area_id (PART_OF) — roots the location in the site/area hierarchy.",
+          "x-valueType": "ID"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "storage_location_id"
+      ]
+    }
+  }
+}

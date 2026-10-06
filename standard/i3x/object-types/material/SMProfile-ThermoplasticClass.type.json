@@ -1,0 +1,150 @@
+{
+  "elementId": "SMProfile-ThermoplasticClass",
+  "displayName": "Thermoplastic material class",
+  "namespaceUri": "urn:osf:schemas:material",
+  "version": "1.0.0",
+  "schema": {
+    "description": "Material class for thermoplastic moulding compounds (resins). Declares the properties a thermoplastic class carries: the polymer and filler designation and the processing window from the supplier datasheet. A recipe band on the injection moulding machine must lie inside the window of its resin's class.",
+    "type": "object",
+    "properties": {
+      "material_class_id": {
+        "type": "string",
+        "description": "Identity of the material class (e.g. PA66-GF30).",
+        "x-category": "Core",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change",
+        "x-valueType": "ID"
+      },
+      "name": {
+        "type": "string",
+        "description": "Description of the class.",
+        "x-category": "Core",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change",
+        "x-valueType": "MD"
+      },
+      "parent_class_ref": {
+        "type": "string",
+        "description": "The broader class whose properties this class includes (INCLUDES_PROPERTIES_OF).",
+        "x-category": "Link",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change",
+        "x-valueType": "ID"
+      },
+      "polymer_family": {
+        "type": "string",
+        "description": "Polymer as designated by ISO 1043-1 (e.g. PA66, PMMA, ASA+PC).",
+        "x-category": "Designation",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change",
+        "x-valueType": "MD"
+      },
+      "filler_type": {
+        "type": "string",
+        "description": "Filler or reinforcement as designated by ISO 1043-2 (e.g. GF glass fibre, CF carbon fibre, MD mineral); absent when unfilled.",
+        "x-category": "Designation",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change",
+        "x-valueType": "MD"
+      },
+      "filler_content": {
+        "type": "number",
+        "description": "Filler content in mass percent (the 30 in PA66-GF30).",
+        "x-dataType": "Float",
+        "x-category": "Designation",
+        "x-unit": "P1",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change",
+        "x-valueType": "MD"
+      },
+      "drying_temp": {
+        "type": "number",
+        "description": "Drying temperature before processing (supplier datasheet).",
+        "x-dataType": "Float",
+        "x-category": "Processing",
+        "x-unit": "CEL",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change",
+        "x-valueType": "MD"
+      },
+      "drying_time": {
+        "type": "number",
+        "description": "Drying time before processing (supplier datasheet).",
+        "x-dataType": "Float",
+        "x-category": "Processing",
+        "x-unit": "HUR",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change",
+        "x-valueType": "MD"
+      },
+      "residual_moisture_max": {
+        "type": "number",
+        "description": "Maximum residual moisture at processing (supplier datasheet).",
+        "x-dataType": "Float",
+        "x-category": "Processing",
+        "x-unit": "P1",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change",
+        "x-valueType": "LIM"
+      },
+      "melt_temp_min": {
+        "type": "number",
+        "description": "Lower end of the melt temperature window (supplier datasheet).",
+        "x-dataType": "Float",
+        "x-category": "Processing",
+        "x-unit": "CEL",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change",
+        "x-valueType": "LIM"
+      },
+      "melt_temp_max": {
+        "type": "number",
+        "description": "Upper end of the melt temperature window (supplier datasheet).",
+        "x-dataType": "Float",
+        "x-category": "Processing",
+        "x-unit": "CEL",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change",
+        "x-valueType": "LIM"
+      },
+      "mould_temp_min": {
+        "type": "number",
+        "description": "Lower end of the mould temperature window (supplier datasheet).",
+        "x-dataType": "Float",
+        "x-category": "Processing",
+        "x-unit": "CEL",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change",
+        "x-valueType": "LIM"
+      },
+      "mould_temp_max": {
+        "type": "number",
+        "description": "Upper end of the mould temperature window (supplier datasheet).",
+        "x-dataType": "Float",
+        "x-category": "Processing",
+        "x-unit": "CEL",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change",
+        "x-valueType": "LIM"
+      }
+    },
+    "required": [
+      "material_class_id",
+      "polymer_family"
+    ]
+  },
+  "parentTypeId": "SMProfile-MaterialClass"
+}

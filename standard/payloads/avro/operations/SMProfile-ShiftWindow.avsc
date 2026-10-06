@@ -1,0 +1,90 @@
+{
+  "type": "record",
+  "name": "ShiftWindow",
+  "namespace": "org.openshopfloor.payload.operations",
+  "doc": "GENERATED from standard/profiles/operations/shift-window.json 1.1.0; do not edit by hand. Kafka value schema (TopicNameStrategy).",
+  "fields": [
+    {
+      "name": "eventType",
+      "type": {
+        "type": "enum",
+        "name": "EventType",
+        "symbols": [
+          "created",
+          "updated",
+          "deleted"
+        ]
+      }
+    },
+    {
+      "name": "id",
+      "type": "string"
+    },
+    {
+      "name": "timestamp",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      }
+    },
+    {
+      "name": "profileVersion",
+      "type": "string",
+      "default": "1.1.0"
+    },
+    {
+      "name": "department_id",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Department the window belongs to. Measured population 2026-08-03: LAGER | MECH | MONTAGE | SG. NOT declared as an enum: the plant may add a department without a schema change, and a consumer must never treat an unknown department as 'not scheduled'. Part of the composite key."
+    },
+    {
+      "name": "day_of_week",
+      "type": [
+        "null",
+        "int"
+      ],
+      "default": null,
+      "doc": "ISO-8601 weekday, 1=Monday .. Full text: docs/history/standard/profiles/operations/shift-window.md, attributes › day_of_week › description."
+    },
+    {
+      "name": "shift_id",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Shift code as the ERP names it. Full text: docs/history/standard/profiles/operations/shift-window.md, attributes › shift_id › description."
+    },
+    {
+      "name": "start_time",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Window start on the PLANT CLOCK as HH:MM:SS. No date and no timezone — this is a weekly pattern, not an instant. A consumer applies it in the same clock it attributes buckets in (golden-shift: tzOffsetMinutes, default 0 = UTC)."
+    },
+    {
+      "name": "end_time",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Window end on the plant clock as HH:MM:SS. Full text: docs/history/standard/profiles/operations/shift-window.md, attributes › end_time › description."
+    },
+    {
+      "name": "break_minutes",
+      "type": [
+        "null",
+        "int"
+      ],
+      "default": null,
+      "doc": "Unpaid break minutes inside the window. Full text: docs/history/standard/profiles/operations/shift-window.md, attributes › break_minutes › description."
+    }
+  ]
+}

@@ -1,0 +1,249 @@
+{
+  "type": "record",
+  "name": "SegmentResponse",
+  "namespace": "org.openshopfloor.payload.operations",
+  "doc": "GENERATED from standard/profiles/operations/segment-response.json 2.1.0; do not edit by hand. Kafka value schema (TopicNameStrategy).",
+  "fields": [
+    {
+      "name": "eventType",
+      "type": {
+        "type": "enum",
+        "name": "EventType",
+        "symbols": [
+          "created",
+          "updated",
+          "deleted"
+        ]
+      }
+    },
+    {
+      "name": "id",
+      "type": "string"
+    },
+    {
+      "name": "timestamp",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      }
+    },
+    {
+      "name": "profileVersion",
+      "type": "string",
+      "default": "2.1.0"
+    },
+    {
+      "name": "segment_response_no",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Identity of the SegmentResponse (join key). Recommendation: <production_order_no>.<sequence>."
+    },
+    {
+      "name": "operations_response_ref",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "FK to OperationsResponse.production_order_no (PART_OF). The order actuals to which these segment actuals belong."
+    },
+    {
+      "name": "segment_requirement_ref",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "FK to SegmentRequirement.segment_requirement_no (RESPONDS_TO). The target segment whose actuals are reported here."
+    },
+    {
+      "name": "process_segment_ref",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "FK to ProcessSegment.process_segment_no (FOR_PROCESS_SEGMENT). Which manufacturing stage was executed."
+    },
+    {
+      "name": "sequence",
+      "type": [
+        "null",
+        "int"
+      ],
+      "default": null,
+      "doc": "Sequence of this segment within the order."
+    },
+    {
+      "name": "material_lot_ref",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "FK to MaterialLot.material_lot_no (ACTUAL_MATERIAL) = MaterialActual.MaterialLotID. The material lot actually consumed/produced; role via material_use."
+    },
+    {
+      "name": "material_use",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "ISA-95 MaterialActual.MaterialUse — the ROLE of the material (actual). Mirrors the SegmentRequirement role."
+    },
+    {
+      "name": "qty_actual",
+      "type": [
+        "null",
+        "double"
+      ],
+      "default": null,
+      "doc": "Actual quantity of this material role (actual). Counterpart to SegmentRequirement.qty_planned."
+    },
+    {
+      "name": "unit_of_measure",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Unit of measure of qty_actual."
+    },
+    {
+      "name": "equipment_ref",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "FK to Machine.machine_id (ACTUAL_EQUIPMENT; Machine ≡ Unit level) = EquipmentActual.EquipmentID. The equipment actually used."
+    },
+    {
+      "name": "actual_start_time",
+      "type": [
+        "null",
+        {
+          "type": "long",
+          "logicalType": "timestamp-millis"
+        }
+      ],
+      "default": null,
+      "doc": "Actual stage start (actual)."
+    },
+    {
+      "name": "actual_end_time",
+      "type": [
+        "null",
+        {
+          "type": "long",
+          "logicalType": "timestamp-millis"
+        }
+      ],
+      "default": null,
+      "doc": "Actual stage end (actual)."
+    },
+    {
+      "name": "status",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Actual status of the stage (e.g. running, complete, aborted). Derived from the MES OrderState."
+    },
+    {
+      "name": "qty_good",
+      "type": [
+        "null",
+        "int"
+      ],
+      "default": null,
+      "doc": "Good parts counted at the machine for the running order. Reported by the machine source through objects[] (owner 25.09.); history: docs/history/standard/profiles/operations/segment-response.md."
+    },
+    {
+      "name": "qty_scrap",
+      "type": [
+        "null",
+        "int"
+      ],
+      "default": null,
+      "doc": "Scrap parts counted at the machine for the running order. Reported by the machine source through objects[] (owner 25.09.); history: docs/history/standard/profiles/operations/segment-response.md."
+    },
+    {
+      "name": "qty_total",
+      "type": [
+        "null",
+        "int"
+      ],
+      "default": null,
+      "doc": "All parts (good + scrap) counted at the machine for the running order. Reported by the machine source through objects[] (owner 25.09.); history: docs/history/standard/profiles/operations/segment-response.md."
+    },
+    {
+      "name": "program_ref",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "The NC or machine program the machine reports as active. Reported by the machine source through objects[] (owner 25.09.); history: docs/history/standard/profiles/operations/segment-response.md."
+    },
+    {
+      "name": "tool_ref",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "The tool or mould the machine reports as set up for the order. Reported by the machine source through objects[] (owner 25.09.); history: docs/history/standard/profiles/operations/segment-response.md."
+    },
+    {
+      "name": "qty_rework",
+      "type": [
+        "null",
+        "int"
+      ],
+      "default": null,
+      "doc": "Parts sent to rework, counted at the machine for the running order. Reported by the machine source through objects[] (owner 25.09.); history: docs/history/standard/profiles/operations/segment-response.md."
+    },
+    {
+      "name": "production_order_ref",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "The production order the machine reports it is running. Reported by the machine source through objects[] (owner 25.09.); history: docs/history/standard/profiles/operations/segment-response.md."
+    },
+    {
+      "name": "article_ref",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "The article the machine reports it is producing. Reported by the machine source through objects[] (owner 25.09.); history: docs/history/standard/profiles/operations/segment-response.md."
+    },
+    {
+      "name": "program_line",
+      "type": [
+        "null",
+        "int"
+      ],
+      "default": null,
+      "doc": "The active line of the running program. Reported by the machine source through objects[] (owner 25.09.); history: docs/history/standard/profiles/operations/segment-response.md."
+    },
+    {
+      "name": "program_status",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "The state of the running program (running, stopped, …). Reported by the machine source through objects[] (owner 25.09.); history: docs/history/standard/profiles/operations/segment-response.md."
+    }
+  ]
+}

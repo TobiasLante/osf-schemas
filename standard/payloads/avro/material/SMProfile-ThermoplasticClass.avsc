@@ -1,0 +1,153 @@
+{
+  "type": "record",
+  "name": "ThermoplasticClass",
+  "namespace": "org.openshopfloor.payload.material",
+  "doc": "GENERATED from standard/profiles/material/thermoplastic-class.json 1.0.0; do not edit by hand. Kafka value schema (TopicNameStrategy).",
+  "fields": [
+    {
+      "name": "eventType",
+      "type": {
+        "type": "enum",
+        "name": "EventType",
+        "symbols": [
+          "created",
+          "updated",
+          "deleted"
+        ]
+      }
+    },
+    {
+      "name": "id",
+      "type": "string"
+    },
+    {
+      "name": "timestamp",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      }
+    },
+    {
+      "name": "profileVersion",
+      "type": "string",
+      "default": "1.0.0"
+    },
+    {
+      "name": "material_class_id",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Identity of the material class (e.g. PA66-GF30)."
+    },
+    {
+      "name": "name",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Description of the class."
+    },
+    {
+      "name": "parent_class_ref",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "The broader class whose properties this class includes (INCLUDES_PROPERTIES_OF)."
+    },
+    {
+      "name": "polymer_family",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Polymer as designated by ISO 1043-1 (e.g. PA66, PMMA, ASA+PC)."
+    },
+    {
+      "name": "filler_type",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Filler or reinforcement as designated by ISO 1043-2 (e.g. GF glass fibre, CF carbon fibre, MD mineral); absent when unfilled."
+    },
+    {
+      "name": "filler_content",
+      "type": [
+        "null",
+        "float"
+      ],
+      "default": null,
+      "doc": "Filler content in mass percent (the 30 in PA66-GF30)."
+    },
+    {
+      "name": "drying_temp",
+      "type": [
+        "null",
+        "float"
+      ],
+      "default": null,
+      "doc": "Drying temperature before processing (supplier datasheet)."
+    },
+    {
+      "name": "drying_time",
+      "type": [
+        "null",
+        "float"
+      ],
+      "default": null,
+      "doc": "Drying time before processing (supplier datasheet)."
+    },
+    {
+      "name": "residual_moisture_max",
+      "type": [
+        "null",
+        "float"
+      ],
+      "default": null,
+      "doc": "Maximum residual moisture at processing (supplier datasheet)."
+    },
+    {
+      "name": "melt_temp_min",
+      "type": [
+        "null",
+        "float"
+      ],
+      "default": null,
+      "doc": "Lower end of the melt temperature window (supplier datasheet)."
+    },
+    {
+      "name": "melt_temp_max",
+      "type": [
+        "null",
+        "float"
+      ],
+      "default": null,
+      "doc": "Upper end of the melt temperature window (supplier datasheet)."
+    },
+    {
+      "name": "mould_temp_min",
+      "type": [
+        "null",
+        "float"
+      ],
+      "default": null,
+      "doc": "Lower end of the mould temperature window (supplier datasheet)."
+    },
+    {
+      "name": "mould_temp_max",
+      "type": [
+        "null",
+        "float"
+      ],
+      "default": null,
+      "doc": "Upper end of the mould temperature window (supplier datasheet)."
+    }
+  ]
+}

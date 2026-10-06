@@ -1,0 +1,63 @@
+{
+  "type": "record",
+  "name": "EquipmentClass",
+  "namespace": "org.openshopfloor.payload.equipment",
+  "doc": "GENERATED from standard/profiles/equipment/equipment-class.json 2.0.0; do not edit by hand. Kafka value schema (TopicNameStrategy).",
+  "fields": [
+    {
+      "name": "eventType",
+      "type": {
+        "type": "enum",
+        "name": "EventType",
+        "symbols": [
+          "created",
+          "updated",
+          "deleted"
+        ]
+      }
+    },
+    {
+      "name": "id",
+      "type": "string"
+    },
+    {
+      "name": "timestamp",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      }
+    },
+    {
+      "name": "profileVersion",
+      "type": "string",
+      "default": "2.0.0"
+    },
+    {
+      "name": "equipment_class_id",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Equipment class identity / key."
+    },
+    {
+      "name": "name",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Display name of the equipment class."
+    },
+    {
+      "name": "description",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "What capability/role this class represents."
+    }
+  ]
+}

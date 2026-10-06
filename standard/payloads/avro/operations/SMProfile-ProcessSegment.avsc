@@ -1,0 +1,108 @@
+{
+  "type": "record",
+  "name": "ProcessSegment",
+  "namespace": "org.openshopfloor.payload.operations",
+  "doc": "GENERATED from standard/profiles/operations/process-segment.json 2.0.0; do not edit by hand. Kafka value schema (TopicNameStrategy).",
+  "fields": [
+    {
+      "name": "eventType",
+      "type": {
+        "type": "enum",
+        "name": "EventType",
+        "symbols": [
+          "created",
+          "updated",
+          "deleted"
+        ]
+      }
+    },
+    {
+      "name": "id",
+      "type": "string"
+    },
+    {
+      "name": "timestamp",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      }
+    },
+    {
+      "name": "profileVersion",
+      "type": "string",
+      "default": "2.0.0"
+    },
+    {
+      "name": "process_segment_no",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Identity of the ProcessSegment (join key). Recommendation: path- / Function-prefixed, since Function codes are unique per line."
+    },
+    {
+      "name": "process_segment_code",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Raw segment / Function code from the naming source (the function naming standard Table 1 / the MES 'plant' code)."
+    },
+    {
+      "name": "name",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Display name of the manufacturing stage (e.g. a forming, dosing, or curing stage)."
+    },
+    {
+      "name": "operations_type",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "ISA-95 'Mixed Operation Schedule' classification of the stage. Corresponds to the momDomain."
+    },
+    {
+      "name": "sequence",
+      "type": [
+        "null",
+        "int"
+      ],
+      "default": null,
+      "doc": "Sequence of the stage within the OperationsDefinition (routing)."
+    },
+    {
+      "name": "duration_planned_sec",
+      "type": [
+        "null",
+        "int"
+      ],
+      "default": null,
+      "doc": "Planned stage duration (s) as a capability default; overridden by the SegmentRequirement in the concrete order."
+    },
+    {
+      "name": "operations_definition_ref",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "FK to OperationsDefinition.operations_definition_no (PART_OF). The routing to which this stage belongs."
+    },
+    {
+      "name": "unit_ref",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "FK to Machine.machine_id (SPECIFIES_EQUIPMENT; Machine ≡ Unit level). The ISA-88 Unit / process stage on which the segment runs — the physical anchoring of the 'plant' / 'Function'."
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "type": "record",
+  "name": "StorageLocation",
+  "namespace": "org.openshopfloor.payload.material",
+  "doc": "GENERATED from standard/profiles/material/storage-location.json 2.0.0; do not edit by hand. Kafka value schema (TopicNameStrategy).",
+  "fields": [
+    {
+      "name": "eventType",
+      "type": {
+        "type": "enum",
+        "name": "EventType",
+        "symbols": [
+          "created",
+          "updated",
+          "deleted"
+        ]
+      }
+    },
+    {
+      "name": "id",
+      "type": "string"
+    },
+    {
+      "name": "timestamp",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      }
+    },
+    {
+      "name": "profileVersion",
+      "type": "string",
+      "default": "2.0.0"
+    },
+    {
+      "name": "storage_location_id",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Storage location identity / key."
+    },
+    {
+      "name": "name",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Display name of the location."
+    },
+    {
+      "name": "warehouse",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Warehouse / building the location belongs to."
+    },
+    {
+      "name": "location_type",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Type of location (e.g. rack, floor, buffer, silo)."
+    },
+    {
+      "name": "area_ref",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "FK to Area.area_id (PART_OF) — roots the location in the site/area hierarchy."
+    }
+  ]
+}

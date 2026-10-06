@@ -1,0 +1,73 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/equipment/SMProfile-CNC-Machine.payload.json",
+  "title": "SMProfile-CNC-Machine payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/equipment/cnc-machine.json 3.0.0; do not edit by hand. Envelope: standard/payloads/envelope.schema.json.",
+  "x-profileRef": "SMProfile-CNC-Machine",
+  "x-profileVersion": "3.0.0",
+  "x-payloadVersion": "0.1.0",
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/signal"
+    }
+  ],
+  "properties": {
+    "attr": {
+      "enum": [
+        "Act_Status_Machine",
+        "Act_Text_MachineMode",
+        "Act_Amount_Alarm",
+        "Act_Energy_Power",
+        "Act_Ref_Shift",
+        "Act_Ref_Operator",
+        "Act_State_InCycle"
+      ]
+    }
+  },
+  "x-signals": {
+    "Act_Status_Machine": {
+      "type": "string",
+      "description": "Actual machine status. Full text: docs/history/standard/profiles/equipment/cnc-machine.md, attributes › Act_Status_Machine › description.",
+      "enum": [
+        "RUNNING",
+        "IDLE",
+        "STOPPED",
+        "MAINTENANCE"
+      ],
+      "x-valueType": "PV"
+    },
+    "Act_Text_MachineMode": {
+      "type": "string",
+      "description": "Machine operating mode. Full text: docs/history/standard/profiles/equipment/cnc-machine.md, attributes › Act_Text_MachineMode › description.",
+      "enum": [
+        "AUTO",
+        "MANUAL",
+        "SETUP"
+      ],
+      "x-valueType": "PV"
+    },
+    "Act_Amount_Alarm": {
+      "type": "integer",
+      "x-valueType": "PV"
+    },
+    "Act_Energy_Power": {
+      "type": "number",
+      "description": "Actual electrical power draw (kW). Full text: docs/history/standard/profiles/equipment/cnc-machine.md, attributes › Act_Energy_Power › description.",
+      "x-unit": "KWT",
+      "x-valueType": "PV"
+    },
+    "Act_Ref_Shift": {
+      "type": "integer",
+      "x-valueType": "ID"
+    },
+    "Act_Ref_Operator": {
+      "type": "string",
+      "x-valueType": "ID"
+    },
+    "Act_State_InCycle": {
+      "type": "boolean",
+      "description": "Machine is in the machining cycle (TRUE/FALSE). Trigger for the cycle-detect FSM on the edge.",
+      "x-valueType": "PV"
+    }
+  }
+}

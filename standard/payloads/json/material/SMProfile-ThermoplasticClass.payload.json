@@ -1,0 +1,102 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/material/SMProfile-ThermoplasticClass.payload.json",
+  "title": "SMProfile-ThermoplasticClass payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/material/thermoplastic-class.json 1.0.0; do not edit by hand. Envelope: standard/payloads/envelope.schema.json.",
+  "x-profileRef": "SMProfile-ThermoplasticClass",
+  "x-profileVersion": "1.0.0",
+  "x-payloadVersion": "0.1.0",
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "ThermoplasticClass"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "material_class_id": {
+          "type": "string",
+          "description": "Identity of the material class (e.g. PA66-GF30).",
+          "x-valueType": "ID"
+        },
+        "name": {
+          "type": "string",
+          "description": "Description of the class.",
+          "x-valueType": "MD"
+        },
+        "parent_class_ref": {
+          "type": "string",
+          "description": "The broader class whose properties this class includes (INCLUDES_PROPERTIES_OF).",
+          "x-valueType": "ID"
+        },
+        "polymer_family": {
+          "type": "string",
+          "description": "Polymer as designated by ISO 1043-1 (e.g. PA66, PMMA, ASA+PC).",
+          "x-valueType": "MD"
+        },
+        "filler_type": {
+          "type": "string",
+          "description": "Filler or reinforcement as designated by ISO 1043-2 (e.g. GF glass fibre, CF carbon fibre, MD mineral); absent when unfilled.",
+          "x-valueType": "MD"
+        },
+        "filler_content": {
+          "type": "number",
+          "description": "Filler content in mass percent (the 30 in PA66-GF30).",
+          "x-unit": "P1",
+          "x-valueType": "MD"
+        },
+        "drying_temp": {
+          "type": "number",
+          "description": "Drying temperature before processing (supplier datasheet).",
+          "x-unit": "CEL",
+          "x-valueType": "MD"
+        },
+        "drying_time": {
+          "type": "number",
+          "description": "Drying time before processing (supplier datasheet).",
+          "x-unit": "HUR",
+          "x-valueType": "MD"
+        },
+        "residual_moisture_max": {
+          "type": "number",
+          "description": "Maximum residual moisture at processing (supplier datasheet).",
+          "x-unit": "P1",
+          "x-valueType": "LIM"
+        },
+        "melt_temp_min": {
+          "type": "number",
+          "description": "Lower end of the melt temperature window (supplier datasheet).",
+          "x-unit": "CEL",
+          "x-valueType": "LIM"
+        },
+        "melt_temp_max": {
+          "type": "number",
+          "description": "Upper end of the melt temperature window (supplier datasheet).",
+          "x-unit": "CEL",
+          "x-valueType": "LIM"
+        },
+        "mould_temp_min": {
+          "type": "number",
+          "description": "Lower end of the mould temperature window (supplier datasheet).",
+          "x-unit": "CEL",
+          "x-valueType": "LIM"
+        },
+        "mould_temp_max": {
+          "type": "number",
+          "description": "Upper end of the mould temperature window (supplier datasheet).",
+          "x-unit": "CEL",
+          "x-valueType": "LIM"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "material_class_id",
+        "polymer_family"
+      ]
+    }
+  }
+}

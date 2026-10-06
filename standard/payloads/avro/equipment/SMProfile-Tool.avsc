@@ -1,0 +1,72 @@
+{
+  "type": "record",
+  "name": "Tool",
+  "namespace": "org.openshopfloor.payload.equipment",
+  "doc": "GENERATED from standard/profiles/equipment/tool.json 2.0.0; do not edit by hand. Kafka value schema (TopicNameStrategy).",
+  "fields": [
+    {
+      "name": "eventType",
+      "type": {
+        "type": "enum",
+        "name": "EventType",
+        "symbols": [
+          "created",
+          "updated",
+          "deleted"
+        ]
+      }
+    },
+    {
+      "name": "id",
+      "type": "string"
+    },
+    {
+      "name": "timestamp",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      }
+    },
+    {
+      "name": "profileVersion",
+      "type": "string",
+      "default": "2.0.0"
+    },
+    {
+      "name": "tool_id",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Tool identity / key."
+    },
+    {
+      "name": "name",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Display name of the tool."
+    },
+    {
+      "name": "tool_type",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Type of tooling (e.g. mould, die, fixture)."
+    },
+    {
+      "name": "unit_ref",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "FK to Machine.machine_id (IMPLEMENTATION_OF; Machine ≡ Unit level) — where the tool is currently set up."
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "type": "record",
+  "name": "Customer",
+  "namespace": "org.openshopfloor.payload.operations",
+  "doc": "GENERATED from standard/profiles/operations/customer.json 2.0.0; do not edit by hand. Kafka value schema (TopicNameStrategy).",
+  "fields": [
+    {
+      "name": "eventType",
+      "type": {
+        "type": "enum",
+        "name": "EventType",
+        "symbols": [
+          "created",
+          "updated",
+          "deleted"
+        ]
+      }
+    },
+    {
+      "name": "id",
+      "type": "string"
+    },
+    {
+      "name": "timestamp",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      }
+    },
+    {
+      "name": "profileVersion",
+      "type": "string",
+      "default": "2.0.0"
+    },
+    {
+      "name": "customer_no",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Customer number / key."
+    },
+    {
+      "name": "name",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Customer name."
+    },
+    {
+      "name": "country",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Customer country (ISO code recommended)."
+    },
+    {
+      "name": "segment",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Customer segment / classification."
+    }
+  ]
+}

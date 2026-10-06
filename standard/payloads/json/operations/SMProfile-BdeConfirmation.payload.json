@@ -1,0 +1,102 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-BdeConfirmation.payload.json",
+  "title": "SMProfile-BdeConfirmation payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/operations/bde-confirmation.json 1.1.0; do not edit by hand. Envelope: standard/payloads/envelope.schema.json.",
+  "x-profileRef": "SMProfile-BdeConfirmation",
+  "x-profileVersion": "1.1.0",
+  "x-payloadVersion": "0.1.0",
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "BdeConfirmation"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "confirmation_no": {
+          "type": "string",
+          "description": "The booking's own identity (e.g. BDE-2026-08-03-2208427). UNIQUE per confirmation — this is what makes the grain safe to key, where production_order_no repeats.",
+          "x-valueType": "ID"
+        },
+        "production_order_no": {
+          "type": "string",
+          "description": "The production order this booking confirms (RESPONDS_TO). NOT the identity at this grain — many confirmations share one order."
+        },
+        "article_ref": {
+          "type": "string",
+          "description": "Manufactured article (join key to Article).",
+          "x-valueType": "ID"
+        },
+        "machine_ref": {
+          "type": "string",
+          "description": "Executing machine (machine_no). MEASURED 2026-08-03: non-null on 2000 of 2000 rows at this grain across 81 distinct values, where the per-production-order aggregate carries it on only 32 of 100. The machine binding survives here and is lost there.",
+          "x-valueType": "ID"
+        },
+        "operation_no": {
+          "type": "string",
+          "description": "The routing operation (Arbeitsgang) this booking belongs to. MEASURED: 1714 of 2000 rows, 30 distinct. Absent on the rest — a booking without an operation is not an error here, and it must stay absent rather than default to a first operation."
+        },
+        "shift": {
+          "type": "string",
+          "description": "Shift of record for the booking, derived upstream from machine_departments x machine_pools x shift_config x shift_weekly_pattern (sim-v5, 2026-08-03). Full text: docs/history/standard/profiles/operations/bde-confirmation.md, attributes › shift › description."
+        },
+        "good_qty": {
+          "type": "integer",
+          "description": "Pieces booked as good on this confirmation."
+        },
+        "scrap_qty": {
+          "type": "integer",
+          "description": "Pieces booked as scrap on this confirmation. The ERP half of the quantity axis — the counterpart the machine's own part_scrap counter is reconciled against."
+        },
+        "rework_qty": {
+          "type": "integer",
+          "description": "Pieces booked for rework — a THIRD disposition, deliberately not folded into scrap (same rule as the part_scrap semantic in standard/mappings/attribute-aliases.json). Full text: docs/history/standard/profiles/operations/bde-confirmation.md, attributes › rework_qty › description."
+        },
+        "scrap_reason": {
+          "type": "string",
+          "description": "Reason code for the scrap on this booking. MEASURED: only 123 of 2000 rows carry one, with 2 distinct values (cavity-defect, quality-fail). Thin by nature — most bookings have no scrap at all — so a consumer must treat absence as 'no reason recorded', never as a category."
+        },
+        "labor_min": {
+          "type": "number",
+          "description": "Personnel minutes booked against this confirmation. Full text: docs/history/standard/profiles/operations/bde-confirmation.md, attributes › labor_min › description."
+        },
+        "machine_min": {
+          "type": "number",
+          "description": "Machine minutes booked against this confirmation."
+        },
+        "setup_min": {
+          "type": "number",
+          "description": "Setup minutes booked against this confirmation. MEASURED: non-zero on 25 of 800 rows — setup is an event, not a per-booking constant, so a zero here is a real 'no setup on this booking'."
+        },
+        "cycle_time_actual_sec": {
+          "type": "number",
+          "description": "Actually measured cycle time per piece (s) for this booking."
+        },
+        "actual_start_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Start of the booked interval (ts_start). Absent at the per-production-order grain."
+        },
+        "actual_end_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "End of the booked interval (ts_end)."
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last change (recorded_at). Server-managed and volatile on every read."
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "confirmation_no"
+      ]
+    }
+  }
+}

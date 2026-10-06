@@ -2,7 +2,7 @@
   "elementId": "SMProfile-Article",
   "displayName": "Article (article / part)",
   "namespaceUri": "urn:osf:schemas:material",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "schema": {
     "description": "Product/material master. Full text: docs/history/standard/profiles/material/article.md, description.",
     "type": "object",
@@ -126,6 +126,15 @@
         "x-delivery": "transactional",
         "x-scope": "hub",
         "x-promotion": "on_change"
+      },
+      "material_class_ref": {
+        "type": "string",
+        "description": "The material class this article belongs to (DEFINED_BY), e.g. PA66-GF30. Empty until the article master or a mapping supplies it.",
+        "x-category": "Link",
+        "x-delivery": "transactional",
+        "x-scope": "hub",
+        "x-promotion": "on_change",
+        "x-valueType": "ID"
       }
     },
     "required": [

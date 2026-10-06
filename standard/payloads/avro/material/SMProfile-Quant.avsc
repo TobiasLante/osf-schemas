@@ -1,0 +1,111 @@
+{
+  "type": "record",
+  "name": "Quant",
+  "namespace": "org.openshopfloor.payload.material",
+  "doc": "GENERATED from standard/profiles/material/quant.json 3.2.0; do not edit by hand. Kafka value schema (TopicNameStrategy).",
+  "fields": [
+    {
+      "name": "eventType",
+      "type": {
+        "type": "enum",
+        "name": "EventType",
+        "symbols": [
+          "created",
+          "updated",
+          "deleted"
+        ]
+      }
+    },
+    {
+      "name": "id",
+      "type": "string"
+    },
+    {
+      "name": "timestamp",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      }
+    },
+    {
+      "name": "profileVersion",
+      "type": "string",
+      "default": "3.2.0"
+    },
+    {
+      "name": "quant_no",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Unique Quant id (quant_id of the WMS row)."
+    },
+    {
+      "name": "article_ref",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Article (artikel_nr) — join key to Article / OperationsResponse for material availability."
+    },
+    {
+      "name": "warehouse",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Warehouse (lager_nr)."
+    },
+    {
+      "name": "storage_location",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Storage bin (lagerplatz_id)."
+    },
+    {
+      "name": "quantity",
+      "type": [
+        "null",
+        "float"
+      ],
+      "default": null,
+      "doc": "Stock quantity (menge). For material availability it is summed filtered on blocked==0."
+    },
+    {
+      "name": "lot",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "Lot (charge_nr)."
+    },
+    {
+      "name": "blocked",
+      "type": [
+        "null",
+        "int"
+      ],
+      "default": null,
+      "doc": "Block flag (gesperrt): 0 = freely available, !=0 = blocked. Filter for the material_unavailable aggregation (only free stock counts)."
+    },
+    {
+      "name": "updated_at",
+      "type": [
+        "null",
+        {
+          "type": "long",
+          "logicalType": "timestamp-millis"
+        }
+      ],
+      "default": null,
+      "doc": "Last change. Server-managed and volatile on every read (sim-v5 returns a fresh value per GET), so promotion:never — kept in the snapshot but excluded from the change-trigger and never published on its own."
+    }
+  ]
+}

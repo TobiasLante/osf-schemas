@@ -1,0 +1,174 @@
+{
+  "type": "record",
+  "name": "Article",
+  "namespace": "org.openshopfloor.payload.material",
+  "doc": "GENERATED from standard/profiles/material/article.json 2.2.0; do not edit by hand. Kafka value schema (TopicNameStrategy).",
+  "fields": [
+    {
+      "name": "eventType",
+      "type": {
+        "type": "enum",
+        "name": "EventType",
+        "symbols": [
+          "created",
+          "updated",
+          "deleted"
+        ]
+      }
+    },
+    {
+      "name": "id",
+      "type": "string"
+    },
+    {
+      "name": "timestamp",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      }
+    },
+    {
+      "name": "profileVersion",
+      "type": "string",
+      "default": "2.2.0"
+    },
+    {
+      "name": "article_no",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null
+    },
+    {
+      "name": "name",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null
+    },
+    {
+      "name": "type",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null
+    },
+    {
+      "name": "unit",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null
+    },
+    {
+      "name": "lead_time_days",
+      "type": [
+        "null",
+        "int"
+      ],
+      "default": null
+    },
+    {
+      "name": "abc_class",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null
+    },
+    {
+      "name": "cost_hk",
+      "type": [
+        "null",
+        "double"
+      ],
+      "default": null,
+      "doc": "Standard manufacturing/purchase cost (HK = Herstellkosten), from ERP std_kosten. The €-basis for scrap / quality impact."
+    },
+    {
+      "name": "price_vk",
+      "type": [
+        "null",
+        "double"
+      ],
+      "default": null,
+      "doc": "Standard sales price (VK = Verkaufspreis), from ERP std_verkaufspreis. The basis for margin / lost-sales impact. Null for non-sellable articles (RAW/CONSUMABLE/WIP)."
+    },
+    {
+      "name": "currency",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "ISO-4217 currency code for cost_hk / price_vk, from ERP waehrung (e.g. EUR)."
+    },
+    {
+      "name": "stock_free",
+      "type": [
+        "null",
+        "float"
+      ],
+      "default": null,
+      "doc": "Free (unblocked) stock of this article across all warehouses (menge_frei). Served by GET /api/articles, which is ARTICLE_WITH_STOCK_AND_PRICE_SQL. This is the article-level figure the WMS Quant rows sum to; a single Quant is one pallet/lot in one bin and is NOT a stock position."
+    },
+    {
+      "name": "stock_reserved",
+      "type": [
+        "null",
+        "float"
+      ],
+      "default": null,
+      "doc": "Quantity already committed to orders (menge_reserviert) — free stock that is spoken for."
+    },
+    {
+      "name": "stock_blocked",
+      "type": [
+        "null",
+        "float"
+      ],
+      "default": null,
+      "doc": "Quantity blocked / on hold (menge_blockiert)."
+    },
+    {
+      "name": "stock_available",
+      "type": [
+        "null",
+        "float"
+      ],
+      "default": null,
+      "doc": "AVAILABLE-TO-PROMISE: free minus reserved (verfuegbar). Full text: docs/history/standard/profiles/material/article.md, attributes › stock_available › description."
+    },
+    {
+      "name": "reorder_level",
+      "type": [
+        "null",
+        "float"
+      ],
+      "default": null,
+      "doc": "Reorder level / Meldebestand from the ERP article master (mindestbestand). Full text: docs/history/standard/profiles/material/article.md, attributes › reorder_level › description."
+    },
+    {
+      "name": "safety_stock",
+      "type": [
+        "null",
+        "float"
+      ],
+      "default": null,
+      "doc": "Safety stock (safety_stock). Full text: docs/history/standard/profiles/material/article.md, attributes › safety_stock › description."
+    },
+    {
+      "name": "material_class_ref",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null,
+      "doc": "The material class this article belongs to (DEFINED_BY), e.g. PA66-GF30. Empty until the article master or a mapping supplies it."
+    }
+  ]
+}
