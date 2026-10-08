@@ -24,6 +24,7 @@
               "Act_Status_Machine",
               "Act_Text_MachineMode",
               "Act_Amount_Alarm",
+              "Plan_Time_Cycle",
               "Act_Ref_Shift",
               "Act_Ref_Operator",
               "Set_Speed_Spindle",
@@ -101,7 +102,6 @@
     }
   },
   "x-telemetry": [
-    "Plan_Time_Cycle",
     "Act_Time_Cycle",
     "Act_Energy_Power",
     "Act_Energy_Total",
@@ -131,6 +131,7 @@
     "Act_Status_Machine",
     "Act_Text_MachineMode",
     "Act_Amount_Alarm",
+    "Plan_Time_Cycle",
     "Act_Ref_Shift",
     "Act_Ref_Operator",
     "Set_Speed_Spindle",
@@ -177,7 +178,7 @@
     },
     "Plan_Time_Cycle": {
       "type": "number",
-      "delivery": "telemetry",
+      "delivery": "transactional",
       "scope": "edge"
     },
     "Act_Time_Cycle": {
