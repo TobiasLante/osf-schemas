@@ -1,0 +1,157 @@
+{
+  "type": "record",
+  "name": "CustomerOrder",
+  "namespace": "org.openshopfloor.payload.operations",
+  "doc": "GENERATED from standard/profiles/operations/customer-order.json 3.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "fields": [
+    {
+      "name": "eventType",
+      "type": {
+        "type": "enum",
+        "name": "EventType",
+        "symbols": [
+          "created",
+          "updated",
+          "deleted"
+        ]
+      }
+    },
+    {
+      "name": "id",
+      "type": "string",
+      "doc": "Row key (order_no); no + # * > / or space."
+    },
+    {
+      "name": "entity",
+      "type": "string",
+      "default": "CustomerOrder"
+    },
+    {
+      "name": "timestamp",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      }
+    },
+    {
+      "name": "msgId",
+      "type": "string",
+      "doc": "Unique message id: the Kafka key, for deduplication."
+    },
+    {
+      "name": "profileRef",
+      "type": "string",
+      "default": "SMProfile-CustomerOrder"
+    },
+    {
+      "name": "profileVersion",
+      "type": "string",
+      "default": "3.0.0"
+    },
+    {
+      "name": "data",
+      "type": {
+        "type": "record",
+        "name": "CustomerOrderData",
+        "fields": [
+          {
+            "name": "order_no",
+            "type": "string"
+          },
+          {
+            "name": "customer_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null
+          },
+          {
+            "name": "customer_name",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null
+          },
+          {
+            "name": "quantity",
+            "type": [
+              "null",
+              "long"
+            ],
+            "default": null,
+            "doc": "Ordered piece count of the order line (menge). Together with unit_price the source for total_amount — the real ERP does not keep an order total: order value = quantity × unit_price (derived by the it-evaluator)."
+          },
+          {
+            "name": "unit_price",
+            "type": [
+              "null",
+              "double"
+            ],
+            "default": null,
+            "doc": "Unit price of the order line (stueckpreis). Together with quantity the source for total_amount (= quantity × unit_price)."
+          },
+          {
+            "name": "total_amount",
+            "type": [
+              "null",
+              "double"
+            ],
+            "default": null,
+            "doc": "Order value. Delivered directly where available; otherwise derived by the it-evaluator as quantity × unit_price (the real ERP has no total column). Driver of the €-impact prioritization (expected_impact)."
+          },
+          {
+            "name": "currency",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null
+          },
+          {
+            "name": "due_date",
+            "type": [
+              "null",
+              {
+                "type": "long",
+                "logicalType": "timestamp-millis"
+              }
+            ],
+            "default": null,
+            "doc": "Customer delivery commitment (the promised date the sales order is due)."
+          },
+          {
+            "name": "status",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "Sales-order status, as it reaches THIS profile through OUR source binding. Full text: docs/history/standard/profiles/operations/customer-order.md, attributes › status › description."
+          },
+          {
+            "name": "priority",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null
+          },
+          {
+            "name": "customer_due_date",
+            "type": [
+              "null",
+              {
+                "type": "long",
+                "logicalType": "timestamp-millis"
+              }
+            ],
+            "default": null,
+            "doc": "Customer delivery date of the order (moved here from ProductionOrder in core 3.0.0)."
+          }
+        ]
+      }
+    }
+  ]
+}

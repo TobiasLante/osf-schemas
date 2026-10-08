@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/personnel/SMProfile-PersonnelClass.payload.json",
+  "title": "SMProfile-PersonnelClass payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/personnel/personnel-class.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-PersonnelClass",
+  "x-profileVersion": "1.0.0",
+  "x-payloadVersion": "1.0.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "PersonnelClass"
+    },
+    "profileRef": {
+      "const": "SMProfile-PersonnelClass"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "personnel_class_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the personnel class."
+        },
+        "name": {
+          "type": "string",
+          "description": "Description of the class."
+        },
+        "parent_class_ref": {
+          "type": "string",
+          "description": "The broader class whose properties this class includes (INCLUDES_PROPERTIES_OF)."
+        }
+      },
+      "required": [
+        "personnel_class_id"
+      ]
+    }
+  },
+  "x-delivery": {
+    "personnel_class_id": "transactional",
+    "name": "transactional",
+    "parent_class_ref": "transactional"
+  }
+}

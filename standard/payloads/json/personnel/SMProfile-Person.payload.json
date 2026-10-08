@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/personnel/SMProfile-Person.payload.json",
+  "title": "SMProfile-Person payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/personnel/person.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-Person",
+  "x-profileVersion": "1.0.0",
+  "x-payloadVersion": "1.0.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "Person"
+    },
+    "profileRef": {
+      "const": "SMProfile-Person"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "person_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Pseudonymous identity of the person from the source system — never a name, badge or personnel number that identifies the person outside it."
+        },
+        "personnel_class_ref": {
+          "type": "string",
+          "description": "The personnel class of the person (DEFINED_BY)."
+        }
+      },
+      "required": [
+        "person_id"
+      ]
+    }
+  },
+  "x-delivery": {
+    "person_id": "transactional",
+    "personnel_class_ref": "transactional"
+  }
+}

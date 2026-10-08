@@ -1,0 +1,174 @@
+{
+  "type": "record",
+  "name": "WorkMaster",
+  "namespace": "org.openshopfloor.payload.operations",
+  "doc": "GENERATED from standard/profiles/operations/work-master.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "fields": [
+    {
+      "name": "eventType",
+      "type": {
+        "type": "enum",
+        "name": "EventType",
+        "symbols": [
+          "created",
+          "updated",
+          "deleted"
+        ]
+      }
+    },
+    {
+      "name": "id",
+      "type": "string",
+      "doc": "Row key (work_master_id); no + # * > / or space."
+    },
+    {
+      "name": "entity",
+      "type": "string",
+      "default": "WorkMaster"
+    },
+    {
+      "name": "timestamp",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      }
+    },
+    {
+      "name": "msgId",
+      "type": "string",
+      "doc": "Unique message id: the Kafka key, for deduplication."
+    },
+    {
+      "name": "profileRef",
+      "type": "string",
+      "default": "SMProfile-WorkMaster"
+    },
+    {
+      "name": "profileVersion",
+      "type": "string",
+      "default": "1.0.0"
+    },
+    {
+      "name": "data",
+      "type": {
+        "type": "record",
+        "name": "WorkMasterData",
+        "fields": [
+          {
+            "name": "work_master_id",
+            "type": "string",
+            "doc": "Identity of the work master: its own number from the source system (MES)."
+          },
+          {
+            "name": "version",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "Version of the work master as the source names it."
+          },
+          {
+            "name": "name",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "Description of the work master."
+          },
+          {
+            "name": "work_type",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "ISA-95 WorkType: Production, Maintenance, Quality or Inventory."
+          },
+          {
+            "name": "duration_sec",
+            "type": [
+              "null",
+              "double"
+            ],
+            "default": null,
+            "doc": "Expected duration of a job run by this work master."
+          },
+          {
+            "name": "process_segment_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The process segment this work master executes (FOR_PROCESS_SEGMENT)."
+          },
+          {
+            "name": "operations_segment_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The operations segment (routing step) this work master executes (FOR_OPERATIONS_SEGMENT)."
+          },
+          {
+            "name": "operations_definition_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The operations definition (routing) this work master belongs to (FOR_OPERATIONS_DEFINITION)."
+          },
+          {
+            "name": "equipment_class_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The equipment class a job of this work master needs (SPECIFIES_EQUIPMENT)."
+          },
+          {
+            "name": "material_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The article (material definition) this work master specifies (SPECIFIES_MATERIAL)."
+          },
+          {
+            "name": "tool_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The tool (physical asset) this work master specifies (SPECIFIES_PHYSICAL_ASSET)."
+          },
+          {
+            "name": "personnel_class_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The personnel class a job of this work master needs (SPECIFIES_PERSONNEL)."
+          },
+          {
+            "name": "parent_work_master_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The work master this one is a part of (PART_OF; ISA-95 WorkMaster MADE_UP_OF WorkMaster)."
+          }
+        ]
+      }
+    }
+  ]
+}

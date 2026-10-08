@@ -2,9 +2,9 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-JobOrder.payload.json",
   "title": "SMProfile-JobOrder payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/operations/job-order.json 2.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/operations/job-order.json 3.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-JobOrder",
-  "x-profileVersion": "2.0.0",
+  "x-profileVersion": "3.1.0",
   "x-payloadVersion": "1.0.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
@@ -28,7 +28,7 @@
         "job_order_no": {
           "type": "string",
           "pattern": "^[^+#*>/\\s]+$",
-          "description": "Identity of the JobOrder (join key). Recommendation: <workorder_no>.<operation_no>."
+          "description": "Identity of the JobOrder (join key): its own number from the source system. It is never built from other keys; the Workorder is reached through workorder_ref (PART_OF)."
         },
         "workorder_ref": {
           "type": "string",
@@ -37,6 +37,10 @@
         "machine_ref": {
           "type": "string",
           "description": "The machine (Equipment) the job runs on."
+        },
+        "work_master_ref": {
+          "type": "string",
+          "description": "The work master the job runs by (FOR_WORK_MASTER; ISA-95 Part 4 cl. 7 JobOrder.WorkMasterID). Optional."
         },
         "start_planned": {
           "type": "string",
@@ -63,6 +67,7 @@
     "job_order_no": "transactional",
     "workorder_ref": "transactional",
     "machine_ref": "transactional",
+    "work_master_ref": "transactional",
     "start_planned": "transactional",
     "end_planned": "transactional",
     "status": "transactional"

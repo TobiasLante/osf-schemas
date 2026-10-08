@@ -2,7 +2,7 @@
   "type": "record",
   "name": "Workorder",
   "namespace": "org.openshopfloor.payload.operations",
-  "doc": "GENERATED from standard/profiles/operations/work-order.json 2.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "doc": "GENERATED from standard/profiles/operations/work-order.json 3.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
   "fields": [
     {
       "name": "eventType",
@@ -46,7 +46,7 @@
     {
       "name": "profileVersion",
       "type": "string",
-      "default": "2.0.0"
+      "default": "3.0.0"
     },
     {
       "name": "data",
@@ -57,12 +57,12 @@
           {
             "name": "workorder_no",
             "type": "string",
-            "doc": "Identity of the Workorder (join key). Recommendation: <production_order_no>.<order_index>."
+            "doc": "Identity of the Workorder (join key): its own number from the source system. It is never built from other keys; the production order is reached through production_order_ref (FOR_OPERATIONS_REQUEST)."
           },
           {
             "name": "production_order_ref",
             "type": "string",
-            "doc": "FK to ProductionOrder.production_order_no (FOR_OPERATIONS_REQUEST). The FabricationOrder that this sub-lot subdivides."
+            "doc": "FK to ProductionOrder.production_order_no (FOR_OPERATIONS_REQUEST). The production order that this sub-lot subdivides."
           },
           {
             "name": "order_index",
@@ -71,7 +71,7 @@
               "long"
             ],
             "default": null,
-            "doc": "The FabricationOrder index (the MES FOIndex) = the slot number of this Workorder."
+            "doc": "The index of this Workorder within its production order: its slot number."
           },
           {
             "name": "status",

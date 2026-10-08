@@ -1,0 +1,69 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-TobisaValentin.payload.json",
+  "title": "SMProfile-TobisaValentin payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/operations/tobisavalentin.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-TobisaValentin",
+  "x-profileVersion": "1.0.0",
+  "x-payloadVersion": "1.0.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "TobisaValentin"
+    },
+    "profileRef": {
+      "const": "SMProfile-TobisaValentin"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "tobisavalentin_no": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the tobisaValentin (B2MML WorkRequest.ID)."
+        },
+        "description": {
+          "type": "string",
+          "description": "TEst"
+        },
+        "version": {
+          "type": "string",
+          "description": "B2MML WorkRequest.Version."
+        },
+        "work_type": {
+          "type": "string",
+          "description": "B2MML WorkRequest.WorkType."
+        },
+        "start_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "B2MML WorkRequest.StartTime."
+        },
+        "end_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "B2MML WorkRequest.EndTime."
+        }
+      },
+      "required": [
+        "tobisavalentin_no"
+      ]
+    }
+  },
+  "x-delivery": {
+    "tobisavalentin_no": "transactional",
+    "description": "transactional",
+    "version": "transactional",
+    "work_type": "transactional",
+    "start_time": "transactional",
+    "end_time": "transactional"
+  }
+}

@@ -2,7 +2,7 @@
   "type": "record",
   "name": "ProductionOrder",
   "namespace": "org.openshopfloor.payload.operations",
-  "doc": "GENERATED from standard/profiles/operations/production-order.json 4.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "doc": "GENERATED from standard/profiles/operations/production-order.json 3.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
   "fields": [
     {
       "name": "eventType",
@@ -46,7 +46,7 @@
     {
       "name": "profileVersion",
       "type": "string",
-      "default": "4.0.0"
+      "default": "3.0.0"
     },
     {
       "name": "data",
@@ -66,7 +66,7 @@
               "string"
             ],
             "default": null,
-            "doc": "Triggering Level-4 customer order (order_no, TRIGGERED_BY)."
+            "doc": "The customer order this production order serves: the ERP key of that order (= CustomerOrder.order_no), the only link to the customer data. Full text: docs/history/standard/profiles/operations/production-order.md, attributes › sales_order_ref › description."
           },
           {
             "name": "article_ref",
@@ -147,24 +147,6 @@
             "doc": "1-based position of this order in its machine's dispatch queue, inside the 24 h horizon. Full text: docs/history/standard/profiles/operations/production-order.md, attributes › dispatch_sequence › description."
           },
           {
-            "name": "parts_per_shot",
-            "type": [
-              "null",
-              "long"
-            ],
-            "default": null,
-            "doc": "Number of good parts ONE machine cycle yields — the mould's cavity count on injection-moulding machines, 1 on single-part machines. Full text: docs/history/standard/profiles/operations/production-order.md, attributes › parts_per_shot › description."
-          },
-          {
-            "name": "mould_ref",
-            "type": [
-              "null",
-              "string"
-            ],
-            "default": null,
-            "doc": "Identity of the mounted mould/tool that determines parts_per_shot (e.g. Full text: docs/history/standard/profiles/operations/production-order.md, attributes › mould_ref › description."
-          },
-          {
             "name": "material_ready_at",
             "type": [
               "null",
@@ -175,84 +157,6 @@
             ],
             "default": null,
             "doc": "Time from which material is available — material-ready constraint."
-          },
-          {
-            "name": "customer_order_qty",
-            "type": [
-              "null",
-              "long"
-            ],
-            "default": null,
-            "doc": "Customer order quantity of the triggering order (denormalized)."
-          },
-          {
-            "name": "customer_due_date",
-            "type": [
-              "null",
-              {
-                "type": "long",
-                "logicalType": "timestamp-millis"
-              }
-            ],
-            "default": null,
-            "doc": "Customer delivery date of the triggering order (denormalized)."
-          },
-          {
-            "name": "order_no",
-            "type": [
-              "null",
-              "string"
-            ],
-            "default": null,
-            "doc": "COMPATIBILITY KEY, adopted from the withdrawn SMProfile-CustomerOrder on 2026-08-13. Full text: docs/history/standard/profiles/operations/production-order.md, attributes › order_no › description."
-          },
-          {
-            "name": "customer_ref",
-            "type": [
-              "null",
-              "string"
-            ],
-            "default": null,
-            "doc": "Customer of the triggering demand (kunde_id). Adopted from SMProfile-CustomerOrder 2026-08-13; the same column the withdrawn source read. The customer reference lives in this key (no ISA-95 edge, owner 25.09.)."
-          },
-          {
-            "name": "customer_name",
-            "type": [
-              "null",
-              "string"
-            ],
-            "default": null,
-            "doc": "Customer name (kunde_name). Adopted from SMProfile-CustomerOrder 2026-08-13. THIS SOURCE IS NOW THE ONLY WRITER: measured in the live KG, customer_name is set on 48.486 nodes and every one of them was written by the withdrawn erp-customer-orders binding. 100 % populated on the live feed."
-          },
-          {
-            "name": "total_amount",
-            "type": [
-              "null",
-              "double"
-            ],
-            "default": null,
-            "doc": "Order value (gesamtbetrag). Full text: docs/history/standard/profiles/operations/production-order.md, attributes › total_amount › description."
-          },
-          {
-            "name": "currency",
-            "type": [
-              "null",
-              "string"
-            ],
-            "default": null,
-            "doc": "Currency of total_amount (waehrung). Adopted from SMProfile-CustomerOrder 2026-08-13. Fill rate measured on the live feed: 461/500 rows."
-          },
-          {
-            "name": "due_date",
-            "type": [
-              "null",
-              {
-                "type": "long",
-                "logicalType": "timestamp-millis"
-              }
-            ],
-            "default": null,
-            "doc": "Customer delivery commitment (lieferdatum_soll). Full text: docs/history/standard/profiles/operations/production-order.md, attributes › due_date › description."
           },
           {
             "name": "quantity",

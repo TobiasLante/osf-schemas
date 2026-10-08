@@ -1,0 +1,96 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-CustomerOrder.payload.json",
+  "title": "SMProfile-CustomerOrder payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/operations/customer-order.json 3.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-CustomerOrder",
+  "x-profileVersion": "3.0.0",
+  "x-payloadVersion": "1.0.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "CustomerOrder"
+    },
+    "profileRef": {
+      "const": "SMProfile-CustomerOrder"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "order_no": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$"
+        },
+        "customer_ref": {
+          "type": "string"
+        },
+        "customer_name": {
+          "type": "string"
+        },
+        "quantity": {
+          "type": "integer",
+          "description": "Ordered piece count of the order line (menge). Together with unit_price the source for total_amount — the real ERP does not keep an order total: order value = quantity × unit_price (derived by the it-evaluator)."
+        },
+        "unit_price": {
+          "type": "number",
+          "description": "Unit price of the order line (stueckpreis). Together with quantity the source for total_amount (= quantity × unit_price)."
+        },
+        "total_amount": {
+          "type": "number",
+          "description": "Order value. Delivered directly where available; otherwise derived by the it-evaluator as quantity × unit_price (the real ERP has no total column). Driver of the €-impact prioritization (expected_impact)."
+        },
+        "currency": {
+          "type": "string"
+        },
+        "due_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Customer delivery commitment (the promised date the sales order is due)."
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "offen",
+            "freigegeben",
+            "in_arbeit",
+            "fertig",
+            "abgeschlossen"
+          ],
+          "description": "Sales-order status, as it reaches THIS profile through OUR source binding. Full text: docs/history/standard/profiles/operations/customer-order.md, attributes › status › description."
+        },
+        "priority": {
+          "type": "string"
+        },
+        "customer_due_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Customer delivery date of the order (moved here from ProductionOrder in core 3.0.0)."
+        }
+      },
+      "required": [
+        "order_no"
+      ]
+    }
+  },
+  "x-delivery": {
+    "order_no": "transactional",
+    "customer_ref": "transactional",
+    "customer_name": "transactional",
+    "quantity": "transactional",
+    "unit_price": "transactional",
+    "total_amount": "transactional",
+    "currency": "transactional",
+    "due_date": "transactional",
+    "status": "transactional",
+    "priority": "transactional",
+    "customer_due_date": "transactional"
+  }
+}

@@ -2,9 +2,9 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-ProductionOrder.payload.json",
   "title": "SMProfile-ProductionOrder payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/operations/production-order.json 4.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/operations/production-order.json 3.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-ProductionOrder",
-  "x-profileVersion": "4.0.0",
+  "x-profileVersion": "3.0.0",
   "x-payloadVersion": "1.0.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
@@ -32,7 +32,7 @@
         },
         "sales_order_ref": {
           "type": "string",
-          "description": "Triggering Level-4 customer order (order_no, TRIGGERED_BY)."
+          "description": "The customer order this production order serves: the ERP key of that order (= CustomerOrder.order_no), the only link to the customer data. Full text: docs/history/standard/profiles/operations/production-order.md, attributes › sales_order_ref › description."
         },
         "article_ref": {
           "type": "string",
@@ -68,52 +68,10 @@
           "type": "integer",
           "description": "1-based position of this order in its machine's dispatch queue, inside the 24 h horizon. Full text: docs/history/standard/profiles/operations/production-order.md, attributes › dispatch_sequence › description."
         },
-        "parts_per_shot": {
-          "type": "integer",
-          "description": "Number of good parts ONE machine cycle yields — the mould's cavity count on injection-moulding machines, 1 on single-part machines. Full text: docs/history/standard/profiles/operations/production-order.md, attributes › parts_per_shot › description."
-        },
-        "mould_ref": {
-          "type": "string",
-          "description": "Identity of the mounted mould/tool that determines parts_per_shot (e.g. Full text: docs/history/standard/profiles/operations/production-order.md, attributes › mould_ref › description."
-        },
         "material_ready_at": {
           "type": "string",
           "format": "date-time",
           "description": "Time from which material is available — material-ready constraint."
-        },
-        "customer_order_qty": {
-          "type": "integer",
-          "description": "Customer order quantity of the triggering order (denormalized)."
-        },
-        "customer_due_date": {
-          "type": "string",
-          "format": "date-time",
-          "description": "Customer delivery date of the triggering order (denormalized)."
-        },
-        "order_no": {
-          "type": "string",
-          "description": "COMPATIBILITY KEY, adopted from the withdrawn SMProfile-CustomerOrder on 2026-08-13. Full text: docs/history/standard/profiles/operations/production-order.md, attributes › order_no › description."
-        },
-        "customer_ref": {
-          "type": "string",
-          "description": "Customer of the triggering demand (kunde_id). Adopted from SMProfile-CustomerOrder 2026-08-13; the same column the withdrawn source read. The customer reference lives in this key (no ISA-95 edge, owner 25.09.)."
-        },
-        "customer_name": {
-          "type": "string",
-          "description": "Customer name (kunde_name). Adopted from SMProfile-CustomerOrder 2026-08-13. THIS SOURCE IS NOW THE ONLY WRITER: measured in the live KG, customer_name is set on 48.486 nodes and every one of them was written by the withdrawn erp-customer-orders binding. 100 % populated on the live feed."
-        },
-        "total_amount": {
-          "type": "number",
-          "description": "Order value (gesamtbetrag). Full text: docs/history/standard/profiles/operations/production-order.md, attributes › total_amount › description."
-        },
-        "currency": {
-          "type": "string",
-          "description": "Currency of total_amount (waehrung). Adopted from SMProfile-CustomerOrder 2026-08-13. Fill rate measured on the live feed: 461/500 rows."
-        },
-        "due_date": {
-          "type": "string",
-          "format": "date-time",
-          "description": "Customer delivery commitment (lieferdatum_soll). Full text: docs/history/standard/profiles/operations/production-order.md, attributes › due_date › description."
         },
         "quantity": {
           "type": "integer",
@@ -161,17 +119,7 @@
     "planned_end_time": "transactional",
     "cycle_time_planned_sec": "transactional",
     "dispatch_sequence": "transactional",
-    "parts_per_shot": "transactional",
-    "mould_ref": "transactional",
     "material_ready_at": "transactional",
-    "customer_order_qty": "transactional",
-    "customer_due_date": "transactional",
-    "order_no": "transactional",
-    "customer_ref": "transactional",
-    "customer_name": "transactional",
-    "total_amount": "transactional",
-    "currency": "transactional",
-    "due_date": "transactional",
     "quantity": "transactional",
     "status": "transactional",
     "priority": "transactional",

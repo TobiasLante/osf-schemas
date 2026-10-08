@@ -1,0 +1,99 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-OperationsCapability.payload.json",
+  "title": "SMProfile-OperationsCapability payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/operations/operations-capability.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-OperationsCapability",
+  "x-profileVersion": "1.0.0",
+  "x-payloadVersion": "1.0.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "OperationsCapability"
+    },
+    "profileRef": {
+      "const": "SMProfile-OperationsCapability"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "operations_capability_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the capability."
+        },
+        "name": {
+          "type": "string",
+          "description": "Description of the capability."
+        },
+        "capability_type": {
+          "type": "string",
+          "description": "ISA-95 CapabilityType: Available, Committed or Unattainable."
+        },
+        "reason": {
+          "type": "string",
+          "description": "Why, as the source names it."
+        },
+        "start_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Start of the window."
+        },
+        "end_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "End of the window."
+        },
+        "process_segment_ref": {
+          "type": "string",
+          "description": "The process segment (CAPABILITY_FOR_PROCESS_SEGMENT)."
+        },
+        "operations_segment_ref": {
+          "type": "string",
+          "description": "The operations segment (CAPABILITY_FOR_OPERATIONS_SEGMENT)."
+        },
+        "machine_ref": {
+          "type": "string",
+          "description": "The machine (CAPABILITY_EQUIPMENT)."
+        },
+        "material_ref": {
+          "type": "string",
+          "description": "The article (material definition) (CAPABILITY_MATERIAL)."
+        },
+        "tool_ref": {
+          "type": "string",
+          "description": "The tool (CAPABILITY_PHYSICAL_ASSET)."
+        },
+        "personnel_class_ref": {
+          "type": "string",
+          "description": "The personnel class (CAPABILITY_PERSONNEL)."
+        }
+      },
+      "required": [
+        "operations_capability_id"
+      ]
+    }
+  },
+  "x-delivery": {
+    "operations_capability_id": "transactional",
+    "name": "transactional",
+    "capability_type": "transactional",
+    "reason": "transactional",
+    "start_time": "transactional",
+    "end_time": "transactional",
+    "process_segment_ref": "transactional",
+    "operations_segment_ref": "transactional",
+    "machine_ref": "transactional",
+    "material_ref": "transactional",
+    "tool_ref": "transactional",
+    "personnel_class_ref": "transactional"
+  }
+}

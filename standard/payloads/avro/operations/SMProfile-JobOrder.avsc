@@ -2,7 +2,7 @@
   "type": "record",
   "name": "JobOrder",
   "namespace": "org.openshopfloor.payload.operations",
-  "doc": "GENERATED from standard/profiles/operations/job-order.json 2.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "doc": "GENERATED from standard/profiles/operations/job-order.json 3.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
   "fields": [
     {
       "name": "eventType",
@@ -46,7 +46,7 @@
     {
       "name": "profileVersion",
       "type": "string",
-      "default": "2.0.0"
+      "default": "3.1.0"
     },
     {
       "name": "data",
@@ -57,7 +57,7 @@
           {
             "name": "job_order_no",
             "type": "string",
-            "doc": "Identity of the JobOrder (join key). Recommendation: <workorder_no>.<operation_no>."
+            "doc": "Identity of the JobOrder (join key): its own number from the source system. It is never built from other keys; the Workorder is reached through workorder_ref (PART_OF)."
           },
           {
             "name": "workorder_ref",
@@ -72,6 +72,15 @@
             ],
             "default": null,
             "doc": "The machine (Equipment) the job runs on."
+          },
+          {
+            "name": "work_master_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The work master the job runs by (FOR_WORK_MASTER; ISA-95 Part 4 cl. 7 JobOrder.WorkMasterID). Optional."
           },
           {
             "name": "start_planned",

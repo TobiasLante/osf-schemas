@@ -1,0 +1,94 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-JobResponse.payload.json",
+  "title": "SMProfile-JobResponse payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/operations/job-response.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-JobResponse",
+  "x-profileVersion": "1.0.0",
+  "x-payloadVersion": "1.0.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "JobResponse"
+    },
+    "profileRef": {
+      "const": "SMProfile-JobResponse"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "job_response_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the job response: its own number from the source system (MES). It is never built from other keys."
+        },
+        "work_response_ref": {
+          "type": "string",
+          "description": "The work response this job response is part of (PART_OF)."
+        },
+        "job_order_ref": {
+          "type": "string",
+          "description": "The job order this response answers (RESPONDS_TO)."
+        },
+        "work_master_ref": {
+          "type": "string",
+          "description": "The work master the job ran by (FOR_WORK_MASTER)."
+        },
+        "machine_ref": {
+          "type": "string",
+          "description": "The machine (Equipment) the job ran on (ACTUAL_EQUIPMENT)."
+        },
+        "material_lot_ref": {
+          "type": "string",
+          "description": "The lot the job consumed or produced (ACTUAL_MATERIAL)."
+        },
+        "tool_ref": {
+          "type": "string",
+          "description": "The tool (physical asset) the job used (ACTUAL_PHYSICAL_ASSET)."
+        },
+        "person_ref": {
+          "type": "string",
+          "description": "The person who ran the job (ACTUAL_PERSONNEL) — the pseudonymous person_id, never a name."
+        },
+        "start_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Actual start."
+        },
+        "end_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Actual end."
+        },
+        "status": {
+          "type": "string",
+          "description": "Job state as the source names it (ISA-95 JobState)."
+        }
+      },
+      "required": [
+        "job_response_id"
+      ]
+    }
+  },
+  "x-delivery": {
+    "job_response_id": "transactional",
+    "work_response_ref": "transactional",
+    "job_order_ref": "transactional",
+    "work_master_ref": "transactional",
+    "machine_ref": "transactional",
+    "material_lot_ref": "transactional",
+    "tool_ref": "transactional",
+    "person_ref": "transactional",
+    "start_time": "transactional",
+    "end_time": "transactional",
+    "status": "transactional"
+  }
+}

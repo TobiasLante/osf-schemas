@@ -2,9 +2,9 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/equipment/SMProfile-Tool.payload.json",
   "title": "SMProfile-Tool payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/equipment/tool.json 2.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/equipment/tool.json 3.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-Tool",
-  "x-profileVersion": "2.0.0",
+  "x-profileVersion": "3.0.0",
   "x-payloadVersion": "1.0.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
@@ -41,6 +41,10 @@
         "unit_ref": {
           "type": "string",
           "description": "FK to Machine.machine_id (IMPLEMENTATION_OF; Machine ≡ Unit level) — where the tool is currently set up."
+        },
+        "parts_per_shot": {
+          "type": "integer",
+          "description": "Number of good parts ONE machine cycle yields with this tool: the mould's cavity count (moved here from ProductionOrder in core 3.0.0)."
         }
       },
       "required": [
@@ -52,6 +56,7 @@
     "tool_id": "transactional",
     "name": "transactional",
     "tool_type": "transactional",
-    "unit_ref": "transactional"
+    "unit_ref": "transactional",
+    "parts_per_shot": "transactional"
   }
 }
