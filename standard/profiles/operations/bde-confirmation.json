@@ -91,10 +91,7 @@
       "description": "Pieces booked as good on this confirmation.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change",
-      "quality": {
-        "onBad": "flag"
-      }
+      "promotion": "on_change"
     },
     {
       "name": "scrap_qty",
@@ -105,10 +102,7 @@
       "description": "Pieces booked as scrap on this confirmation. The ERP half of the quantity axis — the counterpart the machine's own part_scrap counter is reconciled against.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change",
-      "quality": {
-        "onBad": "flag"
-      }
+      "promotion": "on_change"
     },
     {
       "name": "rework_qty",
@@ -119,10 +113,7 @@
       "description": "Pieces booked for rework — a THIRD disposition, deliberately not folded into scrap (same rule as the part_scrap semantic in standard/mappings/attribute-aliases.json). Full text: docs/history/standard/profiles/operations/bde-confirmation.md, attributes › rework_qty › description.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change",
-      "quality": {
-        "onBad": "flag"
-      }
+      "promotion": "on_change"
     },
     {
       "name": "scrap_reason",
@@ -144,10 +135,7 @@
       "description": "Personnel minutes booked against this confirmation. Full text: docs/history/standard/profiles/operations/bde-confirmation.md, attributes › labor_min › description.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change",
-      "quality": {
-        "onBad": "flag"
-      }
+      "promotion": "on_change"
     },
     {
       "name": "machine_min",
@@ -158,10 +146,7 @@
       "description": "Machine minutes booked against this confirmation.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change",
-      "quality": {
-        "onBad": "flag"
-      }
+      "promotion": "on_change"
     },
     {
       "name": "setup_min",
@@ -172,10 +157,7 @@
       "description": "Setup minutes booked against this confirmation. MEASURED: non-zero on 25 of 800 rows — setup is an event, not a per-booking constant, so a zero here is a real 'no setup on this booking'.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change",
-      "quality": {
-        "onBad": "flag"
-      }
+      "promotion": "on_change"
     },
     {
       "name": "cycle_time_actual_sec",
@@ -186,10 +168,7 @@
       "description": "Actually measured cycle time per piece (s) for this booking.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change",
-      "quality": {
-        "onBad": "flag"
-      }
+      "promotion": "on_change"
     },
     {
       "name": "actual_start_time",
@@ -200,10 +179,7 @@
       "description": "Start of the booked interval (ts_start). Absent at the per-production-order grain.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change",
-      "quality": {
-        "onBad": "flag"
-      }
+      "promotion": "on_change"
     },
     {
       "name": "actual_end_time",
@@ -214,10 +190,7 @@
       "description": "End of the booked interval (ts_end).",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change",
-      "quality": {
-        "onBad": "flag"
-      }
+      "promotion": "on_change"
     },
     {
       "name": "updated_at",

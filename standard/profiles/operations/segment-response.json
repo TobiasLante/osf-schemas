@@ -103,10 +103,7 @@
       "description": "Actual quantity of this material role (actual). Counterpart to SegmentRequirement.qty_planned.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change",
-      "quality": {
-        "onBad": "flag"
-      }
+      "promotion": "on_change"
     },
     {
       "name": "unit_of_measure",
@@ -143,10 +140,7 @@
       "description": "Actual stage start (actual).",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change",
-      "quality": {
-        "onBad": "flag"
-      }
+      "promotion": "on_change"
     },
     {
       "name": "actual_end_time",
@@ -157,10 +151,7 @@
       "description": "Actual stage end (actual).",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change",
-      "quality": {
-        "onBad": "flag"
-      }
+      "promotion": "on_change"
     },
     {
       "name": "status",
@@ -171,10 +162,7 @@
       "description": "Actual status of the stage (e.g. running, complete, aborted). Derived from the MES OrderState.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change",
-      "quality": {
-        "onBad": "flag"
-      }
+      "promotion": "on_change"
     },
     {
       "name": "qty_good",
@@ -380,6 +368,22 @@
           "attribute": "Act_Status_Program"
         }
       ]
+    },
+    {
+      "name": "source_quality",
+      "dataType": "String",
+      "required": false,
+      "enum": [
+        "GOOD",
+        "UNCERTAIN",
+        "BAD"
+      ],
+      "category": "Core",
+      "description": "Quality the source reported for this record: the worst OPC UA StatusCode (Good / Uncertain / Bad) of the fields the edge read for it. Left out when the source reports none (ERP REST). A field of the record, not the telemetry quality facet (learning T10).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
     }
   ],
   "relationships": [
@@ -450,9 +454,10 @@
       "qty_rework",
       "program_ref",
       "program_line",
-      "program_status"
+      "program_status",
+      "source_quality"
     ],
-    "mappingNote": "sequence is carried by B2MML through the order of SegmentResponse in OperationsResponse; B2MML has one quantity per material actual, no good/scrap/total/rework split, and no NC program, program line or program state."
+    "mappingNote": "sequence is carried by B2MML through the order of SegmentResponse in OperationsResponse; B2MML has one quantity per material actual, no good/scrap/total/rework split, and no NC program, program line or program state. source_quality: data quality of the record as its source reported it; ISA-95 has no element for it."
   },
   "kgNodeLabel": "SegmentResponse",
   "kgIdProperty": "segment_response_no",
