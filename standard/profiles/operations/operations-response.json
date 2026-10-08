@@ -156,7 +156,13 @@
       "quantity_produced": "OperationsResponse.SegmentResponse.MaterialActual.Quantity",
       "actual_end_time": "OperationsResponse.EndTime",
       "status": "OperationsResponse.ResponseState"
-    }
+    },
+    "notInIsa95": [
+      "cycle_time_actual_sec",
+      "completed_at",
+      "updated_at"
+    ],
+    "mappingNote": "B2MML OperationsResponse has no cycle time; completed_at and updated_at are timestamps of the source (the end of the response is actual_end_time)."
   },
   "kgNodeLabel": "OperationsResponse",
   "kgIdProperty": "production_order_no"

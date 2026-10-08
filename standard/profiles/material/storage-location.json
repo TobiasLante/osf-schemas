@@ -81,7 +81,16 @@
     "momDomain": "inventory",
     "level": 3,
     "note": "ISA-95 storage location — the AT_LOCATION target for MaterialLot and Quant.",
-    "mappingNote": "In B2MML StorageLocation is a field of MaterialLot and MaterialSubLot; the place it points at is an OperationalLocation."
+    "propertyMap": {
+      "storage_location_id": "OperationalLocation.ID",
+      "name": "OperationalLocation.Description",
+      "area_ref": "OperationalLocation.HierarchyScope.EquipmentID"
+    },
+    "notInIsa95": [
+      "warehouse",
+      "location_type"
+    ],
+    "mappingNote": "In B2MML StorageLocation is a field of MaterialLot and MaterialSubLot; the place it points at is an OperationalLocation. warehouse and location_type are free-text values of the source; B2MML OperationalLocation has no field for them."
   },
   "kgNodeLabel": "StorageLocation",
   "kgIdProperty": "storage_location_id"

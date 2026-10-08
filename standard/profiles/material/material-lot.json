@@ -205,10 +205,17 @@
       "quantity": "MaterialLot.Quantity.QuantityString",
       "unit_of_measure": "MaterialLot.Quantity.UnitOfMeasure",
       "status": "MaterialLot.Status",
-      "location_ref": "MaterialLot.AssemblyType",
+      "location_ref": "MaterialLot.StorageLocation",
       "assembly_type": "MaterialLot.AssemblyType",
       "assembly_relationship": "MaterialLot.AssemblyRelationship"
-    }
+    },
+    "notInIsa95": [
+      "workorder_ref",
+      "job_order_ref",
+      "created_at",
+      "updated_at"
+    ],
+    "mappingNote": "B2MML MaterialLot names no producing order or job (the job names the lot through its material actual), and created_at / updated_at are technical timestamps of the source."
   },
   "kgNodeLabel": "MaterialLot",
   "kgIdProperty": "material_lot_no"

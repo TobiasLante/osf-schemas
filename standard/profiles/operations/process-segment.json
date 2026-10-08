@@ -139,9 +139,12 @@
       "unit_ref": "ProcessSegment.EquipmentSegmentSpecification.EquipmentID"
     },
     "notInIsa95": [
-      "duration_planned_sec"
+      "duration_planned_sec",
+      "process_segment_code",
+      "sequence",
+      "operations_definition_ref"
     ],
-    "mappingNote": "B2MML carries a duration on OperationsSegment and SegmentRequirement, not on ProcessSegment."
+    "mappingNote": "B2MML carries a duration on OperationsSegment and SegmentRequirement, not on ProcessSegment. process_segment_code is the raw code of the naming source; B2MML ProcessSegment names no routing and no position in one (OperationsSegment carries the routing)."
   },
   "kgNodeLabel": "ProcessSegment",
   "kgIdProperty": "process_segment_no"

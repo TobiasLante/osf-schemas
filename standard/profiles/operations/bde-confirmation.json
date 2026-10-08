@@ -240,6 +240,28 @@
     "objectModel": "OperationsResponse",
     "part": 2,
     "note": "ISA-95 places the shop-floor booking under Operations Response (its segment response). This profile is the per-booking grain of that object: one row is one booking (key confirmation_no); SMProfile-OperationsResponse is the per-request aggregate. Both are Level-3 actuals.",
+    "propertyMap": {
+      "confirmation_no": "OperationsResponse.SegmentResponse.ID",
+      "production_order_no": "OperationsResponse.OperationsRequestID",
+      "article_ref": "OperationsResponse.SegmentResponse.MaterialActual.MaterialDefinitionID",
+      "machine_ref": "OperationsResponse.SegmentResponse.EquipmentActual.EquipmentID",
+      "actual_start_time": "OperationsResponse.SegmentResponse.ActualStartTime",
+      "actual_end_time": "OperationsResponse.SegmentResponse.ActualEndTime"
+    },
+    "notInIsa95": [
+      "operation_no",
+      "shift",
+      "good_qty",
+      "scrap_qty",
+      "rework_qty",
+      "scrap_reason",
+      "labor_min",
+      "machine_min",
+      "setup_min",
+      "cycle_time_actual_sec",
+      "updated_at"
+    ],
+    "mappingNote": "B2MML SegmentResponse has one quantity per material actual, no good/scrap/rework split, no scrap reason, no shift, no booked minutes and no cycle time; operation_no is the ERP routing operation number, no B2MML ID; updated_at is a technical timestamp of the source.",
     "grain": "one booking"
   },
   "kgNodeLabel": "BdeConfirmation",

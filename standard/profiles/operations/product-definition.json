@@ -196,7 +196,26 @@
     "momDomain": "production",
     "level": 3,
     "note": "ISA-95 2013: a product definition is an OperationsDefinition of type production. Full text: docs/history/standard/profiles/operations/product-definition.md, isa95 › note.",
-    "mappingNote": "B2MML 0700 has no ProductDefinition object; the recipe is an OperationsDefinition.",
+    "propertyMap": {
+      "product_definition_no": "OperationsDefinition.ID",
+      "name": "OperationsDefinition.Description",
+      "version_label": "OperationsDefinition.Version",
+      "article_ref": "OperationsDefinition.OperationsSegment.MaterialSpecification.MaterialDefinitionID",
+      "equipment_class_ref": "OperationsDefinition.OperationsSegment.EquipmentSpecification.EquipmentClassID"
+    },
+    "notInIsa95": [
+      "status",
+      "setup_ref",
+      "param_name",
+      "target_value",
+      "warn_lo",
+      "warn_hi",
+      "action_lo",
+      "action_hi",
+      "unit",
+      "updated_at"
+    ],
+    "mappingNote": "B2MML 0700 has no ProductDefinition object; the recipe is an OperationsDefinition. B2MML OperationsDefinition has no lifecycle status and no setup axis; the controlled property with its target and warning/action bands is no named B2MML field; updated_at is a technical timestamp of the source.",
     "grain": "one parameter of a product definition: one row = one param_name of one definition (key <definition>.<param_name>)"
   },
   "kgNodeLabel": "ProductDefinition",

@@ -436,9 +436,28 @@
       "equipment_ref": "OperationsResponse.SegmentResponse.EquipmentActual.EquipmentID",
       "actual_start_time": "OperationsResponse.SegmentResponse.ActualStartTime",
       "actual_end_time": "OperationsResponse.SegmentResponse.ActualEndTime",
-      "status": "OperationsResponse.SegmentResponse.SegmentState"
-    }
+      "status": "OperationsResponse.SegmentResponse.SegmentState",
+      "unit_of_measure": "OperationsResponse.SegmentResponse.MaterialActual.Quantity.UnitOfMeasure",
+      "production_order_ref": "OperationsResponse.SegmentResponse.OperationsRequestID",
+      "article_ref": "OperationsResponse.SegmentResponse.MaterialActual.MaterialDefinitionID",
+      "tool_ref": "OperationsResponse.SegmentResponse.PhysicalAssetActual.PhysicalAssetID"
+    },
+    "notInIsa95": [
+      "sequence",
+      "qty_good",
+      "qty_scrap",
+      "qty_total",
+      "qty_rework",
+      "program_ref",
+      "program_line",
+      "program_status"
+    ],
+    "mappingNote": "sequence is carried by B2MML through the order of SegmentResponse in OperationsResponse; B2MML has one quantity per material actual, no good/scrap/total/rework split, and no NC program, program line or program state."
   },
   "kgNodeLabel": "SegmentResponse",
-  "kgIdProperty": "segment_response_no"
+  "kgIdProperty": "segment_response_no",
+  "keyStability": {
+    "kind": "row-id",
+    "note": "production_order_no + operation_number are the ERP's own primary key of the confirmed operation row (erp-segment-responses primaryKeyColumns); the key moves only when the ERP row does."
+  }
 }

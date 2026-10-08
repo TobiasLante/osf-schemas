@@ -7,7 +7,19 @@
   "description": "Abstract parent for all machine types (CNC, IMM, …). Full text: docs/history/standard/profiles/equipment/machine.md, description.",
   "parentType": null,
   "abstract": true,
-  "properties": [],
+  "properties": [
+    {
+      "name": "element_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the machine: its i3X element id, the key (kgIdProperty) every machine profile inherits. ISA-95 Equipment.ID; it travels in the signal envelope.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    }
+  ],
   "relationships": [
     {
       "type": "PART_OF",

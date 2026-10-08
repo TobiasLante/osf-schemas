@@ -172,5 +172,9 @@
     "mappingNote": "sequence and the parent routing are carried by B2MML through the nesting of OperationsSegment in OperationsDefinition, not as fields."
   },
   "kgNodeLabel": "OperationsSegment",
-  "kgIdProperty": "operations_segment_no"
+  "kgIdProperty": "operations_segment_no",
+  "keyStability": {
+    "kind": "declared-gap",
+    "note": "built from operations_definition_no + sequence; the source (erp-operations-segments) declares no primary key, so a renumbered sequence makes a new segment — known gap until the ERP serves a row id."
+  }
 }
