@@ -1,0 +1,210 @@
+{
+  "type": "record",
+  "name": "TestSpecification",
+  "namespace": "org.openshopfloor.payload.quality",
+  "doc": "GENERATED from standard/profiles/quality/test-specification.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "fields": [
+    {
+      "name": "eventType",
+      "type": {
+        "type": "enum",
+        "name": "EventType",
+        "symbols": [
+          "created",
+          "updated",
+          "deleted"
+        ]
+      }
+    },
+    {
+      "name": "id",
+      "type": "string",
+      "doc": "Row key (test_specification_id); no + # * > / or space."
+    },
+    {
+      "name": "entity",
+      "type": "string",
+      "default": "TestSpecification"
+    },
+    {
+      "name": "timestamp",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      }
+    },
+    {
+      "name": "msgId",
+      "type": "string",
+      "doc": "Unique message id: the Kafka key, for deduplication."
+    },
+    {
+      "name": "profileRef",
+      "type": "string",
+      "default": "SMProfile-TestSpecification"
+    },
+    {
+      "name": "profileVersion",
+      "type": "string",
+      "default": "1.0.0"
+    },
+    {
+      "name": "data",
+      "type": {
+        "type": "record",
+        "name": "TestSpecificationData",
+        "fields": [
+          {
+            "name": "test_specification_id",
+            "type": "string",
+            "doc": "Identity of the test specification."
+          },
+          {
+            "name": "version",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "Version of the specification as the source names it."
+          },
+          {
+            "name": "name",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "Description of the test."
+          },
+          {
+            "name": "sample_size",
+            "type": [
+              "null",
+              "double"
+            ],
+            "default": null,
+            "doc": "How many samples a test takes."
+          },
+          {
+            "name": "recurrence_interval_sec",
+            "type": [
+              "null",
+              "double"
+            ],
+            "default": null,
+            "doc": "How often the test recurs."
+          },
+          {
+            "name": "article_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The tested object when it is an article (material definition) (TEST_FOR)."
+          },
+          {
+            "name": "material_class_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The tested object when it is a material class (TEST_FOR)."
+          },
+          {
+            "name": "material_lot_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The tested object when it is a lot (TEST_FOR)."
+          },
+          {
+            "name": "machine_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The tested object when it is a machine (Equipment) (TEST_FOR)."
+          },
+          {
+            "name": "equipment_class_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The tested object when it is an equipment class (TEST_FOR)."
+          },
+          {
+            "name": "tool_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The tested object when it is a tool (physical asset) (TEST_FOR)."
+          },
+          {
+            "name": "person_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The tested object when it is a person (pseudonymous id) (TEST_FOR)."
+          },
+          {
+            "name": "personnel_class_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The tested object when it is a personnel class (TEST_FOR)."
+          },
+          {
+            "name": "process_segment_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The tested object when it is a process segment (TEST_FOR)."
+          },
+          {
+            "name": "operations_segment_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The tested object when it is an operations segment (TEST_FOR)."
+          },
+          {
+            "name": "work_master_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The tested object when it is a work master (TEST_FOR)."
+          },
+          {
+            "name": "parent_specification_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The specification this one is a part of (PART_OF; ISA-95 TestSpecification MADE_UP_OF TestSpecification)."
+          }
+        ]
+      }
+    }
+  ]
+}

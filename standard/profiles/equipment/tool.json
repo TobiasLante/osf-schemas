@@ -1,13 +1,13 @@
 {
   "profileId": "SMProfile-Tool",
-  "version": "2.0.0",
-  "standard": "ISA-95",
+  "version": "3.0.0",
+  "standard": "CarToUNS",
   "category": "equipment",
   "displayName": "Tool (tooling / physical asset, e.g. mould)",
   "description": "next/ v2.0 — ISA-95 physical asset / tooling (e.g. an injection mould, die, fixture). Neutral generalization of 'mould'. IMPLEMENTED_BY target of machine profiles; can be set up on an Unit.",
   "parentType": null,
   "abstract": false,
-  "attributes": [
+  "properties": [
     {
       "name": "tool_id",
       "dataType": "String",
@@ -22,6 +22,7 @@
     {
       "name": "name",
       "dataType": "String",
+      "valueType": "MD",
       "required": false,
       "category": "Core",
       "description": "Display name of the tool.",
@@ -32,6 +33,7 @@
     {
       "name": "tool_type",
       "dataType": "String",
+      "valueType": "MD",
       "required": false,
       "category": "Core",
       "description": "Type of tooling (e.g. mould, die, fixture).",
@@ -48,14 +50,29 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
+      }
+    },
+    {
+      "name": "parts_per_shot",
+      "dataType": "Int32",
+      "valueType": "MD",
+      "required": false,
+      "category": "Planning",
+      "description": "Number of good parts ONE machine cycle yields with this tool: the mould's cavity count (moved here from ProductionOrder in core 3.0.0).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     }
   ],
   "relationships": [
     {
       "type": "IMPLEMENTATION_OF",
       "target": "Machine",
-      "targetIdProp": "machine_id",
+      "targetIdProp": "element_id",
       "description": "The machine the tool is currently set up on (Machine ≡ Unit level, consolidation 2026-07-15)."
     }
   ],

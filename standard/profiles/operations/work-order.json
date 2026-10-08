@@ -1,19 +1,19 @@
 {
   "profileId": "SMProfile-Workorder",
-  "version": "2.0.0",
-  "standard": "ISA-95",
+  "version": "3.0.0",
+  "standard": "CarToUNS",
   "category": "business",
-  "displayName": "Workorder (order sub-lot / FO index)",
+  "displayName": "Workorder (order sub-lot / order index)",
   "description": "Level-3 MOM Workorder (ISA-95 Part 4 / B2MML WorkRequest). Full text: docs/history/standard/profiles/operations/work-order.md, description.",
   "parentType": null,
   "abstract": false,
-  "attributes": [
+  "properties": [
     {
       "name": "workorder_no",
       "dataType": "String",
       "required": true,
       "category": "Core",
-      "description": "Identity of the Workorder (join key). Recommendation: <production_order_no>.<order_index>.",
+      "description": "Identity of the Workorder (join key): its own number from the source system. It is never built from other keys; the production order is reached through production_order_ref (FOR_OPERATIONS_REQUEST).",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
@@ -24,7 +24,7 @@
       "dataType": "String",
       "required": true,
       "category": "Link",
-      "description": "FK to ProductionOrder.production_order_no (FOR_OPERATIONS_REQUEST). The FabricationOrder that this sub-lot subdivides.",
+      "description": "FK to ProductionOrder.production_order_no (FOR_OPERATIONS_REQUEST). The production order that this sub-lot subdivides.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
@@ -33,9 +33,10 @@
     {
       "name": "order_index",
       "dataType": "Int32",
+      "valueType": "ID",
       "required": false,
       "category": "Core",
-      "description": "The FabricationOrder index (the MES FOIndex) = the slot number of this Workorder.",
+      "description": "The index of this Workorder within its production order: its slot number.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -43,6 +44,7 @@
     {
       "name": "status",
       "dataType": "String",
+      "valueType": "PV",
       "required": false,
       "category": "Core",
       "description": "Workorder status (e.g. released, running, complete).",
@@ -53,6 +55,7 @@
     {
       "name": "planned_start_time",
       "dataType": "DateTime",
+      "valueType": "SP",
       "required": false,
       "category": "Timing",
       "description": "Planned start of this slot (target).",
@@ -63,6 +66,7 @@
     {
       "name": "planned_end_time",
       "dataType": "DateTime",
+      "valueType": "SP",
       "required": false,
       "category": "Timing",
       "description": "Planned end of this slot (target).",
@@ -89,13 +93,16 @@
     "part": 4,
     "momDomain": "production",
     "level": 3,
-    "note": "ISA-95 Part 4 WorkRequest = dispatch subdivision of an OperationsRequest. RULE: FabricationOrder index == Workorder (subdivision of the FO across time slots). Creates/consumes MaterialLots. Edge FOR_OPERATIONS_REQUEST to the ProductionOrder (sub-lot / FO index).",
+    "note": "ISA-95 Part 4 WorkRequest = dispatch subdivision of an OperationsRequest. RULE: one index of the production order == one Workorder (a subdivision of the production order across time slots). Creates/consumes MaterialLots. Edge FOR_OPERATIONS_REQUEST to the ProductionOrder (sub-lot / order index).",
     "propertyMap": {
       "workorder_no": "WorkRequest.ID",
       "production_order_ref": "WorkRequest.OperationsRequestID",
-      "order_index": "WorkRequest.WorkType",
       "status": "WorkRequest.RequestState"
-    }
+    },
+    "notInIsa95": [
+      "order_index"
+    ],
+    "mappingNote": "order_index is the slot of the Workorder within its production order, no WorkRequest.WorkType. Actuals are reported per order and operation (Part 2 SegmentResponse); Part 4 actuals need a source keyed by job."
   },
   "kgNodeLabel": "Workorder",
   "kgIdProperty": "workorder_no"

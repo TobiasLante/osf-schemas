@@ -1,0 +1,183 @@
+{
+  "profileId": "SMProfile-WorkRecord",
+  "version": "1.0.0",
+  "standard": "CarToUNS",
+  "category": "business",
+  "displayName": "Work Record (record of what happened)",
+  "description": "ISA-95 Part 4 cl. 15 (work record model) WorkRecord: a record of what happened, e.g. the as-built record of a lot on a machine, by a work record specification.",
+  "parentType": null,
+  "abstract": false,
+  "properties": [
+    {
+      "name": "work_record_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the record: its own id from the source system.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "name",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Description of the record.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "work_record_specification_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The specification this record follows (DEFINED_BY).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "machine_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The machine (Equipment) the record is for (FOR_EQUIPMENT).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "material_lot_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The lot the record is for (FOR_MATERIAL_LOT).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "material_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The article (material definition) the record is for (FOR_MATERIAL_DEFINITION).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "record_time",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "When the record was written.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
+    },
+    {
+      "name": "effective_time",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "When the recorded facts took effect.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
+    },
+    {
+      "name": "status",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Record status as the source names it.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
+    },
+    {
+      "name": "parent_record_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The record this one is a part of (PART_OF; ISA-95 WorkRecord MADE_UP_OF WorkRecord).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "DEFINED_BY",
+      "target": "WorkRecordSpecification",
+      "targetIdProp": "work_record_specification_id",
+      "description": "The specification this record follows (B2MML WorkRecord.WorkRecordSpecificationID)."
+    },
+    {
+      "type": "FOR_EQUIPMENT",
+      "target": "Machine",
+      "targetIdProp": "element_id",
+      "description": "The machine the record is for (B2MML WorkRecord.EquipmentID)."
+    },
+    {
+      "type": "FOR_MATERIAL_LOT",
+      "target": "MaterialLot",
+      "targetIdProp": "material_lot_no",
+      "description": "The lot the record is for (B2MML WorkRecord.MaterialLotID)."
+    },
+    {
+      "type": "FOR_MATERIAL_DEFINITION",
+      "target": "Article",
+      "targetIdProp": "article_no",
+      "description": "The article the record is for (B2MML WorkRecord.MaterialDefinitionID)."
+    },
+    {
+      "type": "PART_OF",
+      "target": "WorkRecord",
+      "targetIdProp": "work_record_id",
+      "description": "The parent record (ISA-95: WorkRecord MADE_UP_OF WorkRecord)."
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iso:62264-WorkRecord"
+  ],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "WorkRecord",
+    "part": 4,
+    "momDomain": "production",
+    "level": 3,
+    "note": "ISA-95 Part 4 cl. 15 WorkRecord. Its entries (WorkRecordEntry, RECORDS any object) have no single target profile; not modelled as an edge in 3.1.0.",
+    "propertyMap": {
+      "work_record_id": "WorkRecord.ID",
+      "name": "WorkRecord.Description",
+      "work_record_specification_ref": "WorkRecord.WorkRecordSpecificationID",
+      "machine_ref": "WorkRecord.EquipmentID",
+      "material_lot_ref": "WorkRecord.MaterialLotID",
+      "material_ref": "WorkRecord.MaterialDefinitionID",
+      "record_time": "WorkRecord.RecordTimestamp",
+      "effective_time": "WorkRecord.EffectiveTimestamp",
+      "status": "WorkRecord.RecordStatus"
+    },
+    "notInIsa95": [
+      "parent_record_ref"
+    ],
+    "mappingNote": "B2MML carries the parent record through the nesting of WorkRecordChild, not as a field."
+  },
+  "kgNodeLabel": "WorkRecord",
+  "kgIdProperty": "work_record_id"
+}

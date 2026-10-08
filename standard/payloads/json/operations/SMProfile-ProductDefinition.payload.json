@@ -44,7 +44,7 @@
         },
         "article_ref": {
           "type": "string",
-          "description": "FK to Article.article_no, reached via OperationsSegment SPECIFIES_MATERIAL. The article this spec defines — the FO/recipe join point. First binding axis."
+          "description": "FK to Article.article_no, reached via OperationsSegment SPECIFIES_MATERIAL. The article this spec defines — the production order / recipe join point. First binding axis."
         },
         "equipment_class_ref": {
           "type": "string",
@@ -56,7 +56,7 @@
         },
         "param_name": {
           "type": "string",
-          "description": "Name of the controlled product property (e.g. line_speed, produced_thickness, area_weight)."
+          "description": "Name of the controlled product property (e.g. a speed, a thickness or a weight per area)."
         },
         "target_value": {
           "type": "number",
@@ -64,19 +64,19 @@
         },
         "warn_lo": {
           "type": "number",
-          "description": "Inner band lower limit — Warngrenze (warning tier)."
+          "description": "Inner band lower limit (warning tier)."
         },
         "warn_hi": {
           "type": "number",
-          "description": "Inner band upper limit — Warngrenze (warning tier)."
+          "description": "Inner band upper limit (warning tier)."
         },
         "action_lo": {
           "type": "number",
-          "description": "Outer band lower limit — Eingriffsgrenze (action tier)."
+          "description": "Outer band lower limit (action tier)."
         },
         "action_hi": {
           "type": "number",
-          "description": "Outer band upper limit — Eingriffsgrenze (action tier)."
+          "description": "Outer band upper limit (action tier)."
         },
         "unit": {
           "type": "string",

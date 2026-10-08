@@ -1,0 +1,60 @@
+{
+  "profileId": "SMProfile-Person",
+  "version": "1.0.0",
+  "standard": "CarToUNS",
+  "category": "business",
+  "displayName": "Person (pseudonymous)",
+  "description": "ISA-95 Part 2 cl. 5.4 (personnel model) Person: one person, by a pseudonymous number only. No name and no personal data (owner 07.10., OPEN-0330 P8-a): names stay in the source system (HR / MES).",
+  "parentType": null,
+  "abstract": false,
+  "properties": [
+    {
+      "name": "person_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Pseudonymous identity of the person from the source system — never a name, badge or personnel number that identifies the person outside it.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "personnel_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The personnel class of the person (DEFINED_BY).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "DEFINED_BY",
+      "target": "PersonnelClass",
+      "targetIdProp": "personnel_class_id",
+      "description": "The personnel class of the person (B2MML Person.PersonnelClassID)."
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iso:62264-Person"
+  ],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "Person",
+    "part": 2,
+    "momDomain": "production",
+    "level": 3,
+    "note": "ISA-95 Part 2 cl. 5.4 Person. B2MML PersonName is deliberately not modelled (no personal data in the UNS).",
+    "propertyMap": {
+      "person_id": "Person.ID",
+      "personnel_class_ref": "Person.PersonnelClassID"
+    }
+  },
+  "kgNodeLabel": "Person",
+  "kgIdProperty": "person_id"
+}

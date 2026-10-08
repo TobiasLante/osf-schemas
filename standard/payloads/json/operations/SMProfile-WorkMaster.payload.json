@@ -1,0 +1,103 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-WorkMaster.payload.json",
+  "title": "SMProfile-WorkMaster payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/operations/work-master.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-WorkMaster",
+  "x-profileVersion": "1.0.0",
+  "x-payloadVersion": "1.0.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "WorkMaster"
+    },
+    "profileRef": {
+      "const": "SMProfile-WorkMaster"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "work_master_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the work master: its own number from the source system (MES)."
+        },
+        "version": {
+          "type": "string",
+          "description": "Version of the work master as the source names it."
+        },
+        "name": {
+          "type": "string",
+          "description": "Description of the work master."
+        },
+        "work_type": {
+          "type": "string",
+          "description": "ISA-95 WorkType: Production, Maintenance, Quality or Inventory."
+        },
+        "duration_sec": {
+          "type": "number",
+          "x-unit": "SEC",
+          "description": "Expected duration of a job run by this work master."
+        },
+        "process_segment_ref": {
+          "type": "string",
+          "description": "The process segment this work master executes (FOR_PROCESS_SEGMENT)."
+        },
+        "operations_segment_ref": {
+          "type": "string",
+          "description": "The operations segment (routing step) this work master executes (FOR_OPERATIONS_SEGMENT)."
+        },
+        "operations_definition_ref": {
+          "type": "string",
+          "description": "The operations definition (routing) this work master belongs to (FOR_OPERATIONS_DEFINITION)."
+        },
+        "equipment_class_ref": {
+          "type": "string",
+          "description": "The equipment class a job of this work master needs (SPECIFIES_EQUIPMENT)."
+        },
+        "material_ref": {
+          "type": "string",
+          "description": "The article (material definition) this work master specifies (SPECIFIES_MATERIAL)."
+        },
+        "tool_ref": {
+          "type": "string",
+          "description": "The tool (physical asset) this work master specifies (SPECIFIES_PHYSICAL_ASSET)."
+        },
+        "personnel_class_ref": {
+          "type": "string",
+          "description": "The personnel class a job of this work master needs (SPECIFIES_PERSONNEL)."
+        },
+        "parent_work_master_ref": {
+          "type": "string",
+          "description": "The work master this one is a part of (PART_OF; ISA-95 WorkMaster MADE_UP_OF WorkMaster)."
+        }
+      },
+      "required": [
+        "work_master_id"
+      ]
+    }
+  },
+  "x-delivery": {
+    "work_master_id": "transactional",
+    "version": "transactional",
+    "name": "transactional",
+    "work_type": "transactional",
+    "duration_sec": "transactional",
+    "process_segment_ref": "transactional",
+    "operations_segment_ref": "transactional",
+    "operations_definition_ref": "transactional",
+    "equipment_class_ref": "transactional",
+    "material_ref": "transactional",
+    "tool_ref": "transactional",
+    "personnel_class_ref": "transactional",
+    "parent_work_master_ref": "transactional"
+  }
+}

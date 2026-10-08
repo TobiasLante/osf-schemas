@@ -1,0 +1,96 @@
+{
+  "profileId": "SMProfile-WorkResponse",
+  "version": "1.0.0",
+  "standard": "CarToUNS",
+  "category": "business",
+  "displayName": "Work Response (actuals of a work order)",
+  "description": "ISA-95 Part 4 cl. 8 (work performance model) WorkResponse: the actuals of one work order (WorkRequest); its job responses carry the actuals per job.",
+  "parentType": null,
+  "abstract": false,
+  "properties": [
+    {
+      "name": "work_response_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the work response: its own number from the source system.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "workorder_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "The work order (WorkRequest) this response answers (RESPONDS_TO).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "start_time",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "Actual start.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
+    },
+    {
+      "name": "end_time",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "Actual end.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
+    },
+    {
+      "name": "status",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Response state as the source names it (ISA-95 ResponseState).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "RESPONDS_TO",
+      "target": "Workorder",
+      "targetIdProp": "workorder_no",
+      "description": "The work order this response answers (B2MML WorkResponse.WorkRequestID)."
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iso:62264-WorkResponse"
+  ],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "WorkResponse",
+    "part": 4,
+    "momDomain": "production",
+    "level": 3,
+    "note": "ISA-95 Part 4 cl. 8 WorkResponse = the response to a WorkRequest; made up of JobResponses (keyed on the job response side).",
+    "propertyMap": {
+      "work_response_id": "WorkResponse.ID",
+      "workorder_ref": "WorkResponse.WorkRequestID",
+      "start_time": "WorkResponse.StartTime",
+      "end_time": "WorkResponse.EndTime",
+      "status": "WorkResponse.ResponseState"
+    }
+  },
+  "kgNodeLabel": "WorkResponse",
+  "kgIdProperty": "work_response_id"
+}

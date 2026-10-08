@@ -1,0 +1,84 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-OperationsEvent.payload.json",
+  "title": "SMProfile-OperationsEvent payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/operations/operations-event.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-OperationsEvent",
+  "x-profileVersion": "1.0.0",
+  "x-payloadVersion": "1.0.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "OperationsEvent"
+    },
+    "profileRef": {
+      "const": "SMProfile-OperationsEvent"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "operations_event_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the event: its own id from the source system."
+        },
+        "name": {
+          "type": "string",
+          "description": "Description of the event."
+        },
+        "event_type": {
+          "type": "string",
+          "description": "ISA-95 OperationsEventType as the source names it."
+        },
+        "category": {
+          "type": "string",
+          "description": "Category of the event as the source names it."
+        },
+        "effective_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the event took effect."
+        },
+        "record_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the event was recorded."
+        },
+        "source": {
+          "type": "string",
+          "description": "The system or function that raised the event."
+        },
+        "operations_definition_ref": {
+          "type": "string",
+          "description": "The operations definition the event belongs to (FOR_OPERATIONS_DEFINITION)."
+        },
+        "parent_event_ref": {
+          "type": "string",
+          "description": "The event this one is a part of (PART_OF; ISA-95 OperationsEvent MADE_UP_OF OperationsEvent)."
+        }
+      },
+      "required": [
+        "operations_event_id"
+      ]
+    }
+  },
+  "x-delivery": {
+    "operations_event_id": "transactional",
+    "name": "transactional",
+    "event_type": "transactional",
+    "category": "transactional",
+    "effective_time": "transactional",
+    "record_time": "transactional",
+    "source": "transactional",
+    "operations_definition_ref": "transactional",
+    "parent_event_ref": "transactional"
+  }
+}

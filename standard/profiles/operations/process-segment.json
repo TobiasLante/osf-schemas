@@ -1,13 +1,13 @@
 {
   "profileId": "SMProfile-ProcessSegment",
-  "version": "2.0.0",
-  "standard": "ISA-95",
+  "version": "3.0.0",
+  "standard": "CarToUNS",
   "category": "business",
   "displayName": "Process Segment (reusable manufacturing stage)",
   "description": "Level-3 MOM ProcessSegment (ISA-95 Part 2 / B2MML ProcessSegment). Full text: docs/history/standard/profiles/operations/process-segment.md, description.",
   "parentType": null,
   "abstract": false,
-  "attributes": [
+  "properties": [
     {
       "name": "process_segment_no",
       "dataType": "String",
@@ -22,6 +22,7 @@
     {
       "name": "process_segment_code",
       "dataType": "String",
+      "valueType": "ID",
       "required": false,
       "category": "Core",
       "description": "Raw segment / Function code from the naming source (the function naming standard Table 1 / the MES 'plant' code).",
@@ -32,6 +33,7 @@
     {
       "name": "name",
       "dataType": "String",
+      "valueType": "MD",
       "required": false,
       "category": "Core",
       "description": "Display name of the manufacturing stage (e.g. a forming, dosing, or curing stage).",
@@ -42,6 +44,7 @@
     {
       "name": "operations_type",
       "dataType": "String",
+      "valueType": "MD",
       "required": false,
       "category": "Core",
       "description": "ISA-95 'Mixed Operation Schedule' classification of the stage. Corresponds to the momDomain.",
@@ -58,6 +61,7 @@
     {
       "name": "sequence",
       "dataType": "Int32",
+      "valueType": "MD",
       "required": false,
       "category": "Planning",
       "description": "Sequence of the stage within the OperationsDefinition (routing).",
@@ -68,6 +72,7 @@
     {
       "name": "duration_planned_sec",
       "dataType": "Int32",
+      "valueType": "SP",
       "required": false,
       "category": "Planning",
       "description": "Planned stage duration (s) as a capability default; overridden by the SegmentRequirement in the concrete order.",
@@ -85,7 +90,11 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
+      }
     },
     {
       "name": "unit_ref",
@@ -96,14 +105,18 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
+      }
     }
   ],
   "relationships": [
     {
       "type": "SPECIFIES_EQUIPMENT",
       "target": "Machine",
-      "targetIdProp": "machine_id",
+      "targetIdProp": "element_id",
       "description": "The Machine (≡ Unit level, consolidation 2026-07-15; = plant = Function) on which the segment is executed."
     }
   ],

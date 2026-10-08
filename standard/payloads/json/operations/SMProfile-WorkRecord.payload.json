@@ -1,0 +1,89 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-WorkRecord.payload.json",
+  "title": "SMProfile-WorkRecord payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/operations/work-record.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-WorkRecord",
+  "x-profileVersion": "1.0.0",
+  "x-payloadVersion": "1.0.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "WorkRecord"
+    },
+    "profileRef": {
+      "const": "SMProfile-WorkRecord"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "work_record_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the record: its own id from the source system."
+        },
+        "name": {
+          "type": "string",
+          "description": "Description of the record."
+        },
+        "work_record_specification_ref": {
+          "type": "string",
+          "description": "The specification this record follows (DEFINED_BY)."
+        },
+        "machine_ref": {
+          "type": "string",
+          "description": "The machine (Equipment) the record is for (FOR_EQUIPMENT)."
+        },
+        "material_lot_ref": {
+          "type": "string",
+          "description": "The lot the record is for (FOR_MATERIAL_LOT)."
+        },
+        "material_ref": {
+          "type": "string",
+          "description": "The article (material definition) the record is for (FOR_MATERIAL_DEFINITION)."
+        },
+        "record_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the record was written."
+        },
+        "effective_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the recorded facts took effect."
+        },
+        "status": {
+          "type": "string",
+          "description": "Record status as the source names it."
+        },
+        "parent_record_ref": {
+          "type": "string",
+          "description": "The record this one is a part of (PART_OF; ISA-95 WorkRecord MADE_UP_OF WorkRecord)."
+        }
+      },
+      "required": [
+        "work_record_id"
+      ]
+    }
+  },
+  "x-delivery": {
+    "work_record_id": "transactional",
+    "name": "transactional",
+    "work_record_specification_ref": "transactional",
+    "machine_ref": "transactional",
+    "material_lot_ref": "transactional",
+    "material_ref": "transactional",
+    "record_time": "transactional",
+    "effective_time": "transactional",
+    "status": "transactional",
+    "parent_record_ref": "transactional"
+  }
+}

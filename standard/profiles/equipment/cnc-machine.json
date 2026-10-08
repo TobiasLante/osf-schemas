@@ -1,13 +1,13 @@
 {
   "profileId": "SMProfile-CNC-Machine",
   "version": "3.0.0",
-  "standard": "CESMII",
+  "standard": "CarToUNS",
   "category": "machine",
   "displayName": "CNC Machine",
   "description": "CNC machining center + constraints facet. Full text: docs/history/standard/profiles/equipment/cnc-machine.md, description.",
   "parentType": "Machine",
   "abstract": false,
-  "attributes": [
+  "properties": [
     {
       "name": "Act_Status_Machine",
       "dataType": "String",
@@ -353,7 +353,7 @@
   "constraints": [
     {
       "name": "spindle_load_control_limits",
-      "description": "Control limits (Warngrenze + Eingriffsgrenze) for spindle load %. Full text: docs/history/standard/profiles/equipment/cnc-machine.md, constraints › spindle_load_control_limits › description.",
+      "description": "Control limits (warning and action limits) for spindle load %. Full text: docs/history/standard/profiles/equipment/cnc-machine.md, constraints › spindle_load_control_limits › description.",
       "require": {
         "attr": "Act_Pct_SpindleLoad",
         "op": "within_limits",
@@ -388,7 +388,7 @@
     },
     {
       "name": "spindle_temp_control_limits",
-      "description": "Control limits (Warngrenze + Eingriffsgrenze) for spindle temperature degC. Full text: docs/history/standard/profiles/equipment/cnc-machine.md, constraints › spindle_temp_control_limits › description.",
+      "description": "Control limits (warning and action limits) for spindle temperature degC. Full text: docs/history/standard/profiles/equipment/cnc-machine.md, constraints › spindle_temp_control_limits › description.",
       "require": {
         "attr": "Act_Temp_Spindle",
         "op": "within_limits",
@@ -423,7 +423,7 @@
     },
     {
       "name": "spindle_power_control_limits",
-      "description": "Control limits (Warngrenze + Eingriffsgrenze) for active power kW. Full text: docs/history/standard/profiles/equipment/cnc-machine.md, constraints › spindle_power_control_limits › description.",
+      "description": "Control limits (warning and action limits) for active power kW. Full text: docs/history/standard/profiles/equipment/cnc-machine.md, constraints › spindle_power_control_limits › description.",
       "require": {
         "attr": "Act_Energy_Power",
         "op": "within_limits",
@@ -563,9 +563,6 @@
   },
   "kgNodeLabel": "CNC_Machine",
   "kgIdProperty": "element_id",
-  "keyAliases": [
-    "machine_id"
-  ],
   "movedAttributes": [
     {
       "name": "Act_Amount_PartGood",

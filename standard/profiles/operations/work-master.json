@@ -1,0 +1,238 @@
+{
+  "profileId": "SMProfile-WorkMaster",
+  "version": "1.0.0",
+  "standard": "CarToUNS",
+  "category": "business",
+  "displayName": "Work Master (how a job is done)",
+  "description": "ISA-95 Part 4 cl. 6 (work definition model) WorkMaster: the template of how one kind of job is done at Level 3 — the segment it executes and the equipment class, material, tool and personnel class it needs. A job order names it (FOR_WORK_MASTER).",
+  "parentType": null,
+  "abstract": false,
+  "properties": [
+    {
+      "name": "work_master_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the work master: its own number from the source system (MES).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "version",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Version of the work master as the source names it.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "name",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Description of the work master.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "work_type",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 WorkType: Production, Maintenance, Quality or Inventory.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "duration_sec",
+      "dataType": "Double",
+      "required": false,
+      "category": "Planning",
+      "description": "Expected duration of a job run by this work master.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "SP",
+      "unit": "SEC"
+    },
+    {
+      "name": "process_segment_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The process segment this work master executes (FOR_PROCESS_SEGMENT).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "operations_segment_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The operations segment (routing step) this work master executes (FOR_OPERATIONS_SEGMENT).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "operations_definition_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The operations definition (routing) this work master belongs to (FOR_OPERATIONS_DEFINITION).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "equipment_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The equipment class a job of this work master needs (SPECIFIES_EQUIPMENT).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "material_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The article (material definition) this work master specifies (SPECIFIES_MATERIAL).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "tool_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The tool (physical asset) this work master specifies (SPECIFIES_PHYSICAL_ASSET).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "personnel_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The personnel class a job of this work master needs (SPECIFIES_PERSONNEL).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "parent_work_master_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The work master this one is a part of (PART_OF; ISA-95 WorkMaster MADE_UP_OF WorkMaster).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "FOR_PROCESS_SEGMENT",
+      "target": "ProcessSegment",
+      "targetIdProp": "process_segment_no",
+      "description": "The process segment this work master executes (B2MML WorkMaster.ProcessSegmentID)."
+    },
+    {
+      "type": "FOR_OPERATIONS_SEGMENT",
+      "target": "OperationsSegment",
+      "targetIdProp": "operations_segment_no",
+      "description": "The operations segment this work master executes (B2MML WorkMaster.OperationsSegmentID)."
+    },
+    {
+      "type": "FOR_OPERATIONS_DEFINITION",
+      "target": "OperationsDefinition",
+      "targetIdProp": "operations_definition_no",
+      "description": "The operations definition this work master belongs to (B2MML WorkMaster.OperationsDefinitionID)."
+    },
+    {
+      "type": "SPECIFIES_EQUIPMENT",
+      "target": "EquipmentClass",
+      "targetIdProp": "equipment_class_id",
+      "description": "The equipment class a job needs (B2MML EquipmentSpecification.EquipmentClassID)."
+    },
+    {
+      "type": "SPECIFIES_MATERIAL",
+      "target": "Article",
+      "targetIdProp": "article_no",
+      "description": "The material definition a job needs or makes (B2MML MaterialSpecification.MaterialDefinitionID)."
+    },
+    {
+      "type": "SPECIFIES_PHYSICAL_ASSET",
+      "target": "Tool",
+      "targetIdProp": "tool_id",
+      "description": "The tool a job needs (B2MML PhysicalAssetSpecification.PhysicalAssetID)."
+    },
+    {
+      "type": "SPECIFIES_PERSONNEL",
+      "target": "PersonnelClass",
+      "targetIdProp": "personnel_class_id",
+      "description": "The personnel class a job needs (B2MML PersonnelSpecification.PersonnelClassID)."
+    },
+    {
+      "type": "PART_OF",
+      "target": "WorkMaster",
+      "targetIdProp": "work_master_id",
+      "description": "The parent work master (ISA-95: WorkMaster MADE_UP_OF WorkMaster)."
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iso:62264-WorkMaster"
+  ],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "WorkMaster",
+    "part": 4,
+    "momDomain": "production",
+    "level": 3,
+    "note": "ISA-95 Part 4 cl. 6 WorkMaster = the Level-3 template of a job; JobOrder (cl. 7) and JobResponse (cl. 8) name it.",
+    "propertyMap": {
+      "work_master_id": "WorkMaster.ID",
+      "version": "WorkMaster.Version",
+      "name": "WorkMaster.Description",
+      "work_type": "WorkMaster.WorkType",
+      "duration_sec": "WorkMaster.Duration",
+      "process_segment_ref": "WorkMaster.ProcessSegmentID",
+      "operations_segment_ref": "WorkMaster.OperationsSegmentID",
+      "operations_definition_ref": "WorkMaster.OperationsDefinitionID",
+      "equipment_class_ref": "WorkMaster.EquipmentSpecification.EquipmentClassID",
+      "material_ref": "WorkMaster.MaterialSpecification.MaterialDefinitionID",
+      "tool_ref": "WorkMaster.PhysicalAssetSpecification.PhysicalAssetID",
+      "personnel_class_ref": "WorkMaster.PersonnelSpecification.PersonnelClassID"
+    },
+    "notInIsa95": [
+      "parent_work_master_ref"
+    ],
+    "mappingNote": "B2MML carries the parent through the nesting of the child in its parent, not as a field."
+  },
+  "kgNodeLabel": "WorkMaster",
+  "kgIdProperty": "work_master_id"
+}

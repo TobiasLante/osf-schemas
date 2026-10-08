@@ -12,7 +12,7 @@ Two shapes (`envelope.schema.json`), from the convention:
 
 - **signal** (categories machine; 2 profiles): one message per signal,
   `{element_id, attr, value, timestamp, delivery, msgId?}`. Every attribute of the machine is listed, edge ones included.
-- **entity** (categories business, material, quality, equipment; 23 profiles): one message per source row,
+- **entity** (categories business, material, quality, equipment; 34 profiles): one message per source row,
   `{eventType, id, entity, timestamp, msgId, data}`; `data` carries the profile's attributes, inherited ones included.
 
 **Telemetry and transactional are strictly apart.** Every attribute carries its profile `delivery`:
