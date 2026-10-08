@@ -104,6 +104,7 @@ osf-schemas/
 ├── sites/                  one folder per plant (site): its instance tree, sources, syncs, consumers
 │   └── werk1/                  
 │       ├── branding/               brand/theme assets (1 json)
+│       ├── connections/             (2 json)
 │       ├── consumers/               (16 json)
 │       ├── historians/             historian-sink templates + instances (OUTPUT: UNS → customer DB)
 │       │   ├── grafana-dashboards/      (4 json)
