@@ -60,7 +60,7 @@ osf-schemas/
 │   ├── contract.json           GENERATED ontology contract (gen-contract.mjs) — agents read this FIRST
 │   └── standard.json
 ├── CLAUDE.md               agent instructions
-├── LICENSE                 MIT
+├── LICENSE                 Apache-2.0
 ├── README.md               this overview
 └── schema-guide.md         the full schema documentation
 ```

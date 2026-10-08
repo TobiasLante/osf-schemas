@@ -151,7 +151,8 @@ osf-schemas/
 │   ├── contract.json           GENERATED ontology contract (gen-contract.mjs) — agents read this FIRST
 │   └── standard.json
 ├── CLAUDE.md               agent instructions
-├── LICENSE                 MIT
+├── LICENSE                 Apache-2.0
+├── NOTICE                  attribution notice
 ├── README.md               this overview
 └── schema-guide.md         the full schema documentation
 ```
@@ -244,4 +245,5 @@ See [schema-guide.md](schema-guide.md) for the full documentation.
 
 ## License
 
-MIT, see [LICENSE](LICENSE).
+Apache License 2.0, see [LICENSE](LICENSE) and [NOTICE](NOTICE).
+Versions published before this change remain available under the MIT License.
