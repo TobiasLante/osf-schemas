@@ -1,0 +1,141 @@
+{
+  "profileId": "SMProfile-WorkRecordSpecification",
+  "version": "1.0.0",
+  "standard": "CarToUNS",
+  "category": "business",
+  "displayName": "Work Record Specification (template of a record)",
+  "description": "ISA-95 Part 4 cl. 15 (work record model) WorkRecordSpecification: the template of a kind of work record — which machine, lot or article it is for and what it records.",
+  "parentType": null,
+  "abstract": false,
+  "properties": [
+    {
+      "name": "work_record_specification_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the specification.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "version",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Version of the specification as the source names it.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "name",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Description of the specification.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "machine_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The machine (Equipment) records of this kind are for (FOR_EQUIPMENT).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "material_lot_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The lot records of this kind are for (FOR_MATERIAL_LOT).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "material_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The article (material definition) records of this kind are for (FOR_MATERIAL_DEFINITION).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "parent_specification_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The specification this one is a part of (PART_OF; ISA-95 WorkRecordSpecification MADE_UP_OF WorkRecordSpecification).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "FOR_EQUIPMENT",
+      "target": "Machine",
+      "targetIdProp": "element_id",
+      "description": "The machine (B2MML WorkRecordSpecification.EquipmentID)."
+    },
+    {
+      "type": "FOR_MATERIAL_LOT",
+      "target": "MaterialLot",
+      "targetIdProp": "material_lot_no",
+      "description": "The lot (B2MML WorkRecordSpecification.MaterialLotID)."
+    },
+    {
+      "type": "FOR_MATERIAL_DEFINITION",
+      "target": "Article",
+      "targetIdProp": "article_no",
+      "description": "The article (B2MML WorkRecordSpecification.MaterialDefinitionID)."
+    },
+    {
+      "type": "PART_OF",
+      "target": "WorkRecordSpecification",
+      "targetIdProp": "work_record_specification_id",
+      "description": "The parent specification (ISA-95: WorkRecordSpecification MADE_UP_OF WorkRecordSpecification)."
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iso:62264-WorkRecordSpecification"
+  ],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "WorkRecordSpecification",
+    "part": 4,
+    "momDomain": "production",
+    "level": 3,
+    "note": "ISA-95 Part 4 cl. 15 WorkRecordSpecification = the template a WorkRecord is DEFINED_BY.",
+    "propertyMap": {
+      "work_record_specification_id": "WorkRecordSpecification.ID",
+      "version": "WorkRecordSpecification.Version",
+      "name": "WorkRecordSpecification.Description",
+      "machine_ref": "WorkRecordSpecification.EquipmentID",
+      "material_lot_ref": "WorkRecordSpecification.MaterialLotID",
+      "material_ref": "WorkRecordSpecification.MaterialDefinitionID"
+    },
+    "notInIsa95": [
+      "parent_specification_ref"
+    ],
+    "mappingNote": "B2MML carries the parent specification through the nesting of WorkRecordSpecificationChild, not as a field."
+  },
+  "kgNodeLabel": "WorkRecordSpecification",
+  "kgIdProperty": "work_record_specification_id"
+}

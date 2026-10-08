@@ -1,0 +1,311 @@
+{
+  "profileId": "SMProfile-TestSpecification",
+  "version": "1.0.0",
+  "standard": "CarToUNS",
+  "category": "quality",
+  "displayName": "Test Specification (how something is tested)",
+  "description": "ISA-95 Part 2 cl. 5.9 (operations test model) TestSpecification: what is tested, how and by which criteria. It names the object it tests (TEST_FOR: an article, lot, machine, tool, person, segment or work master).",
+  "parentType": null,
+  "abstract": false,
+  "properties": [
+    {
+      "name": "test_specification_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the test specification.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "version",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Version of the specification as the source names it.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "name",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Description of the test.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "sample_size",
+      "dataType": "Double",
+      "required": false,
+      "category": "Planning",
+      "description": "How many samples a test takes.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "SP",
+      "unit": "C62"
+    },
+    {
+      "name": "recurrence_interval_sec",
+      "dataType": "Double",
+      "required": false,
+      "category": "Planning",
+      "description": "How often the test recurs.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "SP",
+      "unit": "SEC"
+    },
+    {
+      "name": "article_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The tested object when it is an article (material definition) (TEST_FOR).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "material_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The tested object when it is a material class (TEST_FOR).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "material_lot_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The tested object when it is a lot (TEST_FOR).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "machine_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The tested object when it is a machine (Equipment) (TEST_FOR).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "equipment_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The tested object when it is an equipment class (TEST_FOR).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "tool_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The tested object when it is a tool (physical asset) (TEST_FOR).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "person_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The tested object when it is a person (pseudonymous id) (TEST_FOR).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "personnel_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The tested object when it is a personnel class (TEST_FOR).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "process_segment_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The tested object when it is a process segment (TEST_FOR).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "operations_segment_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The tested object when it is an operations segment (TEST_FOR).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "work_master_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The tested object when it is a work master (TEST_FOR).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "parent_specification_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The specification this one is a part of (PART_OF; ISA-95 TestSpecification MADE_UP_OF TestSpecification).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "TEST_FOR",
+      "target": "Article",
+      "targetIdProp": "article_no",
+      "description": "The tested object: an article (material definition) (B2MML TestSpecification.TestableObjectID)."
+    },
+    {
+      "type": "TEST_FOR",
+      "target": "MaterialClass",
+      "targetIdProp": "material_class_id",
+      "description": "The tested object: a material class (B2MML TestSpecification.TestableObjectID)."
+    },
+    {
+      "type": "TEST_FOR",
+      "target": "MaterialLot",
+      "targetIdProp": "material_lot_no",
+      "description": "The tested object: a lot (B2MML TestSpecification.TestableObjectID)."
+    },
+    {
+      "type": "TEST_FOR",
+      "target": "Machine",
+      "targetIdProp": "element_id",
+      "description": "The tested object: a machine (Equipment) (B2MML TestSpecification.TestableObjectID)."
+    },
+    {
+      "type": "TEST_FOR",
+      "target": "EquipmentClass",
+      "targetIdProp": "equipment_class_id",
+      "description": "The tested object: an equipment class (B2MML TestSpecification.TestableObjectID)."
+    },
+    {
+      "type": "TEST_FOR",
+      "target": "Tool",
+      "targetIdProp": "tool_id",
+      "description": "The tested object: a tool (physical asset) (B2MML TestSpecification.TestableObjectID)."
+    },
+    {
+      "type": "TEST_FOR",
+      "target": "Person",
+      "targetIdProp": "person_id",
+      "description": "The tested object: a person (pseudonymous id) (B2MML TestSpecification.TestableObjectID)."
+    },
+    {
+      "type": "TEST_FOR",
+      "target": "PersonnelClass",
+      "targetIdProp": "personnel_class_id",
+      "description": "The tested object: a personnel class (B2MML TestSpecification.TestableObjectID)."
+    },
+    {
+      "type": "TEST_FOR",
+      "target": "ProcessSegment",
+      "targetIdProp": "process_segment_no",
+      "description": "The tested object: a process segment (B2MML TestSpecification.TestableObjectID)."
+    },
+    {
+      "type": "TEST_FOR",
+      "target": "OperationsSegment",
+      "targetIdProp": "operations_segment_no",
+      "description": "The tested object: an operations segment (B2MML TestSpecification.TestableObjectID)."
+    },
+    {
+      "type": "TEST_FOR",
+      "target": "WorkMaster",
+      "targetIdProp": "work_master_id",
+      "description": "The tested object: a work master (B2MML TestSpecification.TestableObjectID)."
+    },
+    {
+      "type": "PART_OF",
+      "target": "TestSpecification",
+      "targetIdProp": "test_specification_id",
+      "description": "The parent specification (ISA-95: TestSpecification MADE_UP_OF TestSpecification)."
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iso:62264-TestSpecification"
+  ],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "TestSpecification",
+    "part": 2,
+    "momDomain": "quality",
+    "level": 3,
+    "note": "ISA-95 Part 2 cl. 5.9 TestSpecification; its TestResult is the inspection lot (InspectionLot, TESTS).",
+    "propertyMap": {
+      "test_specification_id": "TestSpecification.ID",
+      "version": "TestSpecification.Version",
+      "name": "TestSpecification.Description",
+      "sample_size": "TestSpecification.TestSampleSize",
+      "recurrence_interval_sec": "TestSpecification.RecurrenceTimeInterval",
+      "article_ref": "TestSpecification.TestableObjectID",
+      "material_class_ref": "TestSpecification.TestableObjectID",
+      "material_lot_ref": "TestSpecification.TestableObjectID",
+      "machine_ref": "TestSpecification.TestableObjectID",
+      "equipment_class_ref": "TestSpecification.TestableObjectID",
+      "tool_ref": "TestSpecification.TestableObjectID",
+      "person_ref": "TestSpecification.TestableObjectID",
+      "personnel_class_ref": "TestSpecification.TestableObjectID",
+      "process_segment_ref": "TestSpecification.TestableObjectID",
+      "operations_segment_ref": "TestSpecification.TestableObjectID",
+      "work_master_ref": "TestSpecification.TestableObjectID"
+    },
+    "notInIsa95": [
+      "parent_specification_ref"
+    ],
+    "mappingNote": "B2MML carries the parent specification through the nesting of TestSpecificationChild, not as a field."
+  },
+  "kgNodeLabel": "TestSpecification",
+  "kgIdProperty": "test_specification_id"
+}

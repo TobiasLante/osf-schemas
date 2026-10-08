@@ -1,13 +1,13 @@
 {
   "profileId": "SMProfile-OperationsDefinition",
   "version": "3.0.0",
-  "standard": "ISA-95",
+  "standard": "CarToUNS",
   "category": "business",
   "displayName": "Operations Definition (routing master data / master)",
   "description": "Level-3 MOM OperationsDefinition (ISA-95 Part 2 / B2MML OperationsDefinition). Full text: docs/history/standard/profiles/operations/operations-definition.md, description.",
   "parentType": null,
   "abstract": false,
-  "attributes": [
+  "properties": [
     {
       "name": "operations_definition_no",
       "dataType": "String",
@@ -22,6 +22,7 @@
     {
       "name": "name",
       "dataType": "String",
+      "valueType": "MD",
       "required": false,
       "category": "Core",
       "description": "Display name of the routing.",
@@ -32,6 +33,7 @@
     {
       "name": "version_label",
       "dataType": "String",
+      "valueType": "MD",
       "required": false,
       "category": "Core",
       "description": "Business version identifier of the routing (independent of the profile SemVer).",
@@ -42,6 +44,7 @@
     {
       "name": "status",
       "dataType": "String",
+      "valueType": "MD",
       "required": false,
       "category": "Core",
       "description": "Lifecycle status (e.g. draft, released, obsolete).",
@@ -58,7 +61,11 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
+      }
     },
     {
       "name": "product_definition_ref",
@@ -69,7 +76,11 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
+      }
     }
   ],
   "relationships": [],
@@ -93,7 +104,8 @@
     },
     "notInIsa95": [
       "product_definition_ref"
-    ]
+    ],
+    "grain": "one routing master: one row = one operations definition (key operations_definition_no)"
   },
   "kgNodeLabel": "OperationsDefinition",
   "kgIdProperty": "operations_definition_no"

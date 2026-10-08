@@ -1,0 +1,153 @@
+{
+  "profileId": "SMProfile-OperationsEvent",
+  "version": "1.0.0",
+  "standard": "CarToUNS",
+  "category": "business",
+  "displayName": "Operations Event (business event at Level 3)",
+  "description": "ISA-95 Part 2 cl. 5.11 (operations event model) OperationsEvent: a business event recorded at Level 3 (e.g. order started, lot released) with its time, type and category — the history of events instead of the last status.",
+  "parentType": null,
+  "abstract": false,
+  "properties": [
+    {
+      "name": "operations_event_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the event: its own id from the source system.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "name",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Description of the event.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "event_type",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 OperationsEventType as the source names it.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
+    },
+    {
+      "name": "category",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Category of the event as the source names it.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
+    },
+    {
+      "name": "effective_time",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "When the event took effect.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
+    },
+    {
+      "name": "record_time",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "When the event was recorded.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
+    },
+    {
+      "name": "source",
+      "dataType": "String",
+      "required": false,
+      "category": "Provenance",
+      "description": "The system or function that raised the event.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
+    },
+    {
+      "name": "operations_definition_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The operations definition the event belongs to (FOR_OPERATIONS_DEFINITION).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "parent_event_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The event this one is a part of (PART_OF; ISA-95 OperationsEvent MADE_UP_OF OperationsEvent).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "FOR_OPERATIONS_DEFINITION",
+      "target": "OperationsDefinition",
+      "targetIdProp": "operations_definition_no",
+      "description": "The operations definition the event belongs to (B2MML OperationsEvent.OperationsDefinitionID)."
+    },
+    {
+      "type": "PART_OF",
+      "target": "OperationsEvent",
+      "targetIdProp": "operations_event_id",
+      "description": "The parent event (ISA-95: OperationsEvent MADE_UP_OF OperationsEvent)."
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iso:62264-OperationsEvent"
+  ],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "OperationsEvent",
+    "part": 2,
+    "momDomain": "production",
+    "level": 3,
+    "note": "ISA-95 Part 2 cl. 5.11 OperationsEvent. The object the event is about (B2MML OperationsEventRecord, RECORDS any object) has no single target profile; it is not modelled as an edge in 3.1.0.",
+    "propertyMap": {
+      "operations_event_id": "OperationsEvent.ID",
+      "name": "OperationsEvent.Description",
+      "event_type": "OperationsEvent.OperationsEventType",
+      "category": "OperationsEvent.Category",
+      "effective_time": "OperationsEvent.EffectiveTimeStamp",
+      "record_time": "OperationsEvent.RecordTimeStamp",
+      "source": "OperationsEvent.Source",
+      "operations_definition_ref": "OperationsEvent.OperationsDefinitionID"
+    },
+    "notInIsa95": [
+      "parent_event_ref"
+    ],
+    "mappingNote": "B2MML carries the parent event through the nesting of OperationsEventChild, not as a field."
+  },
+  "kgNodeLabel": "OperationsEvent",
+  "kgIdProperty": "operations_event_id"
+}

@@ -1,13 +1,13 @@
 {
   "profileId": "SMProfile-Customer",
   "version": "2.0.0",
-  "standard": "CESMII",
+  "standard": "CarToUNS",
   "category": "business",
   "displayName": "Customer",
   "description": "next/ v2.0 — Level-4 business partner (the customer a CustomerOrder is FOR). Minimal master node so the sales-order chain is self-contained.",
   "parentType": null,
   "abstract": false,
-  "attributes": [
+  "properties": [
     {
       "name": "customer_no",
       "dataType": "String",
@@ -22,6 +22,7 @@
     {
       "name": "name",
       "dataType": "String",
+      "valueType": "MD",
       "required": false,
       "category": "Core",
       "description": "Customer name.",
@@ -32,6 +33,7 @@
     {
       "name": "country",
       "dataType": "String",
+      "valueType": "MD",
       "required": false,
       "category": "Core",
       "description": "Customer country (ISO code recommended).",
@@ -42,6 +44,7 @@
     {
       "name": "segment",
       "dataType": "String",
+      "valueType": "MD",
       "required": false,
       "category": "Core",
       "description": "Customer segment / classification.",
