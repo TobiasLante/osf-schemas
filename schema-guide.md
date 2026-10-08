@@ -62,6 +62,7 @@ osf-schemas/
 │   └── standard.json
 ├── CLAUDE.md               agent instructions
 ├── LICENSE                 Apache-2.0
+├── NOTICE                  attribution notice
 ├── README.md               this overview
 └── schema-guide.md         the full schema documentation
 ```
