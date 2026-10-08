@@ -1,13 +1,13 @@
 {
   "profileId": "SMProfile-OperationsSegment",
   "version": "1.0.0",
-  "standard": "ISA-95",
+  "standard": "CarToUNS",
   "category": "business",
   "displayName": "Operations Segment (step of a routing)",
   "description": "Level-3 MOM OperationsSegment (ISA-95 Part 2 / B2MML OperationsSegment): one step of an OperationsDefinition (routing), with the material and equipment class it needs. Full text: docs/history/standard/profiles/operations/operations-segment.md, description.",
   "parentType": null,
   "abstract": false,
-  "attributes": [
+  "properties": [
     {
       "name": "operations_segment_no",
       "dataType": "String",
@@ -22,6 +22,7 @@
     {
       "name": "name",
       "dataType": "String",
+      "valueType": "MD",
       "required": false,
       "category": "Core",
       "description": "Display name of the step.",
@@ -32,6 +33,7 @@
     {
       "name": "operations_type",
       "dataType": "String",
+      "valueType": "MD",
       "required": false,
       "category": "Core",
       "description": "ISA-95 operations type of the step.",
@@ -48,6 +50,7 @@
     {
       "name": "sequence",
       "dataType": "Int32",
+      "valueType": "MD",
       "required": false,
       "category": "Planning",
       "description": "Position of the step within its OperationsDefinition.",
@@ -58,6 +61,7 @@
     {
       "name": "duration_planned_sec",
       "dataType": "Double",
+      "valueType": "SP",
       "required": false,
       "category": "Planning",
       "description": "Planned duration of the step.",
@@ -97,7 +101,11 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
+      }
     },
     {
       "name": "equipment_class_ref",

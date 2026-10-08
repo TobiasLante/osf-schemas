@@ -1,13 +1,13 @@
 {
   "profileId": "SMProfile-AutoResolveRule",
   "version": "3.0.0",
-  "standard": "OSF",
-  "displayName": "Auto-Resolve Rule",
+  "standard": "CarToUNS",
   "category": "intelligence",
+  "displayName": "Auto-Resolve Rule",
   "description": "Intelligence-engine configuration object: a rule that auto-resolves or proposes resolutions for discrepancies. Full text: docs/history/standard/profiles/intelligence/auto-resolve-rule.md, description.",
   "parentType": null,
   "abstract": false,
-  "attributes": [
+  "properties": [
     {
       "name": "rule_id",
       "dataType": "String",
@@ -19,18 +19,21 @@
     {
       "name": "name",
       "dataType": "String",
+      "valueType": "MD",
       "category": "Core",
       "description": "Human-readable rule name."
     },
     {
       "name": "rule_type",
       "dataType": "String",
+      "valueType": "MD",
       "category": "Core",
       "description": "Kind of rule (e.g. auto_resolve, propose, suppress)."
     },
     {
       "name": "enabled",
       "dataType": "Boolean",
+      "valueType": "MD",
       "category": "Core",
       "description": "Whether the rule is active."
     }

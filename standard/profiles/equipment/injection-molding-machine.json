@@ -1,16 +1,17 @@
 {
   "profileId": "SMProfile-InjectionMoldingMachine",
   "version": "3.0.0",
-  "standard": "CESMII",
+  "standard": "CarToUNS",
   "category": "machine",
   "displayName": "Injection Molding Machine",
   "description": "Injection molding machine (OT asset). Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, description.",
   "parentType": "Machine",
   "abstract": false,
-  "attributes": [
+  "properties": [
     {
       "name": "machine_type",
       "dataType": "String",
+      "valueType": "MD",
       "required": false,
       "category": "Core",
       "description": "Machine type / class (sim machineType).",
@@ -21,6 +22,7 @@
     {
       "name": "status",
       "dataType": "String",
+      "valueType": "PV",
       "required": false,
       "category": "BDE",
       "description": "Actual machine status. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, attributes › status › description.",
@@ -31,6 +33,7 @@
     {
       "name": "mode",
       "dataType": "String",
+      "valueType": "PV",
       "required": false,
       "category": "BDE",
       "description": "Operating mode. VOCABULARY NOT MEASURED YET — the earlier '(auto / manual / semi)' was unverified prose (the CNC profile measured AUTO/MANUAL/SETUP, uppercase — a different dialect … Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, attributes › mode › description.",
@@ -41,6 +44,7 @@
     {
       "name": "shotCount",
       "dataType": "Int32",
+      "valueType": "PV",
       "required": false,
       "category": "BDE",
       "description": "Shot count (cumulative). READ IT WITH `counter.aggregation`, NOT max-min: this counter resets.",
@@ -57,6 +61,7 @@
     {
       "name": "uptimeSeconds",
       "dataType": "Double",
+      "valueType": "PV",
       "required": false,
       "category": "BDE",
       "description": "Machine uptime (seconds).",
@@ -71,6 +76,7 @@
     {
       "name": "alarmsCount",
       "dataType": "Int32",
+      "valueType": "PV",
       "required": false,
       "category": "BDE",
       "description": "Active alarm count.",
@@ -81,6 +87,7 @@
     {
       "name": "inCycle",
       "dataType": "Boolean",
+      "valueType": "PV",
       "required": false,
       "category": "Process",
       "description": "Machine is in the injection cycle (cycle gate for pressure rules).",
@@ -91,6 +98,7 @@
     {
       "name": "lastShotAt",
       "dataType": "DateTime",
+      "valueType": "PV",
       "required": false,
       "category": "Timing",
       "description": "Timestamp of the last shot.",
@@ -101,6 +109,7 @@
     {
       "name": "shiftActive",
       "dataType": "Boolean",
+      "valueType": "PV",
       "required": false,
       "category": "BDE",
       "description": "A production shift is active.",
@@ -111,6 +120,7 @@
     {
       "name": "reason",
       "dataType": "String",
+      "valueType": "PV",
       "required": false,
       "category": "BDE",
       "description": "Stoppage / state reason code.",
@@ -151,6 +161,7 @@
     {
       "name": "cavityPressureBar",
       "dataType": "Double",
+      "valueType": "PV",
       "required": false,
       "category": "Process",
       "description": "Actual cavity pressure.",
@@ -165,6 +176,7 @@
     {
       "name": "mouldPressureBar",
       "dataType": "Double",
+      "valueType": "PV",
       "required": false,
       "category": "Process",
       "description": "Actual mould pressure.",
@@ -254,6 +266,7 @@
     {
       "name": "shotVolumeCm3",
       "dataType": "Double",
+      "valueType": "PV",
       "required": false,
       "category": "Process",
       "description": "Actual shot volume.",
@@ -283,6 +296,7 @@
     {
       "name": "plastProgress",
       "dataType": "Double",
+      "valueType": "PV",
       "required": false,
       "category": "Process",
       "description": "Plasticising progress of the current cycle.",
@@ -312,6 +326,7 @@
     {
       "name": "elapsedSec",
       "dataType": "Double",
+      "valueType": "PV",
       "required": false,
       "category": "Process",
       "description": "Elapsed time in the current phase.",
@@ -326,6 +341,7 @@
     {
       "name": "remainingSec",
       "dataType": "Double",
+      "valueType": "PV",
       "required": false,
       "category": "Process",
       "description": "Remaining time (setup / phase).",
@@ -340,6 +356,7 @@
     {
       "name": "switchoverReached",
       "dataType": "Boolean",
+      "valueType": "PV",
       "required": false,
       "category": "Process",
       "description": "Injection-to-hold switchover point reached.",
@@ -350,6 +367,7 @@
     {
       "name": "phaseName",
       "dataType": "String",
+      "valueType": "PV",
       "required": false,
       "category": "Process",
       "description": "Current Euromap-77 cycle phase of the injection cycle. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, attributes › phaseName › description.",
@@ -398,6 +416,7 @@
     {
       "name": "lifePercent",
       "dataType": "Double",
+      "valueType": "PV",
       "required": false,
       "category": "Process",
       "description": "Mould life consumed (percent).",
@@ -412,6 +431,7 @@
     {
       "name": "totalShots",
       "dataType": "Int32",
+      "valueType": "PV",
       "required": false,
       "category": "Process",
       "description": "Mould total shot counter (life). Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, attributes › totalShots › description.",
@@ -428,6 +448,7 @@
     {
       "name": "powerKw",
       "dataType": "Double",
+      "valueType": "PV",
       "required": false,
       "category": "BDE",
       "description": "Actual electrical power draw (kW). Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, attributes › powerKw › description.",
@@ -453,6 +474,7 @@
     {
       "name": "dryerTempC",
       "dataType": "Double",
+      "valueType": "PV",
       "required": false,
       "category": "Material",
       "description": "Resin dryer actual temperature.",
@@ -482,6 +504,7 @@
     {
       "name": "dryerResidenceMin",
       "dataType": "Double",
+      "valueType": "PV",
       "required": false,
       "category": "Material",
       "description": "Actual dryer residence time.",
@@ -496,6 +519,7 @@
     {
       "name": "dryerResidenceTargetMin",
       "dataType": "Double",
+      "valueType": "SP",
       "required": false,
       "category": "Material",
       "description": "Target dryer residence time.",
@@ -510,6 +534,7 @@
     {
       "name": "hopperFillPct",
       "dataType": "Double",
+      "valueType": "PV",
       "required": false,
       "category": "Material",
       "description": "Hopper fill level.",
@@ -524,6 +549,7 @@
     {
       "name": "hopperRefillThresholdPct",
       "dataType": "Double",
+      "valueType": "LIM",
       "required": false,
       "category": "Material",
       "description": "Hopper refill threshold.",
@@ -538,6 +564,7 @@
     {
       "name": "hopperRefillCount",
       "dataType": "Int32",
+      "valueType": "PV",
       "required": false,
       "category": "Material",
       "description": "Hopper refill count.",
@@ -548,6 +575,7 @@
     {
       "name": "regrindRatioPct",
       "dataType": "Double",
+      "valueType": "PV",
       "required": false,
       "category": "Material",
       "description": "Regrind ratio.",
@@ -562,6 +590,7 @@
     {
       "name": "colourMasterbatchPct",
       "dataType": "Double",
+      "valueType": "PV",
       "required": false,
       "category": "Material",
       "description": "Colour masterbatch dosing ratio.",
@@ -576,6 +605,7 @@
     {
       "name": "colourPurgeRemaining",
       "dataType": "Int32",
+      "valueType": "PV",
       "required": false,
       "category": "Material",
       "description": "Colour purge shots remaining.",
@@ -869,7 +899,7 @@
     },
     {
       "name": "hotrunner_control_limits",
-      "description": "Control limits (Warngrenze + Eingriffsgrenze) for the hot-runner temperature — a two-tier escalation band on top of the recipe SOLL. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, constraints › hotrunner_control_limits › description.",
+      "description": "Control limits (warning and action limits) for the hot-runner temperature — a two-tier escalation band on top of the recipe SOLL. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, constraints › hotrunner_control_limits › description.",
       "require": {
         "attr": "hotrunnerTempC",
         "op": "within_limits",
@@ -1010,7 +1040,7 @@
     },
     {
       "name": "mould_temp_control_limits",
-      "description": "Control limits (Warngrenze + Eingriffsgrenze) for mould temperature: warn band [82,88], action band [78,92] degC; both inside the equipment envelope [15,120] … Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, constraints › mould_temp_control_limits › description.",
+      "description": "Control limits (warning and action limits) for mould temperature: warn band [82,88], action band [78,92] degC; both inside the equipment envelope [15,120] … Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, constraints › mould_temp_control_limits › description.",
       "require": {
         "attr": "mouldTempC",
         "op": "within_limits",
@@ -1521,9 +1551,6 @@
   },
   "kgNodeLabel": "InjectionMoldingMachine",
   "kgIdProperty": "element_id",
-  "keyAliases": [
-    "machine_id"
-  ],
   "movedAttributes": [
     {
       "name": "good",

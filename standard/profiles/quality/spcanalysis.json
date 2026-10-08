@@ -1,11 +1,13 @@
 {
   "profileId": "SMProfile-SPCAnalysis",
   "version": "4.0.0",
-  "standard": "CESMII",
+  "standard": "CarToUNS",
+  "category": "quality",
   "displayName": "SPC Analysis",
   "description": "Statistical Process Control analysis — Cp, Cpk, control limits",
   "parentType": null,
-  "attributes": [
+  "abstract": false,
+  "properties": [
     {
       "name": "analysis_id",
       "dataType": "Int32",
@@ -18,6 +20,7 @@
     {
       "name": "lot_no",
       "dataType": "String",
+      "valueType": "ID",
       "category": "Link",
       "delivery": "transactional",
       "scope": "hub",
@@ -26,6 +29,7 @@
     {
       "name": "characteristic_no",
       "dataType": "String",
+      "valueType": "ID",
       "category": "Core",
       "delivery": "transactional",
       "scope": "hub",
@@ -34,6 +38,7 @@
     {
       "name": "mean_value",
       "dataType": "Float",
+      "valueType": "PV",
       "category": "Statistics",
       "delivery": "transactional",
       "scope": "hub",
@@ -42,6 +47,7 @@
     {
       "name": "std_deviation",
       "dataType": "Float",
+      "valueType": "PV",
       "category": "Statistics",
       "delivery": "transactional",
       "scope": "hub",
@@ -50,6 +56,7 @@
     {
       "name": "cp",
       "dataType": "Float",
+      "valueType": "PV",
       "category": "Capability",
       "delivery": "transactional",
       "scope": "hub",
@@ -58,6 +65,7 @@
     {
       "name": "cpk",
       "dataType": "Float",
+      "valueType": "PV",
       "category": "Capability",
       "delivery": "transactional",
       "scope": "hub",
@@ -66,6 +74,7 @@
     {
       "name": "is_in_control",
       "dataType": "Boolean",
+      "valueType": "PV",
       "category": "Status",
       "delivery": "transactional",
       "scope": "hub",
@@ -74,6 +83,7 @@
     {
       "name": "trend",
       "dataType": "String",
+      "valueType": "PV",
       "category": "Status",
       "description": "stable, improving, declining, out_of_control",
       "delivery": "transactional",
@@ -84,7 +94,6 @@
   "relationships": [],
   "kgNodeLabel": "SPCAnalysis",
   "kgIdProperty": "analysis_id",
-  "category": "quality",
   "isa95": {
     "objectModel": "Extension",
     "mappingNote": "Statistical process control has no B2MML object; the analysis evaluates test results, it is not one.",

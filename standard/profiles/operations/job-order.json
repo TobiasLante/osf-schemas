@@ -1,19 +1,19 @@
 {
   "profileId": "SMProfile-JobOrder",
-  "version": "2.0.0",
-  "standard": "ISA-95",
+  "version": "3.1.0",
+  "standard": "CarToUNS",
   "category": "business",
   "displayName": "Job Order (dispatched job on one machine)",
-  "description": "Level-3 MOM JobOrder (ISA-95 Part 4 / B2MML JobOrder): the job of one machine within a Workorder (WorkRequest) = one workorder operation, job_order_no = <workorder_no>.<operation_number>. The lots it produces point to it (MaterialLot.job_order_ref).",
+  "description": "Level-3 MOM JobOrder (ISA-95 Part 4 / B2MML JobOrder): the job of one machine within a Workorder (WorkRequest) = one workorder operation. The lots it produces point to it (MaterialLot.job_order_ref).",
   "parentType": null,
   "abstract": false,
-  "attributes": [
+  "properties": [
     {
       "name": "job_order_no",
       "dataType": "String",
       "required": true,
       "category": "Core",
-      "description": "Identity of the JobOrder (join key). Recommendation: <workorder_no>.<operation_no>.",
+      "description": "Identity of the JobOrder (join key): its own number from the source system. It is never built from other keys; the Workorder is reached through workorder_ref (PART_OF).",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
@@ -42,8 +42,20 @@
       "valueType": "ID"
     },
     {
+      "name": "work_master_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "The work master the job runs by (FOR_WORK_MASTER; ISA-95 Part 4 cl. 7 JobOrder.WorkMasterID). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
       "name": "start_planned",
       "dataType": "DateTime",
+      "valueType": "SP",
       "required": false,
       "category": "Planning",
       "description": "Planned start of the job.",
@@ -54,6 +66,7 @@
     {
       "name": "end_planned",
       "dataType": "DateTime",
+      "valueType": "SP",
       "required": false,
       "category": "Planning",
       "description": "Planned end of the job.",
@@ -64,6 +77,7 @@
     {
       "name": "status",
       "dataType": "String",
+      "valueType": "PV",
       "required": false,
       "category": "Core",
       "description": "Dispatch state of the job as the source names it.",
@@ -82,7 +96,7 @@
     {
       "type": "REQUIRES_EQUIPMENT",
       "target": "Machine",
-      "targetIdProp": "machine_id",
+      "targetIdProp": "element_id",
       "description": "The machine the job runs on (B2MML EquipmentRequirement)."
     },
     {
@@ -90,6 +104,12 @@
       "target": "MaterialLot",
       "targetIdProp": "material_lot_no",
       "description": "The lots the job consumes or produces (B2MML MaterialRequirement, MaterialUse); 1:n, the key sits on the lot (MaterialLot.job_order_ref, source edge direction in). Full text: docs/history/standard/profiles/operations/job-order.md, relationships › REQUIRES_MATERIAL."
+    },
+    {
+      "type": "FOR_WORK_MASTER",
+      "target": "WorkMaster",
+      "targetIdProp": "work_master_id",
+      "description": "The work master the job runs by (B2MML JobOrder.WorkMasterID)."
     }
   ],
   "constraints": [],
@@ -106,6 +126,7 @@
     "propertyMap": {
       "job_order_no": "JobOrder.ID",
       "machine_ref": "JobOrder.EquipmentRequirement.EquipmentID",
+      "work_master_ref": "JobOrder.WorkMasterID",
       "start_planned": "JobOrder.StartTime",
       "end_planned": "JobOrder.EndTime",
       "status": "JobOrder.DispatchStatus"
@@ -113,7 +134,7 @@
     "notInIsa95": [
       "workorder_ref"
     ],
-    "mappingNote": "The parent WorkRequest is carried by B2MML through the nesting of JobOrder in WorkRequest, not as a field."
+    "mappingNote": "The parent WorkRequest is carried by B2MML through the nesting of JobOrder in WorkRequest, not as a field. Actuals are reported per order and operation (Part 2 SegmentResponse); Part 4 actuals need a source keyed by job."
   },
   "kgNodeLabel": "JobOrder",
   "kgIdProperty": "job_order_no"

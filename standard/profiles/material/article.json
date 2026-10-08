@@ -1,13 +1,13 @@
 {
   "profileId": "SMProfile-Article",
   "version": "2.2.0",
-  "standard": "CESMII",
+  "standard": "CarToUNS",
   "category": "business",
   "displayName": "Article (article / part)",
   "description": "Product/material master. Full text: docs/history/standard/profiles/material/article.md, description.",
   "parentType": null,
   "abstract": false,
-  "attributes": [
+  "properties": [
     {
       "name": "article_no",
       "dataType": "String",
@@ -21,6 +21,7 @@
     {
       "name": "name",
       "dataType": "String",
+      "valueType": "MD",
       "required": false,
       "category": "Core",
       "delivery": "transactional",
@@ -30,6 +31,7 @@
     {
       "name": "type",
       "dataType": "String",
+      "valueType": "MD",
       "required": false,
       "category": "Core",
       "delivery": "transactional",
@@ -39,6 +41,7 @@
     {
       "name": "unit",
       "dataType": "String",
+      "valueType": "MD",
       "required": false,
       "category": "Core",
       "delivery": "transactional",
@@ -48,6 +51,7 @@
     {
       "name": "lead_time_days",
       "dataType": "Int32",
+      "valueType": "MD",
       "required": false,
       "category": "Planning",
       "delivery": "transactional",
@@ -57,6 +61,7 @@
     {
       "name": "abc_class",
       "dataType": "String",
+      "valueType": "MD",
       "required": false,
       "category": "Commercial",
       "delivery": "transactional",
@@ -66,6 +71,7 @@
     {
       "name": "cost_hk",
       "dataType": "Double",
+      "valueType": "MD",
       "required": false,
       "category": "Valuation",
       "currency": "EUR",
@@ -77,6 +83,7 @@
     {
       "name": "price_vk",
       "dataType": "Double",
+      "valueType": "MD",
       "required": false,
       "category": "Valuation",
       "currency": "EUR",
@@ -88,6 +95,7 @@
     {
       "name": "currency",
       "dataType": "String",
+      "valueType": "MD",
       "required": false,
       "category": "Valuation",
       "description": "ISO-4217 currency code for cost_hk / price_vk, from ERP waehrung (e.g. EUR).",
@@ -98,6 +106,7 @@
     {
       "name": "stock_free",
       "dataType": "Float",
+      "valueType": "PV",
       "required": false,
       "category": "Stock",
       "description": "Free (unblocked) stock of this article across all warehouses (menge_frei). Served by GET /api/articles, which is ARTICLE_WITH_STOCK_AND_PRICE_SQL. This is the article-level figure the WMS Quant rows sum to; a single Quant is one pallet/lot in one bin and is NOT a stock position.",
@@ -108,6 +117,7 @@
     {
       "name": "stock_reserved",
       "dataType": "Float",
+      "valueType": "PV",
       "required": false,
       "category": "Stock",
       "description": "Quantity already committed to orders (menge_reserviert) — free stock that is spoken for.",
@@ -118,6 +128,7 @@
     {
       "name": "stock_blocked",
       "dataType": "Float",
+      "valueType": "PV",
       "required": false,
       "category": "Stock",
       "description": "Quantity blocked / on hold (menge_blockiert).",
@@ -128,6 +139,7 @@
     {
       "name": "stock_available",
       "dataType": "Float",
+      "valueType": "PV",
       "required": false,
       "category": "Stock",
       "description": "AVAILABLE-TO-PROMISE: free minus reserved (verfuegbar). Full text: docs/history/standard/profiles/material/article.md, attributes › stock_available › description.",
@@ -138,6 +150,7 @@
     {
       "name": "reorder_level",
       "dataType": "Float",
+      "valueType": "LIM",
       "required": false,
       "category": "Planning",
       "description": "Reorder level / Meldebestand from the ERP article master (mindestbestand). Full text: docs/history/standard/profiles/material/article.md, attributes › reorder_level › description.",
@@ -148,6 +161,7 @@
     {
       "name": "safety_stock",
       "dataType": "Float",
+      "valueType": "LIM",
       "required": false,
       "category": "Planning",
       "description": "Safety stock (safety_stock). Full text: docs/history/standard/profiles/material/article.md, attributes › safety_stock › description.",
