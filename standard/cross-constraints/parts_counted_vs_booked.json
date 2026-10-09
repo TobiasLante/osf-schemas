@@ -10,7 +10,7 @@
  "parkedReason": "The right operand does not exist in a form that can answer the question. This is an INTEGRATION defect, not a factory deviation — see blockedBy.",
  "blockedBy": {
   "measuredAt": "2026-07-12",
-  "measuredAgainst": "sim-v5 ERP REST :38260 (.154), osf-neo4j + sgm-004 edge TS on .99 — read-only",
+  "measuredAgainst": "the reference simulator's ERP REST, osf-neo4j + sgm-004 edge TS of the reference installation — read-only",
   "$comment": "Every number below was measured by CAPT-ZUG4 against the live systems, not carried over from a briefing. Two of the three claims that were HANDED to this captain turned out to be false and are corrected here — which is itself the argument for measuring.",
   "blocker_1_the_confirmation_feed_has_no_machine": {
    "what": "/api/confirmations (-> SMProfile-OperationsResponse) is the only ERP actuals feed that can be polled in full. It carries machine_no = null and machine_id = null in 100 % of rows (measured: 100 of 100 sampled, and the source contract sites/werk1/sources/rest/erp-operations-response.json already says so in prose: 'BDE bridge does not stamp the machine').",

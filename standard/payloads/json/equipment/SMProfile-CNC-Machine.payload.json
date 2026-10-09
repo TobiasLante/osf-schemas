@@ -20,11 +20,18 @@
         "properties": {
           "attr": {
             "enum": [
+              "element_id",
               "Act_Status_Machine",
               "Act_Text_MachineMode",
               "Act_Amount_Alarm",
+              "Plan_Time_Cycle",
               "Act_Ref_Shift",
               "Act_Ref_Operator",
+              "Set_Speed_Spindle",
+              "Set_Rate_Feed",
+              "Set_Pos_AxisX",
+              "Set_Pos_AxisY",
+              "Set_Pos_AxisZ",
               "Act_State_InCycle"
             ]
           }
@@ -52,6 +59,7 @@
   "properties": {
     "attr": {
       "enum": [
+        "element_id",
         "Act_Status_Machine",
         "Act_Text_MachineMode",
         "Act_Amount_Alarm",
@@ -94,23 +102,17 @@
     }
   },
   "x-telemetry": [
-    "Plan_Time_Cycle",
     "Act_Time_Cycle",
     "Act_Energy_Power",
     "Act_Energy_Total",
     "Act_Speed_Spindle",
-    "Set_Speed_Spindle",
     "Act_Pct_SpindleLoad",
     "Act_Torque_Spindle",
     "Act_Rate_Feed",
-    "Set_Rate_Feed",
     "Act_Pct_FeedOverride",
     "Act_Pos_AxisX",
-    "Set_Pos_AxisX",
     "Act_Pos_AxisY",
-    "Set_Pos_AxisY",
     "Act_Pos_AxisZ",
-    "Set_Pos_AxisZ",
     "Act_Ref_ToolNumber",
     "Act_Pct_ToolWear",
     "Act_Time_ToolLifeRemaining",
@@ -125,14 +127,27 @@
     "Act_Temp_Spindle"
   ],
   "x-transactional": [
+    "element_id",
     "Act_Status_Machine",
     "Act_Text_MachineMode",
     "Act_Amount_Alarm",
+    "Plan_Time_Cycle",
     "Act_Ref_Shift",
     "Act_Ref_Operator",
+    "Set_Speed_Spindle",
+    "Set_Rate_Feed",
+    "Set_Pos_AxisX",
+    "Set_Pos_AxisY",
+    "Set_Pos_AxisZ",
     "Act_State_InCycle"
   ],
   "x-signals": {
+    "element_id": {
+      "type": "string",
+      "delivery": "transactional",
+      "scope": "hub",
+      "description": "Identity of the machine: its i3X element id, the key (kgIdProperty) every machine profile inherits. ISA-95 Equipment.ID; it travels in the signal envelope."
+    },
     "Act_Status_Machine": {
       "type": "string",
       "enum": [
@@ -163,7 +178,7 @@
     },
     "Plan_Time_Cycle": {
       "type": "number",
-      "delivery": "telemetry",
+      "delivery": "transactional",
       "scope": "edge"
     },
     "Act_Time_Cycle": {
@@ -202,7 +217,7 @@
     },
     "Set_Speed_Spindle": {
       "type": "number",
-      "delivery": "telemetry",
+      "delivery": "transactional",
       "scope": "edge"
     },
     "Act_Pct_SpindleLoad": {
@@ -224,7 +239,7 @@
     },
     "Set_Rate_Feed": {
       "type": "number",
-      "delivery": "telemetry",
+      "delivery": "transactional",
       "scope": "edge"
     },
     "Act_Pct_FeedOverride": {
@@ -240,7 +255,7 @@
     },
     "Set_Pos_AxisX": {
       "type": "number",
-      "delivery": "telemetry",
+      "delivery": "transactional",
       "scope": "edge"
     },
     "Act_Pos_AxisY": {
@@ -251,7 +266,7 @@
     },
     "Set_Pos_AxisY": {
       "type": "number",
-      "delivery": "telemetry",
+      "delivery": "transactional",
       "scope": "edge"
     },
     "Act_Pos_AxisZ": {
@@ -262,7 +277,7 @@
     },
     "Set_Pos_AxisZ": {
       "type": "number",
-      "delivery": "telemetry",
+      "delivery": "transactional",
       "scope": "edge"
     },
     "Act_Ref_ToolNumber": {

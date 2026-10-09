@@ -1,0 +1,75 @@
+{
+  "type": "record",
+  "name": "Person",
+  "namespace": "org.openshopfloor.payload.personnel",
+  "doc": "GENERATED from standard/profiles/personnel/person.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "fields": [
+    {
+      "name": "eventType",
+      "type": {
+        "type": "enum",
+        "name": "EventType",
+        "symbols": [
+          "created",
+          "updated",
+          "deleted"
+        ]
+      }
+    },
+    {
+      "name": "id",
+      "type": "string",
+      "doc": "Row key (person_id); no + # * > / or space."
+    },
+    {
+      "name": "entity",
+      "type": "string",
+      "default": "Person"
+    },
+    {
+      "name": "timestamp",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      }
+    },
+    {
+      "name": "msgId",
+      "type": "string",
+      "doc": "Unique message id: the Kafka key, for deduplication."
+    },
+    {
+      "name": "profileRef",
+      "type": "string",
+      "default": "SMProfile-Person"
+    },
+    {
+      "name": "profileVersion",
+      "type": "string",
+      "default": "1.0.0"
+    },
+    {
+      "name": "data",
+      "type": {
+        "type": "record",
+        "name": "PersonData",
+        "fields": [
+          {
+            "name": "person_id",
+            "type": "string",
+            "doc": "Pseudonymous identity of the person from the source system — never a name, badge or personnel number that identifies the person outside it."
+          },
+          {
+            "name": "personnel_class_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The personnel class of the person (DEFINED_BY)."
+          }
+        ]
+      }
+    }
+  ]
+}

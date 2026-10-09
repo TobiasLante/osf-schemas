@@ -1,0 +1,64 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-WorkResponse.payload.json",
+  "title": "SMProfile-WorkResponse payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/operations/work-response.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-WorkResponse",
+  "x-profileVersion": "1.0.0",
+  "x-payloadVersion": "1.0.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "WorkResponse"
+    },
+    "profileRef": {
+      "const": "SMProfile-WorkResponse"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "work_response_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the work response: its own number from the source system."
+        },
+        "workorder_ref": {
+          "type": "string",
+          "description": "The work order (WorkRequest) this response answers (RESPONDS_TO)."
+        },
+        "start_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Actual start."
+        },
+        "end_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Actual end."
+        },
+        "status": {
+          "type": "string",
+          "description": "Response state as the source names it (ISA-95 ResponseState)."
+        }
+      },
+      "required": [
+        "work_response_id"
+      ]
+    }
+  },
+  "x-delivery": {
+    "work_response_id": "transactional",
+    "workorder_ref": "transactional",
+    "start_time": "transactional",
+    "end_time": "transactional",
+    "status": "transactional"
+  }
+}

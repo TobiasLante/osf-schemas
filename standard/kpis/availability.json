@@ -1,19 +1,61 @@
 {
   "kpiId": "KPI-Availability",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "displayName": "Availability (status proxy)",
   "description": "HONEST SCOPE: an INSTANTANEOUS STATUS PROXY, not ISO-22400 availability (that would be a runtime/planned-time RATIO — the time-ratio lane is standard/historians/postgresql-cagg/oee-hourly.json, with its own documented hardcodes). Full text: docs/history/standard/kpis/availability.md, description.",
   "unit": "%",
   "category": "efficiency",
   "calculation": {
-    "inputs": ["Act_Status_Machine"],
+    "inputs": [
+      "Act_Status_Machine"
+    ],
     "inputMappings": {
       "SMProfile-CNC-Machine": {
         "Act_Status_Machine": "Act_Status_Machine"
       }
     },
-    "cypher": "CASE WHEN m.Act_Status_Machine = 'RUNNING' THEN 100.0 WHEN m.Act_Status_Machine IN ['IDLE','STOPPED','MAINTENANCE'] THEN 0.0 ELSE null END"
+    "cypher": "CASE WHEN m.Act_Status_Machine = 'RUNNING' THEN 100.0 WHEN m.Act_Status_Machine IN ['IDLE','STOPPED','MAINTENANCE'] THEN 0.0 ELSE null END",
+    "expression": {
+      "if": {
+        "compare": "=",
+        "args": [
+          {
+            "input": "Act_Status_Machine"
+          },
+          {
+            "text": "RUNNING"
+          }
+        ]
+      },
+      "then": {
+        "number": 100
+      },
+      "else": {
+        "if": {
+          "oneOf": {
+            "input": "Act_Status_Machine"
+          },
+          "values": [
+            "IDLE",
+            "STOPPED",
+            "MAINTENANCE"
+          ]
+        },
+        "then": {
+          "number": 0
+        },
+        "else": {
+          "empty": true
+        }
+      }
+    }
   },
-  "thresholds": { "target": 90, "warning": 80, "critical": 60 },
-  "appliesTo": ["SMProfile-CNC-Machine"]
+  "thresholds": {
+    "target": 90,
+    "warning": 80,
+    "critical": 60
+  },
+  "appliesTo": [
+    "SMProfile-CNC-Machine"
+  ]
 }

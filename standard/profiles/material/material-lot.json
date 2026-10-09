@@ -1,13 +1,13 @@
 {
   "profileId": "SMProfile-MaterialLot",
-  "version": "2.4.0",
-  "standard": "ISA-95",
+  "version": "3.1.0",
+  "standard": "CarToUNS",
   "category": "material",
   "displayName": "Material Lot (the correct term for 'batch')",
   "description": "ISA-95 Part 2/4 MaterialLot (B2MML MaterialLot). Full text: docs/history/standard/profiles/material/material-lot.md, description.",
-  "parentType": "MaterialItem",
+  "parentType": null,
   "abstract": false,
-  "attributes": [
+  "properties": [
     {
       "name": "material_lot_no",
       "dataType": "String",
@@ -33,6 +33,7 @@
     {
       "name": "quantity",
       "dataType": "Double",
+      "valueType": "PV",
       "required": false,
       "category": "Core",
       "description": "Quantity of the lot.",
@@ -43,6 +44,7 @@
     {
       "name": "unit_of_measure",
       "dataType": "String",
+      "valueType": "MD",
       "required": false,
       "category": "Core",
       "description": "Unit of measure (UN/CEFACT code recommended).",
@@ -53,6 +55,7 @@
     {
       "name": "status",
       "dataType": "String",
+      "valueType": "PV",
       "required": false,
       "category": "Core",
       "description": "Lot status (ISA-95 MaterialLotProperty / Status), e.g. available, in_production, consumed, blocked.",
@@ -69,7 +72,11 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
+      }
     },
     {
       "name": "job_order_ref",
@@ -80,7 +87,11 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
+      }
     },
     {
       "name": "location_ref",
@@ -91,11 +102,16 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
+      }
     },
     {
       "name": "created_at",
       "dataType": "DateTime",
+      "valueType": "PV",
       "required": false,
       "category": "Timing",
       "description": "Creation timestamp of the lot.",
@@ -106,6 +122,7 @@
     {
       "name": "updated_at",
       "dataType": "DateTime",
+      "valueType": "PV",
       "required": false,
       "category": "Timing",
       "description": "Last change of the lot; every writer sets it. Cursor of GET /material-lots?updated_since= (sim-v5, Welle 12).",
@@ -188,10 +205,17 @@
       "quantity": "MaterialLot.Quantity.QuantityString",
       "unit_of_measure": "MaterialLot.Quantity.UnitOfMeasure",
       "status": "MaterialLot.Status",
-      "location_ref": "MaterialLot.AssemblyType",
+      "location_ref": "MaterialLot.StorageLocation",
       "assembly_type": "MaterialLot.AssemblyType",
       "assembly_relationship": "MaterialLot.AssemblyRelationship"
-    }
+    },
+    "notInIsa95": [
+      "workorder_ref",
+      "job_order_ref",
+      "created_at",
+      "updated_at"
+    ],
+    "mappingNote": "B2MML MaterialLot names no producing order or job (the job names the lot through its material actual), and created_at / updated_at are technical timestamps of the source."
   },
   "kgNodeLabel": "MaterialLot",
   "kgIdProperty": "material_lot_no"

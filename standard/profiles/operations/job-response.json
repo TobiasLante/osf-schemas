@@ -1,0 +1,207 @@
+{
+  "profileId": "SMProfile-JobResponse",
+  "version": "1.0.0",
+  "standard": "CarToUNS",
+  "category": "business",
+  "displayName": "Job Response (actuals of a job order)",
+  "description": "ISA-95 Part 4 cl. 8 (work performance model) JobResponse: the actuals of one job order — when it ran, on which machine, with which tool, lots and person, by which work master. Its own key; the job order and the work response are reached through references.",
+  "parentType": null,
+  "abstract": false,
+  "properties": [
+    {
+      "name": "job_response_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the job response: its own number from the source system (MES). It is never built from other keys.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "work_response_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "The work response this job response is part of (PART_OF).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "job_order_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "The job order this response answers (RESPONDS_TO).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "work_master_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The work master the job ran by (FOR_WORK_MASTER).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "machine_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The machine (Equipment) the job ran on (ACTUAL_EQUIPMENT).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "material_lot_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The lot the job consumed or produced (ACTUAL_MATERIAL).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "tool_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The tool (physical asset) the job used (ACTUAL_PHYSICAL_ASSET).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "person_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The person who ran the job (ACTUAL_PERSONNEL) — the pseudonymous person_id, never a name.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "start_time",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "Actual start.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
+    },
+    {
+      "name": "end_time",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "Actual end.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
+    },
+    {
+      "name": "status",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Job state as the source names it (ISA-95 JobState).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "PART_OF",
+      "target": "WorkResponse",
+      "targetIdProp": "work_response_id",
+      "description": "The work response this job response is part of (ISA-95: WorkResponse MADE_UP_OF JobResponse)."
+    },
+    {
+      "type": "RESPONDS_TO",
+      "target": "JobOrder",
+      "targetIdProp": "job_order_no",
+      "description": "The job order this response answers (B2MML JobResponse.JobOrderID)."
+    },
+    {
+      "type": "FOR_WORK_MASTER",
+      "target": "WorkMaster",
+      "targetIdProp": "work_master_id",
+      "description": "The work master the job ran by (B2MML JobResponse.WorkMasterID)."
+    },
+    {
+      "type": "ACTUAL_EQUIPMENT",
+      "target": "Machine",
+      "targetIdProp": "element_id",
+      "description": "The machine the job ran on (B2MML EquipmentActual.EquipmentID)."
+    },
+    {
+      "type": "ACTUAL_MATERIAL",
+      "target": "MaterialLot",
+      "targetIdProp": "material_lot_no",
+      "description": "The lot the job consumed or produced (B2MML MaterialActual.MaterialLotID)."
+    },
+    {
+      "type": "ACTUAL_PHYSICAL_ASSET",
+      "target": "Tool",
+      "targetIdProp": "tool_id",
+      "description": "The tool the job used (B2MML PhysicalAssetActual.PhysicalAssetID)."
+    },
+    {
+      "type": "ACTUAL_PERSONNEL",
+      "target": "Person",
+      "targetIdProp": "person_id",
+      "description": "The person who ran the job (B2MML PersonnelActual.PersonID)."
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iso:62264-JobResponse"
+  ],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "JobResponse",
+    "part": 4,
+    "momDomain": "production",
+    "level": 3,
+    "note": "ISA-95 Part 4 cl. 8 JobResponse = the actuals of one JobOrder (the Part 4 actuals the job order waited for).",
+    "propertyMap": {
+      "job_response_id": "JobResponse.ID",
+      "job_order_ref": "JobResponse.JobOrderID",
+      "work_master_ref": "JobResponse.WorkMasterID",
+      "machine_ref": "JobResponse.EquipmentActual.EquipmentID",
+      "material_lot_ref": "JobResponse.MaterialActual.MaterialLotID",
+      "tool_ref": "JobResponse.PhysicalAssetActual.PhysicalAssetID",
+      "person_ref": "JobResponse.PersonnelActual.PersonID",
+      "start_time": "JobResponse.StartTime",
+      "end_time": "JobResponse.EndTime",
+      "status": "JobResponse.JobState"
+    },
+    "notInIsa95": [
+      "work_response_ref"
+    ],
+    "mappingNote": "B2MML carries the parent WorkResponse through the nesting of JobResponse in WorkResponse, not as a field."
+  },
+  "kgNodeLabel": "JobResponse",
+  "kgIdProperty": "job_response_id"
+}

@@ -1,13 +1,13 @@
 {
   "profileId": "SMProfile-SegmentResponse",
-  "version": "2.1.0",
-  "standard": "ISA-95",
+  "version": "3.0.0",
+  "standard": "CarToUNS",
   "category": "business",
   "displayName": "Segment Response (segment actuals per order)",
   "description": "Level-3 MOM SegmentResponse (ISA-95 Part 2 / B2MML OperationsResponse.SegmentResponse) = the actuals per manufacturing stage. Full text: docs/history/standard/profiles/operations/segment-response.md, description.",
   "parentType": null,
   "abstract": false,
-  "attributes": [
+  "properties": [
     {
       "name": "segment_response_no",
       "dataType": "String",
@@ -55,6 +55,7 @@
     {
       "name": "sequence",
       "dataType": "Int32",
+      "valueType": "MD",
       "required": false,
       "category": "Execution",
       "description": "Sequence of this segment within the order.",
@@ -76,6 +77,7 @@
     {
       "name": "material_use",
       "dataType": "String",
+      "valueType": "MD",
       "required": false,
       "category": "Execution",
       "description": "ISA-95 MaterialActual.MaterialUse — the ROLE of the material (actual). Mirrors the SegmentRequirement role.",
@@ -95,17 +97,18 @@
     {
       "name": "qty_actual",
       "dataType": "Double",
+      "valueType": "PV",
       "required": false,
       "category": "Execution",
       "description": "Actual quantity of this material role (actual). Counterpart to SegmentRequirement.qty_planned.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change",
-      "quality": { "onBad": "flag" }
+      "promotion": "on_change"
     },
     {
       "name": "unit_of_measure",
       "dataType": "String",
+      "valueType": "MD",
       "required": false,
       "category": "Execution",
       "description": "Unit of measure of qty_actual.",
@@ -122,40 +125,44 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
+      }
     },
     {
       "name": "actual_start_time",
       "dataType": "DateTime",
+      "valueType": "PV",
       "required": false,
       "category": "Timing",
       "description": "Actual stage start (actual).",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change",
-      "quality": { "onBad": "flag" }
+      "promotion": "on_change"
     },
     {
       "name": "actual_end_time",
       "dataType": "DateTime",
+      "valueType": "PV",
       "required": false,
       "category": "Timing",
       "description": "Actual stage end (actual).",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change",
-      "quality": { "onBad": "flag" }
+      "promotion": "on_change"
     },
     {
       "name": "status",
       "dataType": "String",
+      "valueType": "PV",
       "required": false,
       "category": "Core",
       "description": "Actual status of the stage (e.g. running, complete, aborted). Derived from the MES OrderState.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change",
-      "quality": { "onBad": "flag" }
+      "promotion": "on_change"
     },
     {
       "name": "qty_good",
@@ -167,10 +174,19 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "counter": { "semantics": "cumulative_resettable", "aggregation": "sum_of_positive_deltas" },
+      "counter": {
+        "semantics": "cumulative_resettable",
+        "aggregation": "sum_of_positive_deltas"
+      },
       "movedFrom": [
-        { "profileRef": "SMProfile-InjectionMoldingMachine", "attribute": "good" },
-        { "profileRef": "SMProfile-CNC-Machine", "attribute": "Act_Amount_PartGood" }
+        {
+          "profileRef": "SMProfile-InjectionMoldingMachine",
+          "attribute": "good"
+        },
+        {
+          "profileRef": "SMProfile-CNC-Machine",
+          "attribute": "Act_Amount_PartGood"
+        }
       ]
     },
     {
@@ -183,24 +199,40 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "counter": { "semantics": "cumulative_resettable", "aggregation": "sum_of_positive_deltas" },
+      "counter": {
+        "semantics": "cumulative_resettable",
+        "aggregation": "sum_of_positive_deltas"
+      },
       "movedFrom": [
-        { "profileRef": "SMProfile-InjectionMoldingMachine", "attribute": "scrap" },
-        { "profileRef": "SMProfile-CNC-Machine", "attribute": "Act_Amount_PartScrap" }
+        {
+          "profileRef": "SMProfile-InjectionMoldingMachine",
+          "attribute": "scrap"
+        },
+        {
+          "profileRef": "SMProfile-CNC-Machine",
+          "attribute": "Act_Amount_PartScrap"
+        }
       ]
     },
     {
       "name": "qty_total",
       "dataType": "Int32",
+      "valueType": "PV",
       "required": false,
       "category": "BDE",
       "description": "All parts (good + scrap) counted at the machine for the running order. Reported by the machine source through objects[] (owner 25.09.); history: docs/history/standard/profiles/operations/segment-response.md.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "counter": { "semantics": "cumulative_resettable", "aggregation": "sum_of_positive_deltas" },
+      "counter": {
+        "semantics": "cumulative_resettable",
+        "aggregation": "sum_of_positive_deltas"
+      },
       "movedFrom": [
-        { "profileRef": "SMProfile-InjectionMoldingMachine", "attribute": "total" }
+        {
+          "profileRef": "SMProfile-InjectionMoldingMachine",
+          "attribute": "total"
+        }
       ]
     },
     {
@@ -214,9 +246,19 @@
       "scope": "hub",
       "promotion": "on_change",
       "movedFrom": [
-        { "profileRef": "SMProfile-InjectionMoldingMachine", "attribute": "currentProgram" },
-        { "profileRef": "SMProfile-CNC-Machine", "attribute": "Act_Ref_Program" }
-      ]
+        {
+          "profileRef": "SMProfile-InjectionMoldingMachine",
+          "attribute": "currentProgram"
+        },
+        {
+          "profileRef": "SMProfile-CNC-Machine",
+          "attribute": "Act_Ref_Program"
+        }
+      ],
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
+      }
     },
     {
       "name": "tool_ref",
@@ -229,9 +271,19 @@
       "scope": "hub",
       "promotion": "on_change",
       "movedFrom": [
-        { "profileRef": "SMProfile-InjectionMoldingMachine", "attribute": "mouldId" },
-        { "profileRef": "SMProfile-CNC-Machine", "attribute": "Act_Ref_Tool" }
-      ]
+        {
+          "profileRef": "SMProfile-InjectionMoldingMachine",
+          "attribute": "mouldId"
+        },
+        {
+          "profileRef": "SMProfile-CNC-Machine",
+          "attribute": "Act_Ref_Tool"
+        }
+      ],
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
+      }
     },
     {
       "name": "qty_rework",
@@ -243,7 +295,10 @@
       "scope": "hub",
       "promotion": "on_change",
       "movedFrom": [
-        { "profileRef": "SMProfile-CNC-Machine", "attribute": "Act_Amount_PartRework" }
+        {
+          "profileRef": "SMProfile-CNC-Machine",
+          "attribute": "Act_Amount_PartRework"
+        }
       ]
     },
     {
@@ -256,7 +311,10 @@
       "scope": "hub",
       "promotion": "on_change",
       "movedFrom": [
-        { "profileRef": "SMProfile-CNC-Machine", "attribute": "Act_Ref_ProductionOrder" }
+        {
+          "profileRef": "SMProfile-CNC-Machine",
+          "attribute": "Act_Ref_ProductionOrder"
+        }
       ]
     },
     {
@@ -269,8 +327,15 @@
       "scope": "hub",
       "promotion": "on_change",
       "movedFrom": [
-        { "profileRef": "SMProfile-CNC-Machine", "attribute": "Act_Ref_Article" }
-      ]
+        {
+          "profileRef": "SMProfile-CNC-Machine",
+          "attribute": "Act_Ref_Article"
+        }
+      ],
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
+      }
     },
     {
       "name": "program_line",
@@ -282,7 +347,10 @@
       "scope": "hub",
       "promotion": "on_change",
       "movedFrom": [
-        { "profileRef": "SMProfile-CNC-Machine", "attribute": "Act_Ref_ProgramLine" }
+        {
+          "profileRef": "SMProfile-CNC-Machine",
+          "attribute": "Act_Ref_ProgramLine"
+        }
       ]
     },
     {
@@ -295,19 +363,58 @@
       "scope": "hub",
       "promotion": "on_change",
       "movedFrom": [
-        { "profileRef": "SMProfile-CNC-Machine", "attribute": "Act_Status_Program" }
+        {
+          "profileRef": "SMProfile-CNC-Machine",
+          "attribute": "Act_Status_Program"
+        }
       ]
+    },
+    {
+      "name": "source_quality",
+      "dataType": "String",
+      "required": false,
+      "enum": [
+        "GOOD",
+        "UNCERTAIN",
+        "BAD"
+      ],
+      "category": "Core",
+      "description": "Quality the source reported for this record: the worst OPC UA StatusCode (Good / Uncertain / Bad) of the fields the edge read for it. Left out when the source reports none (ERP REST). A field of the record, not the telemetry quality facet (learning T10).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
     }
   ],
   "relationships": [
-    { "type": "PART_OF", "target": "OperationsResponse", "targetIdProp": "production_order_no", "description": "The order actuals that contain these segment actuals." },
-    { "type": "RESPONDS_TO", "target": "SegmentRequirement", "targetIdProp": "segment_requirement_no", "description": "ISA-95 'corresponds to' — the target segment." },
-    { "type": "FOR_PROCESS_SEGMENT", "target": "ProcessSegment", "targetIdProp": "process_segment_no", "description": "The executed manufacturing stage (= plant = Function)." },
-    { "type": "ACTUAL_MATERIAL", "target": "MaterialLot", "targetIdProp": "material_lot_no", "description": "The material lot consumed/produced; role via material_use." },
+    {
+      "type": "PART_OF",
+      "target": "OperationsResponse",
+      "targetIdProp": "production_order_no",
+      "description": "The order actuals that contain these segment actuals."
+    },
+    {
+      "type": "RESPONDS_TO",
+      "target": "SegmentRequirement",
+      "targetIdProp": "segment_requirement_no",
+      "description": "ISA-95 'corresponds to' — the target segment."
+    },
+    {
+      "type": "FOR_PROCESS_SEGMENT",
+      "target": "ProcessSegment",
+      "targetIdProp": "process_segment_no",
+      "description": "The executed manufacturing stage (= plant = Function)."
+    },
+    {
+      "type": "ACTUAL_MATERIAL",
+      "target": "MaterialLot",
+      "targetIdProp": "material_lot_no",
+      "description": "The material lot consumed/produced; role via material_use."
+    },
     {
       "type": "ACTUAL_EQUIPMENT",
       "target": "Machine",
-      "targetIdProp": "machine_id",
+      "targetIdProp": "element_id",
       "description": "The equipment actually used (Machine ≡ Unit level, consolidation 2026-07-15 — the source fkColumn carries machine ids)."
     }
   ],
@@ -333,9 +440,29 @@
       "equipment_ref": "OperationsResponse.SegmentResponse.EquipmentActual.EquipmentID",
       "actual_start_time": "OperationsResponse.SegmentResponse.ActualStartTime",
       "actual_end_time": "OperationsResponse.SegmentResponse.ActualEndTime",
-      "status": "OperationsResponse.SegmentResponse.SegmentState"
-    }
+      "status": "OperationsResponse.SegmentResponse.SegmentState",
+      "unit_of_measure": "OperationsResponse.SegmentResponse.MaterialActual.Quantity.UnitOfMeasure",
+      "production_order_ref": "OperationsResponse.SegmentResponse.OperationsRequestID",
+      "article_ref": "OperationsResponse.SegmentResponse.MaterialActual.MaterialDefinitionID",
+      "tool_ref": "OperationsResponse.SegmentResponse.PhysicalAssetActual.PhysicalAssetID"
+    },
+    "notInIsa95": [
+      "sequence",
+      "qty_good",
+      "qty_scrap",
+      "qty_total",
+      "qty_rework",
+      "program_ref",
+      "program_line",
+      "program_status",
+      "source_quality"
+    ],
+    "mappingNote": "sequence is carried by B2MML through the order of SegmentResponse in OperationsResponse; B2MML has one quantity per material actual, no good/scrap/total/rework split, and no NC program, program line or program state. source_quality: data quality of the record as its source reported it; ISA-95 has no element for it."
   },
   "kgNodeLabel": "SegmentResponse",
-  "kgIdProperty": "segment_response_no"
+  "kgIdProperty": "segment_response_no",
+  "keyStability": {
+    "kind": "row-id",
+    "note": "production_order_no + operation_number are the ERP's own primary key of the confirmed operation row (erp-segment-responses primaryKeyColumns); the key moves only when the ERP row does."
+  }
 }

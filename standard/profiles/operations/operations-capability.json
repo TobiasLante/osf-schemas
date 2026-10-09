@@ -1,0 +1,210 @@
+{
+  "profileId": "SMProfile-OperationsCapability",
+  "version": "1.0.0",
+  "standard": "CarToUNS",
+  "category": "business",
+  "displayName": "Operations Capability (what the plant can do)",
+  "description": "ISA-95 Part 2 cl. 6.4 (operations capability model) OperationsCapability: what the plant can do, has committed or cannot do in a time window, for a segment, with which machine, material, tool and personnel.",
+  "parentType": null,
+  "abstract": false,
+  "properties": [
+    {
+      "name": "operations_capability_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the capability.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "name",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Description of the capability.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "capability_type",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 CapabilityType: Available, Committed or Unattainable.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
+    },
+    {
+      "name": "reason",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Why, as the source names it.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
+    },
+    {
+      "name": "start_time",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "Start of the window.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "SP"
+    },
+    {
+      "name": "end_time",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "End of the window.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "SP"
+    },
+    {
+      "name": "process_segment_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The process segment (CAPABILITY_FOR_PROCESS_SEGMENT).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "operations_segment_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The operations segment (CAPABILITY_FOR_OPERATIONS_SEGMENT).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "machine_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The machine (CAPABILITY_EQUIPMENT).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "material_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The article (material definition) (CAPABILITY_MATERIAL).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "tool_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The tool (CAPABILITY_PHYSICAL_ASSET).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "personnel_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The personnel class (CAPABILITY_PERSONNEL).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "CAPABILITY_FOR_PROCESS_SEGMENT",
+      "target": "ProcessSegment",
+      "targetIdProp": "process_segment_no",
+      "description": "B2MML ProcessSegmentCapability.ProcessSegmentID."
+    },
+    {
+      "type": "CAPABILITY_FOR_OPERATIONS_SEGMENT",
+      "target": "OperationsSegment",
+      "targetIdProp": "operations_segment_no",
+      "description": "B2MML OperationsSegmentCapability.OperationsSegmentID."
+    },
+    {
+      "type": "CAPABILITY_EQUIPMENT",
+      "target": "Machine",
+      "targetIdProp": "element_id",
+      "description": "B2MML EquipmentCapability.EquipmentID."
+    },
+    {
+      "type": "CAPABILITY_MATERIAL",
+      "target": "Article",
+      "targetIdProp": "article_no",
+      "description": "B2MML MaterialCapability.MaterialDefinitionID."
+    },
+    {
+      "type": "CAPABILITY_PHYSICAL_ASSET",
+      "target": "Tool",
+      "targetIdProp": "tool_id",
+      "description": "B2MML PhysicalAssetCapability.PhysicalAssetID."
+    },
+    {
+      "type": "CAPABILITY_PERSONNEL",
+      "target": "PersonnelClass",
+      "targetIdProp": "personnel_class_id",
+      "description": "B2MML PersonnelCapability.PersonnelClassID."
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iso:62264-OperationsCapability"
+  ],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "OperationsCapability",
+    "part": 2,
+    "momDomain": "production",
+    "level": 3,
+    "note": "ISA-95 Part 2 cl. 6.4-6.6 OperationsCapability. One target per capability edge (the grammar holds one B2MML path per edge and profile): Machine, Article, Tool, PersonnelClass.",
+    "propertyMap": {
+      "operations_capability_id": "OperationsCapability.ID",
+      "name": "OperationsCapability.Description",
+      "capability_type": "OperationsCapability.CapabilityType",
+      "reason": "OperationsCapability.Reason",
+      "start_time": "OperationsCapability.StartTime",
+      "end_time": "OperationsCapability.EndTime",
+      "process_segment_ref": "OperationsCapability.ProcessSegmentCapability.ProcessSegmentID",
+      "operations_segment_ref": "OperationsCapability.OperationsSegmentCapability.OperationsSegmentID",
+      "machine_ref": "OperationsCapability.EquipmentCapability.EquipmentID",
+      "material_ref": "OperationsCapability.MaterialCapability.MaterialDefinitionID",
+      "tool_ref": "OperationsCapability.PhysicalAssetCapability.PhysicalAssetID",
+      "personnel_class_ref": "OperationsCapability.PersonnelCapability.PersonnelClassID"
+    }
+  },
+  "kgNodeLabel": "OperationsCapability",
+  "kgIdProperty": "operations_capability_id"
+}

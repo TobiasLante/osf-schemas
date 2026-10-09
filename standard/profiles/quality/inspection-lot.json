@@ -1,13 +1,13 @@
 {
   "profileId": "SMProfile-InspectionLot",
   "version": "3.0.0",
-  "standard": "CESMII",
+  "standard": "CarToUNS",
   "category": "quality",
   "displayName": "Inspection Lot",
   "description": "next/ v4 — QMS inspection lot. Attributes aligned to the LIVE projection of source sim-v5-qms-inspections (article_ref/order_ref/state/decision), NOT the legacy base profile. Carries the ISA-95 quality mapping AND the deviation constraint (lot_rejected), evaluated centrally by it-evaluator.",
   "parentType": null,
   "abstract": false,
-  "attributes": [
+  "properties": [
     {
       "name": "lot_no",
       "valueType": "ID",
@@ -27,7 +27,11 @@
       "description": "Referenced production order (join key to ProductionOrder / CustomerOrder).",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
+      }
     },
     {
       "name": "article_ref",
@@ -47,11 +51,16 @@
       "category": "Link",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
+      }
     },
     {
       "name": "lot_type",
       "dataType": "String",
+      "valueType": "MD",
       "required": false,
       "category": "Core",
       "description": "e.g. final, RMA_RECEIPT.",
@@ -62,6 +71,7 @@
     {
       "name": "status",
       "dataType": "String",
+      "valueType": "PV",
       "required": false,
       "category": "Core",
       "description": "Lot status, e.g. open, closed.",
@@ -72,6 +82,7 @@
     {
       "name": "state",
       "dataType": "String",
+      "valueType": "PV",
       "required": false,
       "category": "Core",
       "enum": [
@@ -85,6 +96,7 @@
     {
       "name": "decision",
       "dataType": "String",
+      "valueType": "PV",
       "required": false,
       "category": "Core",
       "enum": [
@@ -100,6 +112,7 @@
     {
       "name": "quantity",
       "dataType": "Int32",
+      "valueType": "PV",
       "required": false,
       "category": "Core",
       "delivery": "transactional",
@@ -109,6 +122,7 @@
     {
       "name": "sample_size",
       "dataType": "Int32",
+      "valueType": "SP",
       "required": false,
       "category": "Core",
       "delivery": "transactional",
@@ -118,6 +132,7 @@
     {
       "name": "created_at",
       "dataType": "DateTime",
+      "valueType": "PV",
       "required": false,
       "category": "Timing",
       "delivery": "transactional",
@@ -171,9 +186,14 @@
     },
     "notInIsa95": [
       "order_ref",
-      "state"
+      "state",
+      "machine_ref",
+      "lot_type",
+      "status",
+      "quantity",
+      "sample_size"
     ],
-    "mappingNote": "TestResult carries no order and no workflow state; both are OSF joins on the lot."
+    "mappingNote": "TestResult carries no order and no workflow state; both are OSF joins on the lot. TestResult carries no equipment, lot type, lot status, lot quantity or sample size either."
   },
   "kgNodeLabel": "InspectionLot",
   "kgIdProperty": "lot_no"

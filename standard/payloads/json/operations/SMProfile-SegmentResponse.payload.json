@@ -2,9 +2,9 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-SegmentResponse.payload.json",
   "title": "SMProfile-SegmentResponse payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/operations/segment-response.json 2.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/operations/segment-response.json 3.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-SegmentResponse",
-  "x-profileVersion": "2.1.0",
+  "x-profileVersion": "3.0.0",
   "x-payloadVersion": "1.0.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
@@ -128,6 +128,15 @@
         "program_status": {
           "type": "string",
           "description": "The state of the running program (running, stopped, …). Reported by the machine source through objects[] (owner 25.09.); history: docs/history/standard/profiles/operations/segment-response.md."
+        },
+        "source_quality": {
+          "type": "string",
+          "enum": [
+            "GOOD",
+            "UNCERTAIN",
+            "BAD"
+          ],
+          "description": "Quality the source reported for this record: the worst OPC UA StatusCode (Good / Uncertain / Bad) of the fields the edge read for it. Left out when the source reports none (ERP REST). A field of the record, not the telemetry quality facet (learning T10)."
         }
       },
       "required": [
@@ -159,6 +168,7 @@
     "production_order_ref": "transactional",
     "article_ref": "transactional",
     "program_line": "transactional",
-    "program_status": "transactional"
+    "program_status": "transactional",
+    "source_quality": "transactional"
   }
 }

@@ -1,0 +1,124 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/quality/SMProfile-TestSpecification.payload.json",
+  "title": "SMProfile-TestSpecification payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/quality/test-specification.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-TestSpecification",
+  "x-profileVersion": "1.0.0",
+  "x-payloadVersion": "1.0.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "TestSpecification"
+    },
+    "profileRef": {
+      "const": "SMProfile-TestSpecification"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "test_specification_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the test specification."
+        },
+        "version": {
+          "type": "string",
+          "description": "Version of the specification as the source names it."
+        },
+        "name": {
+          "type": "string",
+          "description": "Description of the test."
+        },
+        "sample_size": {
+          "type": "number",
+          "x-unit": "C62",
+          "description": "How many samples a test takes."
+        },
+        "recurrence_interval_sec": {
+          "type": "number",
+          "x-unit": "SEC",
+          "description": "How often the test recurs."
+        },
+        "article_ref": {
+          "type": "string",
+          "description": "The tested object when it is an article (material definition) (TEST_FOR)."
+        },
+        "material_class_ref": {
+          "type": "string",
+          "description": "The tested object when it is a material class (TEST_FOR)."
+        },
+        "material_lot_ref": {
+          "type": "string",
+          "description": "The tested object when it is a lot (TEST_FOR)."
+        },
+        "machine_ref": {
+          "type": "string",
+          "description": "The tested object when it is a machine (Equipment) (TEST_FOR)."
+        },
+        "equipment_class_ref": {
+          "type": "string",
+          "description": "The tested object when it is an equipment class (TEST_FOR)."
+        },
+        "tool_ref": {
+          "type": "string",
+          "description": "The tested object when it is a tool (physical asset) (TEST_FOR)."
+        },
+        "person_ref": {
+          "type": "string",
+          "description": "The tested object when it is a person (pseudonymous id) (TEST_FOR)."
+        },
+        "personnel_class_ref": {
+          "type": "string",
+          "description": "The tested object when it is a personnel class (TEST_FOR)."
+        },
+        "process_segment_ref": {
+          "type": "string",
+          "description": "The tested object when it is a process segment (TEST_FOR)."
+        },
+        "operations_segment_ref": {
+          "type": "string",
+          "description": "The tested object when it is an operations segment (TEST_FOR)."
+        },
+        "work_master_ref": {
+          "type": "string",
+          "description": "The tested object when it is a work master (TEST_FOR)."
+        },
+        "parent_specification_ref": {
+          "type": "string",
+          "description": "The specification this one is a part of (PART_OF; ISA-95 TestSpecification MADE_UP_OF TestSpecification)."
+        }
+      },
+      "required": [
+        "test_specification_id"
+      ]
+    }
+  },
+  "x-delivery": {
+    "test_specification_id": "transactional",
+    "version": "transactional",
+    "name": "transactional",
+    "sample_size": "transactional",
+    "recurrence_interval_sec": "transactional",
+    "article_ref": "transactional",
+    "material_class_ref": "transactional",
+    "material_lot_ref": "transactional",
+    "machine_ref": "transactional",
+    "equipment_class_ref": "transactional",
+    "tool_ref": "transactional",
+    "person_ref": "transactional",
+    "personnel_class_ref": "transactional",
+    "process_segment_ref": "transactional",
+    "operations_segment_ref": "transactional",
+    "work_master_ref": "transactional",
+    "parent_specification_ref": "transactional"
+  }
+}

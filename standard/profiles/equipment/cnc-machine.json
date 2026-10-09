@@ -1,13 +1,13 @@
 {
   "profileId": "SMProfile-CNC-Machine",
   "version": "3.0.0",
-  "standard": "CESMII",
+  "standard": "CarToUNS",
   "category": "machine",
   "displayName": "CNC Machine",
   "description": "CNC machining center + constraints facet. Full text: docs/history/standard/profiles/equipment/cnc-machine.md, description.",
   "parentType": "Machine",
   "abstract": false,
-  "attributes": [
+  "properties": [
     {
       "name": "Act_Status_Machine",
       "dataType": "String",
@@ -52,9 +52,9 @@
       "name": "Plan_Time_Cycle",
       "dataType": "Float",
       "required": false,
-      "delivery": "telemetry",
+      "delivery": "transactional",
       "scope": "edge",
-      "promotion": "raw",
+      "promotion": "on_change",
       "valueType": "SP"
     },
     {
@@ -119,9 +119,9 @@
       "name": "Set_Speed_Spindle",
       "dataType": "Float",
       "required": false,
-      "delivery": "telemetry",
+      "delivery": "transactional",
       "scope": "edge",
-      "promotion": "raw",
+      "promotion": "on_change",
       "valueType": "SP"
     },
     {
@@ -157,9 +157,9 @@
       "name": "Set_Rate_Feed",
       "dataType": "Float",
       "required": false,
-      "delivery": "telemetry",
+      "delivery": "transactional",
       "scope": "edge",
-      "promotion": "raw",
+      "promotion": "on_change",
       "valueType": "SP"
     },
     {
@@ -185,9 +185,9 @@
       "name": "Set_Pos_AxisX",
       "dataType": "Float",
       "required": false,
-      "delivery": "telemetry",
+      "delivery": "transactional",
       "scope": "edge",
-      "promotion": "raw",
+      "promotion": "on_change",
       "valueType": "SP"
     },
     {
@@ -204,9 +204,9 @@
       "name": "Set_Pos_AxisY",
       "dataType": "Float",
       "required": false,
-      "delivery": "telemetry",
+      "delivery": "transactional",
       "scope": "edge",
-      "promotion": "raw",
+      "promotion": "on_change",
       "valueType": "SP"
     },
     {
@@ -223,9 +223,9 @@
       "name": "Set_Pos_AxisZ",
       "dataType": "Float",
       "required": false,
-      "delivery": "telemetry",
+      "delivery": "transactional",
       "scope": "edge",
-      "promotion": "raw",
+      "promotion": "on_change",
       "valueType": "SP"
     },
     {
@@ -353,7 +353,7 @@
   "constraints": [
     {
       "name": "spindle_load_control_limits",
-      "description": "Control limits (Warngrenze + Eingriffsgrenze) for spindle load %. Full text: docs/history/standard/profiles/equipment/cnc-machine.md, constraints › spindle_load_control_limits › description.",
+      "description": "Control limits (warning and action limits) for spindle load %. Full text: docs/history/standard/profiles/equipment/cnc-machine.md, constraints › spindle_load_control_limits › description.",
       "require": {
         "attr": "Act_Pct_SpindleLoad",
         "op": "within_limits",
@@ -388,7 +388,7 @@
     },
     {
       "name": "spindle_temp_control_limits",
-      "description": "Control limits (Warngrenze + Eingriffsgrenze) for spindle temperature degC. Full text: docs/history/standard/profiles/equipment/cnc-machine.md, constraints › spindle_temp_control_limits › description.",
+      "description": "Control limits (warning and action limits) for spindle temperature degC. Full text: docs/history/standard/profiles/equipment/cnc-machine.md, constraints › spindle_temp_control_limits › description.",
       "require": {
         "attr": "Act_Temp_Spindle",
         "op": "within_limits",
@@ -423,7 +423,7 @@
     },
     {
       "name": "spindle_power_control_limits",
-      "description": "Control limits (Warngrenze + Eingriffsgrenze) for active power kW. Full text: docs/history/standard/profiles/equipment/cnc-machine.md, constraints › spindle_power_control_limits › description.",
+      "description": "Control limits (warning and action limits) for active power kW. Full text: docs/history/standard/profiles/equipment/cnc-machine.md, constraints › spindle_power_control_limits › description.",
       "require": {
         "attr": "Act_Energy_Power",
         "op": "within_limits",
@@ -559,13 +559,48 @@
     "equipmentClass": "CNCMachine",
     "companionSpec": "OPC40077-CNC",
     "opcuaTypeDefinition": "CNC_MachineType",
-    "deviceClass": "CNC Machine"
+    "deviceClass": "CNC Machine",
+    "notInIsa95": [
+      "Act_Status_Machine",
+      "Act_Text_MachineMode",
+      "Act_Amount_Alarm",
+      "Plan_Time_Cycle",
+      "Act_Time_Cycle",
+      "Act_Energy_Power",
+      "Act_Energy_Total",
+      "Act_Ref_Shift",
+      "Act_Ref_Operator",
+      "Act_Speed_Spindle",
+      "Set_Speed_Spindle",
+      "Act_Pct_SpindleLoad",
+      "Act_Torque_Spindle",
+      "Act_Rate_Feed",
+      "Set_Rate_Feed",
+      "Act_Pct_FeedOverride",
+      "Act_Pos_AxisX",
+      "Set_Pos_AxisX",
+      "Act_Pos_AxisY",
+      "Set_Pos_AxisY",
+      "Act_Pos_AxisZ",
+      "Set_Pos_AxisZ",
+      "Act_Ref_ToolNumber",
+      "Act_Pct_ToolWear",
+      "Act_Time_ToolLifeRemaining",
+      "Act_State_InCycle",
+      "Act_Rate_CoolantFlow",
+      "Act_Temp_Coolant",
+      "Act_Pressure_Coolant",
+      "Act_Vibration_X",
+      "Act_Vibration_Y",
+      "Act_Vibration_Z",
+      "Act_Energy_PowerSpindle",
+      "Act_Energy_Cycle",
+      "Act_Temp_Spindle"
+    ],
+    "mappingNote": "These are live machine signals of the OPC UA CNC companion specification (status, cycle, spindle, axes, tool, coolant, energy, vibration). B2MML Equipment has no named field for them; a value would only sit in a generic EquipmentProperty."
   },
   "kgNodeLabel": "CNC_Machine",
   "kgIdProperty": "element_id",
-  "keyAliases": [
-    "machine_id"
-  ],
   "movedAttributes": [
     {
       "name": "Act_Amount_PartGood",

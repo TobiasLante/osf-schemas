@@ -1,13 +1,13 @@
 {
   "profileId": "SMProfile-ProductDefinition",
   "version": "2.0.0",
-  "standard": "ISA-95",
+  "standard": "CarToUNS",
   "category": "business",
   "displayName": "Product Definition (Recipe / SOLL master)",
   "description": "ISA-95 ProductDefinition = the recipe / SOLL master. Full text: docs/history/standard/profiles/operations/product-definition.md, description.",
   "parentType": null,
   "abstract": false,
-  "attributes": [
+  "properties": [
     {
       "name": "product_definition_no",
       "dataType": "String",
@@ -22,6 +22,7 @@
     {
       "name": "name",
       "dataType": "String",
+      "valueType": "MD",
       "required": false,
       "category": "Core",
       "description": "Display name of the product specification.",
@@ -32,6 +33,7 @@
     {
       "name": "version_label",
       "dataType": "String",
+      "valueType": "MD",
       "required": false,
       "category": "Core",
       "description": "Functional spec/recipe version (independent of the profile SemVer).",
@@ -42,6 +44,7 @@
     {
       "name": "status",
       "dataType": "String",
+      "valueType": "MD",
       "required": false,
       "category": "Core",
       "description": "Lifecycle status, e.g. draft, released, obsolete.",
@@ -54,11 +57,15 @@
       "dataType": "String",
       "required": false,
       "category": "Link",
-      "description": "FK to Article.article_no, reached via OperationsSegment SPECIFIES_MATERIAL. The article this spec defines — the FO/recipe join point. First binding axis.",
+      "description": "FK to Article.article_no, reached via OperationsSegment SPECIFIES_MATERIAL. The article this spec defines — the production order / recipe join point. First binding axis.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
+      }
     },
     {
       "name": "equipment_class_ref",
@@ -69,7 +76,11 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
+      }
     },
     {
       "name": "setup_ref",
@@ -80,14 +91,19 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
+      }
     },
     {
       "name": "param_name",
       "dataType": "String",
+      "valueType": "MD",
       "required": false,
       "category": "Core",
-      "description": "Name of the controlled product property (e.g. line_speed, produced_thickness, area_weight).",
+      "description": "Name of the controlled product property (e.g. a speed, a thickness or a weight per area).",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -95,6 +111,7 @@
     {
       "name": "target_value",
       "dataType": "Double",
+      "valueType": "SP",
       "required": false,
       "category": "Core",
       "description": "Target / SOLL setpoint of the property.",
@@ -105,9 +122,10 @@
     {
       "name": "warn_lo",
       "dataType": "Double",
+      "valueType": "LIM",
       "required": false,
       "category": "Planning",
-      "description": "Inner band lower limit — Warngrenze (warning tier).",
+      "description": "Inner band lower limit (warning tier).",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -115,9 +133,10 @@
     {
       "name": "warn_hi",
       "dataType": "Double",
+      "valueType": "LIM",
       "required": false,
       "category": "Planning",
-      "description": "Inner band upper limit — Warngrenze (warning tier).",
+      "description": "Inner band upper limit (warning tier).",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -125,9 +144,10 @@
     {
       "name": "action_lo",
       "dataType": "Double",
+      "valueType": "LIM",
       "required": false,
       "category": "Planning",
-      "description": "Outer band lower limit — Eingriffsgrenze (action tier).",
+      "description": "Outer band lower limit (action tier).",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -135,9 +155,10 @@
     {
       "name": "action_hi",
       "dataType": "Double",
+      "valueType": "LIM",
       "required": false,
       "category": "Planning",
-      "description": "Outer band upper limit — Eingriffsgrenze (action tier).",
+      "description": "Outer band upper limit (action tier).",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -145,6 +166,7 @@
     {
       "name": "unit",
       "dataType": "String",
+      "valueType": "MD",
       "required": false,
       "category": "Core",
       "description": "Unit of the property (UN/CEFACT code recommended).",
@@ -155,6 +177,7 @@
     {
       "name": "updated_at",
       "dataType": "DateTime",
+      "valueType": "PV",
       "required": false,
       "category": "Timing",
       "description": "Last change. Server-managed and volatile on every read (sim-v5 returns a fresh value per GET), so promotion:never — kept in the snapshot but excluded from the change-trigger and never published on its own.",
@@ -172,8 +195,28 @@
     "part": 2,
     "momDomain": "production",
     "level": 3,
-    "note": "ISA-95 ProductDefinition (MasterProductSpecification). Full text: docs/history/standard/profiles/operations/product-definition.md, isa95 › note.",
-    "mappingNote": "B2MML 0700 has no ProductDefinition object; the recipe is an OperationsDefinition."
+    "note": "ISA-95 2013: a product definition is an OperationsDefinition of type production. Full text: docs/history/standard/profiles/operations/product-definition.md, isa95 › note.",
+    "propertyMap": {
+      "product_definition_no": "OperationsDefinition.ID",
+      "name": "OperationsDefinition.Description",
+      "version_label": "OperationsDefinition.Version",
+      "article_ref": "OperationsDefinition.OperationsSegment.MaterialSpecification.MaterialDefinitionID",
+      "equipment_class_ref": "OperationsDefinition.OperationsSegment.EquipmentSpecification.EquipmentClassID"
+    },
+    "notInIsa95": [
+      "status",
+      "setup_ref",
+      "param_name",
+      "target_value",
+      "warn_lo",
+      "warn_hi",
+      "action_lo",
+      "action_hi",
+      "unit",
+      "updated_at"
+    ],
+    "mappingNote": "B2MML 0700 has no ProductDefinition object; the recipe is an OperationsDefinition. B2MML OperationsDefinition has no lifecycle status and no setup axis; the controlled property with its target and warning/action bands is no named B2MML field; updated_at is a technical timestamp of the source.",
+    "grain": "one parameter of a product definition: one row = one param_name of one definition (key <definition>.<param_name>)"
   },
   "kgNodeLabel": "ProductDefinition",
   "kgIdProperty": "product_definition_no"

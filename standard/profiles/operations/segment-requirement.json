@@ -1,13 +1,13 @@
 {
   "profileId": "SMProfile-SegmentRequirement",
-  "version": "2.0.0",
-  "standard": "ISA-95",
+  "version": "3.0.0",
+  "standard": "CarToUNS",
   "category": "business",
   "displayName": "Segment Requirement (segment target per order)",
   "description": "Level-3 MOM SegmentRequirement (ISA-95 Part 2 / B2MML OperationsRequest.SegmentRequirement) = the PLAN per manufacturing stage. Full text: docs/history/standard/profiles/operations/segment-requirement.md, description.",
   "parentType": null,
   "abstract": false,
-  "attributes": [
+  "properties": [
     {
       "name": "segment_requirement_no",
       "dataType": "String",
@@ -44,6 +44,7 @@
     {
       "name": "sequence",
       "dataType": "Int32",
+      "valueType": "MD",
       "required": false,
       "category": "Planning",
       "description": "Sequence of this segment within the order.",
@@ -60,11 +61,16 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
+      }
     },
     {
       "name": "material_use",
       "dataType": "String",
+      "valueType": "MD",
       "required": false,
       "category": "Core",
       "description": "ISA-95 MaterialRequirement.MaterialUse — the ROLE of the material in this stage. Encodes the 'Being Consumed/Produced/Tested/Moved'.",
@@ -84,6 +90,7 @@
     {
       "name": "qty_planned",
       "dataType": "Double",
+      "valueType": "SP",
       "required": false,
       "category": "Planning",
       "description": "Planned quantity of this material role (target). Counterpart to SegmentResponse.qty_actual.",
@@ -94,6 +101,7 @@
     {
       "name": "unit_of_measure",
       "dataType": "String",
+      "valueType": "MD",
       "required": false,
       "category": "Planning",
       "description": "Unit of measure of qty_planned (UN/CEFACT code recommended).",
@@ -110,11 +118,16 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
+      }
     },
     {
       "name": "planned_start_time",
       "dataType": "DateTime",
+      "valueType": "SP",
       "required": false,
       "category": "Timing",
       "description": "Planned stage start (target).",
@@ -125,6 +138,7 @@
     {
       "name": "planned_end_time",
       "dataType": "DateTime",
+      "valueType": "SP",
       "required": false,
       "category": "Timing",
       "description": "Planned stage end (target).",
@@ -155,7 +169,7 @@
     {
       "type": "REQUIRES_EQUIPMENT",
       "target": "Machine",
-      "targetIdProp": "machine_id",
+      "targetIdProp": "element_id",
       "description": "The target equipment of the stage (Machine ≡ Unit level, consolidation 2026-07-15 — the source fkColumn carries machine ids)."
     }
   ],
@@ -179,9 +193,18 @@
       "qty_planned": "OperationsRequest.SegmentRequirement.MaterialRequirement.Quantity",
       "equipment_ref": "OperationsRequest.SegmentRequirement.EquipmentRequirement.EquipmentID",
       "planned_start_time": "OperationsRequest.SegmentRequirement.EarliestStartTime",
-      "planned_end_time": "OperationsRequest.SegmentRequirement.LatestEndTime"
-    }
+      "planned_end_time": "OperationsRequest.SegmentRequirement.LatestEndTime",
+      "unit_of_measure": "OperationsRequest.SegmentRequirement.MaterialRequirement.Quantity.UnitOfMeasure"
+    },
+    "notInIsa95": [
+      "sequence"
+    ],
+    "mappingNote": "sequence is carried by B2MML through the order of SegmentRequirement in OperationsRequest, not as a field."
   },
   "kgNodeLabel": "SegmentRequirement",
-  "kgIdProperty": "segment_requirement_no"
+  "kgIdProperty": "segment_requirement_no",
+  "keyStability": {
+    "kind": "row-id",
+    "note": "production_order_no + operation_number are the ERP's own primary key of the operation row (erp-segment-requirements primaryKeyColumns); the key moves only when the ERP row does."
+  }
 }

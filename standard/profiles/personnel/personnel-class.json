@@ -1,0 +1,72 @@
+{
+  "profileId": "SMProfile-PersonnelClass",
+  "version": "1.0.0",
+  "standard": "CarToUNS",
+  "category": "business",
+  "displayName": "Personnel Class (role or skill group)",
+  "description": "ISA-95 Part 2 cl. 5.4 (personnel model) PersonnelClass: a group of persons with the same role or skill (e.g. setter, inspector). A class may include the properties of a broader class.",
+  "parentType": null,
+  "abstract": false,
+  "properties": [
+    {
+      "name": "personnel_class_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the personnel class.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "name",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Description of the class.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "parent_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The broader class whose properties this class includes (INCLUDES_PROPERTIES_OF).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "INCLUDES_PROPERTIES_OF",
+      "target": "PersonnelClass",
+      "targetIdProp": "personnel_class_id",
+      "description": "The broader personnel class (B2MML PersonnelClass.PersonnelClassBaseID)."
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iso:62264-PersonnelClass"
+  ],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "PersonnelClass",
+    "part": 2,
+    "momDomain": "production",
+    "level": 3,
+    "note": "ISA-95 Part 2 cl. 5.4 PersonnelClass; hierarchy by PersonnelClassBaseID (INCLUDES_PROPERTIES_OF).",
+    "propertyMap": {
+      "personnel_class_id": "PersonnelClass.ID",
+      "name": "PersonnelClass.Description",
+      "parent_class_ref": "PersonnelClass.PersonnelClassBaseID"
+    }
+  },
+  "kgNodeLabel": "PersonnelClass",
+  "kgIdProperty": "personnel_class_id"
+}

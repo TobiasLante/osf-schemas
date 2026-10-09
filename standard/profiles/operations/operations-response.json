@@ -1,13 +1,13 @@
 {
   "profileId": "SMProfile-OperationsResponse",
   "version": "2.3.0",
-  "standard": "CESMII",
+  "standard": "CarToUNS",
   "category": "business",
   "displayName": "Operations Response (production actuals / confirmation)",
   "description": "Level-3 MOM OperationsResponse = the manufacturing actuals (B2MML OperationsPerformance). Full text: docs/history/standard/profiles/operations/operations-response.md, description.",
   "parentType": "Response",
   "abstract": false,
-  "attributes": [
+  "properties": [
     {
       "name": "production_order_no",
       "dataType": "String",
@@ -28,7 +28,11 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
+      }
     },
     {
       "name": "machine_ref",
@@ -39,50 +43,49 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
+      }
     },
     {
       "name": "quantity_produced",
       "dataType": "Int32",
+      "valueType": "PV",
       "required": false,
       "category": "Execution",
       "description": "Piece count actually produced (actual). Counterpart to qty_planned.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change",
-      "quality": {
-        "onBad": "flag"
-      }
+      "promotion": "on_change"
     },
     {
       "name": "cycle_time_actual_sec",
       "dataType": "Double",
+      "valueType": "PV",
       "required": false,
       "category": "Execution",
       "description": "Actually measured cycle time per piece (s, actual).",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change",
-      "quality": {
-        "onBad": "flag"
-      }
+      "promotion": "on_change"
     },
     {
       "name": "actual_end_time",
       "dataType": "DateTime",
+      "valueType": "PV",
       "required": false,
       "category": "Timing",
       "description": "Actual completion time (actual). Counterpart to planned_end_time.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change",
-      "quality": {
-        "onBad": "flag"
-      }
+      "promotion": "on_change"
     },
     {
       "name": "status",
       "dataType": "String",
+      "valueType": "PV",
       "required": false,
       "category": "Core",
       "description": "Actual status of the confirmation. Full text: docs/history/standard/profiles/operations/operations-response.md, attributes › status › description.",
@@ -92,14 +95,12 @@
       ],
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change",
-      "quality": {
-        "onBad": "flag"
-      }
+      "promotion": "on_change"
     },
     {
       "name": "completed_at",
       "dataType": "DateTime",
+      "valueType": "PV",
       "required": false,
       "category": "Timing",
       "description": "Completion timestamp of the confirmation, if set.",
@@ -110,6 +111,7 @@
     {
       "name": "updated_at",
       "dataType": "DateTime",
+      "valueType": "PV",
       "required": false,
       "category": "Timing",
       "description": "Last change. Server-managed and volatile on every read (sim-v5 returns a fresh value per GET), so promotion:never — kept in the snapshot but excluded from the change-trigger and never published on its own.",
@@ -142,7 +144,13 @@
       "quantity_produced": "OperationsResponse.SegmentResponse.MaterialActual.Quantity",
       "actual_end_time": "OperationsResponse.EndTime",
       "status": "OperationsResponse.ResponseState"
-    }
+    },
+    "notInIsa95": [
+      "cycle_time_actual_sec",
+      "completed_at",
+      "updated_at"
+    ],
+    "mappingNote": "B2MML OperationsResponse has no cycle time; completed_at and updated_at are timestamps of the source (the end of the response is actual_end_time)."
   },
   "kgNodeLabel": "OperationsResponse",
   "kgIdProperty": "production_order_no"
