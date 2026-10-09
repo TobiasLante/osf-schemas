@@ -16,15 +16,7 @@
       "IMPLEMENTATION_OF"
     ]
   ],
-  "open": [
-    {
-      "type": "ASSEMBLED_FROM",
-      "inverseOf": [
-        "INCLUDES_PROPERTIES_OF"
-      ],
-      "reason": "Not inverses: both are self-edges of MaterialClass (ISA-95 Part 2 cl. 5.7). ASSEMBLED_FROM = composition (AssemblyClass), INCLUDES_PROPERTIES_OF = hierarchy (MaterialClassBaseID)."
-    }
-  ],
+  "open": [],
   "_isa95Note": "isa95: for every edge (type, from label) the B2MML field path that carries it, read from standard/validation/isa95-b2mml.json. forward = the path starts at the from object, reverse = at the to object. extension = ISA-95 has no such link, with the reason. derived = a shortcut through an intermediate object: the legs, each a path of the ISA-95 edge catalogue (standard/validation/isa95-edges.json) with its direction, in walking order from the from object. Checked by lint-isa95 and lint-isa95-edges (i3x-v5).",
   "isa95": {
     "RESPONDS_TO": {
@@ -90,10 +82,6 @@
     "DEFINED_BY": {
       "MaterialLot": {
         "path": "MaterialLot.MaterialDefinitionID",
-        "direction": "forward"
-      },
-      "Article": {
-        "path": "MaterialDefinition.MaterialClassID",
         "direction": "forward"
       }
     },
@@ -188,26 +176,6 @@
     "SPECIFIES_MATERIAL": {
       "OperationsSegment": {
         "path": "OperationsSegment.MaterialSpecification.MaterialDefinitionID",
-        "direction": "forward"
-      }
-    },
-    "INCLUDES_PROPERTIES_OF": {
-      "MaterialClass": {
-        "path": "MaterialClass.MaterialClassBaseID",
-        "direction": "forward"
-      }
-    },
-    "ASSEMBLED_FROM": {
-      "MaterialClass": {
-        "path": "MaterialClass.AssemblyClass",
-        "direction": "forward"
-      },
-      "Article": {
-        "path": "MaterialDefinition.AssemblyDefinition",
-        "direction": "forward"
-      },
-      "MaterialLot": {
-        "path": "MaterialLot.AssemblyLot",
         "direction": "forward"
       }
     }

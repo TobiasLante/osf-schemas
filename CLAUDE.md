@@ -5,7 +5,7 @@ You are working with the OSF schema repo. These rules are **binding** and take p
 ## The three laws
 
 1. **Read `contract.json` first.** It is the complete ontology contract of this repo: allowed node labels (with their key property) and allowed relationship triples, generated from `standard/profiles/**`. **Write nothing else into a knowledge graph.** Do not invent labels, do not invent edge types, do not use synonyms — `aliases` in the contract lists known wrong forms and their conformant replacement.
-2. **Node identity comes from the contract, never from the source.** Use the profile `kgNodeLabel` with the key property declared in `contract.nodes`. Source-local ids (`machineId`, `machineNo`, pool names, vendor strings) are attributes at most — never node identities. Mind `identity.openConflict` in the contract: the machine-key consolidation (`machine_id` vs `element_id`) is tracked there; do not mix both in one graph.
+2. **Node identity comes from the contract, never from the source.** Use the profile `kgNodeLabel` with the key property declared in `contract.nodes`. Source-local ids (`machineId`, `machineNo`, pool names, vendor strings) are attributes at most — never node identities. The machine key is `element_id` (see `identity` in the contract); `machine_id` is no key alias since core 3.0.0.
 3. **When something is missing: extend, don't improvise.** If a concept has no label in the contract, add or extend a profile in `standard/profiles/`, regenerate it with i3x-v5 `packages/schemas-ci/osf/gen-contract.mjs`, make i3x-v5 `packages/schemas-ci/check-next.sh <this tree>` pass (the required PR check `i3x-v5/check-next` runs it) — and only then write data.
 
 ## Working rules
