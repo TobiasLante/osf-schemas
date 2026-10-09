@@ -193,9 +193,18 @@
       "qty_planned": "OperationsRequest.SegmentRequirement.MaterialRequirement.Quantity",
       "equipment_ref": "OperationsRequest.SegmentRequirement.EquipmentRequirement.EquipmentID",
       "planned_start_time": "OperationsRequest.SegmentRequirement.EarliestStartTime",
-      "planned_end_time": "OperationsRequest.SegmentRequirement.LatestEndTime"
-    }
+      "planned_end_time": "OperationsRequest.SegmentRequirement.LatestEndTime",
+      "unit_of_measure": "OperationsRequest.SegmentRequirement.MaterialRequirement.Quantity.UnitOfMeasure"
+    },
+    "notInIsa95": [
+      "sequence"
+    ],
+    "mappingNote": "sequence is carried by B2MML through the order of SegmentRequirement in OperationsRequest, not as a field."
   },
   "kgNodeLabel": "SegmentRequirement",
-  "kgIdProperty": "segment_requirement_no"
+  "kgIdProperty": "segment_requirement_no",
+  "keyStability": {
+    "kind": "row-id",
+    "note": "production_order_no + operation_number are the ERP's own primary key of the operation row (erp-segment-requirements primaryKeyColumns); the key moves only when the ERP row does."
+  }
 }

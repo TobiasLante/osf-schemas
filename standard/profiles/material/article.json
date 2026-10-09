@@ -258,9 +258,21 @@
       "assembly_relationship": "MaterialDefinition.AssemblyRelationship"
     },
     "notInIsa95": [
-      "unit"
+      "unit",
+      "type",
+      "lead_time_days",
+      "abc_class",
+      "cost_hk",
+      "price_vk",
+      "currency",
+      "stock_free",
+      "stock_reserved",
+      "stock_blocked",
+      "stock_available",
+      "reorder_level",
+      "safety_stock"
     ],
-    "mappingNote": "The unit of a MaterialDefinition sits on its property or quantity in B2MML, not on the definition itself."
+    "mappingNote": "The unit of a MaterialDefinition sits on its property or quantity in B2MML, not on the definition itself. type, lead time, ABC class, cost, price, currency, stock figures, reorder level and safety stock are ERP article master and inventory fields; B2MML MaterialDefinition has no field for them."
   },
   "kgNodeLabel": "Article",
   "kgIdProperty": "article_no"

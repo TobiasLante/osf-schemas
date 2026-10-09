@@ -13,7 +13,7 @@
       "pathAtMachine": "{enterprise}/{site}/{area}/{line}/{machine}/{entity}",
       "sink": {
         "type": "nats",
-        "server": "nats://osf-nats-hub:4222",
+        "connectionRef": "hub",
         "stream": "FACTORY",
         "subjectPatterns": {
           "telemetry": "factory.{site}.{machine}.telemetry.{attr}",
@@ -35,7 +35,7 @@
       ],
       "sink": {
         "type": "nats",
-        "server": "nats://osf-nats-hub:4222",
+        "connectionRef": "hub",
         "stream": "BUSINESS",
         "subjectPatterns": {
           "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
