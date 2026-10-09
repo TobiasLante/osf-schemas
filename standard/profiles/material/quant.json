@@ -198,7 +198,20 @@
     "objectModel": "MaterialSubLot",
     "part": 2,
     "momDomain": "inventory",
-    "note": "Stock unit at the storage location = MaterialSublot (ISA-95 Part 2). Free/blocked (blocked) separates available from blocked stock for material availability (cross-domain ERP<->WMS, material_unavailable)."
+    "note": "Stock unit at the storage location = MaterialSublot (ISA-95 Part 2). Free/blocked (blocked) separates available from blocked stock for material availability (cross-domain ERP<->WMS, material_unavailable).",
+    "propertyMap": {
+      "quant_no": "MaterialSubLot.ID",
+      "storage_location": "MaterialSubLot.StorageLocation",
+      "quantity": "MaterialSubLot.Quantity.QuantityString",
+      "lot": "MaterialSubLot.MaterialLotID"
+    },
+    "notInIsa95": [
+      "article_ref",
+      "warehouse",
+      "blocked",
+      "updated_at"
+    ],
+    "mappingNote": "B2MML MaterialSubLot carries no material definition (that sits on its lot) and no warehouse; blocked is the WMS block flag, no B2MML field; updated_at is a technical timestamp of the source."
   },
   "kgNodeLabel": "Quant",
   "kgIdProperty": "quant_no"

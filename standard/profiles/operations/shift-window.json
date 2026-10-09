@@ -89,7 +89,12 @@
       "shift_id": "WorkCalendarEntry.ID",
       "start_time": "WorkCalendarEntry.StartDateTime",
       "end_time": "WorkCalendarEntry.FinishDateTime"
-    }
+    },
+    "notInIsa95": [
+      "day_of_week",
+      "break_minutes"
+    ],
+    "mappingNote": "B2MML WorkCalendarEntry has no weekday and no break time; a recurring pattern sits in WorkCalendarDefinitionEntry, which this profile does not model."
   },
   "kgNodeLabel": "ShiftWindow"
 }

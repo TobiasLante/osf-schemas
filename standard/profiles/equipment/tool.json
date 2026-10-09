@@ -84,7 +84,17 @@
     "part": 2,
     "momDomain": "production",
     "equipmentClass": "tooling",
-    "note": "ISA-95 PhysicalAsset (tooling). IMPLEMENTED_BY target of machine profiles; neutral replacement for 'Mould'."
+    "note": "ISA-95 PhysicalAsset (tooling). IMPLEMENTED_BY target of machine profiles; neutral replacement for 'Mould'.",
+    "propertyMap": {
+      "tool_id": "PhysicalAsset.ID",
+      "name": "PhysicalAsset.Description",
+      "unit_ref": "PhysicalAsset.EquipmentAssetMapping.EquipmentID"
+    },
+    "notInIsa95": [
+      "tool_type",
+      "parts_per_shot"
+    ],
+    "mappingNote": "tool_type is a free-text kind (mould, die, fixture), no PhysicalAssetClass of the model; parts_per_shot (cavity count) is no field of B2MML PhysicalAsset."
   },
   "kgNodeLabel": "Tool",
   "kgIdProperty": "tool_id"

@@ -51,7 +51,15 @@
     "part": 2,
     "momDomain": "production",
     "equipmentClass": "class",
-    "note": "ISA-95 EquipmentClass — SPECIFIES_EQUIPMENT target via OperationsSegment for ProductDefinition; classifies Units."
+    "note": "ISA-95 EquipmentClass — SPECIFIES_EQUIPMENT target via OperationsSegment for ProductDefinition; classifies Units.",
+    "propertyMap": {
+      "equipment_class_id": "EquipmentClass.ID",
+      "description": "EquipmentClass.Description"
+    },
+    "notInIsa95": [
+      "name"
+    ],
+    "mappingNote": "name: B2MML EquipmentClass has ID and Description only; the short display name has no element of its own (description maps to Description)."
   },
   "kgNodeLabel": "EquipmentClass",
   "kgIdProperty": "equipment_class_id"

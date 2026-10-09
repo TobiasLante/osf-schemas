@@ -264,12 +264,20 @@
       "machine_ref": "OperationsRequest.SegmentRequirement.EquipmentRequirement.EquipmentID",
       "qty_planned": "OperationsRequest.SegmentRequirement.MaterialRequirement.Quantity",
       "planned_end_time": "OperationsRequest.EndTime",
-      "status": "OperationsRequest.RequestState"
+      "status": "OperationsRequest.RequestState",
+      "quantity": "OperationsRequest.SegmentRequirement.MaterialRequirement.Quantity",
+      "priority": "OperationsRequest.Priority"
     },
     "notInIsa95": [
-      "sales_order_ref"
+      "sales_order_ref",
+      "department_ref",
+      "planned_start_time",
+      "cycle_time_planned_sec",
+      "dispatch_sequence",
+      "material_ready_at",
+      "updated_at"
     ],
-    "mappingNote": "sales_order_ref is the ERP key of the Level-4 customer order this OperationsRequest serves. ISA-95 Part 2 has no element for a business-level order on the OperationsRequest, so it is kept as a plain reference value, not mapped and not an edge (owner 25.09.: only ISA-95 edges; owner 06.10. round 4: the reference stays)."
+    "mappingNote": "sales_order_ref is the ERP key of the Level-4 customer order this OperationsRequest serves. ISA-95 Part 2 has no element for a business-level order on the OperationsRequest, so it is kept as a plain reference value, not mapped and not an edge (owner 25.09.: only ISA-95 edges; owner 06.10. round 4: the reference stays). department_ref is the ERP department (not an ISA-95 hierarchy element), planned_start_time is the start of the next open operation (not of the request), and cycle time, dispatch sequence and material-ready time are planning values of the source with no B2MML field; updated_at is a technical timestamp of the source."
   },
   "kgNodeLabel": "ProductionOrder",
   "kgIdProperty": "production_order_no",
