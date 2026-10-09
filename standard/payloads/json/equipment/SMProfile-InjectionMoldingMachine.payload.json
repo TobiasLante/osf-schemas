@@ -20,6 +20,7 @@
         "properties": {
           "attr": {
             "enum": [
+              "element_id",
               "machine_type",
               "status",
               "mode",
@@ -33,6 +34,8 @@
               "phaseName",
               "totalShots",
               "resin",
+              "dryerSetpointC",
+              "dryerResidenceTargetMin",
               "hopperRefillCount",
               "colourPurgeRemaining"
             ]
@@ -61,6 +64,7 @@
   "properties": {
     "attr": {
       "enum": [
+        "element_id",
         "machine_type",
         "status",
         "mode",
@@ -136,9 +140,7 @@
     "lifePercent",
     "powerKw",
     "dryerTempC",
-    "dryerSetpointC",
     "dryerResidenceMin",
-    "dryerResidenceTargetMin",
     "hopperFillPct",
     "hopperRefillThresholdPct",
     "regrindRatioPct",
@@ -149,6 +151,7 @@
     "barrelZone4TempC"
   ],
   "x-transactional": [
+    "element_id",
     "machine_type",
     "status",
     "mode",
@@ -162,10 +165,18 @@
     "phaseName",
     "totalShots",
     "resin",
+    "dryerSetpointC",
+    "dryerResidenceTargetMin",
     "hopperRefillCount",
     "colourPurgeRemaining"
   ],
   "x-signals": {
+    "element_id": {
+      "type": "string",
+      "delivery": "transactional",
+      "scope": "hub",
+      "description": "Identity of the machine: its i3X element id, the key (kgIdProperty) every machine profile inherits. ISA-95 Equipment.ID; it travels in the signal envelope."
+    },
     "machine_type": {
       "type": "string",
       "delivery": "transactional",
@@ -403,7 +414,7 @@
     "dryerSetpointC": {
       "type": "number",
       "unit": "CEL",
-      "delivery": "telemetry",
+      "delivery": "transactional",
       "scope": "edge",
       "description": "Resin dryer setpoint temperature."
     },
@@ -417,7 +428,7 @@
     "dryerResidenceTargetMin": {
       "type": "number",
       "unit": "MIN",
-      "delivery": "telemetry",
+      "delivery": "transactional",
       "scope": "edge",
       "description": "Target dryer residence time."
     },

@@ -258,6 +258,15 @@
             ],
             "default": null,
             "doc": "The state of the running program (running, stopped, …). Reported by the machine source through objects[] (owner 25.09.); history: docs/history/standard/profiles/operations/segment-response.md."
+          },
+          {
+            "name": "source_quality",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "Quality the source reported for this record: the worst OPC UA StatusCode (Good / Uncertain / Bad) of the fields the edge read for it. Left out when the source reports none (ERP REST). A field of the record, not the telemetry quality facet (learning T10)."
           }
         ]
       }
