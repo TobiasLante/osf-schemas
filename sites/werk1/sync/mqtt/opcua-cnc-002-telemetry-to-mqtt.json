@@ -1,6 +1,6 @@
 {
   "syncId": "opcua-cnc-002-telemetry-to-mqtt",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "syncType": "route",
   "description": "Route of opcua-cnc-002-telemetry (opcua) to mqtt — drafted by UNSaC; confirm it before you submit.",
   "profileRef": "SMProfile-CNC-Machine",
@@ -11,10 +11,10 @@
   },
   "sink": {
     "type": "mqtt",
-    "broker": "mqtt://192.168.178.99:1883",
     "topicPatterns": {
       "telemetry": "factory/{site}/{machine}/telemetry/{attr}",
       "transactional": "factory/{site}/{machine}/event/{attr}"
-    }
+    },
+    "connectionRef": "mqtt-99"
   }
 }
