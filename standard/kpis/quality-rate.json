@@ -1,6 +1,6 @@
 {
   "kpiId": "KPI-Quality-Rate",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "displayName": "Quality Rate",
   "description": "Percentage of good parts out of (good + scrap), computed live on the edge over the CURRENT counter values (IMM counters are cumulative_resettable — this is a since-last-reset ratio, not a shift window; windowed truth lives in … Full text: docs/history/standard/kpis/quality-rate.md, description.",
   "unit": "%",
@@ -83,5 +83,8 @@
   },
   "appliesTo": [
     "SMProfile-Machine"
-  ]
+  ],
+  "compute": {
+    "every": 5
+  }
 }
