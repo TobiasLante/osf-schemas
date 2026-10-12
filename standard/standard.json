@@ -1,5 +1,15 @@
 {
-  "_note": "The version of the standard in this tree (KONZEPT-EIN-GUSS §5). A standard release is tagged standard/<version>; W8-RENAME (ISA-95 edge names, aliases) makes it a major: 2.0.0. Core 3.0.0 (F3, F7, F11, MaterialItem: breaking, no transition) makes it a major again: 4.0.0. Core 3.1.0 (WorkMaster, WorkResponse, JobResponse, PersonnelClass, Person, OperationsEvent, WorkRecord, WorkRecordSpecification; TestSpecification, OperationsCapability; JobOrder.work_master_ref: additive) makes it a minor: 4.1.0. Core 3.2.0 (audit clean-up, owner 08.10.2026: every property mapped to ISA-95 or declared outside, setpoints transactional on_change, SMProfile-Machine declares element_id, source_quality on SegmentResponse, quality facet only on readings, the hub by connectionRef) makes it a minor: 4.2.0.",
-  "version": "4.2.0",
-  "grammar": "4.0.0"
+  "_note": "The version of the standard in this tree (KONZEPT-EIN-GUSS §5). A standard release is tagged standard/<version>; W8-RENAME (ISA-95 edge names, aliases) makes it a major: 2.0.0. Core 3.0.0 (F3, F7, F11, MaterialItem: breaking, no transition) makes it a major again: 4.0.0. Core 3.1.0 (WorkMaster, WorkResponse, JobResponse, PersonnelClass, Person, OperationsEvent, WorkRecord, WorkRecordSpecification; TestSpecification, OperationsCapability; JobOrder.work_master_ref: additive) makes it a minor: 4.1.0. Core 3.2.0 (audit clean-up, owner 08.10.2026: every property mapped to ISA-95 or declared outside, setpoints transactional on_change, SMProfile-Machine declares element_id, source_quality on SegmentResponse, quality facet only on readings, the hub by connectionRef) makes it a minor: 4.2.0. Core 4.0.0 (from core 3.2.0 = standard 4.2.0; 0.3.5: the stream split telemetry / transactional, own keys for segment requirement / segment response / operations response / shift window, deprecated = error, ISA-95 Parts 1, 2, 4, 5 complete: breaking) makes it a major: 5.0.0. Core 4.1.0 (from core 4.0.0 = standard 5.0.0; 0.5.2: ISA-88 as MESA BatchML 0701 proves it — 14 profiles under profiles/batch/, grammar 4.4.0 with the isa88 block and catalogue: additive, no existing profile, key or edge changed) makes it a minor: 5.1.0. Core 5.0.0 (from core 4.1.0 = standard 5.1.0; 0.6.0, owner 12.10.2026: SMProfile-CustomerOrder status in the B2MML RequestState vocabulary: breaking) makes it a major: 6.0.0.",
+  "_breakingNote": "The move record of this core (0.6.0; the move from core 4.1.0 = standard 5.1.0 to core 5.0.0 = standard 6.0.0): every breaking change by name, read by Versions (\"Breaking changes:\") and the move draft — never derived from the version number.",
+  "version": "6.0.0",
+  "grammar": "4.4.0",
+  "breaking": [
+    {
+      "id": "customer-order-status",
+      "text": "Customer order: status speaks the B2MML RequestState vocabulary (B2MML-Common.xsd RequestState1Type) instead of our own list — offen → Waiting, freigegeben → Released, in_arbeit → Running, fertig → Completed, abgeschlossen → Closed (a source maps storniert → Cancelled); every reader of status (rules, KPIs, flows, consumers) must follow, a source maps its values with valueMap.",
+      "profiles": [
+        "SMProfile-CustomerOrder"
+      ]
+    }
+  ]
 }

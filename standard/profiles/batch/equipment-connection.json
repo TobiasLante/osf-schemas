@@ -1,0 +1,126 @@
+{
+  "profileId": "SMProfile-EquipmentConnection",
+  "version": "1.0.0",
+  "standard": "CarToUNS",
+  "category": "business",
+  "displayName": "Equipment connection",
+  "description": "ISA-88 Part 2 (BatchML EquipmentConnection): a connection between two pieces of equipment, e.g. a material movement.",
+  "parentType": null,
+  "abstract": false,
+  "properties": [
+    {
+      "name": "equipment_connection_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the connection (BatchML EquipmentConnection.ID).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "description",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML EquipmentConnection.Description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "connection_type",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML ConnectionType.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD",
+      "enum": [
+        "MaterialMovement",
+        "Other"
+      ]
+    },
+    {
+      "name": "from_machine_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "BatchML EquipmentConnection.FromEquipmentID.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "to_machine_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "BatchML EquipmentConnection.ToEquipmentID.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "machine_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The equipment that holds the connection (BatchML nests it in EquipmentElement.EquipmentConnection).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "FROM_EQUIPMENT",
+      "target": "Machine",
+      "targetIdProp": "element_id",
+      "description": "Where the connection starts."
+    },
+    {
+      "type": "TO_EQUIPMENT",
+      "target": "Machine",
+      "targetIdProp": "element_id",
+      "description": "Where the connection ends."
+    },
+    {
+      "type": "PART_OF",
+      "target": "Machine",
+      "targetIdProp": "element_id",
+      "description": "The equipment that holds the connection."
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iec:61512-EquipmentConnection"
+  ],
+  "kpiRefs": [],
+  "isa88": {
+    "objectModel": "EquipmentConnection",
+    "part": 2,
+    "grain": "one connection from one piece of equipment to another",
+    "note": "ISA-88 Part 2 as MESA BatchML 0701 carries it (BatchML-BatchInformation.xsd EquipmentConnection). Core 4.1.0 (0.5.2, OPEN-0360, owner 09.10.2026).",
+    "propertyMap": {
+      "equipment_connection_id": "EquipmentConnection.ID",
+      "description": "EquipmentConnection.Description",
+      "connection_type": "EquipmentConnection.ConnectionType",
+      "from_machine_ref": "EquipmentConnection.FromEquipmentID",
+      "to_machine_ref": "EquipmentConnection.ToEquipmentID"
+    },
+    "notInBatchML": [
+      "machine_ref"
+    ],
+    "mappingNote": "Containment is PART_OF on the child with a reference to the parent (BatchML nests it in the EquipmentElement)."
+  },
+  "kgNodeLabel": "EquipmentConnection",
+  "kgIdProperty": "equipment_connection_id"
+}

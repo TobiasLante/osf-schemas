@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-WorkRecordSpecification",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Work Record Specification (template of a record)",
@@ -84,6 +84,28 @@
       "scope": "hub",
       "promotion": "on_change",
       "valueType": "ID"
+    },
+    {
+      "name": "record_object_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The key of the object this WorkRecordSpecification points at (any object, RECORDS); its profile in record_object_profile. Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "record_object_profile",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The profile (profileId or label) of the object in record_object_ref.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
     }
   ],
   "relationships": [
@@ -110,6 +132,12 @@
       "target": "WorkRecordSpecification",
       "targetIdProp": "work_record_specification_id",
       "description": "The parent specification (ISA-95: WorkRecordSpecification MADE_UP_OF WorkRecordSpecification)."
+    },
+    {
+      "type": "RECORDS",
+      "target": "*",
+      "targetProfileProp": "record_object_profile",
+      "description": "ISA-95 Part 4 cl. 15 (B2MML WorkRecordSpecification.WorkRecordEntryTemplate.InformationObject.<InformationObject>)."
     }
   ],
   "constraints": [],
@@ -129,12 +157,14 @@
       "name": "WorkRecordSpecification.Description",
       "machine_ref": "WorkRecordSpecification.EquipmentID",
       "material_lot_ref": "WorkRecordSpecification.MaterialLotID",
-      "material_ref": "WorkRecordSpecification.MaterialDefinitionID"
+      "material_ref": "WorkRecordSpecification.MaterialDefinitionID",
+      "record_object_ref": "WorkRecordSpecification.WorkRecordEntryTemplate.InformationObject.<InformationObject>"
     },
     "notInIsa95": [
-      "parent_specification_ref"
+      "parent_specification_ref",
+      "record_object_profile"
     ],
-    "mappingNote": "B2MML carries the parent specification through the nesting of WorkRecordSpecificationChild, not as a field."
+    "mappingNote": "B2MML carries the parent specification through the nesting of WorkRecordSpecificationChild, not as a field. record_object_profile names the profile of the object in record_object_ref (B2MML carries the object itself; P9-b)."
   },
   "kgNodeLabel": "WorkRecordSpecification",
   "kgIdProperty": "work_record_specification_id"

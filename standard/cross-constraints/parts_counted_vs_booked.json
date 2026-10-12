@@ -53,7 +53,7 @@
  },
  "right": {
   "profileRef": "SMProfile-OperationsResponse",
-  "joinKey": "production_order_no",
+  "joinKey": "production_order_ref",
   "attr": "quantity_produced",
   "$comment": "PLACEHOLDER — and knowingly the WRONG operand, which is why this rule is parked and not merely unfinished. quantity_produced cannot be attributed to a machine (blocker 1), so it cannot answer the left operand's question. The correct right operand is erp.order_operations.completed_qty keyed by machine_id, which has no profile because it has no ingestible source (blocker 3). This field is filled in only so the contract is well-formed and the linter can check it; it is never evaluated while parked:true."
  },

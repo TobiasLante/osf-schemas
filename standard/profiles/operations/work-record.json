@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-WorkRecord",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Work Record (record of what happened)",
@@ -117,6 +117,28 @@
       "scope": "hub",
       "promotion": "on_change",
       "valueType": "ID"
+    },
+    {
+      "name": "record_object_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The key of the object this WorkRecord points at (any object, RECORDS); its profile in record_object_profile. Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "record_object_profile",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The profile (profileId or label) of the object in record_object_ref.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
     }
   ],
   "relationships": [
@@ -149,6 +171,12 @@
       "target": "WorkRecord",
       "targetIdProp": "work_record_id",
       "description": "The parent record (ISA-95: WorkRecord MADE_UP_OF WorkRecord)."
+    },
+    {
+      "type": "RECORDS",
+      "target": "*",
+      "targetProfileProp": "record_object_profile",
+      "description": "ISA-95 Part 4 cl. 15 (B2MML WorkRecord.WorkRecordEntry.InformationObject.<InformationObject>)."
     }
   ],
   "constraints": [],
@@ -171,12 +199,14 @@
       "material_ref": "WorkRecord.MaterialDefinitionID",
       "record_time": "WorkRecord.RecordTimestamp",
       "effective_time": "WorkRecord.EffectiveTimestamp",
-      "status": "WorkRecord.RecordStatus"
+      "status": "WorkRecord.RecordStatus",
+      "record_object_ref": "WorkRecord.WorkRecordEntry.InformationObject.<InformationObject>"
     },
     "notInIsa95": [
-      "parent_record_ref"
+      "parent_record_ref",
+      "record_object_profile"
     ],
-    "mappingNote": "B2MML carries the parent record through the nesting of WorkRecordChild, not as a field."
+    "mappingNote": "B2MML carries the parent record through the nesting of WorkRecordChild, not as a field. record_object_profile names the profile of the object in record_object_ref (B2MML carries the object itself; P9-b)."
   },
   "kgNodeLabel": "WorkRecord",
   "kgIdProperty": "work_record_id"

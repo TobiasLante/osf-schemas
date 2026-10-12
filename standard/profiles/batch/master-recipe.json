@@ -1,0 +1,230 @@
+{
+  "profileId": "SMProfile-MasterRecipe",
+  "version": "1.0.0",
+  "standard": "CarToUNS",
+  "category": "business",
+  "displayName": "Master recipe",
+  "description": "ISA-88 Part 2 (BatchML MasterRecipe): the master recipe — header, batch size, state and approval.",
+  "parentType": null,
+  "abstract": false,
+  "properties": [
+    {
+      "name": "master_recipe_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the master recipe (BatchML MasterRecipe.ID).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "version",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML MasterRecipe.Version.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "version_date",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "BatchML MasterRecipe.VersionDate.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "SP"
+    },
+    {
+      "name": "description",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML MasterRecipe.Description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "article_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The product (BatchML Header.ProductID).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "product_name",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML Header.ProductName.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "batch_size_nominal",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML Header.BatchSize.Nominal.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "SP"
+    },
+    {
+      "name": "batch_size_min",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML Header.BatchSize.Min.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "LIM"
+    },
+    {
+      "name": "batch_size_max",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML Header.BatchSize.Max.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "LIM"
+    },
+    {
+      "name": "batch_size_unit",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML Header.BatchSize.UnitOfMeasure.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "status",
+      "dataType": "String",
+      "required": false,
+      "category": "Status",
+      "description": "Batch state (BatchML BatchStatus).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV",
+      "enum": [
+        "Idle",
+        "Running",
+        "Complete",
+        "Pausing",
+        "Paused",
+        "Holding",
+        "Held",
+        "Restarting",
+        "Stopping",
+        "Stopped",
+        "Aborting",
+        "Aborted",
+        "Other"
+      ]
+    },
+    {
+      "name": "effective_date",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "BatchML Header.EffectiveDate.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "SP"
+    },
+    {
+      "name": "expiration_date",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "BatchML Header.ExpirationDate.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "SP"
+    },
+    {
+      "name": "final_approval_date",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "BatchML ApprovalHistory.FinalApprovalDate.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "SP"
+    },
+    {
+      "name": "approval_version",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML ApprovalHistory.Version.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "FOR_PRODUCT",
+      "target": "Article",
+      "targetIdProp": "article_no",
+      "description": "The product of the recipe (BatchML Header.ProductID; BatchML does not type it as a MaterialDefinitionID)."
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iec:61512-MasterRecipe"
+  ],
+  "kpiRefs": [],
+  "isa88": {
+    "objectModel": "MasterRecipe",
+    "part": 2,
+    "grain": "one master recipe (its version is a property, as WorkMaster)",
+    "note": "ISA-88 Part 2 as MESA BatchML 0701 carries it (BatchML-BatchInformation.xsd MasterRecipe). Core 4.1.0 (0.5.2, OPEN-0360, owner 09.10.2026).",
+    "propertyMap": {
+      "master_recipe_id": "MasterRecipe.ID",
+      "version": "MasterRecipe.Version",
+      "version_date": "MasterRecipe.VersionDate",
+      "description": "MasterRecipe.Description",
+      "article_ref": "MasterRecipe.Header.ProductID",
+      "product_name": "MasterRecipe.Header.ProductName",
+      "batch_size_nominal": "MasterRecipe.Header.BatchSize.Nominal",
+      "batch_size_min": "MasterRecipe.Header.BatchSize.Min",
+      "batch_size_max": "MasterRecipe.Header.BatchSize.Max",
+      "batch_size_unit": "MasterRecipe.Header.BatchSize.UnitOfMeasure",
+      "status": "MasterRecipe.Header.Status",
+      "effective_date": "MasterRecipe.Header.EffectiveDate",
+      "expiration_date": "MasterRecipe.Header.ExpirationDate",
+      "final_approval_date": "MasterRecipe.Header.ApprovalHistory.FinalApprovalDate",
+      "approval_version": "MasterRecipe.Header.ApprovalHistory.Version"
+    }
+  },
+  "kgNodeLabel": "MasterRecipe",
+  "kgIdProperty": "master_recipe_id"
+}

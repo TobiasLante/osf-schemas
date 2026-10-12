@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-MaterialClass",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Material class",
@@ -70,6 +70,17 @@
         "Permanent",
         "Transient"
       ]
+    },
+    {
+      "name": "test_specification_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The TestSpecification (TESTED_BY; ISA-95 MaterialClass → TestSpecification). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
     }
   ],
   "relationships": [
@@ -84,6 +95,12 @@
       "target": "MaterialClass",
       "targetIdProp": "material_class_id",
       "description": "The classes this class is assembled from (B2MML MaterialClass.AssemblyClass, ISA-95 Part 2 cl. 5.7), e.g. PA66-GF30 from PA66 and glass fibre; one edge per component, delivered by the source."
+    },
+    {
+      "type": "TESTED_BY",
+      "target": "TestSpecification",
+      "targetIdProp": "test_specification_id",
+      "description": "ISA-95 Part 2 cl. 5.7 (B2MML MaterialClass.TestSpecificationID)."
     }
   ],
   "constraints": [],
@@ -102,7 +119,8 @@
       "name": "MaterialClass.Description",
       "parent_class_ref": "MaterialClass.MaterialClassBaseID",
       "assembly_type": "MaterialClass.AssemblyType",
-      "assembly_relationship": "MaterialClass.AssemblyRelationship"
+      "assembly_relationship": "MaterialClass.AssemblyRelationship",
+      "test_specification_ref": "MaterialClass.TestSpecificationID"
     }
   },
   "kgNodeLabel": "MaterialClass",

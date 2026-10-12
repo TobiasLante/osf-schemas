@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-PersonnelClass",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Personnel Class (role or skill group)",
@@ -40,6 +40,17 @@
       "scope": "hub",
       "promotion": "on_change",
       "valueType": "ID"
+    },
+    {
+      "name": "test_specification_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The TestSpecification (TESTED_BY; ISA-95 PersonnelClass → TestSpecification). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
     }
   ],
   "relationships": [
@@ -48,6 +59,12 @@
       "target": "PersonnelClass",
       "targetIdProp": "personnel_class_id",
       "description": "The broader personnel class (B2MML PersonnelClass.PersonnelClassBaseID)."
+    },
+    {
+      "type": "TESTED_BY",
+      "target": "TestSpecification",
+      "targetIdProp": "test_specification_id",
+      "description": "ISA-95 Part 2 cl. 5.4 (B2MML PersonnelClass.TestSpecificationID)."
     }
   ],
   "constraints": [],
@@ -64,7 +81,8 @@
     "propertyMap": {
       "personnel_class_id": "PersonnelClass.ID",
       "name": "PersonnelClass.Description",
-      "parent_class_ref": "PersonnelClass.PersonnelClassBaseID"
+      "parent_class_ref": "PersonnelClass.PersonnelClassBaseID",
+      "test_specification_ref": "PersonnelClass.TestSpecificationID"
     }
   },
   "kgNodeLabel": "PersonnelClass",
