@@ -1,6 +1,6 @@
 {
   "sourceId": "erp-customer-orders",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "sourceType": "rest",
   "syncType": "polling",
   "profileRef": "SMProfile-CustomerOrder",
@@ -43,7 +43,15 @@
     },
     {
       "column": "status",
-      "smAttribute": "status"
+      "smAttribute": "status",
+      "valueMap": {
+        "offen": "Waiting",
+        "freigegeben": "Released",
+        "in_arbeit": "Running",
+        "fertig": "Completed",
+        "abgeschlossen": "Closed",
+        "storniert": "Cancelled"
+      }
     },
     {
       "column": "prioritaet",

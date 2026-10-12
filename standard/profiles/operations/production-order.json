@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-ProductionOrder",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Production Order (manufacturing order / OperationsRequest — PLAN/target)",
@@ -207,6 +207,39 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "never"
+    },
+    {
+      "name": "operations_segment_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The OperationsSegment (FOR_OPERATIONS_SEGMENT; ISA-95 OperationsRequest → OperationsSegment). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "operations_schedule_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The OperationsSchedule this ProductionOrder is part of (PART_OF; ISA-95 OperationsSchedule MADE_UP_OF OperationsRequest). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "segment_response_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The SegmentResponse (REQUESTS_SEGMENT_RESPONSE; ISA-95 OperationsRequest → SegmentResponse). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
     }
   ],
   "relationships": [
@@ -221,6 +254,24 @@
       "target": "SegmentRequirement",
       "description": "v2.0 — Inverse of SegmentRequirement.PART_OF: the target segments per ProcessSegment.",
       "targetIdProp": "segment_requirement_no"
+    },
+    {
+      "type": "FOR_OPERATIONS_SEGMENT",
+      "target": "OperationsSegment",
+      "targetIdProp": "operations_segment_no",
+      "description": "ISA-95 Part 2 cl. 6.2 (B2MML OperationsRequest.OperationsSegmentID)."
+    },
+    {
+      "type": "PART_OF",
+      "target": "OperationsSchedule",
+      "targetIdProp": "operations_schedule_id",
+      "description": "ISA-95 Part 2 cl. 6.2 (B2MML OperationsSchedule.OperationsRequest)."
+    },
+    {
+      "type": "REQUESTS_SEGMENT_RESPONSE",
+      "target": "SegmentResponse",
+      "targetIdProp": "segment_response_no",
+      "description": "ISA-95 Part 2 cl. 6.2 (B2MML OperationsRequest.RequestedSegmentResponse)."
     }
   ],
   "constraints": [
@@ -265,11 +316,14 @@
       "qty_planned": "OperationsRequest.SegmentRequirement.MaterialRequirement.Quantity",
       "planned_end_time": "OperationsRequest.EndTime",
       "status": "OperationsRequest.RequestState",
+      "operations_segment_ref": "OperationsRequest.OperationsSegmentID",
+      "segment_response_ref": "OperationsRequest.RequestedSegmentResponse",
       "quantity": "OperationsRequest.SegmentRequirement.MaterialRequirement.Quantity",
       "priority": "OperationsRequest.Priority"
     },
     "notInIsa95": [
       "sales_order_ref",
+      "operations_schedule_ref",
       "department_ref",
       "planned_start_time",
       "cycle_time_planned_sec",
@@ -277,7 +331,7 @@
       "material_ready_at",
       "updated_at"
     ],
-    "mappingNote": "sales_order_ref is the ERP key of the Level-4 customer order this OperationsRequest serves. ISA-95 Part 2 has no element for a business-level order on the OperationsRequest, so it is kept as a plain reference value, not mapped and not an edge (owner 25.09.: only ISA-95 edges; owner 06.10. round 4: the reference stays). department_ref is the ERP department (not an ISA-95 hierarchy element), planned_start_time is the start of the next open operation (not of the request), and cycle time, dispatch sequence and material-ready time are planning values of the source with no B2MML field; updated_at is a technical timestamp of the source."
+    "mappingNote": "sales_order_ref is the ERP key of the Level-4 customer order this OperationsRequest serves. ISA-95 Part 2 has no element for a business-level order on the OperationsRequest, so it is kept as a plain reference value, not mapped and not an edge (owner 25.09.: only ISA-95 edges; owner 06.10. round 4: the reference stays). department_ref is the ERP department (not an ISA-95 hierarchy element), planned_start_time is the start of the next open operation (not of the request), and cycle time, dispatch sequence and material-ready time are planning values of the source with no B2MML field; updated_at is a technical timestamp of the source. Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent)."
   },
   "kgNodeLabel": "ProductionOrder",
   "kgIdProperty": "production_order_no",

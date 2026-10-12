@@ -1,9 +1,9 @@
 {
   "syncId": "opcua-to-nats-cnc-mtc-01",
   "mappingId": "opcua-to-nats-cnc-mtc-01",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "syncType": "polling",
-  "description": "Standard OSF OT edge \u2014 subscribes the Sonder-Edge OPC-UA server and publishes promoted signals to the suite NATS hub (FACTORY stream), one subject tree per delivery class (sink.subjectPatterns). Full text: docs/history/sites/werk1/sync/nats/opcua-to-nats-cnc-mtc-01.md, description.",
+  "description": "Standard OSF OT edge — subscribes the Sonder-Edge OPC-UA server and publishes promoted signals to the suite NATS hub (FACTORY stream), one subject tree per delivery class (sink.subjectPatterns). Full text: docs/history/sites/werk1/sync/nats/opcua-to-nats-cnc-mtc-01.md, description.",
   "profileRef": "SMProfile-CNC-Machine",
   "machineId": "cnc-mtc-01",
   "source": {
@@ -14,10 +14,13 @@
   "sink": {
     "type": "nats",
     "server": "nats://osf-nats-hub:4222",
+    "streams": {
+      "telemetry": "FACTORY_TELEMETRY",
+      "transactional": "FACTORY_TRANSACTIONAL"
+    },
     "subjectPatterns": {
       "telemetry": "factory.{site}.{machine}.telemetry.{attr}",
       "transactional": "factory.{site}.{machine}.event.{attr}"
-    },
-    "stream": "FACTORY"
+    }
   }
 }

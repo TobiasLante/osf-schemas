@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-Tool",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "standard": "CarToUNS",
   "category": "equipment",
   "displayName": "Tool (tooling / physical asset, e.g. mould)",
@@ -50,11 +50,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "refOnly",
-        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
-      }
+      "valueType": "ID"
     },
     {
       "name": "parts_per_shot",
@@ -66,6 +62,83 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
+    },
+    {
+      "name": "storage_location_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The StorageLocation (AT_LOCATION; ISA-95 PhysicalAsset → OperationalLocation). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "physical_asset_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The PhysicalAssetClass (DEFINED_BY; ISA-95 PhysicalAsset → PhysicalAssetClass). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "parent_tool_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The Tool this Tool is part of (PART_OF; ISA-95 PhysicalAsset MADE_UP_OF PhysicalAsset). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "test_specification_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The TestSpecification (TESTED_BY; ISA-95 PhysicalAsset → TestSpecification). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "spatial_definition",
+      "dataType": "String",
+      "required": false,
+      "category": "Location",
+      "description": "The spatial definition (ISA-95 Part 2 cl. 5.2): the location or shape as text in spatial_format. Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "spatial_format",
+      "dataType": "String",
+      "required": false,
+      "category": "Location",
+      "description": "The format of spatial_definition (e.g. WKT). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "spatial_srid",
+      "dataType": "String",
+      "required": false,
+      "category": "Location",
+      "description": "The spatial reference system of spatial_definition (SRID). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
     }
   ],
   "relationships": [
@@ -74,6 +147,30 @@
       "target": "Machine",
       "targetIdProp": "element_id",
       "description": "The machine the tool is currently set up on (Machine ≡ Unit level, consolidation 2026-07-15)."
+    },
+    {
+      "type": "AT_LOCATION",
+      "target": "StorageLocation",
+      "targetIdProp": "storage_location_id",
+      "description": "ISA-95 Part 2 cl. 5.6 (B2MML PhysicalAsset.PhysicalLocation)."
+    },
+    {
+      "type": "DEFINED_BY",
+      "target": "PhysicalAssetClass",
+      "targetIdProp": "physical_asset_class_id",
+      "description": "ISA-95 Part 2 cl. 5.6 (B2MML PhysicalAsset.PhysicalAssetClassID)."
+    },
+    {
+      "type": "PART_OF",
+      "target": "Tool",
+      "targetIdProp": "tool_id",
+      "description": "ISA-95 Part 2 cl. 5.6 (B2MML PhysicalAsset.PhysicalAssetChild)."
+    },
+    {
+      "type": "TESTED_BY",
+      "target": "TestSpecification",
+      "targetIdProp": "test_specification_id",
+      "description": "ISA-95 Part 2 cl. 5.6 (B2MML PhysicalAsset.TestSpecificationID)."
     }
   ],
   "constraints": [],
@@ -86,15 +183,22 @@
     "equipmentClass": "tooling",
     "note": "ISA-95 PhysicalAsset (tooling). IMPLEMENTED_BY target of machine profiles; neutral replacement for 'Mould'.",
     "propertyMap": {
+      "storage_location_ref": "PhysicalAsset.PhysicalLocation",
+      "physical_asset_class_ref": "PhysicalAsset.PhysicalAssetClassID",
+      "test_specification_ref": "PhysicalAsset.TestSpecificationID",
+      "spatial_definition": "PhysicalAsset.SpatialDefinition.Value",
+      "spatial_format": "PhysicalAsset.SpatialDefinition.Format",
+      "spatial_srid": "PhysicalAsset.SpatialDefinition.SRID",
       "tool_id": "PhysicalAsset.ID",
       "name": "PhysicalAsset.Description",
       "unit_ref": "PhysicalAsset.EquipmentAssetMapping.EquipmentID"
     },
     "notInIsa95": [
+      "parent_tool_ref",
       "tool_type",
       "parts_per_shot"
     ],
-    "mappingNote": "tool_type is a free-text kind (mould, die, fixture), no PhysicalAssetClass of the model; parts_per_shot (cavity count) is no field of B2MML PhysicalAsset."
+    "mappingNote": "tool_type is a free-text kind (mould, die, fixture), no PhysicalAssetClass of the model; parts_per_shot (cavity count) is no field of B2MML PhysicalAsset. Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent)."
   },
   "kgNodeLabel": "Tool",
   "kgIdProperty": "tool_id"

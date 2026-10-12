@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-OperationsDefinition",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Operations Definition (routing master data / master)",
@@ -81,9 +81,27 @@
         "kind": "refOnly",
         "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
       }
+    },
+    {
+      "name": "operations_material_bill_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The OperationsMaterialBill (HAS_MATERIAL_BILL; ISA-95 OperationsDefinition → OperationsMaterialBill). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
     }
   ],
-  "relationships": [],
+  "relationships": [
+    {
+      "type": "HAS_MATERIAL_BILL",
+      "target": "OperationsMaterialBill",
+      "targetIdProp": "operations_material_bill_id",
+      "description": "ISA-95 Part 2 cl. 6.1 (B2MML OperationsDefinition.OperationsMaterialBillID)."
+    }
+  ],
   "constraints": [],
   "semantics": [
     "iso:62264-OperationsDefinition",
@@ -100,7 +118,8 @@
       "operations_definition_no": "OperationsDefinition.ID",
       "name": "OperationsDefinition.Description",
       "version_label": "OperationsDefinition.Version",
-      "article_ref": "OperationsDefinition.OperationsMaterialBillID"
+      "article_ref": "OperationsDefinition.OperationsMaterialBillID",
+      "operations_material_bill_ref": "OperationsDefinition.OperationsMaterialBillID"
     },
     "notInIsa95": [
       "product_definition_ref",

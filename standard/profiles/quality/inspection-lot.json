@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-InspectionLot",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "standard": "CarToUNS",
   "category": "quality",
   "displayName": "Inspection Lot",
@@ -138,6 +138,17 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
+    },
+    {
+      "name": "parent_inspection_lot_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The InspectionLot this InspectionLot is part of (PART_OF; ISA-95 TestResult MADE_UP_OF TestResult). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
     }
   ],
   "relationships": [
@@ -145,6 +156,12 @@
       "type": "TESTS",
       "target": "Article",
       "targetIdProp": "article_no"
+    },
+    {
+      "type": "PART_OF",
+      "target": "InspectionLot",
+      "targetIdProp": "lot_no",
+      "description": "ISA-95 Part 2 cl. 5.9 (B2MML TestResult.TestResultChild)."
     }
   ],
   "constraints": [
@@ -187,13 +204,14 @@
     "notInIsa95": [
       "order_ref",
       "state",
+      "parent_inspection_lot_ref",
       "machine_ref",
       "lot_type",
       "status",
       "quantity",
       "sample_size"
     ],
-    "mappingNote": "TestResult carries no order and no workflow state; both are OSF joins on the lot. TestResult carries no equipment, lot type, lot status, lot quantity or sample size either."
+    "mappingNote": "TestResult carries no order and no workflow state; both are OSF joins on the lot. TestResult carries no equipment, lot type, lot status, lot quantity or sample size either. Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent)."
   },
   "kgNodeLabel": "InspectionLot",
   "kgIdProperty": "lot_no"

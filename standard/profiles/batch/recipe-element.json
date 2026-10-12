@@ -1,0 +1,233 @@
+{
+  "profileId": "SMProfile-RecipeElement",
+  "version": "1.0.0",
+  "standard": "CarToUNS",
+  "category": "business",
+  "displayName": "Recipe element",
+  "description": "ISA-88 Part 2 (BatchML RecipeElement): the procedural elements of a master or control recipe — one profile, the level is recipe_element_type.",
+  "parentType": null,
+  "abstract": false,
+  "properties": [
+    {
+      "name": "recipe_element_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the element (BatchML RecipeElement.ID).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "version",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML RecipeElement.Version.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "version_date",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "BatchML RecipeElement.VersionDate.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "SP"
+    },
+    {
+      "name": "description",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML RecipeElement.Description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "recipe_element_type",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "The level of the element (BatchML RecipeElementType).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD",
+      "enum": [
+        "Procedure",
+        "UnitRecipe",
+        "UnitProcedure",
+        "Operation",
+        "Phase",
+        "Allocation",
+        "Begin",
+        "End",
+        "RecipeSegment",
+        "Other"
+      ]
+    },
+    {
+      "name": "building_block_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The building block this element is built from (BatchML RecipeElement.BuildingBlockElementID).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "building_block_version",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML RecipeElement.BuildingBlockElementVersion.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "machine_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The equipment the element runs on (BatchML RecipeElement.ActualEquipmentID).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "status",
+      "dataType": "String",
+      "required": false,
+      "category": "Status",
+      "description": "Batch state (BatchML BatchStatus).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV",
+      "enum": [
+        "Idle",
+        "Running",
+        "Complete",
+        "Pausing",
+        "Paused",
+        "Holding",
+        "Held",
+        "Restarting",
+        "Stopping",
+        "Stopped",
+        "Aborting",
+        "Aborted",
+        "Other"
+      ]
+    },
+    {
+      "name": "master_recipe_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The master recipe whose procedure this element is part of (BatchML nests it in MasterRecipe.RecipeElement).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "control_recipe_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The control recipe whose procedure this element is part of (BatchML nests it in ControlRecipe.RecipeElement).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "parent_recipe_element_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The element this one is part of (BatchML nests RecipeElement in RecipeElement).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "PART_OF",
+      "target": "MasterRecipe",
+      "targetIdProp": "master_recipe_id",
+      "description": "The master recipe whose procedure this element is part of."
+    },
+    {
+      "type": "PART_OF",
+      "target": "ControlRecipe",
+      "targetIdProp": "control_recipe_id",
+      "description": "The control recipe whose procedure this element is part of."
+    },
+    {
+      "type": "PART_OF",
+      "target": "RecipeElement",
+      "targetIdProp": "recipe_element_id",
+      "description": "The element this one is part of."
+    },
+    {
+      "type": "BUILT_FROM",
+      "target": "RecipeElement",
+      "targetIdProp": "recipe_element_id",
+      "description": "The building block (a recipe element of a recipe building block) this element is built from."
+    },
+    {
+      "type": "ACTUAL_EQUIPMENT",
+      "target": "Machine",
+      "targetIdProp": "element_id",
+      "description": "The equipment the element runs on (BatchML RecipeElement.ActualEquipmentID)."
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iec:61512-RecipeElement"
+  ],
+  "kpiRefs": [],
+  "isa88": {
+    "objectModel": "RecipeElement",
+    "part": 2,
+    "grain": "one element of a recipe's procedure (procedure, unit procedure, operation, phase …)",
+    "note": "ISA-88 Part 2 as MESA BatchML 0701 carries it (BatchML-BatchInformation.xsd RecipeElement). Core 4.1.0 (0.5.2, OPEN-0360, owner 09.10.2026).",
+    "propertyMap": {
+      "recipe_element_id": "RecipeElement.ID",
+      "version": "RecipeElement.Version",
+      "version_date": "RecipeElement.VersionDate",
+      "description": "RecipeElement.Description",
+      "recipe_element_type": "RecipeElement.RecipeElementType",
+      "building_block_ref": "RecipeElement.BuildingBlockElementID",
+      "building_block_version": "RecipeElement.BuildingBlockElementVersion",
+      "machine_ref": "RecipeElement.ActualEquipmentID",
+      "status": "RecipeElement.Header.Status"
+    },
+    "notInBatchML": [
+      "master_recipe_ref",
+      "control_recipe_ref",
+      "parent_recipe_element_ref"
+    ],
+    "mappingNote": "Containment is PART_OF on the child with a reference to the parent (BatchML nests the child inside the parent)."
+  },
+  "kgNodeLabel": "RecipeElement",
+  "kgIdProperty": "recipe_element_id"
+}

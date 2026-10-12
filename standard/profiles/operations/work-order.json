@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-Workorder",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Workorder (order sub-lot / order index)",
@@ -73,6 +73,39 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
+    },
+    {
+      "name": "segment_requirement_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The SegmentRequirement (FOR_SEGMENT_REQUIREMENT; ISA-95 WorkRequest → SegmentRequirement). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "parent_workorder_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The Workorder this Workorder is part of (PART_OF; ISA-95 WorkRequest MADE_UP_OF WorkRequest). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "work_schedule_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The WorkSchedule this Workorder is part of (PART_OF; ISA-95 WorkSchedule MADE_UP_OF WorkRequest). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
     }
   ],
   "relationships": [
@@ -81,6 +114,24 @@
       "target": "ProductionOrder",
       "targetIdProp": "production_order_no",
       "description": "The ProductionOrder (OperationsRequest) that this Workorder subdivides."
+    },
+    {
+      "type": "FOR_SEGMENT_REQUIREMENT",
+      "target": "SegmentRequirement",
+      "targetIdProp": "segment_requirement_no",
+      "description": "ISA-95 Part 4 cl. 7 (B2MML WorkRequest.SegmentRequirementID)."
+    },
+    {
+      "type": "PART_OF",
+      "target": "Workorder",
+      "targetIdProp": "workorder_no",
+      "description": "ISA-95 Part 4 cl. 7 (B2MML WorkRequest.WorkRequestChild)."
+    },
+    {
+      "type": "PART_OF",
+      "target": "WorkSchedule",
+      "targetIdProp": "work_schedule_id",
+      "description": "ISA-95 Part 4 cl. 7 (B2MML WorkSchedule.WorkRequest)."
     }
   ],
   "constraints": [],
@@ -98,13 +149,16 @@
       "workorder_no": "WorkRequest.ID",
       "production_order_ref": "WorkRequest.OperationsRequestID",
       "status": "WorkRequest.RequestState",
+      "segment_requirement_ref": "WorkRequest.SegmentRequirementID",
       "planned_start_time": "WorkRequest.StartTime",
       "planned_end_time": "WorkRequest.EndTime"
     },
     "notInIsa95": [
-      "order_index"
+      "order_index",
+      "parent_workorder_ref",
+      "work_schedule_ref"
     ],
-    "mappingNote": "order_index is the slot of the Workorder within its production order, no WorkRequest.WorkType. Actuals are reported per order and operation (Part 2 SegmentResponse); Part 4 actuals need a source keyed by job."
+    "mappingNote": "order_index is the slot of the Workorder within its production order, no WorkRequest.WorkType. Actuals are reported per order and operation (Part 2 SegmentResponse); Part 4 actuals need a source keyed by job. Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent)."
   },
   "kgNodeLabel": "Workorder",
   "kgIdProperty": "workorder_no"
