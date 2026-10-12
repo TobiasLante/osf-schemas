@@ -2,7 +2,7 @@
   "type": "record",
   "name": "OperationsDefinition",
   "namespace": "org.openshopfloor.payload.operations",
-  "doc": "GENERATED from standard/profiles/operations/operations-definition.json 3.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "doc": "GENERATED from standard/profiles/operations/operations-definition.json 3.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
   "fields": [
     {
       "name": "eventType",
@@ -46,7 +46,58 @@
     {
       "name": "profileVersion",
       "type": "string",
-      "default": "3.0.0"
+      "default": "3.1.0"
+    },
+    {
+      "name": "b2m",
+      "type": [
+        "null",
+        {
+          "type": "record",
+          "name": "B2M",
+          "fields": [
+            {
+              "name": "verb",
+              "type": {
+                "type": "enum",
+                "name": "B2MVerb",
+                "symbols": [
+                  "GET",
+                  "SHOW",
+                  "PROCESS",
+                  "ACKNOWLEDGE",
+                  "CHANGE",
+                  "RESPOND",
+                  "CANCEL",
+                  "CONFIRM",
+                  "SYNC"
+                ]
+              }
+            },
+            {
+              "name": "actionCode",
+              "type": [
+                "null",
+                {
+                  "type": "enum",
+                  "name": "B2MActionCode",
+                  "symbols": [
+                    "Add",
+                    "Change",
+                    "Delete",
+                    "Replaced",
+                    "Accepted",
+                    "Modified",
+                    "Rejected"
+                  ]
+                }
+              ],
+              "default": null
+            }
+          ]
+        }
+      ],
+      "default": null
     },
     {
       "name": "data",
@@ -103,6 +154,15 @@
             ],
             "default": null,
             "doc": "FK to ProductDefinition.product_definition_no (the reference lives in this key, no ISA-95 edge — owner 25.09.). The target-parameter / recipe binding of the article."
+          },
+          {
+            "name": "operations_material_bill_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The OperationsMaterialBill (HAS_MATERIAL_BILL; ISA-95 OperationsDefinition → OperationsMaterialBill). Optional."
           }
         ]
       }

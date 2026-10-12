@@ -1,0 +1,125 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/batch/SMProfile-RecipeElement.payload.json",
+  "title": "SMProfile-RecipeElement payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/batch/recipe-element.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-RecipeElement",
+  "x-profileVersion": "1.0.0",
+  "x-payloadVersion": "1.1.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "RecipeElement"
+    },
+    "profileRef": {
+      "const": "SMProfile-RecipeElement"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "recipe_element_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the element (BatchML RecipeElement.ID)."
+        },
+        "version": {
+          "type": "string",
+          "description": "BatchML RecipeElement.Version."
+        },
+        "version_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "BatchML RecipeElement.VersionDate."
+        },
+        "description": {
+          "type": "string",
+          "description": "BatchML RecipeElement.Description."
+        },
+        "recipe_element_type": {
+          "type": "string",
+          "enum": [
+            "Procedure",
+            "UnitRecipe",
+            "UnitProcedure",
+            "Operation",
+            "Phase",
+            "Allocation",
+            "Begin",
+            "End",
+            "RecipeSegment",
+            "Other"
+          ],
+          "description": "The level of the element (BatchML RecipeElementType)."
+        },
+        "building_block_ref": {
+          "type": "string",
+          "description": "The building block this element is built from (BatchML RecipeElement.BuildingBlockElementID)."
+        },
+        "building_block_version": {
+          "type": "string",
+          "description": "BatchML RecipeElement.BuildingBlockElementVersion."
+        },
+        "machine_ref": {
+          "type": "string",
+          "description": "The equipment the element runs on (BatchML RecipeElement.ActualEquipmentID)."
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "Idle",
+            "Running",
+            "Complete",
+            "Pausing",
+            "Paused",
+            "Holding",
+            "Held",
+            "Restarting",
+            "Stopping",
+            "Stopped",
+            "Aborting",
+            "Aborted",
+            "Other"
+          ],
+          "description": "Batch state (BatchML BatchStatus)."
+        },
+        "master_recipe_ref": {
+          "type": "string",
+          "description": "The master recipe whose procedure this element is part of (BatchML nests it in MasterRecipe.RecipeElement)."
+        },
+        "control_recipe_ref": {
+          "type": "string",
+          "description": "The control recipe whose procedure this element is part of (BatchML nests it in ControlRecipe.RecipeElement)."
+        },
+        "parent_recipe_element_ref": {
+          "type": "string",
+          "description": "The element this one is part of (BatchML nests RecipeElement in RecipeElement)."
+        }
+      },
+      "required": [
+        "recipe_element_id"
+      ]
+    }
+  },
+  "x-delivery": {
+    "recipe_element_id": "transactional",
+    "version": "transactional",
+    "version_date": "transactional",
+    "description": "transactional",
+    "recipe_element_type": "transactional",
+    "building_block_ref": "transactional",
+    "building_block_version": "transactional",
+    "machine_ref": "transactional",
+    "status": "transactional",
+    "master_recipe_ref": "transactional",
+    "control_recipe_ref": "transactional",
+    "parent_recipe_element_ref": "transactional"
+  }
+}

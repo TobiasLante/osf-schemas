@@ -1,0 +1,63 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/batch/SMProfile-BatchList.payload.json",
+  "title": "SMProfile-BatchList payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/batch/batch-list.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-BatchList",
+  "x-profileVersion": "1.0.0",
+  "x-payloadVersion": "1.1.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "BatchList"
+    },
+    "profileRef": {
+      "const": "SMProfile-BatchList"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "batch_list_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the list (BatchML ListHeader.ID)."
+        },
+        "version": {
+          "type": "string",
+          "description": "BatchML ListHeader.Version."
+        },
+        "description": {
+          "type": "string",
+          "description": "BatchML BatchList.Description."
+        },
+        "origin": {
+          "type": "string",
+          "description": "BatchML ListHeader.Origin."
+        },
+        "create_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "BatchML ListHeader.CreateDate."
+        }
+      },
+      "required": [
+        "batch_list_id"
+      ]
+    }
+  },
+  "x-delivery": {
+    "batch_list_id": "transactional",
+    "version": "transactional",
+    "description": "transactional",
+    "origin": "transactional",
+    "create_date": "transactional"
+  }
+}

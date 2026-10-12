@@ -1,0 +1,85 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-OperationsEventClass.payload.json",
+  "title": "SMProfile-OperationsEventClass payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/operations/operations-event-class.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-OperationsEventClass",
+  "x-profileVersion": "1.0.0",
+  "x-payloadVersion": "1.1.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "OperationsEventClass"
+    },
+    "profileRef": {
+      "const": "SMProfile-OperationsEventClass"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "operations_event_class_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the operations event class: its own id from the source system (ISA-95 OperationsEventClass.ID)."
+        },
+        "description": {
+          "type": "string",
+          "description": "ISA-95 OperationsEventClass.Description."
+        },
+        "version": {
+          "type": "string",
+          "description": "ISA-95 OperationsEventClass.Version."
+        },
+        "published_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISA-95 OperationsEventClass.PublishedDate."
+        },
+        "effective_start": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISA-95 OperationsEventClass.EffectiveStartDate."
+        },
+        "effective_end": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISA-95 OperationsEventClass.EffectiveEndDate."
+        },
+        "hierarchy_scope_ref": {
+          "type": "string",
+          "description": "The element of the role-based equipment hierarchy this object belongs to (ISA-95 Part 2 cl. 5.1 hierarchy scope, IN_SCOPE_OF). Optional."
+        },
+        "base_operations_event_class_ref": {
+          "type": "string",
+          "description": "The OperationsEventClass (INCLUDES_PROPERTIES_OF; ISA-95 OperationsEventClass → OperationsEventClass). Optional."
+        },
+        "parent_operations_event_class_ref": {
+          "type": "string",
+          "description": "The OperationsEventClass this OperationsEventClass is part of (PART_OF; ISA-95 OperationsEventClass MADE_UP_OF OperationsEventClass). Optional."
+        }
+      },
+      "required": [
+        "operations_event_class_id"
+      ]
+    }
+  },
+  "x-delivery": {
+    "operations_event_class_id": "transactional",
+    "description": "transactional",
+    "version": "transactional",
+    "published_date": "transactional",
+    "effective_start": "transactional",
+    "effective_end": "transactional",
+    "hierarchy_scope_ref": "transactional",
+    "base_operations_event_class_ref": "transactional",
+    "parent_operations_event_class_ref": "transactional"
+  }
+}

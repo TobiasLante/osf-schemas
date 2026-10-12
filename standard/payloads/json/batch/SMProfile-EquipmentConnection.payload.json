@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/batch/SMProfile-EquipmentConnection.payload.json",
+  "title": "SMProfile-EquipmentConnection payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/batch/equipment-connection.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-EquipmentConnection",
+  "x-profileVersion": "1.0.0",
+  "x-payloadVersion": "1.1.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "EquipmentConnection"
+    },
+    "profileRef": {
+      "const": "SMProfile-EquipmentConnection"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "equipment_connection_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the connection (BatchML EquipmentConnection.ID)."
+        },
+        "description": {
+          "type": "string",
+          "description": "BatchML EquipmentConnection.Description."
+        },
+        "connection_type": {
+          "type": "string",
+          "enum": [
+            "MaterialMovement",
+            "Other"
+          ],
+          "description": "BatchML ConnectionType."
+        },
+        "from_machine_ref": {
+          "type": "string",
+          "description": "BatchML EquipmentConnection.FromEquipmentID."
+        },
+        "to_machine_ref": {
+          "type": "string",
+          "description": "BatchML EquipmentConnection.ToEquipmentID."
+        },
+        "machine_ref": {
+          "type": "string",
+          "description": "The equipment that holds the connection (BatchML nests it in EquipmentElement.EquipmentConnection)."
+        }
+      },
+      "required": [
+        "equipment_connection_id"
+      ]
+    }
+  },
+  "x-delivery": {
+    "equipment_connection_id": "transactional",
+    "description": "transactional",
+    "connection_type": "transactional",
+    "from_machine_ref": "transactional",
+    "to_machine_ref": "transactional",
+    "machine_ref": "transactional"
+  }
+}

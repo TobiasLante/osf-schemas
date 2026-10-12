@@ -1,0 +1,125 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/batch/SMProfile-ControlRecipe.payload.json",
+  "title": "SMProfile-ControlRecipe payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/batch/control-recipe.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-ControlRecipe",
+  "x-profileVersion": "1.0.0",
+  "x-payloadVersion": "1.1.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "ControlRecipe"
+    },
+    "profileRef": {
+      "const": "SMProfile-ControlRecipe"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "control_recipe_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the control recipe (BatchML ControlRecipe.ID)."
+        },
+        "version": {
+          "type": "string",
+          "description": "BatchML ControlRecipe.Version."
+        },
+        "version_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "BatchML ControlRecipe.VersionDate."
+        },
+        "description": {
+          "type": "string",
+          "description": "BatchML ControlRecipe.Description."
+        },
+        "batch_id": {
+          "type": "string",
+          "description": "The batch id (BatchML ControlRecipe.BatchID — a value; BatchML has no batch object it points to)."
+        },
+        "article_ref": {
+          "type": "string",
+          "description": "The product (BatchML Header.ProductID)."
+        },
+        "product_name": {
+          "type": "string",
+          "description": "BatchML Header.ProductName."
+        },
+        "batch_size_nominal": {
+          "type": "string",
+          "description": "BatchML Header.BatchSize.Nominal."
+        },
+        "batch_size_min": {
+          "type": "string",
+          "description": "BatchML Header.BatchSize.Min."
+        },
+        "batch_size_max": {
+          "type": "string",
+          "description": "BatchML Header.BatchSize.Max."
+        },
+        "batch_size_unit": {
+          "type": "string",
+          "description": "BatchML Header.BatchSize.UnitOfMeasure."
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "Idle",
+            "Running",
+            "Complete",
+            "Pausing",
+            "Paused",
+            "Holding",
+            "Held",
+            "Restarting",
+            "Stopping",
+            "Stopped",
+            "Aborting",
+            "Aborted",
+            "Other"
+          ],
+          "description": "Batch state (BatchML BatchStatus)."
+        },
+        "effective_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "BatchML Header.EffectiveDate."
+        },
+        "expiration_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "BatchML Header.ExpirationDate."
+        }
+      },
+      "required": [
+        "control_recipe_id"
+      ]
+    }
+  },
+  "x-delivery": {
+    "control_recipe_id": "transactional",
+    "version": "transactional",
+    "version_date": "transactional",
+    "description": "transactional",
+    "batch_id": "transactional",
+    "article_ref": "transactional",
+    "product_name": "transactional",
+    "batch_size_nominal": "transactional",
+    "batch_size_min": "transactional",
+    "batch_size_max": "transactional",
+    "batch_size_unit": "transactional",
+    "status": "transactional",
+    "effective_date": "transactional",
+    "expiration_date": "transactional"
+  }
+}

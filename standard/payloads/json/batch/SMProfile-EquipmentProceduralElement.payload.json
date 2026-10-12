@@ -1,0 +1,74 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/batch/SMProfile-EquipmentProceduralElement.payload.json",
+  "title": "SMProfile-EquipmentProceduralElement payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/batch/equipment-procedural-element.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-EquipmentProceduralElement",
+  "x-profileVersion": "1.0.0",
+  "x-payloadVersion": "1.1.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "EquipmentProceduralElement"
+    },
+    "profileRef": {
+      "const": "SMProfile-EquipmentProceduralElement"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "equipment_procedural_element_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the element (BatchML EquipmentProceduralElement.ID)."
+        },
+        "description": {
+          "type": "string",
+          "description": "BatchML EquipmentProceduralElement.Description."
+        },
+        "element_type": {
+          "type": "string",
+          "enum": [
+            "Procedure",
+            "UnitProcedure",
+            "Operation",
+            "Phase",
+            "Other"
+          ],
+          "description": "BatchML EquipmentProceduralElementType."
+        },
+        "equipment_procedural_element_class_ref": {
+          "type": "string",
+          "description": "The class (template) of the element (BatchML EquipmentProceduralElementClassID)."
+        },
+        "machine_ref": {
+          "type": "string",
+          "description": "The equipment that can run the element (BatchML nests it in EquipmentElement.EquipmentProceduralElement)."
+        },
+        "equipment_class_ref": {
+          "type": "string",
+          "description": "The equipment class that can run the element (BatchML EquipmentElement of type Class)."
+        }
+      },
+      "required": [
+        "equipment_procedural_element_id"
+      ]
+    }
+  },
+  "x-delivery": {
+    "equipment_procedural_element_id": "transactional",
+    "description": "transactional",
+    "element_type": "transactional",
+    "equipment_procedural_element_class_ref": "transactional",
+    "machine_ref": "transactional",
+    "equipment_class_ref": "transactional"
+  }
+}

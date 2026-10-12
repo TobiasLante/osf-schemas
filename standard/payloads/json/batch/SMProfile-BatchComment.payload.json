@@ -1,0 +1,68 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/batch/SMProfile-BatchComment.payload.json",
+  "title": "SMProfile-BatchComment payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/batch/batch-comment.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-BatchComment",
+  "x-profileVersion": "1.0.0",
+  "x-payloadVersion": "1.1.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "BatchComment"
+    },
+    "profileRef": {
+      "const": "SMProfile-BatchComment"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "batch_comment_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the comment: its record entry id (BatchML Comment.EntryID)."
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "BatchML Comment.TimeStamp."
+        },
+        "record_reference": {
+          "type": "string",
+          "description": "The entry the comment is about (BatchML Comment.RecordReference — the id of any record entry)."
+        },
+        "comment_text": {
+          "type": "string",
+          "description": "BatchML Comment.CommentText."
+        },
+        "person_name": {
+          "type": "string",
+          "description": "BatchML Comment.PersonID — a name (NameType), not the id of a person."
+        },
+        "batch_production_record_ref": {
+          "type": "string",
+          "description": "The record the comment is part of (BatchML nests it in BatchProductionRecord.Comments)."
+        }
+      },
+      "required": [
+        "batch_comment_id"
+      ]
+    }
+  },
+  "x-delivery": {
+    "batch_comment_id": "transactional",
+    "timestamp": "transactional",
+    "record_reference": "transactional",
+    "comment_text": "transactional",
+    "person_name": "transactional",
+    "batch_production_record_ref": "transactional"
+  }
+}

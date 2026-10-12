@@ -2,10 +2,10 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-SegmentResponse.payload.json",
   "title": "SMProfile-SegmentResponse payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/operations/segment-response.json 3.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/operations/segment-response.json 4.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-SegmentResponse",
-  "x-profileVersion": "3.0.0",
-  "x-payloadVersion": "1.0.0",
+  "x-profileVersion": "4.0.0",
+  "x-payloadVersion": "1.1.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
     "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
@@ -28,7 +28,7 @@
         "segment_response_no": {
           "type": "string",
           "pattern": "^[^+#*>/\\s]+$",
-          "description": "Identity of the SegmentResponse (join key). Recommendation: <production_order_no>.<sequence>."
+          "description": "Identity of the SegmentResponse (join key): its own number from the source system. It is never built from other keys; the operations response is reached through operations_response_ref (core 4.0.0, F3)."
         },
         "operations_response_ref": {
           "type": "string",
@@ -129,6 +129,54 @@
           "type": "string",
           "description": "The state of the running program (running, stopped, …). Reported by the machine source through objects[] (owner 25.09.); history: docs/history/standard/profiles/operations/segment-response.md."
         },
+        "equipment_class_ref": {
+          "type": "string",
+          "description": "The EquipmentClass (ACTUAL_EQUIPMENT; ISA-95 SegmentResponse → EquipmentClass). Optional."
+        },
+        "material_class_ref": {
+          "type": "string",
+          "description": "The MaterialClass (ACTUAL_MATERIAL; ISA-95 SegmentResponse → MaterialClass). Optional."
+        },
+        "quant_ref": {
+          "type": "string",
+          "description": "The Quant (ACTUAL_MATERIAL; ISA-95 SegmentResponse → MaterialSubLot). Optional."
+        },
+        "person_ref": {
+          "type": "string",
+          "description": "The Person (ACTUAL_PERSONNEL; ISA-95 SegmentResponse → Person). Optional."
+        },
+        "personnel_class_ref": {
+          "type": "string",
+          "description": "The PersonnelClass (ACTUAL_PERSONNEL; ISA-95 SegmentResponse → PersonnelClass). Optional."
+        },
+        "physical_asset_class_ref": {
+          "type": "string",
+          "description": "The PhysicalAssetClass (ACTUAL_PHYSICAL_ASSET; ISA-95 SegmentResponse → PhysicalAssetClass). Optional."
+        },
+        "job_response_ref": {
+          "type": "string",
+          "description": "The JobResponse (DETAILED_BY; ISA-95 SegmentResponse → JobResponse). Optional."
+        },
+        "work_response_ref": {
+          "type": "string",
+          "description": "The WorkResponse (DETAILED_BY; ISA-95 SegmentResponse → WorkResponse). Optional."
+        },
+        "operations_definition_ref": {
+          "type": "string",
+          "description": "The OperationsDefinition (FOR_OPERATIONS_DEFINITION; ISA-95 SegmentResponse → OperationsDefinition). Optional."
+        },
+        "operations_segment_ref": {
+          "type": "string",
+          "description": "The OperationsSegment (FOR_OPERATIONS_SEGMENT; ISA-95 SegmentResponse → OperationsSegment). Optional."
+        },
+        "inspection_lot_ref": {
+          "type": "string",
+          "description": "The InspectionLot (HAS_TEST_RESULT; ISA-95 SegmentResponse → TestResult). Optional."
+        },
+        "parent_segment_response_ref": {
+          "type": "string",
+          "description": "The SegmentResponse this SegmentResponse is part of (PART_OF; ISA-95 SegmentResponse MADE_UP_OF SegmentResponse). Optional."
+        },
         "source_quality": {
           "type": "string",
           "enum": [
@@ -169,6 +217,18 @@
     "article_ref": "transactional",
     "program_line": "transactional",
     "program_status": "transactional",
+    "equipment_class_ref": "transactional",
+    "material_class_ref": "transactional",
+    "quant_ref": "transactional",
+    "person_ref": "transactional",
+    "personnel_class_ref": "transactional",
+    "physical_asset_class_ref": "transactional",
+    "job_response_ref": "transactional",
+    "work_response_ref": "transactional",
+    "operations_definition_ref": "transactional",
+    "operations_segment_ref": "transactional",
+    "inspection_lot_ref": "transactional",
+    "parent_segment_response_ref": "transactional",
     "source_quality": "transactional"
   }
 }

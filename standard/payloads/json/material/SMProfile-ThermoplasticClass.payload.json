@@ -5,7 +5,7 @@
   "description": "GENERATED from standard/profiles/material/thermoplastic-class.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-ThermoplasticClass",
   "x-profileVersion": "1.0.0",
-  "x-payloadVersion": "1.0.0",
+  "x-payloadVersion": "1.1.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
     "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
@@ -53,6 +53,10 @@
             "Transient"
           ],
           "description": "ISA-95 AssemblyRelationship: Permanent (cannot be taken apart again) or Transient (temporary, e.g. a kit)."
+        },
+        "test_specification_ref": {
+          "type": "string",
+          "description": "The TestSpecification (TESTED_BY; ISA-95 MaterialClass → TestSpecification). Optional."
         },
         "polymer_family": {
           "type": "string",
@@ -115,6 +119,7 @@
     "parent_class_ref": "transactional",
     "assembly_type": "transactional",
     "assembly_relationship": "transactional",
+    "test_specification_ref": "transactional",
     "polymer_family": "transactional",
     "filler_type": "transactional",
     "filler_content": "transactional",

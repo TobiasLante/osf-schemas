@@ -2,10 +2,10 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-WorkRecordSpecification.payload.json",
   "title": "SMProfile-WorkRecordSpecification payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/operations/work-record-specification.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/operations/work-record-specification.json 1.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-WorkRecordSpecification",
-  "x-profileVersion": "1.0.0",
-  "x-payloadVersion": "1.0.0",
+  "x-profileVersion": "1.1.0",
+  "x-payloadVersion": "1.1.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
     "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
@@ -53,6 +53,14 @@
         "parent_specification_ref": {
           "type": "string",
           "description": "The specification this one is a part of (PART_OF; ISA-95 WorkRecordSpecification MADE_UP_OF WorkRecordSpecification)."
+        },
+        "record_object_ref": {
+          "type": "string",
+          "description": "The key of the object this WorkRecordSpecification points at (any object, RECORDS); its profile in record_object_profile. Optional."
+        },
+        "record_object_profile": {
+          "type": "string",
+          "description": "The profile (profileId or label) of the object in record_object_ref."
         }
       },
       "required": [
@@ -67,6 +75,8 @@
     "machine_ref": "transactional",
     "material_lot_ref": "transactional",
     "material_ref": "transactional",
-    "parent_specification_ref": "transactional"
+    "parent_specification_ref": "transactional",
+    "record_object_ref": "transactional",
+    "record_object_profile": "transactional"
   }
 }

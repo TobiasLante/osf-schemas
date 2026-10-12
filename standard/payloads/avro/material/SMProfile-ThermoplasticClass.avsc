@@ -49,6 +49,57 @@
       "default": "1.0.0"
     },
     {
+      "name": "b2m",
+      "type": [
+        "null",
+        {
+          "type": "record",
+          "name": "B2M",
+          "fields": [
+            {
+              "name": "verb",
+              "type": {
+                "type": "enum",
+                "name": "B2MVerb",
+                "symbols": [
+                  "GET",
+                  "SHOW",
+                  "PROCESS",
+                  "ACKNOWLEDGE",
+                  "CHANGE",
+                  "RESPOND",
+                  "CANCEL",
+                  "CONFIRM",
+                  "SYNC"
+                ]
+              }
+            },
+            {
+              "name": "actionCode",
+              "type": [
+                "null",
+                {
+                  "type": "enum",
+                  "name": "B2MActionCode",
+                  "symbols": [
+                    "Add",
+                    "Change",
+                    "Delete",
+                    "Replaced",
+                    "Accepted",
+                    "Modified",
+                    "Rejected"
+                  ]
+                }
+              ],
+              "default": null
+            }
+          ]
+        }
+      ],
+      "default": null
+    },
+    {
       "name": "data",
       "type": {
         "type": "record",
@@ -94,6 +145,15 @@
             ],
             "default": null,
             "doc": "ISA-95 AssemblyRelationship: Permanent (cannot be taken apart again) or Transient (temporary, e.g. a kit)."
+          },
+          {
+            "name": "test_specification_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The TestSpecification (TESTED_BY; ISA-95 MaterialClass → TestSpecification). Optional."
           },
           {
             "name": "polymer_family",

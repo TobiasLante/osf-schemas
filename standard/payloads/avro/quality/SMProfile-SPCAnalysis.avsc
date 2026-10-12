@@ -49,6 +49,57 @@
       "default": "4.0.0"
     },
     {
+      "name": "b2m",
+      "type": [
+        "null",
+        {
+          "type": "record",
+          "name": "B2M",
+          "fields": [
+            {
+              "name": "verb",
+              "type": {
+                "type": "enum",
+                "name": "B2MVerb",
+                "symbols": [
+                  "GET",
+                  "SHOW",
+                  "PROCESS",
+                  "ACKNOWLEDGE",
+                  "CHANGE",
+                  "RESPOND",
+                  "CANCEL",
+                  "CONFIRM",
+                  "SYNC"
+                ]
+              }
+            },
+            {
+              "name": "actionCode",
+              "type": [
+                "null",
+                {
+                  "type": "enum",
+                  "name": "B2MActionCode",
+                  "symbols": [
+                    "Add",
+                    "Change",
+                    "Delete",
+                    "Replaced",
+                    "Accepted",
+                    "Modified",
+                    "Rejected"
+                  ]
+                }
+              ],
+              "default": null
+            }
+          ]
+        }
+      ],
+      "default": null
+    },
+    {
       "name": "data",
       "type": {
         "type": "record",
