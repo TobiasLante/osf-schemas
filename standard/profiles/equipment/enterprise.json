@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-Enterprise",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "standard": "CarToUNS",
   "category": "equipment",
   "displayName": "Enterprise (role-based equipment hierarchy)",
@@ -47,7 +47,8 @@
       "element_id": "Equipment.ID",
       "name": "Equipment.Description"
     },
-    "equipmentLevel": "Enterprise"
+    "equipmentLevel": "Enterprise",
+    "grain": "one equipment element at equipment level Enterprise (ISA-95 Part 2 cl. 5.5; B2MML-Common.xsd EquipmentLevel1Type Enterprise): one row = one enterprise, keyed by its Equipment ID element_id — the one ID space all levels of the role-based equipment hierarchy share"
   },
   "kgNodeLabel": "Enterprise",
   "kgIdProperty": "element_id"

@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-ShiftWindow",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Shift Window (ERP shift calendar)",
@@ -114,6 +114,7 @@
     "momDomain": "production",
     "level": 3,
     "note": "One entry of the plant's weekly shift pattern = a WorkCalendarDefinitionEntry (ISA-95 Part 4 cl. 13): a recurring rule, not a dated entry (OPEN-0350 round 4, Q3). Full text: docs/history/standard/profiles/operations/shift-window.md, isa95 › note.",
+    "grain": "one entry of the plant's weekly shift pattern, a WorkCalendarDefinitionEntry (ISA-95 Part 4 cl. 13; B2MML-WorkCalendar.xsd WorkCalendarDefinitionEntryType): one row = one shift on one weekday (day_of_week, shift_id, start_time, end_time), keyed by shift_window_id",
     "propertyMap": {
       "shift_window_id": "WorkCalendarDefinitionEntry.ID",
       "department_id": "WorkCalendarDefinitionEntry.HierarchyScope.EquipmentID",
