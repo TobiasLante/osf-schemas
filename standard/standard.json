@@ -1,7 +1,8 @@
 {
-  "_note": "The version of the standard in this tree (KONZEPT-EIN-GUSS §5). A standard release is tagged standard/<version>; W8-RENAME (ISA-95 edge names, aliases) makes it a major: 2.0.0. Core 3.0.0 (F3, F7, F11, MaterialItem: breaking, no transition) makes it a major again: 4.0.0. Core 3.1.0 (WorkMaster, WorkResponse, JobResponse, PersonnelClass, Person, OperationsEvent, WorkRecord, WorkRecordSpecification; TestSpecification, OperationsCapability; JobOrder.work_master_ref: additive) makes it a minor: 4.1.0. Core 3.2.0 (audit clean-up, owner 08.10.2026: every property mapped to ISA-95 or declared outside, setpoints transactional on_change, SMProfile-Machine declares element_id, source_quality on SegmentResponse, quality facet only on readings, the hub by connectionRef) makes it a minor: 4.2.0. Core 4.0.0 (from core 3.2.0 = standard 4.2.0; 0.3.5: the stream split telemetry / transactional, own keys for segment requirement / segment response / operations response / shift window, deprecated = error, ISA-95 Parts 1, 2, 4, 5 complete: breaking) makes it a major: 5.0.0. Core 4.1.0 (from core 4.0.0 = standard 5.0.0; 0.5.2: ISA-88 as MESA BatchML 0701 proves it — 14 profiles under profiles/batch/, grammar 4.4.0 with the isa88 block and catalogue: additive, no existing profile, key or edge changed) makes it a minor: 5.1.0. Core 5.0.0 (from core 4.1.0 = standard 5.1.0; 0.6.0, owner 12.10.2026: SMProfile-CustomerOrder status in the B2MML RequestState vocabulary: breaking) makes it a major: 6.0.0.",
+  "_note": "The version of the standard in this tree (KONZEPT-EIN-GUSS §5). A standard release is tagged standard/<version>; W8-RENAME (ISA-95 edge names, aliases) makes it a major: 2.0.0. Core 3.0.0 (F3, F7, F11, MaterialItem: breaking, no transition) makes it a major again: 4.0.0. Core 3.1.0 (WorkMaster, WorkResponse, JobResponse, PersonnelClass, Person, OperationsEvent, WorkRecord, WorkRecordSpecification; TestSpecification, OperationsCapability; JobOrder.work_master_ref: additive) makes it a minor: 4.1.0. Core 3.2.0 (audit clean-up, owner 08.10.2026: every property mapped to ISA-95 or declared outside, setpoints transactional on_change, SMProfile-Machine declares element_id, source_quality on SegmentResponse, quality facet only on readings, the hub by connectionRef) makes it a minor: 4.2.0. Core 4.0.0 (from core 3.2.0 = standard 4.2.0; 0.3.5: the stream split telemetry / transactional, own keys for segment requirement / segment response / operations response / shift window, deprecated = error, ISA-95 Parts 1, 2, 4, 5 complete: breaking) makes it a major: 5.0.0. Core 4.1.0 (from core 4.0.0 = standard 5.0.0; 0.5.2: ISA-88 as MESA BatchML 0701 proves it — 14 profiles under profiles/batch/, grammar 4.4.0 with the isa88 block and catalogue: additive, no existing profile, key or edge changed) makes it a minor: 5.1.0. Core 5.0.0 (from core 4.1.0 = standard 5.1.0; 0.6.0, owner 12.10.2026: SMProfile-CustomerOrder status in the B2MML RequestState vocabulary: breaking) makes it a major: 6.0.0. Core 5.0.2 (from core 5.0.1 = standard 6.0.0; 0.6.6, owner 14.10.2026, the UNS audit of our own core: T1 valueTypes of WorkCalendarEntry, T5 the grain of every class that shares its ISA-95 object: additive, no key, edge or property removed or changed) makes it a minor: 6.1.0. Core 5.0.3 = core 5.0.2 whose standard.json keeps the move record of core 5.0.0 as 5.0.1 carried it (_breakingNote, breaking): 5.0.2 had removed it, and a removed key is classified breaking (the .99 dry run 5.0.1 → 5.0.2, 14.10.); same profiles, same standard 6.1.0. Left for core 6.0.0: E1 (WorkCenter PART_OF Area, the equipment model D1) and the T5 key findings (the equipment levels share element_id, the one Equipment ID of ISA-95 Part 2 — a key of their own would be breaking; BACKLOG-0660 B18).",
   "_breakingNote": "The move record of this core (0.6.0; the move from core 4.1.0 = standard 5.1.0 to core 5.0.0 = standard 6.0.0): every breaking change by name, read by Versions (\"Breaking changes:\") and the move draft — never derived from the version number.",
-  "version": "6.0.0",
+  "_additiveNote": "What this core adds over the one before it (core 5.0.3 over core 5.0.1; 5.0.2 is the same model), by name: read by Versions and the move draft beside the move record; nothing here needs a reader to follow.",
+  "version": "6.1.0",
   "grammar": "4.4.0",
   "breaking": [
     {
@@ -9,6 +10,34 @@
       "text": "Customer order: status speaks the B2MML RequestState vocabulary (B2MML-Common.xsd RequestState1Type) instead of our own list — offen → Waiting, freigegeben → Released, in_arbeit → Running, fertig → Completed, abgeschlossen → Closed (a source maps storniert → Cancelled); every reader of status (rules, KPIs, flows, consumers) must follow, a source maps its values with valueMap.",
       "profiles": [
         "SMProfile-CustomerOrder"
+      ]
+    }
+  ],
+  "additive": [
+    {
+      "id": "work-calendar-entry-value-types",
+      "text": "Work calendar entry: description, published_date, start_date_time, finish_date_time and entry_type declare their valueType MD (master data), as the same B2MML attributes of the work calendar definition entry do (ISA-95 Part 4 cl. 13; UNS audit T1).",
+      "profiles": [
+        "SMProfile-WorkCalendarEntry"
+      ]
+    },
+    {
+      "id": "equipment-level-grain",
+      "text": "Enterprise, Site, Area, WorkCenter and Machine (and its specialisations by inheritance) state isa95.grain: one equipment element at their equipment level (ISA-95 Part 2 cl. 5.5; B2MML-Common.xsd EquipmentLevel1Type), keyed by the one Equipment ID element_id (UNS audit T5).",
+      "profiles": [
+        "SMProfile-Enterprise",
+        "SMProfile-Site",
+        "SMProfile-Area",
+        "SMProfile-WorkCenter",
+        "SMProfile-Machine"
+      ]
+    },
+    {
+      "id": "calendar-definition-entry-grain",
+      "text": "WorkCalendarDefinitionEntry and ShiftWindow, which name the same ISA-95 object, state isa95.grain: one recurring entry of a work calendar definition, and one shift on one weekday of the plant's weekly shift pattern (ISA-95 Part 4 cl. 13; UNS audit T5).",
+      "profiles": [
+        "SMProfile-WorkCalendarDefinitionEntry",
+        "SMProfile-ShiftWindow"
       ]
     }
   ]

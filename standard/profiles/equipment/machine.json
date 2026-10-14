@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-Machine",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "standard": "CarToUNS",
   "category": "machine",
   "displayName": "Machine (Abstract Parent)",
@@ -127,6 +127,7 @@
     "part": 2,
     "momDomain": "production",
     "equipmentLevel": "Unit",
+    "grain": "one equipment element at equipment level Unit (ISA-95 Part 2 cl. 5.5; B2MML-Common.xsd EquipmentLevel1Type Unit): one row = one machine (Machine ≡ Unit level; its specialisations CNC-Machine and InjectionMoldingMachine inherit this grain), keyed by its Equipment ID element_id — the one ID space all levels of the role-based equipment hierarchy share",
     "propertyMap": {
       "element_id": "Equipment.ID",
       "storage_location_ref": "Equipment.OperationalLocation",
