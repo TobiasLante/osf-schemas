@@ -1,6 +1,6 @@
 {
   "sourceId": "erp-customer-orders",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "sourceType": "rest",
   "syncType": "polling",
   "profileRef": "SMProfile-CustomerOrder",
@@ -66,6 +66,9 @@
     "site": "werk1"
   },
   "polling": {
-    "intervalMs": 300000
+    "changeDetection": "full_refresh",
+    "intervalMs": 900000,
+    "batchSize": 5000,
+    "paginate": true
   }
 }
