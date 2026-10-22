@@ -2,9 +2,9 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/equipment/SMProfile-CNC-Machine.payload.json",
   "title": "SMProfile-CNC-Machine payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/equipment/cnc-machine.json 3.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: signal (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/equipment/cnc-machine.json 3.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: signal (envelope.schema.json).",
   "x-profileRef": "SMProfile-CNC-Machine",
-  "x-profileVersion": "3.0.0",
+  "x-profileVersion": "3.1.0",
   "x-payloadVersion": "1.1.0",
   "x-streams": {
     "telemetry": "FACTORY_TELEMETRY",
@@ -236,13 +236,13 @@
     "Plan_Time_Cycle": {
       "type": "number",
       "delivery": "transactional",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Act_Time_Cycle": {
       "type": "number",
       "unit": "SEC",
       "delivery": "telemetry",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Act_Energy_Power": {
       "type": "number",
@@ -254,7 +254,7 @@
     "Act_Energy_Total": {
       "type": "number",
       "delivery": "telemetry",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Act_Ref_Shift": {
       "type": "integer",
@@ -270,88 +270,88 @@
       "type": "number",
       "unit": "RPM",
       "delivery": "telemetry",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Set_Speed_Spindle": {
       "type": "number",
       "delivery": "transactional",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Act_Pct_SpindleLoad": {
       "type": "number",
       "unit": "P1",
       "delivery": "telemetry",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Act_Torque_Spindle": {
       "type": "number",
       "delivery": "telemetry",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Act_Rate_Feed": {
       "type": "number",
       "unit": "H81",
       "delivery": "telemetry",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Set_Rate_Feed": {
       "type": "number",
       "delivery": "transactional",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Act_Pct_FeedOverride": {
       "type": "number",
       "delivery": "telemetry",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Act_Pos_AxisX": {
       "type": "number",
       "unit": "MMT",
       "delivery": "telemetry",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Set_Pos_AxisX": {
       "type": "number",
       "delivery": "transactional",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Act_Pos_AxisY": {
       "type": "number",
       "unit": "MMT",
       "delivery": "telemetry",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Set_Pos_AxisY": {
       "type": "number",
       "delivery": "transactional",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Act_Pos_AxisZ": {
       "type": "number",
       "unit": "MMT",
       "delivery": "telemetry",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Set_Pos_AxisZ": {
       "type": "number",
       "delivery": "transactional",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Act_Ref_ToolNumber": {
       "type": "integer",
       "delivery": "telemetry",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Act_Pct_ToolWear": {
       "type": "number",
       "unit": "P1",
       "delivery": "telemetry",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Act_Time_ToolLifeRemaining": {
       "type": "number",
       "delivery": "telemetry",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Act_State_InCycle": {
       "type": "boolean",
@@ -362,48 +362,48 @@
     "Act_Rate_CoolantFlow": {
       "type": "number",
       "delivery": "telemetry",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Act_Temp_Coolant": {
       "type": "number",
       "delivery": "telemetry",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Act_Pressure_Coolant": {
       "type": "number",
       "delivery": "telemetry",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Act_Vibration_X": {
       "type": "number",
       "delivery": "telemetry",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Act_Vibration_Y": {
       "type": "number",
       "delivery": "telemetry",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Act_Vibration_Z": {
       "type": "number",
       "delivery": "telemetry",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Act_Energy_PowerSpindle": {
       "type": "number",
       "delivery": "telemetry",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Act_Energy_Cycle": {
       "type": "number",
       "delivery": "telemetry",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Act_Temp_Spindle": {
       "type": "number",
       "unit": "CEL",
       "delivery": "telemetry",
-      "scope": "edge"
+      "scope": "hub"
     }
   }
 }
