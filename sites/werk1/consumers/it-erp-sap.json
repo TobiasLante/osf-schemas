@@ -1,6 +1,6 @@
 {
   "consumerId": "it-erp-sap",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "kind": "edge",
   "stage": "push",
   "ring": 0,
@@ -10,12 +10,21 @@
     "erp-bde-confirmations",
     "sim-v5-erp-articles",
     "sim-v5-erp-customers",
-    "sim-v5-erp-calendar"
+    "sim-v5-erp-calendar",
+    "erp-job-orders",
+    "erp-machine-pools",
+    "erp-material-lots",
+    "erp-operations-definitions",
+    "erp-operations-segments",
+    "erp-process-segments",
+    "erp-segment-requirements",
+    "erp-segment-responses",
+    "erp-workorders"
   ],
-  "capacity": 75,
+  "capacity": 125,
   "capacityKind": "measured",
   "authoring": "locked",
-  "description": "IT edge for the ERP REST sources (it-edge, no flow editor). Capacity = signal count today, measured 23.09.",
+  "description": "IT edge for the ERP REST sources (it-edge, no flow editor). Capacity = signal count today, measured 23.09.; 125 since 0.6.6-g (owner 22.10.2026: every IT source delivers — the nine ERP sources without a carrier, waivers withdrawn).",
   "feedback": {
     "grains": [
       "loaded"
