@@ -1,6 +1,6 @@
 {
   "sourceId": "erp-segment-requirements",
-  "version": "2.4.0",
+  "version": "2.5.0",
   "$window": "0.6.6-g (owner 22.10.2026, the living window): the source reads the living part, not the whole history — every operation not final plus those started or ended in the last 7 days",
   "sourceType": "rest",
   "functionalLevel": 4,
@@ -37,6 +37,7 @@
     "operation_number"
   ],
   "columnMappings": [
+    { "column": "job_order_no", "smAttribute": "segment_requirement_no", "isId": true },
     {
       "column": "production_order_no",
       "smAttribute": "production_order_ref"
