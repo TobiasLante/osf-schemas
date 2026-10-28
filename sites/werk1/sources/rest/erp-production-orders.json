@@ -1,6 +1,6 @@
 {
   "sourceId": "erp-production-orders",
-  "version": "4.2.1",
+  "version": "4.2.2",
   "sourceType": "rest",
   "functionalLevel": 4,
   "syncType": "polling",
@@ -28,7 +28,7 @@
   "polling": {
     "changeDetection": "full_refresh",
     "intervalMs": 300000,
-    "batchSize": 5000,
+    "batchSize": 500,
     "paginate": true,
     "paginationMode": "keyset",
     "paginationOrderKey": "production_order_no",
