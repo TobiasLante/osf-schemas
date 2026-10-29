@@ -1,6 +1,6 @@
 {
   "sourceId": "erp-segment-requirements",
-  "version": "2.6.0",
+  "version": "3.0.0",
   "sourceType": "rest",
   "functionalLevel": 4,
   "syncType": "polling",
@@ -46,10 +46,6 @@
       "smAttribute": "production_order_ref"
     },
     {
-      "column": "work_center",
-      "smAttribute": "process_segment_ref"
-    },
-    {
       "column": "operation_number",
       "smAttribute": "sequence",
       "dataType": "Int32"
@@ -82,11 +78,6 @@
       "type": "PART_OF",
       "fkColumn": "production_order_no",
       "targetIdProp": "production_order_no"
-    },
-    {
-      "type": "FOR_PROCESS_SEGMENT",
-      "fkColumn": "work_center",
-      "targetIdProp": "process_segment_no"
     },
     {
       "type": "REQUIRES_EQUIPMENT",

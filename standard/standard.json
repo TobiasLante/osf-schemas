@@ -164,6 +164,14 @@
         "SMProfile-Fixture",
         "SMProfile-InjectionMoldingMachine"
       ]
+    },
+    {
+      "id": "segment-work-center",
+      "text": "Segment requirement and segment response: process_segment_ref is no longer filled with the ERP work center of the operation (POOL-SGM, POOL-CNC — equipment, not a process segment; audit M-11), and the FOR_PROCESS_SEGMENT edge on it is gone from erp-segment-requirements (it never resolved: the process segments are VORMONTAGE, MONTAGE, PRUEFFELD, VERSAND). process_segment_ref stays declared and is unbound until the ERP serves the routing operation's process segment.",
+      "profiles": [
+        "SMProfile-SegmentRequirement",
+        "SMProfile-SegmentResponse"
+      ]
     }
   ],
   "additive": [
