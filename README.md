@@ -112,7 +112,7 @@ osf-schemas/
 │       ├── instances/              the plant tree: Enterprise → Site → Area → ProcessCell → Unit (ISA-88 equipment levels) (9 json)
 │       ├── mappings/               protocol canon: DataItem/tag → SM attribute (SSOT for discovery + gen-flows) (1 json)
 │       ├── recipes/                GitHub-managed recipe master data (see recipes/README.md) (149 json)
-│       ├── settings/                (3 json)
+│       ├── settings/                (22 json)
 │       ├── sources/                Schema 2: Data Sources (instance binding)
 │       │   ├── mtconnect/              MTConnect agent mappings (2 json)
 │       │   ├── opcua/                  OPC-UA endpoint → machine mappings (15 json)
