@@ -1,6 +1,6 @@
 {
   "sourceId": "erp-segment-requirements",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "sourceType": "rest",
   "functionalLevel": 4,
   "syncType": "polling",
@@ -55,6 +55,10 @@
       "smAttribute": "equipment_ref"
     },
     {
+      "column": "work_center",
+      "smAttribute": "equipment_class_ref"
+    },
+    {
       "column": "qty_planned",
       "smAttribute": "qty_planned",
       "dataType": "Double"
@@ -83,6 +87,11 @@
       "type": "REQUIRES_EQUIPMENT",
       "fkColumn": "machine_id",
       "targetIdProp": "element_id"
+    },
+    {
+      "type": "REQUIRES_EQUIPMENT",
+      "fkColumn": "work_center",
+      "targetIdProp": "equipment_class_id"
     }
   ],
   "$window": "0.6.6-g (owner 22.10.2026, the living window): the source reads the living part, not the whole history — every operation not final plus those started or ended in the last 7 days"

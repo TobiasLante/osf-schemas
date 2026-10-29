@@ -176,7 +176,7 @@
     },
     {
       "id": "segment-work-center",
-      "text": "Segment requirement and segment response: process_segment_ref is no longer filled with the ERP work center of the operation (POOL-SGM, POOL-CNC — equipment, not a process segment; audit M-11), and the FOR_PROCESS_SEGMENT edge on it is gone from erp-segment-requirements (it never resolved: the process segments are VORMONTAGE, MONTAGE, PRUEFFELD, VERSAND). process_segment_ref stays declared and is unbound until the ERP serves the routing operation's process segment.",
+      "text": "Segment requirement and segment response: process_segment_ref is no longer filled with the ERP work center of the operation (POOL-SGM, POOL-CNC — equipment, not a process segment; audit M-11), and the FOR_PROCESS_SEGMENT edge on it is gone from erp-segment-requirements (it never resolved: the process segments are VORMONTAGE, MONTAGE, PRUEFFELD, VERSAND). process_segment_ref stays declared and is unbound until the ERP serves the routing operation's process segment. The work center is the operation's equipment requirement by class instead (owner 29.10.2026: the pool is an EquipmentClass): erp-segment-requirements maps work_center onto equipment_class_ref (B2MML SegmentRequirement.EquipmentRequirement.EquipmentClassID) and draws REQUIRES_EQUIPMENT → EquipmentClass.",
       "profiles": [
         "SMProfile-SegmentRequirement",
         "SMProfile-SegmentResponse"
