@@ -134,7 +134,7 @@
     "part": 2,
     "momDomain": "production",
     "equipmentLevel": "WorkUnit",
-    "grain": "one equipment element in a work-unit role of the ISA-95 Part 1 role-based equipment hierarchy: the class says the generic level WorkUnit (B2MML-Common.xsd EquipmentLevel1Type), the instance the role it plays (sites/<site>/instances equipmentLevel = B2MML Equipment.EquipmentLevel) — WorkCell in a ProductionLine (discrete, audit H1), WorkUnit in a generic WorkCenter (job shop, X2); audit M-03: one class cannot fix one role level. One row = one machine (CNC-Machine and InjectionMoldingMachine inherit this grain), keyed by its Equipment ID element_id — the one ID space all levels of the role-based equipment hierarchy share",
+    "grain": "one equipment element (a machine) — the class fixes NO place in the equipment hierarchy: a machine is a machine, the level is where the instance stands (owner 29.10.2026: in a ProductionLine it is a WorkCell of the line, free-standing it is a WorkUnit of its WorkCenter; sites/<site>/instances equipmentLevel = B2MML Equipment.EquipmentLevel). isa95.equipmentLevel WorkUnit is the generic work-unit level of B2MML EquipmentLevel1Type, kept only because lint-isa95 I17 / test-lint-isa95-levels need a string on the class — it claims no place. One row = one machine (CNC-Machine and InjectionMoldingMachine inherit this grain), keyed by its Equipment ID element_id — the one ID space all levels of the role-based equipment hierarchy share",
     "propertyMap": {
       "element_id": "Equipment.ID",
       "storage_location_ref": "Equipment.OperationalLocation",

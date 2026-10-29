@@ -7,7 +7,7 @@
   "breaking": [
     {
       "id": "machines-work-cell",
-      "text": "Machines: a discrete machine (CNC, injection moulding) is a WorkCell of a ProductionLine — ISA-95 Part 1 role-based hierarchy, discrete production (audit H1) — no longer a Unit of a ProcessCell (the batch branch). A machine of a job shop is a WorkUnit of its generic WorkCenter (X2). SMProfile-Machine, -CNC-Machine, -InjectionMoldingMachine say the generic level WorkUnit — the role (WorkCell, WorkUnit) is the instance's equipmentLevel, one class cannot fix one role level (audit M-03); Machine PART_OF WorkCenter (see machine-part-of-work-center); a plant's lines become ProductionLine, their machines WorkCell. The codes stay, so the UNS addresses stay; every reader of a level (rules, screens) takes a work unit as a machine.",
+      "text": "Machines: a discrete machine (CNC, injection moulding) is a WorkCell of a ProductionLine — ISA-95 Part 1 role-based hierarchy, discrete production (audit H1) — no longer a Unit of a ProcessCell (the batch branch). SMProfile-Machine, -CNC-Machine, -InjectionMoldingMachine fix no place (owner 29.10.2026: the level is where the instance stands; the class keeps only the generic WorkUnit the level lint needs, audit M-03) — in a ProductionLine a machine is a WorkCell, free-standing a WorkUnit of a WorkCenter; Machine PART_OF WorkCenter (see machine-part-of-work-center); a plant's lines become ProductionLine, their machines WorkCell. The codes stay, so the UNS addresses stay; every reader of a level (rules, screens) takes a work unit as a machine.",
       "profiles": [
         "SMProfile-Machine",
         "SMProfile-CNC-Machine",
