@@ -204,7 +204,7 @@ Defines **what types of nodes exist** — their label, ID property, attributes, 
   "attributes": [],
   "relationships": [],
   "kgNodeLabel": "CNC_Machine",
-  "kgIdProperty": "machine_id"
+  "kgIdProperty": "element_id"
 }
 ```
 
@@ -213,7 +213,7 @@ Defines **what types of nodes exist** — their label, ID property, attributes, 
 | Field | Purpose |
 |-------|---------|
 | `kgNodeLabel` | Neo4j label for this node type (e.g. `CNC_Machine`) |
-| `kgIdProperty` | Property used as unique ID (e.g. `machine_id`) |
+| `kgIdProperty` | Property used as unique ID (e.g. `element_id`) |
 | `parentType` | Parent profile — resolved by `profileId` or `kgNodeLabel` |
 | `abstract` | If `true`, skip index creation (parent-only, no direct instances) |
 | `attributes` | Array of `{ name, dataType, unit?, category, description?, enum? }` |
@@ -261,13 +261,13 @@ When `parentType` is set, the KG Builder merges at load time:
 3. **Multi-level**: grandparent → parent → child works (resolved depth-first).
 4. **Cycles**: detected and broken silently (partial inheritance).
 
-**Example:** `CNC_Machine` has `parentType: "Machine"`. `Machine` is a **thin abstract parent** — it carries the identity (`machine_id`) and its relationships (`PART_OF` direct; Order/Article reached via SegmentRequirement/Response) and **zero attributes of its own**. After inheritance, `CNC_Machine` keeps its own attribute set and gains the Machine relationships plus the `:Machine` parent label.
+**Example:** `CNC_Machine` has `parentType: "Machine"`. `Machine` is a **thin abstract parent** — it carries the identity (`element_id`, the one Equipment ID since core 3.0.0), the ISA-95 Equipment properties (equipment class, storage location, spatial definition) and its relationships (`PART_OF` its WorkCenter; Order/Article reached via SegmentRequirement/Response). After inheritance, `CNC_Machine` keeps its own attribute set and gains the Machine relationships plus the `:Machine` parent label.
 
 ### What the builder does
 
 ```cypher
 -- Phase 1: Create range index (skipped for abstract profiles)
-CREATE INDEX IF NOT EXISTS FOR (n:CNC_Machine) ON (n.machine_id)
+CREATE INDEX IF NOT EXISTS FOR (n:CNC_Machine) ON (n.element_id)
 
 -- Phase 2d: Apply parent labels
 MATCH (n:CNC_Machine) SET n:Machine
@@ -342,7 +342,7 @@ Shortened from the real `sites/werk1/sources/opcua/opcua-sgm-004-processdata.jso
 
 **`edges`**: `fkColumn` → `targetIdProp`. The builder resolves `targetIdProp` to ALL profile labels sharing that `kgIdProperty` (polymorphic resolution).
 
-**`targetIdProp` example:** `"machine_id"` resolves to every label whose `kgIdProperty` is `machine_id` — see the generated *Common `targetIdProp` Values* table below. Add a new machine type with the same key and every existing edge finds it, no source change needed.
+**`targetIdProp` example:** `"element_id"` resolves to every label whose `kgIdProperty` is `element_id` — see the generated *Common `targetIdProp` Values* table below. Add a new machine type with the same key and every existing edge finds it, no source change needed.
 
 **Environment variables:** `"${HISTORIAN_HOST}"`-style values are replaced at load time from `process.env`.
 
@@ -576,10 +576,10 @@ Derived from `contract.json` (`nodes` grouped by key property; `edges` for usage
 
 ## Adding a New Machine Type
 
-1. Create `standard/profiles/equipment/<type>.json` (`category: "machine"`) with `parentType: "Machine"` and `kgIdProperty: "machine_id"`
-2. Add the machine's own attributes (the abstract `Machine` parent contributes identity + relationships — it has no attributes of its own)
+1. Create `standard/profiles/equipment/<type>.json` (`category: "machine"`) with `parentType: "Machine"` and `kgIdProperty: "element_id"`
+2. Add the machine's own attributes (the abstract `Machine` parent contributes the identity, the ISA-95 Equipment properties and the relationships)
 3. Add OPC-UA mapping in `sites/<site>/sources/opcua/<machine-id>-<category>.json`
-4. All existing edges with `targetIdProp: "machine_id"` automatically find the new type — **no source schema changes needed**
+4. All existing edges with `targetIdProp: "element_id"` automatically find the new type — **no source schema changes needed**
 
 ## Adding a New ERP Entity
 

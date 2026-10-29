@@ -22,11 +22,11 @@ OSF schemas are inspired by [CESMII Smart Manufacturing Profiles](https://www.ce
 
 1. **Source-agnostic graph** — The KG fuses data from OPC-UA, MTConnect and REST sources into one graph. The i3X API queries the graph, never a source directly. Whether data came from an ERP REST projection, an MTConnect agent or an OPC-UA server doesn't matter. (The v3-era PostgreSQL/MQTT/Kafka/MCP ingestion paths are archived under `backup/pre-next2.0/` — no service loads them.)
 
-2. **Polymorphic edge resolution** — `targetIdProp: "machine_id"` automatically resolves to all profile types sharing that ID property. Add a new machine type → all existing edges find it without source schema changes.
+2. **Polymorphic edge resolution** — `targetIdProp: "element_id"` automatically resolves to all profile types sharing that ID property. Add a new machine type → all existing edges find it without source schema changes.
 
 3. **Schema-driven, not code-driven** — Change a JSON file, push to GitHub. The KG Builder rebuilds. No recompilation, no redeployment.
 
-4. **Inheritance reduces duplication** — machine types share one abstract `Machine` parent that carries the identity (`machine_id`) and the machine-level relationships (`PART_OF` direct; `ProductionOrder`/`Article` reached via SegmentRequirement/Response edges); every child (`CNC_Machine`, `InjectionMoldingMachine`) adds only its own attribute set and is found by every existing `targetIdProp: "machine_id"` edge.
+4. **Inheritance reduces duplication** — machine types share one abstract `Machine` parent that carries the identity (`element_id`, the one Equipment ID since core 3.0.0) and the machine-level relationships (`PART_OF` direct; `ProductionOrder`/`Article` reached via SegmentRequirement/Response edges); every child (`CNC_Machine`, `InjectionMoldingMachine`) adds only its own attribute set and is found by every existing `targetIdProp: "element_id"` edge.
 
 ## Data Flow
 
@@ -185,10 +185,10 @@ Measured from the tree by `i3x-v5 packages/schemas-ci/osf/gen-docs.mjs` — the 
 Profiles support `parentType` inheritance. The KG Builder merges parent attributes and relationships into children at load time. Child definitions override parent on name collision.
 
 ```
-Machine (abstract)               identity + relationship parent: machine_id,
-│                                PART_OF direct; Order/Article via SegmentRequirement/Response — no attributes of its own
+Machine (abstract)               identity + relationship parent: element_id and the ISA-95 Equipment properties,
+│                                PART_OF its WorkCenter; Order/Article via SegmentRequirement/Response
 ├── CNC_Machine                  adds the CNC attribute set (BDE/OEE + spindle/feed/program)
-└── InjectionMoldingMachine      adds the ISA-88 process-parameter set + USES_TOOL
+└── InjectionMoldingMachine      adds the EUROMAP 77 process-parameter set (the mould it runs with is the segment's PhysicalAssetActual → Tooling)
 ```
 
 That is the whole inheritance tree today. There is **no** abstract `Order`
