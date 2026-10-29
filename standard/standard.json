@@ -261,6 +261,14 @@
         "SMProfile-SegmentResponse",
         "SMProfile-BdeConfirmation"
       ]
+    },
+    {
+      "id": "sublot-in-lot",
+      "text": "Material sublot in its lot (audit M-10, 29.10.2026): MaterialLot MADE_UP_OF Quant is fed from the WMS quant's lot (charge_nr = MaterialSubLot.MaterialLotID, source edge direction in) — before, a quant reached its lot only through ASSEMBLED_FROM (assembly semantics) and no source drew the containment. No key, property or relationship removed. Additive.",
+      "profiles": [
+        "SMProfile-MaterialLot",
+        "SMProfile-Quant"
+      ]
     }
   ]
 }
