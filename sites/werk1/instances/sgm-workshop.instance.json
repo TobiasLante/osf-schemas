@@ -1,11 +1,11 @@
 {
-  "_note": "0.7.0 X2: the injection moulding machines of the sim not yet in the model, in the ERP work center POOL-SGM (the routing's arbeitsplatz) — the sim names no line for them.",
+  "_note": "0.7.0 (owner 29.10.2026, pool = EquipmentClass, variant a): the free-standing injection moulding machines of the sim — the sim names no line for them — are WorkUnits of the workshop WorkCenter of their area. The ERP pool (POOL-SGM) is an EquipmentClass, not a place (sources/rest/erp-machine-pools.json); real hall locations follow from the sim later (variant b).",
   "instances": [
     {
-      "id": "sgm-pool",
+      "id": "sgm-workshop",
       "equipmentLevel": "WorkCenter",
-      "code": "pool-sgm",
-      "name": "POOL-SGM (ERP work center)",
+      "code": "sgm-workshop",
+      "name": "Spritzguss-Werkstatt",
       "partOf": "sgm",
       "class": "SMProfile-WorkCenter"
     },
@@ -15,7 +15,7 @@
       "code": "sgm-02",
       "class": "SMProfile-InjectionMoldingMachine",
       "name": "Spritzguss 1300kN Engel e-motion 200 (v4-SGM-003)",
-      "partOf": "sgm-pool"
+      "partOf": "sgm-workshop"
     },
     {
       "id": "sgm-03",
@@ -23,7 +23,7 @@
       "code": "sgm-03",
       "class": "SMProfile-InjectionMoldingMachine",
       "name": "Spritzguss 1300kN Arburg Allrounder 520A (v4-SGM-004)",
-      "partOf": "sgm-pool"
+      "partOf": "sgm-workshop"
     },
     {
       "id": "sgm-07",
@@ -31,7 +31,7 @@
       "code": "sgm-07",
       "class": "SMProfile-InjectionMoldingMachine",
       "name": "Spritzguss 1300kN Engel e-mac 130 (v4-SGM-013)",
-      "partOf": "sgm-pool"
+      "partOf": "sgm-workshop"
     },
     {
       "id": "sgm-08",
@@ -39,7 +39,7 @@
       "code": "sgm-08",
       "class": "SMProfile-InjectionMoldingMachine",
       "name": "Spritzguss 1300kN Arburg Allrounder 520S (v4-SGM-014)",
-      "partOf": "sgm-pool"
+      "partOf": "sgm-workshop"
     },
     {
       "id": "sgm-09",
@@ -47,7 +47,7 @@
       "code": "sgm-09",
       "class": "SMProfile-InjectionMoldingMachine",
       "name": "Spritzguss 2500kN Krauss-Maffei CX 200 (v4-SGM-015)",
-      "partOf": "sgm-pool"
+      "partOf": "sgm-workshop"
     },
     {
       "id": "sgm-10",
@@ -55,7 +55,7 @@
       "code": "sgm-10",
       "class": "SMProfile-InjectionMoldingMachine",
       "name": "Spritzguss 2500kN Engel duo 2550 (v4-SGM-018)",
-      "partOf": "sgm-pool"
+      "partOf": "sgm-workshop"
     },
     {
       "id": "sgm-11",
@@ -63,7 +63,7 @@
       "code": "sgm-11",
       "class": "SMProfile-InjectionMoldingMachine",
       "name": "Spritzguss 2500kN Arburg Allrounder 720S (v4-SGM-020)",
-      "partOf": "sgm-pool"
+      "partOf": "sgm-workshop"
     },
     {
       "id": "sgm-12",
@@ -71,7 +71,7 @@
       "code": "sgm-12",
       "class": "SMProfile-InjectionMoldingMachine",
       "name": "Spritzguss 2500kN Krauss-Maffei CX 250 (v4-SGM-021)",
-      "partOf": "sgm-pool"
+      "partOf": "sgm-workshop"
     },
     {
       "id": "sgm-13",
@@ -79,7 +79,7 @@
       "code": "sgm-13",
       "class": "SMProfile-InjectionMoldingMachine",
       "name": "Spritzguss 2500kN Engel e-motion 200/150 (v4-SGM-022)",
-      "partOf": "sgm-pool"
+      "partOf": "sgm-workshop"
     },
     {
       "id": "sgm-14",
@@ -87,7 +87,7 @@
       "code": "sgm-14",
       "class": "SMProfile-InjectionMoldingMachine",
       "name": "Spritzguss 2500kN Krauss-Maffei MX 200 (v4-SGM-023)",
-      "partOf": "sgm-pool"
+      "partOf": "sgm-workshop"
     },
     {
       "id": "sgm-15",
@@ -95,7 +95,7 @@
       "code": "sgm-15",
       "class": "SMProfile-InjectionMoldingMachine",
       "name": "Spritzguss 2500kN Arburg Allrounder 720A (v4-SGM-024)",
-      "partOf": "sgm-pool"
+      "partOf": "sgm-workshop"
     },
     {
       "id": "sgm-16",
@@ -103,7 +103,7 @@
       "code": "sgm-16",
       "class": "SMProfile-InjectionMoldingMachine",
       "name": "Spritzguss 2500kN Engel duo 2050 (v4-SGM-025)",
-      "partOf": "sgm-pool"
+      "partOf": "sgm-workshop"
     },
     {
       "id": "sgm-17",
@@ -111,7 +111,7 @@
       "code": "sgm-17",
       "class": "SMProfile-InjectionMoldingMachine",
       "name": "Spritzguss 2500kN Krauss-Maffei MX 250 (v4-SGM-026)",
-      "partOf": "sgm-pool"
+      "partOf": "sgm-workshop"
     },
     {
       "id": "sgm-18",
@@ -119,7 +119,7 @@
       "code": "sgm-18",
       "class": "SMProfile-InjectionMoldingMachine",
       "name": "Spritzguss 2500kN Arburg Allrounder 820H (v4-SGM-028)",
-      "partOf": "sgm-pool"
+      "partOf": "sgm-workshop"
     },
     {
       "id": "sgm-19",
@@ -127,7 +127,7 @@
       "code": "sgm-19",
       "class": "SMProfile-InjectionMoldingMachine",
       "name": "Spritzguss 4000kN Krauss-Maffei MX 400 (v4-SGM-030)",
-      "partOf": "sgm-pool"
+      "partOf": "sgm-workshop"
     },
     {
       "id": "sgm-20",
@@ -135,7 +135,7 @@
       "code": "sgm-20",
       "class": "SMProfile-InjectionMoldingMachine",
       "name": "Spritzguss 4000kN Engel duo 4550 (v4-SGM-040)",
-      "partOf": "sgm-pool"
+      "partOf": "sgm-workshop"
     },
     {
       "id": "sgm-21",
@@ -143,7 +143,7 @@
       "code": "sgm-21",
       "class": "SMProfile-InjectionMoldingMachine",
       "name": "Spritzguss 600kN Battenfeld-Cincinnati BA 60 T (Z4 vendor expansion)",
-      "partOf": "sgm-pool"
+      "partOf": "sgm-workshop"
     },
     {
       "id": "sgm-22",
@@ -151,7 +151,7 @@
       "code": "sgm-22",
       "class": "SMProfile-InjectionMoldingMachine",
       "name": "Spritzguss 500kN Sumitomo SE-50EV3 all-electric (Z4 vendor expansion)",
-      "partOf": "sgm-pool"
+      "partOf": "sgm-workshop"
     }
   ]
 }

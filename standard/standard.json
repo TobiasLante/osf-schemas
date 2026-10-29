@@ -7,7 +7,7 @@
   "breaking": [
     {
       "id": "machines-work-cell",
-      "text": "Machines: a discrete machine (CNC, injection moulding) is a WorkCell of a ProductionLine — ISA-95 Part 1 role-based hierarchy, discrete production (audit H1) — no longer a Unit of a ProcessCell (the batch branch). SMProfile-Machine, -CNC-Machine, -InjectionMoldingMachine fix no place (owner 29.10.2026: the level is where the instance stands; the class keeps only the generic WorkUnit the level lint needs, audit M-03) — in a ProductionLine a machine is a WorkCell, free-standing a WorkUnit of a WorkCenter; Machine PART_OF WorkCenter (see machine-part-of-work-center); a plant's lines become ProductionLine, their machines WorkCell. The codes stay, so the UNS addresses stay; every reader of a level (rules, screens) takes a work unit as a machine.",
+      "text": "Machines: a discrete machine (CNC, injection moulding) is a WorkCell of a ProductionLine — ISA-95 Part 1 role-based hierarchy, discrete production (audit H1) — no longer a Unit of a ProcessCell (the batch branch). SMProfile-Machine, -CNC-Machine, -InjectionMoldingMachine fix no place (owner 29.10.2026: the level is where the instance stands; the class keeps only the generic WorkUnit the level lint needs, audit M-03) — in a ProductionLine a machine is a WorkCell, free-standing a WorkUnit of a WorkCenter; Machine PART_OF WorkCenter (see machine-part-of-work-center); a plant's lines become ProductionLine, their machines WorkCell. The codes stay, so the UNS addresses of the line machines stay (the free-standing ones move once, see pool-is-equipment-class); every reader of a level (rules, screens) takes a work unit as a machine.",
       "profiles": [
         "SMProfile-Machine",
         "SMProfile-CNC-Machine",
@@ -20,6 +20,15 @@
       "profiles": [
         "SMProfile-Machine",
         "SMProfile-WorkCenter"
+      ]
+    },
+    {
+      "id": "pool-is-equipment-class",
+      "text": "ERP pools leave the equipment tree (owner 29.10.2026 ~22:45, supersedes X2 of the same day): an ERP pool (POOL-SGM, POOL-CNC) is an EquipmentClass — a capability / planning group, source erp-machine-pools — and no work center. The 35 free-standing machines of werk1 (18 injection moulding, 17 CNC) are WorkUnits of one workshop WorkCenter per area: sgm-workshop \"Spritzguss-Werkstatt\" and cnc-workshop \"CNC-Werkstatt\" replace the work centers sgm-pool (code pool-sgm) and cnc-pool (code pool-cnc). Machine ids and codes stay; their UNS address moves once, in this core: factory/werk1/sgm/pool-sgm/<machine> → factory/werk1/sgm/sgm-workshop/<machine>, factory/werk1/cnc/pool-cnc/<machine> → factory/werk1/cnc/cnc-workshop/<machine>. Machines in real lines keep their place and address.",
+      "profiles": [
+        "SMProfile-WorkCenter",
+        "SMProfile-Machine",
+        "SMProfile-EquipmentClass"
       ]
     },
     {

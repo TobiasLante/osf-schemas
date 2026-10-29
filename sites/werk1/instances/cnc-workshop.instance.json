@@ -1,11 +1,11 @@
 {
-  "_note": "0.7.0 X2: the CNC machines of the sim not yet in the model, in the ERP work center POOL-CNC (the routing's arbeitsplatz) — the sim names no line for them.",
+  "_note": "0.7.0 (owner 29.10.2026, pool = EquipmentClass, variant a): the free-standing CNC machines of the sim — the sim names no line for them — are WorkUnits of the workshop WorkCenter of their area. The ERP pool (POOL-CNC) is an EquipmentClass, not a place (sources/rest/erp-machine-pools.json); real hall locations follow from the sim later (variant b).",
   "instances": [
     {
-      "id": "cnc-pool",
+      "id": "cnc-workshop",
       "equipmentLevel": "WorkCenter",
-      "code": "pool-cnc",
-      "name": "POOL-CNC (ERP work center)",
+      "code": "cnc-workshop",
+      "name": "CNC-Werkstatt",
       "partOf": "cnc",
       "class": "SMProfile-WorkCenter"
     },
@@ -15,7 +15,7 @@
       "code": "cnc-04",
       "class": "SMProfile-CNC-Machine",
       "name": "Fräsmaschine 1 (Hermle C32, v4-9013)",
-      "partOf": "cnc-pool"
+      "partOf": "cnc-workshop"
     },
     {
       "id": "cnc-05",
@@ -23,7 +23,7 @@
       "code": "cnc-05",
       "class": "SMProfile-CNC-Machine",
       "name": "Schleifmaschine 1 (Studer S33, v4-9014)",
-      "partOf": "cnc-pool"
+      "partOf": "cnc-workshop"
     },
     {
       "id": "cnc-06",
@@ -31,7 +31,7 @@
       "code": "cnc-06",
       "class": "SMProfile-CNC-Machine",
       "name": "Fräsmaschine 2 (Hermle C42, v4-9015)",
-      "partOf": "cnc-pool"
+      "partOf": "cnc-workshop"
     },
     {
       "id": "cnc-07",
@@ -39,7 +39,7 @@
       "code": "cnc-07",
       "class": "SMProfile-CNC-Machine",
       "name": "5-Achs-Fräsmaschine (DMG Mori DMU 50, v4-9016)",
-      "partOf": "cnc-pool"
+      "partOf": "cnc-workshop"
     },
     {
       "id": "cnc-08",
@@ -47,7 +47,7 @@
       "code": "cnc-08",
       "class": "SMProfile-CNC-Machine",
       "name": "Drehmaschine 2 (Gildemeister CTX, v4-9017)",
-      "partOf": "cnc-pool"
+      "partOf": "cnc-workshop"
     },
     {
       "id": "cnc-09",
@@ -55,7 +55,7 @@
       "code": "cnc-09",
       "class": "SMProfile-CNC-Machine",
       "name": "Schleifmaschine 2 (Studer S41, v4-9018)",
-      "partOf": "cnc-pool"
+      "partOf": "cnc-workshop"
     },
     {
       "id": "cnc-10",
@@ -63,7 +63,7 @@
       "code": "cnc-10",
       "class": "SMProfile-CNC-Machine",
       "name": "Fräsmaschine 3 (Hermle C52, v4-9019)",
-      "partOf": "cnc-pool"
+      "partOf": "cnc-workshop"
     },
     {
       "id": "cnc-11",
@@ -71,7 +71,7 @@
       "code": "cnc-11",
       "class": "SMProfile-CNC-Machine",
       "name": "HB600P (Heidenhain iTNC 530)",
-      "partOf": "cnc-pool"
+      "partOf": "cnc-workshop"
     },
     {
       "id": "cnc-12",
@@ -79,7 +79,7 @@
       "code": "cnc-12",
       "class": "SMProfile-CNC-Machine",
       "name": "HB760 (Heidenhain iTNC 530)",
-      "partOf": "cnc-pool"
+      "partOf": "cnc-workshop"
     },
     {
       "id": "cnc-13",
@@ -87,7 +87,7 @@
       "code": "cnc-13",
       "class": "SMProfile-CNC-Machine",
       "name": "HB1000P (Heidenhain iTNC 530)",
-      "partOf": "cnc-pool"
+      "partOf": "cnc-workshop"
     },
     {
       "id": "cnc-14",
@@ -95,7 +95,7 @@
       "code": "cnc-14",
       "class": "SMProfile-CNC-Machine",
       "name": "HB1500-1 (Heidenhain iTNC 530)",
-      "partOf": "cnc-pool"
+      "partOf": "cnc-workshop"
     },
     {
       "id": "cnc-15",
@@ -103,7 +103,7 @@
       "code": "cnc-15",
       "class": "SMProfile-CNC-Machine",
       "name": "CNC Mill 5-Axis (Heidenhain TNC 640)",
-      "partOf": "cnc-pool"
+      "partOf": "cnc-workshop"
     },
     {
       "id": "cnc-16",
@@ -111,7 +111,7 @@
       "code": "cnc-16",
       "class": "SMProfile-CNC-Machine",
       "name": "CNC Grinding (Heidenhain TNC 640)",
-      "partOf": "cnc-pool"
+      "partOf": "cnc-workshop"
     },
     {
       "id": "cnc-17",
@@ -119,7 +119,7 @@
       "code": "cnc-17",
       "class": "SMProfile-CNC-Machine",
       "name": "CNC Drilling (Heidenhain TNC 640)",
-      "partOf": "cnc-pool"
+      "partOf": "cnc-workshop"
     },
     {
       "id": "cnc-18",
@@ -127,7 +127,7 @@
       "code": "cnc-18",
       "class": "SMProfile-CNC-Machine",
       "name": "CNC Mill High-Speed (Heidenhain TNC 7)",
-      "partOf": "cnc-pool"
+      "partOf": "cnc-workshop"
     },
     {
       "id": "cnc-19",
@@ -135,7 +135,7 @@
       "code": "cnc-19",
       "class": "SMProfile-CNC-Machine",
       "name": "CNC Mill 5-Axis (Heidenhain TNC 7)",
-      "partOf": "cnc-pool"
+      "partOf": "cnc-workshop"
     },
     {
       "id": "cnc-20",
@@ -143,7 +143,7 @@
       "code": "cnc-20",
       "class": "SMProfile-CNC-Machine",
       "name": "CNC Turn-Mill (Heidenhain TNC 7)",
-      "partOf": "cnc-pool"
+      "partOf": "cnc-workshop"
     }
   ]
 }
