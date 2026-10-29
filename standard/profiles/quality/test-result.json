@@ -1,10 +1,10 @@
 {
   "profileId": "SMProfile-TestResult",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "standard": "CarToUNS",
   "category": "quality",
   "displayName": "Test Result (a person, machine or tool tested)",
-  "description": "ISA-95 Part 2 cl. 5.9 (operations test model) TestResult for the resources: a personnel qualification test, an equipment or a physical asset capability test — the result names the person, machine or tool it tested (TESTS). A material test result is the inspection lot (InspectionLot).",
+  "description": "ISA-95 Part 2 cl. 5.9 (operations test model) TestResult of a testable object: a personnel qualification, an equipment or physical asset capability test, or a test of material (a lot or sublot) — the result names what it tested (TESTS).",
   "parentType": null,
   "abstract": false,
   "properties": [
@@ -102,6 +102,28 @@
       "valueType": "ID"
     },
     {
+      "name": "material_lot_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The tested object when it is material: the material lot (B2MML MaterialLot) — a material test (TESTS); the key of a material result is the lot, never a machine.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "quant_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The tested object when it is material: the material sublot (Quant = B2MML MaterialSubLot) — a material test (TESTS).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
       "name": "parent_test_result_ref",
       "dataType": "String",
       "required": false,
@@ -133,6 +155,18 @@
       "description": "The tested object: a tool (physical asset) (B2MML TestResult.TestableObjectID)."
     },
     {
+      "type": "TESTS",
+      "target": "MaterialLot",
+      "targetIdProp": "material_lot_no",
+      "description": "The tested object: a material lot (B2MML TestResult.TestableObjectID)."
+    },
+    {
+      "type": "TESTS",
+      "target": "Quant",
+      "targetIdProp": "quant_no",
+      "description": "The tested object: a material sublot (Quant = MaterialSubLot) (B2MML TestResult.TestableObjectID)."
+    },
+    {
       "type": "PART_OF",
       "target": "TestResult",
       "targetIdProp": "test_result_id",
@@ -149,7 +183,7 @@
     "part": 2,
     "momDomain": "quality",
     "level": 3,
-    "note": "ISA-95 Part 2 cl. 5.9 TestResult; B2MML 0701 has ONE TestResult for every testable object (the edition 2013 QualificationTestResult, EquipmentCapabilityTestResult and PhysicalAssetCapabilityTestResult are this object). The material result is InspectionLot.",
+    "note": "ISA-95 Part 2 cl. 5.9 TestResult; B2MML 0701 has ONE TestResult for every testable object (the 2013 qualification, equipment and physical asset capability test results are this object). Core 6.0.0 E1 (owner 30.10.2026): material too — a lot (MaterialLot) or sublot (Quant).",
     "propertyMap": {
       "test_result_id": "TestResult.ID",
       "description": "TestResult.Description",
@@ -158,13 +192,15 @@
       "result": "TestResult.EvaluatedCriterionResult",
       "person_ref": "TestResult.TestableObjectID",
       "machine_ref": "TestResult.TestableObjectID",
-      "tool_ref": "TestResult.TestableObjectID"
+      "tool_ref": "TestResult.TestableObjectID",
+      "material_lot_ref": "TestResult.TestableObjectID",
+      "quant_ref": "TestResult.TestableObjectID"
     },
     "notInIsa95": [
       "parent_test_result_ref"
     ],
     "mappingNote": "B2MML carries the parent result through the nesting of TestResultChild, not as a field.",
-    "grain": "one test result of a resource (ISA-95 Part 2 cl. 5.9 TestResult): one row = one evaluation of a person (qualification), a machine (equipment capability) or a tool (physical asset capability) against a test specification, keyed by test_result_id; the test result of material is InspectionLot"
+    "grain": "one test result of a testable object (ISA-95 Part 2 cl. 5.9 TestResult): one row = one evaluation of a person (qualification), a machine (equipment capability), a tool (physical asset capability) or material — a lot (MaterialLot) or sublot (Quant) — against a test specification, keyed by test_result_id; a material result names its lot / sublot, never a machine"
   },
   "kgNodeLabel": "TestResult",
   "kgIdProperty": "test_result_id"

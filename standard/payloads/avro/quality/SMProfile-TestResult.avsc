@@ -2,7 +2,7 @@
   "type": "record",
   "name": "TestResult",
   "namespace": "org.openshopfloor.payload.quality",
-  "doc": "GENERATED from standard/profiles/quality/test-result.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "doc": "GENERATED from standard/profiles/quality/test-result.json 1.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
   "fields": [
     {
       "name": "eventType",
@@ -46,7 +46,7 @@
     {
       "name": "profileVersion",
       "type": "string",
-      "default": "1.0.0"
+      "default": "1.1.0"
     },
     {
       "name": "b2m",
@@ -178,6 +178,24 @@
             ],
             "default": null,
             "doc": "The tested object when it is a tool (physical asset) — a physical asset capability test (TESTS)."
+          },
+          {
+            "name": "material_lot_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The tested object when it is material: the material lot (B2MML MaterialLot) — a material test (TESTS); the key of a material result is the lot, never a machine."
+          },
+          {
+            "name": "quant_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The tested object when it is material: the material sublot (Quant = B2MML MaterialSubLot) — a material test (TESTS)."
           },
           {
             "name": "parent_test_result_ref",
