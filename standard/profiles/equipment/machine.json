@@ -142,8 +142,8 @@
     "objectModel": "Equipment",
     "part": 2,
     "momDomain": "production",
-    "equipmentLevel": "WorkCell",
-    "grain": "one equipment element at equipment level WorkCell (ISA-95 Part 1 role-based equipment hierarchy, discrete production: ProductionLine → WorkCell, as the ISA-95 audit of 13.10.2026 (H1) cites Part 1 5.3.7–5.3.9; B2MML-Common.xsd EquipmentLevel1Type WorkCell; core 6.0.0 — before it the batch branch ProcessCell → Unit): one row = one machine (its specialisations CNC-Machine and InjectionMoldingMachine inherit this grain), keyed by its Equipment ID element_id — the one ID space all levels of the role-based equipment hierarchy share",
+    "equipmentLevel": "WorkUnit",
+    "grain": "one equipment element in a work-unit role of the ISA-95 Part 1 role-based equipment hierarchy: the class says the generic level WorkUnit (B2MML-Common.xsd EquipmentLevel1Type), the instance the role it plays (sites/<site>/instances equipmentLevel = B2MML Equipment.EquipmentLevel) — WorkCell in a ProductionLine (discrete, audit H1), WorkUnit in a generic WorkCenter (job shop, X2); audit M-03: one class cannot fix one role level. One row = one machine (CNC-Machine and InjectionMoldingMachine inherit this grain), keyed by its Equipment ID element_id — the one ID space all levels of the role-based equipment hierarchy share",
     "propertyMap": {
       "element_id": "Equipment.ID",
       "storage_location_ref": "Equipment.OperationalLocation",
