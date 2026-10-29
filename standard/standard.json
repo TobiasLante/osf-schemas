@@ -7,11 +7,19 @@
   "breaking": [
     {
       "id": "machines-work-cell",
-      "text": "Machines: a discrete machine (CNC, injection moulding) is a WorkCell of a ProductionLine — ISA-95 Part 1 role-based hierarchy, discrete production (audit H1) — no longer a Unit of a ProcessCell (the batch branch). A machine of a job shop is a WorkUnit of its generic WorkCenter (X2). SMProfile-Machine, -CNC-Machine, -InjectionMoldingMachine say the generic level WorkUnit — the role (WorkCell, WorkUnit) is the instance's equipmentLevel, one class cannot fix one role level (audit M-03); Machine PART_OF ProductionLine and PART_OF WorkCenter; a plant's lines become ProductionLine, their machines WorkCell. The codes stay, so the UNS addresses stay; every reader of a level (rules, screens) takes a work unit as a machine.",
+      "text": "Machines: a discrete machine (CNC, injection moulding) is a WorkCell of a ProductionLine — ISA-95 Part 1 role-based hierarchy, discrete production (audit H1) — no longer a Unit of a ProcessCell (the batch branch). A machine of a job shop is a WorkUnit of its generic WorkCenter (X2). SMProfile-Machine, -CNC-Machine, -InjectionMoldingMachine say the generic level WorkUnit — the role (WorkCell, WorkUnit) is the instance's equipmentLevel, one class cannot fix one role level (audit M-03); Machine PART_OF WorkCenter (see machine-part-of-work-center); a plant's lines become ProductionLine, their machines WorkCell. The codes stay, so the UNS addresses stay; every reader of a level (rules, screens) takes a work unit as a machine.",
       "profiles": [
         "SMProfile-Machine",
         "SMProfile-CNC-Machine",
         "SMProfile-InjectionMoldingMachine"
+      ]
+    },
+    {
+      "id": "machine-part-of-work-center",
+      "text": "Work centers: every work center of the plant tree (ProductionLine, WorkCenter, ProcessCell …) is an instance of SMProfile-WorkCenter — the generic work center of ISA-95 Part 1/2, one KG label WorkCenter keyed by element_id; its role is the instance's equipmentLevel (B2MML Equipment.EquipmentLevel). Machine PART_OF ProductionLine, a tree target without a node label in the contract (audit M-04), is gone: a machine is PART_OF its WorkCenter, whatever role the work center plays. The ids and codes stay, so the UNS addresses stay; a reader that matched (:ProductionLine) matches (:WorkCenter) and reads the level from the instance.",
+      "profiles": [
+        "SMProfile-Machine",
+        "SMProfile-WorkCenter"
       ]
     },
     {

@@ -99,15 +99,9 @@
   "relationships": [
     {
       "type": "PART_OF",
-      "target": "ProductionLine",
-      "resolvedBy": "instances",
-      "description": "ISA-95 Part 1 role-based equipment hierarchy (discrete): the machine is a work cell of a production line (core 6.0.0, audit H1; before: ISA-88 ProcessCell)."
-    },
-    {
-      "type": "PART_OF",
       "target": "WorkCenter",
       "resolvedBy": "instances",
-      "description": "A machine of a job shop is a work unit of its generic work center (ISA-95 Part 1, the WorkCenter → WorkUnit branch; owner 29.10.2026, X2: the sim names no line for most of its machines)."
+      "description": "ISA-95 Part 1 role-based hierarchy: a machine is a work unit of its work center — a WorkCenter node in any work-center role (ProductionLine, audit H1; the generic WorkCenter of a job shop, X2); the role is the instance's equipmentLevel (audit M-04)."
     },
     {
       "type": "AT_LOCATION",

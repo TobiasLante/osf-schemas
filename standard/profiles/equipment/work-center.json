@@ -1,10 +1,10 @@
 {
   "profileId": "SMProfile-WorkCenter",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "standard": "CarToUNS",
   "category": "equipment",
   "displayName": "Work Center (role-based equipment hierarchy)",
-  "description": "ISA-95 Part 2 cl. 5.5 (Equipment): a work center of an area (a process cell, production line, production unit or storage zone); equipment level WorkCenter.",
+  "description": "ISA-95 Part 2 cl. 5.5 (Equipment): a work center of an area — any work-center role of the Part 1 role-based hierarchy (process cell, production line, production unit, storage zone or the generic work center); the role is the instance's equipmentLevel.",
   "parentType": null,
   "abstract": false,
   "properties": [
@@ -60,13 +60,13 @@
     "part": 2,
     "momDomain": "production",
     "level": 3,
-    "note": "ISA-95 Part 2 cl. 5.5 Equipment: a work center of an area (a process cell, production line, production unit or storage zone); equipment level WorkCenter. Core 4.0.0 (0.3.5, OPEN-0350, owner 07.10.).",
+    "note": "ISA-95 Part 2 cl. 5.5 Equipment: a work center of an area in any work-center role; the class says the generic level WorkCenter, the instance its role (equipmentLevel). Core 4.0.0 (OPEN-0350, owner 07.10.); core 6.0.0 audit M-04: every work center of the plant tree is an instance of it.",
     "propertyMap": {
       "element_id": "Equipment.ID",
       "name": "Equipment.Description"
     },
     "equipmentLevel": "WorkCenter",
-    "grain": "one equipment element at equipment level WorkCenter (ISA-95 Part 2 cl. 5.5; B2MML-Common.xsd EquipmentLevel1Type WorkCenter): one row = one work center of an area, keyed by its Equipment ID element_id — the one ID space all levels of the role-based equipment hierarchy share",
+    "grain": "one equipment element in a work-center role (ISA-95 Part 2 cl. 5.5; the class says the generic level WorkCenter of B2MML-Common.xsd EquipmentLevel1Type, the instance its role: ProductionLine, WorkCenter, ProcessCell …): one row = one work center of an area, keyed by its Equipment ID element_id — the one ID space all levels of the role-based equipment hierarchy share",
     "notInIsa95": [
       "area_ref"
     ],

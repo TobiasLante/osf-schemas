@@ -1485,7 +1485,6 @@
       "type": "PART_OF",
       "from": "Machine",
       "to": [
-        "ProductionLine",
         "WorkCenter"
       ]
     },
@@ -3695,9 +3694,7 @@
   },
   "treeTargets": {
     "_comment": "Relationship targets that are equipment levels of the instance tree (instance-schema equipmentLevel): the edge resolves through the partOf chain of sites/<site>/instances, no targetIdProp (resolvedBy: instances).",
-    "entries": [
-      "Machine -[PART_OF]-> ProductionLine"
-    ]
+    "entries": []
   },
   "aliases": {
     "_comment": "Observed non-conformant vocabulary (agent-conformance test 2026-07-09) -> conformant repo form. Never write the left side. Note: RESPONDS_TO, TRIGGERS, FOR_* ARE conformant repo vocabulary (see edges); ON_MACHINE and EXECUTED_AT are retired (only ISA-95 edges).",
