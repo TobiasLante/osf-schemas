@@ -1,0 +1,667 @@
+{
+  "recipeId": "RECIPE-V4-14-0627-030",
+  "version": "1.0.0",
+  "owner": "Process Engineering",
+  "profileRef": "SMProfile-CNC-Machine",
+  "displayName": "_V4_14-0627-030 (14-0627-030) × CNC-LEGACY",
+  "description": "Recipe of _V4_14-0627-030 on CNC-LEGACY (material AL7075): process_estimate windows. Full text: docs/history/sites/werk1/recipes/recipe-v4-14-0627-030.md, description.",
+  "match": {
+    "article": "_V4_14-0627-030",
+    "equipmentClass": "SMProfile-CNC-Machine"
+  },
+  "values": {
+    "recipe:set_speed_spindle_band": [
+      10822.5361,
+      14005.635
+    ],
+    "recipe:cutting_speed_band": [
+      300,
+      500
+    ],
+    "recipe:set_rate_feed_band": [
+      3514.1411,
+      4831.9441
+    ],
+    "recipe:feed_per_tooth_band": [
+      0.08,
+      0.15
+    ],
+    "recipe:depth_of_cut_band": [
+      0.5,
+      3.0
+    ],
+    "recipe:width_of_cut_band": [
+      2.0,
+      7.0
+    ],
+    "recipe:act_pct_spindle_load_band": [
+      0,
+      85
+    ],
+    "recipe:act_pct_feed_override_band": [
+      80,
+      110
+    ],
+    "recipe:act_pressure_coolant_band": [
+      20,
+      70
+    ],
+    "recipe:act_temp_coolant_band": [
+      18,
+      28
+    ],
+    "recipe:act_rate_coolant_flow_band": [
+      12,
+      30
+    ],
+    "recipe:coolant_concentration_band": [
+      4,
+      8
+    ],
+    "recipe:act_temp_spindle_band": [
+      20,
+      55
+    ],
+    "recipe:act_pct_tool_wear_band": [
+      0,
+      80
+    ],
+    "recipe:tool_life_band": [
+      10,
+      90
+    ],
+    "recipe:act_time_cycle_band": [
+      30.78,
+      39.33
+    ],
+    "recipe:surface_roughness_ra_band": [
+      0.0004,
+      0.0032
+    ],
+    "recipe:dimensional_tolerance_band": [
+      0.0,
+      0.05
+    ],
+    "recipe:clamping_pressure_band": [
+      40,
+      80
+    ],
+    "recipe:vibration_velocity_band": [
+      0.0,
+      4.5
+    ],
+    "recipe:act_energy_power_band": [
+      1,
+      18
+    ]
+  },
+  "toleranceSource": {
+    "recipe:set_speed_spindle_band": "process_estimate",
+    "recipe:cutting_speed_band": "process_estimate",
+    "recipe:set_rate_feed_band": "process_estimate",
+    "recipe:feed_per_tooth_band": "process_estimate",
+    "recipe:depth_of_cut_band": "process_estimate",
+    "recipe:width_of_cut_band": "process_estimate",
+    "recipe:act_pct_spindle_load_band": "process_estimate",
+    "recipe:act_pct_feed_override_band": "process_estimate",
+    "recipe:act_pressure_coolant_band": "process_estimate",
+    "recipe:act_temp_coolant_band": "process_estimate",
+    "recipe:act_rate_coolant_flow_band": "process_estimate",
+    "recipe:coolant_concentration_band": "process_estimate",
+    "recipe:act_temp_spindle_band": "process_estimate",
+    "recipe:act_pct_tool_wear_band": "process_estimate",
+    "recipe:tool_life_band": "process_estimate",
+    "recipe:act_time_cycle_band": "process_estimate",
+    "recipe:surface_roughness_ra_band": "process_estimate",
+    "recipe:dimensional_tolerance_band": "process_estimate",
+    "recipe:clamping_pressure_band": "process_estimate",
+    "recipe:vibration_velocity_band": "process_estimate",
+    "recipe:act_energy_power_band": "process_estimate"
+  },
+  "capability": {
+    "recipe:set_speed_spindle_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "tool_ref"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:cutting_speed_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "tool_ref"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:set_rate_feed_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "tool_ref"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:feed_per_tooth_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "tool_ref"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:depth_of_cut_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "tool_ref"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:width_of_cut_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "tool_ref"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:act_pct_spindle_load_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "tool_ref"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:act_pct_feed_override_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "tool_ref"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:act_pressure_coolant_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "tool_ref"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:act_temp_coolant_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "tool_ref"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:act_rate_coolant_flow_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "tool_ref"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:coolant_concentration_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "tool_ref"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:act_temp_spindle_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "tool_ref"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:act_pct_tool_wear_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "tool_ref"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:tool_life_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "tool_ref"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:act_time_cycle_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "tool_ref"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:surface_roughness_ra_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "tool_ref"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:dimensional_tolerance_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "tool_ref"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:clamping_pressure_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "tool_ref"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:vibration_velocity_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "tool_ref"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:act_energy_power_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "tool_ref"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    }
+  },
+  "parameters": [
+    {
+      "param": "Set_Speed_Spindle",
+      "soll": 12732.3954,
+      "tolerance": [
+        10822.5361,
+        14005.635
+      ],
+      "unit": "RPM",
+      "smAttribute": "Set_Speed_Spindle",
+      "monitored": true,
+      "valueFrom": "recipe:set_speed_spindle_band"
+    },
+    {
+      "param": "cuttingSpeed",
+      "soll": 400.0,
+      "tolerance": [
+        300,
+        500
+      ],
+      "unit": "2X",
+      "monitored": false,
+      "valueFrom": "recipe:cutting_speed_band"
+    },
+    {
+      "param": "Set_Rate_Feed",
+      "soll": 4392.6764,
+      "tolerance": [
+        3514.1411,
+        4831.9441
+      ],
+      "unit": "H81",
+      "smAttribute": "Set_Rate_Feed",
+      "monitored": true,
+      "valueFrom": "recipe:set_rate_feed_band"
+    },
+    {
+      "param": "feedPerTooth",
+      "soll": 0.115,
+      "tolerance": [
+        0.08,
+        0.15
+      ],
+      "unit": "MMT",
+      "monitored": false,
+      "valueFrom": "recipe:feed_per_tooth_band"
+    },
+    {
+      "param": "depthOfCut",
+      "soll": 1.5,
+      "tolerance": [
+        0.5,
+        3.0
+      ],
+      "unit": "MMT",
+      "monitored": false,
+      "valueFrom": "recipe:depth_of_cut_band"
+    },
+    {
+      "param": "widthOfCut",
+      "soll": 5.0,
+      "tolerance": [
+        2.0,
+        7.0
+      ],
+      "unit": "MMT",
+      "monitored": false,
+      "valueFrom": "recipe:width_of_cut_band"
+    },
+    {
+      "param": "Act_Pct_SpindleLoad",
+      "soll": 60,
+      "tolerance": [
+        0,
+        85
+      ],
+      "unit": "P1",
+      "smAttribute": "Act_Pct_SpindleLoad",
+      "monitored": true,
+      "valueFrom": "recipe:act_pct_spindle_load_band"
+    },
+    {
+      "param": "Act_Pct_FeedOverride",
+      "soll": 100,
+      "tolerance": [
+        80,
+        110
+      ],
+      "unit": "P1",
+      "smAttribute": "Act_Pct_FeedOverride",
+      "monitored": true,
+      "valueFrom": "recipe:act_pct_feed_override_band"
+    },
+    {
+      "param": "Act_Pressure_Coolant",
+      "soll": 40,
+      "tolerance": [
+        20,
+        70
+      ],
+      "unit": "BAR",
+      "smAttribute": "Act_Pressure_Coolant",
+      "monitored": true,
+      "valueFrom": "recipe:act_pressure_coolant_band"
+    },
+    {
+      "param": "Act_Temp_Coolant",
+      "soll": 22,
+      "tolerance": [
+        18,
+        28
+      ],
+      "unit": "CEL",
+      "smAttribute": "Act_Temp_Coolant",
+      "monitored": true,
+      "valueFrom": "recipe:act_temp_coolant_band"
+    },
+    {
+      "param": "Act_Rate_CoolantFlow",
+      "soll": 20,
+      "tolerance": [
+        12,
+        30
+      ],
+      "unit": "L2",
+      "smAttribute": "Act_Rate_CoolantFlow",
+      "monitored": true,
+      "valueFrom": "recipe:act_rate_coolant_flow_band"
+    },
+    {
+      "param": "coolantConcentration",
+      "soll": 6,
+      "tolerance": [
+        4,
+        8
+      ],
+      "unit": "P1",
+      "monitored": false,
+      "valueFrom": "recipe:coolant_concentration_band"
+    },
+    {
+      "param": "Act_Temp_Spindle",
+      "soll": 35,
+      "tolerance": [
+        20,
+        55
+      ],
+      "unit": "CEL",
+      "smAttribute": "Act_Temp_Spindle",
+      "monitored": true,
+      "valueFrom": "recipe:act_temp_spindle_band"
+    },
+    {
+      "param": "Act_Pct_ToolWear",
+      "soll": 30,
+      "tolerance": [
+        0,
+        80
+      ],
+      "unit": "P1",
+      "smAttribute": "Act_Pct_ToolWear",
+      "monitored": true,
+      "valueFrom": "recipe:act_pct_tool_wear_band"
+    },
+    {
+      "param": "toolLife",
+      "soll": 45,
+      "tolerance": [
+        10,
+        90
+      ],
+      "unit": "MIN",
+      "monitored": false,
+      "valueFrom": "recipe:tool_life_band"
+    },
+    {
+      "param": "Act_Time_Cycle",
+      "soll": 34.2,
+      "tolerance": [
+        30.78,
+        39.33
+      ],
+      "unit": "SEC",
+      "smAttribute": "Act_Time_Cycle",
+      "monitored": true,
+      "valueFrom": "recipe:act_time_cycle_band"
+    },
+    {
+      "param": "surfaceRoughnessRa",
+      "soll": 0.0016,
+      "tolerance": [
+        0.0004,
+        0.0032
+      ],
+      "unit": "MMT",
+      "monitored": false,
+      "valueFrom": "recipe:surface_roughness_ra_band"
+    },
+    {
+      "param": "dimensionalTolerance",
+      "soll": 0.02,
+      "tolerance": [
+        0.0,
+        0.05
+      ],
+      "unit": "MMT",
+      "monitored": false,
+      "valueFrom": "recipe:dimensional_tolerance_band"
+    },
+    {
+      "param": "clampingPressure",
+      "soll": 60,
+      "tolerance": [
+        40,
+        80
+      ],
+      "unit": "BAR",
+      "monitored": false,
+      "valueFrom": "recipe:clamping_pressure_band"
+    },
+    {
+      "param": "vibrationVelocity",
+      "soll": 2.0,
+      "tolerance": [
+        0.0,
+        4.5
+      ],
+      "unit": "C16",
+      "monitored": false,
+      "valueFrom": "recipe:vibration_velocity_band"
+    },
+    {
+      "param": "Act_Energy_Power",
+      "soll": 7.5,
+      "tolerance": [
+        1,
+        18
+      ],
+      "unit": "KWT",
+      "smAttribute": "Act_Energy_Power",
+      "monitored": true,
+      "valueFrom": "recipe:act_energy_power_band"
+    }
+  ],
+  "source": {
+    "erp": "sim-v5 ERP .154:38260 /api/articles, /api/arbeitsplaene, /api/bom (read 29.10.2026)",
+    "routing": "_V4_AP-14-0627-030",
+    "operation": 10,
+    "machineGroup": "CNC-LEGACY"
+  }
+}

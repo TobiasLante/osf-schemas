@@ -57,6 +57,32 @@
       "valueType": "MD"
     },
     {
+      "name": "recipe_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The recipe the order ran with (its recipeId in sites/<site>/recipes).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "A recipe is a released git file (sites/<site>/recipes, R3), no profile of ours — B2MML 0701 has no field for it on a response; kept as a value for traceability (R5)."
+      }
+    },
+    {
+      "name": "recipe_version",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The released version (semver) of that recipe.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
       "name": "machine_ref",
       "dataType": "String",
       "required": false,
@@ -262,9 +288,11 @@
       "setup_min",
       "cycle_time_actual_sec",
       "updated_at",
-      "article_revision"
+      "article_revision",
+      "recipe_ref",
+      "recipe_version"
     ],
-    "mappingNote": "B2MML SegmentResponse has one quantity per material actual, no good/scrap/rework split, no scrap reason, no shift, no booked minutes and no cycle time; operation_no is the ERP routing operation number, no B2MML ID; updated_at is a technical timestamp of the source. Audit M3 (core 6.0.0): good_qty is the produced MaterialActual (MaterialUse Produced), labor_min / machine_min the personnel / equipment actual quantity (UoM MIN); scrap_qty and rework_qty stay ours — B2MML 0701 has no MaterialUse for scrap or rework (each would need a MaterialDefinition of its own); setup_min belongs to a segment response of its own. PLM as-built (owner 29.10.2026): article_revision names the state that was built where the source's id carries none; B2MML references a definition by its ID alone (an ID means one state), so there is no field for it — an extension, never part of the key.",
+    "mappingNote": "B2MML SegmentResponse has one quantity per material actual, no good/scrap/rework split, no scrap reason, no shift, no booked minutes and no cycle time; operation_no is the ERP routing operation number, no B2MML ID; updated_at is a technical timestamp of the source. Audit M3 (core 6.0.0): good_qty is the produced MaterialActual (MaterialUse Produced), labor_min / machine_min the personnel / equipment actual quantity (UoM MIN); scrap_qty and rework_qty stay ours — B2MML 0701 has no MaterialUse for scrap or rework (each would need a MaterialDefinition of its own); setup_min belongs to a segment response of its own. PLM as-built (owner 29.10.2026): article_revision names the state that was built where the source's id carries none; B2MML references a definition by its ID alone (an ID means one state), so there is no field for it — an extension, never part of the key. recipe_ref / recipe_version (0.7.0 R5): the git recipe and its released version the order ran with — B2MML has no field for a recipe file on a response, so they are extensions for traceability.",
     "grain": "one booking"
   },
   "kgNodeLabel": "BdeConfirmation",

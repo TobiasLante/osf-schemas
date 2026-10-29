@@ -143,6 +143,14 @@
           "type": "string",
           "description": "The revision of the article that was built or used, where the source's article number carries none (a PLM part number with revision A). Empty when the number itself names the revision (at SAP dddd.1)."
         },
+        "recipe_ref": {
+          "type": "string",
+          "description": "The recipe the order ran with (its recipeId in sites/<site>/recipes)."
+        },
+        "recipe_version": {
+          "type": "string",
+          "description": "The released version (semver) of that recipe."
+        },
         "program_line": {
           "type": "integer",
           "description": "The active line of the running program. Reported by the machine source through objects[] (owner 25.09.); history: docs/history/standard/profiles/operations/segment-response.md."
@@ -266,6 +274,8 @@
     "production_order_ref": "transactional",
     "article_ref": "transactional",
     "article_revision": "transactional",
+    "recipe_ref": "transactional",
+    "recipe_version": "transactional",
     "program_line": "transactional",
     "program_status": "transactional",
     "equipment_class_ref": "transactional",

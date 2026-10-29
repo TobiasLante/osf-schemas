@@ -355,6 +355,32 @@
       "valueType": "MD"
     },
     {
+      "name": "recipe_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The recipe the order ran with (its recipeId in sites/<site>/recipes).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "A recipe is a released git file (sites/<site>/recipes, R3), no profile of ours — B2MML 0701 has no field for it on a response; kept as a value for traceability (R5)."
+      }
+    },
+    {
+      "name": "recipe_version",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The released version (semver) of that recipe.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
       "name": "program_line",
       "dataType": "Int32",
       "required": false,
@@ -779,9 +805,11 @@
       "qty_rework",
       "source_quality",
       "operations_definition_version",
-      "article_revision"
+      "article_revision",
+      "recipe_ref",
+      "recipe_version"
     ],
-    "mappingNote": "sequence is carried by B2MML through the order of SegmentResponse in OperationsResponse; B2MML has one quantity per material actual, no good/scrap/total/rework split, and no NC program, program line or program state. source_quality: data quality of the record as its source reported it; ISA-95 has no element for it. Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent). Audit M3 (core 6.0.0): qty_good is the produced MaterialActual (MaterialUse Produced); program_ref / program_line / program_status are SegmentData entries named by their ID; qty_scrap / qty_rework / qty_total stay ours (no MaterialUse for scrap or rework in B2MML 0701). PLM as-built (owner 29.10.2026): operations_definition_version and article_revision name the state that was built where the source's id carries none; B2MML references a definition by its ID alone (an ID means one state), so there is no field for it — an extension, never part of the key."
+    "mappingNote": "sequence is carried by B2MML through the order of SegmentResponse in OperationsResponse; B2MML has one quantity per material actual, no good/scrap/total/rework split, and no NC program, program line or program state. source_quality: data quality of the record as its source reported it; ISA-95 has no element for it. Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent). Audit M3 (core 6.0.0): qty_good is the produced MaterialActual (MaterialUse Produced); program_ref / program_line / program_status are SegmentData entries named by their ID; qty_scrap / qty_rework / qty_total stay ours (no MaterialUse for scrap or rework in B2MML 0701). PLM as-built (owner 29.10.2026): operations_definition_version and article_revision name the state that was built where the source's id carries none; B2MML references a definition by its ID alone (an ID means one state), so there is no field for it — an extension, never part of the key. recipe_ref / recipe_version (0.7.0 R5): the git recipe and its released version the order ran with — B2MML has no field for a recipe file on a response, so they are extensions for traceability."
   },
   "kgNodeLabel": "SegmentResponse",
   "kgIdProperty": "segment_response_no",

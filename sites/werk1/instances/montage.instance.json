@@ -1,0 +1,82 @@
+{
+  "_note": "0.7.0 X2: the assembly area of the sim — its lines (assembly-line) and pre-assembly areas (vormontage: a work center, owner 29.10. \"bereich\"); the stations come with their machine profiles.",
+  "instances": [
+    {
+      "id": "montage",
+      "equipmentLevel": "Area",
+      "code": "montage",
+      "name": "Montage",
+      "partOf": "werk1"
+    },
+    {
+      "id": "line-ml-1",
+      "equipmentLevel": "ProductionLine",
+      "code": "line-ml-1",
+      "name": "Linie 1 — Industriegehäuse (v4-ML-1)",
+      "partOf": "montage"
+    },
+    {
+      "id": "line-ml-2",
+      "equipmentLevel": "ProductionLine",
+      "code": "line-ml-2",
+      "name": "Linie 2 — Antriebsmodul (v4-ML-2)",
+      "partOf": "montage"
+    },
+    {
+      "id": "line-ml-3",
+      "equipmentLevel": "ProductionLine",
+      "code": "line-ml-3",
+      "name": "Linie 3 — Sensormodul (v4-ML-3)",
+      "partOf": "montage"
+    },
+    {
+      "id": "line-ml-4",
+      "equipmentLevel": "ProductionLine",
+      "code": "line-ml-4",
+      "name": "Linie 4 — Steuerungseinheit (v4-ML-4)",
+      "partOf": "montage"
+    },
+    {
+      "id": "line-pf",
+      "equipmentLevel": "WorkCenter",
+      "code": "line-pf",
+      "name": "Prüffeld — Endprüfung (v4-PF)",
+      "partOf": "montage"
+    },
+    {
+      "id": "line-vm-1",
+      "equipmentLevel": "ProductionLine",
+      "code": "line-vm-1",
+      "name": "Vormontage 1 — Kabelbaum (v4-VM-1)",
+      "partOf": "montage"
+    },
+    {
+      "id": "line-vm-2",
+      "equipmentLevel": "ProductionLine",
+      "code": "line-vm-2",
+      "name": "Vormontage 2 — Dichtungsset (v4-VM-2)",
+      "partOf": "montage"
+    },
+    {
+      "id": "line-vm-3",
+      "equipmentLevel": "ProductionLine",
+      "code": "line-vm-3",
+      "name": "Vormontage 3 — Sensorblock (v4-VM-3)",
+      "partOf": "montage"
+    },
+    {
+      "id": "vormontage-01",
+      "equipmentLevel": "WorkCenter",
+      "code": "vormontage-01",
+      "name": "Vormontage-Station 01",
+      "partOf": "montage"
+    },
+    {
+      "id": "vormontage-02",
+      "equipmentLevel": "WorkCenter",
+      "code": "vormontage-02",
+      "name": "Vormontage-Station 02",
+      "partOf": "montage"
+    }
+  ]
+}

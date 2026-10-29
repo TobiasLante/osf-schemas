@@ -138,6 +138,24 @@
             "doc": "The revision of the article that was built or used, where the source's article number carries none (a PLM part number with revision A). Empty when the number itself names the revision (at SAP dddd.1)."
           },
           {
+            "name": "recipe_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The recipe the order ran with (its recipeId in sites/<site>/recipes)."
+          },
+          {
+            "name": "recipe_version",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The released version (semver) of that recipe."
+          },
+          {
             "name": "machine_ref",
             "type": [
               "null",

@@ -42,6 +42,14 @@
           "type": "string",
           "description": "The revision of the article that was built or used, where the source's article number carries none (a PLM part number with revision A). Empty when the number itself names the revision (at SAP dddd.1)."
         },
+        "recipe_ref": {
+          "type": "string",
+          "description": "The recipe the order ran with (its recipeId in sites/<site>/recipes)."
+        },
+        "recipe_version": {
+          "type": "string",
+          "description": "The released version (semver) of that recipe."
+        },
         "machine_ref": {
           "type": "string",
           "description": "Executing machine (machine_no). MEASURED 2026-08-03: non-null on 2000 of 2000 rows at this grain across 81 distinct values, where the per-production-order aggregate carries it on only 32 of 100. The machine binding survives here and is lost there."
@@ -124,6 +132,8 @@
     "production_order_no": "transactional",
     "article_ref": "transactional",
     "article_revision": "transactional",
+    "recipe_ref": "transactional",
+    "recipe_version": "transactional",
     "machine_ref": "transactional",
     "operation_no": "transactional",
     "shift": "transactional",

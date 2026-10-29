@@ -1,0 +1,530 @@
+{
+  "recipeId": "RECIPE-PART-B",
+  "version": "1.0.0",
+  "owner": "Process Engineering",
+  "profileRef": "SMProfile-Machine",
+  "displayName": "PART-B (Montagewinkel-Baugruppe) × VORMONTAGE",
+  "description": "Recipe of PART-B on VORMONTAGE (assembly): process_estimate windows. Full text: docs/history/sites/werk1/recipes/recipe-part-b.md, description.",
+  "match": {
+    "article": "PART-B",
+    "equipmentClass": "SMProfile-Machine"
+  },
+  "values": {
+    "recipe:screw_torque_band": [
+      2.2,
+      2.8
+    ],
+    "recipe:screw_run_time_band": [
+      0.8,
+      1.8
+    ],
+    "recipe:press_in_force_band": [
+      1200,
+      1800
+    ],
+    "recipe:press_in_depth_band": [
+      4.9,
+      5.1
+    ],
+    "recipe:leak_test_pressure_band": [
+      0.45,
+      0.55
+    ],
+    "recipe:leak_test_time_band": [
+      8,
+      15
+    ],
+    "recipe:glue_mass_band": [
+      0.12,
+      0.18
+    ],
+    "recipe:glue_cure_time_band": [
+      25,
+      45
+    ],
+    "recipe:glue_cure_temp_band": [
+      50,
+      70
+    ],
+    "recipe:pneumatic_pressure_band": [
+      5.5,
+      6.5
+    ],
+    "recipe:gripper_force_band": [
+      40,
+      60
+    ],
+    "recipe:feed_rate_band": [
+      20,
+      40
+    ],
+    "recipe:bowl_fill_pct_band": [
+      30,
+      90
+    ],
+    "recipe:vision_position_tolerance_band": [
+      0.0,
+      0.2
+    ],
+    "recipe:label_position_tolerance_band": [
+      0.0,
+      1.0
+    ],
+    "recipe:cycle_time_band": [
+      14.4,
+      18.4
+    ],
+    "recipe:setup_time_band": [
+      0,
+      16.0
+    ],
+    "recipe:ambient_temp_band": [
+      18,
+      28
+    ],
+    "recipe:ambient_humidity_band": [
+      30,
+      60
+    ],
+    "recipe:ionizer_air_pressure_band": [
+      1.5,
+      3
+    ],
+    "recipe:parts_per_cycle_band": [
+      1,
+      1.0
+    ]
+  },
+  "toleranceSource": {
+    "recipe:screw_torque_band": "process_estimate",
+    "recipe:screw_run_time_band": "process_estimate",
+    "recipe:press_in_force_band": "process_estimate",
+    "recipe:press_in_depth_band": "process_estimate",
+    "recipe:leak_test_pressure_band": "process_estimate",
+    "recipe:leak_test_time_band": "process_estimate",
+    "recipe:glue_mass_band": "process_estimate",
+    "recipe:glue_cure_time_band": "process_estimate",
+    "recipe:glue_cure_temp_band": "process_estimate",
+    "recipe:pneumatic_pressure_band": "process_estimate",
+    "recipe:gripper_force_band": "process_estimate",
+    "recipe:feed_rate_band": "process_estimate",
+    "recipe:bowl_fill_pct_band": "process_estimate",
+    "recipe:vision_position_tolerance_band": "process_estimate",
+    "recipe:label_position_tolerance_band": "process_estimate",
+    "recipe:cycle_time_band": "process_estimate",
+    "recipe:setup_time_band": "process_estimate",
+    "recipe:ambient_temp_band": "process_estimate",
+    "recipe:ambient_humidity_band": "process_estimate",
+    "recipe:ionizer_air_pressure_band": "process_estimate",
+    "recipe:parts_per_cycle_band": "process_estimate"
+  },
+  "capability": {
+    "recipe:screw_torque_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "full_history"
+      }
+    },
+    "recipe:screw_run_time_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "full_history"
+      }
+    },
+    "recipe:press_in_force_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "full_history"
+      }
+    },
+    "recipe:press_in_depth_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "full_history"
+      }
+    },
+    "recipe:leak_test_pressure_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "full_history"
+      }
+    },
+    "recipe:leak_test_time_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "full_history"
+      }
+    },
+    "recipe:glue_mass_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "full_history"
+      }
+    },
+    "recipe:glue_cure_time_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "full_history"
+      }
+    },
+    "recipe:glue_cure_temp_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "full_history"
+      }
+    },
+    "recipe:pneumatic_pressure_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "full_history"
+      }
+    },
+    "recipe:gripper_force_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "full_history"
+      }
+    },
+    "recipe:feed_rate_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "full_history"
+      }
+    },
+    "recipe:bowl_fill_pct_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "full_history"
+      }
+    },
+    "recipe:vision_position_tolerance_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "full_history"
+      }
+    },
+    "recipe:label_position_tolerance_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "full_history"
+      }
+    },
+    "recipe:cycle_time_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "full_history"
+      }
+    },
+    "recipe:setup_time_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "full_history"
+      }
+    },
+    "recipe:ambient_temp_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "full_history"
+      }
+    },
+    "recipe:ambient_humidity_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "full_history"
+      }
+    },
+    "recipe:ionizer_air_pressure_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "full_history"
+      }
+    },
+    "recipe:parts_per_cycle_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "full_history"
+      }
+    }
+  },
+  "parameters": [
+    {
+      "param": "screwTorque",
+      "soll": 2.5,
+      "tolerance": [
+        2.2,
+        2.8
+      ],
+      "unit": "NU",
+      "monitored": false,
+      "valueFrom": "recipe:screw_torque_band"
+    },
+    {
+      "param": "screwRunTime",
+      "soll": 1.2,
+      "tolerance": [
+        0.8,
+        1.8
+      ],
+      "unit": "SEC",
+      "monitored": false,
+      "valueFrom": "recipe:screw_run_time_band"
+    },
+    {
+      "param": "pressInForce",
+      "soll": 1500,
+      "tolerance": [
+        1200,
+        1800
+      ],
+      "unit": "NEW",
+      "monitored": false,
+      "valueFrom": "recipe:press_in_force_band"
+    },
+    {
+      "param": "pressInDepth",
+      "soll": 5.0,
+      "tolerance": [
+        4.9,
+        5.1
+      ],
+      "unit": "MMT",
+      "monitored": false,
+      "valueFrom": "recipe:press_in_depth_band"
+    },
+    {
+      "param": "leakTestPressure",
+      "soll": 0.5,
+      "tolerance": [
+        0.45,
+        0.55
+      ],
+      "unit": "BAR",
+      "monitored": false,
+      "valueFrom": "recipe:leak_test_pressure_band"
+    },
+    {
+      "param": "leakTestTime",
+      "soll": 10,
+      "tolerance": [
+        8,
+        15
+      ],
+      "unit": "SEC",
+      "monitored": false,
+      "valueFrom": "recipe:leak_test_time_band"
+    },
+    {
+      "param": "glueMass",
+      "soll": 0.15,
+      "tolerance": [
+        0.12,
+        0.18
+      ],
+      "unit": "GRM",
+      "monitored": false,
+      "valueFrom": "recipe:glue_mass_band"
+    },
+    {
+      "param": "glueCureTime",
+      "soll": 30,
+      "tolerance": [
+        25,
+        45
+      ],
+      "unit": "SEC",
+      "monitored": false,
+      "valueFrom": "recipe:glue_cure_time_band"
+    },
+    {
+      "param": "glueCureTemp",
+      "soll": 60,
+      "tolerance": [
+        50,
+        70
+      ],
+      "unit": "CEL",
+      "monitored": false,
+      "valueFrom": "recipe:glue_cure_temp_band"
+    },
+    {
+      "param": "pneumaticPressure",
+      "soll": 6,
+      "tolerance": [
+        5.5,
+        6.5
+      ],
+      "unit": "BAR",
+      "monitored": false,
+      "valueFrom": "recipe:pneumatic_pressure_band"
+    },
+    {
+      "param": "gripperForce",
+      "soll": 50,
+      "tolerance": [
+        40,
+        60
+      ],
+      "unit": "NEW",
+      "monitored": false,
+      "valueFrom": "recipe:gripper_force_band"
+    },
+    {
+      "param": "feedRate",
+      "soll": 30,
+      "tolerance": [
+        20,
+        40
+      ],
+      "unit": "C62",
+      "monitored": false,
+      "valueFrom": "recipe:feed_rate_band"
+    },
+    {
+      "param": "bowlFillPct",
+      "soll": 60,
+      "tolerance": [
+        30,
+        90
+      ],
+      "unit": "P1",
+      "monitored": false,
+      "valueFrom": "recipe:bowl_fill_pct_band"
+    },
+    {
+      "param": "visionPositionTolerance",
+      "soll": 0.1,
+      "tolerance": [
+        0.0,
+        0.2
+      ],
+      "unit": "MMT",
+      "monitored": false,
+      "valueFrom": "recipe:vision_position_tolerance_band"
+    },
+    {
+      "param": "labelPositionTolerance",
+      "soll": 0.5,
+      "tolerance": [
+        0.0,
+        1.0
+      ],
+      "unit": "MMT",
+      "monitored": false,
+      "valueFrom": "recipe:label_position_tolerance_band"
+    },
+    {
+      "param": "cycleTime",
+      "soll": 16.0,
+      "tolerance": [
+        14.4,
+        18.4
+      ],
+      "unit": "SEC",
+      "monitored": false,
+      "valueFrom": "recipe:cycle_time_band"
+    },
+    {
+      "param": "setupTime",
+      "soll": 10.0,
+      "tolerance": [
+        0,
+        16.0
+      ],
+      "unit": "MIN",
+      "monitored": false,
+      "valueFrom": "recipe:setup_time_band"
+    },
+    {
+      "param": "ambientTemp",
+      "soll": 22,
+      "tolerance": [
+        18,
+        28
+      ],
+      "unit": "CEL",
+      "monitored": false,
+      "valueFrom": "recipe:ambient_temp_band"
+    },
+    {
+      "param": "ambientHumidity",
+      "soll": 45,
+      "tolerance": [
+        30,
+        60
+      ],
+      "unit": "P1",
+      "monitored": false,
+      "valueFrom": "recipe:ambient_humidity_band"
+    },
+    {
+      "param": "ionizerAirPressure",
+      "soll": 2,
+      "tolerance": [
+        1.5,
+        3
+      ],
+      "unit": "BAR",
+      "monitored": false,
+      "valueFrom": "recipe:ionizer_air_pressure_band"
+    },
+    {
+      "param": "partsPerCycle",
+      "soll": 1.0,
+      "tolerance": [
+        1,
+        1.0
+      ],
+      "unit": "C62",
+      "monitored": false,
+      "valueFrom": "recipe:parts_per_cycle_band"
+    }
+  ],
+  "source": {
+    "erp": "sim-v5 ERP .154:38260 /api/articles, /api/arbeitsplaene, /api/bom (read 29.10.2026)",
+    "routing": "AP-PART-B-10",
+    "operation": 5,
+    "machineGroup": "VORMONTAGE"
+  }
+}
