@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-InspectionLot",
-  "version": "3.0.0",
+  "version": "3.2.0",
   "standard": "CarToUNS",
   "category": "quality",
   "displayName": "Inspection Lot",
@@ -54,7 +54,7 @@
       "promotion": "on_change",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
+        "reason": "B2MML 0701 TestResult names no equipment of its own (it tests an object, TestableObjectID): the machine is kept as a value (Explorer X1, judged core 6.0.0)."
       }
     },
     {
@@ -138,6 +138,17 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
+    },
+    {
+      "name": "parent_inspection_lot_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The InspectionLot this InspectionLot is part of (PART_OF; ISA-95 TestResult MADE_UP_OF TestResult). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
     }
   ],
   "relationships": [
@@ -145,6 +156,12 @@
       "type": "TESTS",
       "target": "Article",
       "targetIdProp": "article_no"
+    },
+    {
+      "type": "PART_OF",
+      "target": "InspectionLot",
+      "targetIdProp": "lot_no",
+      "description": "ISA-95 Part 2 cl. 5.9 (B2MML TestResult.TestResultChild)."
     }
   ],
   "constraints": [
@@ -181,19 +198,21 @@
     "propertyMap": {
       "lot_no": "TestResult.ID",
       "article_ref": "TestResult.TestableObjectID",
-      "decision": "TestResult.EvaluatedCriterionResult",
-      "created_at": "TestResult.EvaluationDate"
+      "decision": "TestResult.EvaluatedCriterionResult"
     },
     "notInIsa95": [
       "order_ref",
       "state",
+      "parent_inspection_lot_ref",
       "machine_ref",
       "lot_type",
       "status",
       "quantity",
-      "sample_size"
+      "sample_size",
+      "created_at"
     ],
-    "mappingNote": "TestResult carries no order and no workflow state; both are OSF joins on the lot. TestResult carries no equipment, lot type, lot status, lot quantity or sample size either."
+    "mappingNote": "TestResult carries no order and no workflow state; both are OSF joins on the lot. TestResult carries no equipment, lot type, lot status, lot quantity or sample size either. Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent). created_at is the day the lot was opened, not the evaluation date of B2MML TestResult.EvaluationDate (the usage decision) — no source of the demo plant has that date (audit M4).",
+    "grain": "one test result of material (ISA-95 Part 2 cl. 5.9 TestResult): one row = one inspection lot — the tested article or lot with its usage decision, keyed by lot_no; the test result of a person, machine or tool is TestResult"
   },
   "kgNodeLabel": "InspectionLot",
   "kgIdProperty": "lot_no"

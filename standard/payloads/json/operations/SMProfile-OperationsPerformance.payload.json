@@ -1,0 +1,110 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-OperationsPerformance.payload.json",
+  "title": "SMProfile-OperationsPerformance payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/operations/operations-performance.json 2.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-OperationsPerformance",
+  "x-profileVersion": "2.0.0",
+  "x-payloadVersion": "1.1.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "OperationsPerformance"
+    },
+    "profileRef": {
+      "const": "SMProfile-OperationsPerformance"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "operations_performance_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the operations performance: its own id from the source system (ISA-95 OperationsPerformance.ID)."
+        },
+        "description": {
+          "type": "string",
+          "description": "ISA-95 OperationsPerformance.Description."
+        },
+        "version": {
+          "type": "string",
+          "description": "ISA-95 OperationsPerformance.Version."
+        },
+        "published_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISA-95 OperationsPerformance.PublishedDate."
+        },
+        "start_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISA-95 OperationsPerformance.StartTime."
+        },
+        "end_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISA-95 OperationsPerformance.Endtime."
+        },
+        "operations_type": {
+          "type": "string",
+          "enum": [
+            "Production",
+            "Maintenance",
+            "Quality",
+            "Inventory",
+            "Mixed",
+            "Other"
+          ],
+          "description": "ISA-95 OperationsPerformance.OperationsType."
+        },
+        "performance_state": {
+          "type": "string",
+          "enum": [
+            "Waiting",
+            "Ready",
+            "Running",
+            "Completed",
+            "Aborted",
+            "Held",
+            "Paused",
+            "Suspended",
+            "Closed",
+            "Other"
+          ],
+          "description": "ISA-95 OperationsPerformance.PerformanceState."
+        },
+        "hierarchy_scope_ref": {
+          "type": "string",
+          "description": "The element of the role-based equipment hierarchy this object belongs to (ISA-95 Part 2 cl. 5.1 hierarchy scope, IN_SCOPE_OF). Optional."
+        },
+        "operations_schedule_ref": {
+          "type": "string",
+          "description": "The OperationsSchedule (FOR_OPERATIONS_SCHEDULE; ISA-95 OperationsPerformance → OperationsSchedule). Optional."
+        }
+      },
+      "required": [
+        "operations_performance_id"
+      ]
+    }
+  },
+  "x-delivery": {
+    "operations_performance_id": "transactional",
+    "description": "transactional",
+    "version": "transactional",
+    "published_date": "transactional",
+    "start_time": "transactional",
+    "end_time": "transactional",
+    "operations_type": "transactional",
+    "performance_state": "transactional",
+    "hierarchy_scope_ref": "transactional",
+    "operations_schedule_ref": "transactional"
+  }
+}

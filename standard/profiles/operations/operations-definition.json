@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-OperationsDefinition",
-  "version": "3.0.0",
+  "version": "3.2.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Operations Definition (routing master data / master)",
@@ -81,9 +81,107 @@
         "kind": "refOnly",
         "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
       }
+    },
+    {
+      "name": "operations_material_bill_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The OperationsMaterialBill (HAS_MATERIAL_BILL; ISA-95 OperationsDefinition → OperationsMaterialBill). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "operations_type",
+      "dataType": "String",
+      "description": "ISA-95 operations type (B2MML OperationsType; Part 3/4: which MOM area the object belongs to; audit M1). A source without the column sets the constant of the profile's momDomain (columnMappings const).",
+      "enum": [
+        "Production",
+        "Maintenance",
+        "Quality",
+        "Inventory",
+        "Mixed",
+        "Other"
+      ],
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "bill_of_materials_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The bill of materials in the system that owns it (PLM or ERP) this definition builds from — its id there, never a copy of the BOM.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "The BOM lives in PLM / ERP: kept as its id there; no profile of ours holds that BOM."
+      }
+    },
+    {
+      "name": "effective_start",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "From when this operations definition is valid (effectivity by date). An effectivity by serial number, lot or unit is no date and has no B2MML field (an extension of its own, PLAN-0700 L5).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "effective_end",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "Until when this operations definition is valid.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "published_date",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "When this operations definition was released by the system that owns it.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "engineering_change_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The engineering change (ECN, SAP change number) that released this operations definition.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "Kept as a value: an engineering change is an extension object with no edge into the ISA-95 catalogue."
+      }
     }
   ],
-  "relationships": [],
+  "relationships": [
+    {
+      "type": "HAS_MATERIAL_BILL",
+      "target": "OperationsMaterialBill",
+      "targetIdProp": "operations_material_bill_id",
+      "description": "ISA-95 Part 2 cl. 6.1 (B2MML OperationsDefinition.OperationsMaterialBillID)."
+    }
+  ],
   "constraints": [],
   "semantics": [
     "iso:62264-OperationsDefinition",
@@ -100,13 +198,21 @@
       "operations_definition_no": "OperationsDefinition.ID",
       "name": "OperationsDefinition.Description",
       "version_label": "OperationsDefinition.Version",
-      "article_ref": "OperationsDefinition.OperationsMaterialBillID"
+      "article_ref": "OperationsDefinition.OperationsSegment.MaterialSpecification[MaterialUse=Produced].MaterialDefinitionID",
+      "operations_material_bill_ref": "OperationsDefinition.OperationsMaterialBillID",
+      "operations_type": "OperationsDefinition.OperationsType",
+      "bill_of_materials_ref": "OperationsDefinition.BillOfMaterialsID",
+      "effective_start": "OperationsDefinition.EffectiveStartDate",
+      "effective_end": "OperationsDefinition.EffectiveEndDate",
+      "published_date": "OperationsDefinition.PublishedDate"
     },
     "notInIsa95": [
       "product_definition_ref",
-      "status"
+      "status",
+      "engineering_change_ref"
     ],
-    "grain": "one routing master: one row = one operations definition (key operations_definition_no)"
+    "grain": "one routing master: one row = one operations definition (key operations_definition_no)",
+    "mappingNote": "status: B2MML 0701 OperationsDefinition carries no lifecycle status — its release is Version, PublishedDate and EffectiveStartDate / EffectiveEndDate (DefinitionType is Pattern / Instance, no status); the source's draft / released / obsolete stays our attribute. product_definition_ref: the product definition is no B2MML object of its own (it is an OperationsDefinition with its OperationsSegment.ParameterSpecification); the reference is a key, no ISA-95 edge (owner 25.09.). Audit 13.10.2026 I16 closed with core 6.0.0. PLM extensions (owner 29.10.2026): engineering_change_ref has no B2MML field — B2MML knows no engineering change."
   },
   "kgNodeLabel": "OperationsDefinition",
   "kgIdProperty": "operations_definition_no"

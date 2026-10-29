@@ -2,7 +2,7 @@
   "type": "record",
   "name": "JobResponse",
   "namespace": "org.openshopfloor.payload.operations",
-  "doc": "GENERATED from standard/profiles/operations/job-response.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "doc": "GENERATED from standard/profiles/operations/job-response.json 2.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
   "fields": [
     {
       "name": "eventType",
@@ -46,7 +46,58 @@
     {
       "name": "profileVersion",
       "type": "string",
-      "default": "1.0.0"
+      "default": "2.0.0"
+    },
+    {
+      "name": "b2m",
+      "type": [
+        "null",
+        {
+          "type": "record",
+          "name": "B2M",
+          "fields": [
+            {
+              "name": "verb",
+              "type": {
+                "type": "enum",
+                "name": "B2MVerb",
+                "symbols": [
+                  "GET",
+                  "SHOW",
+                  "PROCESS",
+                  "ACKNOWLEDGE",
+                  "CHANGE",
+                  "RESPOND",
+                  "CANCEL",
+                  "CONFIRM",
+                  "SYNC"
+                ]
+              }
+            },
+            {
+              "name": "actionCode",
+              "type": [
+                "null",
+                {
+                  "type": "enum",
+                  "name": "B2MActionCode",
+                  "symbols": [
+                    "Add",
+                    "Change",
+                    "Delete",
+                    "Replaced",
+                    "Accepted",
+                    "Modified",
+                    "Rejected"
+                  ]
+                }
+              ],
+              "default": null
+            }
+          ]
+        }
+      ],
+      "default": null
     },
     {
       "name": "data",
@@ -154,6 +205,150 @@
             ],
             "default": null,
             "doc": "Job state as the source names it (ISA-95 JobState)."
+          },
+          {
+            "name": "equipment_class_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The EquipmentClass (ACTUAL_EQUIPMENT; ISA-95 JobResponse → EquipmentClass). Optional."
+          },
+          {
+            "name": "material_class_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The MaterialClass (ACTUAL_MATERIAL; ISA-95 JobResponse → MaterialClass). Optional."
+          },
+          {
+            "name": "article_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The Article (ACTUAL_MATERIAL; ISA-95 JobResponse → MaterialDefinition). Optional."
+          },
+          {
+            "name": "article_revision",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The revision of the article that was built or used, where the source's article number carries none (a PLM part number with revision A). Empty when the number itself names the revision (at SAP dddd.1)."
+          },
+          {
+            "name": "quant_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The Quant (ACTUAL_MATERIAL; ISA-95 JobResponse → MaterialSubLot). Optional."
+          },
+          {
+            "name": "personnel_class_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The PersonnelClass (ACTUAL_PERSONNEL; ISA-95 JobResponse → PersonnelClass). Optional."
+          },
+          {
+            "name": "physical_asset_class_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The PhysicalAssetClass (ACTUAL_PHYSICAL_ASSET; ISA-95 JobResponse → PhysicalAssetClass). Optional."
+          },
+          {
+            "name": "work_directive_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The WorkDirective (EXECUTED_DIRECTIVE; ISA-95 JobResponse → WorkDirective). Optional."
+          },
+          {
+            "name": "workflow_specification_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The WorkflowSpecification (FOR_WORKFLOW_SPECIFICATION; ISA-95 JobResponse → WorkflowSpecification). Optional."
+          },
+          {
+            "name": "workflow_specification_node_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The WorkflowSpecificationNode (FOR_WORKFLOW_SPECIFICATION_NODE; ISA-95 JobResponse → WorkflowSpecificationNode). Optional."
+          },
+          {
+            "name": "inspection_lot_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The InspectionLot — the test result of a material actual (HAS_TEST_RESULT; ISA-95 JobResponse → MaterialActual → TestResult). Optional."
+          },
+          {
+            "name": "personnel_test_result_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The TestResult of a person (qualification test) the response used (HAS_TEST_RESULT; ISA-95 JobResponse → PersonnelActual → TestResult). Optional."
+          },
+          {
+            "name": "equipment_test_result_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The TestResult of a machine (equipment capability test) the response used (HAS_TEST_RESULT; ISA-95 JobResponse → EquipmentActual → TestResult). Optional."
+          },
+          {
+            "name": "physical_asset_test_result_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The TestResult of a tool (physical asset capability test) the response used (HAS_TEST_RESULT; ISA-95 JobResponse → PhysicalAssetActual → TestResult). Optional."
+          },
+          {
+            "name": "job_response_list_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The JobResponseList this JobResponse is part of (PART_OF; ISA-95 JobResponseList MADE_UP_OF JobResponse). Optional."
+          },
+          {
+            "name": "work_type",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "ISA-95 work type (B2MML WorkType, the OperationsType code list; Part 4; audit M1). A source without the column sets the constant of the profile's momDomain (columnMappings const)."
           }
         ]
       }

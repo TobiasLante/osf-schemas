@@ -2,7 +2,7 @@
   "type": "record",
   "name": "Article",
   "namespace": "org.openshopfloor.payload.material",
-  "doc": "GENERATED from standard/profiles/material/article.json 2.2.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "doc": "GENERATED from standard/profiles/material/article.json 2.4.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
   "fields": [
     {
       "name": "eventType",
@@ -46,7 +46,58 @@
     {
       "name": "profileVersion",
       "type": "string",
-      "default": "2.2.0"
+      "default": "2.4.0"
+    },
+    {
+      "name": "b2m",
+      "type": [
+        "null",
+        {
+          "type": "record",
+          "name": "B2M",
+          "fields": [
+            {
+              "name": "verb",
+              "type": {
+                "type": "enum",
+                "name": "B2MVerb",
+                "symbols": [
+                  "GET",
+                  "SHOW",
+                  "PROCESS",
+                  "ACKNOWLEDGE",
+                  "CHANGE",
+                  "RESPOND",
+                  "CANCEL",
+                  "CONFIRM",
+                  "SYNC"
+                ]
+              }
+            },
+            {
+              "name": "actionCode",
+              "type": [
+                "null",
+                {
+                  "type": "enum",
+                  "name": "B2MActionCode",
+                  "symbols": [
+                    "Add",
+                    "Change",
+                    "Delete",
+                    "Replaced",
+                    "Accepted",
+                    "Modified",
+                    "Rejected"
+                  ]
+                }
+              ],
+              "default": null
+            }
+          ]
+        }
+      ],
+      "default": null
     },
     {
       "name": "data",
@@ -205,6 +256,96 @@
             ],
             "default": null,
             "doc": "ISA-95 AssemblyRelationship: Permanent (cannot be taken apart again) or Transient (temporary, e.g. a kit)."
+          },
+          {
+            "name": "test_specification_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The TestSpecification (TESTED_BY; ISA-95 MaterialDefinition → TestSpecification). Optional."
+          },
+          {
+            "name": "revision",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The revision of the article as the source names it — at SAP the suffix of the material number (dddd.1, dddd.2), elsewhere the revision field of the part. Never derived from the number by the model."
+          },
+          {
+            "name": "version",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The version within a revision (the second axis: iteration or processing state, e.g. A.3 in a PLM). Kept apart from the revision."
+          },
+          {
+            "name": "base_article_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The article the revisions share (the stem dddd), as the source delivers it or by a rule declared on the source — the model never splits a number."
+          },
+          {
+            "name": "effective_start",
+            "type": [
+              "null",
+              {
+                "type": "long",
+                "logicalType": "timestamp-millis"
+              }
+            ],
+            "default": null,
+            "doc": "From when this article revision is valid (effectivity by date). An effectivity by serial number, lot or unit is no date and has no B2MML field (an extension of its own, PLAN-0700 L5)."
+          },
+          {
+            "name": "effective_end",
+            "type": [
+              "null",
+              {
+                "type": "long",
+                "logicalType": "timestamp-millis"
+              }
+            ],
+            "default": null,
+            "doc": "Until when this article revision is valid."
+          },
+          {
+            "name": "published_date",
+            "type": [
+              "null",
+              {
+                "type": "long",
+                "logicalType": "timestamp-millis"
+              }
+            ],
+            "default": null,
+            "doc": "When this article revision was released by the system that owns it."
+          },
+          {
+            "name": "engineering_change_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The engineering change (ECN, SAP change number) that released this article revision."
+          },
+          {
+            "name": "plm_part_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The part number of this article in PLM (e.g. a Windchill part) where it differs from the ERP number; empty when the source does not name it."
           }
         ]
       }

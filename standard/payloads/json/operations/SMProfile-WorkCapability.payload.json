@@ -1,0 +1,162 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-WorkCapability.payload.json",
+  "title": "SMProfile-WorkCapability payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/operations/work-capability.json 2.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-WorkCapability",
+  "x-profileVersion": "2.0.0",
+  "x-payloadVersion": "1.1.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "WorkCapability"
+    },
+    "profileRef": {
+      "const": "SMProfile-WorkCapability"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "work_capability_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the work capability: its own id from the source system (ISA-95 WorkCapability.ID)."
+        },
+        "description": {
+          "type": "string",
+          "description": "ISA-95 WorkCapability.Description."
+        },
+        "version": {
+          "type": "string",
+          "description": "ISA-95 WorkCapability.Version."
+        },
+        "published_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISA-95 WorkCapability.PublishedDate."
+        },
+        "start_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISA-95 WorkCapability.StartTime."
+        },
+        "end_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISA-95 WorkCapability.EndTime."
+        },
+        "operations_type": {
+          "type": "string",
+          "enum": [
+            "Production",
+            "Maintenance",
+            "Quality",
+            "Inventory",
+            "Mixed",
+            "Other"
+          ],
+          "description": "ISA-95 WorkCapability.OperationsType."
+        },
+        "capability_type": {
+          "type": "string",
+          "enum": [
+            "Used",
+            "Unused",
+            "Total",
+            "Committed",
+            "Available",
+            "Unattainable",
+            "Other"
+          ],
+          "description": "ISA-95 WorkCapability.CapabilityType."
+        },
+        "reason": {
+          "type": "string",
+          "description": "ISA-95 WorkCapability.Reason."
+        },
+        "confidence_factor": {
+          "type": "string",
+          "description": "ISA-95 WorkCapability.ConfidenceFactor."
+        },
+        "hierarchy_scope_ref": {
+          "type": "string",
+          "description": "The element of the role-based equipment hierarchy this object belongs to (ISA-95 Part 2 cl. 5.1 hierarchy scope, IN_SCOPE_OF). Optional."
+        },
+        "machine_ref": {
+          "type": "string",
+          "description": "The Machine (CAPABILITY_EQUIPMENT; ISA-95 WorkCapability → Equipment). Optional."
+        },
+        "equipment_class_ref": {
+          "type": "string",
+          "description": "The EquipmentClass (CAPABILITY_EQUIPMENT; ISA-95 WorkCapability → EquipmentClass). Optional."
+        },
+        "material_class_ref": {
+          "type": "string",
+          "description": "The MaterialClass (CAPABILITY_MATERIAL; ISA-95 WorkCapability → MaterialClass). Optional."
+        },
+        "article_ref": {
+          "type": "string",
+          "description": "The Article (CAPABILITY_MATERIAL; ISA-95 WorkCapability → MaterialDefinition). Optional."
+        },
+        "material_lot_ref": {
+          "type": "string",
+          "description": "The MaterialLot (CAPABILITY_MATERIAL; ISA-95 WorkCapability → MaterialLot). Optional."
+        },
+        "quant_ref": {
+          "type": "string",
+          "description": "The Quant (CAPABILITY_MATERIAL; ISA-95 WorkCapability → MaterialSubLot). Optional."
+        },
+        "person_ref": {
+          "type": "string",
+          "description": "The Person (CAPABILITY_PERSONNEL; ISA-95 WorkCapability → Person). Optional."
+        },
+        "personnel_class_ref": {
+          "type": "string",
+          "description": "The PersonnelClass (CAPABILITY_PERSONNEL; ISA-95 WorkCapability → PersonnelClass). Optional."
+        },
+        "tool_ref": {
+          "type": "string",
+          "description": "The Tool (CAPABILITY_PHYSICAL_ASSET; ISA-95 WorkCapability → PhysicalAsset). Optional."
+        },
+        "physical_asset_class_ref": {
+          "type": "string",
+          "description": "The PhysicalAssetClass (CAPABILITY_PHYSICAL_ASSET; ISA-95 WorkCapability → PhysicalAssetClass). Optional."
+        }
+      },
+      "required": [
+        "work_capability_id"
+      ]
+    }
+  },
+  "x-delivery": {
+    "work_capability_id": "transactional",
+    "description": "transactional",
+    "version": "transactional",
+    "published_date": "transactional",
+    "start_time": "transactional",
+    "end_time": "transactional",
+    "operations_type": "transactional",
+    "capability_type": "transactional",
+    "reason": "transactional",
+    "confidence_factor": "transactional",
+    "hierarchy_scope_ref": "transactional",
+    "machine_ref": "transactional",
+    "equipment_class_ref": "transactional",
+    "material_class_ref": "transactional",
+    "article_ref": "transactional",
+    "material_lot_ref": "transactional",
+    "quant_ref": "transactional",
+    "person_ref": "transactional",
+    "personnel_class_ref": "transactional",
+    "tool_ref": "transactional",
+    "physical_asset_class_ref": "transactional"
+  }
+}

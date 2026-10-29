@@ -2,10 +2,10 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-OperationsSegment.payload.json",
   "title": "SMProfile-OperationsSegment payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/operations/operations-segment.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/operations/operations-segment.json 2.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-OperationsSegment",
-  "x-profileVersion": "1.0.0",
-  "x-payloadVersion": "1.0.0",
+  "x-profileVersion": "2.0.0",
+  "x-payloadVersion": "1.1.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
     "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
@@ -37,10 +37,12 @@
         "operations_type": {
           "type": "string",
           "enum": [
-            "production",
-            "inventory",
-            "quality",
-            "maintenance"
+            "Production",
+            "Maintenance",
+            "Quality",
+            "Inventory",
+            "Mixed",
+            "Other"
           ],
           "description": "ISA-95 operations type of the step."
         },
@@ -68,6 +70,58 @@
         "equipment_class_ref": {
           "type": "string",
           "description": "The equipment class this step specifies."
+        },
+        "depends_on_operations_segment_ref": {
+          "type": "string",
+          "description": "The OperationsSegment (DEPENDS_ON; ISA-95 OperationsSegment → OperationsSegment). Optional."
+        },
+        "depends_on_process_segment_ref": {
+          "type": "string",
+          "description": "The ProcessSegment (DEPENDS_ON; ISA-95 OperationsSegment → ProcessSegment). Optional."
+        },
+        "operations_material_bill_ref": {
+          "type": "string",
+          "description": "The OperationsMaterialBill (HAS_MATERIAL_BILL; ISA-95 OperationsSegment → OperationsMaterialBill). Optional."
+        },
+        "parent_operations_segment_ref": {
+          "type": "string",
+          "description": "The OperationsSegment this OperationsSegment is part of (PART_OF; ISA-95 OperationsSegment MADE_UP_OF OperationsSegment). Optional."
+        },
+        "machine_ref": {
+          "type": "string",
+          "description": "The Machine (SPECIFIES_EQUIPMENT; ISA-95 OperationsSegment → Equipment). Optional."
+        },
+        "material_class_ref": {
+          "type": "string",
+          "description": "The MaterialClass (SPECIFIES_MATERIAL; ISA-95 OperationsSegment → MaterialClass). Optional."
+        },
+        "material_lot_ref": {
+          "type": "string",
+          "description": "The MaterialLot (SPECIFIES_MATERIAL; ISA-95 OperationsSegment → MaterialLot). Optional."
+        },
+        "quant_ref": {
+          "type": "string",
+          "description": "The Quant (SPECIFIES_MATERIAL; ISA-95 OperationsSegment → MaterialSubLot). Optional."
+        },
+        "person_ref": {
+          "type": "string",
+          "description": "The Person (SPECIFIES_PERSONNEL; ISA-95 OperationsSegment → Person). Optional."
+        },
+        "personnel_class_ref": {
+          "type": "string",
+          "description": "The PersonnelClass (SPECIFIES_PERSONNEL; ISA-95 OperationsSegment → PersonnelClass). Optional."
+        },
+        "tool_ref": {
+          "type": "string",
+          "description": "The Tool (SPECIFIES_PHYSICAL_ASSET; ISA-95 OperationsSegment → PhysicalAsset). Optional."
+        },
+        "physical_asset_class_ref": {
+          "type": "string",
+          "description": "The PhysicalAssetClass (SPECIFIES_PHYSICAL_ASSET; ISA-95 OperationsSegment → PhysicalAssetClass). Optional."
+        },
+        "test_specification_ref": {
+          "type": "string",
+          "description": "The TestSpecification (TESTED_BY; ISA-95 OperationsSegment → TestSpecification). Optional."
         }
       },
       "required": [
@@ -85,6 +139,19 @@
     "operations_definition_ref": "transactional",
     "process_segment_ref": "transactional",
     "material_ref": "transactional",
-    "equipment_class_ref": "transactional"
+    "equipment_class_ref": "transactional",
+    "depends_on_operations_segment_ref": "transactional",
+    "depends_on_process_segment_ref": "transactional",
+    "operations_material_bill_ref": "transactional",
+    "parent_operations_segment_ref": "transactional",
+    "machine_ref": "transactional",
+    "material_class_ref": "transactional",
+    "material_lot_ref": "transactional",
+    "quant_ref": "transactional",
+    "person_ref": "transactional",
+    "personnel_class_ref": "transactional",
+    "tool_ref": "transactional",
+    "physical_asset_class_ref": "transactional",
+    "test_specification_ref": "transactional"
   }
 }

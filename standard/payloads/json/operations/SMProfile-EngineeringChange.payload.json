@@ -1,0 +1,58 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-EngineeringChange.payload.json",
+  "title": "SMProfile-EngineeringChange payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/operations/engineering-change.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-EngineeringChange",
+  "x-profileVersion": "1.0.0",
+  "x-payloadVersion": "1.1.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "EngineeringChange"
+    },
+    "profileRef": {
+      "const": "SMProfile-EngineeringChange"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "change_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the change as the source names it (e.g. the SAP change number or the PLM change notice number)."
+        },
+        "description": {
+          "type": "string",
+          "description": "What the change is, as the source says it."
+        },
+        "valid_from": {
+          "type": "string",
+          "format": "date-time",
+          "description": "From when the change is valid, as the source states it."
+        },
+        "status": {
+          "type": "string",
+          "description": "The state of the change in its source, in the source's own words."
+        }
+      },
+      "required": [
+        "change_id"
+      ]
+    }
+  },
+  "x-delivery": {
+    "change_id": "transactional",
+    "description": "transactional",
+    "valid_from": "transactional",
+    "status": "transactional"
+  }
+}

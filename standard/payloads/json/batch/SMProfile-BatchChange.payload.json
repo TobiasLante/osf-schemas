@@ -1,0 +1,68 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/batch/SMProfile-BatchChange.payload.json",
+  "title": "SMProfile-BatchChange payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/batch/batch-change.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-BatchChange",
+  "x-profileVersion": "1.0.0",
+  "x-payloadVersion": "1.1.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "BatchChange"
+    },
+    "profileRef": {
+      "const": "SMProfile-BatchChange"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "batch_change_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the change: its record entry id (BatchML Change.EntryID)."
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "BatchML Change.TimeStamp."
+        },
+        "record_reference": {
+          "type": "string",
+          "description": "The entry that was changed (BatchML Change.RecordReference — the id of any record entry)."
+        },
+        "prechange_data": {
+          "type": "string",
+          "description": "BatchML Change.PrechangeData."
+        },
+        "reason": {
+          "type": "string",
+          "description": "BatchML Change.Reason."
+        },
+        "batch_production_record_ref": {
+          "type": "string",
+          "description": "The record the change is part of (BatchML nests it in BatchProductionRecord.ChangeHistory)."
+        }
+      },
+      "required": [
+        "batch_change_id"
+      ]
+    }
+  },
+  "x-delivery": {
+    "batch_change_id": "transactional",
+    "timestamp": "transactional",
+    "record_reference": "transactional",
+    "prechange_data": "transactional",
+    "reason": "transactional",
+    "batch_production_record_ref": "transactional"
+  }
+}

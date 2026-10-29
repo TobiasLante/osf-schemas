@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-TestSpecification",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "standard": "CarToUNS",
   "category": "quality",
   "displayName": "Test Specification (how something is tested)",
@@ -231,7 +231,7 @@
     },
     {
       "type": "TEST_FOR",
-      "target": "Tool",
+      "target": "Tooling",
       "targetIdProp": "tool_id",
       "description": "The tested object: a tool (physical asset) (B2MML TestSpecification.TestableObjectID)."
     },
@@ -304,7 +304,8 @@
     "notInIsa95": [
       "parent_specification_ref"
     ],
-    "mappingNote": "B2MML carries the parent specification through the nesting of TestSpecificationChild, not as a field."
+    "mappingNote": "B2MML carries the parent specification through the nesting of TestSpecificationChild, not as a field.",
+    "grain": "one test specification (ISA-95 Part 2 cl. 5.9): one row = one specification in one version (the revision of the drawing or document it comes from), keyed by test_specification_id; its criteria — one characteristic each — are SMProfile-TestSpecificationCriterion"
   },
   "kgNodeLabel": "TestSpecification",
   "kgIdProperty": "test_specification_id"

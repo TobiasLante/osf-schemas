@@ -1,0 +1,141 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/batch/SMProfile-BatchProductionRecord.payload.json",
+  "title": "SMProfile-BatchProductionRecord payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/batch/batch-production-record.json 2.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-BatchProductionRecord",
+  "x-profileVersion": "2.0.0",
+  "x-payloadVersion": "1.1.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "BatchProductionRecord"
+    },
+    "profileRef": {
+      "const": "SMProfile-BatchProductionRecord"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "batch_production_record_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the record (BatchML BatchProductionRecord.ID)."
+        },
+        "description": {
+          "type": "string",
+          "description": "BatchML BatchProductionRecord.Description."
+        },
+        "hierarchy_scope_ref": {
+          "type": "string",
+          "description": "The element of the role-based equipment hierarchy the record belongs to (BatchML BatchProductionRecord.EquipmentScope, IN_SCOPE_OF)."
+        },
+        "published_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "BatchML BatchProductionRecord.PublishedDate."
+        },
+        "creation_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "BatchML BatchProductionRecord.CreationDate."
+        },
+        "last_changed_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "BatchML BatchProductionRecord.LastChangedDate."
+        },
+        "expiration_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "BatchML BatchProductionRecord.ExpirationDate."
+        },
+        "batch_id": {
+          "type": "string",
+          "description": "The batch id (a value; BatchML has no batch object it points to)."
+        },
+        "batch_production_record_spec": {
+          "type": "string",
+          "description": "BatchML BatchProductionRecord.BatchProductionRecordSpec."
+        },
+        "campaign_id": {
+          "type": "string",
+          "description": "BatchML BatchProductionRecord.CampaignID (a value)."
+        },
+        "machine_ref": {
+          "type": "string",
+          "description": "BatchML BatchProductionRecord.EquipmentID."
+        },
+        "material_lot_ref": {
+          "type": "string",
+          "description": "BatchML BatchProductionRecord.LotID."
+        },
+        "article_ref": {
+          "type": "string",
+          "description": "BatchML BatchProductionRecord.MaterialDefinitionID."
+        },
+        "tool_ref": {
+          "type": "string",
+          "description": "BatchML BatchProductionRecord.PhysicalAssetID."
+        },
+        "record_status": {
+          "type": "string",
+          "description": "BatchML BatchProductionRecord.RecordStatus."
+        },
+        "version": {
+          "type": "string",
+          "description": "BatchML BatchProductionRecord.Version."
+        },
+        "language": {
+          "type": "string",
+          "description": "BatchML BatchProductionRecord.Language."
+        },
+        "parent_batch_production_record_ref": {
+          "type": "string",
+          "description": "The record this one is part of (BatchML nests BatchProductionRecord in BatchProductionRecord)."
+        },
+        "record_object_ref": {
+          "type": "string",
+          "description": "An object the record holds (BatchML MasterRecipes, ControlRecipes, RecipeElements, WorkMasters, WorkDirectives, WorkSchedules, WorkPerformances, OperationsDefinitions, OperationsSchedules, OperationsPerformances); one row per object."
+        },
+        "record_object_profile": {
+          "type": "string",
+          "description": "The profile of the object in record_object_ref (BatchML carries the object itself)."
+        }
+      },
+      "required": [
+        "batch_production_record_id"
+      ]
+    }
+  },
+  "x-delivery": {
+    "batch_production_record_id": "transactional",
+    "description": "transactional",
+    "hierarchy_scope_ref": "transactional",
+    "published_date": "transactional",
+    "creation_date": "transactional",
+    "last_changed_date": "transactional",
+    "expiration_date": "transactional",
+    "batch_id": "transactional",
+    "batch_production_record_spec": "transactional",
+    "campaign_id": "transactional",
+    "machine_ref": "transactional",
+    "material_lot_ref": "transactional",
+    "article_ref": "transactional",
+    "tool_ref": "transactional",
+    "record_status": "transactional",
+    "version": "transactional",
+    "language": "transactional",
+    "parent_batch_production_record_ref": "transactional",
+    "record_object_ref": "transactional",
+    "record_object_profile": "transactional"
+  }
+}

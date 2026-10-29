@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-Person",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Person (pseudonymous)",
@@ -29,6 +29,71 @@
       "scope": "hub",
       "promotion": "on_change",
       "valueType": "ID"
+    },
+    {
+      "name": "storage_location_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The StorageLocation (AT_LOCATION; ISA-95 Person → OperationalLocation). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "test_specification_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The TestSpecification (TESTED_BY; ISA-95 Person → TestSpecification). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "spatial_definition",
+      "dataType": "String",
+      "required": false,
+      "category": "Location",
+      "description": "The spatial definition (ISA-95 Part 2 cl. 5.2): the location or shape as text in spatial_format. Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "spatial_format",
+      "dataType": "String",
+      "required": false,
+      "category": "Location",
+      "description": "The format of spatial_definition (e.g. WKT). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD",
+      "enum": [
+        "WKT",
+        "WKB",
+        "GML",
+        "KML",
+        "GPX",
+        "GeoJSON",
+        "SVG",
+        "Other"
+      ]
+    },
+    {
+      "name": "spatial_srid",
+      "dataType": "String",
+      "required": false,
+      "category": "Location",
+      "description": "The spatial reference system of spatial_definition (SRID). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
     }
   ],
   "relationships": [
@@ -37,6 +102,18 @@
       "target": "PersonnelClass",
       "targetIdProp": "personnel_class_id",
       "description": "The personnel class of the person (B2MML Person.PersonnelClassID)."
+    },
+    {
+      "type": "AT_LOCATION",
+      "target": "StorageLocation",
+      "targetIdProp": "storage_location_id",
+      "description": "ISA-95 Part 2 cl. 5.4 (B2MML Person.OperationalLocation)."
+    },
+    {
+      "type": "TESTED_BY",
+      "target": "TestSpecification",
+      "targetIdProp": "test_specification_id",
+      "description": "ISA-95 Part 2 cl. 5.4 (B2MML Person.TestSpecificationID)."
     }
   ],
   "constraints": [],
@@ -52,7 +129,12 @@
     "note": "ISA-95 Part 2 cl. 5.4 Person. B2MML PersonName is deliberately not modelled (no personal data in the UNS).",
     "propertyMap": {
       "person_id": "Person.ID",
-      "personnel_class_ref": "Person.PersonnelClassID"
+      "personnel_class_ref": "Person.PersonnelClassID",
+      "storage_location_ref": "Person.OperationalLocation",
+      "test_specification_ref": "Person.TestSpecificationID",
+      "spatial_definition": "Person.SpatialDefinition.Value",
+      "spatial_format": "Person.SpatialDefinition.Format",
+      "spatial_srid": "Person.SpatialDefinition.SRID"
     }
   },
   "kgNodeLabel": "Person",

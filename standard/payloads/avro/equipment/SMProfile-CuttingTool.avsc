@@ -1,0 +1,189 @@
+{
+  "type": "record",
+  "name": "CuttingTool",
+  "namespace": "org.openshopfloor.payload.equipment",
+  "doc": "GENERATED from standard/profiles/equipment/cutting-tool.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "fields": [
+    {
+      "name": "eventType",
+      "type": {
+        "type": "enum",
+        "name": "EventType",
+        "symbols": [
+          "created",
+          "updated",
+          "deleted"
+        ]
+      }
+    },
+    {
+      "name": "id",
+      "type": "string",
+      "doc": "Row key (tool_id); no + # * > / or space."
+    },
+    {
+      "name": "entity",
+      "type": "string",
+      "default": "CuttingTool"
+    },
+    {
+      "name": "timestamp",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      }
+    },
+    {
+      "name": "msgId",
+      "type": "string",
+      "doc": "Unique message id: the Kafka key, for deduplication."
+    },
+    {
+      "name": "profileRef",
+      "type": "string",
+      "default": "SMProfile-CuttingTool"
+    },
+    {
+      "name": "profileVersion",
+      "type": "string",
+      "default": "1.0.0"
+    },
+    {
+      "name": "b2m",
+      "type": [
+        "null",
+        {
+          "type": "record",
+          "name": "B2M",
+          "fields": [
+            {
+              "name": "verb",
+              "type": {
+                "type": "enum",
+                "name": "B2MVerb",
+                "symbols": [
+                  "GET",
+                  "SHOW",
+                  "PROCESS",
+                  "ACKNOWLEDGE",
+                  "CHANGE",
+                  "RESPOND",
+                  "CANCEL",
+                  "CONFIRM",
+                  "SYNC"
+                ]
+              }
+            },
+            {
+              "name": "actionCode",
+              "type": [
+                "null",
+                {
+                  "type": "enum",
+                  "name": "B2MActionCode",
+                  "symbols": [
+                    "Add",
+                    "Change",
+                    "Delete",
+                    "Replaced",
+                    "Accepted",
+                    "Modified",
+                    "Rejected"
+                  ]
+                }
+              ],
+              "default": null
+            }
+          ]
+        }
+      ],
+      "default": null
+    },
+    {
+      "name": "data",
+      "type": {
+        "type": "record",
+        "name": "CuttingToolData",
+        "fields": [
+          {
+            "name": "tool_id",
+            "type": "string",
+            "doc": "Tool identity / key."
+          },
+          {
+            "name": "name",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "Display name of the tool."
+          },
+          {
+            "name": "storage_location_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The StorageLocation (AT_LOCATION; ISA-95 PhysicalAsset → OperationalLocation). Optional."
+          },
+          {
+            "name": "physical_asset_class_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The PhysicalAssetClass (DEFINED_BY; ISA-95 PhysicalAsset → PhysicalAssetClass). Optional."
+          },
+          {
+            "name": "parent_tool_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The Tooling this Tooling is part of (PART_OF; ISA-95 PhysicalAsset MADE_UP_OF PhysicalAsset). Optional."
+          },
+          {
+            "name": "test_specification_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The TestSpecification (TESTED_BY; ISA-95 PhysicalAsset → TestSpecification). Optional."
+          },
+          {
+            "name": "spatial_definition",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The spatial definition (ISA-95 Part 2 cl. 5.2): the location or shape as text in spatial_format. Optional."
+          },
+          {
+            "name": "spatial_format",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The format of spatial_definition (e.g. WKT). Optional."
+          },
+          {
+            "name": "spatial_srid",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The spatial reference system of spatial_definition (SRID). Optional."
+          }
+        ]
+      }
+    }
+  ]
+}

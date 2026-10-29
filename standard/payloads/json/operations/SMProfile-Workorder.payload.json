@@ -2,10 +2,10 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-Workorder.payload.json",
   "title": "SMProfile-Workorder payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/operations/work-order.json 3.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/operations/work-order.json 4.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-Workorder",
-  "x-profileVersion": "3.0.0",
-  "x-payloadVersion": "1.0.0",
+  "x-profileVersion": "4.0.0",
+  "x-payloadVersion": "1.1.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
     "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
@@ -40,6 +40,20 @@
         },
         "status": {
           "type": "string",
+          "enum": [
+            "Forecast",
+            "Released",
+            "Waiting",
+            "Cancelled",
+            "Ready",
+            "Running",
+            "Completed",
+            "Aborted",
+            "Held",
+            "Suspended",
+            "Closed",
+            "Other"
+          ],
           "description": "Workorder status (e.g. released, running, complete)."
         },
         "planned_start_time": {
@@ -51,6 +65,30 @@
           "type": "string",
           "format": "date-time",
           "description": "Planned end of this slot (target)."
+        },
+        "segment_requirement_ref": {
+          "type": "string",
+          "description": "The SegmentRequirement (FOR_SEGMENT_REQUIREMENT; ISA-95 WorkRequest → SegmentRequirement). Optional."
+        },
+        "parent_workorder_ref": {
+          "type": "string",
+          "description": "The Workorder this Workorder is part of (PART_OF; ISA-95 WorkRequest MADE_UP_OF WorkRequest). Optional."
+        },
+        "work_schedule_ref": {
+          "type": "string",
+          "description": "The WorkSchedule this Workorder is part of (PART_OF; ISA-95 WorkSchedule MADE_UP_OF WorkRequest). Optional."
+        },
+        "work_type": {
+          "type": "string",
+          "enum": [
+            "Production",
+            "Maintenance",
+            "Quality",
+            "Inventory",
+            "Mixed",
+            "Other"
+          ],
+          "description": "ISA-95 work type (B2MML WorkType, the OperationsType code list; Part 4; audit M1). A source without the column sets the constant of the profile's momDomain (columnMappings const)."
         }
       },
       "required": [
@@ -65,6 +103,10 @@
     "order_index": "transactional",
     "status": "transactional",
     "planned_start_time": "transactional",
-    "planned_end_time": "transactional"
+    "planned_end_time": "transactional",
+    "segment_requirement_ref": "transactional",
+    "parent_workorder_ref": "transactional",
+    "work_schedule_ref": "transactional",
+    "work_type": "transactional"
   }
 }

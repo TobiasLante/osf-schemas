@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-WorkResponse",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Work Response (actuals of a work order)",
@@ -61,6 +61,57 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
+      "valueType": "PV",
+      "enum": [
+        "Waiting",
+        "Ready",
+        "Running",
+        "Completed",
+        "Aborted",
+        "Held",
+        "Paused",
+        "Suspended",
+        "Closed",
+        "Other"
+      ]
+    },
+    {
+      "name": "work_performance_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The WorkPerformance this WorkResponse is part of (PART_OF; ISA-95 WorkPerformance MADE_UP_OF WorkResponse). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "parent_work_response_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The WorkResponse this WorkResponse is part of (PART_OF; ISA-95 WorkResponse MADE_UP_OF WorkResponse). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "work_type",
+      "dataType": "String",
+      "description": "ISA-95 work type (B2MML WorkType, the OperationsType code list; Part 4; audit M1). A source without the column sets the constant of the profile's momDomain (columnMappings const).",
+      "enum": [
+        "Production",
+        "Maintenance",
+        "Quality",
+        "Inventory",
+        "Mixed",
+        "Other"
+      ],
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
       "valueType": "PV"
     }
   ],
@@ -70,6 +121,18 @@
       "target": "Workorder",
       "targetIdProp": "workorder_no",
       "description": "The work order this response answers (B2MML WorkResponse.WorkRequestID)."
+    },
+    {
+      "type": "PART_OF",
+      "target": "WorkPerformance",
+      "targetIdProp": "work_performance_id",
+      "description": "ISA-95 Part 4 cl. 8 (B2MML WorkPerformance.WorkResponse)."
+    },
+    {
+      "type": "PART_OF",
+      "target": "WorkResponse",
+      "targetIdProp": "work_response_id",
+      "description": "ISA-95 Part 4 cl. 8 (B2MML WorkResponse.WorkResponseChild)."
     }
   ],
   "constraints": [],
@@ -88,8 +151,14 @@
       "workorder_ref": "WorkResponse.WorkRequestID",
       "start_time": "WorkResponse.StartTime",
       "end_time": "WorkResponse.EndTime",
-      "status": "WorkResponse.ResponseState"
-    }
+      "status": "WorkResponse.ResponseState",
+      "work_type": "WorkResponse.WorkType"
+    },
+    "notInIsa95": [
+      "work_performance_ref",
+      "parent_work_response_ref"
+    ],
+    "mappingNote": "Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent)."
   },
   "kgNodeLabel": "WorkResponse",
   "kgIdProperty": "work_response_id"

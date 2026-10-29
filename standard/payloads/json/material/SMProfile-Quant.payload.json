@@ -2,10 +2,10 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/material/SMProfile-Quant.payload.json",
   "title": "SMProfile-Quant payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/material/quant.json 3.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/material/quant.json 3.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-Quant",
-  "x-profileVersion": "3.0.0",
-  "x-payloadVersion": "1.0.0",
+  "x-profileVersion": "3.1.0",
+  "x-payloadVersion": "1.1.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
     "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
@@ -58,6 +58,22 @@
           "type": "string",
           "format": "date-time",
           "description": "Last change. Server-managed and volatile on every read (sim-v5 returns a fresh value per GET), so promotion:never — kept in the snapshot but excluded from the change-trigger and never published on its own."
+        },
+        "material_lot_ref": {
+          "type": "string",
+          "description": "The MaterialLot (ASSEMBLED_FROM; ISA-95 MaterialSubLot → MaterialLot). Optional."
+        },
+        "assembled_from_quant_ref": {
+          "type": "string",
+          "description": "The Quant (ASSEMBLED_FROM; ISA-95 MaterialSubLot → MaterialSubLot). Optional."
+        },
+        "parent_quant_ref": {
+          "type": "string",
+          "description": "The Quant this Quant is part of (PART_OF; ISA-95 MaterialSubLot MADE_UP_OF MaterialSubLot). Optional."
+        },
+        "test_specification_ref": {
+          "type": "string",
+          "description": "The TestSpecification (TESTED_BY; ISA-95 MaterialSubLot → TestSpecification). Optional."
         }
       },
       "required": [
@@ -73,6 +89,10 @@
     "quantity": "transactional",
     "lot": "transactional",
     "blocked": "transactional",
-    "updated_at": "transactional"
+    "updated_at": "transactional",
+    "material_lot_ref": "transactional",
+    "assembled_from_quant_ref": "transactional",
+    "parent_quant_ref": "transactional",
+    "test_specification_ref": "transactional"
   }
 }

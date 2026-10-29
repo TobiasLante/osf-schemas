@@ -1,6 +1,6 @@
 {
   "sourceId": "erp-segment-responses",
-  "version": "2.3.0",
+  "version": "4.1.0",
   "sourceType": "rest",
   "functionalLevel": 4,
   "syncType": "polling",
@@ -16,7 +16,7 @@
   "_comment": "Was keyed on `operation_id`, which /api/operations does NOT serve (16 fields, measured: order_id, production_order_no, operation_number, vorgangs_nr, work_center, machine_id, status, qty_planned, … Full text: docs/history/sites/werk1/sources/rest/erp-segment-responses.md, _comment.",
   "connection": {
     "baseUrl": "http://192.168.178.154:38260",
-    "path": "/api/operations",
+    "path": "/api/operations?since=P7D",
     "method": "GET",
     "auth": null,
     "timeoutMs": 10000
@@ -32,17 +32,25 @@
     "paginate": true
   },
   "primaryKeyColumns": [
-    "production_order_no",
-    "operation_number"
+    "confirmation_no"
   ],
   "columnMappings": [
     {
+      "column": "confirmation_no",
+      "smAttribute": "segment_response_no",
+      "isId": true
+    },
+    {
       "column": "production_order_no",
-      "smAttribute": "operations_response_ref"
+      "smAttribute": "production_order_ref"
     },
     {
       "column": "work_center",
       "smAttribute": "process_segment_ref"
+    },
+    {
+      "column": "job_order_no",
+      "smAttribute": "segment_requirement_ref"
     },
     {
       "column": "operation_number",
@@ -68,19 +76,28 @@
     },
     {
       "column": "status",
-      "smAttribute": "status"
+      "smAttribute": "status",
+      "valueMap": {
+        "IN_PROCESS": "Running",
+        "PARTIAL_CONFIRMED": "Running",
+        "FINAL_CONFIRMED": "Completed"
+      }
+    },
+    {
+      "smAttribute": "operations_type",
+      "const": "Production"
     }
   ],
   "filter": null,
   "edges": [
     {
-      "type": "PART_OF",
+      "type": "RESPONDS_TO",
       "fkColumn": "production_order_no",
       "targetIdProp": "production_order_no"
     },
     {
       "type": "RESPONDS_TO",
-      "fkColumn": "operation_id",
+      "fkColumn": "job_order_no",
       "targetIdProp": "segment_requirement_no"
     },
     {
@@ -88,5 +105,6 @@
       "fkColumn": "machine_id",
       "targetIdProp": "element_id"
     }
-  ]
+  ],
+  "$window": "0.6.6-g (owner 22.10.2026, the living window): the source reads the living part, not the whole history — every operation not final plus those started or ended in the last 7 days"
 }

@@ -1,0 +1,164 @@
+{
+  "profileId": "SMProfile-Effectivity",
+  "version": "1.0.0",
+  "standard": "CarToUNS",
+  "category": "business",
+  "displayName": "Effectivity (from when / from which serial, lot or unit a definition state holds)",
+  "description": "The effectivity of a definition state as the system that owns it states it (PLM, SAP ECM): by date, serial number, lot or unit, for an end item, under an engineering change. Carried as data for traceability — the ERP resolves it when it explodes the bill into the order; nothing here evaluates it.",
+  "parentType": null,
+  "abstract": false,
+  "properties": [
+    {
+      "name": "effectivity_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the effectivity as the source names it.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "kind",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "How the effectivity is stated: Date, SerialNumber, Lot or Unit.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD",
+      "enum": [
+        "Date",
+        "SerialNumber",
+        "Lot",
+        "Unit"
+      ]
+    },
+    {
+      "name": "range_from",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Start of the range as the source writes it (a date, a serial number or a lot number).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "range_to",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "End of the range as the source writes it; empty = open.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "article_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The article (revision) this effectivity qualifies.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "Kept as a value: an extension object has no edge into the ISA-95 catalogue."
+      }
+    },
+    {
+      "name": "operations_definition_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The operations definition this effectivity qualifies.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "Kept as a value: an extension object has no edge into the ISA-95 catalogue."
+      }
+    },
+    {
+      "name": "operations_material_bill_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The material bill this effectivity qualifies.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "Kept as a value: an extension object has no edge into the ISA-95 catalogue."
+      }
+    },
+    {
+      "name": "operations_material_bill_item_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The bill item this effectivity qualifies.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "Kept as a value: an extension object has no edge into the ISA-95 catalogue."
+      }
+    },
+    {
+      "name": "end_item_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The end product whose serial numbers, lots or units the range counts.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "Kept as a value: an extension object has no edge into the ISA-95 catalogue."
+      }
+    },
+    {
+      "name": "engineering_change_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The engineering change (ECN, SAP change number) under which the effectivity was set.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "Kept as a value: an extension object has no edge into the ISA-95 catalogue."
+      }
+    }
+  ],
+  "relationships": [],
+  "constraints": [],
+  "semantics": [],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "Extension",
+    "extension": true,
+    "level": 4,
+    "mappingNote": "B2MML 0701 states effectivity only as EffectiveStartDate / EffectiveEndDate on a definition; an effectivity by serial number, lot or unit, its end item and its engineering change have no B2MML object. An extension (PLAN-0700 L5, owner 29.10.2026)."
+  },
+  "kgNodeLabel": "Effectivity",
+  "kgIdProperty": "effectivity_id"
+}

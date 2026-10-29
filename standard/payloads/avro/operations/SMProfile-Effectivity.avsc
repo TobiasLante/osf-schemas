@@ -1,0 +1,198 @@
+{
+  "type": "record",
+  "name": "Effectivity",
+  "namespace": "org.openshopfloor.payload.operations",
+  "doc": "GENERATED from standard/profiles/operations/effectivity.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "fields": [
+    {
+      "name": "eventType",
+      "type": {
+        "type": "enum",
+        "name": "EventType",
+        "symbols": [
+          "created",
+          "updated",
+          "deleted"
+        ]
+      }
+    },
+    {
+      "name": "id",
+      "type": "string",
+      "doc": "Row key (effectivity_id); no + # * > / or space."
+    },
+    {
+      "name": "entity",
+      "type": "string",
+      "default": "Effectivity"
+    },
+    {
+      "name": "timestamp",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      }
+    },
+    {
+      "name": "msgId",
+      "type": "string",
+      "doc": "Unique message id: the Kafka key, for deduplication."
+    },
+    {
+      "name": "profileRef",
+      "type": "string",
+      "default": "SMProfile-Effectivity"
+    },
+    {
+      "name": "profileVersion",
+      "type": "string",
+      "default": "1.0.0"
+    },
+    {
+      "name": "b2m",
+      "type": [
+        "null",
+        {
+          "type": "record",
+          "name": "B2M",
+          "fields": [
+            {
+              "name": "verb",
+              "type": {
+                "type": "enum",
+                "name": "B2MVerb",
+                "symbols": [
+                  "GET",
+                  "SHOW",
+                  "PROCESS",
+                  "ACKNOWLEDGE",
+                  "CHANGE",
+                  "RESPOND",
+                  "CANCEL",
+                  "CONFIRM",
+                  "SYNC"
+                ]
+              }
+            },
+            {
+              "name": "actionCode",
+              "type": [
+                "null",
+                {
+                  "type": "enum",
+                  "name": "B2MActionCode",
+                  "symbols": [
+                    "Add",
+                    "Change",
+                    "Delete",
+                    "Replaced",
+                    "Accepted",
+                    "Modified",
+                    "Rejected"
+                  ]
+                }
+              ],
+              "default": null
+            }
+          ]
+        }
+      ],
+      "default": null
+    },
+    {
+      "name": "data",
+      "type": {
+        "type": "record",
+        "name": "EffectivityData",
+        "fields": [
+          {
+            "name": "effectivity_id",
+            "type": "string",
+            "doc": "Identity of the effectivity as the source names it."
+          },
+          {
+            "name": "kind",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "How the effectivity is stated: Date, SerialNumber, Lot or Unit."
+          },
+          {
+            "name": "range_from",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "Start of the range as the source writes it (a date, a serial number or a lot number)."
+          },
+          {
+            "name": "range_to",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "End of the range as the source writes it; empty = open."
+          },
+          {
+            "name": "article_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The article (revision) this effectivity qualifies."
+          },
+          {
+            "name": "operations_definition_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The operations definition this effectivity qualifies."
+          },
+          {
+            "name": "operations_material_bill_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The material bill this effectivity qualifies."
+          },
+          {
+            "name": "operations_material_bill_item_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The bill item this effectivity qualifies."
+          },
+          {
+            "name": "end_item_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The end product whose serial numbers, lots or units the range counts."
+          },
+          {
+            "name": "engineering_change_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The engineering change (ECN, SAP change number) under which the effectivity was set."
+          }
+        ]
+      }
+    }
+  ]
+}

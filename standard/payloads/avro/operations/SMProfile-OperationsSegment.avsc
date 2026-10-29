@@ -2,7 +2,7 @@
   "type": "record",
   "name": "OperationsSegment",
   "namespace": "org.openshopfloor.payload.operations",
-  "doc": "GENERATED from standard/profiles/operations/operations-segment.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "doc": "GENERATED from standard/profiles/operations/operations-segment.json 2.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
   "fields": [
     {
       "name": "eventType",
@@ -46,7 +46,58 @@
     {
       "name": "profileVersion",
       "type": "string",
-      "default": "1.0.0"
+      "default": "2.0.0"
+    },
+    {
+      "name": "b2m",
+      "type": [
+        "null",
+        {
+          "type": "record",
+          "name": "B2M",
+          "fields": [
+            {
+              "name": "verb",
+              "type": {
+                "type": "enum",
+                "name": "B2MVerb",
+                "symbols": [
+                  "GET",
+                  "SHOW",
+                  "PROCESS",
+                  "ACKNOWLEDGE",
+                  "CHANGE",
+                  "RESPOND",
+                  "CANCEL",
+                  "CONFIRM",
+                  "SYNC"
+                ]
+              }
+            },
+            {
+              "name": "actionCode",
+              "type": [
+                "null",
+                {
+                  "type": "enum",
+                  "name": "B2MActionCode",
+                  "symbols": [
+                    "Add",
+                    "Change",
+                    "Delete",
+                    "Replaced",
+                    "Accepted",
+                    "Modified",
+                    "Rejected"
+                  ]
+                }
+              ],
+              "default": null
+            }
+          ]
+        }
+      ],
+      "default": null
     },
     {
       "name": "data",
@@ -126,6 +177,123 @@
             ],
             "default": null,
             "doc": "The equipment class this step specifies."
+          },
+          {
+            "name": "depends_on_operations_segment_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The OperationsSegment (DEPENDS_ON; ISA-95 OperationsSegment → OperationsSegment). Optional."
+          },
+          {
+            "name": "depends_on_process_segment_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The ProcessSegment (DEPENDS_ON; ISA-95 OperationsSegment → ProcessSegment). Optional."
+          },
+          {
+            "name": "operations_material_bill_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The OperationsMaterialBill (HAS_MATERIAL_BILL; ISA-95 OperationsSegment → OperationsMaterialBill). Optional."
+          },
+          {
+            "name": "parent_operations_segment_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The OperationsSegment this OperationsSegment is part of (PART_OF; ISA-95 OperationsSegment MADE_UP_OF OperationsSegment). Optional."
+          },
+          {
+            "name": "machine_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The Machine (SPECIFIES_EQUIPMENT; ISA-95 OperationsSegment → Equipment). Optional."
+          },
+          {
+            "name": "material_class_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The MaterialClass (SPECIFIES_MATERIAL; ISA-95 OperationsSegment → MaterialClass). Optional."
+          },
+          {
+            "name": "material_lot_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The MaterialLot (SPECIFIES_MATERIAL; ISA-95 OperationsSegment → MaterialLot). Optional."
+          },
+          {
+            "name": "quant_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The Quant (SPECIFIES_MATERIAL; ISA-95 OperationsSegment → MaterialSubLot). Optional."
+          },
+          {
+            "name": "person_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The Person (SPECIFIES_PERSONNEL; ISA-95 OperationsSegment → Person). Optional."
+          },
+          {
+            "name": "personnel_class_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The PersonnelClass (SPECIFIES_PERSONNEL; ISA-95 OperationsSegment → PersonnelClass). Optional."
+          },
+          {
+            "name": "tool_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The Tool (SPECIFIES_PHYSICAL_ASSET; ISA-95 OperationsSegment → PhysicalAsset). Optional."
+          },
+          {
+            "name": "physical_asset_class_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The PhysicalAssetClass (SPECIFIES_PHYSICAL_ASSET; ISA-95 OperationsSegment → PhysicalAssetClass). Optional."
+          },
+          {
+            "name": "test_specification_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The TestSpecification (TESTED_BY; ISA-95 OperationsSegment → TestSpecification). Optional."
           }
         ]
       }

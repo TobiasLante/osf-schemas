@@ -1,0 +1,113 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-WorkflowSpecificationConnectionType.payload.json",
+  "title": "SMProfile-WorkflowSpecificationConnectionType payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/operations/workflow-specification-connection-type.json 2.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-WorkflowSpecificationConnectionType",
+  "x-profileVersion": "2.0.0",
+  "x-payloadVersion": "1.1.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "WorkflowSpecificationConnectionType"
+    },
+    "profileRef": {
+      "const": "SMProfile-WorkflowSpecificationConnectionType"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "workflow_specification_connection_type_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the workflow specification connection type: its own id from the source system (ISA-95 WorkflowSpecificationConnectionType.ID)."
+        },
+        "description": {
+          "type": "string",
+          "description": "ISA-95 WorkflowSpecificationConnectionType.Description."
+        },
+        "version": {
+          "type": "string",
+          "description": "ISA-95 WorkflowSpecificationConnectionType.Version."
+        },
+        "published_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISA-95 WorkflowSpecificationConnectionType.PublishedDate."
+        },
+        "effective_start": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISA-95 WorkflowSpecificationConnectionType.EffectiveStartDate."
+        },
+        "effective_end": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISA-95 WorkflowSpecificationConnectionType.EffectiveEndDate."
+        },
+        "from_wsnode_multiplicity": {
+          "type": "string",
+          "description": "ISA-95 WorkflowSpecificationConnectionType.FromWSNodeMultiplicity."
+        },
+        "to_wsnode_multiplicity": {
+          "type": "string",
+          "description": "ISA-95 WorkflowSpecificationConnectionType.ToWSNodeMultiplicity."
+        },
+        "dependency": {
+          "type": "string",
+          "enum": [
+            "NotFollow",
+            "PossibleParallel",
+            "NotInParallel",
+            "AtStart",
+            "AfterStart",
+            "AfterEnd",
+            "NoLaterAfterStart",
+            "NoEarlierAfterStart",
+            "NoLaterAfterEnd",
+            "NoEarlierAfterEnd",
+            "Other"
+          ],
+          "description": "ISA-95 WorkflowSpecificationConnectionType.Dependency."
+        },
+        "dependency_factor": {
+          "type": "string",
+          "description": "ISA-95 WorkflowSpecificationConnectionType.DependencyFactor."
+        },
+        "hierarchy_scope_ref": {
+          "type": "string",
+          "description": "The element of the role-based equipment hierarchy this object belongs to (ISA-95 Part 2 cl. 5.1 hierarchy scope, IN_SCOPE_OF). Optional."
+        },
+        "base_workflow_specification_connection_type_ref": {
+          "type": "string",
+          "description": "The WorkflowSpecificationConnectionType (INCLUDES_PROPERTIES_OF; ISA-95 WorkflowSpecificationConnectionType → WorkflowSpecificationConnectionType). Optional."
+        }
+      },
+      "required": [
+        "workflow_specification_connection_type_id"
+      ]
+    }
+  },
+  "x-delivery": {
+    "workflow_specification_connection_type_id": "transactional",
+    "description": "transactional",
+    "version": "transactional",
+    "published_date": "transactional",
+    "effective_start": "transactional",
+    "effective_end": "transactional",
+    "from_wsnode_multiplicity": "transactional",
+    "to_wsnode_multiplicity": "transactional",
+    "dependency": "transactional",
+    "dependency_factor": "transactional",
+    "hierarchy_scope_ref": "transactional",
+    "base_workflow_specification_connection_type_ref": "transactional"
+  }
+}

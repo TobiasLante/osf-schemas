@@ -1,0 +1,213 @@
+{
+  "profileId": "SMProfile-PhysicalAssetClass",
+  "version": "1.0.0",
+  "standard": "CarToUNS",
+  "category": "equipment",
+  "displayName": "Physical Asset Class",
+  "description": "ISA-95 Part 2 cl. 5.6 (PhysicalAssetClass): a class of physical assets (e.g. a tool type); its physical assets are defined by it.",
+  "parentType": null,
+  "abstract": false,
+  "properties": [
+    {
+      "name": "physical_asset_class_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the physical asset class: its own id from the source system (ISA-95 PhysicalAssetClass.ID).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "version",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 PhysicalAssetClass.Version.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "description",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 PhysicalAssetClass.Description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "published_date",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "ISA-95 PhysicalAssetClass.PublishedDate.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "effective_start",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "ISA-95 PhysicalAssetClass.EffectiveStartDate.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "effective_end",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "ISA-95 PhysicalAssetClass.EffectiveEndDate.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "manufacturer",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 PhysicalAssetClass.Manufacturer.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "hierarchy_scope_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The element of the role-based equipment hierarchy this object belongs to (ISA-95 Part 2 cl. 5.1 hierarchy scope, IN_SCOPE_OF). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "base_physical_asset_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The PhysicalAssetClass (INCLUDES_PROPERTIES_OF; ISA-95 PhysicalAssetClass → PhysicalAssetClass). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "parent_physical_asset_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The PhysicalAssetClass this PhysicalAssetClass is part of (PART_OF; ISA-95 PhysicalAssetClass MADE_UP_OF PhysicalAssetClass). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "test_specification_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The TestSpecification (TESTED_BY; ISA-95 PhysicalAssetClass → TestSpecification). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "INCLUDES_PROPERTIES_OF",
+      "target": "PhysicalAssetClass",
+      "targetIdProp": "physical_asset_class_id",
+      "description": "ISA-95 Part 2 cl. 5.6 (B2MML PhysicalAssetClass.PhysicalAssetClassBaseID)."
+    },
+    {
+      "type": "PART_OF",
+      "target": "PhysicalAssetClass",
+      "targetIdProp": "physical_asset_class_id",
+      "description": "ISA-95 Part 2 cl. 5.6 (B2MML PhysicalAssetClass.PhysicalAssetClassChild)."
+    },
+    {
+      "type": "TESTED_BY",
+      "target": "TestSpecification",
+      "targetIdProp": "test_specification_id",
+      "description": "ISA-95 Part 2 cl. 5.6 (B2MML PhysicalAssetClass.TestSpecificationID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Enterprise",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Site",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Area",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "WorkCenter",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Machine",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iso:62264-PhysicalAssetClass"
+  ],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "PhysicalAssetClass",
+    "part": 2,
+    "momDomain": "production",
+    "level": 3,
+    "note": "ISA-95 Part 2 cl. 5.6 PhysicalAssetClass: a class of physical assets (e.g. a tool type); its physical assets are defined by it. Core 4.0.0 (0.3.5, OPEN-0350, owner 07.10.).",
+    "propertyMap": {
+      "physical_asset_class_id": "PhysicalAssetClass.ID",
+      "version": "PhysicalAssetClass.Version",
+      "description": "PhysicalAssetClass.Description",
+      "published_date": "PhysicalAssetClass.PublishedDate",
+      "effective_start": "PhysicalAssetClass.EffectiveStartDate",
+      "effective_end": "PhysicalAssetClass.EffectiveEndDate",
+      "manufacturer": "PhysicalAssetClass.Manufacturer",
+      "hierarchy_scope_ref": "PhysicalAssetClass.HierarchyScope.EquipmentID",
+      "base_physical_asset_class_ref": "PhysicalAssetClass.PhysicalAssetClassBaseID",
+      "test_specification_ref": "PhysicalAssetClass.TestSpecificationID"
+    },
+    "notInIsa95": [
+      "parent_physical_asset_class_ref"
+    ],
+    "mappingNote": "Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent)."
+  },
+  "kgNodeLabel": "PhysicalAssetClass",
+  "kgIdProperty": "physical_asset_class_id"
+}

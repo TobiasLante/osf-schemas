@@ -1,0 +1,338 @@
+{
+  "profileId": "SMProfile-BatchProductionRecord",
+  "version": "2.0.0",
+  "standard": "CarToUNS",
+  "category": "business",
+  "displayName": "Batch record",
+  "description": "ISA-88 Part 4 (BatchML BatchProductionRecord): the record of a batch — for which batch, lot, material and equipment, and the recipes and ISA-95 work objects it holds.",
+  "parentType": null,
+  "abstract": false,
+  "properties": [
+    {
+      "name": "batch_production_record_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the record (BatchML BatchProductionRecord.ID).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "description",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML BatchProductionRecord.Description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "hierarchy_scope_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The element of the role-based equipment hierarchy the record belongs to (BatchML BatchProductionRecord.EquipmentScope, IN_SCOPE_OF).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "published_date",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "BatchML BatchProductionRecord.PublishedDate.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "SP"
+    },
+    {
+      "name": "creation_date",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "BatchML BatchProductionRecord.CreationDate.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "SP"
+    },
+    {
+      "name": "last_changed_date",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "BatchML BatchProductionRecord.LastChangedDate.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "SP"
+    },
+    {
+      "name": "expiration_date",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "BatchML BatchProductionRecord.ExpirationDate.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "SP"
+    },
+    {
+      "name": "batch_id",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "The batch id (a value; BatchML has no batch object it points to).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "batch_production_record_spec",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML BatchProductionRecord.BatchProductionRecordSpec.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "campaign_id",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML BatchProductionRecord.CampaignID (a value).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "machine_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "BatchML BatchProductionRecord.EquipmentID.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "material_lot_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "BatchML BatchProductionRecord.LotID.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "article_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "BatchML BatchProductionRecord.MaterialDefinitionID.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "tool_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "BatchML BatchProductionRecord.PhysicalAssetID.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "record_status",
+      "dataType": "String",
+      "required": false,
+      "category": "Status",
+      "description": "BatchML BatchProductionRecord.RecordStatus.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
+    },
+    {
+      "name": "version",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML BatchProductionRecord.Version.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "language",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML BatchProductionRecord.Language.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "parent_batch_production_record_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The record this one is part of (BatchML nests BatchProductionRecord in BatchProductionRecord).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "record_object_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "An object the record holds (BatchML MasterRecipes, ControlRecipes, RecipeElements, WorkMasters, WorkDirectives, WorkSchedules, WorkPerformances, OperationsDefinitions, OperationsSchedules, OperationsPerformances); one row per object.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "record_object_profile",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The profile of the object in record_object_ref (BatchML carries the object itself).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Enterprise",
+      "targetIdProp": "element_id",
+      "description": "The element of the role-based equipment hierarchy the record belongs to."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Site",
+      "targetIdProp": "element_id",
+      "description": "The element of the role-based equipment hierarchy the record belongs to."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Area",
+      "targetIdProp": "element_id",
+      "description": "The element of the role-based equipment hierarchy the record belongs to."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "WorkCenter",
+      "targetIdProp": "element_id",
+      "description": "The element of the role-based equipment hierarchy the record belongs to."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Machine",
+      "targetIdProp": "element_id",
+      "description": "The element of the role-based equipment hierarchy the record belongs to."
+    },
+    {
+      "type": "FOR_EQUIPMENT",
+      "target": "Machine",
+      "targetIdProp": "element_id",
+      "description": "The equipment the record is for."
+    },
+    {
+      "type": "FOR_MATERIAL_LOT",
+      "target": "MaterialLot",
+      "targetIdProp": "material_lot_no",
+      "description": "The lot the record is for."
+    },
+    {
+      "type": "FOR_MATERIAL_DEFINITION",
+      "target": "Article",
+      "targetIdProp": "article_no",
+      "description": "The material definition the record is for."
+    },
+    {
+      "type": "FOR_PHYSICAL_ASSET",
+      "target": "Tooling",
+      "targetIdProp": "tool_id",
+      "description": "The physical asset the record is for."
+    },
+    {
+      "type": "PART_OF",
+      "target": "BatchProductionRecord",
+      "targetIdProp": "batch_production_record_id",
+      "description": "The record this one is part of."
+    },
+    {
+      "type": "RECORDS",
+      "target": "*",
+      "targetProfileProp": "record_object_profile",
+      "description": "An object the record holds: a master / control recipe, a recipe element, or one of the ISA-95 work objects MESA added to the record (BatchML; record_object_profile names its profile). Not a domain edge."
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iec:61512-BatchProductionRecord"
+  ],
+  "kpiRefs": [],
+  "isa88": {
+    "objectModel": "BatchProductionRecord",
+    "part": 4,
+    "grain": "one batch production record",
+    "note": "ISA-88 Part 4 as MESA BatchML 0701 carries it (BatchML-BatchProductionRecord.xsd BatchProductionRecord). Core 4.1.0 (0.5.2, OPEN-0360, owner 09.10.2026).",
+    "propertyMap": {
+      "batch_production_record_id": "BatchProductionRecord.ID",
+      "description": "BatchProductionRecord.Description",
+      "hierarchy_scope_ref": "BatchProductionRecord.EquipmentScope",
+      "published_date": "BatchProductionRecord.PublishedDate",
+      "creation_date": "BatchProductionRecord.CreationDate",
+      "last_changed_date": "BatchProductionRecord.LastChangedDate",
+      "expiration_date": "BatchProductionRecord.ExpirationDate",
+      "batch_id": "BatchProductionRecord.BatchID",
+      "batch_production_record_spec": "BatchProductionRecord.BatchProductionRecordSpec",
+      "campaign_id": "BatchProductionRecord.CampaignID",
+      "machine_ref": "BatchProductionRecord.EquipmentID",
+      "material_lot_ref": "BatchProductionRecord.LotID",
+      "article_ref": "BatchProductionRecord.MaterialDefinitionID",
+      "tool_ref": "BatchProductionRecord.PhysicalAssetID",
+      "record_status": "BatchProductionRecord.RecordStatus",
+      "version": "BatchProductionRecord.Version",
+      "language": "BatchProductionRecord.Language"
+    },
+    "notInBatchML": [
+      "parent_batch_production_record_ref",
+      "record_object_ref",
+      "record_object_profile"
+    ],
+    "mappingNote": "Containment is PART_OF on the child with a reference to the parent (BatchML nests the child inside the parent). record_object_profile names the profile of the object in record_object_ref (BatchML carries the object itself). Data sets (process values) are telemetry: never objects, the record reaches them by time range at the historian."
+  },
+  "kgNodeLabel": "BatchProductionRecord",
+  "kgIdProperty": "batch_production_record_id"
+}

@@ -2,10 +2,10 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-OperationsResponse.payload.json",
   "title": "SMProfile-OperationsResponse payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/operations/operations-response.json 2.3.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/operations/operations-response.json 4.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-OperationsResponse",
-  "x-profileVersion": "2.3.0",
-  "x-payloadVersion": "1.0.0",
+  "x-profileVersion": "4.0.0",
+  "x-payloadVersion": "1.1.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
     "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
@@ -25,14 +25,22 @@
     "data": {
       "type": "object",
       "properties": {
-        "production_order_no": {
+        "operations_response_no": {
           "type": "string",
           "pattern": "^[^+#*>/\\s]+$",
-          "description": "Join key — the OperationsRequest whose actuals this confirms (RESPONDS_TO)."
+          "description": "Identity of the operations response: its own number from the source system (ISA-95 OperationsResponse.ID; core 4.0.0, F3)."
+        },
+        "production_order_ref": {
+          "type": "string",
+          "description": "The production order (OperationsRequest) these actuals answer (RESPONDS_TO). Until core 4.0.0 this was the key production_order_no."
         },
         "article_ref": {
           "type": "string",
           "description": "Manufactured article (join key to Article)."
+        },
+        "article_revision": {
+          "type": "string",
+          "description": "The revision of the article that was built or used, where the source's article number carries none (a PLM part number with revision A). Empty when the number itself names the revision (at SAP dddd.1)."
         },
         "machine_ref": {
           "type": "string",
@@ -54,8 +62,16 @@
         "status": {
           "type": "string",
           "enum": [
-            "in_arbeit",
-            "fertig"
+            "Waiting",
+            "Ready",
+            "Running",
+            "Completed",
+            "Aborted",
+            "Held",
+            "Paused",
+            "Suspended",
+            "Closed",
+            "Other"
           ],
           "description": "Actual status of the confirmation. Full text: docs/history/standard/profiles/operations/operations-response.md, attributes › status › description."
         },
@@ -68,22 +84,62 @@
           "type": "string",
           "format": "date-time",
           "description": "Last change. Server-managed and volatile on every read (sim-v5 returns a fresh value per GET), so promotion:never — kept in the snapshot but excluded from the change-trigger and never published on its own."
+        },
+        "operations_definition_ref": {
+          "type": "string",
+          "description": "The OperationsDefinition (FOR_OPERATIONS_DEFINITION; ISA-95 OperationsResponse → OperationsDefinition). Optional."
+        },
+        "operations_definition_version": {
+          "type": "string",
+          "description": "The version of the operations definition this order / response ran with, where the source's definition id carries none (a routing number with its own change state). Empty when the id itself names the version."
+        },
+        "operations_segment_ref": {
+          "type": "string",
+          "description": "The OperationsSegment (FOR_OPERATIONS_SEGMENT; ISA-95 OperationsResponse → OperationsSegment). Optional."
+        },
+        "operations_performance_ref": {
+          "type": "string",
+          "description": "The OperationsPerformance this OperationsResponse is part of (PART_OF; ISA-95 OperationsPerformance MADE_UP_OF OperationsResponse). Optional."
+        },
+        "segment_requirement_ref": {
+          "type": "string",
+          "description": "The SegmentRequirement (RESPONDS_TO; ISA-95 OperationsResponse → SegmentRequirement). Optional."
+        },
+        "operations_type": {
+          "type": "string",
+          "enum": [
+            "Production",
+            "Maintenance",
+            "Quality",
+            "Inventory",
+            "Mixed",
+            "Other"
+          ],
+          "description": "ISA-95 operations type (B2MML OperationsType; Part 3/4: which MOM area the object belongs to; audit M1). A source without the column sets the constant of the profile's momDomain (columnMappings const)."
         }
       },
       "required": [
-        "production_order_no"
+        "operations_response_no"
       ]
     }
   },
   "x-delivery": {
-    "production_order_no": "transactional",
+    "operations_response_no": "transactional",
+    "production_order_ref": "transactional",
     "article_ref": "transactional",
+    "article_revision": "transactional",
     "machine_ref": "transactional",
     "quantity_produced": "transactional",
     "cycle_time_actual_sec": "transactional",
     "actual_end_time": "transactional",
     "status": "transactional",
     "completed_at": "transactional",
-    "updated_at": "transactional"
+    "updated_at": "transactional",
+    "operations_definition_ref": "transactional",
+    "operations_definition_version": "transactional",
+    "operations_segment_ref": "transactional",
+    "operations_performance_ref": "transactional",
+    "segment_requirement_ref": "transactional",
+    "operations_type": "transactional"
   }
 }

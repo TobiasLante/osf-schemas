@@ -1,0 +1,177 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-OperationsEventDefinition.payload.json",
+  "title": "SMProfile-OperationsEventDefinition payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/operations/operations-event-definition.json 2.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-OperationsEventDefinition",
+  "x-profileVersion": "2.0.0",
+  "x-payloadVersion": "1.1.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "OperationsEventDefinition"
+    },
+    "profileRef": {
+      "const": "SMProfile-OperationsEventDefinition"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "operations_event_definition_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the operations event definition: its own id from the source system (ISA-95 OperationsEventDefinition.ID)."
+        },
+        "description": {
+          "type": "string",
+          "description": "ISA-95 OperationsEventDefinition.Description."
+        },
+        "version": {
+          "type": "string",
+          "description": "ISA-95 OperationsEventDefinition.Version."
+        },
+        "published_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISA-95 OperationsEventDefinition.PublishedDate."
+        },
+        "effective_start": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISA-95 OperationsEventDefinition.EffectiveStartDate."
+        },
+        "effective_end": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISA-95 OperationsEventDefinition.EffectiveEndDate."
+        },
+        "priority": {
+          "type": "integer",
+          "description": "ISA-95 OperationsEventDefinition.Priority (a rank, no unit)."
+        },
+        "operations_event_type": {
+          "type": "string",
+          "enum": [
+            "Event",
+            "Alert",
+            "Alarm",
+            "Other"
+          ],
+          "description": "ISA-95 OperationsEventDefinition.OperationsEventType."
+        },
+        "operations_event_level": {
+          "type": "string",
+          "enum": [
+            "Level 2",
+            "Level 3",
+            "Level 4",
+            "Other"
+          ],
+          "description": "ISA-95 OperationsEventDefinition.OperationsEventLevel."
+        },
+        "operations_type": {
+          "type": "string",
+          "enum": [
+            "Production",
+            "Maintenance",
+            "Quality",
+            "Inventory",
+            "Mixed",
+            "Other"
+          ],
+          "description": "ISA-95 OperationsEventDefinition.OperationsType."
+        },
+        "momfunction": {
+          "type": "string",
+          "enum": [
+            "Resource management",
+            "Definition management",
+            "Detailed scheduling",
+            "Dispatching",
+            "Execution management",
+            "Data collection",
+            "Performance analysis",
+            "Tracking",
+            "Other"
+          ],
+          "description": "ISA-95 OperationsEventDefinition.MOMFunction."
+        },
+        "enterprise_function": {
+          "type": "string",
+          "enum": [
+            "Order processing",
+            "Operations scheduling",
+            "Production control",
+            "Material and energy control",
+            "Procurement",
+            "Quality assurance",
+            "Product inventory control",
+            "product cost accounting",
+            "Product shipping administration",
+            "Maintenance management",
+            "Marketing and sales",
+            "Research and Development",
+            "Engineering",
+            "Other"
+          ],
+          "description": "ISA-95 OperationsEventDefinition.EnterpriseFunction."
+        },
+        "event_category": {
+          "type": "string",
+          "description": "ISA-95 OperationsEventDefinition.Category."
+        },
+        "acknowledgement": {
+          "type": "string",
+          "description": "ISA-95 OperationsEventDefinition.Acknowledgement."
+        },
+        "event_source": {
+          "type": "string",
+          "description": "ISA-95 OperationsEventDefinition.Source."
+        },
+        "hierarchy_scope_ref": {
+          "type": "string",
+          "description": "The element of the role-based equipment hierarchy this object belongs to (ISA-95 Part 2 cl. 5.1 hierarchy scope, IN_SCOPE_OF). Optional."
+        },
+        "operations_event_class_ref": {
+          "type": "string",
+          "description": "The OperationsEventClass (DEFINED_BY; ISA-95 OperationsEventDefinition → OperationsEventClass). Optional."
+        },
+        "parent_operations_event_definition_ref": {
+          "type": "string",
+          "description": "The OperationsEventDefinition this OperationsEventDefinition is part of (PART_OF; ISA-95 OperationsEventDefinition MADE_UP_OF OperationsEventDefinition). Optional."
+        }
+      },
+      "required": [
+        "operations_event_definition_id"
+      ]
+    }
+  },
+  "x-delivery": {
+    "operations_event_definition_id": "transactional",
+    "description": "transactional",
+    "version": "transactional",
+    "published_date": "transactional",
+    "effective_start": "transactional",
+    "effective_end": "transactional",
+    "priority": "transactional",
+    "operations_event_type": "transactional",
+    "operations_event_level": "transactional",
+    "operations_type": "transactional",
+    "momfunction": "transactional",
+    "enterprise_function": "transactional",
+    "event_category": "transactional",
+    "acknowledgement": "transactional",
+    "event_source": "transactional",
+    "hierarchy_scope_ref": "transactional",
+    "operations_event_class_ref": "transactional",
+    "parent_operations_event_definition_ref": "transactional"
+  }
+}

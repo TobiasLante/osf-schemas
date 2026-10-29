@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-SegmentResponse",
-  "version": "3.0.0",
+  "version": "5.0.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Segment Response (segment actuals per order)",
@@ -13,7 +13,7 @@
       "dataType": "String",
       "required": true,
       "category": "Core",
-      "description": "Identity of the SegmentResponse (join key). Recommendation: <production_order_no>.<sequence>.",
+      "description": "Identity of the SegmentResponse (join key): its own number from the source system. It is never built from other keys; the operations response is reached through operations_response_ref (core 4.0.0, F3).",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
@@ -82,13 +82,19 @@
       "category": "Execution",
       "description": "ISA-95 MaterialActual.MaterialUse — the ROLE of the material (actual). Mirrors the SegmentRequirement role.",
       "enum": [
+        "Consumable",
         "Consumed",
         "Produced",
-        "Consumable",
-        "ByProduct",
-        "Sample",
-        "MovedFrom",
-        "MovedTo"
+        "By-product Produced",
+        "Co-product Produced",
+        "Yield Produced",
+        "Material Consumed",
+        "Material Produced",
+        "Destructive Sample",
+        "Returned Sample",
+        "Retained Sample",
+        "Inventoried",
+        "Other"
       ],
       "delivery": "transactional",
       "scope": "hub",
@@ -125,11 +131,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "refOnly",
-        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
-      }
+      "valueType": "ID"
     },
     {
       "name": "actual_start_time",
@@ -162,7 +164,19 @@
       "description": "Actual status of the stage (e.g. running, complete, aborted). Derived from the MES OrderState.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "enum": [
+        "Waiting",
+        "Ready",
+        "Running",
+        "Completed",
+        "Aborted",
+        "Held",
+        "Paused",
+        "Suspended",
+        "Closed",
+        "Other"
+      ]
     },
     {
       "name": "qty_good",
@@ -279,11 +293,7 @@
           "profileRef": "SMProfile-CNC-Machine",
           "attribute": "Act_Ref_Tool"
         }
-      ],
-      "refStatus": {
-        "kind": "refOnly",
-        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
-      }
+      ]
     },
     {
       "name": "qty_rework",
@@ -331,11 +341,18 @@
           "profileRef": "SMProfile-CNC-Machine",
           "attribute": "Act_Ref_Article"
         }
-      ],
-      "refStatus": {
-        "kind": "refOnly",
-        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
-      }
+      ]
+    },
+    {
+      "name": "article_revision",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The revision of the article that was built or used, where the source's article number carries none (a PLM part number with revision A). Empty when the number itself names the revision (at SAP dddd.1).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
     },
     {
       "name": "program_line",
@@ -370,6 +387,182 @@
       ]
     },
     {
+      "name": "equipment_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The EquipmentClass (ACTUAL_EQUIPMENT; ISA-95 SegmentResponse → EquipmentClass). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "material_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The MaterialClass (ACTUAL_MATERIAL; ISA-95 SegmentResponse → MaterialClass). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "quant_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The Quant (ACTUAL_MATERIAL; ISA-95 SegmentResponse → MaterialSubLot). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "person_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The Person (ACTUAL_PERSONNEL; ISA-95 SegmentResponse → Person). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "personnel_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The PersonnelClass (ACTUAL_PERSONNEL; ISA-95 SegmentResponse → PersonnelClass). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "physical_asset_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The PhysicalAssetClass (ACTUAL_PHYSICAL_ASSET; ISA-95 SegmentResponse → PhysicalAssetClass). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "job_response_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The JobResponse (DETAILED_BY; ISA-95 SegmentResponse → JobResponse). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "work_response_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The WorkResponse (DETAILED_BY; ISA-95 SegmentResponse → WorkResponse). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "operations_definition_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The OperationsDefinition (FOR_OPERATIONS_DEFINITION; ISA-95 SegmentResponse → OperationsDefinition). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "operations_definition_version",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The version of the operations definition this order / response ran with, where the source's definition id carries none (a routing number with its own change state). Empty when the id itself names the version.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "operations_segment_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The OperationsSegment (FOR_OPERATIONS_SEGMENT; ISA-95 SegmentResponse → OperationsSegment). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "inspection_lot_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The InspectionLot — the test result of a material actual (HAS_TEST_RESULT; ISA-95 SegmentResponse → MaterialActual → TestResult). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "personnel_test_result_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The TestResult of a person (qualification test) the response used (HAS_TEST_RESULT; ISA-95 SegmentResponse → PersonnelActual → TestResult). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "equipment_test_result_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The TestResult of a machine (equipment capability test) the response used (HAS_TEST_RESULT; ISA-95 SegmentResponse → EquipmentActual → TestResult). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "physical_asset_test_result_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The TestResult of a tool (physical asset capability test) the response used (HAS_TEST_RESULT; ISA-95 SegmentResponse → PhysicalAssetActual → TestResult). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "parent_segment_response_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The SegmentResponse this SegmentResponse is part of (PART_OF; ISA-95 SegmentResponse MADE_UP_OF SegmentResponse). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
       "name": "source_quality",
       "dataType": "String",
       "required": false,
@@ -384,13 +577,30 @@
       "scope": "hub",
       "promotion": "on_change",
       "valueType": "MD"
+    },
+    {
+      "name": "operations_type",
+      "dataType": "String",
+      "description": "ISA-95 operations type (B2MML OperationsType; Part 3/4: which MOM area the object belongs to; audit M1). A source without the column sets the constant of the profile's momDomain (columnMappings const).",
+      "enum": [
+        "Production",
+        "Maintenance",
+        "Quality",
+        "Inventory",
+        "Mixed",
+        "Other"
+      ],
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
     }
   ],
   "relationships": [
     {
       "type": "PART_OF",
       "target": "OperationsResponse",
-      "targetIdProp": "production_order_no",
+      "targetIdProp": "operations_response_no",
       "description": "The order actuals that contain these segment actuals."
     },
     {
@@ -416,6 +626,102 @@
       "target": "Machine",
       "targetIdProp": "element_id",
       "description": "The equipment actually used (Machine ≡ Unit level, consolidation 2026-07-15 — the source fkColumn carries machine ids)."
+    },
+    {
+      "type": "ACTUAL_EQUIPMENT",
+      "target": "EquipmentClass",
+      "targetIdProp": "equipment_class_id",
+      "description": "ISA-95 Part 2 cl. 6.2/6.3 (B2MML SegmentResponse.EquipmentActual.EquipmentClassID)."
+    },
+    {
+      "type": "ACTUAL_MATERIAL",
+      "target": "MaterialClass",
+      "targetIdProp": "material_class_id",
+      "description": "ISA-95 Part 2 cl. 6.2/6.3 (B2MML SegmentResponse.MaterialActual.MaterialClassID)."
+    },
+    {
+      "type": "ACTUAL_MATERIAL",
+      "target": "Article",
+      "targetIdProp": "article_no",
+      "description": "ISA-95 Part 2 cl. 6.2/6.3 (B2MML SegmentResponse.MaterialActual.MaterialDefinitionID)."
+    },
+    {
+      "type": "ACTUAL_MATERIAL",
+      "target": "Quant",
+      "targetIdProp": "quant_no",
+      "description": "ISA-95 Part 2 cl. 6.2/6.3 (B2MML SegmentResponse.MaterialActual.MaterialSubLotID)."
+    },
+    {
+      "type": "ACTUAL_PERSONNEL",
+      "target": "Person",
+      "targetIdProp": "person_id",
+      "description": "ISA-95 Part 2 cl. 6.2/6.3 (B2MML SegmentResponse.PersonnelActual.PersonID)."
+    },
+    {
+      "type": "ACTUAL_PERSONNEL",
+      "target": "PersonnelClass",
+      "targetIdProp": "personnel_class_id",
+      "description": "ISA-95 Part 2 cl. 6.2/6.3 (B2MML SegmentResponse.PersonnelActual.PersonnelClassID)."
+    },
+    {
+      "type": "ACTUAL_PHYSICAL_ASSET",
+      "target": "Tooling",
+      "targetIdProp": "tool_id",
+      "description": "ISA-95 Part 2 cl. 6.2/6.3 (B2MML SegmentResponse.PhysicalAssetActual.PhysicalAssetID)."
+    },
+    {
+      "type": "ACTUAL_PHYSICAL_ASSET",
+      "target": "PhysicalAssetClass",
+      "targetIdProp": "physical_asset_class_id",
+      "description": "ISA-95 Part 2 cl. 6.2/6.3 (B2MML SegmentResponse.PhysicalAssetActual.PhysicalAssetClassID)."
+    },
+    {
+      "type": "DETAILED_BY",
+      "target": "JobResponse",
+      "targetIdProp": "job_response_id",
+      "description": "ISA-95 Part 2 cl. 6.2/6.3 (B2MML SegmentResponse.JobResponseID)."
+    },
+    {
+      "type": "DETAILED_BY",
+      "target": "WorkResponse",
+      "targetIdProp": "work_response_id",
+      "description": "ISA-95 Part 2 cl. 6.2/6.3 (B2MML SegmentResponse.WorkResponseID)."
+    },
+    {
+      "type": "FOR_OPERATIONS_DEFINITION",
+      "target": "OperationsDefinition",
+      "targetIdProp": "operations_definition_no",
+      "description": "ISA-95 Part 2 cl. 6.2/6.3 (B2MML SegmentResponse.OperationsDefinitionID)."
+    },
+    {
+      "type": "FOR_OPERATIONS_SEGMENT",
+      "target": "OperationsSegment",
+      "targetIdProp": "operations_segment_no",
+      "description": "ISA-95 Part 2 cl. 6.2/6.3 (B2MML SegmentResponse.OperationsSegmentID)."
+    },
+    {
+      "type": "HAS_TEST_RESULT",
+      "target": "InspectionLot",
+      "targetIdProp": "lot_no",
+      "description": "ISA-95 Part 2 cl. 6.2/6.3 (B2MML SegmentResponse.MaterialActual.TestResult)."
+    },
+    {
+      "type": "HAS_TEST_RESULT",
+      "target": "TestResult",
+      "targetIdProp": "test_result_id",
+      "description": "ISA-95 Part 2 cl. 6.2/6.3 (B2MML SegmentResponse.PersonnelActual / EquipmentActual / PhysicalAssetActual.TestResult): the result of a resource test."
+    },
+    {
+      "type": "PART_OF",
+      "target": "SegmentResponse",
+      "targetIdProp": "segment_response_no",
+      "description": "ISA-95 Part 2 cl. 6.2/6.3 (B2MML SegmentResponse.SegmentResponseChild)."
+    },
+    {
+      "type": "RESPONDS_TO",
+      "target": "ProductionOrder",
+      "targetIdProp": "production_order_no",
+      "description": "ISA-95 Part 2 cl. 6.2/6.3 (B2MML SegmentResponse.OperationsRequestID)."
     }
   ],
   "constraints": [],
@@ -441,28 +747,46 @@
       "actual_start_time": "OperationsResponse.SegmentResponse.ActualStartTime",
       "actual_end_time": "OperationsResponse.SegmentResponse.ActualEndTime",
       "status": "OperationsResponse.SegmentResponse.SegmentState",
+      "equipment_class_ref": "SegmentResponse.EquipmentActual.EquipmentClassID",
+      "material_class_ref": "SegmentResponse.MaterialActual.MaterialClassID",
       "unit_of_measure": "OperationsResponse.SegmentResponse.MaterialActual.Quantity.UnitOfMeasure",
-      "production_order_ref": "OperationsResponse.SegmentResponse.OperationsRequestID",
-      "article_ref": "OperationsResponse.SegmentResponse.MaterialActual.MaterialDefinitionID",
-      "tool_ref": "OperationsResponse.SegmentResponse.PhysicalAssetActual.PhysicalAssetID"
+      "production_order_ref": "SegmentResponse.OperationsRequestID",
+      "article_ref": "SegmentResponse.MaterialActual.MaterialDefinitionID",
+      "quant_ref": "SegmentResponse.MaterialActual.MaterialSubLotID",
+      "person_ref": "SegmentResponse.PersonnelActual.PersonID",
+      "personnel_class_ref": "SegmentResponse.PersonnelActual.PersonnelClassID",
+      "tool_ref": "SegmentResponse.PhysicalAssetActual.PhysicalAssetID",
+      "physical_asset_class_ref": "SegmentResponse.PhysicalAssetActual.PhysicalAssetClassID",
+      "job_response_ref": "SegmentResponse.JobResponseID",
+      "work_response_ref": "SegmentResponse.WorkResponseID",
+      "operations_definition_ref": "SegmentResponse.OperationsDefinitionID",
+      "operations_segment_ref": "SegmentResponse.OperationsSegmentID",
+      "inspection_lot_ref": "SegmentResponse.MaterialActual.TestResult",
+      "operations_type": "OperationsResponse.SegmentResponse.OperationsType",
+      "qty_good": "OperationsResponse.SegmentResponse.MaterialActual[MaterialUse=Produced].Quantity",
+      "program_ref": "OperationsResponse.SegmentResponse.SegmentData[ID=program_ref].Value.ValueString",
+      "program_line": "OperationsResponse.SegmentResponse.SegmentData[ID=program_line].Value.ValueString",
+      "program_status": "OperationsResponse.SegmentResponse.SegmentData[ID=program_status].Value.ValueString",
+      "personnel_test_result_ref": "SegmentResponse.PersonnelActual.TestResult",
+      "equipment_test_result_ref": "SegmentResponse.EquipmentActual.TestResult",
+      "physical_asset_test_result_ref": "SegmentResponse.PhysicalAssetActual.TestResult"
     },
     "notInIsa95": [
+      "parent_segment_response_ref",
       "sequence",
-      "qty_good",
       "qty_scrap",
       "qty_total",
       "qty_rework",
-      "program_ref",
-      "program_line",
-      "program_status",
-      "source_quality"
+      "source_quality",
+      "operations_definition_version",
+      "article_revision"
     ],
-    "mappingNote": "sequence is carried by B2MML through the order of SegmentResponse in OperationsResponse; B2MML has one quantity per material actual, no good/scrap/total/rework split, and no NC program, program line or program state. source_quality: data quality of the record as its source reported it; ISA-95 has no element for it."
+    "mappingNote": "sequence is carried by B2MML through the order of SegmentResponse in OperationsResponse; B2MML has one quantity per material actual, no good/scrap/total/rework split, and no NC program, program line or program state. source_quality: data quality of the record as its source reported it; ISA-95 has no element for it. Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent). Audit M3 (core 6.0.0): qty_good is the produced MaterialActual (MaterialUse Produced); program_ref / program_line / program_status are SegmentData entries named by their ID; qty_scrap / qty_rework / qty_total stay ours (no MaterialUse for scrap or rework in B2MML 0701). PLM as-built (owner 29.10.2026): operations_definition_version and article_revision name the state that was built where the source's id carries none; B2MML references a definition by its ID alone (an ID means one state), so there is no field for it — an extension, never part of the key."
   },
   "kgNodeLabel": "SegmentResponse",
   "kgIdProperty": "segment_response_no",
   "keyStability": {
     "kind": "row-id",
-    "note": "production_order_no + operation_number are the ERP's own primary key of the confirmed operation row (erp-segment-responses primaryKeyColumns); the key moves only when the ERP row does."
+    "note": "confirmation_no is the ERP's own primary key of the confirmation row (erp-segment-responses primaryKeyColumns, core 4.0.0); the key moves only when the ERP row does."
   }
 }

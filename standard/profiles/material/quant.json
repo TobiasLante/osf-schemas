@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-Quant",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "standard": "CarToUNS",
   "category": "material",
   "displayName": "Quant (inventory stock unit / MaterialSublot)",
@@ -99,6 +99,50 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "never"
+    },
+    {
+      "name": "material_lot_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The MaterialLot (ASSEMBLED_FROM; ISA-95 MaterialSubLot → MaterialLot). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "assembled_from_quant_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The Quant (ASSEMBLED_FROM; ISA-95 MaterialSubLot → MaterialSubLot). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "parent_quant_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The Quant this Quant is part of (PART_OF; ISA-95 MaterialSubLot MADE_UP_OF MaterialSubLot). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "test_specification_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The TestSpecification (TESTED_BY; ISA-95 MaterialSubLot → TestSpecification). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
     }
   ],
   "relationships": [
@@ -107,6 +151,30 @@
       "target": "StorageLocation",
       "targetIdProp": "storage_location_id",
       "description": "Where the material is held (B2MML MaterialSubLot.StorageLocation)."
+    },
+    {
+      "type": "ASSEMBLED_FROM",
+      "target": "MaterialLot",
+      "targetIdProp": "material_lot_no",
+      "description": "ISA-95 Part 2 cl. 5.7 (B2MML MaterialSubLot.AssemblyLot)."
+    },
+    {
+      "type": "ASSEMBLED_FROM",
+      "target": "Quant",
+      "targetIdProp": "quant_no",
+      "description": "ISA-95 Part 2 cl. 5.7 (B2MML MaterialSubLot.AssemblySubLot)."
+    },
+    {
+      "type": "PART_OF",
+      "target": "Quant",
+      "targetIdProp": "quant_no",
+      "description": "ISA-95 Part 2 cl. 5.7 (B2MML MaterialSubLot.MaterialSubLotChild)."
+    },
+    {
+      "type": "TESTED_BY",
+      "target": "TestSpecification",
+      "targetIdProp": "test_specification_id",
+      "description": "ISA-95 Part 2 cl. 5.7 (B2MML MaterialSubLot.TestSpecificationID)."
     }
   ],
   "constraints": [
@@ -200,18 +268,22 @@
     "momDomain": "inventory",
     "note": "Stock unit at the storage location = MaterialSublot (ISA-95 Part 2). Free/blocked (blocked) separates available from blocked stock for material availability (cross-domain ERP<->WMS, material_unavailable).",
     "propertyMap": {
+      "material_lot_ref": "MaterialSubLot.AssemblyLot",
+      "assembled_from_quant_ref": "MaterialSubLot.AssemblySubLot",
+      "test_specification_ref": "MaterialSubLot.TestSpecificationID",
       "quant_no": "MaterialSubLot.ID",
       "storage_location": "MaterialSubLot.StorageLocation",
       "quantity": "MaterialSubLot.Quantity.QuantityString",
       "lot": "MaterialSubLot.MaterialLotID"
     },
     "notInIsa95": [
+      "parent_quant_ref",
       "article_ref",
       "warehouse",
       "blocked",
       "updated_at"
     ],
-    "mappingNote": "B2MML MaterialSubLot carries no material definition (that sits on its lot) and no warehouse; blocked is the WMS block flag, no B2MML field; updated_at is a technical timestamp of the source."
+    "mappingNote": "B2MML MaterialSubLot carries no material definition (that sits on its lot) and no warehouse; blocked is the WMS block flag, no B2MML field; updated_at is a technical timestamp of the source. Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent)."
   },
   "kgNodeLabel": "Quant",
   "kgIdProperty": "quant_no"

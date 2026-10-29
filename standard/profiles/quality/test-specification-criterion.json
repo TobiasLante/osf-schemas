@@ -1,0 +1,114 @@
+{
+  "profileId": "SMProfile-TestSpecificationCriterion",
+  "version": "1.0.0",
+  "standard": "CarToUNS",
+  "category": "quality",
+  "displayName": "Test Specification Criterion (one characteristic)",
+  "description": "ISA-95 Part 2 cl. 5.9 TestSpecification criterion (B2MML TestSpecificationCriteria): one controlled characteristic of a test specification — on a drawing the ballooned feature with its tolerance — and the property it evaluates.",
+  "parentType": null,
+  "abstract": false,
+  "properties": [
+    {
+      "name": "criterion_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the criterion as the source names it (e.g. the balloon number of the characteristic on the drawing revision).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "description",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "What the characteristic is, as the source says it.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "sequence",
+      "dataType": "Int32",
+      "required": false,
+      "category": "Core",
+      "description": "The order of the criterion within its specification.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD",
+      "unit": "C62"
+    },
+    {
+      "name": "expression",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "The tolerance as the specification states it (e.g. 12.00 ±0.05).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "evaluated_property",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The property this criterion evaluates — the parameter (param_name) of the product definition whose band it sets.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "Kept as a value: it names a property, not an object."
+      }
+    },
+    {
+      "name": "test_specification_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The test specification (in its revision) this criterion belongs to.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "Kept as a value: B2MML nests the criteria inside their specification; a criterion is no object of the ISA-95 edge catalogue, so the link lives in the key, not in an edge."
+      }
+    }
+  ],
+  "relationships": [],
+  "constraints": [],
+  "semantics": [
+    "iso:62264-TestSpecification"
+  ],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "TestSpecification",
+    "part": 2,
+    "momDomain": "quality",
+    "level": 3,
+    "note": "B2MML 0701 TestSpecificationCriteria: a criterion of a test specification with its expression and the evaluated property; the characteristic of a drawing (PLM) is such a criterion, its revision the Version of its specification.",
+    "propertyMap": {
+      "criterion_id": "TestSpecification.TestSpecificationCriteria.ID",
+      "description": "TestSpecification.TestSpecificationCriteria.Description",
+      "sequence": "TestSpecification.TestSpecificationCriteria.Sequence",
+      "expression": "TestSpecification.TestSpecificationCriteria.Expression",
+      "evaluated_property": "TestSpecification.TestSpecificationCriteria.EvaluatedPropertyID"
+    },
+    "notInIsa95": [
+      "test_specification_ref"
+    ],
+    "mappingNote": "B2MML carries the specification of a criterion through the nesting of TestSpecificationCriteria, not as a field; a criterion is no object of the ISA-95 edge catalogue, so test_specification_ref is a value, not an edge.",
+    "grain": "one criterion of one test specification (ISA-95 Part 2 cl. 5.9): one row = one characteristic of a specification revision, keyed by criterion_id; the specification itself is SMProfile-TestSpecification"
+  },
+  "kgNodeLabel": "TestSpecificationCriterion",
+  "kgIdProperty": "criterion_id"
+}

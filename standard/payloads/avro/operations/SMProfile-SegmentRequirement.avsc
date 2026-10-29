@@ -2,7 +2,7 @@
   "type": "record",
   "name": "SegmentRequirement",
   "namespace": "org.openshopfloor.payload.operations",
-  "doc": "GENERATED from standard/profiles/operations/segment-requirement.json 3.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "doc": "GENERATED from standard/profiles/operations/segment-requirement.json 4.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
   "fields": [
     {
       "name": "eventType",
@@ -46,7 +46,58 @@
     {
       "name": "profileVersion",
       "type": "string",
-      "default": "3.0.0"
+      "default": "4.0.0"
+    },
+    {
+      "name": "b2m",
+      "type": [
+        "null",
+        {
+          "type": "record",
+          "name": "B2M",
+          "fields": [
+            {
+              "name": "verb",
+              "type": {
+                "type": "enum",
+                "name": "B2MVerb",
+                "symbols": [
+                  "GET",
+                  "SHOW",
+                  "PROCESS",
+                  "ACKNOWLEDGE",
+                  "CHANGE",
+                  "RESPOND",
+                  "CANCEL",
+                  "CONFIRM",
+                  "SYNC"
+                ]
+              }
+            },
+            {
+              "name": "actionCode",
+              "type": [
+                "null",
+                {
+                  "type": "enum",
+                  "name": "B2MActionCode",
+                  "symbols": [
+                    "Add",
+                    "Change",
+                    "Delete",
+                    "Replaced",
+                    "Accepted",
+                    "Modified",
+                    "Rejected"
+                  ]
+                }
+              ],
+              "default": null
+            }
+          ]
+        }
+      ],
+      "default": null
     },
     {
       "name": "data",
@@ -57,7 +108,7 @@
           {
             "name": "segment_requirement_no",
             "type": "string",
-            "doc": "Identity of the SegmentRequirement (join key). Recommendation: <production_order_no>.<sequence>."
+            "doc": "Identity of the SegmentRequirement (join key): its number within its production order, <production_order_no>.<operation number> — as the source system keys an operation (order + operation number; OPEN-0350 round 4)."
           },
           {
             "name": "production_order_ref",
@@ -150,6 +201,141 @@
             ],
             "default": null,
             "doc": "Planned stage end (target)."
+          },
+          {
+            "name": "operations_definition_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The OperationsDefinition (FOR_OPERATIONS_DEFINITION; ISA-95 SegmentRequirement → OperationsDefinition). Optional."
+          },
+          {
+            "name": "operations_definition_version",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The version of the operations definition this order / response ran with, where the source's definition id carries none (a routing number with its own change state). Empty when the id itself names the version."
+          },
+          {
+            "name": "operations_segment_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The OperationsSegment (FOR_OPERATIONS_SEGMENT; ISA-95 SegmentRequirement → OperationsSegment). Optional."
+          },
+          {
+            "name": "parent_segment_requirement_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The SegmentRequirement this SegmentRequirement is part of (PART_OF; ISA-95 SegmentRequirement MADE_UP_OF SegmentRequirement). Optional."
+          },
+          {
+            "name": "segment_response_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The SegmentResponse (REQUESTS_SEGMENT_RESPONSE; ISA-95 SegmentRequirement → SegmentResponse). Optional."
+          },
+          {
+            "name": "equipment_class_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The EquipmentClass (REQUIRES_EQUIPMENT; ISA-95 SegmentRequirement → EquipmentClass). Optional."
+          },
+          {
+            "name": "material_class_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The MaterialClass (REQUIRES_MATERIAL; ISA-95 SegmentRequirement → MaterialClass). Optional."
+          },
+          {
+            "name": "material_lot_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The MaterialLot (REQUIRES_MATERIAL; ISA-95 SegmentRequirement → MaterialLot). Optional."
+          },
+          {
+            "name": "quant_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The Quant (REQUIRES_MATERIAL; ISA-95 SegmentRequirement → MaterialSubLot). Optional."
+          },
+          {
+            "name": "person_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The Person (REQUIRES_PERSONNEL; ISA-95 SegmentRequirement → Person). Optional."
+          },
+          {
+            "name": "personnel_class_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The PersonnelClass (REQUIRES_PERSONNEL; ISA-95 SegmentRequirement → PersonnelClass). Optional."
+          },
+          {
+            "name": "tool_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The Tool (REQUIRES_PHYSICAL_ASSET; ISA-95 SegmentRequirement → PhysicalAsset). Optional."
+          },
+          {
+            "name": "physical_asset_class_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The PhysicalAssetClass (REQUIRES_PHYSICAL_ASSET; ISA-95 SegmentRequirement → PhysicalAssetClass). Optional."
+          },
+          {
+            "name": "test_specification_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The TestSpecification (TESTED_BY; ISA-95 SegmentRequirement → TestSpecification). Optional."
+          },
+          {
+            "name": "operations_type",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "ISA-95 operations type (B2MML OperationsType; Part 3/4: which MOM area the object belongs to; audit M1). A source without the column sets the constant of the profile's momDomain (columnMappings const)."
           }
         ]
       }

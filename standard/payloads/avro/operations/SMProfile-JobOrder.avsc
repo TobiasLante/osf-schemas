@@ -2,7 +2,7 @@
   "type": "record",
   "name": "JobOrder",
   "namespace": "org.openshopfloor.payload.operations",
-  "doc": "GENERATED from standard/profiles/operations/job-order.json 3.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "doc": "GENERATED from standard/profiles/operations/job-order.json 4.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
   "fields": [
     {
       "name": "eventType",
@@ -46,7 +46,58 @@
     {
       "name": "profileVersion",
       "type": "string",
-      "default": "3.1.0"
+      "default": "4.0.0"
+    },
+    {
+      "name": "b2m",
+      "type": [
+        "null",
+        {
+          "type": "record",
+          "name": "B2M",
+          "fields": [
+            {
+              "name": "verb",
+              "type": {
+                "type": "enum",
+                "name": "B2MVerb",
+                "symbols": [
+                  "GET",
+                  "SHOW",
+                  "PROCESS",
+                  "ACKNOWLEDGE",
+                  "CHANGE",
+                  "RESPOND",
+                  "CANCEL",
+                  "CONFIRM",
+                  "SYNC"
+                ]
+              }
+            },
+            {
+              "name": "actionCode",
+              "type": [
+                "null",
+                {
+                  "type": "enum",
+                  "name": "B2MActionCode",
+                  "symbols": [
+                    "Add",
+                    "Change",
+                    "Delete",
+                    "Replaced",
+                    "Accepted",
+                    "Modified",
+                    "Rejected"
+                  ]
+                }
+              ],
+              "default": null
+            }
+          ]
+        }
+      ],
+      "default": null
     },
     {
       "name": "data",
@@ -114,6 +165,114 @@
             ],
             "default": null,
             "doc": "Dispatch state of the job as the source names it."
+          },
+          {
+            "name": "segment_requirement_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The SegmentRequirement (FOR_SEGMENT_REQUIREMENT; ISA-95 JobOrder → SegmentRequirement). Optional."
+          },
+          {
+            "name": "job_list_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The JobList this JobOrder is part of (PART_OF; ISA-95 JobList MADE_UP_OF JobOrder). Optional."
+          },
+          {
+            "name": "equipment_class_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The EquipmentClass (REQUIRES_EQUIPMENT; ISA-95 JobOrder → EquipmentClass). Optional."
+          },
+          {
+            "name": "material_class_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The MaterialClass (REQUIRES_MATERIAL; ISA-95 JobOrder → MaterialClass). Optional."
+          },
+          {
+            "name": "article_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The Article (REQUIRES_MATERIAL; ISA-95 JobOrder → MaterialDefinition). Optional."
+          },
+          {
+            "name": "quant_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The Quant (REQUIRES_MATERIAL; ISA-95 JobOrder → MaterialSubLot). Optional."
+          },
+          {
+            "name": "person_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The Person (REQUIRES_PERSONNEL; ISA-95 JobOrder → Person). Optional."
+          },
+          {
+            "name": "personnel_class_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The PersonnelClass (REQUIRES_PERSONNEL; ISA-95 JobOrder → PersonnelClass). Optional."
+          },
+          {
+            "name": "tool_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The Tool (REQUIRES_PHYSICAL_ASSET; ISA-95 JobOrder → PhysicalAsset). Optional."
+          },
+          {
+            "name": "physical_asset_class_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The PhysicalAssetClass (REQUIRES_PHYSICAL_ASSET; ISA-95 JobOrder → PhysicalAssetClass). Optional."
+          },
+          {
+            "name": "test_specification_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The TestSpecification (TESTED_BY; ISA-95 JobOrder → TestSpecification). Optional."
+          },
+          {
+            "name": "work_type",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "ISA-95 work type (B2MML WorkType, the OperationsType code list; Part 4; audit M1). A source without the column sets the constant of the profile's momDomain (columnMappings const)."
           }
         ]
       }

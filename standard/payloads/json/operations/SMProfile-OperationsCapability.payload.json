@@ -2,10 +2,10 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-OperationsCapability.payload.json",
   "title": "SMProfile-OperationsCapability payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/operations/operations-capability.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/operations/operations-capability.json 2.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-OperationsCapability",
-  "x-profileVersion": "1.0.0",
-  "x-payloadVersion": "1.0.0",
+  "x-profileVersion": "2.0.0",
+  "x-payloadVersion": "1.1.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
     "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
@@ -36,6 +36,15 @@
         },
         "capability_type": {
           "type": "string",
+          "enum": [
+            "Used",
+            "Unused",
+            "Total",
+            "Committed",
+            "Available",
+            "Unattainable",
+            "Other"
+          ],
           "description": "ISA-95 CapabilityType: Available, Committed or Unattainable."
         },
         "reason": {
@@ -75,6 +84,30 @@
         "personnel_class_ref": {
           "type": "string",
           "description": "The personnel class (CAPABILITY_PERSONNEL)."
+        },
+        "equipment_class_ref": {
+          "type": "string",
+          "description": "The EquipmentClass (CAPABILITY_EQUIPMENT; ISA-95 OperationsCapability → EquipmentClass). Optional."
+        },
+        "material_class_ref": {
+          "type": "string",
+          "description": "The MaterialClass (CAPABILITY_MATERIAL; ISA-95 OperationsCapability → MaterialClass). Optional."
+        },
+        "material_lot_ref": {
+          "type": "string",
+          "description": "The MaterialLot (CAPABILITY_MATERIAL; ISA-95 OperationsCapability → MaterialLot). Optional."
+        },
+        "quant_ref": {
+          "type": "string",
+          "description": "The Quant (CAPABILITY_MATERIAL; ISA-95 OperationsCapability → MaterialSubLot). Optional."
+        },
+        "person_ref": {
+          "type": "string",
+          "description": "The Person (CAPABILITY_PERSONNEL; ISA-95 OperationsCapability → Person). Optional."
+        },
+        "physical_asset_class_ref": {
+          "type": "string",
+          "description": "The PhysicalAssetClass (CAPABILITY_PHYSICAL_ASSET; ISA-95 OperationsCapability → PhysicalAssetClass). Optional."
         }
       },
       "required": [
@@ -94,6 +127,12 @@
     "machine_ref": "transactional",
     "material_ref": "transactional",
     "tool_ref": "transactional",
-    "personnel_class_ref": "transactional"
+    "personnel_class_ref": "transactional",
+    "equipment_class_ref": "transactional",
+    "material_class_ref": "transactional",
+    "material_lot_ref": "transactional",
+    "quant_ref": "transactional",
+    "person_ref": "transactional",
+    "physical_asset_class_ref": "transactional"
   }
 }

@@ -2,7 +2,7 @@
   "type": "record",
   "name": "ProcessSegment",
   "namespace": "org.openshopfloor.payload.operations",
-  "doc": "GENERATED from standard/profiles/operations/process-segment.json 3.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "doc": "GENERATED from standard/profiles/operations/process-segment.json 4.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
   "fields": [
     {
       "name": "eventType",
@@ -46,7 +46,58 @@
     {
       "name": "profileVersion",
       "type": "string",
-      "default": "3.0.0"
+      "default": "4.0.0"
+    },
+    {
+      "name": "b2m",
+      "type": [
+        "null",
+        {
+          "type": "record",
+          "name": "B2M",
+          "fields": [
+            {
+              "name": "verb",
+              "type": {
+                "type": "enum",
+                "name": "B2MVerb",
+                "symbols": [
+                  "GET",
+                  "SHOW",
+                  "PROCESS",
+                  "ACKNOWLEDGE",
+                  "CHANGE",
+                  "RESPOND",
+                  "CANCEL",
+                  "CONFIRM",
+                  "SYNC"
+                ]
+              }
+            },
+            {
+              "name": "actionCode",
+              "type": [
+                "null",
+                {
+                  "type": "enum",
+                  "name": "B2MActionCode",
+                  "symbols": [
+                    "Add",
+                    "Change",
+                    "Delete",
+                    "Replaced",
+                    "Accepted",
+                    "Modified",
+                    "Rejected"
+                  ]
+                }
+              ],
+              "default": null
+            }
+          ]
+        }
+      ],
+      "default": null
     },
     {
       "name": "data",
@@ -121,6 +172,114 @@
             ],
             "default": null,
             "doc": "FK to Machine.machine_id (SPECIFIES_EQUIPMENT; Machine ≡ Unit level). The ISA-88 Unit / process stage on which the segment runs — the physical anchoring of the 'plant' / 'Function'."
+          },
+          {
+            "name": "depends_on_process_segment_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The ProcessSegment (DEPENDS_ON; ISA-95 ProcessSegment → ProcessSegment). Optional."
+          },
+          {
+            "name": "parent_process_segment_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The ProcessSegment this ProcessSegment is part of (PART_OF; ISA-95 ProcessSegment MADE_UP_OF ProcessSegment). Optional."
+          },
+          {
+            "name": "equipment_class_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The EquipmentClass (SPECIFIES_EQUIPMENT; ISA-95 ProcessSegment → EquipmentClass). Optional."
+          },
+          {
+            "name": "material_class_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The MaterialClass (SPECIFIES_MATERIAL; ISA-95 ProcessSegment → MaterialClass). Optional."
+          },
+          {
+            "name": "article_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The Article (SPECIFIES_MATERIAL; ISA-95 ProcessSegment → MaterialDefinition). Optional."
+          },
+          {
+            "name": "material_lot_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The MaterialLot (SPECIFIES_MATERIAL; ISA-95 ProcessSegment → MaterialLot). Optional."
+          },
+          {
+            "name": "quant_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The Quant (SPECIFIES_MATERIAL; ISA-95 ProcessSegment → MaterialSubLot). Optional."
+          },
+          {
+            "name": "person_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The Person (SPECIFIES_PERSONNEL; ISA-95 ProcessSegment → Person). Optional."
+          },
+          {
+            "name": "personnel_class_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The PersonnelClass (SPECIFIES_PERSONNEL; ISA-95 ProcessSegment → PersonnelClass). Optional."
+          },
+          {
+            "name": "tool_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The Tool (SPECIFIES_PHYSICAL_ASSET; ISA-95 ProcessSegment → PhysicalAsset). Optional."
+          },
+          {
+            "name": "physical_asset_class_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The PhysicalAssetClass (SPECIFIES_PHYSICAL_ASSET; ISA-95 ProcessSegment → PhysicalAssetClass). Optional."
+          },
+          {
+            "name": "test_specification_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The TestSpecification (TESTED_BY; ISA-95 ProcessSegment → TestSpecification). Optional."
           }
         ]
       }

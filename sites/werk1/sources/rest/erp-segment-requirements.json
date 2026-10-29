@@ -1,6 +1,6 @@
 {
   "sourceId": "erp-segment-requirements",
-  "version": "2.3.0",
+  "version": "2.6.0",
   "sourceType": "rest",
   "functionalLevel": 4,
   "syncType": "polling",
@@ -16,7 +16,7 @@
   "_comment": "Was keyed on `operation_id`, which /api/operations does NOT serve (16 fields, measured: order_id, production_order_no, operation_number, vorgangs_nr, work_center, machine_id, status, qty_planned, … Full text: docs/history/sites/werk1/sources/rest/erp-segment-requirements.md, _comment.",
   "connection": {
     "baseUrl": "http://192.168.178.154:38260",
-    "path": "/api/operations",
+    "path": "/api/operations?since=P7D",
     "method": "GET",
     "auth": null,
     "timeoutMs": 10000
@@ -36,6 +36,11 @@
     "operation_number"
   ],
   "columnMappings": [
+    {
+      "column": "job_order_no",
+      "smAttribute": "segment_requirement_no",
+      "isId": true
+    },
     {
       "column": "production_order_no",
       "smAttribute": "production_order_ref"
@@ -65,6 +70,10 @@
     {
       "column": "planned_end",
       "smAttribute": "planned_end_time"
+    },
+    {
+      "smAttribute": "operations_type",
+      "const": "Production"
     }
   ],
   "filter": null,
@@ -84,5 +93,6 @@
       "fkColumn": "machine_id",
       "targetIdProp": "element_id"
     }
-  ]
+  ],
+  "$window": "0.6.6-g (owner 22.10.2026, the living window): the source reads the living part, not the whole history — every operation not final plus those started or ended in the last 7 days"
 }

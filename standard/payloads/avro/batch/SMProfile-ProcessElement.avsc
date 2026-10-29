@@ -1,0 +1,207 @@
+{
+  "type": "record",
+  "name": "ProcessElement",
+  "namespace": "org.openshopfloor.payload.batch",
+  "doc": "GENERATED from standard/profiles/batch/process-element.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "fields": [
+    {
+      "name": "eventType",
+      "type": {
+        "type": "enum",
+        "name": "EventType",
+        "symbols": [
+          "created",
+          "updated",
+          "deleted"
+        ]
+      }
+    },
+    {
+      "name": "id",
+      "type": "string",
+      "doc": "Row key (process_element_id); no + # * > / or space."
+    },
+    {
+      "name": "entity",
+      "type": "string",
+      "default": "ProcessElement"
+    },
+    {
+      "name": "timestamp",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      }
+    },
+    {
+      "name": "msgId",
+      "type": "string",
+      "doc": "Unique message id: the Kafka key, for deduplication."
+    },
+    {
+      "name": "profileRef",
+      "type": "string",
+      "default": "SMProfile-ProcessElement"
+    },
+    {
+      "name": "profileVersion",
+      "type": "string",
+      "default": "1.0.0"
+    },
+    {
+      "name": "b2m",
+      "type": [
+        "null",
+        {
+          "type": "record",
+          "name": "B2M",
+          "fields": [
+            {
+              "name": "verb",
+              "type": {
+                "type": "enum",
+                "name": "B2MVerb",
+                "symbols": [
+                  "GET",
+                  "SHOW",
+                  "PROCESS",
+                  "ACKNOWLEDGE",
+                  "CHANGE",
+                  "RESPOND",
+                  "CANCEL",
+                  "CONFIRM",
+                  "SYNC"
+                ]
+              }
+            },
+            {
+              "name": "actionCode",
+              "type": [
+                "null",
+                {
+                  "type": "enum",
+                  "name": "B2MActionCode",
+                  "symbols": [
+                    "Add",
+                    "Change",
+                    "Delete",
+                    "Replaced",
+                    "Accepted",
+                    "Modified",
+                    "Rejected"
+                  ]
+                }
+              ],
+              "default": null
+            }
+          ]
+        }
+      ],
+      "default": null
+    },
+    {
+      "name": "data",
+      "type": {
+        "type": "record",
+        "name": "ProcessElementData",
+        "fields": [
+          {
+            "name": "process_element_id",
+            "type": "string",
+            "doc": "Identity of the element (BatchML ProcessElement.ID)."
+          },
+          {
+            "name": "description",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "BatchML ProcessElement.Description."
+          },
+          {
+            "name": "process_element_type",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "Process, process stage, process operation or process action (BatchML ProcessElementType)."
+          },
+          {
+            "name": "life_cycle_state",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "BatchML ProcessElement.LifeCycleState."
+          },
+          {
+            "name": "sequence_order",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "BatchML ProcessElement.SequenceOrder."
+          },
+          {
+            "name": "sequence_path",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "BatchML ProcessElement.SequencePath."
+          },
+          {
+            "name": "follows_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The element this one follows: the From end of the directed link that ends here (BatchML DirectedLink.FromID; the parent element holds the link)."
+          },
+          {
+            "name": "material_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "A material of the element (BatchML GRecipeMaterials.Material.MaterialID); one row per material."
+          },
+          {
+            "name": "materials_type",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "Input, output or intermediate — the material list of the row (BatchML MaterialsType)."
+          },
+          {
+            "name": "g_recipe_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The recipe whose process procedure this element is (BatchML nests it in GRecipe.ProcessProcedure)."
+          },
+          {
+            "name": "parent_process_element_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The element this one is part of (BatchML nests ProcessElement in ProcessElement)."
+          }
+        ]
+      }
+    }
+  ]
+}

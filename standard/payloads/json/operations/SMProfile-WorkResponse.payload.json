@@ -2,10 +2,10 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-WorkResponse.payload.json",
   "title": "SMProfile-WorkResponse payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/operations/work-response.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/operations/work-response.json 2.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-WorkResponse",
-  "x-profileVersion": "1.0.0",
-  "x-payloadVersion": "1.0.0",
+  "x-profileVersion": "2.0.0",
+  "x-payloadVersion": "1.1.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
     "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
@@ -46,7 +46,39 @@
         },
         "status": {
           "type": "string",
+          "enum": [
+            "Waiting",
+            "Ready",
+            "Running",
+            "Completed",
+            "Aborted",
+            "Held",
+            "Paused",
+            "Suspended",
+            "Closed",
+            "Other"
+          ],
           "description": "Response state as the source names it (ISA-95 ResponseState)."
+        },
+        "work_performance_ref": {
+          "type": "string",
+          "description": "The WorkPerformance this WorkResponse is part of (PART_OF; ISA-95 WorkPerformance MADE_UP_OF WorkResponse). Optional."
+        },
+        "parent_work_response_ref": {
+          "type": "string",
+          "description": "The WorkResponse this WorkResponse is part of (PART_OF; ISA-95 WorkResponse MADE_UP_OF WorkResponse). Optional."
+        },
+        "work_type": {
+          "type": "string",
+          "enum": [
+            "Production",
+            "Maintenance",
+            "Quality",
+            "Inventory",
+            "Mixed",
+            "Other"
+          ],
+          "description": "ISA-95 work type (B2MML WorkType, the OperationsType code list; Part 4; audit M1). A source without the column sets the constant of the profile's momDomain (columnMappings const)."
         }
       },
       "required": [
@@ -59,6 +91,9 @@
     "workorder_ref": "transactional",
     "start_time": "transactional",
     "end_time": "transactional",
-    "status": "transactional"
+    "status": "transactional",
+    "work_performance_ref": "transactional",
+    "parent_work_response_ref": "transactional",
+    "work_type": "transactional"
   }
 }

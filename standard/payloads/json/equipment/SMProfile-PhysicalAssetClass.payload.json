@@ -1,0 +1,95 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/equipment/SMProfile-PhysicalAssetClass.payload.json",
+  "title": "SMProfile-PhysicalAssetClass payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/equipment/physical-asset-class.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-PhysicalAssetClass",
+  "x-profileVersion": "1.0.0",
+  "x-payloadVersion": "1.1.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "PhysicalAssetClass"
+    },
+    "profileRef": {
+      "const": "SMProfile-PhysicalAssetClass"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "physical_asset_class_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the physical asset class: its own id from the source system (ISA-95 PhysicalAssetClass.ID)."
+        },
+        "version": {
+          "type": "string",
+          "description": "ISA-95 PhysicalAssetClass.Version."
+        },
+        "description": {
+          "type": "string",
+          "description": "ISA-95 PhysicalAssetClass.Description."
+        },
+        "published_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISA-95 PhysicalAssetClass.PublishedDate."
+        },
+        "effective_start": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISA-95 PhysicalAssetClass.EffectiveStartDate."
+        },
+        "effective_end": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISA-95 PhysicalAssetClass.EffectiveEndDate."
+        },
+        "manufacturer": {
+          "type": "string",
+          "description": "ISA-95 PhysicalAssetClass.Manufacturer."
+        },
+        "hierarchy_scope_ref": {
+          "type": "string",
+          "description": "The element of the role-based equipment hierarchy this object belongs to (ISA-95 Part 2 cl. 5.1 hierarchy scope, IN_SCOPE_OF). Optional."
+        },
+        "base_physical_asset_class_ref": {
+          "type": "string",
+          "description": "The PhysicalAssetClass (INCLUDES_PROPERTIES_OF; ISA-95 PhysicalAssetClass → PhysicalAssetClass). Optional."
+        },
+        "parent_physical_asset_class_ref": {
+          "type": "string",
+          "description": "The PhysicalAssetClass this PhysicalAssetClass is part of (PART_OF; ISA-95 PhysicalAssetClass MADE_UP_OF PhysicalAssetClass). Optional."
+        },
+        "test_specification_ref": {
+          "type": "string",
+          "description": "The TestSpecification (TESTED_BY; ISA-95 PhysicalAssetClass → TestSpecification). Optional."
+        }
+      },
+      "required": [
+        "physical_asset_class_id"
+      ]
+    }
+  },
+  "x-delivery": {
+    "physical_asset_class_id": "transactional",
+    "version": "transactional",
+    "description": "transactional",
+    "published_date": "transactional",
+    "effective_start": "transactional",
+    "effective_end": "transactional",
+    "manufacturer": "transactional",
+    "hierarchy_scope_ref": "transactional",
+    "base_physical_asset_class_ref": "transactional",
+    "parent_physical_asset_class_ref": "transactional",
+    "test_specification_ref": "transactional"
+  }
+}

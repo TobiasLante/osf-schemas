@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/equipment/SMProfile-Enterprise.payload.json",
+  "title": "SMProfile-Enterprise payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/equipment/enterprise.json 1.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-Enterprise",
+  "x-profileVersion": "1.1.0",
+  "x-payloadVersion": "1.1.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "Enterprise"
+    },
+    "profileRef": {
+      "const": "SMProfile-Enterprise"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "element_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the element: the id of the plant tree (sites/<site>/instances), the same key as a machine."
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name."
+        }
+      },
+      "required": [
+        "element_id"
+      ]
+    }
+  },
+  "x-delivery": {
+    "element_id": "transactional",
+    "name": "transactional"
+  }
+}

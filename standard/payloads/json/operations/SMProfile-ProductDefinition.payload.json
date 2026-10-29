@@ -2,10 +2,10 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-ProductDefinition.payload.json",
   "title": "SMProfile-ProductDefinition payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/operations/product-definition.json 2.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/operations/product-definition.json 2.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-ProductDefinition",
-  "x-profileVersion": "2.0.0",
-  "x-payloadVersion": "1.0.0",
+  "x-profileVersion": "2.1.0",
+  "x-payloadVersion": "1.1.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
     "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
@@ -86,6 +86,26 @@
           "type": "string",
           "format": "date-time",
           "description": "Last change. Server-managed and volatile on every read (sim-v5 returns a fresh value per GET), so promotion:never — kept in the snapshot but excluded from the change-trigger and never published on its own."
+        },
+        "operations_type": {
+          "type": "string",
+          "enum": [
+            "Production",
+            "Maintenance",
+            "Quality",
+            "Inventory",
+            "Mixed",
+            "Other"
+          ],
+          "description": "ISA-95 operations type (B2MML OperationsType; Part 3/4: which MOM area the object belongs to; audit M1). A source without the column sets the constant of the profile's momDomain (columnMappings const)."
+        },
+        "characteristic_ref": {
+          "type": "string",
+          "description": "The characteristic the band of this parameter comes from: the criterion of the test specification (SMProfile-TestSpecificationCriterion, e.g. the balloon number on the drawing). Empty until a real source names it — never invented."
+        },
+        "source_revision": {
+          "type": "string",
+          "description": "The revision of the drawing or document that set the band. Empty until a real source names it — never invented."
         }
       },
       "required": [
@@ -108,6 +128,9 @@
     "action_lo": "transactional",
     "action_hi": "transactional",
     "unit": "transactional",
-    "updated_at": "transactional"
+    "updated_at": "transactional",
+    "operations_type": "transactional",
+    "characteristic_ref": "transactional",
+    "source_revision": "transactional"
   }
 }

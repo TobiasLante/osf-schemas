@@ -2,10 +2,10 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-JobOrder.payload.json",
   "title": "SMProfile-JobOrder payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/operations/job-order.json 3.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/operations/job-order.json 4.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-JobOrder",
-  "x-profileVersion": "3.1.0",
-  "x-payloadVersion": "1.0.0",
+  "x-profileVersion": "4.0.0",
+  "x-payloadVersion": "1.1.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
     "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
@@ -54,7 +54,77 @@
         },
         "status": {
           "type": "string",
+          "enum": [
+            "Waiting",
+            "Pending",
+            "Cancelled",
+            "Dispatched",
+            "Ready",
+            "Running",
+            "Completed",
+            "Aborted",
+            "Held",
+            "Suspended",
+            "Closed",
+            "Other"
+          ],
           "description": "Dispatch state of the job as the source names it."
+        },
+        "segment_requirement_ref": {
+          "type": "string",
+          "description": "The SegmentRequirement (FOR_SEGMENT_REQUIREMENT; ISA-95 JobOrder → SegmentRequirement). Optional."
+        },
+        "job_list_ref": {
+          "type": "string",
+          "description": "The JobList this JobOrder is part of (PART_OF; ISA-95 JobList MADE_UP_OF JobOrder). Optional."
+        },
+        "equipment_class_ref": {
+          "type": "string",
+          "description": "The EquipmentClass (REQUIRES_EQUIPMENT; ISA-95 JobOrder → EquipmentClass). Optional."
+        },
+        "material_class_ref": {
+          "type": "string",
+          "description": "The MaterialClass (REQUIRES_MATERIAL; ISA-95 JobOrder → MaterialClass). Optional."
+        },
+        "article_ref": {
+          "type": "string",
+          "description": "The Article (REQUIRES_MATERIAL; ISA-95 JobOrder → MaterialDefinition). Optional."
+        },
+        "quant_ref": {
+          "type": "string",
+          "description": "The Quant (REQUIRES_MATERIAL; ISA-95 JobOrder → MaterialSubLot). Optional."
+        },
+        "person_ref": {
+          "type": "string",
+          "description": "The Person (REQUIRES_PERSONNEL; ISA-95 JobOrder → Person). Optional."
+        },
+        "personnel_class_ref": {
+          "type": "string",
+          "description": "The PersonnelClass (REQUIRES_PERSONNEL; ISA-95 JobOrder → PersonnelClass). Optional."
+        },
+        "tool_ref": {
+          "type": "string",
+          "description": "The Tool (REQUIRES_PHYSICAL_ASSET; ISA-95 JobOrder → PhysicalAsset). Optional."
+        },
+        "physical_asset_class_ref": {
+          "type": "string",
+          "description": "The PhysicalAssetClass (REQUIRES_PHYSICAL_ASSET; ISA-95 JobOrder → PhysicalAssetClass). Optional."
+        },
+        "test_specification_ref": {
+          "type": "string",
+          "description": "The TestSpecification (TESTED_BY; ISA-95 JobOrder → TestSpecification). Optional."
+        },
+        "work_type": {
+          "type": "string",
+          "enum": [
+            "Production",
+            "Maintenance",
+            "Quality",
+            "Inventory",
+            "Mixed",
+            "Other"
+          ],
+          "description": "ISA-95 work type (B2MML WorkType, the OperationsType code list; Part 4; audit M1). A source without the column sets the constant of the profile's momDomain (columnMappings const)."
         }
       },
       "required": [
@@ -70,6 +140,18 @@
     "work_master_ref": "transactional",
     "start_planned": "transactional",
     "end_planned": "transactional",
-    "status": "transactional"
+    "status": "transactional",
+    "segment_requirement_ref": "transactional",
+    "job_list_ref": "transactional",
+    "equipment_class_ref": "transactional",
+    "material_class_ref": "transactional",
+    "article_ref": "transactional",
+    "quant_ref": "transactional",
+    "person_ref": "transactional",
+    "personnel_class_ref": "transactional",
+    "tool_ref": "transactional",
+    "physical_asset_class_ref": "transactional",
+    "test_specification_ref": "transactional",
+    "work_type": "transactional"
   }
 }

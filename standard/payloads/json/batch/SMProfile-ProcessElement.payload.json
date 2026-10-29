@@ -1,0 +1,125 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/batch/SMProfile-ProcessElement.payload.json",
+  "title": "SMProfile-ProcessElement payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/batch/process-element.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-ProcessElement",
+  "x-profileVersion": "1.0.0",
+  "x-payloadVersion": "1.1.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "ProcessElement"
+    },
+    "profileRef": {
+      "const": "SMProfile-ProcessElement"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "process_element_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the element (BatchML ProcessElement.ID)."
+        },
+        "description": {
+          "type": "string",
+          "description": "BatchML ProcessElement.Description."
+        },
+        "process_element_type": {
+          "type": "string",
+          "enum": [
+            "Process",
+            "Process Stage",
+            "Process Operation",
+            "Process Action",
+            "Other"
+          ],
+          "description": "Process, process stage, process operation or process action (BatchML ProcessElementType)."
+        },
+        "life_cycle_state": {
+          "type": "string",
+          "enum": [
+            "Draft",
+            "Approved",
+            "Released",
+            "Effective",
+            "Withdrawn",
+            "Other"
+          ],
+          "description": "BatchML ProcessElement.LifeCycleState."
+        },
+        "sequence_order": {
+          "type": "string",
+          "enum": [
+            "First Parallel",
+            "Middle Parallel",
+            "End Parallel",
+            "First In Path",
+            "Last In Path",
+            "Not In Parallel",
+            "Single First Parallel",
+            "Single Middle Parallel",
+            "Single End Parallel",
+            "Other"
+          ],
+          "description": "BatchML ProcessElement.SequenceOrder."
+        },
+        "sequence_path": {
+          "type": "string",
+          "description": "BatchML ProcessElement.SequencePath."
+        },
+        "follows_ref": {
+          "type": "string",
+          "description": "The element this one follows: the From end of the directed link that ends here (BatchML DirectedLink.FromID; the parent element holds the link)."
+        },
+        "material_ref": {
+          "type": "string",
+          "description": "A material of the element (BatchML GRecipeMaterials.Material.MaterialID); one row per material."
+        },
+        "materials_type": {
+          "type": "string",
+          "enum": [
+            "Input",
+            "Output",
+            "Intermediate",
+            "Other"
+          ],
+          "description": "Input, output or intermediate — the material list of the row (BatchML MaterialsType)."
+        },
+        "g_recipe_ref": {
+          "type": "string",
+          "description": "The recipe whose process procedure this element is (BatchML nests it in GRecipe.ProcessProcedure)."
+        },
+        "parent_process_element_ref": {
+          "type": "string",
+          "description": "The element this one is part of (BatchML nests ProcessElement in ProcessElement)."
+        }
+      },
+      "required": [
+        "process_element_id"
+      ]
+    }
+  },
+  "x-delivery": {
+    "process_element_id": "transactional",
+    "description": "transactional",
+    "process_element_type": "transactional",
+    "life_cycle_state": "transactional",
+    "sequence_order": "transactional",
+    "sequence_path": "transactional",
+    "follows_ref": "transactional",
+    "material_ref": "transactional",
+    "materials_type": "transactional",
+    "g_recipe_ref": "transactional",
+    "parent_process_element_ref": "transactional"
+  }
+}

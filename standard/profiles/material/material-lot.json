@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-MaterialLot",
-  "version": "3.1.0",
+  "version": "3.3.0",
   "standard": "CarToUNS",
   "category": "material",
   "displayName": "Material Lot (the correct term for 'batch')",
@@ -29,6 +29,17 @@
       "scope": "hub",
       "promotion": "on_change",
       "valueType": "ID"
+    },
+    {
+      "name": "article_revision",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The revision of the article that was built or used, where the source's article number carries none (a PLM part number with revision A). Empty when the number itself names the revision (at SAP dddd.1).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
     },
     {
       "name": "quantity",
@@ -102,11 +113,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "refOnly",
-        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
-      }
+      "valueType": "ID"
     },
     {
       "name": "created_at",
@@ -159,6 +166,28 @@
         "Permanent",
         "Transient"
       ]
+    },
+    {
+      "name": "quant_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The Quant (ASSEMBLED_FROM; ISA-95 MaterialLot → MaterialSubLot). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "test_specification_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The TestSpecification (TESTED_BY; ISA-95 MaterialLot → TestSpecification). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
     }
   ],
   "relationships": [
@@ -185,6 +214,18 @@
       "target": "MaterialLot",
       "targetIdProp": "material_lot_no",
       "description": "The lots this lot is assembled from (B2MML MaterialLot.AssemblyLot, ISA-95 Part 2 cl. 5.7), e.g. a mixed lot from its component lots; one edge per component, delivered by the source."
+    },
+    {
+      "type": "ASSEMBLED_FROM",
+      "target": "Quant",
+      "targetIdProp": "quant_no",
+      "description": "ISA-95 Part 2 cl. 5.7 (B2MML MaterialLot.AssemblySubLot)."
+    },
+    {
+      "type": "TESTED_BY",
+      "target": "TestSpecification",
+      "targetIdProp": "test_specification_id",
+      "description": "ISA-95 Part 2 cl. 5.7 (B2MML MaterialLot.TestSpecificationID)."
     }
   ],
   "constraints": [],
@@ -207,15 +248,18 @@
       "status": "MaterialLot.Status",
       "location_ref": "MaterialLot.StorageLocation",
       "assembly_type": "MaterialLot.AssemblyType",
-      "assembly_relationship": "MaterialLot.AssemblyRelationship"
+      "assembly_relationship": "MaterialLot.AssemblyRelationship",
+      "quant_ref": "MaterialLot.AssemblySubLot",
+      "test_specification_ref": "MaterialLot.TestSpecificationID"
     },
     "notInIsa95": [
       "workorder_ref",
       "job_order_ref",
       "created_at",
-      "updated_at"
+      "updated_at",
+      "article_revision"
     ],
-    "mappingNote": "B2MML MaterialLot names no producing order or job (the job names the lot through its material actual), and created_at / updated_at are technical timestamps of the source."
+    "mappingNote": "B2MML MaterialLot names no producing order or job (the job names the lot through its material actual), and created_at / updated_at are technical timestamps of the source. PLM as-built (owner 29.10.2026): article_revision names the state that was built where the source's id carries none; B2MML references a definition by its ID alone (an ID means one state), so there is no field for it — an extension, never part of the key."
   },
   "kgNodeLabel": "MaterialLot",
   "kgIdProperty": "material_lot_no"

@@ -14,7 +14,7 @@ osf-schemas/
 │   └── werk1/                  
 │       ├── branding/               brand/theme assets (1 json)
 │       ├── connections/             (2 json)
-│       ├── consumers/               (16 json)
+│       ├── consumers/               (15 json)
 │       ├── historians/             historian-sink templates + instances (OUTPUT: UNS → customer DB)
 │       │   ├── grafana-dashboards/      (4 json)
 │       │   └── instances/               (3 json)
@@ -47,14 +47,15 @@ osf-schemas/
 │   │   └── views/                   (1 json)
 │   ├── kpis/                   KPI definitions — inputs drawn from the source-fed vocabulary (lint-kpis) (6 json)
 │   ├── mappings/               protocol canon: DataItem/tag → SM attribute (SSOT for discovery + gen-flows) (3 json)
-│   ├── payloads/                (37 json)
+│   ├── payloads/                (91 json)
 │   ├── profiles/               Schema 1: SM Profiles (type system)
-│   │   ├── equipment/              ISA-95 equipment: Machine (abstract parent), CNC_Machine, InjectionMoldingMachine, EquipmentClass, EquipmentModel (compact), Tool (6 json)
+│   │   ├── batch/                   (14 json)
+│   │   ├── equipment/              ISA-95 equipment: Machine (abstract parent), CNC_Machine, InjectionMoldingMachine, EquipmentClass, EquipmentModel (compact), Tool (15 json)
 │   │   ├── intelligence/           multi-truth layer: Discrepancy, ResolutionProposal, AutoResolveRule, … (5 json)
-│   │   ├── material/               ISA-95 material: Article (MaterialDefinition), MaterialLot, Quant (MaterialSubLot), StorageLocation (6 json)
-│   │   ├── operations/             ISA-95 operations (Part 2 + WorkRequest): OperationsDefinition, ProcessSegment, Segment{Requirement,Response}, ProductionOrder, ProductDefinition, (Operations)Response, BdeConfirmation, Workorder, ShiftWindow, Customer(-Order) (22 json)
+│   │   ├── material/               ISA-95 material: Article (MaterialDefinition), MaterialLot, Quant (MaterialSubLot), StorageLocation (7 json)
+│   │   ├── operations/             ISA-95 operations (Part 2 + WorkRequest): OperationsDefinition, ProcessSegment, Segment{Requirement,Response}, ProductionOrder, ProductDefinition, (Operations)Response, BdeConfirmation, Workorder, ShiftWindow, Customer(-Order) (51 json)
 │   │   ├── personnel/               (2 json)
-│   │   └── quality/                ISA-95 quality: InspectionLot, SPCAnalysis (3 json)
+│   │   └── quality/                ISA-95 quality: InspectionLot, SPCAnalysis (5 json)
 │   ├── sync/                   Schema 3: Live Sync (transport layer) (1 json)
 │   ├── unit-conversions/       UNECE unit table (discovery-time scale/offset lookup) (1 json)
 │   ├── validation/             ajv meta-schemas (per-file shape validation) (41 json)
@@ -81,7 +82,7 @@ Alles aus der v3-Ära (PostgreSQL-Sources, MQTT-UNS-/Kafka-/Webhook-Syncs) liegt
 <!-- gen:counts:begin -->
 | Category | Count | Files |
 |---|---|---|
-| Profiles | 44 | equipment 6 · intelligence 5 · material 6 · operations 22 · personnel 2 · quality 3 |
+| Profiles | 99 | batch 14 · equipment 15 · intelligence 5 · material 7 · operations 51 · personnel 2 · quality 5 |
 | Sources — mtconnect | 2 | mtconnect-cnc-01, mtconnect-cnc-mtc-02 |
 | Sources — opcua | 15 | opcua-cnc-001-event, opcua-cnc-001-telemetry, opcua-cnc-002-event, opcua-cnc-002-telemetry, opcua-ftlinx-01-event, opcua-ftlinx-01-telemetry, opcua-mtbridge-cnc-01, opcua-rockwell-01-event, opcua-rockwell-01-telemetry, opcua-sgm-001-event, opcua-sgm-001-telemetry, opcua-sgm-004-processdata, opcua-sgm-005-processdata, opcua-sgm-006-bde, opcua-sgm-006-processdata |
 | Sources — rest | 18 | erp-bde-confirmations, erp-customer-orders, erp-job-orders, erp-machine-pools, erp-material-lots, erp-operations-definitions, erp-operations-response, erp-operations-segments, erp-process-segments, erp-production-orders, erp-segment-requirements, erp-segment-responses, erp-workorders, sim-v5-erp-articles, sim-v5-erp-calendar, sim-v5-erp-customers, sim-v5-qms-inspections, sim-v5-wms-quants |
@@ -93,7 +94,7 @@ Alles aus der v3-Ära (PostgreSQL-Sources, MQTT-UNS-/Kafka-/Webhook-Syncs) liegt
 | Recipes | 5 (2 parked) | recipe-sgm-004-pa66gf30-bracket-b *(parked)*, recipe-sgm-004-pa66gf30-housing-a *(parked)*, recipe-v4-12-0044-003-pa66gf30, recipe-v4-14-1300-040-pmma, recipe-wip-housing-base-asa-pc |
 | KPIs | 6 (2 parked) | availability, energy-per-part *(parked)*, oee, performance *(parked)*, quality-rate, scrap-rate |
 
-Measured from the tree by `i3x-v5 packages/schemas-ci/osf/gen-docs.mjs` — the same sums `lint-refs` prints (`lint-refs: 44 profiles, 35 sources, 9 sync files`).
+Measured from the tree by `i3x-v5 packages/schemas-ci/osf/gen-docs.mjs` — the same sums `lint-refs` prints (`lint-refs: 99 profiles, 35 sources, 9 sync files`).
 <!-- gen:counts:end -->
 
 ---
@@ -482,42 +483,91 @@ Phase 5: Embeddings
 | targetIdProp | Resolves to label(s) | Edge rules using it |
 |---|---|---|
 | `analysis_id` | SPCAnalysis | — |
-| `article_no` | Article | 10 |
+| `article_no` | Article | 26 |
+| `batch_change_id` | BatchChange | — |
+| `batch_comment_id` | BatchComment | — |
+| `batch_event_id` | BatchEvent | 1 |
+| `batch_list_entry_id` | BatchListEntry | 1 |
+| `batch_list_id` | BatchList | 1 |
+| `batch_production_record_id` | BatchProductionRecord | 4 |
+| `change_id` | EngineeringChange | — |
 | `change_request_id` | ChangeRequest | — |
 | `confirmation_no` | BdeConfirmation | — |
+| `control_recipe_id` | ControlRecipe | 2 |
+| `criterion_id` | TestSpecificationCriterion | — |
 | `customer_no` | Customer | — |
 | `discrepancy_id` | ConstraintDiscrepancy, Discrepancy | — |
-| `element_id` | CNC_Machine, InjectionMoldingMachine, Machine | 10 |
-| `equipment_class_id` | EquipmentClass | 3 |
+| `effectivity_id` | Effectivity | — |
+| `element_id` | Area, CNC_Machine, Enterprise, InjectionMoldingMachine, Machine, Site, WorkCenter | 54 |
+| `equipment_class_id` | EquipmentClass | 18 |
+| `equipment_connection_id` | EquipmentConnection | — |
+| `equipment_procedural_element_class_id` | EquipmentProceduralElementClass | 1 |
+| `equipment_procedural_element_id` | EquipmentProceduralElement | — |
+| `g_recipe_id` | GRecipe | 2 |
+| `job_list_id` | JobList | 1 |
 | `job_order_no` | JobOrder | 1 |
-| `job_response_id` | JobResponse | — |
-| `lot_no` | InspectionLot | — |
-| `material_class_id` | MaterialClass, ThermoplasticClass | 4 |
-| `material_lot_no` | MaterialLot | 7 |
+| `job_response_id` | JobResponse | 1 |
+| `job_response_list_id` | JobResponseList | 1 |
+| `lot_no` | InspectionLot | 3 |
+| `master_recipe_id` | MasterRecipe | 2 |
+| `material_class_id` | MaterialClass, ThermoplasticClass | 19 |
+| `material_lot_no` | MaterialLot | 18 |
+| `operational_location_class_id` | OperationalLocationClass | 3 |
 | `operations_capability_id` | OperationsCapability | — |
-| `operations_definition_no` | OperationsDefinition | 4 |
+| `operations_definition_no` | OperationsDefinition | 7 |
+| `operations_event_class_id` | OperationsEventClass | 3 |
+| `operations_event_definition_id` | OperationsEventDefinition | 1 |
 | `operations_event_id` | OperationsEvent | 1 |
-| `operations_segment_no` | OperationsSegment | 3 |
+| `operations_material_bill_id` | OperationsMaterialBill | 3 |
+| `operations_material_bill_item_id` | OperationsMaterialBillItem | 1 |
+| `operations_performance_id` | OperationsPerformance | 1 |
+| `operations_response_no` | OperationsResponse | 1 |
+| `operations_schedule_id` | OperationsSchedule | 2 |
+| `operations_segment_no` | OperationsSegment | 9 |
 | `order_no` | CustomerOrder | — |
-| `person_id` | Person | 2 |
-| `personnel_class_id` | PersonnelClass | 5 |
-| `process_segment_no` | ProcessSegment | 6 |
+| `person_id` | Person | 13 |
+| `personnel_class_id` | PersonnelClass | 14 |
+| `physical_asset_class_id` | PhysicalAssetClass | 14 |
+| `process_element_id` | ProcessElement | 2 |
+| `process_segment_no` | ProcessSegment | 9 |
 | `product_definition_no` | ProductDefinition | — |
-| `production_order_no` | OperationsResponse, ProductionOrder | 4 |
+| `production_order_no` | ProductionOrder | 4 |
 | `proposal_id` | ResolutionProposal | — |
-| `quant_no` | Quant | 1 |
+| `quant_no` | Quant | 15 |
+| `recipe_element_id` | RecipeElement | 2 |
+| `resource_network_connection_id` | ResourceNetworkConnection | — |
+| `resource_network_connection_type_id` | ResourceNetworkConnectionType | 1 |
+| `resource_relationship_network_id` | ResourceRelationshipNetwork | 1 |
 | `response_id` | Response | — |
 | `rule_id` | AutoResolveRule | — |
-| `segment_requirement_no` | SegmentRequirement | 2 |
-| `segment_response_no` | SegmentResponse | 1 |
-| `storage_location_id` | StorageLocation | 2 |
-| `test_specification_id` | TestSpecification | 1 |
-| `tool_id` | Tool | 5 |
-| `work_master_id` | WorkMaster | 4 |
+| `segment_requirement_no` | SegmentRequirement | 6 |
+| `segment_response_no` | SegmentResponse | 4 |
+| `shift_window_id` | ShiftWindow | 1 |
+| `storage_location_id` | StorageLocation | 6 |
+| `test_result_id` | TestResult | 3 |
+| `test_specification_id` | TestSpecification | 17 |
+| `tool_id` | CuttingTool, Die, Fixture, Mould, Tooling | 16 |
+| `work_alert_definition_id` | WorkAlertDefinition | — |
+| `work_alert_id` | WorkAlert | — |
+| `work_calendar_definition_entry_id` | WorkCalendarDefinitionEntry | 1 |
+| `work_calendar_definition_id` | WorkCalendarDefinition | 2 |
+| `work_calendar_entry_id` | WorkCalendarEntry | 1 |
+| `work_calendar_id` | WorkCalendar | 1 |
+| `work_capability_id` | WorkCapability | 1 |
+| `work_directive_id` | WorkDirective | 3 |
+| `work_master_capability_id` | WorkMasterCapability | 1 |
+| `work_master_id` | WorkMaster | 7 |
+| `work_performance_id` | WorkPerformance | 2 |
 | `work_record_id` | WorkRecord | 1 |
 | `work_record_specification_id` | WorkRecordSpecification | 2 |
-| `work_response_id` | WorkResponse | 1 |
-| `workorder_no` | Workorder | 2 |
+| `work_response_id` | WorkResponse | 3 |
+| `work_schedule_id` | WorkSchedule | 3 |
+| `workflow_specification_connection_id` | WorkflowSpecificationConnection | — |
+| `workflow_specification_connection_type_id` | WorkflowSpecificationConnectionType | 2 |
+| `workflow_specification_id` | WorkflowSpecification | 6 |
+| `workflow_specification_node_id` | WorkflowSpecificationNode | 1 |
+| `workflow_specification_node_type_id` | WorkflowSpecificationNodeType | 2 |
+| `workorder_no` | Workorder | 3 |
 
 Derived from `contract.json` (`nodes` grouped by key property; `edges` for usage). A `targetIdProp` resolves to **every** label sharing that `kgIdProperty` — polymorphic resolution.
 <!-- gen:targetIdProp:end -->

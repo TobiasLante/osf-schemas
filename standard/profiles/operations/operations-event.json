@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-OperationsEvent",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Operations Event (business event at Level 3)",
@@ -39,7 +39,13 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "PV"
+      "valueType": "PV",
+      "enum": [
+        "Event",
+        "Alert",
+        "Alarm",
+        "Other"
+      ]
     },
     {
       "name": "category",
@@ -106,6 +112,28 @@
       "scope": "hub",
       "promotion": "on_change",
       "valueType": "ID"
+    },
+    {
+      "name": "record_object_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The key of the object this OperationsEvent points at (any object, RECORDS); its profile in record_object_profile. Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "record_object_profile",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The profile (profileId or label) of the object in record_object_ref.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
     }
   ],
   "relationships": [
@@ -120,6 +148,12 @@
       "target": "OperationsEvent",
       "targetIdProp": "operations_event_id",
       "description": "The parent event (ISA-95: OperationsEvent MADE_UP_OF OperationsEvent)."
+    },
+    {
+      "type": "RECORDS",
+      "target": "*",
+      "targetProfileProp": "record_object_profile",
+      "description": "ISA-95 Part 2 cl. 5.11 (B2MML OperationsEvent.OperationsEventRecord.OperationsRecordEntry.InformationObject.<InformationObject>)."
     }
   ],
   "constraints": [],
@@ -141,12 +175,14 @@
       "effective_time": "OperationsEvent.EffectiveTimeStamp",
       "record_time": "OperationsEvent.RecordTimeStamp",
       "source": "OperationsEvent.Source",
-      "operations_definition_ref": "OperationsEvent.OperationsDefinitionID"
+      "operations_definition_ref": "OperationsEvent.OperationsDefinitionID",
+      "record_object_ref": "OperationsEvent.OperationsEventRecord.OperationsRecordEntry.InformationObject.<InformationObject>"
     },
     "notInIsa95": [
-      "parent_event_ref"
+      "parent_event_ref",
+      "record_object_profile"
     ],
-    "mappingNote": "B2MML carries the parent event through the nesting of OperationsEventChild, not as a field."
+    "mappingNote": "B2MML carries the parent event through the nesting of OperationsEventChild, not as a field. record_object_profile names the profile of the object in record_object_ref (B2MML carries the object itself; P9-b)."
   },
   "kgNodeLabel": "OperationsEvent",
   "kgIdProperty": "operations_event_id"

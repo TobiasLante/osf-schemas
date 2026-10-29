@@ -1,19 +1,29 @@
 {
   "profileId": "SMProfile-ShiftWindow",
-  "version": "1.1.0",
+  "version": "2.1.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Shift Window (ERP shift calendar)",
-  "description": "One row of the ERP shift calendar (`/api/calendar` -> `week_pattern`): department x ISO weekday x shift, with the working-time window and its breaks. Full text: docs/history/standard/profiles/operations/shift-window.md, description.",
+  "description": "One entry of the ERP weekly shift pattern (`/api/calendar` -> `week_pattern`): department x ISO weekday x shift, with the working-time window and its breaks. Full text: docs/history/standard/profiles/operations/shift-window.md, description.",
   "parentType": null,
   "abstract": false,
   "properties": [
+    {
+      "name": "shift_window_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the shift window: its own number from the source system (ISA-95 WorkCalendarEntry.ID; core 4.0.0 — before, the key was composed of department, weekday and shift).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
     {
       "name": "department_id",
       "dataType": "String",
       "required": true,
       "category": "Core",
-      "isId": true,
       "description": "Department the window belongs to. Measured population 2026-08-03: LAGER | MECH | MONTAGE | SG. NOT declared as an enum: the plant may add a department without a schema change, and a consumer must never treat an unknown department as 'not scheduled'. Part of the composite key.",
       "delivery": "transactional",
       "scope": "hub",
@@ -26,7 +36,6 @@
       "valueType": "MD",
       "required": true,
       "category": "Core",
-      "isId": true,
       "description": "ISO-8601 weekday, 1=Monday .. Full text: docs/history/standard/profiles/operations/shift-window.md, attributes › day_of_week › description.",
       "delivery": "transactional",
       "scope": "hub",
@@ -37,7 +46,6 @@
       "dataType": "String",
       "required": true,
       "category": "Core",
-      "isId": true,
       "description": "Shift code as the ERP names it. Full text: docs/history/standard/profiles/operations/shift-window.md, attributes › shift_id › description.",
       "delivery": "transactional",
       "scope": "hub",
@@ -76,25 +84,66 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
+    },
+    {
+      "name": "work_calendar_definition_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The WorkCalendarDefinition this pattern entry belongs to (PART_OF; ISA-95 Part 4 cl. 13, B2MML WorkCalendarDefinition.WorkCalendarDefinitionEntry). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "parent_shift_window_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The ShiftWindow this ShiftWindow is part of (PART_OF; ISA-95 WorkCalendarEntry MADE_UP_OF WorkCalendarEntry). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
     }
   ],
   "isa95": {
-    "objectModel": "WorkCalendarEntry",
+    "objectModel": "WorkCalendarDefinitionEntry",
     "part": 4,
     "momDomain": "production",
     "level": 3,
-    "note": "One recurring entry of the plant WorkCalendar (B2MML WorkCalendar / WorkCalendarEntry). Full text: docs/history/standard/profiles/operations/shift-window.md, isa95 › note.",
+    "note": "One entry of the plant's weekly shift pattern = a WorkCalendarDefinitionEntry (ISA-95 Part 4 cl. 13): a recurring rule, not a dated entry (OPEN-0350 round 4, Q3). Full text: docs/history/standard/profiles/operations/shift-window.md, isa95 › note.",
+    "grain": "one entry of the plant's weekly shift pattern, a WorkCalendarDefinitionEntry (ISA-95 Part 4 cl. 13; B2MML-WorkCalendar.xsd WorkCalendarDefinitionEntryType): one row = one shift on one weekday (day_of_week, shift_id, start_time, end_time), keyed by shift_window_id",
     "propertyMap": {
-      "department_id": "WorkCalendarEntry.HierarchyScope.EquipmentID",
-      "shift_id": "WorkCalendarEntry.ID",
-      "start_time": "WorkCalendarEntry.StartDateTime",
-      "end_time": "WorkCalendarEntry.FinishDateTime"
+      "shift_window_id": "WorkCalendarDefinitionEntry.ID",
+      "department_id": "WorkCalendarDefinitionEntry.HierarchyScope.EquipmentID",
+      "day_of_week": "WorkCalendarDefinitionEntry.RecurrenceTime",
+      "start_time": "WorkCalendarDefinitionEntry.RecurrenceTime",
+      "end_time": "WorkCalendarDefinitionEntry.DurationRule"
     },
     "notInIsa95": [
-      "day_of_week",
-      "break_minutes"
+      "shift_id",
+      "break_minutes",
+      "work_calendar_definition_ref",
+      "parent_shift_window_ref"
     ],
-    "mappingNote": "B2MML WorkCalendarEntry has no weekday and no break time; a recurring pattern sits in WorkCalendarDefinitionEntry, which this profile does not model."
+    "mappingNote": "B2MML WorkCalendarDefinitionEntry has no break time (the weekday is its RecurrenceTime). Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent)."
   },
-  "kgNodeLabel": "ShiftWindow"
+  "kgNodeLabel": "ShiftWindow",
+  "kgIdProperty": "shift_window_id",
+  "relationships": [
+    {
+      "type": "PART_OF",
+      "target": "WorkCalendarDefinition",
+      "targetIdProp": "work_calendar_definition_id",
+      "description": "ISA-95 Part 4 cl. 13 (B2MML WorkCalendarDefinition.WorkCalendarDefinitionEntry)."
+    },
+    {
+      "type": "PART_OF",
+      "target": "ShiftWindow",
+      "targetIdProp": "shift_window_id",
+      "description": "ISA-95 Part 4 cl. 13 (B2MML WorkCalendarDefinitionEntry.WorkCalendarDefinitionEntryChild)."
+    }
+  ]
 }

@@ -1,0 +1,389 @@
+{
+  "profileId": "SMProfile-WorkCapability",
+  "version": "2.0.0",
+  "standard": "CarToUNS",
+  "category": "business",
+  "displayName": "Work Capability",
+  "description": "ISA-95 Part 4 cl. 9 (WorkCapability): what can be done, is committed or cannot be done at Level 3 in a time window (resources).",
+  "parentType": null,
+  "abstract": false,
+  "properties": [
+    {
+      "name": "work_capability_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the work capability: its own id from the source system (ISA-95 WorkCapability.ID).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "description",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 WorkCapability.Description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "version",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 WorkCapability.Version.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "published_date",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "ISA-95 WorkCapability.PublishedDate.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "SP"
+    },
+    {
+      "name": "start_time",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "ISA-95 WorkCapability.StartTime.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "SP"
+    },
+    {
+      "name": "end_time",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "ISA-95 WorkCapability.EndTime.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "SP"
+    },
+    {
+      "name": "operations_type",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 WorkCapability.OperationsType.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD",
+      "enum": [
+        "Production",
+        "Maintenance",
+        "Quality",
+        "Inventory",
+        "Mixed",
+        "Other"
+      ]
+    },
+    {
+      "name": "capability_type",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 WorkCapability.CapabilityType.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD",
+      "enum": [
+        "Used",
+        "Unused",
+        "Total",
+        "Committed",
+        "Available",
+        "Unattainable",
+        "Other"
+      ]
+    },
+    {
+      "name": "reason",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 WorkCapability.Reason.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "confidence_factor",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 WorkCapability.ConfidenceFactor.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "hierarchy_scope_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The element of the role-based equipment hierarchy this object belongs to (ISA-95 Part 2 cl. 5.1 hierarchy scope, IN_SCOPE_OF). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "machine_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The Machine (CAPABILITY_EQUIPMENT; ISA-95 WorkCapability → Equipment). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "equipment_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The EquipmentClass (CAPABILITY_EQUIPMENT; ISA-95 WorkCapability → EquipmentClass). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "material_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The MaterialClass (CAPABILITY_MATERIAL; ISA-95 WorkCapability → MaterialClass). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "article_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The Article (CAPABILITY_MATERIAL; ISA-95 WorkCapability → MaterialDefinition). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "material_lot_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The MaterialLot (CAPABILITY_MATERIAL; ISA-95 WorkCapability → MaterialLot). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "quant_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The Quant (CAPABILITY_MATERIAL; ISA-95 WorkCapability → MaterialSubLot). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "person_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The Person (CAPABILITY_PERSONNEL; ISA-95 WorkCapability → Person). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "personnel_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The PersonnelClass (CAPABILITY_PERSONNEL; ISA-95 WorkCapability → PersonnelClass). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "tool_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The Tool (CAPABILITY_PHYSICAL_ASSET; ISA-95 WorkCapability → PhysicalAsset). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "physical_asset_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The PhysicalAssetClass (CAPABILITY_PHYSICAL_ASSET; ISA-95 WorkCapability → PhysicalAssetClass). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "CAPABILITY_EQUIPMENT",
+      "target": "Machine",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 4 cl. 9/10 (B2MML WorkCapability.EquipmentCapability.EquipmentID)."
+    },
+    {
+      "type": "CAPABILITY_EQUIPMENT",
+      "target": "EquipmentClass",
+      "targetIdProp": "equipment_class_id",
+      "description": "ISA-95 Part 4 cl. 9/10 (B2MML WorkCapability.EquipmentCapability.EquipmentClassID)."
+    },
+    {
+      "type": "CAPABILITY_MATERIAL",
+      "target": "MaterialClass",
+      "targetIdProp": "material_class_id",
+      "description": "ISA-95 Part 4 cl. 9/10 (B2MML WorkCapability.MaterialCapability.MaterialClassID)."
+    },
+    {
+      "type": "CAPABILITY_MATERIAL",
+      "target": "Article",
+      "targetIdProp": "article_no",
+      "description": "ISA-95 Part 4 cl. 9/10 (B2MML WorkCapability.MaterialCapability.MaterialDefinitionID)."
+    },
+    {
+      "type": "CAPABILITY_MATERIAL",
+      "target": "MaterialLot",
+      "targetIdProp": "material_lot_no",
+      "description": "ISA-95 Part 4 cl. 9/10 (B2MML WorkCapability.MaterialCapability.MaterialLotID)."
+    },
+    {
+      "type": "CAPABILITY_MATERIAL",
+      "target": "Quant",
+      "targetIdProp": "quant_no",
+      "description": "ISA-95 Part 4 cl. 9/10 (B2MML WorkCapability.MaterialCapability.MaterialSubLotID)."
+    },
+    {
+      "type": "CAPABILITY_PERSONNEL",
+      "target": "Person",
+      "targetIdProp": "person_id",
+      "description": "ISA-95 Part 4 cl. 9/10 (B2MML WorkCapability.PersonnelCapability.PersonID)."
+    },
+    {
+      "type": "CAPABILITY_PERSONNEL",
+      "target": "PersonnelClass",
+      "targetIdProp": "personnel_class_id",
+      "description": "ISA-95 Part 4 cl. 9/10 (B2MML WorkCapability.PersonnelCapability.PersonnelClassID)."
+    },
+    {
+      "type": "CAPABILITY_PHYSICAL_ASSET",
+      "target": "Tooling",
+      "targetIdProp": "tool_id",
+      "description": "ISA-95 Part 4 cl. 9/10 (B2MML WorkCapability.PhysicalAssetCapability.PhysicalAssetID)."
+    },
+    {
+      "type": "CAPABILITY_PHYSICAL_ASSET",
+      "target": "PhysicalAssetClass",
+      "targetIdProp": "physical_asset_class_id",
+      "description": "ISA-95 Part 4 cl. 9/10 (B2MML WorkCapability.PhysicalAssetCapability.PhysicalAssetClassID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Enterprise",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Site",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Area",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "WorkCenter",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Machine",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iso:62264-WorkCapability"
+  ],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "WorkCapability",
+    "part": 4,
+    "momDomain": "production",
+    "level": 3,
+    "note": "ISA-95 Part 4 cl. 9 WorkCapability: what can be done, is committed or cannot be done at Level 3 in a time window (resources). Core 4.0.0 (0.3.5, OPEN-0350, owner 07.10.).",
+    "propertyMap": {
+      "work_capability_id": "WorkCapability.ID",
+      "description": "WorkCapability.Description",
+      "version": "WorkCapability.Version",
+      "published_date": "WorkCapability.PublishedDate",
+      "start_time": "WorkCapability.StartTime",
+      "end_time": "WorkCapability.EndTime",
+      "operations_type": "WorkCapability.OperationsType",
+      "capability_type": "WorkCapability.CapabilityType",
+      "reason": "WorkCapability.Reason",
+      "confidence_factor": "WorkCapability.ConfidenceFactor",
+      "hierarchy_scope_ref": "WorkCapability.HierarchyScope.EquipmentID",
+      "machine_ref": "WorkCapability.EquipmentCapability.EquipmentID",
+      "equipment_class_ref": "WorkCapability.EquipmentCapability.EquipmentClassID",
+      "material_class_ref": "WorkCapability.MaterialCapability.MaterialClassID",
+      "article_ref": "WorkCapability.MaterialCapability.MaterialDefinitionID",
+      "material_lot_ref": "WorkCapability.MaterialCapability.MaterialLotID",
+      "quant_ref": "WorkCapability.MaterialCapability.MaterialSubLotID",
+      "person_ref": "WorkCapability.PersonnelCapability.PersonID",
+      "personnel_class_ref": "WorkCapability.PersonnelCapability.PersonnelClassID",
+      "tool_ref": "WorkCapability.PhysicalAssetCapability.PhysicalAssetID",
+      "physical_asset_class_ref": "WorkCapability.PhysicalAssetCapability.PhysicalAssetClassID"
+    }
+  },
+  "kgNodeLabel": "WorkCapability",
+  "kgIdProperty": "work_capability_id"
+}

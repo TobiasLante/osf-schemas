@@ -1,0 +1,92 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/equipment/SMProfile-CuttingTool.payload.json",
+  "title": "SMProfile-CuttingTool payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/equipment/cutting-tool.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-CuttingTool",
+  "x-profileVersion": "1.0.0",
+  "x-payloadVersion": "1.1.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "CuttingTool"
+    },
+    "profileRef": {
+      "const": "SMProfile-CuttingTool"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "tool_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Tool identity / key."
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name of the tool."
+        },
+        "storage_location_ref": {
+          "type": "string",
+          "description": "The StorageLocation (AT_LOCATION; ISA-95 PhysicalAsset → OperationalLocation). Optional."
+        },
+        "physical_asset_class_ref": {
+          "type": "string",
+          "description": "The PhysicalAssetClass (DEFINED_BY; ISA-95 PhysicalAsset → PhysicalAssetClass). Optional."
+        },
+        "parent_tool_ref": {
+          "type": "string",
+          "description": "The Tooling this Tooling is part of (PART_OF; ISA-95 PhysicalAsset MADE_UP_OF PhysicalAsset). Optional."
+        },
+        "test_specification_ref": {
+          "type": "string",
+          "description": "The TestSpecification (TESTED_BY; ISA-95 PhysicalAsset → TestSpecification). Optional."
+        },
+        "spatial_definition": {
+          "type": "string",
+          "description": "The spatial definition (ISA-95 Part 2 cl. 5.2): the location or shape as text in spatial_format. Optional."
+        },
+        "spatial_format": {
+          "type": "string",
+          "enum": [
+            "WKT",
+            "WKB",
+            "GML",
+            "KML",
+            "GPX",
+            "GeoJSON",
+            "SVG",
+            "Other"
+          ],
+          "description": "The format of spatial_definition (e.g. WKT). Optional."
+        },
+        "spatial_srid": {
+          "type": "string",
+          "description": "The spatial reference system of spatial_definition (SRID). Optional."
+        }
+      },
+      "required": [
+        "tool_id"
+      ]
+    }
+  },
+  "x-delivery": {
+    "tool_id": "transactional",
+    "name": "transactional",
+    "storage_location_ref": "transactional",
+    "physical_asset_class_ref": "transactional",
+    "parent_tool_ref": "transactional",
+    "test_specification_ref": "transactional",
+    "spatial_definition": "transactional",
+    "spatial_format": "transactional",
+    "spatial_srid": "transactional"
+  }
+}

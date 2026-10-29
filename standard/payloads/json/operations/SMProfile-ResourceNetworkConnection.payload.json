@@ -1,0 +1,77 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-ResourceNetworkConnection.payload.json",
+  "title": "SMProfile-ResourceNetworkConnection payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/operations/resource-network-connection.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-ResourceNetworkConnection",
+  "x-profileVersion": "1.0.0",
+  "x-payloadVersion": "1.1.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "ResourceNetworkConnection"
+    },
+    "profileRef": {
+      "const": "SMProfile-ResourceNetworkConnection"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "resource_network_connection_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the resource network connection: its own id from the source system (ISA-95 ResourceNetworkConnection.ID)."
+        },
+        "description": {
+          "type": "string",
+          "description": "ISA-95 ResourceNetworkConnection.Description."
+        },
+        "resource_network_connection_type_ref": {
+          "type": "string",
+          "description": "The ResourceNetworkConnectionType (DEFINED_BY; ISA-95 ResourceNetworkConnection → ResourceNetworkConnectionType). Optional."
+        },
+        "from_resource_ref": {
+          "type": "string",
+          "description": "The key of the object this ResourceNetworkConnection points at (any object, FROM_RESOURCE); its profile in from_resource_profile. Optional."
+        },
+        "from_resource_profile": {
+          "type": "string",
+          "description": "The profile (profileId or label) of the object in from_resource_ref."
+        },
+        "resource_relationship_network_ref": {
+          "type": "string",
+          "description": "The ResourceRelationshipNetwork this ResourceNetworkConnection is part of (PART_OF; ISA-95 ResourceRelationshipNetwork MADE_UP_OF ResourceNetworkConnection). Optional."
+        },
+        "to_resource_ref": {
+          "type": "string",
+          "description": "The key of the object this ResourceNetworkConnection points at (any object, TO_RESOURCE); its profile in to_resource_profile. Optional."
+        },
+        "to_resource_profile": {
+          "type": "string",
+          "description": "The profile (profileId or label) of the object in to_resource_ref."
+        }
+      },
+      "required": [
+        "resource_network_connection_id"
+      ]
+    }
+  },
+  "x-delivery": {
+    "resource_network_connection_id": "transactional",
+    "description": "transactional",
+    "resource_network_connection_type_ref": "transactional",
+    "from_resource_ref": "transactional",
+    "from_resource_profile": "transactional",
+    "resource_relationship_network_ref": "transactional",
+    "to_resource_ref": "transactional",
+    "to_resource_profile": "transactional"
+  }
+}

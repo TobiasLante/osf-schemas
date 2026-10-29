@@ -2,11 +2,14 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/equipment/SMProfile-CNC-Machine.payload.json",
   "title": "SMProfile-CNC-Machine payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/equipment/cnc-machine.json 3.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: signal (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/equipment/cnc-machine.json 4.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: signal (envelope.schema.json).",
   "x-profileRef": "SMProfile-CNC-Machine",
-  "x-profileVersion": "3.0.0",
-  "x-payloadVersion": "1.0.0",
-  "x-stream": "FACTORY",
+  "x-profileVersion": "4.0.0",
+  "x-payloadVersion": "1.1.0",
+  "x-streams": {
+    "telemetry": "FACTORY_TELEMETRY",
+    "transactional": "FACTORY_TRANSACTIONAL"
+  },
   "x-subjects": {
     "telemetry": "factory.{site}.{machine}.telemetry.{attr}",
     "transactional": "factory.{site}.{machine}.event.{attr}"
@@ -20,6 +23,12 @@
         "properties": {
           "attr": {
             "enum": [
+              "storage_location_ref",
+              "equipment_class_ref",
+              "test_specification_ref",
+              "spatial_definition",
+              "spatial_format",
+              "spatial_srid",
               "element_id",
               "Act_Status_Machine",
               "Act_Text_MachineMode",
@@ -59,6 +68,12 @@
   "properties": {
     "attr": {
       "enum": [
+        "storage_location_ref",
+        "equipment_class_ref",
+        "test_specification_ref",
+        "spatial_definition",
+        "spatial_format",
+        "spatial_srid",
         "element_id",
         "Act_Status_Machine",
         "Act_Text_MachineMode",
@@ -127,6 +142,12 @@
     "Act_Temp_Spindle"
   ],
   "x-transactional": [
+    "storage_location_ref",
+    "equipment_class_ref",
+    "test_specification_ref",
+    "spatial_definition",
+    "spatial_format",
+    "spatial_srid",
     "element_id",
     "Act_Status_Machine",
     "Act_Text_MachineMode",
@@ -142,6 +163,52 @@
     "Act_State_InCycle"
   ],
   "x-signals": {
+    "storage_location_ref": {
+      "type": "string",
+      "delivery": "transactional",
+      "scope": "hub",
+      "description": "The StorageLocation (AT_LOCATION; ISA-95 Equipment → OperationalLocation). Optional."
+    },
+    "equipment_class_ref": {
+      "type": "string",
+      "delivery": "transactional",
+      "scope": "hub",
+      "description": "The EquipmentClass (DEFINED_BY; ISA-95 Equipment → EquipmentClass). Optional."
+    },
+    "test_specification_ref": {
+      "type": "string",
+      "delivery": "transactional",
+      "scope": "hub",
+      "description": "The TestSpecification (TESTED_BY; ISA-95 Equipment → TestSpecification). Optional."
+    },
+    "spatial_definition": {
+      "type": "string",
+      "delivery": "transactional",
+      "scope": "hub",
+      "description": "The spatial definition (ISA-95 Part 2 cl. 5.2): the location or shape as text in spatial_format. Optional."
+    },
+    "spatial_format": {
+      "type": "string",
+      "enum": [
+        "WKT",
+        "WKB",
+        "GML",
+        "KML",
+        "GPX",
+        "GeoJSON",
+        "SVG",
+        "Other"
+      ],
+      "delivery": "transactional",
+      "scope": "hub",
+      "description": "The format of spatial_definition (e.g. WKT). Optional."
+    },
+    "spatial_srid": {
+      "type": "string",
+      "delivery": "transactional",
+      "scope": "hub",
+      "description": "The spatial reference system of spatial_definition (SRID). Optional."
+    },
     "element_id": {
       "type": "string",
       "delivery": "transactional",
@@ -179,13 +246,13 @@
     "Plan_Time_Cycle": {
       "type": "number",
       "delivery": "transactional",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Act_Time_Cycle": {
       "type": "number",
       "unit": "SEC",
       "delivery": "telemetry",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Act_Energy_Power": {
       "type": "number",
@@ -197,7 +264,7 @@
     "Act_Energy_Total": {
       "type": "number",
       "delivery": "telemetry",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Act_Ref_Shift": {
       "type": "integer",
@@ -213,88 +280,88 @@
       "type": "number",
       "unit": "RPM",
       "delivery": "telemetry",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Set_Speed_Spindle": {
       "type": "number",
       "delivery": "transactional",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Act_Pct_SpindleLoad": {
       "type": "number",
       "unit": "P1",
       "delivery": "telemetry",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Act_Torque_Spindle": {
       "type": "number",
       "delivery": "telemetry",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Act_Rate_Feed": {
       "type": "number",
       "unit": "H81",
       "delivery": "telemetry",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Set_Rate_Feed": {
       "type": "number",
       "delivery": "transactional",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Act_Pct_FeedOverride": {
       "type": "number",
       "delivery": "telemetry",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Act_Pos_AxisX": {
       "type": "number",
       "unit": "MMT",
       "delivery": "telemetry",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Set_Pos_AxisX": {
       "type": "number",
       "delivery": "transactional",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Act_Pos_AxisY": {
       "type": "number",
       "unit": "MMT",
       "delivery": "telemetry",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Set_Pos_AxisY": {
       "type": "number",
       "delivery": "transactional",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Act_Pos_AxisZ": {
       "type": "number",
       "unit": "MMT",
       "delivery": "telemetry",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Set_Pos_AxisZ": {
       "type": "number",
       "delivery": "transactional",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Act_Ref_ToolNumber": {
       "type": "integer",
       "delivery": "telemetry",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Act_Pct_ToolWear": {
       "type": "number",
       "unit": "P1",
       "delivery": "telemetry",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Act_Time_ToolLifeRemaining": {
       "type": "number",
       "delivery": "telemetry",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Act_State_InCycle": {
       "type": "boolean",
@@ -305,48 +372,48 @@
     "Act_Rate_CoolantFlow": {
       "type": "number",
       "delivery": "telemetry",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Act_Temp_Coolant": {
       "type": "number",
       "delivery": "telemetry",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Act_Pressure_Coolant": {
       "type": "number",
       "delivery": "telemetry",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Act_Vibration_X": {
       "type": "number",
       "delivery": "telemetry",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Act_Vibration_Y": {
       "type": "number",
       "delivery": "telemetry",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Act_Vibration_Z": {
       "type": "number",
       "delivery": "telemetry",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Act_Energy_PowerSpindle": {
       "type": "number",
       "delivery": "telemetry",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Act_Energy_Cycle": {
       "type": "number",
       "delivery": "telemetry",
-      "scope": "edge"
+      "scope": "hub"
     },
     "Act_Temp_Spindle": {
       "type": "number",
       "unit": "CEL",
       "delivery": "telemetry",
-      "scope": "edge"
+      "scope": "hub"
     }
   }
 }

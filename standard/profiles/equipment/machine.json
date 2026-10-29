@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-Machine",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "standard": "CarToUNS",
   "category": "machine",
   "displayName": "Machine (Abstract Parent)",
@@ -8,6 +8,82 @@
   "parentType": null,
   "abstract": true,
   "properties": [
+    {
+      "name": "storage_location_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The StorageLocation (AT_LOCATION; ISA-95 Equipment → OperationalLocation). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "equipment_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The EquipmentClass (DEFINED_BY; ISA-95 Equipment → EquipmentClass). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "test_specification_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The TestSpecification (TESTED_BY; ISA-95 Equipment → TestSpecification). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "spatial_definition",
+      "dataType": "String",
+      "required": false,
+      "category": "Location",
+      "description": "The spatial definition (ISA-95 Part 2 cl. 5.2): the location or shape as text in spatial_format. Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "spatial_format",
+      "dataType": "String",
+      "required": false,
+      "category": "Location",
+      "description": "The format of spatial_definition (e.g. WKT). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD",
+      "enum": [
+        "WKT",
+        "WKB",
+        "GML",
+        "KML",
+        "GPX",
+        "GeoJSON",
+        "SVG",
+        "Other"
+      ]
+    },
+    {
+      "name": "spatial_srid",
+      "dataType": "String",
+      "required": false,
+      "category": "Location",
+      "description": "The spatial reference system of spatial_definition (SRID). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
     {
       "name": "element_id",
       "dataType": "String",
@@ -23,9 +99,27 @@
   "relationships": [
     {
       "type": "PART_OF",
-      "target": "ProcessCell",
+      "target": "ProductionLine",
       "resolvedBy": "instances",
-      "description": "ISA-88: the machine is part of a ProcessCell (line)."
+      "description": "ISA-95 Part 1 role-based equipment hierarchy (discrete): the machine is a work cell of a production line (core 6.0.0, audit H1; before: ISA-88 ProcessCell)."
+    },
+    {
+      "type": "AT_LOCATION",
+      "target": "StorageLocation",
+      "targetIdProp": "storage_location_id",
+      "description": "ISA-95 Part 2 cl. 5.5 (B2MML Equipment.OperationalLocation)."
+    },
+    {
+      "type": "DEFINED_BY",
+      "target": "EquipmentClass",
+      "targetIdProp": "equipment_class_id",
+      "description": "ISA-95 Part 2 cl. 5.5 (B2MML Equipment.EquipmentClassID)."
+    },
+    {
+      "type": "TESTED_BY",
+      "target": "TestSpecification",
+      "targetIdProp": "test_specification_id",
+      "description": "ISA-95 Part 2 cl. 5.5 (B2MML Equipment.TestSpecificationID)."
     }
   ],
   "constraints": [],
@@ -42,9 +136,16 @@
     "objectModel": "Equipment",
     "part": 2,
     "momDomain": "production",
-    "equipmentLevel": "Unit",
+    "equipmentLevel": "WorkCell",
+    "grain": "one equipment element at equipment level WorkCell (ISA-95 Part 1 role-based equipment hierarchy, discrete production: ProductionLine → WorkCell, as the ISA-95 audit of 13.10.2026 (H1) cites Part 1 5.3.7–5.3.9; B2MML-Common.xsd EquipmentLevel1Type WorkCell; core 6.0.0 — before it the batch branch ProcessCell → Unit): one row = one machine (its specialisations CNC-Machine and InjectionMoldingMachine inherit this grain), keyed by its Equipment ID element_id — the one ID space all levels of the role-based equipment hierarchy share",
     "propertyMap": {
-      "element_id": "Equipment.ID"
+      "element_id": "Equipment.ID",
+      "storage_location_ref": "Equipment.OperationalLocation",
+      "equipment_class_ref": "Equipment.EquipmentClassID",
+      "test_specification_ref": "Equipment.TestSpecificationID",
+      "spatial_definition": "Equipment.SpatialDefinition.Value",
+      "spatial_format": "Equipment.SpatialDefinition.Format",
+      "spatial_srid": "Equipment.SpatialDefinition.SRID"
     },
     "companionSpec": "OPC40001-1",
     "opcuaTypeDefinition": "MachineType",

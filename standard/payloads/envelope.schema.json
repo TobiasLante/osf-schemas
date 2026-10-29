@@ -1,9 +1,125 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/envelope.schema.json",
-  "title": "OSF payload envelope (NATS, MQTT, Kafka) - v1.0.0",
-  "description": "GENERATED from standard/sync/uns-convention.json 1.2.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Two shapes. signal = OT world (categories machine): one message per signal; telemetry on factory.{site}.{machine}.telemetry.{attr}, transactional on factory.{site}.{machine}.event.{attr} (stream FACTORY). entity = IT world (categories business, material, quality, equipment): one message per source row on business.{enterprise}.{sourceId}.{entity}.{eventType}.{id} (stream BUSINESS), always transactional. A transactional message carries msgId: the JetStream Nats-Msg-Id and the Kafka key, for deduplication.",
+  "title": "OSF payload envelope (NATS, MQTT, Kafka) - v1.1.0",
+  "description": "GENERATED from standard/sync/uns-convention.json 2.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Two shapes. signal = OT world (categories machine): one message per signal; telemetry on factory.{site}.{machine}.telemetry.{attr}, transactional on factory.{site}.{machine}.event.{attr} (streams FACTORY_TELEMETRY / FACTORY_TRANSACTIONAL). entity = IT world (categories business, material, quality, equipment): one message per source row on business.{enterprise}.{sourceId}.{entity}.{eventType}.{id} (stream BUSINESS), always transactional. A transactional message carries msgId: the JetStream Nats-Msg-Id and the Kafka key, for deduplication. b2m (optional): the ISA-95 Part 5 transaction verb and action code — a row is SYNC Add / Change / Delete (its eventType), a transactional signal SYNC Add, telemetry none.",
   "definitions": {
+    "b2m": {
+      "type": "object",
+      "description": "ISA-95 Part 5 transaction (B2MML 0701): the verb, and the action code of a SYNC (Add, Change, Delete) or of an answer (ACKNOWLEDGE, CONFIRM: Accepted, Modified, Rejected; RESPOND: also Replaced).",
+      "required": [
+        "verb"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "verb": {
+          "enum": [
+            "GET",
+            "SHOW",
+            "PROCESS",
+            "ACKNOWLEDGE",
+            "CHANGE",
+            "RESPOND",
+            "CANCEL",
+            "CONFIRM",
+            "SYNC"
+          ]
+        },
+        "actionCode": {
+          "enum": [
+            "Add",
+            "Change",
+            "Delete",
+            "Replaced",
+            "Accepted",
+            "Modified",
+            "Rejected"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "verb": {
+                "enum": [
+                  "SYNC"
+                ]
+              }
+            },
+            "required": [
+              "verb"
+            ]
+          },
+          "then": {
+            "required": [
+              "actionCode"
+            ],
+            "properties": {
+              "actionCode": {
+                "enum": [
+                  "Add",
+                  "Change",
+                  "Delete"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "verb": {
+                "enum": [
+                  "ACKNOWLEDGE",
+                  "CONFIRM"
+                ]
+              }
+            },
+            "required": [
+              "verb"
+            ]
+          },
+          "then": {
+            "properties": {
+              "actionCode": {
+                "enum": [
+                  "Accepted",
+                  "Modified",
+                  "Rejected"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "verb": {
+                "enum": [
+                  "RESPOND"
+                ]
+              }
+            },
+            "required": [
+              "verb"
+            ]
+          },
+          "then": {
+            "properties": {
+              "actionCode": {
+                "enum": [
+                  "Accepted",
+                  "Modified",
+                  "Rejected",
+                  "Replaced"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
     "signal": {
       "type": "object",
       "required": [
@@ -57,23 +173,63 @@
         },
         "profileVersion": {
           "type": "string"
+        },
+        "b2m": {
+          "$ref": "#/definitions/b2m"
         }
       },
-      "if": {
-        "properties": {
-          "delivery": {
-            "const": "transactional"
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "delivery": {
+                "const": "transactional"
+              }
+            },
+            "required": [
+              "delivery"
+            ]
+          },
+          "then": {
+            "required": [
+              "msgId"
+            ]
           }
         },
-        "required": [
-          "delivery"
-        ]
-      },
-      "then": {
-        "required": [
-          "msgId"
-        ]
-      }
+        {
+          "if": {
+            "properties": {
+              "delivery": {
+                "const": "transactional"
+              }
+            },
+            "required": [
+              "delivery"
+            ]
+          },
+          "then": {
+            "properties": {
+              "b2m": {
+                "properties": {
+                  "verb": {
+                    "const": "SYNC"
+                  },
+                  "actionCode": {
+                    "const": "Add"
+                  }
+                }
+              }
+            }
+          },
+          "else": {
+            "not": {
+              "required": [
+                "b2m"
+              ]
+            }
+          }
+        }
+      ]
     },
     "entity": {
       "type": "object",
@@ -125,8 +281,91 @@
         "data": {
           "type": "object",
           "description": "The attributes of the profile, typed per profile."
+        },
+        "b2m": {
+          "$ref": "#/definitions/b2m"
         }
-      }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "eventType": {
+                "const": "created"
+              }
+            },
+            "required": [
+              "eventType"
+            ]
+          },
+          "then": {
+            "properties": {
+              "b2m": {
+                "properties": {
+                  "verb": {
+                    "const": "SYNC"
+                  },
+                  "actionCode": {
+                    "const": "Add"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "eventType": {
+                "const": "updated"
+              }
+            },
+            "required": [
+              "eventType"
+            ]
+          },
+          "then": {
+            "properties": {
+              "b2m": {
+                "properties": {
+                  "verb": {
+                    "const": "SYNC"
+                  },
+                  "actionCode": {
+                    "const": "Change"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "eventType": {
+                "const": "deleted"
+              }
+            },
+            "required": [
+              "eventType"
+            ]
+          },
+          "then": {
+            "properties": {
+              "b2m": {
+                "properties": {
+                  "verb": {
+                    "const": "SYNC"
+                  },
+                  "actionCode": {
+                    "const": "Delete"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
     }
   }
 }

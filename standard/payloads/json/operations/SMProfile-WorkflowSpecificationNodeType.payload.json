@@ -1,0 +1,80 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-WorkflowSpecificationNodeType.payload.json",
+  "title": "SMProfile-WorkflowSpecificationNodeType payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/operations/workflow-specification-node-type.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-WorkflowSpecificationNodeType",
+  "x-profileVersion": "1.0.0",
+  "x-payloadVersion": "1.1.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "WorkflowSpecificationNodeType"
+    },
+    "profileRef": {
+      "const": "SMProfile-WorkflowSpecificationNodeType"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "workflow_specification_node_type_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the workflow specification node type: its own id from the source system (ISA-95 WorkflowSpecificationNodeType.ID)."
+        },
+        "description": {
+          "type": "string",
+          "description": "ISA-95 WorkflowSpecificationNodeType.Description."
+        },
+        "version": {
+          "type": "string",
+          "description": "ISA-95 WorkflowSpecificationNodeType.Version."
+        },
+        "published_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISA-95 WorkflowSpecificationNodeType.PublishedDate."
+        },
+        "effective_start": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISA-95 WorkflowSpecificationNodeType.EffectiveStartDate."
+        },
+        "effective_end": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISA-95 WorkflowSpecificationNodeType.EffectiveEndDate."
+        },
+        "hierarchy_scope_ref": {
+          "type": "string",
+          "description": "The element of the role-based equipment hierarchy this object belongs to (ISA-95 Part 2 cl. 5.1 hierarchy scope, IN_SCOPE_OF). Optional."
+        },
+        "base_workflow_specification_node_type_ref": {
+          "type": "string",
+          "description": "The WorkflowSpecificationNodeType (INCLUDES_PROPERTIES_OF; ISA-95 WorkflowSpecificationNodeType → WorkflowSpecificationNodeType). Optional."
+        }
+      },
+      "required": [
+        "workflow_specification_node_type_id"
+      ]
+    }
+  },
+  "x-delivery": {
+    "workflow_specification_node_type_id": "transactional",
+    "description": "transactional",
+    "version": "transactional",
+    "published_date": "transactional",
+    "effective_start": "transactional",
+    "effective_end": "transactional",
+    "hierarchy_scope_ref": "transactional",
+    "base_workflow_specification_node_type_ref": "transactional"
+  }
+}

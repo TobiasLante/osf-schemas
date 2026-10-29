@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-OperationsSegment",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Operations Segment (step of a routing)",
@@ -41,10 +41,12 @@
       "scope": "hub",
       "promotion": "on_change",
       "enum": [
-        "production",
-        "inventory",
-        "quality",
-        "maintenance"
+        "Production",
+        "Maintenance",
+        "Quality",
+        "Inventory",
+        "Mixed",
+        "Other"
       ]
     },
     {
@@ -117,6 +119,149 @@
       "scope": "hub",
       "promotion": "on_change",
       "valueType": "ID"
+    },
+    {
+      "name": "depends_on_operations_segment_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The OperationsSegment (DEPENDS_ON; ISA-95 OperationsSegment → OperationsSegment). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "depends_on_process_segment_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The ProcessSegment (DEPENDS_ON; ISA-95 OperationsSegment → ProcessSegment). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "operations_material_bill_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The OperationsMaterialBill (HAS_MATERIAL_BILL; ISA-95 OperationsSegment → OperationsMaterialBill). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "parent_operations_segment_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The OperationsSegment this OperationsSegment is part of (PART_OF; ISA-95 OperationsSegment MADE_UP_OF OperationsSegment). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "machine_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The Machine (SPECIFIES_EQUIPMENT; ISA-95 OperationsSegment → Equipment). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "material_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The MaterialClass (SPECIFIES_MATERIAL; ISA-95 OperationsSegment → MaterialClass). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "material_lot_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The MaterialLot (SPECIFIES_MATERIAL; ISA-95 OperationsSegment → MaterialLot). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "quant_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The Quant (SPECIFIES_MATERIAL; ISA-95 OperationsSegment → MaterialSubLot). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "person_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The Person (SPECIFIES_PERSONNEL; ISA-95 OperationsSegment → Person). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "personnel_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The PersonnelClass (SPECIFIES_PERSONNEL; ISA-95 OperationsSegment → PersonnelClass). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "tool_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The Tool (SPECIFIES_PHYSICAL_ASSET; ISA-95 OperationsSegment → PhysicalAsset). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "physical_asset_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The PhysicalAssetClass (SPECIFIES_PHYSICAL_ASSET; ISA-95 OperationsSegment → PhysicalAssetClass). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "test_specification_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The TestSpecification (TESTED_BY; ISA-95 OperationsSegment → TestSpecification). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
     }
   ],
   "relationships": [
@@ -143,6 +288,84 @@
       "target": "EquipmentClass",
       "targetIdProp": "equipment_class_id",
       "description": "The equipment class this step specifies (B2MML EquipmentSpecification)."
+    },
+    {
+      "type": "DEPENDS_ON",
+      "target": "OperationsSegment",
+      "targetIdProp": "operations_segment_no",
+      "description": "ISA-95 Part 2 cl. 6.1 (B2MML OperationsSegment.DependentOperationsSegmentID)."
+    },
+    {
+      "type": "DEPENDS_ON",
+      "target": "ProcessSegment",
+      "targetIdProp": "process_segment_no",
+      "description": "ISA-95 Part 2 cl. 6.1 (B2MML OperationsSegment.SegmentDependency.ProcessSegmentID)."
+    },
+    {
+      "type": "HAS_MATERIAL_BILL",
+      "target": "OperationsMaterialBill",
+      "targetIdProp": "operations_material_bill_id",
+      "description": "ISA-95 Part 2 cl. 6.1 (B2MML OperationsSegment.OperationsMaterialBillID)."
+    },
+    {
+      "type": "PART_OF",
+      "target": "OperationsSegment",
+      "targetIdProp": "operations_segment_no",
+      "description": "ISA-95 Part 2 cl. 6.1 (B2MML OperationsSegment.OperationsSegmentChild)."
+    },
+    {
+      "type": "SPECIFIES_EQUIPMENT",
+      "target": "Machine",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 6.1 (B2MML OperationsSegment.EquipmentSpecification.EquipmentID)."
+    },
+    {
+      "type": "SPECIFIES_MATERIAL",
+      "target": "MaterialClass",
+      "targetIdProp": "material_class_id",
+      "description": "ISA-95 Part 2 cl. 6.1 (B2MML OperationsSegment.MaterialSpecification.MaterialClassID)."
+    },
+    {
+      "type": "SPECIFIES_MATERIAL",
+      "target": "MaterialLot",
+      "targetIdProp": "material_lot_no",
+      "description": "ISA-95 Part 2 cl. 6.1 (B2MML OperationsSegment.MaterialSpecification.MaterialLotID)."
+    },
+    {
+      "type": "SPECIFIES_MATERIAL",
+      "target": "Quant",
+      "targetIdProp": "quant_no",
+      "description": "ISA-95 Part 2 cl. 6.1 (B2MML OperationsSegment.MaterialSpecification.MaterialSubLotID)."
+    },
+    {
+      "type": "SPECIFIES_PERSONNEL",
+      "target": "Person",
+      "targetIdProp": "person_id",
+      "description": "ISA-95 Part 2 cl. 6.1 (B2MML OperationsSegment.PersonnelSpecification.PersonID)."
+    },
+    {
+      "type": "SPECIFIES_PERSONNEL",
+      "target": "PersonnelClass",
+      "targetIdProp": "personnel_class_id",
+      "description": "ISA-95 Part 2 cl. 6.1 (B2MML OperationsSegment.PersonnelSpecification.PersonnelClassID)."
+    },
+    {
+      "type": "SPECIFIES_PHYSICAL_ASSET",
+      "target": "Tooling",
+      "targetIdProp": "tool_id",
+      "description": "ISA-95 Part 2 cl. 6.1 (B2MML OperationsSegment.PhysicalAssetSpecification.PhysicalAssetID)."
+    },
+    {
+      "type": "SPECIFIES_PHYSICAL_ASSET",
+      "target": "PhysicalAssetClass",
+      "targetIdProp": "physical_asset_class_id",
+      "description": "ISA-95 Part 2 cl. 6.1 (B2MML OperationsSegment.PhysicalAssetSpecification.PhysicalAssetClassID)."
+    },
+    {
+      "type": "TESTED_BY",
+      "target": "TestSpecification",
+      "targetIdProp": "test_specification_id",
+      "description": "ISA-95 Part 2 cl. 6.1 (B2MML OperationsSegment.PersonnelSpecification.TestSpecificationID)."
     }
   ],
   "constraints": [],
@@ -163,13 +386,26 @@
       "duration_planned_sec": "OperationsSegment.Duration",
       "process_segment_ref": "OperationsSegment.ProcessSegmentID",
       "material_ref": "OperationsSegment.MaterialSpecification.MaterialDefinitionID",
-      "equipment_class_ref": "OperationsSegment.EquipmentSpecification.EquipmentClassID"
+      "equipment_class_ref": "OperationsSegment.EquipmentSpecification.EquipmentClassID",
+      "depends_on_operations_segment_ref": "OperationsSegment.DependentOperationsSegmentID",
+      "depends_on_process_segment_ref": "OperationsSegment.SegmentDependency.ProcessSegmentID",
+      "operations_material_bill_ref": "OperationsSegment.OperationsMaterialBillID",
+      "machine_ref": "OperationsSegment.EquipmentSpecification.EquipmentID",
+      "material_class_ref": "OperationsSegment.MaterialSpecification.MaterialClassID",
+      "material_lot_ref": "OperationsSegment.MaterialSpecification.MaterialLotID",
+      "quant_ref": "OperationsSegment.MaterialSpecification.MaterialSubLotID",
+      "person_ref": "OperationsSegment.PersonnelSpecification.PersonID",
+      "personnel_class_ref": "OperationsSegment.PersonnelSpecification.PersonnelClassID",
+      "tool_ref": "OperationsSegment.PhysicalAssetSpecification.PhysicalAssetID",
+      "physical_asset_class_ref": "OperationsSegment.PhysicalAssetSpecification.PhysicalAssetClassID",
+      "test_specification_ref": "OperationsSegment.PersonnelSpecification.TestSpecificationID"
     },
     "notInIsa95": [
       "sequence",
-      "operations_definition_ref"
+      "operations_definition_ref",
+      "parent_operations_segment_ref"
     ],
-    "mappingNote": "sequence and the parent routing are carried by B2MML through the nesting of OperationsSegment in OperationsDefinition, not as fields."
+    "mappingNote": "sequence and the parent routing are carried by B2MML through the nesting of OperationsSegment in OperationsDefinition, not as fields. Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent)."
   },
   "kgNodeLabel": "OperationsSegment",
   "kgIdProperty": "operations_segment_no",

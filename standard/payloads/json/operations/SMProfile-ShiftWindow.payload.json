@@ -2,10 +2,10 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-ShiftWindow.payload.json",
   "title": "SMProfile-ShiftWindow payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/operations/shift-window.json 1.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/operations/shift-window.json 2.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-ShiftWindow",
-  "x-profileVersion": "1.1.0",
-  "x-payloadVersion": "1.0.0",
+  "x-profileVersion": "2.1.0",
+  "x-payloadVersion": "1.1.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
     "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
@@ -25,6 +25,11 @@
     "data": {
       "type": "object",
       "properties": {
+        "shift_window_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the shift window: its own number from the source system (ISA-95 WorkCalendarEntry.ID; core 4.0.0 — before, the key was composed of department, weekday and shift)."
+        },
         "department_id": {
           "type": "string",
           "description": "Department the window belongs to. Measured population 2026-08-03: LAGER | MECH | MONTAGE | SG. NOT declared as an enum: the plant may add a department without a schema change, and a consumer must never treat an unknown department as 'not scheduled'. Part of the composite key."
@@ -48,9 +53,18 @@
         "break_minutes": {
           "type": "integer",
           "description": "Unpaid break minutes inside the window. Full text: docs/history/standard/profiles/operations/shift-window.md, attributes › break_minutes › description."
+        },
+        "work_calendar_definition_ref": {
+          "type": "string",
+          "description": "The WorkCalendarDefinition this pattern entry belongs to (PART_OF; ISA-95 Part 4 cl. 13, B2MML WorkCalendarDefinition.WorkCalendarDefinitionEntry). Optional."
+        },
+        "parent_shift_window_ref": {
+          "type": "string",
+          "description": "The ShiftWindow this ShiftWindow is part of (PART_OF; ISA-95 WorkCalendarEntry MADE_UP_OF WorkCalendarEntry). Optional."
         }
       },
       "required": [
+        "shift_window_id",
         "department_id",
         "day_of_week",
         "shift_id",
@@ -60,11 +74,14 @@
     }
   },
   "x-delivery": {
+    "shift_window_id": "transactional",
     "department_id": "transactional",
     "day_of_week": "transactional",
     "shift_id": "transactional",
     "start_time": "transactional",
     "end_time": "transactional",
-    "break_minutes": "transactional"
+    "break_minutes": "transactional",
+    "work_calendar_definition_ref": "transactional",
+    "parent_shift_window_ref": "transactional"
   }
 }

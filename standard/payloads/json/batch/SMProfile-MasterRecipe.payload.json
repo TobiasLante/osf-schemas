@@ -1,0 +1,131 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/batch/SMProfile-MasterRecipe.payload.json",
+  "title": "SMProfile-MasterRecipe payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/batch/master-recipe.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-MasterRecipe",
+  "x-profileVersion": "1.0.0",
+  "x-payloadVersion": "1.1.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "MasterRecipe"
+    },
+    "profileRef": {
+      "const": "SMProfile-MasterRecipe"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "master_recipe_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the master recipe (BatchML MasterRecipe.ID)."
+        },
+        "version": {
+          "type": "string",
+          "description": "BatchML MasterRecipe.Version."
+        },
+        "version_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "BatchML MasterRecipe.VersionDate."
+        },
+        "description": {
+          "type": "string",
+          "description": "BatchML MasterRecipe.Description."
+        },
+        "article_ref": {
+          "type": "string",
+          "description": "The product (BatchML Header.ProductID)."
+        },
+        "product_name": {
+          "type": "string",
+          "description": "BatchML Header.ProductName."
+        },
+        "batch_size_nominal": {
+          "type": "string",
+          "description": "BatchML Header.BatchSize.Nominal."
+        },
+        "batch_size_min": {
+          "type": "string",
+          "description": "BatchML Header.BatchSize.Min."
+        },
+        "batch_size_max": {
+          "type": "string",
+          "description": "BatchML Header.BatchSize.Max."
+        },
+        "batch_size_unit": {
+          "type": "string",
+          "description": "BatchML Header.BatchSize.UnitOfMeasure."
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "Idle",
+            "Running",
+            "Complete",
+            "Pausing",
+            "Paused",
+            "Holding",
+            "Held",
+            "Restarting",
+            "Stopping",
+            "Stopped",
+            "Aborting",
+            "Aborted",
+            "Other"
+          ],
+          "description": "Batch state (BatchML BatchStatus)."
+        },
+        "effective_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "BatchML Header.EffectiveDate."
+        },
+        "expiration_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "BatchML Header.ExpirationDate."
+        },
+        "final_approval_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "BatchML ApprovalHistory.FinalApprovalDate."
+        },
+        "approval_version": {
+          "type": "string",
+          "description": "BatchML ApprovalHistory.Version."
+        }
+      },
+      "required": [
+        "master_recipe_id"
+      ]
+    }
+  },
+  "x-delivery": {
+    "master_recipe_id": "transactional",
+    "version": "transactional",
+    "version_date": "transactional",
+    "description": "transactional",
+    "article_ref": "transactional",
+    "product_name": "transactional",
+    "batch_size_nominal": "transactional",
+    "batch_size_min": "transactional",
+    "batch_size_max": "transactional",
+    "batch_size_unit": "transactional",
+    "status": "transactional",
+    "effective_date": "transactional",
+    "expiration_date": "transactional",
+    "final_approval_date": "transactional",
+    "approval_version": "transactional"
+  }
+}

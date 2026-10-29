@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-InjectionMoldingMachine",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "standard": "CarToUNS",
   "category": "machine",
   "displayName": "Injection Molding Machine",
@@ -66,7 +66,7 @@
       "category": "BDE",
       "description": "Machine uptime (seconds).",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "promotion": "raw",
       "quality": {
         "onBad": "flag"
@@ -135,7 +135,7 @@
       "category": "Process",
       "description": "Actual hot-runner temperature (recipe-monitored).",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "promotion": "raw",
       "quality": {
         "onBad": "flag"
@@ -150,7 +150,7 @@
       "category": "Process",
       "description": "Actual nozzle / barrel-end temperature.",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "promotion": "raw",
       "quality": {
         "onBad": "flag"
@@ -166,7 +166,7 @@
       "category": "Process",
       "description": "Actual cavity pressure.",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "promotion": "raw",
       "quality": {
         "onBad": "flag"
@@ -181,7 +181,7 @@
       "category": "Process",
       "description": "Actual mould pressure.",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "promotion": "raw",
       "quality": {
         "onBad": "flag"
@@ -195,7 +195,7 @@
       "category": "Quality",
       "description": "Actual part mass (recipe-monitored).",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "promotion": "raw",
       "quality": {
         "onBad": "flag"
@@ -210,7 +210,7 @@
       "category": "Process",
       "description": "Actual peak injection pressure (recipe-monitored, cycle-gated).",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "promotion": "raw",
       "quality": {
         "onBad": "flag"
@@ -225,7 +225,7 @@
       "category": "Process",
       "description": "Actual hold pressure (recipe-monitored, cycle-gated).",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "promotion": "raw",
       "quality": {
         "onBad": "flag"
@@ -240,7 +240,7 @@
       "category": "Process",
       "description": "Actual back pressure during plasticising.",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "promotion": "raw",
       "quality": {
         "onBad": "flag"
@@ -255,7 +255,7 @@
       "category": "Process",
       "description": "Actual injection speed.",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "promotion": "raw",
       "quality": {
         "onBad": "flag"
@@ -271,7 +271,7 @@
       "category": "Process",
       "description": "Actual shot volume.",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "promotion": "raw",
       "quality": {
         "onBad": "flag"
@@ -285,7 +285,7 @@
       "category": "Process",
       "description": "Actual residual material cushion (recipe-monitored).",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "promotion": "raw",
       "quality": {
         "onBad": "flag"
@@ -301,7 +301,7 @@
       "category": "Process",
       "description": "Plasticising progress of the current cycle.",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "promotion": "raw",
       "quality": {
         "onBad": "flag"
@@ -315,7 +315,7 @@
       "category": "Process",
       "description": "Actual cycle time per shot.",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "promotion": "raw",
       "quality": {
         "onBad": "flag"
@@ -331,7 +331,7 @@
       "category": "Process",
       "description": "Elapsed time in the current phase.",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "promotion": "raw",
       "quality": {
         "onBad": "flag"
@@ -346,7 +346,7 @@
       "category": "Process",
       "description": "Remaining time (setup / phase).",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "promotion": "raw",
       "quality": {
         "onBad": "flag"
@@ -390,7 +390,7 @@
       "category": "Process",
       "description": "Actual mould temperature.",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "promotion": "raw",
       "quality": {
         "onBad": "flag"
@@ -405,7 +405,7 @@
       "category": "Process",
       "description": "Mould cooling-water flow.",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "promotion": "raw",
       "quality": {
         "onBad": "flag"
@@ -421,7 +421,7 @@
       "category": "Process",
       "description": "Mould life consumed (percent).",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "promotion": "raw",
       "quality": {
         "onBad": "flag"
@@ -479,7 +479,7 @@
       "category": "Material",
       "description": "Resin dryer actual temperature.",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "promotion": "raw",
       "quality": {
         "onBad": "flag"
@@ -493,7 +493,7 @@
       "category": "Material",
       "description": "Resin dryer setpoint temperature.",
       "delivery": "transactional",
-      "scope": "edge",
+      "scope": "hub",
       "promotion": "on_change",
       "unit": "CEL",
       "valueType": "SP"
@@ -506,7 +506,7 @@
       "category": "Material",
       "description": "Actual dryer residence time.",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "promotion": "raw",
       "quality": {
         "onBad": "flag"
@@ -521,7 +521,7 @@
       "category": "Material",
       "description": "Target dryer residence time.",
       "delivery": "transactional",
-      "scope": "edge",
+      "scope": "hub",
       "promotion": "on_change",
       "unit": "MIN"
     },
@@ -533,7 +533,7 @@
       "category": "Material",
       "description": "Hopper fill level.",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "promotion": "raw",
       "quality": {
         "onBad": "flag"
@@ -548,7 +548,7 @@
       "category": "Material",
       "description": "Hopper refill threshold.",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "promotion": "raw",
       "quality": {
         "onBad": "flag"
@@ -574,7 +574,7 @@
       "category": "Material",
       "description": "Regrind ratio.",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "promotion": "raw",
       "quality": {
         "onBad": "flag"
@@ -589,7 +589,7 @@
       "category": "Material",
       "description": "Colour masterbatch dosing ratio.",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "promotion": "raw",
       "quality": {
         "onBad": "flag"
@@ -614,7 +614,7 @@
       "category": "Process",
       "description": "Measured temperature of barrel heating zone 1. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, attributes › barrelZone1TempC › description.",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "promotion": "raw",
       "quality": {
         "onBad": "flag"
@@ -629,7 +629,7 @@
       "category": "Process",
       "description": "Measured temperature of barrel heating zone 2. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, attributes › barrelZone2TempC › description.",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "promotion": "raw",
       "quality": {
         "onBad": "flag"
@@ -644,7 +644,7 @@
       "category": "Process",
       "description": "Measured temperature of barrel heating zone 3. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, attributes › barrelZone3TempC › description.",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "promotion": "raw",
       "quality": {
         "onBad": "flag"
@@ -659,7 +659,7 @@
       "category": "Process",
       "description": "Measured temperature of barrel heating zone 4. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, attributes › barrelZone4TempC › description.",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "promotion": "raw",
       "quality": {
         "onBad": "flag"
@@ -668,13 +668,7 @@
       "valueType": "PV"
     }
   ],
-  "relationships": [
-    {
-      "type": "IMPLEMENTED_BY",
-      "target": "Tool",
-      "targetIdProp": "tool_id"
-    }
-  ],
+  "relationships": [],
   "constraints": [
     {
       "name": "recipe_hotrunner_temp_band",
@@ -1537,7 +1531,7 @@
     "objectModel": "Equipment",
     "part": 2,
     "momDomain": "production",
-    "equipmentLevel": "Unit",
+    "equipmentLevel": "WorkCell",
     "equipmentClass": "InjectionMoldingMachine",
     "companionSpec": "EUROMAP77",
     "opcuaTypeDefinition": "InjectionMouldingMachineType",
@@ -1577,9 +1571,7 @@
       "powerKw",
       "resin",
       "dryerTempC",
-      "dryerSetpointC",
       "dryerResidenceMin",
-      "dryerResidenceTargetMin",
       "hopperFillPct",
       "hopperRefillThresholdPct",
       "hopperRefillCount",
@@ -1591,7 +1583,11 @@
       "barrelZone3TempC",
       "barrelZone4TempC"
     ],
-    "mappingNote": "These are live machine signals of EUROMAP 77 (status, cycle, pressures, temperatures, mould, dryer, hopper, energy) plus the machine type string of the source. B2MML Equipment has no named field for them; a value would only sit in a generic EquipmentProperty."
+    "mappingNote": "These are live machine signals of EUROMAP 77 (status, cycle, pressures, temperatures, mould, dryer, hopper, energy) plus the machine type string of the source. B2MML Equipment has no named field for them; a value would only sit in a generic EquipmentProperty. Audit M3 (core 6.0.0): the setpoints and planned values (dryerSetpointC, dryerResidenceTargetMin) are equipment properties of the machine (Equipment.EquipmentProperty, named by their ID); the live Level-2 signals stay outside ISA-95.",
+    "propertyMap": {
+      "dryerSetpointC": "Equipment.EquipmentProperty[ID=dryerSetpointC].Value.ValueString",
+      "dryerResidenceTargetMin": "Equipment.EquipmentProperty[ID=dryerResidenceTargetMin].Value.ValueString"
+    }
   },
   "kgNodeLabel": "InjectionMoldingMachine",
   "kgIdProperty": "element_id",

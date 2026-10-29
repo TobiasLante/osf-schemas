@@ -1,0 +1,162 @@
+{
+  "type": "record",
+  "name": "TestSpecificationCriterion",
+  "namespace": "org.openshopfloor.payload.quality",
+  "doc": "GENERATED from standard/profiles/quality/test-specification-criterion.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "fields": [
+    {
+      "name": "eventType",
+      "type": {
+        "type": "enum",
+        "name": "EventType",
+        "symbols": [
+          "created",
+          "updated",
+          "deleted"
+        ]
+      }
+    },
+    {
+      "name": "id",
+      "type": "string",
+      "doc": "Row key (criterion_id); no + # * > / or space."
+    },
+    {
+      "name": "entity",
+      "type": "string",
+      "default": "TestSpecificationCriterion"
+    },
+    {
+      "name": "timestamp",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      }
+    },
+    {
+      "name": "msgId",
+      "type": "string",
+      "doc": "Unique message id: the Kafka key, for deduplication."
+    },
+    {
+      "name": "profileRef",
+      "type": "string",
+      "default": "SMProfile-TestSpecificationCriterion"
+    },
+    {
+      "name": "profileVersion",
+      "type": "string",
+      "default": "1.0.0"
+    },
+    {
+      "name": "b2m",
+      "type": [
+        "null",
+        {
+          "type": "record",
+          "name": "B2M",
+          "fields": [
+            {
+              "name": "verb",
+              "type": {
+                "type": "enum",
+                "name": "B2MVerb",
+                "symbols": [
+                  "GET",
+                  "SHOW",
+                  "PROCESS",
+                  "ACKNOWLEDGE",
+                  "CHANGE",
+                  "RESPOND",
+                  "CANCEL",
+                  "CONFIRM",
+                  "SYNC"
+                ]
+              }
+            },
+            {
+              "name": "actionCode",
+              "type": [
+                "null",
+                {
+                  "type": "enum",
+                  "name": "B2MActionCode",
+                  "symbols": [
+                    "Add",
+                    "Change",
+                    "Delete",
+                    "Replaced",
+                    "Accepted",
+                    "Modified",
+                    "Rejected"
+                  ]
+                }
+              ],
+              "default": null
+            }
+          ]
+        }
+      ],
+      "default": null
+    },
+    {
+      "name": "data",
+      "type": {
+        "type": "record",
+        "name": "TestSpecificationCriterionData",
+        "fields": [
+          {
+            "name": "criterion_id",
+            "type": "string",
+            "doc": "Identity of the criterion as the source names it (e.g. the balloon number of the characteristic on the drawing revision)."
+          },
+          {
+            "name": "description",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "What the characteristic is, as the source says it."
+          },
+          {
+            "name": "sequence",
+            "type": [
+              "null",
+              "long"
+            ],
+            "default": null,
+            "doc": "The order of the criterion within its specification."
+          },
+          {
+            "name": "expression",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The tolerance as the specification states it (e.g. 12.00 ±0.05)."
+          },
+          {
+            "name": "evaluated_property",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The property this criterion evaluates — the parameter (param_name) of the product definition whose band it sets."
+          },
+          {
+            "name": "test_specification_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The test specification (in its revision) this criterion belongs to."
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -7,6 +7,126 @@
     "decided": "OWNER 2026-09-24: the machine key is element_id (instance codes along the partOf chain of sites/<site>/instances). Since core 3.0.0 every relationship to a machine names element_id and machine_id is no key alias any more. Do not mix both in one graph."
   },
   "nodes": {
+    "BatchChange": {
+      "key": "batch_change_id",
+      "profile": "SMProfile-BatchChange",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/batch/batch-change.json"
+    },
+    "BatchComment": {
+      "key": "batch_comment_id",
+      "profile": "SMProfile-BatchComment",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/batch/batch-comment.json"
+    },
+    "BatchEvent": {
+      "key": "batch_event_id",
+      "profile": "SMProfile-BatchEvent",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/batch/batch-event.json"
+    },
+    "BatchListEntry": {
+      "key": "batch_list_entry_id",
+      "profile": "SMProfile-BatchListEntry",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/batch/batch-list-entry.json"
+    },
+    "BatchList": {
+      "key": "batch_list_id",
+      "profile": "SMProfile-BatchList",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/batch/batch-list.json"
+    },
+    "BatchProductionRecord": {
+      "key": "batch_production_record_id",
+      "profile": "SMProfile-BatchProductionRecord",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/batch/batch-production-record.json"
+    },
+    "ControlRecipe": {
+      "key": "control_recipe_id",
+      "profile": "SMProfile-ControlRecipe",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/batch/control-recipe.json"
+    },
+    "EquipmentConnection": {
+      "key": "equipment_connection_id",
+      "profile": "SMProfile-EquipmentConnection",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/batch/equipment-connection.json"
+    },
+    "EquipmentProceduralElementClass": {
+      "key": "equipment_procedural_element_class_id",
+      "profile": "SMProfile-EquipmentProceduralElementClass",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/batch/equipment-procedural-element-class.json"
+    },
+    "EquipmentProceduralElement": {
+      "key": "equipment_procedural_element_id",
+      "profile": "SMProfile-EquipmentProceduralElement",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/batch/equipment-procedural-element.json"
+    },
+    "GRecipe": {
+      "key": "g_recipe_id",
+      "profile": "SMProfile-GRecipe",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/batch/g-recipe.json"
+    },
+    "MasterRecipe": {
+      "key": "master_recipe_id",
+      "profile": "SMProfile-MasterRecipe",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/batch/master-recipe.json"
+    },
+    "ProcessElement": {
+      "key": "process_element_id",
+      "profile": "SMProfile-ProcessElement",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/batch/process-element.json"
+    },
+    "RecipeElement": {
+      "key": "recipe_element_id",
+      "profile": "SMProfile-RecipeElement",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/batch/recipe-element.json"
+    },
+    "Area": {
+      "key": "element_id",
+      "profile": "SMProfile-Area",
+      "category": "equipment",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/equipment/area.json"
+    },
     "CNC_Machine": {
       "key": "element_id",
       "profile": "SMProfile-CNC-Machine",
@@ -15,6 +135,30 @@
       "abstract": false,
       "source": "standard/profiles/equipment/cnc-machine.json"
     },
+    "CuttingTool": {
+      "key": "tool_id",
+      "profile": "SMProfile-CuttingTool",
+      "category": "equipment",
+      "parentType": "Tooling",
+      "abstract": false,
+      "source": "standard/profiles/equipment/cutting-tool.json"
+    },
+    "Die": {
+      "key": "tool_id",
+      "profile": "SMProfile-Die",
+      "category": "equipment",
+      "parentType": "Tooling",
+      "abstract": false,
+      "source": "standard/profiles/equipment/die.json"
+    },
+    "Enterprise": {
+      "key": "element_id",
+      "profile": "SMProfile-Enterprise",
+      "category": "equipment",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/equipment/enterprise.json"
+    },
     "EquipmentClass": {
       "key": "equipment_class_id",
       "profile": "SMProfile-EquipmentClass",
@@ -22,6 +166,14 @@
       "parentType": null,
       "abstract": false,
       "source": "standard/profiles/equipment/equipment-class.json"
+    },
+    "Fixture": {
+      "key": "tool_id",
+      "profile": "SMProfile-Fixture",
+      "category": "equipment",
+      "parentType": "Tooling",
+      "abstract": false,
+      "source": "standard/profiles/equipment/fixture.json"
     },
     "InjectionMoldingMachine": {
       "key": "element_id",
@@ -39,13 +191,45 @@
       "abstract": true,
       "source": "standard/profiles/equipment/machine.json"
     },
-    "Tool": {
+    "Mould": {
       "key": "tool_id",
-      "profile": "SMProfile-Tool",
+      "profile": "SMProfile-Mould",
+      "category": "equipment",
+      "parentType": "Tooling",
+      "abstract": false,
+      "source": "standard/profiles/equipment/mould.json"
+    },
+    "PhysicalAssetClass": {
+      "key": "physical_asset_class_id",
+      "profile": "SMProfile-PhysicalAssetClass",
       "category": "equipment",
       "parentType": null,
       "abstract": false,
-      "source": "standard/profiles/equipment/tool.json"
+      "source": "standard/profiles/equipment/physical-asset-class.json"
+    },
+    "Site": {
+      "key": "element_id",
+      "profile": "SMProfile-Site",
+      "category": "equipment",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/equipment/site.json"
+    },
+    "Tooling": {
+      "key": "tool_id",
+      "profile": "SMProfile-Tooling",
+      "category": "equipment",
+      "parentType": null,
+      "abstract": true,
+      "source": "standard/profiles/equipment/tooling.json"
+    },
+    "WorkCenter": {
+      "key": "element_id",
+      "profile": "SMProfile-WorkCenter",
+      "category": "equipment",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/equipment/work-center.json"
     },
     "AutoResolveRule": {
       "key": "rule_id",
@@ -111,6 +295,14 @@
       "abstract": false,
       "source": "standard/profiles/material/material-lot.json"
     },
+    "OperationalLocationClass": {
+      "key": "operational_location_class_id",
+      "profile": "SMProfile-OperationalLocationClass",
+      "category": "material",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/material/operational-location-class.json"
+    },
     "Quant": {
       "key": "quant_no",
       "profile": "SMProfile-Quant",
@@ -159,6 +351,30 @@
       "abstract": false,
       "source": "standard/profiles/operations/customer.json"
     },
+    "Effectivity": {
+      "key": "effectivity_id",
+      "profile": "SMProfile-Effectivity",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/operations/effectivity.json"
+    },
+    "EngineeringChange": {
+      "key": "change_id",
+      "profile": "SMProfile-EngineeringChange",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/operations/engineering-change.json"
+    },
+    "JobList": {
+      "key": "job_list_id",
+      "profile": "SMProfile-JobList",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/operations/job-list.json"
+    },
     "JobOrder": {
       "key": "job_order_no",
       "profile": "SMProfile-JobOrder",
@@ -166,6 +382,14 @@
       "parentType": null,
       "abstract": false,
       "source": "standard/profiles/operations/job-order.json"
+    },
+    "JobResponseList": {
+      "key": "job_response_list_id",
+      "profile": "SMProfile-JobResponseList",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/operations/job-response-list.json"
     },
     "JobResponse": {
       "key": "job_response_id",
@@ -191,6 +415,22 @@
       "abstract": false,
       "source": "standard/profiles/operations/operations-definition.json"
     },
+    "OperationsEventClass": {
+      "key": "operations_event_class_id",
+      "profile": "SMProfile-OperationsEventClass",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/operations/operations-event-class.json"
+    },
+    "OperationsEventDefinition": {
+      "key": "operations_event_definition_id",
+      "profile": "SMProfile-OperationsEventDefinition",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/operations/operations-event-definition.json"
+    },
     "OperationsEvent": {
       "key": "operations_event_id",
       "profile": "SMProfile-OperationsEvent",
@@ -199,13 +439,45 @@
       "abstract": false,
       "source": "standard/profiles/operations/operations-event.json"
     },
+    "OperationsMaterialBillItem": {
+      "key": "operations_material_bill_item_id",
+      "profile": "SMProfile-OperationsMaterialBillItem",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/operations/operations-material-bill-item.json"
+    },
+    "OperationsMaterialBill": {
+      "key": "operations_material_bill_id",
+      "profile": "SMProfile-OperationsMaterialBill",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/operations/operations-material-bill.json"
+    },
+    "OperationsPerformance": {
+      "key": "operations_performance_id",
+      "profile": "SMProfile-OperationsPerformance",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/operations/operations-performance.json"
+    },
     "OperationsResponse": {
-      "key": "production_order_no",
+      "key": "operations_response_no",
       "profile": "SMProfile-OperationsResponse",
       "category": "business",
       "parentType": "Response",
       "abstract": false,
       "source": "standard/profiles/operations/operations-response.json"
+    },
+    "OperationsSchedule": {
+      "key": "operations_schedule_id",
+      "profile": "SMProfile-OperationsSchedule",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/operations/operations-schedule.json"
     },
     "OperationsSegment": {
       "key": "operations_segment_no",
@@ -239,6 +511,30 @@
       "abstract": false,
       "source": "standard/profiles/operations/production-order.json"
     },
+    "ResourceNetworkConnectionType": {
+      "key": "resource_network_connection_type_id",
+      "profile": "SMProfile-ResourceNetworkConnectionType",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/operations/resource-network-connection-type.json"
+    },
+    "ResourceNetworkConnection": {
+      "key": "resource_network_connection_id",
+      "profile": "SMProfile-ResourceNetworkConnection",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/operations/resource-network-connection.json"
+    },
+    "ResourceRelationshipNetwork": {
+      "key": "resource_relationship_network_id",
+      "profile": "SMProfile-ResourceRelationshipNetwork",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/operations/resource-relationship-network.json"
+    },
     "Response": {
       "key": "response_id",
       "profile": "SMProfile-Response",
@@ -263,6 +559,86 @@
       "abstract": false,
       "source": "standard/profiles/operations/segment-response.json"
     },
+    "ShiftWindow": {
+      "key": "shift_window_id",
+      "profile": "SMProfile-ShiftWindow",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/operations/shift-window.json"
+    },
+    "WorkAlertDefinition": {
+      "key": "work_alert_definition_id",
+      "profile": "SMProfile-WorkAlertDefinition",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/operations/work-alert-definition.json"
+    },
+    "WorkAlert": {
+      "key": "work_alert_id",
+      "profile": "SMProfile-WorkAlert",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/operations/work-alert.json"
+    },
+    "WorkCalendarDefinitionEntry": {
+      "key": "work_calendar_definition_entry_id",
+      "profile": "SMProfile-WorkCalendarDefinitionEntry",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/operations/work-calendar-definition-entry.json"
+    },
+    "WorkCalendarDefinition": {
+      "key": "work_calendar_definition_id",
+      "profile": "SMProfile-WorkCalendarDefinition",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/operations/work-calendar-definition.json"
+    },
+    "WorkCalendarEntry": {
+      "key": "work_calendar_entry_id",
+      "profile": "SMProfile-WorkCalendarEntry",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/operations/work-calendar-entry.json"
+    },
+    "WorkCalendar": {
+      "key": "work_calendar_id",
+      "profile": "SMProfile-WorkCalendar",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/operations/work-calendar.json"
+    },
+    "WorkCapability": {
+      "key": "work_capability_id",
+      "profile": "SMProfile-WorkCapability",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/operations/work-capability.json"
+    },
+    "WorkDirective": {
+      "key": "work_directive_id",
+      "profile": "SMProfile-WorkDirective",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/operations/work-directive.json"
+    },
+    "WorkMasterCapability": {
+      "key": "work_master_capability_id",
+      "profile": "SMProfile-WorkMasterCapability",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/operations/work-master-capability.json"
+    },
     "WorkMaster": {
       "key": "work_master_id",
       "profile": "SMProfile-WorkMaster",
@@ -278,6 +654,14 @@
       "parentType": null,
       "abstract": false,
       "source": "standard/profiles/operations/work-order.json"
+    },
+    "WorkPerformance": {
+      "key": "work_performance_id",
+      "profile": "SMProfile-WorkPerformance",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/operations/work-performance.json"
     },
     "WorkRecordSpecification": {
       "key": "work_record_specification_id",
@@ -302,6 +686,54 @@
       "parentType": null,
       "abstract": false,
       "source": "standard/profiles/operations/work-response.json"
+    },
+    "WorkSchedule": {
+      "key": "work_schedule_id",
+      "profile": "SMProfile-WorkSchedule",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/operations/work-schedule.json"
+    },
+    "WorkflowSpecificationConnectionType": {
+      "key": "workflow_specification_connection_type_id",
+      "profile": "SMProfile-WorkflowSpecificationConnectionType",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/operations/workflow-specification-connection-type.json"
+    },
+    "WorkflowSpecificationConnection": {
+      "key": "workflow_specification_connection_id",
+      "profile": "SMProfile-WorkflowSpecificationConnection",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/operations/workflow-specification-connection.json"
+    },
+    "WorkflowSpecificationNodeType": {
+      "key": "workflow_specification_node_type_id",
+      "profile": "SMProfile-WorkflowSpecificationNodeType",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/operations/workflow-specification-node-type.json"
+    },
+    "WorkflowSpecificationNode": {
+      "key": "workflow_specification_node_id",
+      "profile": "SMProfile-WorkflowSpecificationNode",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/operations/workflow-specification-node.json"
+    },
+    "WorkflowSpecification": {
+      "key": "workflow_specification_id",
+      "profile": "SMProfile-WorkflowSpecification",
+      "category": "business",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/operations/workflow-specification.json"
     },
     "Person": {
       "key": "person_id",
@@ -335,6 +767,22 @@
       "abstract": false,
       "source": "standard/profiles/quality/spcanalysis.json"
     },
+    "TestResult": {
+      "key": "test_result_id",
+      "profile": "SMProfile-TestResult",
+      "category": "quality",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/quality/test-result.json"
+    },
+    "TestSpecificationCriterion": {
+      "key": "criterion_id",
+      "profile": "SMProfile-TestSpecificationCriterion",
+      "category": "quality",
+      "parentType": null,
+      "abstract": false,
+      "source": "standard/profiles/quality/test-specification-criterion.json"
+    },
     "TestSpecification": {
       "key": "test_specification_id",
       "profile": "SMProfile-TestSpecification",
@@ -345,6 +793,16 @@
     }
   },
   "edges": [
+    {
+      "type": "PART_OF",
+      "from": "Area",
+      "to": [
+        "Site"
+      ],
+      "targetIdProp": [
+        "element_id"
+      ]
+    },
     {
       "type": "ASSEMBLED_FROM",
       "from": "Article",
@@ -366,13 +824,383 @@
       ]
     },
     {
-      "type": "IMPLEMENTED_BY",
-      "from": "InjectionMoldingMachine",
+      "type": "TESTED_BY",
+      "from": "Article",
       "to": [
-        "Tool"
+        "TestSpecification"
+      ],
+      "targetIdProp": [
+        "test_specification_id"
+      ]
+    },
+    {
+      "type": "PART_OF",
+      "from": "BatchChange",
+      "to": [
+        "BatchProductionRecord"
+      ],
+      "targetIdProp": [
+        "batch_production_record_id"
+      ]
+    },
+    {
+      "type": "PART_OF",
+      "from": "BatchComment",
+      "to": [
+        "BatchProductionRecord"
+      ],
+      "targetIdProp": [
+        "batch_production_record_id"
+      ]
+    },
+    {
+      "type": "ASSOCIATED_WITH",
+      "from": "BatchEvent",
+      "to": [
+        "BatchEvent"
+      ],
+      "targetIdProp": [
+        "batch_event_id"
+      ]
+    },
+    {
+      "type": "FOR_EQUIPMENT",
+      "from": "BatchEvent",
+      "to": [
+        "Machine"
+      ],
+      "targetIdProp": [
+        "element_id"
+      ]
+    },
+    {
+      "type": "FOR_PHYSICAL_ASSET",
+      "from": "BatchEvent",
+      "to": [
+        "Tooling"
       ],
       "targetIdProp": [
         "tool_id"
+      ]
+    },
+    {
+      "type": "PART_OF",
+      "from": "BatchEvent",
+      "to": [
+        "BatchProductionRecord"
+      ],
+      "targetIdProp": [
+        "batch_production_record_id"
+      ]
+    },
+    {
+      "type": "ACTUAL_EQUIPMENT",
+      "from": "BatchListEntry",
+      "to": [
+        "Machine"
+      ],
+      "targetIdProp": [
+        "element_id"
+      ]
+    },
+    {
+      "type": "FOR_MATERIAL_LOT",
+      "from": "BatchListEntry",
+      "to": [
+        "MaterialLot"
+      ],
+      "targetIdProp": [
+        "material_lot_no"
+      ]
+    },
+    {
+      "type": "FOR_PRODUCT",
+      "from": "BatchListEntry",
+      "to": [
+        "Article"
+      ],
+      "targetIdProp": [
+        "article_no"
+      ]
+    },
+    {
+      "type": "PART_OF",
+      "from": "BatchListEntry",
+      "to": [
+        "BatchList",
+        "BatchListEntry"
+      ],
+      "targetIdProp": [
+        "batch_list_entry_id",
+        "batch_list_id"
+      ]
+    },
+    {
+      "type": "REQUESTED_EQUIPMENT",
+      "from": "BatchListEntry",
+      "to": [
+        "EquipmentClass",
+        "Machine"
+      ],
+      "targetIdProp": [
+        "element_id",
+        "equipment_class_id"
+      ]
+    },
+    {
+      "type": "USES_RECIPE",
+      "from": "BatchListEntry",
+      "to": [
+        "ControlRecipe",
+        "MasterRecipe"
+      ],
+      "targetIdProp": [
+        "control_recipe_id",
+        "master_recipe_id"
+      ]
+    },
+    {
+      "type": "FOR_EQUIPMENT",
+      "from": "BatchProductionRecord",
+      "to": [
+        "Machine"
+      ],
+      "targetIdProp": [
+        "element_id"
+      ]
+    },
+    {
+      "type": "FOR_MATERIAL_DEFINITION",
+      "from": "BatchProductionRecord",
+      "to": [
+        "Article"
+      ],
+      "targetIdProp": [
+        "article_no"
+      ]
+    },
+    {
+      "type": "FOR_MATERIAL_LOT",
+      "from": "BatchProductionRecord",
+      "to": [
+        "MaterialLot"
+      ],
+      "targetIdProp": [
+        "material_lot_no"
+      ]
+    },
+    {
+      "type": "FOR_PHYSICAL_ASSET",
+      "from": "BatchProductionRecord",
+      "to": [
+        "Tooling"
+      ],
+      "targetIdProp": [
+        "tool_id"
+      ]
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "from": "BatchProductionRecord",
+      "to": [
+        "Area",
+        "Enterprise",
+        "Machine",
+        "Site",
+        "WorkCenter"
+      ],
+      "targetIdProp": [
+        "element_id"
+      ]
+    },
+    {
+      "type": "PART_OF",
+      "from": "BatchProductionRecord",
+      "to": [
+        "BatchProductionRecord"
+      ],
+      "targetIdProp": [
+        "batch_production_record_id"
+      ]
+    },
+    {
+      "type": "RECORDS",
+      "from": "BatchProductionRecord",
+      "to": [
+        "*"
+      ],
+      "targetProfileProp": [
+        "record_object_profile"
+      ]
+    },
+    {
+      "type": "FOR_PRODUCT",
+      "from": "ControlRecipe",
+      "to": [
+        "Article"
+      ],
+      "targetIdProp": [
+        "article_no"
+      ]
+    },
+    {
+      "type": "INCLUDES_PROPERTIES_OF",
+      "from": "EquipmentClass",
+      "to": [
+        "EquipmentClass"
+      ],
+      "targetIdProp": [
+        "equipment_class_id"
+      ]
+    },
+    {
+      "type": "PART_OF",
+      "from": "EquipmentClass",
+      "to": [
+        "EquipmentClass"
+      ],
+      "targetIdProp": [
+        "equipment_class_id"
+      ]
+    },
+    {
+      "type": "TESTED_BY",
+      "from": "EquipmentClass",
+      "to": [
+        "TestSpecification"
+      ],
+      "targetIdProp": [
+        "test_specification_id"
+      ]
+    },
+    {
+      "type": "FROM_EQUIPMENT",
+      "from": "EquipmentConnection",
+      "to": [
+        "Machine"
+      ],
+      "targetIdProp": [
+        "element_id"
+      ]
+    },
+    {
+      "type": "PART_OF",
+      "from": "EquipmentConnection",
+      "to": [
+        "Machine"
+      ],
+      "targetIdProp": [
+        "element_id"
+      ]
+    },
+    {
+      "type": "TO_EQUIPMENT",
+      "from": "EquipmentConnection",
+      "to": [
+        "Machine"
+      ],
+      "targetIdProp": [
+        "element_id"
+      ]
+    },
+    {
+      "type": "PART_OF",
+      "from": "EquipmentProceduralElementClass",
+      "to": [
+        "EquipmentClass",
+        "Machine"
+      ],
+      "targetIdProp": [
+        "element_id",
+        "equipment_class_id"
+      ]
+    },
+    {
+      "type": "DEFINED_BY",
+      "from": "EquipmentProceduralElement",
+      "to": [
+        "EquipmentProceduralElementClass"
+      ],
+      "targetIdProp": [
+        "equipment_procedural_element_class_id"
+      ]
+    },
+    {
+      "type": "PART_OF",
+      "from": "EquipmentProceduralElement",
+      "to": [
+        "EquipmentClass",
+        "Machine"
+      ],
+      "targetIdProp": [
+        "element_id",
+        "equipment_class_id"
+      ]
+    },
+    {
+      "type": "CONSUMES",
+      "from": "GRecipe",
+      "to": [
+        "Article",
+        "MaterialClass"
+      ],
+      "targetIdProp": [
+        "article_no",
+        "material_class_id"
+      ]
+    },
+    {
+      "type": "DERIVED_FROM",
+      "from": "GRecipe",
+      "to": [
+        "GRecipe"
+      ],
+      "targetIdProp": [
+        "g_recipe_id"
+      ]
+    },
+    {
+      "type": "FOR_PRODUCT",
+      "from": "GRecipe",
+      "to": [
+        "Article"
+      ],
+      "targetIdProp": [
+        "article_no"
+      ]
+    },
+    {
+      "type": "INTERMEDIATE",
+      "from": "GRecipe",
+      "to": [
+        "Article",
+        "MaterialClass"
+      ],
+      "targetIdProp": [
+        "article_no",
+        "material_class_id"
+      ]
+    },
+    {
+      "type": "PRODUCES",
+      "from": "GRecipe",
+      "to": [
+        "Article",
+        "MaterialClass"
+      ],
+      "targetIdProp": [
+        "article_no",
+        "material_class_id"
+      ]
+    },
+    {
+      "type": "PART_OF",
+      "from": "InspectionLot",
+      "to": [
+        "InspectionLot"
+      ],
+      "targetIdProp": [
+        "lot_no"
       ]
     },
     {
@@ -386,6 +1214,30 @@
       ]
     },
     {
+      "type": "IN_SCOPE_OF",
+      "from": "JobList",
+      "to": [
+        "Area",
+        "Enterprise",
+        "Machine",
+        "Site",
+        "WorkCenter"
+      ],
+      "targetIdProp": [
+        "element_id"
+      ]
+    },
+    {
+      "type": "FOR_SEGMENT_REQUIREMENT",
+      "from": "JobOrder",
+      "to": [
+        "SegmentRequirement"
+      ],
+      "targetIdProp": [
+        "segment_requirement_no"
+      ]
+    },
+    {
       "type": "FOR_WORK_MASTER",
       "from": "JobOrder",
       "to": [
@@ -399,9 +1251,11 @@
       "type": "PART_OF",
       "from": "JobOrder",
       "to": [
+        "JobList",
         "Workorder"
       ],
       "targetIdProp": [
+        "job_list_id",
         "workorder_no"
       ]
     },
@@ -409,60 +1263,124 @@
       "type": "REQUIRES_EQUIPMENT",
       "from": "JobOrder",
       "to": [
+        "EquipmentClass",
         "Machine"
       ],
       "targetIdProp": [
-        "element_id"
+        "element_id",
+        "equipment_class_id"
       ]
     },
     {
       "type": "REQUIRES_MATERIAL",
       "from": "JobOrder",
       "to": [
-        "MaterialLot"
+        "Article",
+        "MaterialClass",
+        "MaterialLot",
+        "Quant"
       ],
       "targetIdProp": [
-        "material_lot_no"
+        "article_no",
+        "material_class_id",
+        "material_lot_no",
+        "quant_no"
+      ]
+    },
+    {
+      "type": "REQUIRES_PERSONNEL",
+      "from": "JobOrder",
+      "to": [
+        "Person",
+        "PersonnelClass"
+      ],
+      "targetIdProp": [
+        "person_id",
+        "personnel_class_id"
+      ]
+    },
+    {
+      "type": "REQUIRES_PHYSICAL_ASSET",
+      "from": "JobOrder",
+      "to": [
+        "PhysicalAssetClass",
+        "Tooling"
+      ],
+      "targetIdProp": [
+        "physical_asset_class_id",
+        "tool_id"
+      ]
+    },
+    {
+      "type": "TESTED_BY",
+      "from": "JobOrder",
+      "to": [
+        "TestSpecification"
+      ],
+      "targetIdProp": [
+        "test_specification_id"
       ]
     },
     {
       "type": "ACTUAL_EQUIPMENT",
       "from": "JobResponse",
       "to": [
+        "EquipmentClass",
         "Machine"
       ],
       "targetIdProp": [
-        "element_id"
+        "element_id",
+        "equipment_class_id"
       ]
     },
     {
       "type": "ACTUAL_MATERIAL",
       "from": "JobResponse",
       "to": [
-        "MaterialLot"
+        "Article",
+        "MaterialClass",
+        "MaterialLot",
+        "Quant"
       ],
       "targetIdProp": [
-        "material_lot_no"
+        "article_no",
+        "material_class_id",
+        "material_lot_no",
+        "quant_no"
       ]
     },
     {
       "type": "ACTUAL_PERSONNEL",
       "from": "JobResponse",
       "to": [
-        "Person"
+        "Person",
+        "PersonnelClass"
       ],
       "targetIdProp": [
-        "person_id"
+        "person_id",
+        "personnel_class_id"
       ]
     },
     {
       "type": "ACTUAL_PHYSICAL_ASSET",
       "from": "JobResponse",
       "to": [
-        "Tool"
+        "PhysicalAssetClass",
+        "Tooling"
       ],
       "targetIdProp": [
+        "physical_asset_class_id",
         "tool_id"
+      ]
+    },
+    {
+      "type": "EXECUTED_DIRECTIVE",
+      "from": "JobResponse",
+      "to": [
+        "WorkDirective"
+      ],
+      "targetIdProp": [
+        "work_directive_id"
       ]
     },
     {
@@ -476,12 +1394,60 @@
       ]
     },
     {
+      "type": "FOR_WORKFLOW_SPECIFICATION",
+      "from": "JobResponse",
+      "to": [
+        "WorkflowSpecification"
+      ],
+      "targetIdProp": [
+        "workflow_specification_id"
+      ]
+    },
+    {
+      "type": "FOR_WORKFLOW_SPECIFICATION_NODE",
+      "from": "JobResponse",
+      "to": [
+        "WorkflowSpecificationNode"
+      ],
+      "targetIdProp": [
+        "workflow_specification_node_id"
+      ]
+    },
+    {
+      "type": "HAS_TEST_RESULT",
+      "from": "JobResponse",
+      "to": [
+        "InspectionLot",
+        "TestResult"
+      ],
+      "targetIdProp": [
+        "lot_no",
+        "test_result_id"
+      ]
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "from": "JobResponseList",
+      "to": [
+        "Area",
+        "Enterprise",
+        "Machine",
+        "Site",
+        "WorkCenter"
+      ],
+      "targetIdProp": [
+        "element_id"
+      ]
+    },
+    {
       "type": "PART_OF",
       "from": "JobResponse",
       "to": [
+        "JobResponseList",
         "WorkResponse"
       ],
       "targetIdProp": [
+        "job_response_list_id",
         "work_response_id"
       ]
     },
@@ -496,10 +1462,50 @@
       ]
     },
     {
+      "type": "AT_LOCATION",
+      "from": "Machine",
+      "to": [
+        "StorageLocation"
+      ],
+      "targetIdProp": [
+        "storage_location_id"
+      ]
+    },
+    {
+      "type": "DEFINED_BY",
+      "from": "Machine",
+      "to": [
+        "EquipmentClass"
+      ],
+      "targetIdProp": [
+        "equipment_class_id"
+      ]
+    },
+    {
       "type": "PART_OF",
       "from": "Machine",
       "to": [
-        "ProcessCell"
+        "ProductionLine"
+      ]
+    },
+    {
+      "type": "TESTED_BY",
+      "from": "Machine",
+      "to": [
+        "TestSpecification"
+      ],
+      "targetIdProp": [
+        "test_specification_id"
+      ]
+    },
+    {
+      "type": "FOR_PRODUCT",
+      "from": "MasterRecipe",
+      "to": [
+        "Article"
+      ],
+      "targetIdProp": [
+        "article_no"
       ]
     },
     {
@@ -523,13 +1529,25 @@
       ]
     },
     {
+      "type": "TESTED_BY",
+      "from": "MaterialClass",
+      "to": [
+        "TestSpecification"
+      ],
+      "targetIdProp": [
+        "test_specification_id"
+      ]
+    },
+    {
       "type": "ASSEMBLED_FROM",
       "from": "MaterialLot",
       "to": [
-        "MaterialLot"
+        "MaterialLot",
+        "Quant"
       ],
       "targetIdProp": [
-        "material_lot_no"
+        "material_lot_no",
+        "quant_no"
       ]
     },
     {
@@ -563,13 +1581,59 @@
       ]
     },
     {
-      "type": "CAPABILITY_EQUIPMENT",
-      "from": "OperationsCapability",
+      "type": "TESTED_BY",
+      "from": "MaterialLot",
       "to": [
-        "Machine"
+        "TestSpecification"
+      ],
+      "targetIdProp": [
+        "test_specification_id"
+      ]
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "from": "OperationalLocationClass",
+      "to": [
+        "Area",
+        "Enterprise",
+        "Machine",
+        "Site",
+        "WorkCenter"
       ],
       "targetIdProp": [
         "element_id"
+      ]
+    },
+    {
+      "type": "INCLUDES_PROPERTIES_OF",
+      "from": "OperationalLocationClass",
+      "to": [
+        "OperationalLocationClass"
+      ],
+      "targetIdProp": [
+        "operational_location_class_id"
+      ]
+    },
+    {
+      "type": "PART_OF",
+      "from": "OperationalLocationClass",
+      "to": [
+        "OperationalLocationClass"
+      ],
+      "targetIdProp": [
+        "operational_location_class_id"
+      ]
+    },
+    {
+      "type": "CAPABILITY_EQUIPMENT",
+      "from": "OperationsCapability",
+      "to": [
+        "EquipmentClass",
+        "Machine"
+      ],
+      "targetIdProp": [
+        "element_id",
+        "equipment_class_id"
       ]
     },
     {
@@ -596,19 +1660,27 @@
       "type": "CAPABILITY_MATERIAL",
       "from": "OperationsCapability",
       "to": [
-        "Article"
+        "Article",
+        "MaterialClass",
+        "MaterialLot",
+        "Quant"
       ],
       "targetIdProp": [
-        "article_no"
+        "article_no",
+        "material_class_id",
+        "material_lot_no",
+        "quant_no"
       ]
     },
     {
       "type": "CAPABILITY_PERSONNEL",
       "from": "OperationsCapability",
       "to": [
+        "Person",
         "PersonnelClass"
       ],
       "targetIdProp": [
+        "person_id",
         "personnel_class_id"
       ]
     },
@@ -616,10 +1688,90 @@
       "type": "CAPABILITY_PHYSICAL_ASSET",
       "from": "OperationsCapability",
       "to": [
-        "Tool"
+        "PhysicalAssetClass",
+        "Tooling"
       ],
       "targetIdProp": [
+        "physical_asset_class_id",
         "tool_id"
+      ]
+    },
+    {
+      "type": "HAS_MATERIAL_BILL",
+      "from": "OperationsDefinition",
+      "to": [
+        "OperationsMaterialBill"
+      ],
+      "targetIdProp": [
+        "operations_material_bill_id"
+      ]
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "from": "OperationsEventClass",
+      "to": [
+        "Area",
+        "Enterprise",
+        "Machine",
+        "Site",
+        "WorkCenter"
+      ],
+      "targetIdProp": [
+        "element_id"
+      ]
+    },
+    {
+      "type": "INCLUDES_PROPERTIES_OF",
+      "from": "OperationsEventClass",
+      "to": [
+        "OperationsEventClass"
+      ],
+      "targetIdProp": [
+        "operations_event_class_id"
+      ]
+    },
+    {
+      "type": "PART_OF",
+      "from": "OperationsEventClass",
+      "to": [
+        "OperationsEventClass"
+      ],
+      "targetIdProp": [
+        "operations_event_class_id"
+      ]
+    },
+    {
+      "type": "DEFINED_BY",
+      "from": "OperationsEventDefinition",
+      "to": [
+        "OperationsEventClass"
+      ],
+      "targetIdProp": [
+        "operations_event_class_id"
+      ]
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "from": "OperationsEventDefinition",
+      "to": [
+        "Area",
+        "Enterprise",
+        "Machine",
+        "Site",
+        "WorkCenter"
+      ],
+      "targetIdProp": [
+        "element_id"
+      ]
+    },
+    {
+      "type": "PART_OF",
+      "from": "OperationsEventDefinition",
+      "to": [
+        "OperationsEventDefinition"
+      ],
+      "targetIdProp": [
+        "operations_event_definition_id"
       ]
     },
     {
@@ -643,6 +1795,108 @@
       ]
     },
     {
+      "type": "RECORDS",
+      "from": "OperationsEvent",
+      "to": [
+        "*"
+      ],
+      "targetProfileProp": [
+        "record_object_profile"
+      ]
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "from": "OperationsMaterialBill",
+      "to": [
+        "Area",
+        "Enterprise",
+        "Machine",
+        "Site",
+        "WorkCenter"
+      ],
+      "targetIdProp": [
+        "element_id"
+      ]
+    },
+    {
+      "type": "ASSEMBLED_FROM",
+      "from": "OperationsMaterialBillItem",
+      "to": [
+        "OperationsMaterialBillItem"
+      ],
+      "targetIdProp": [
+        "operations_material_bill_item_id"
+      ]
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "from": "OperationsMaterialBillItem",
+      "to": [
+        "Area",
+        "Enterprise",
+        "Machine",
+        "Site",
+        "WorkCenter"
+      ],
+      "targetIdProp": [
+        "element_id"
+      ]
+    },
+    {
+      "type": "PART_OF",
+      "from": "OperationsMaterialBillItem",
+      "to": [
+        "OperationsMaterialBill"
+      ],
+      "targetIdProp": [
+        "operations_material_bill_id"
+      ]
+    },
+    {
+      "type": "FOR_OPERATIONS_SCHEDULE",
+      "from": "OperationsPerformance",
+      "to": [
+        "OperationsSchedule"
+      ],
+      "targetIdProp": [
+        "operations_schedule_id"
+      ]
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "from": "OperationsPerformance",
+      "to": [
+        "Area",
+        "Enterprise",
+        "Machine",
+        "Site",
+        "WorkCenter"
+      ],
+      "targetIdProp": [
+        "element_id"
+      ]
+    },
+    {
+      "type": "FOR_OPERATIONS_DEFINITION",
+      "from": "OperationsResponse",
+      "to": [
+        "OperationsDefinition"
+      ],
+      "targetIdProp": [
+        "operations_definition_no"
+      ]
+    },
+    {
+      "type": "FOR_OPERATIONS_SEGMENT",
+      "from": "OperationsResponse",
+      "to": [
+        "OperationsSegment"
+      ],
+      "targetIdProp": [
+        "operations_segment_no"
+      ]
+    },
+    {
       "type": "MADE_UP_OF",
       "from": "OperationsResponse",
       "to": [
@@ -650,6 +1904,52 @@
       ],
       "targetIdProp": [
         "segment_response_no"
+      ]
+    },
+    {
+      "type": "PART_OF",
+      "from": "OperationsResponse",
+      "to": [
+        "OperationsPerformance"
+      ],
+      "targetIdProp": [
+        "operations_performance_id"
+      ]
+    },
+    {
+      "type": "RESPONDS_TO",
+      "from": "OperationsResponse",
+      "to": [
+        "SegmentRequirement"
+      ],
+      "targetIdProp": [
+        "segment_requirement_no"
+      ]
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "from": "OperationsSchedule",
+      "to": [
+        "Area",
+        "Enterprise",
+        "Machine",
+        "Site",
+        "WorkCenter"
+      ],
+      "targetIdProp": [
+        "element_id"
+      ]
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "OperationsSegment",
+      "to": [
+        "OperationsSegment",
+        "ProcessSegment"
+      ],
+      "targetIdProp": [
+        "operations_segment_no",
+        "process_segment_no"
       ]
     },
     {
@@ -663,22 +1963,36 @@
       ]
     },
     {
+      "type": "HAS_MATERIAL_BILL",
+      "from": "OperationsSegment",
+      "to": [
+        "OperationsMaterialBill"
+      ],
+      "targetIdProp": [
+        "operations_material_bill_id"
+      ]
+    },
+    {
       "type": "PART_OF",
       "from": "OperationsSegment",
       "to": [
-        "OperationsDefinition"
+        "OperationsDefinition",
+        "OperationsSegment"
       ],
       "targetIdProp": [
-        "operations_definition_no"
+        "operations_definition_no",
+        "operations_segment_no"
       ]
     },
     {
       "type": "SPECIFIES_EQUIPMENT",
       "from": "OperationsSegment",
       "to": [
-        "EquipmentClass"
+        "EquipmentClass",
+        "Machine"
       ],
       "targetIdProp": [
+        "element_id",
         "equipment_class_id"
       ]
     },
@@ -686,10 +2000,60 @@
       "type": "SPECIFIES_MATERIAL",
       "from": "OperationsSegment",
       "to": [
-        "Article"
+        "Article",
+        "MaterialClass",
+        "MaterialLot",
+        "Quant"
       ],
       "targetIdProp": [
-        "article_no"
+        "article_no",
+        "material_class_id",
+        "material_lot_no",
+        "quant_no"
+      ]
+    },
+    {
+      "type": "SPECIFIES_PERSONNEL",
+      "from": "OperationsSegment",
+      "to": [
+        "Person",
+        "PersonnelClass"
+      ],
+      "targetIdProp": [
+        "person_id",
+        "personnel_class_id"
+      ]
+    },
+    {
+      "type": "SPECIFIES_PHYSICAL_ASSET",
+      "from": "OperationsSegment",
+      "to": [
+        "PhysicalAssetClass",
+        "Tooling"
+      ],
+      "targetIdProp": [
+        "physical_asset_class_id",
+        "tool_id"
+      ]
+    },
+    {
+      "type": "TESTED_BY",
+      "from": "OperationsSegment",
+      "to": [
+        "TestSpecification"
+      ],
+      "targetIdProp": [
+        "test_specification_id"
+      ]
+    },
+    {
+      "type": "AT_LOCATION",
+      "from": "Person",
+      "to": [
+        "StorageLocation"
+      ],
+      "targetIdProp": [
+        "storage_location_id"
       ]
     },
     {
@@ -713,13 +2077,183 @@
       ]
     },
     {
-      "type": "SPECIFIES_EQUIPMENT",
-      "from": "ProcessSegment",
+      "type": "TESTED_BY",
+      "from": "PersonnelClass",
       "to": [
-        "Machine"
+        "TestSpecification"
+      ],
+      "targetIdProp": [
+        "test_specification_id"
+      ]
+    },
+    {
+      "type": "TESTED_BY",
+      "from": "Person",
+      "to": [
+        "TestSpecification"
+      ],
+      "targetIdProp": [
+        "test_specification_id"
+      ]
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "from": "PhysicalAssetClass",
+      "to": [
+        "Area",
+        "Enterprise",
+        "Machine",
+        "Site",
+        "WorkCenter"
       ],
       "targetIdProp": [
         "element_id"
+      ]
+    },
+    {
+      "type": "INCLUDES_PROPERTIES_OF",
+      "from": "PhysicalAssetClass",
+      "to": [
+        "PhysicalAssetClass"
+      ],
+      "targetIdProp": [
+        "physical_asset_class_id"
+      ]
+    },
+    {
+      "type": "PART_OF",
+      "from": "PhysicalAssetClass",
+      "to": [
+        "PhysicalAssetClass"
+      ],
+      "targetIdProp": [
+        "physical_asset_class_id"
+      ]
+    },
+    {
+      "type": "TESTED_BY",
+      "from": "PhysicalAssetClass",
+      "to": [
+        "TestSpecification"
+      ],
+      "targetIdProp": [
+        "test_specification_id"
+      ]
+    },
+    {
+      "type": "FOLLOWS",
+      "from": "ProcessElement",
+      "to": [
+        "ProcessElement"
+      ],
+      "targetIdProp": [
+        "process_element_id"
+      ]
+    },
+    {
+      "type": "PART_OF",
+      "from": "ProcessElement",
+      "to": [
+        "GRecipe",
+        "ProcessElement"
+      ],
+      "targetIdProp": [
+        "g_recipe_id",
+        "process_element_id"
+      ]
+    },
+    {
+      "type": "USES_MATERIAL",
+      "from": "ProcessElement",
+      "to": [
+        "Article",
+        "MaterialClass"
+      ],
+      "targetIdProp": [
+        "article_no",
+        "material_class_id"
+      ]
+    },
+    {
+      "type": "DEPENDS_ON",
+      "from": "ProcessSegment",
+      "to": [
+        "ProcessSegment"
+      ],
+      "targetIdProp": [
+        "process_segment_no"
+      ]
+    },
+    {
+      "type": "PART_OF",
+      "from": "ProcessSegment",
+      "to": [
+        "ProcessSegment"
+      ],
+      "targetIdProp": [
+        "process_segment_no"
+      ]
+    },
+    {
+      "type": "SPECIFIES_EQUIPMENT",
+      "from": "ProcessSegment",
+      "to": [
+        "EquipmentClass",
+        "Machine"
+      ],
+      "targetIdProp": [
+        "element_id",
+        "equipment_class_id"
+      ]
+    },
+    {
+      "type": "SPECIFIES_MATERIAL",
+      "from": "ProcessSegment",
+      "to": [
+        "Article",
+        "MaterialClass",
+        "MaterialLot",
+        "Quant"
+      ],
+      "targetIdProp": [
+        "article_no",
+        "material_class_id",
+        "material_lot_no",
+        "quant_no"
+      ]
+    },
+    {
+      "type": "SPECIFIES_PERSONNEL",
+      "from": "ProcessSegment",
+      "to": [
+        "Person",
+        "PersonnelClass"
+      ],
+      "targetIdProp": [
+        "person_id",
+        "personnel_class_id"
+      ]
+    },
+    {
+      "type": "SPECIFIES_PHYSICAL_ASSET",
+      "from": "ProcessSegment",
+      "to": [
+        "PhysicalAssetClass",
+        "Tooling"
+      ],
+      "targetIdProp": [
+        "physical_asset_class_id",
+        "tool_id"
+      ]
+    },
+    {
+      "type": "TESTED_BY",
+      "from": "ProcessSegment",
+      "to": [
+        "TestSpecification"
+      ],
+      "targetIdProp": [
+        "test_specification_id"
       ]
     },
     {
@@ -733,6 +2267,16 @@
       ]
     },
     {
+      "type": "FOR_OPERATIONS_SEGMENT",
+      "from": "ProductionOrder",
+      "to": [
+        "OperationsSegment"
+      ],
+      "targetIdProp": [
+        "operations_segment_no"
+      ]
+    },
+    {
       "type": "MADE_UP_OF",
       "from": "ProductionOrder",
       "to": [
@@ -740,6 +2284,38 @@
       ],
       "targetIdProp": [
         "segment_requirement_no"
+      ]
+    },
+    {
+      "type": "PART_OF",
+      "from": "ProductionOrder",
+      "to": [
+        "OperationsSchedule"
+      ],
+      "targetIdProp": [
+        "operations_schedule_id"
+      ]
+    },
+    {
+      "type": "REQUESTS_SEGMENT_RESPONSE",
+      "from": "ProductionOrder",
+      "to": [
+        "SegmentResponse"
+      ],
+      "targetIdProp": [
+        "segment_response_no"
+      ]
+    },
+    {
+      "type": "ASSEMBLED_FROM",
+      "from": "Quant",
+      "to": [
+        "MaterialLot",
+        "Quant"
+      ],
+      "targetIdProp": [
+        "material_lot_no",
+        "quant_no"
       ]
     },
     {
@@ -753,6 +2329,128 @@
       ]
     },
     {
+      "type": "PART_OF",
+      "from": "Quant",
+      "to": [
+        "Quant"
+      ],
+      "targetIdProp": [
+        "quant_no"
+      ]
+    },
+    {
+      "type": "TESTED_BY",
+      "from": "Quant",
+      "to": [
+        "TestSpecification"
+      ],
+      "targetIdProp": [
+        "test_specification_id"
+      ]
+    },
+    {
+      "type": "ACTUAL_EQUIPMENT",
+      "from": "RecipeElement",
+      "to": [
+        "Machine"
+      ],
+      "targetIdProp": [
+        "element_id"
+      ]
+    },
+    {
+      "type": "BUILT_FROM",
+      "from": "RecipeElement",
+      "to": [
+        "RecipeElement"
+      ],
+      "targetIdProp": [
+        "recipe_element_id"
+      ]
+    },
+    {
+      "type": "PART_OF",
+      "from": "RecipeElement",
+      "to": [
+        "ControlRecipe",
+        "MasterRecipe",
+        "RecipeElement"
+      ],
+      "targetIdProp": [
+        "control_recipe_id",
+        "master_recipe_id",
+        "recipe_element_id"
+      ]
+    },
+    {
+      "type": "DEFINED_BY",
+      "from": "ResourceNetworkConnection",
+      "to": [
+        "ResourceNetworkConnectionType"
+      ],
+      "targetIdProp": [
+        "resource_network_connection_type_id"
+      ]
+    },
+    {
+      "type": "FROM_RESOURCE",
+      "from": "ResourceNetworkConnection",
+      "to": [
+        "*"
+      ],
+      "targetProfileProp": [
+        "from_resource_profile"
+      ]
+    },
+    {
+      "type": "PART_OF",
+      "from": "ResourceNetworkConnection",
+      "to": [
+        "ResourceRelationshipNetwork"
+      ],
+      "targetIdProp": [
+        "resource_relationship_network_id"
+      ]
+    },
+    {
+      "type": "TO_RESOURCE",
+      "from": "ResourceNetworkConnection",
+      "to": [
+        "*"
+      ],
+      "targetProfileProp": [
+        "to_resource_profile"
+      ]
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "from": "ResourceNetworkConnectionType",
+      "to": [
+        "Area",
+        "Enterprise",
+        "Machine",
+        "Site",
+        "WorkCenter"
+      ],
+      "targetIdProp": [
+        "element_id"
+      ]
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "from": "ResourceRelationshipNetwork",
+      "to": [
+        "Area",
+        "Enterprise",
+        "Machine",
+        "Site",
+        "WorkCenter"
+      ],
+      "targetIdProp": [
+        "element_id"
+      ]
+    },
+    {
       "type": "RESPONDS_TO",
       "from": "Response",
       "to": [
@@ -763,6 +2461,26 @@
       ]
     },
     {
+      "type": "FOR_OPERATIONS_DEFINITION",
+      "from": "SegmentRequirement",
+      "to": [
+        "OperationsDefinition"
+      ],
+      "targetIdProp": [
+        "operations_definition_no"
+      ]
+    },
+    {
+      "type": "FOR_OPERATIONS_SEGMENT",
+      "from": "SegmentRequirement",
+      "to": [
+        "OperationsSegment"
+      ],
+      "targetIdProp": [
+        "operations_segment_no"
+      ]
+    },
+    {
       "type": "FOR_PROCESS_SEGMENT",
       "from": "SegmentRequirement",
       "to": [
@@ -776,50 +2494,168 @@
       "type": "PART_OF",
       "from": "SegmentRequirement",
       "to": [
-        "ProductionOrder"
+        "ProductionOrder",
+        "SegmentRequirement"
       ],
       "targetIdProp": [
-        "production_order_no"
+        "production_order_no",
+        "segment_requirement_no"
+      ]
+    },
+    {
+      "type": "REQUESTS_SEGMENT_RESPONSE",
+      "from": "SegmentRequirement",
+      "to": [
+        "SegmentResponse"
+      ],
+      "targetIdProp": [
+        "segment_response_no"
       ]
     },
     {
       "type": "REQUIRES_EQUIPMENT",
       "from": "SegmentRequirement",
       "to": [
+        "EquipmentClass",
         "Machine"
       ],
       "targetIdProp": [
-        "element_id"
+        "element_id",
+        "equipment_class_id"
       ]
     },
     {
       "type": "REQUIRES_MATERIAL",
       "from": "SegmentRequirement",
       "to": [
-        "Article"
+        "Article",
+        "MaterialClass",
+        "MaterialLot",
+        "Quant"
       ],
       "targetIdProp": [
-        "article_no"
+        "article_no",
+        "material_class_id",
+        "material_lot_no",
+        "quant_no"
+      ]
+    },
+    {
+      "type": "REQUIRES_PERSONNEL",
+      "from": "SegmentRequirement",
+      "to": [
+        "Person",
+        "PersonnelClass"
+      ],
+      "targetIdProp": [
+        "person_id",
+        "personnel_class_id"
+      ]
+    },
+    {
+      "type": "REQUIRES_PHYSICAL_ASSET",
+      "from": "SegmentRequirement",
+      "to": [
+        "PhysicalAssetClass",
+        "Tooling"
+      ],
+      "targetIdProp": [
+        "physical_asset_class_id",
+        "tool_id"
+      ]
+    },
+    {
+      "type": "TESTED_BY",
+      "from": "SegmentRequirement",
+      "to": [
+        "TestSpecification"
+      ],
+      "targetIdProp": [
+        "test_specification_id"
       ]
     },
     {
       "type": "ACTUAL_EQUIPMENT",
       "from": "SegmentResponse",
       "to": [
+        "EquipmentClass",
         "Machine"
       ],
       "targetIdProp": [
-        "element_id"
+        "element_id",
+        "equipment_class_id"
       ]
     },
     {
       "type": "ACTUAL_MATERIAL",
       "from": "SegmentResponse",
       "to": [
-        "MaterialLot"
+        "Article",
+        "MaterialClass",
+        "MaterialLot",
+        "Quant"
       ],
       "targetIdProp": [
-        "material_lot_no"
+        "article_no",
+        "material_class_id",
+        "material_lot_no",
+        "quant_no"
+      ]
+    },
+    {
+      "type": "ACTUAL_PERSONNEL",
+      "from": "SegmentResponse",
+      "to": [
+        "Person",
+        "PersonnelClass"
+      ],
+      "targetIdProp": [
+        "person_id",
+        "personnel_class_id"
+      ]
+    },
+    {
+      "type": "ACTUAL_PHYSICAL_ASSET",
+      "from": "SegmentResponse",
+      "to": [
+        "PhysicalAssetClass",
+        "Tooling"
+      ],
+      "targetIdProp": [
+        "physical_asset_class_id",
+        "tool_id"
+      ]
+    },
+    {
+      "type": "DETAILED_BY",
+      "from": "SegmentResponse",
+      "to": [
+        "JobResponse",
+        "WorkResponse"
+      ],
+      "targetIdProp": [
+        "job_response_id",
+        "work_response_id"
+      ]
+    },
+    {
+      "type": "FOR_OPERATIONS_DEFINITION",
+      "from": "SegmentResponse",
+      "to": [
+        "OperationsDefinition"
+      ],
+      "targetIdProp": [
+        "operations_definition_no"
+      ]
+    },
+    {
+      "type": "FOR_OPERATIONS_SEGMENT",
+      "from": "SegmentResponse",
+      "to": [
+        "OperationsSegment"
+      ],
+      "targetIdProp": [
+        "operations_segment_no"
       ]
     },
     {
@@ -833,23 +2669,71 @@
       ]
     },
     {
+      "type": "HAS_TEST_RESULT",
+      "from": "SegmentResponse",
+      "to": [
+        "InspectionLot",
+        "TestResult"
+      ],
+      "targetIdProp": [
+        "lot_no",
+        "test_result_id"
+      ]
+    },
+    {
       "type": "PART_OF",
       "from": "SegmentResponse",
       "to": [
-        "OperationsResponse"
+        "OperationsResponse",
+        "SegmentResponse"
       ],
       "targetIdProp": [
-        "production_order_no"
+        "operations_response_no",
+        "segment_response_no"
       ]
     },
     {
       "type": "RESPONDS_TO",
       "from": "SegmentResponse",
       "to": [
+        "ProductionOrder",
         "SegmentRequirement"
       ],
       "targetIdProp": [
+        "production_order_no",
         "segment_requirement_no"
+      ]
+    },
+    {
+      "type": "PART_OF",
+      "from": "ShiftWindow",
+      "to": [
+        "ShiftWindow",
+        "WorkCalendarDefinition"
+      ],
+      "targetIdProp": [
+        "shift_window_id",
+        "work_calendar_definition_id"
+      ]
+    },
+    {
+      "type": "PART_OF",
+      "from": "Site",
+      "to": [
+        "Enterprise"
+      ],
+      "targetIdProp": [
+        "element_id"
+      ]
+    },
+    {
+      "type": "DEFINED_BY",
+      "from": "StorageLocation",
+      "to": [
+        "OperationalLocationClass"
+      ],
+      "targetIdProp": [
+        "operational_location_class_id"
       ]
     },
     {
@@ -857,6 +2741,40 @@
       "from": "StorageLocation",
       "to": [
         "Area"
+      ]
+    },
+    {
+      "type": "PART_OF",
+      "from": "StorageLocation",
+      "to": [
+        "StorageLocation"
+      ],
+      "targetIdProp": [
+        "storage_location_id"
+      ]
+    },
+    {
+      "type": "PART_OF",
+      "from": "TestResult",
+      "to": [
+        "TestResult"
+      ],
+      "targetIdProp": [
+        "test_result_id"
+      ]
+    },
+    {
+      "type": "TESTS",
+      "from": "TestResult",
+      "to": [
+        "Machine",
+        "Person",
+        "Tooling"
+      ],
+      "targetIdProp": [
+        "element_id",
+        "person_id",
+        "tool_id"
       ]
     },
     {
@@ -882,7 +2800,7 @@
         "Person",
         "PersonnelClass",
         "ProcessSegment",
-        "Tool",
+        "Tooling",
         "WorkMaster"
       ],
       "targetIdProp": [
@@ -900,13 +2818,539 @@
       ]
     },
     {
-      "type": "IMPLEMENTATION_OF",
-      "from": "Tool",
+      "type": "AT_LOCATION",
+      "from": "Tooling",
       "to": [
-        "Machine"
+        "StorageLocation"
+      ],
+      "targetIdProp": [
+        "storage_location_id"
+      ]
+    },
+    {
+      "type": "DEFINED_BY",
+      "from": "Tooling",
+      "to": [
+        "PhysicalAssetClass"
+      ],
+      "targetIdProp": [
+        "physical_asset_class_id"
+      ]
+    },
+    {
+      "type": "PART_OF",
+      "from": "Tooling",
+      "to": [
+        "Tooling"
+      ],
+      "targetIdProp": [
+        "tool_id"
+      ]
+    },
+    {
+      "type": "TESTED_BY",
+      "from": "Tooling",
+      "to": [
+        "TestSpecification"
+      ],
+      "targetIdProp": [
+        "test_specification_id"
+      ]
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "from": "WorkCalendarDefinitionEntry",
+      "to": [
+        "Area",
+        "Enterprise",
+        "Machine",
+        "Site",
+        "WorkCenter"
       ],
       "targetIdProp": [
         "element_id"
+      ]
+    },
+    {
+      "type": "PART_OF",
+      "from": "WorkCalendarDefinitionEntry",
+      "to": [
+        "WorkCalendarDefinition",
+        "WorkCalendarDefinitionEntry"
+      ],
+      "targetIdProp": [
+        "work_calendar_definition_entry_id",
+        "work_calendar_definition_id"
+      ]
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "from": "WorkCalendarDefinition",
+      "to": [
+        "Area",
+        "Enterprise",
+        "Machine",
+        "Site",
+        "WorkCenter"
+      ],
+      "targetIdProp": [
+        "element_id"
+      ]
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "from": "WorkCalendarEntry",
+      "to": [
+        "Area",
+        "Enterprise",
+        "Machine",
+        "Site",
+        "WorkCenter"
+      ],
+      "targetIdProp": [
+        "element_id"
+      ]
+    },
+    {
+      "type": "PART_OF",
+      "from": "WorkCalendarEntry",
+      "to": [
+        "WorkCalendar",
+        "WorkCalendarEntry"
+      ],
+      "targetIdProp": [
+        "work_calendar_entry_id",
+        "work_calendar_id"
+      ]
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "from": "WorkCalendar",
+      "to": [
+        "Area",
+        "Enterprise",
+        "Machine",
+        "Site",
+        "WorkCenter"
+      ],
+      "targetIdProp": [
+        "element_id"
+      ]
+    },
+    {
+      "type": "CAPABILITY_EQUIPMENT",
+      "from": "WorkCapability",
+      "to": [
+        "EquipmentClass",
+        "Machine"
+      ],
+      "targetIdProp": [
+        "element_id",
+        "equipment_class_id"
+      ]
+    },
+    {
+      "type": "CAPABILITY_MATERIAL",
+      "from": "WorkCapability",
+      "to": [
+        "Article",
+        "MaterialClass",
+        "MaterialLot",
+        "Quant"
+      ],
+      "targetIdProp": [
+        "article_no",
+        "material_class_id",
+        "material_lot_no",
+        "quant_no"
+      ]
+    },
+    {
+      "type": "CAPABILITY_PERSONNEL",
+      "from": "WorkCapability",
+      "to": [
+        "Person",
+        "PersonnelClass"
+      ],
+      "targetIdProp": [
+        "person_id",
+        "personnel_class_id"
+      ]
+    },
+    {
+      "type": "CAPABILITY_PHYSICAL_ASSET",
+      "from": "WorkCapability",
+      "to": [
+        "PhysicalAssetClass",
+        "Tooling"
+      ],
+      "targetIdProp": [
+        "physical_asset_class_id",
+        "tool_id"
+      ]
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "from": "WorkCapability",
+      "to": [
+        "Area",
+        "Enterprise",
+        "Machine",
+        "Site",
+        "WorkCenter"
+      ],
+      "targetIdProp": [
+        "element_id"
+      ]
+    },
+    {
+      "type": "PART_OF",
+      "from": "WorkCenter",
+      "to": [
+        "Area"
+      ],
+      "targetIdProp": [
+        "element_id"
+      ]
+    },
+    {
+      "type": "FOR_WORK_MASTER",
+      "from": "WorkDirective",
+      "to": [
+        "WorkMaster"
+      ],
+      "targetIdProp": [
+        "work_master_id"
+      ]
+    },
+    {
+      "type": "HAS_WORKFLOW",
+      "from": "WorkDirective",
+      "to": [
+        "WorkflowSpecification"
+      ],
+      "targetIdProp": [
+        "workflow_specification_id"
+      ]
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "from": "WorkDirective",
+      "to": [
+        "Area",
+        "Enterprise",
+        "Machine",
+        "Site",
+        "WorkCenter"
+      ],
+      "targetIdProp": [
+        "element_id"
+      ]
+    },
+    {
+      "type": "PART_OF",
+      "from": "WorkDirective",
+      "to": [
+        "WorkDirective"
+      ],
+      "targetIdProp": [
+        "work_directive_id"
+      ]
+    },
+    {
+      "type": "SPECIFIES_EQUIPMENT",
+      "from": "WorkDirective",
+      "to": [
+        "EquipmentClass",
+        "Machine"
+      ],
+      "targetIdProp": [
+        "element_id",
+        "equipment_class_id"
+      ]
+    },
+    {
+      "type": "SPECIFIES_MATERIAL",
+      "from": "WorkDirective",
+      "to": [
+        "Article",
+        "MaterialClass",
+        "MaterialLot",
+        "Quant"
+      ],
+      "targetIdProp": [
+        "article_no",
+        "material_class_id",
+        "material_lot_no",
+        "quant_no"
+      ]
+    },
+    {
+      "type": "SPECIFIES_PERSONNEL",
+      "from": "WorkDirective",
+      "to": [
+        "Person",
+        "PersonnelClass"
+      ],
+      "targetIdProp": [
+        "person_id",
+        "personnel_class_id"
+      ]
+    },
+    {
+      "type": "SPECIFIES_PHYSICAL_ASSET",
+      "from": "WorkDirective",
+      "to": [
+        "PhysicalAssetClass",
+        "Tooling"
+      ],
+      "targetIdProp": [
+        "physical_asset_class_id",
+        "tool_id"
+      ]
+    },
+    {
+      "type": "TESTED_BY",
+      "from": "WorkDirective",
+      "to": [
+        "TestSpecification"
+      ],
+      "targetIdProp": [
+        "test_specification_id"
+      ]
+    },
+    {
+      "type": "DEFINED_BY",
+      "from": "WorkflowSpecificationConnection",
+      "to": [
+        "WorkflowSpecificationConnectionType"
+      ],
+      "targetIdProp": [
+        "workflow_specification_connection_type_id"
+      ]
+    },
+    {
+      "type": "PART_OF",
+      "from": "WorkflowSpecificationConnection",
+      "to": [
+        "WorkflowSpecification"
+      ],
+      "targetIdProp": [
+        "workflow_specification_id"
+      ]
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "from": "WorkflowSpecificationConnectionType",
+      "to": [
+        "Area",
+        "Enterprise",
+        "Machine",
+        "Site",
+        "WorkCenter"
+      ],
+      "targetIdProp": [
+        "element_id"
+      ]
+    },
+    {
+      "type": "INCLUDES_PROPERTIES_OF",
+      "from": "WorkflowSpecificationConnectionType",
+      "to": [
+        "WorkflowSpecificationConnectionType"
+      ],
+      "targetIdProp": [
+        "workflow_specification_connection_type_id"
+      ]
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "from": "WorkflowSpecification",
+      "to": [
+        "Area",
+        "Enterprise",
+        "Machine",
+        "Site",
+        "WorkCenter"
+      ],
+      "targetIdProp": [
+        "element_id"
+      ]
+    },
+    {
+      "type": "DEFINED_BY",
+      "from": "WorkflowSpecificationNode",
+      "to": [
+        "WorkflowSpecificationNodeType"
+      ],
+      "targetIdProp": [
+        "workflow_specification_node_type_id"
+      ]
+    },
+    {
+      "type": "FOR_WORK_DIRECTIVE",
+      "from": "WorkflowSpecificationNode",
+      "to": [
+        "WorkDirective"
+      ],
+      "targetIdProp": [
+        "work_directive_id"
+      ]
+    },
+    {
+      "type": "FOR_WORK_MASTER",
+      "from": "WorkflowSpecificationNode",
+      "to": [
+        "WorkMaster"
+      ],
+      "targetIdProp": [
+        "work_master_id"
+      ]
+    },
+    {
+      "type": "HAS_WORKFLOW",
+      "from": "WorkflowSpecificationNode",
+      "to": [
+        "WorkflowSpecification"
+      ],
+      "targetIdProp": [
+        "workflow_specification_id"
+      ]
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "from": "WorkflowSpecificationNode",
+      "to": [
+        "Area",
+        "Enterprise",
+        "Machine",
+        "Site",
+        "WorkCenter"
+      ],
+      "targetIdProp": [
+        "element_id"
+      ]
+    },
+    {
+      "type": "PART_OF",
+      "from": "WorkflowSpecificationNode",
+      "to": [
+        "WorkflowSpecification"
+      ],
+      "targetIdProp": [
+        "workflow_specification_id"
+      ]
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "from": "WorkflowSpecificationNodeType",
+      "to": [
+        "Area",
+        "Enterprise",
+        "Machine",
+        "Site",
+        "WorkCenter"
+      ],
+      "targetIdProp": [
+        "element_id"
+      ]
+    },
+    {
+      "type": "INCLUDES_PROPERTIES_OF",
+      "from": "WorkflowSpecificationNodeType",
+      "to": [
+        "WorkflowSpecificationNodeType"
+      ],
+      "targetIdProp": [
+        "workflow_specification_node_type_id"
+      ]
+    },
+    {
+      "type": "CAPABILITY_EQUIPMENT",
+      "from": "WorkMasterCapability",
+      "to": [
+        "EquipmentClass",
+        "Machine"
+      ],
+      "targetIdProp": [
+        "element_id",
+        "equipment_class_id"
+      ]
+    },
+    {
+      "type": "CAPABILITY_MATERIAL",
+      "from": "WorkMasterCapability",
+      "to": [
+        "Article",
+        "MaterialClass",
+        "MaterialLot",
+        "Quant"
+      ],
+      "targetIdProp": [
+        "article_no",
+        "material_class_id",
+        "material_lot_no",
+        "quant_no"
+      ]
+    },
+    {
+      "type": "CAPABILITY_PERSONNEL",
+      "from": "WorkMasterCapability",
+      "to": [
+        "Person",
+        "PersonnelClass"
+      ],
+      "targetIdProp": [
+        "person_id",
+        "personnel_class_id"
+      ]
+    },
+    {
+      "type": "CAPABILITY_PHYSICAL_ASSET",
+      "from": "WorkMasterCapability",
+      "to": [
+        "PhysicalAssetClass",
+        "Tooling"
+      ],
+      "targetIdProp": [
+        "physical_asset_class_id",
+        "tool_id"
+      ]
+    },
+    {
+      "type": "FOR_WORK_MASTER",
+      "from": "WorkMasterCapability",
+      "to": [
+        "WorkMaster"
+      ],
+      "targetIdProp": [
+        "work_master_id"
+      ]
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "from": "WorkMasterCapability",
+      "to": [
+        "Area",
+        "Enterprise",
+        "Machine",
+        "Site",
+        "WorkCenter"
+      ],
+      "targetIdProp": [
+        "element_id"
+      ]
+    },
+    {
+      "type": "PART_OF",
+      "from": "WorkMasterCapability",
+      "to": [
+        "WorkCapability",
+        "WorkMasterCapability"
+      ],
+      "targetIdProp": [
+        "work_capability_id",
+        "work_master_capability_id"
       ]
     },
     {
@@ -940,6 +3384,16 @@
       ]
     },
     {
+      "type": "HAS_WORKFLOW",
+      "from": "WorkMaster",
+      "to": [
+        "WorkflowSpecification"
+      ],
+      "targetIdProp": [
+        "workflow_specification_id"
+      ]
+    },
+    {
       "type": "PART_OF",
       "from": "WorkMaster",
       "to": [
@@ -953,9 +3407,11 @@
       "type": "SPECIFIES_EQUIPMENT",
       "from": "WorkMaster",
       "to": [
-        "EquipmentClass"
+        "EquipmentClass",
+        "Machine"
       ],
       "targetIdProp": [
+        "element_id",
         "equipment_class_id"
       ]
     },
@@ -963,19 +3419,27 @@
       "type": "SPECIFIES_MATERIAL",
       "from": "WorkMaster",
       "to": [
-        "Article"
+        "Article",
+        "MaterialClass",
+        "MaterialLot",
+        "Quant"
       ],
       "targetIdProp": [
-        "article_no"
+        "article_no",
+        "material_class_id",
+        "material_lot_no",
+        "quant_no"
       ]
     },
     {
       "type": "SPECIFIES_PERSONNEL",
       "from": "WorkMaster",
       "to": [
+        "Person",
         "PersonnelClass"
       ],
       "targetIdProp": [
+        "person_id",
         "personnel_class_id"
       ]
     },
@@ -983,10 +3447,22 @@
       "type": "SPECIFIES_PHYSICAL_ASSET",
       "from": "WorkMaster",
       "to": [
-        "Tool"
+        "PhysicalAssetClass",
+        "Tooling"
       ],
       "targetIdProp": [
+        "physical_asset_class_id",
         "tool_id"
+      ]
+    },
+    {
+      "type": "TESTED_BY",
+      "from": "WorkMaster",
+      "to": [
+        "TestSpecification"
+      ],
+      "targetIdProp": [
+        "test_specification_id"
       ]
     },
     {
@@ -997,6 +3473,62 @@
       ],
       "targetIdProp": [
         "production_order_no"
+      ]
+    },
+    {
+      "type": "FOR_SEGMENT_REQUIREMENT",
+      "from": "Workorder",
+      "to": [
+        "SegmentRequirement"
+      ],
+      "targetIdProp": [
+        "segment_requirement_no"
+      ]
+    },
+    {
+      "type": "PART_OF",
+      "from": "Workorder",
+      "to": [
+        "WorkSchedule",
+        "Workorder"
+      ],
+      "targetIdProp": [
+        "work_schedule_id",
+        "workorder_no"
+      ]
+    },
+    {
+      "type": "FOR_WORK_SCHEDULE",
+      "from": "WorkPerformance",
+      "to": [
+        "WorkSchedule"
+      ],
+      "targetIdProp": [
+        "work_schedule_id"
+      ]
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "from": "WorkPerformance",
+      "to": [
+        "Area",
+        "Enterprise",
+        "Machine",
+        "Site",
+        "WorkCenter"
+      ],
+      "targetIdProp": [
+        "element_id"
+      ]
+    },
+    {
+      "type": "PART_OF",
+      "from": "WorkPerformance",
+      "to": [
+        "WorkPerformance"
+      ],
+      "targetIdProp": [
+        "work_performance_id"
       ]
     },
     {
@@ -1050,6 +3582,16 @@
       ]
     },
     {
+      "type": "RECORDS",
+      "from": "WorkRecord",
+      "to": [
+        "*"
+      ],
+      "targetProfileProp": [
+        "record_object_profile"
+      ]
+    },
+    {
       "type": "FOR_EQUIPMENT",
       "from": "WorkRecordSpecification",
       "to": [
@@ -1090,6 +3632,28 @@
       ]
     },
     {
+      "type": "RECORDS",
+      "from": "WorkRecordSpecification",
+      "to": [
+        "*"
+      ],
+      "targetProfileProp": [
+        "record_object_profile"
+      ]
+    },
+    {
+      "type": "PART_OF",
+      "from": "WorkResponse",
+      "to": [
+        "WorkPerformance",
+        "WorkResponse"
+      ],
+      "targetIdProp": [
+        "work_performance_id",
+        "work_response_id"
+      ]
+    },
+    {
       "type": "RESPONDS_TO",
       "from": "WorkResponse",
       "to": [
@@ -1097,6 +3661,30 @@
       ],
       "targetIdProp": [
         "workorder_no"
+      ]
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "from": "WorkSchedule",
+      "to": [
+        "Area",
+        "Enterprise",
+        "Machine",
+        "Site",
+        "WorkCenter"
+      ],
+      "targetIdProp": [
+        "element_id"
+      ]
+    },
+    {
+      "type": "PART_OF",
+      "from": "WorkSchedule",
+      "to": [
+        "WorkSchedule"
+      ],
+      "targetIdProp": [
+        "work_schedule_id"
       ]
     }
   ],
@@ -1107,8 +3695,7 @@
   "treeTargets": {
     "_comment": "Relationship targets that are equipment levels of the instance tree (instance-schema equipmentLevel): the edge resolves through the partOf chain of sites/<site>/instances, no targetIdProp (resolvedBy: instances).",
     "entries": [
-      "Machine -[PART_OF]-> ProcessCell",
-      "StorageLocation -[IN_SCOPE_OF]-> Area"
+      "Machine -[PART_OF]-> ProductionLine"
     ]
   },
   "aliases": {
@@ -1202,18 +3789,6 @@
         "since": "2.0.0"
       },
       {
-        "alias": "PART_OF",
-        "from": "StorageLocation",
-        "type": "IN_SCOPE_OF",
-        "since": "2.0.0"
-      },
-      {
-        "alias": "PART_OF",
-        "from": "Workorder",
-        "type": "FOR_OPERATIONS_REQUEST",
-        "since": "2.0.0"
-      },
-      {
         "alias": "PERFORMED_AT",
         "from": "ProcessSegment",
         "type": "SPECIFIES_EQUIPMENT",
@@ -1223,12 +3798,6 @@
         "alias": "PROCESSED_MATERIAL",
         "from": "SegmentResponse",
         "type": "ACTUAL_MATERIAL",
-        "since": "2.0.0"
-      },
-      {
-        "alias": "SET_UP_ON",
-        "from": "Tool",
-        "type": "IMPLEMENTATION_OF",
         "since": "2.0.0"
       },
       {
@@ -1242,17 +3811,10 @@
         "from": "SegmentRequirement",
         "type": "REQUIRES_EQUIPMENT",
         "since": "2.0.0"
-      },
-      {
-        "alias": "USES_TOOL",
-        "from": "InjectionMoldingMachine",
-        "type": "IMPLEMENTED_BY",
-        "since": "2.0.0"
       }
     ]
   },
   "skippedFiles": [
-    "standard/profiles/equipment/equipment-model.json",
-    "standard/profiles/operations/shift-window.json"
+    "standard/profiles/equipment/equipment-model.json"
   ]
 }

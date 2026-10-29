@@ -1,6 +1,6 @@
 {
   "sourceId": "erp-operations-response",
-  "version": "2.3.0",
+  "version": "4.0.0",
   "sourceType": "rest",
   "functionalLevel": 4,
   "syncType": "polling",
@@ -23,7 +23,7 @@
   "response": {
     "format": "json",
     "rootPath": "$",
-    "idProperty": "production_order_no"
+    "idProperty": "operations_response_no"
   },
   "polling": {
     "changeDetection": "full_refresh",
@@ -33,9 +33,13 @@
   },
   "columnMappings": [
     {
-      "column": "production_order_no",
-      "smAttribute": "production_order_no",
+      "column": "operations_response_no",
+      "smAttribute": "operations_response_no",
       "isId": true
+    },
+    {
+      "column": "production_order_no",
+      "smAttribute": "production_order_ref"
     },
     {
       "column": "article_no",
@@ -69,9 +73,13 @@
       "column": "final_confirmation",
       "smAttribute": "status",
       "valueMap": {
-        "true": "fertig",
-        "false": "in_arbeit"
+        "true": "Completed",
+        "false": "Running"
       }
+    },
+    {
+      "smAttribute": "operations_type",
+      "const": "Production"
     }
   ],
   "filter": null,

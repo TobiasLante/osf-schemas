@@ -1,0 +1,157 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/batch/SMProfile-BatchEvent.payload.json",
+  "title": "SMProfile-BatchEvent payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/batch/batch-event.json 2.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-BatchEvent",
+  "x-profileVersion": "2.0.0",
+  "x-payloadVersion": "1.1.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "BatchEvent"
+    },
+    "profileRef": {
+      "const": "SMProfile-BatchEvent"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "batch_event_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the event: its record entry id (BatchML SingleEvent.EntryID)."
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "BatchML SingleEvent.TimeStamp."
+        },
+        "description": {
+          "type": "string",
+          "description": "BatchML SingleEvent.Description."
+        },
+        "event_type": {
+          "type": "string",
+          "enum": [
+            "Alarm",
+            "Control Recipe",
+            "Equipment",
+            "General",
+            "Material",
+            "Message",
+            "Operator",
+            "Procedural Execution",
+            "Other"
+          ],
+          "description": "BatchML EventType."
+        },
+        "event_sub_type": {
+          "type": "string",
+          "enum": [
+            "Allocation",
+            "Application",
+            "Consume",
+            "Deallocation",
+            "Equipment",
+            "Message",
+            "Mode Change",
+            "Mode Command",
+            "Modification",
+            "Movement",
+            "Parameter Data",
+            "Process",
+            "Process Data",
+            "Produce",
+            "Prompt",
+            "Prompt Response",
+            "Property Value Change",
+            "Reconciliation",
+            "Security",
+            "State Change",
+            "State Command",
+            "Status Change",
+            "System",
+            "Target End Time",
+            "Target Start Time",
+            "Other"
+          ],
+          "description": "BatchML EventSubType (State Change = a batch or phase changed its batch state)."
+        },
+        "machine_ref": {
+          "type": "string",
+          "description": "BatchML SingleEvent.EquipmentID."
+        },
+        "value": {
+          "type": "string",
+          "description": "BatchML SingleEvent.Value (for a State Change the new state)."
+        },
+        "previous_value": {
+          "type": "string",
+          "description": "BatchML SingleEvent.PreviousValue."
+        },
+        "message_text": {
+          "type": "string",
+          "description": "BatchML SingleEvent.MessageText."
+        },
+        "person_name": {
+          "type": "string",
+          "description": "BatchML SingleEvent.PersonID — a name (NameType), not the id of a person."
+        },
+        "computer_id": {
+          "type": "string",
+          "description": "BatchML SingleEvent.ComputerID."
+        },
+        "tool_ref": {
+          "type": "string",
+          "description": "BatchML SingleEvent.PhysicalAssetID."
+        },
+        "procedural_element_reference": {
+          "type": "string",
+          "description": "BatchML SingleEvent.ProceduralElementReference — text: BatchML does not say which object."
+        },
+        "category": {
+          "type": "string",
+          "description": "BatchML SingleEvent.Category."
+        },
+        "batch_event_ref": {
+          "type": "string",
+          "description": "BatchML SingleEvent.AssociatedEventID."
+        },
+        "batch_production_record_ref": {
+          "type": "string",
+          "description": "The record the event is part of (BatchML nests it in BatchProductionRecord.Events)."
+        }
+      },
+      "required": [
+        "batch_event_id"
+      ]
+    }
+  },
+  "x-delivery": {
+    "batch_event_id": "transactional",
+    "timestamp": "transactional",
+    "description": "transactional",
+    "event_type": "transactional",
+    "event_sub_type": "transactional",
+    "machine_ref": "transactional",
+    "value": "transactional",
+    "previous_value": "transactional",
+    "message_text": "transactional",
+    "person_name": "transactional",
+    "computer_id": "transactional",
+    "tool_ref": "transactional",
+    "procedural_element_reference": "transactional",
+    "category": "transactional",
+    "batch_event_ref": "transactional",
+    "batch_production_record_ref": "transactional"
+  }
+}

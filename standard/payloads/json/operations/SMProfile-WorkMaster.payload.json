@@ -2,10 +2,10 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-WorkMaster.payload.json",
   "title": "SMProfile-WorkMaster payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/operations/work-master.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/operations/work-master.json 2.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-WorkMaster",
-  "x-profileVersion": "1.0.0",
-  "x-payloadVersion": "1.0.0",
+  "x-profileVersion": "2.0.0",
+  "x-payloadVersion": "1.1.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
     "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
@@ -40,6 +40,14 @@
         },
         "work_type": {
           "type": "string",
+          "enum": [
+            "Production",
+            "Maintenance",
+            "Quality",
+            "Inventory",
+            "Mixed",
+            "Other"
+          ],
           "description": "ISA-95 WorkType: Production, Maintenance, Quality or Inventory."
         },
         "duration_sec": {
@@ -78,6 +86,38 @@
         "parent_work_master_ref": {
           "type": "string",
           "description": "The work master this one is a part of (PART_OF; ISA-95 WorkMaster MADE_UP_OF WorkMaster)."
+        },
+        "workflow_specification_ref": {
+          "type": "string",
+          "description": "The WorkflowSpecification (HAS_WORKFLOW; ISA-95 WorkMaster → WorkflowSpecification). Optional."
+        },
+        "machine_ref": {
+          "type": "string",
+          "description": "The Machine (SPECIFIES_EQUIPMENT; ISA-95 WorkMaster → Equipment). Optional."
+        },
+        "material_class_ref": {
+          "type": "string",
+          "description": "The MaterialClass (SPECIFIES_MATERIAL; ISA-95 WorkMaster → MaterialClass). Optional."
+        },
+        "material_lot_ref": {
+          "type": "string",
+          "description": "The MaterialLot (SPECIFIES_MATERIAL; ISA-95 WorkMaster → MaterialLot). Optional."
+        },
+        "quant_ref": {
+          "type": "string",
+          "description": "The Quant (SPECIFIES_MATERIAL; ISA-95 WorkMaster → MaterialSubLot). Optional."
+        },
+        "person_ref": {
+          "type": "string",
+          "description": "The Person (SPECIFIES_PERSONNEL; ISA-95 WorkMaster → Person). Optional."
+        },
+        "physical_asset_class_ref": {
+          "type": "string",
+          "description": "The PhysicalAssetClass (SPECIFIES_PHYSICAL_ASSET; ISA-95 WorkMaster → PhysicalAssetClass). Optional."
+        },
+        "test_specification_ref": {
+          "type": "string",
+          "description": "The TestSpecification (TESTED_BY; ISA-95 WorkMaster → TestSpecification). Optional."
         }
       },
       "required": [
@@ -98,6 +138,14 @@
     "material_ref": "transactional",
     "tool_ref": "transactional",
     "personnel_class_ref": "transactional",
-    "parent_work_master_ref": "transactional"
+    "parent_work_master_ref": "transactional",
+    "workflow_specification_ref": "transactional",
+    "machine_ref": "transactional",
+    "material_class_ref": "transactional",
+    "material_lot_ref": "transactional",
+    "quant_ref": "transactional",
+    "person_ref": "transactional",
+    "physical_asset_class_ref": "transactional",
+    "test_specification_ref": "transactional"
   }
 }

@@ -1,26 +1,35 @@
 {
   "consumerId": "it-erp-sap",
-  "version": "1.0.0",
+  "version": "1.3.0",
   "kind": "edge",
   "stage": "push",
   "ring": 0,
   "carries": [
     "erp-production-orders",
-    "erp-customer-orders",
     "erp-operations-response",
     "erp-bde-confirmations",
     "sim-v5-erp-articles",
     "sim-v5-erp-customers",
-    "sim-v5-erp-calendar"
+    "sim-v5-erp-calendar",
+    "erp-job-orders",
+    "erp-machine-pools",
+    "erp-material-lots",
+    "erp-operations-definitions",
+    "erp-operations-segments",
+    "erp-process-segments",
+    "erp-segment-requirements",
+    "erp-segment-responses",
+    "erp-workorders"
   ],
-  "capacity": 76,
+  "capacity": 135,
   "authoring": "locked",
-  "description": "IT edge for the ERP REST sources (it-edge, no flow editor). Capacity = signal count, measured 23.09.; 76 since core 3.0.0 carries erp-customer-orders (owner round 4).",
+  "description": "IT edge for the ERP REST sources (it-edge, no flow editor). Capacity = signal count, measured 23.09.; 76 since core 3.0.0 carries erp-customer-orders (owner round 4); 78 since core 4.0.0 (the own numbers confirmation_no and operations_response_no of OPEN-0350 round 4).",
   "feedback": {
     "grains": [
       "loaded"
     ],
     "maxAgeSeconds": 180
   },
-  "$feedback": "loaded only (no v4 process observes its subjects; seen stays undeclared until one does). maxAgeSeconds 180 = 3 x the 60 s tick of it-schema-publisher, which feeds this edge over NATS it_schemas (CAPT-SOLLIST Befund 2): a report older than three ticks cannot vouch for the current state."
+  "$feedback": "loaded only (no v4 process observes its subjects; seen stays undeclared until one does). maxAgeSeconds 180 = 3 x the 60 s tick of it-schema-publisher, which feeds this edge over NATS it_schemas (CAPT-SOLLIST Befund 2): a report older than three ticks cannot vouch for the current state.",
+  "$carries": "0.6.6-g (owner 22.10.2026: every IT source of werk1 delivers): + the nine ERP sources without a carrier (waivers erp-job-order-lot-sources and erp-segment-sources withdrawn); the large ones read the living window (path ?since=…)"
 }

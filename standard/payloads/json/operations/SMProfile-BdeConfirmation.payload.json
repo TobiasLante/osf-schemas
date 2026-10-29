@@ -2,10 +2,10 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-BdeConfirmation.payload.json",
   "title": "SMProfile-BdeConfirmation payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/operations/bde-confirmation.json 1.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/operations/bde-confirmation.json 1.2.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-BdeConfirmation",
-  "x-profileVersion": "1.1.0",
-  "x-payloadVersion": "1.0.0",
+  "x-profileVersion": "1.2.0",
+  "x-payloadVersion": "1.1.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
     "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
@@ -37,6 +37,10 @@
         "article_ref": {
           "type": "string",
           "description": "Manufactured article (join key to Article)."
+        },
+        "article_revision": {
+          "type": "string",
+          "description": "The revision of the article that was built or used, where the source's article number carries none (a PLM part number with revision A). Empty when the number itself names the revision (at SAP dddd.1)."
         },
         "machine_ref": {
           "type": "string",
@@ -96,6 +100,18 @@
           "type": "string",
           "format": "date-time",
           "description": "Last change (recorded_at). Server-managed and volatile on every read."
+        },
+        "operations_type": {
+          "type": "string",
+          "enum": [
+            "Production",
+            "Maintenance",
+            "Quality",
+            "Inventory",
+            "Mixed",
+            "Other"
+          ],
+          "description": "ISA-95 operations type (B2MML OperationsType; Part 3/4: which MOM area the object belongs to; audit M1). A source without the column sets the constant of the profile's momDomain (columnMappings const)."
         }
       },
       "required": [
@@ -107,6 +123,7 @@
     "confirmation_no": "transactional",
     "production_order_no": "transactional",
     "article_ref": "transactional",
+    "article_revision": "transactional",
     "machine_ref": "transactional",
     "operation_no": "transactional",
     "shift": "transactional",
@@ -120,6 +137,7 @@
     "cycle_time_actual_sec": "transactional",
     "actual_start_time": "transactional",
     "actual_end_time": "transactional",
-    "updated_at": "transactional"
+    "updated_at": "transactional",
+    "operations_type": "transactional"
   }
 }

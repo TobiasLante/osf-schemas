@@ -1,0 +1,205 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/batch/SMProfile-BatchListEntry.payload.json",
+  "title": "SMProfile-BatchListEntry payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/batch/batch-list-entry.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-BatchListEntry",
+  "x-profileVersion": "1.0.0",
+  "x-payloadVersion": "1.1.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "BatchListEntry"
+    },
+    "profileRef": {
+      "const": "SMProfile-BatchListEntry"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "batch_list_entry_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the entry (BatchML BatchListEntry.ID)."
+        },
+        "description": {
+          "type": "string",
+          "description": "BatchML BatchListEntry.Description."
+        },
+        "entry_type": {
+          "type": "string",
+          "enum": [
+            "Campaign",
+            "Batch",
+            "UnitProcedure",
+            "Operation",
+            "Phase",
+            "Other"
+          ],
+          "description": "Campaign, batch, unit procedure, operation or phase (BatchML BatchListEntryType)."
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "Idle",
+            "Running",
+            "Complete",
+            "Pausing",
+            "Paused",
+            "Holding",
+            "Held",
+            "Restarting",
+            "Stopping",
+            "Stopped",
+            "Aborting",
+            "Aborted",
+            "Other"
+          ],
+          "description": "Batch state (BatchML BatchStatus). A change is a batch event of subtype State Change."
+        },
+        "mode": {
+          "type": "string",
+          "enum": [
+            "Automatic",
+            "SemiAutomatic",
+            "Manual",
+            "Other"
+          ],
+          "description": "BatchML Mode."
+        },
+        "external_id": {
+          "type": "string",
+          "description": "BatchML BatchListEntry.ExternalID."
+        },
+        "recipe_ref": {
+          "type": "string",
+          "description": "The recipe the entry runs (BatchML BatchListEntry.RecipeID)."
+        },
+        "recipe_version": {
+          "type": "string",
+          "description": "BatchML BatchListEntry.RecipeVersion."
+        },
+        "batch_id": {
+          "type": "string",
+          "description": "The batch id (a value; BatchML has no batch object it points to)."
+        },
+        "material_lot_ref": {
+          "type": "string",
+          "description": "The lot (BatchML BatchListEntry.LotID)."
+        },
+        "campaign_id": {
+          "type": "string",
+          "description": "BatchML BatchListEntry.CampaignID (a value)."
+        },
+        "article_ref": {
+          "type": "string",
+          "description": "The product (BatchML BatchListEntry.ProductID)."
+        },
+        "order_id": {
+          "type": "string",
+          "description": "BatchML BatchListEntry.OrderID — text: BatchML does not say which order."
+        },
+        "requested_start_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "BatchML BatchListEntry.RequestedStartTime."
+        },
+        "actual_start_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "BatchML BatchListEntry.ActualStartTime."
+        },
+        "requested_end_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "BatchML BatchListEntry.RequestedEndTime."
+        },
+        "actual_end_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "BatchML BatchListEntry.ActualEndTime."
+        },
+        "batch_priority": {
+          "type": "string",
+          "description": "BatchML BatchListEntry.BatchPriority."
+        },
+        "requested_batch_size": {
+          "type": "string",
+          "description": "BatchML BatchListEntry.RequestedBatchSize."
+        },
+        "actual_batch_size": {
+          "type": "string",
+          "description": "BatchML BatchListEntry.ActualBatchSize."
+        },
+        "unit_of_measure": {
+          "type": "string",
+          "description": "BatchML BatchListEntry.UnitOfMeasure."
+        },
+        "note": {
+          "type": "string",
+          "description": "BatchML BatchListEntry.Note."
+        },
+        "machine_ref": {
+          "type": "string",
+          "description": "The requested equipment (BatchML BatchListEntry.EquipmentID)."
+        },
+        "equipment_class_ref": {
+          "type": "string",
+          "description": "The requested equipment class (BatchML BatchListEntry.EquipmentClassID)."
+        },
+        "actual_machine_ref": {
+          "type": "string",
+          "description": "The equipment the entry ran on (BatchML BatchListEntry.ActualEquipmentID)."
+        },
+        "batch_list_ref": {
+          "type": "string",
+          "description": "The batch list the entry is on (BatchML nests it in BatchList.BatchListEntry)."
+        },
+        "parent_batch_list_entry_ref": {
+          "type": "string",
+          "description": "The entry this one is part of (BatchML nests BatchListEntry in BatchListEntry)."
+        }
+      },
+      "required": [
+        "batch_list_entry_id"
+      ]
+    }
+  },
+  "x-delivery": {
+    "batch_list_entry_id": "transactional",
+    "description": "transactional",
+    "entry_type": "transactional",
+    "status": "transactional",
+    "mode": "transactional",
+    "external_id": "transactional",
+    "recipe_ref": "transactional",
+    "recipe_version": "transactional",
+    "batch_id": "transactional",
+    "material_lot_ref": "transactional",
+    "campaign_id": "transactional",
+    "article_ref": "transactional",
+    "order_id": "transactional",
+    "requested_start_time": "transactional",
+    "actual_start_time": "transactional",
+    "requested_end_time": "transactional",
+    "actual_end_time": "transactional",
+    "batch_priority": "transactional",
+    "requested_batch_size": "transactional",
+    "actual_batch_size": "transactional",
+    "unit_of_measure": "transactional",
+    "note": "transactional",
+    "machine_ref": "transactional",
+    "equipment_class_ref": "transactional",
+    "actual_machine_ref": "transactional",
+    "batch_list_ref": "transactional",
+    "parent_batch_list_entry_ref": "transactional"
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-WorkAlert.payload.json",
+  "title": "SMProfile-WorkAlert payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/operations/work-alert.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-WorkAlert",
+  "x-profileVersion": "1.0.0",
+  "x-payloadVersion": "1.1.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "WorkAlert"
+    },
+    "profileRef": {
+      "const": "SMProfile-WorkAlert"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "work_alert_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the work alert: its own id from the source system."
+        },
+        "name": {
+          "type": "string",
+          "description": "Description of the alert."
+        },
+        "message_text": {
+          "type": "string",
+          "description": "The alert's message text."
+        },
+        "time_stamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the alert was raised."
+        },
+        "priority": {
+          "type": "string",
+          "description": "The alert's priority as the source names it."
+        },
+        "alert_category": {
+          "type": "string",
+          "description": "The alert's category as the source names it."
+        },
+        "published_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the alert was published."
+        },
+        "effective_start_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "From when the alert is effective."
+        },
+        "effective_end_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Until when the alert is effective."
+        }
+      },
+      "required": [
+        "work_alert_id"
+      ]
+    }
+  },
+  "x-delivery": {
+    "work_alert_id": "transactional",
+    "name": "transactional",
+    "message_text": "transactional",
+    "time_stamp": "transactional",
+    "priority": "transactional",
+    "alert_category": "transactional",
+    "published_date": "transactional",
+    "effective_start_date": "transactional",
+    "effective_end_date": "transactional"
+  }
+}

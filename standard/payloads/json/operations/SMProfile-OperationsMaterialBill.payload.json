@@ -1,0 +1,90 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-OperationsMaterialBill.payload.json",
+  "title": "SMProfile-OperationsMaterialBill payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/operations/operations-material-bill.json 1.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-OperationsMaterialBill",
+  "x-profileVersion": "1.1.0",
+  "x-payloadVersion": "1.1.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "OperationsMaterialBill"
+    },
+    "profileRef": {
+      "const": "SMProfile-OperationsMaterialBill"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "operations_material_bill_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the operations material bill: its own id from the source system (ISA-95 OperationsMaterialBill.ID)."
+        },
+        "description": {
+          "type": "string",
+          "description": "ISA-95 OperationsMaterialBill.Description."
+        },
+        "version": {
+          "type": "string",
+          "description": "ISA-95 OperationsMaterialBill.Version."
+        },
+        "published_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISA-95 OperationsMaterialBill.PublishedDate."
+        },
+        "effective_start": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISA-95 OperationsMaterialBill.EffectiveStartDate."
+        },
+        "effective_end": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISA-95 OperationsMaterialBill.EffectiveEndDate."
+        },
+        "use_type": {
+          "type": "string",
+          "description": "ISA-95 OperationsMaterialBill.UseType."
+        },
+        "hierarchy_scope_ref": {
+          "type": "string",
+          "description": "The element of the role-based equipment hierarchy this object belongs to (ISA-95 Part 2 cl. 5.1 hierarchy scope, IN_SCOPE_OF). Optional."
+        },
+        "bill_of_materials_ref": {
+          "type": "string",
+          "description": "The bill of materials in PLM or ERP this material bill was taken from — its id there."
+        },
+        "engineering_change_ref": {
+          "type": "string",
+          "description": "The engineering change (ECN, SAP change number) that released this material bill."
+        }
+      },
+      "required": [
+        "operations_material_bill_id"
+      ]
+    }
+  },
+  "x-delivery": {
+    "operations_material_bill_id": "transactional",
+    "description": "transactional",
+    "version": "transactional",
+    "published_date": "transactional",
+    "effective_start": "transactional",
+    "effective_end": "transactional",
+    "use_type": "transactional",
+    "hierarchy_scope_ref": "transactional",
+    "bill_of_materials_ref": "transactional",
+    "engineering_change_ref": "transactional"
+  }
+}

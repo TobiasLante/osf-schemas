@@ -1,0 +1,88 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-JobList.payload.json",
+  "title": "SMProfile-JobList payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/operations/job-list.json 2.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-JobList",
+  "x-profileVersion": "2.0.0",
+  "x-payloadVersion": "1.1.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "JobList"
+    },
+    "profileRef": {
+      "const": "SMProfile-JobList"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "job_list_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the job list: its own id from the source system (ISA-95 JobList.ID)."
+        },
+        "description": {
+          "type": "string",
+          "description": "ISA-95 JobList.Description."
+        },
+        "version": {
+          "type": "string",
+          "description": "ISA-95 JobList.Version."
+        },
+        "published_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISA-95 JobList.PublishedDate."
+        },
+        "start_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISA-95 JobList.StartTime."
+        },
+        "end_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISA-95 JobList.EndTime."
+        },
+        "work_type": {
+          "type": "string",
+          "enum": [
+            "Production",
+            "Maintenance",
+            "Quality",
+            "Inventory",
+            "Mixed",
+            "Other"
+          ],
+          "description": "ISA-95 JobList.WorkType."
+        },
+        "hierarchy_scope_ref": {
+          "type": "string",
+          "description": "The element of the role-based equipment hierarchy this object belongs to (ISA-95 Part 2 cl. 5.1 hierarchy scope, IN_SCOPE_OF). Optional."
+        }
+      },
+      "required": [
+        "job_list_id"
+      ]
+    }
+  },
+  "x-delivery": {
+    "job_list_id": "transactional",
+    "description": "transactional",
+    "version": "transactional",
+    "published_date": "transactional",
+    "start_time": "transactional",
+    "end_time": "transactional",
+    "work_type": "transactional",
+    "hierarchy_scope_ref": "transactional"
+  }
+}

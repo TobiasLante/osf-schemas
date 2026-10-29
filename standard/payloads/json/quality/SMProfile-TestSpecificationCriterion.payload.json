@@ -1,0 +1,68 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/quality/SMProfile-TestSpecificationCriterion.payload.json",
+  "title": "SMProfile-TestSpecificationCriterion payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/quality/test-specification-criterion.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-TestSpecificationCriterion",
+  "x-profileVersion": "1.0.0",
+  "x-payloadVersion": "1.1.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "TestSpecificationCriterion"
+    },
+    "profileRef": {
+      "const": "SMProfile-TestSpecificationCriterion"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "criterion_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the criterion as the source names it (e.g. the balloon number of the characteristic on the drawing revision)."
+        },
+        "description": {
+          "type": "string",
+          "description": "What the characteristic is, as the source says it."
+        },
+        "sequence": {
+          "type": "integer",
+          "x-unit": "C62",
+          "description": "The order of the criterion within its specification."
+        },
+        "expression": {
+          "type": "string",
+          "description": "The tolerance as the specification states it (e.g. 12.00 ±0.05)."
+        },
+        "evaluated_property": {
+          "type": "string",
+          "description": "The property this criterion evaluates — the parameter (param_name) of the product definition whose band it sets."
+        },
+        "test_specification_ref": {
+          "type": "string",
+          "description": "The test specification (in its revision) this criterion belongs to."
+        }
+      },
+      "required": [
+        "criterion_id"
+      ]
+    }
+  },
+  "x-delivery": {
+    "criterion_id": "transactional",
+    "description": "transactional",
+    "sequence": "transactional",
+    "expression": "transactional",
+    "evaluated_property": "transactional",
+    "test_specification_ref": "transactional"
+  }
+}

@@ -2,7 +2,7 @@
   "type": "record",
   "name": "OperationsResponse",
   "namespace": "org.openshopfloor.payload.operations",
-  "doc": "GENERATED from standard/profiles/operations/operations-response.json 2.3.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "doc": "GENERATED from standard/profiles/operations/operations-response.json 4.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
   "fields": [
     {
       "name": "eventType",
@@ -19,7 +19,7 @@
     {
       "name": "id",
       "type": "string",
-      "doc": "Row key (production_order_no); no + # * > / or space."
+      "doc": "Row key (operations_response_no); no + # * > / or space."
     },
     {
       "name": "entity",
@@ -46,7 +46,58 @@
     {
       "name": "profileVersion",
       "type": "string",
-      "default": "2.3.0"
+      "default": "4.0.0"
+    },
+    {
+      "name": "b2m",
+      "type": [
+        "null",
+        {
+          "type": "record",
+          "name": "B2M",
+          "fields": [
+            {
+              "name": "verb",
+              "type": {
+                "type": "enum",
+                "name": "B2MVerb",
+                "symbols": [
+                  "GET",
+                  "SHOW",
+                  "PROCESS",
+                  "ACKNOWLEDGE",
+                  "CHANGE",
+                  "RESPOND",
+                  "CANCEL",
+                  "CONFIRM",
+                  "SYNC"
+                ]
+              }
+            },
+            {
+              "name": "actionCode",
+              "type": [
+                "null",
+                {
+                  "type": "enum",
+                  "name": "B2MActionCode",
+                  "symbols": [
+                    "Add",
+                    "Change",
+                    "Delete",
+                    "Replaced",
+                    "Accepted",
+                    "Modified",
+                    "Rejected"
+                  ]
+                }
+              ],
+              "default": null
+            }
+          ]
+        }
+      ],
+      "default": null
     },
     {
       "name": "data",
@@ -55,9 +106,18 @@
         "name": "OperationsResponseData",
         "fields": [
           {
-            "name": "production_order_no",
+            "name": "operations_response_no",
             "type": "string",
-            "doc": "Join key — the OperationsRequest whose actuals this confirms (RESPONDS_TO)."
+            "doc": "Identity of the operations response: its own number from the source system (ISA-95 OperationsResponse.ID; core 4.0.0, F3)."
+          },
+          {
+            "name": "production_order_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The production order (OperationsRequest) these actuals answer (RESPONDS_TO). Until core 4.0.0 this was the key production_order_no."
           },
           {
             "name": "article_ref",
@@ -67,6 +127,15 @@
             ],
             "default": null,
             "doc": "Manufactured article (join key to Article)."
+          },
+          {
+            "name": "article_revision",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The revision of the article that was built or used, where the source's article number carries none (a PLM part number with revision A). Empty when the number itself names the revision (at SAP dddd.1)."
           },
           {
             "name": "machine_ref",
@@ -139,6 +208,60 @@
             ],
             "default": null,
             "doc": "Last change. Server-managed and volatile on every read (sim-v5 returns a fresh value per GET), so promotion:never — kept in the snapshot but excluded from the change-trigger and never published on its own."
+          },
+          {
+            "name": "operations_definition_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The OperationsDefinition (FOR_OPERATIONS_DEFINITION; ISA-95 OperationsResponse → OperationsDefinition). Optional."
+          },
+          {
+            "name": "operations_definition_version",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The version of the operations definition this order / response ran with, where the source's definition id carries none (a routing number with its own change state). Empty when the id itself names the version."
+          },
+          {
+            "name": "operations_segment_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The OperationsSegment (FOR_OPERATIONS_SEGMENT; ISA-95 OperationsResponse → OperationsSegment). Optional."
+          },
+          {
+            "name": "operations_performance_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The OperationsPerformance this OperationsResponse is part of (PART_OF; ISA-95 OperationsPerformance MADE_UP_OF OperationsResponse). Optional."
+          },
+          {
+            "name": "segment_requirement_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The SegmentRequirement (RESPONDS_TO; ISA-95 OperationsResponse → SegmentRequirement). Optional."
+          },
+          {
+            "name": "operations_type",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "ISA-95 operations type (B2MML OperationsType; Part 3/4: which MOM area the object belongs to; audit M1). A source without the column sets the constant of the profile's momDomain (columnMappings const)."
           }
         ]
       }

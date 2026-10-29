@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-EquipmentClass",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "standard": "CarToUNS",
   "category": "equipment",
   "displayName": "Equipment Class",
@@ -40,9 +40,61 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
+    },
+    {
+      "name": "base_equipment_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The EquipmentClass (INCLUDES_PROPERTIES_OF; ISA-95 EquipmentClass → EquipmentClass). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "parent_equipment_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The EquipmentClass this EquipmentClass is part of (PART_OF; ISA-95 EquipmentClass MADE_UP_OF EquipmentClass). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "test_specification_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The TestSpecification (TESTED_BY; ISA-95 EquipmentClass → TestSpecification). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
     }
   ],
-  "relationships": [],
+  "relationships": [
+    {
+      "type": "INCLUDES_PROPERTIES_OF",
+      "target": "EquipmentClass",
+      "targetIdProp": "equipment_class_id",
+      "description": "ISA-95 Part 2 cl. 5.5 (B2MML EquipmentClass.EquipmentClassBaseID)."
+    },
+    {
+      "type": "PART_OF",
+      "target": "EquipmentClass",
+      "targetIdProp": "equipment_class_id",
+      "description": "ISA-95 Part 2 cl. 5.5 (B2MML EquipmentClass.EquipmentClassChild)."
+    },
+    {
+      "type": "TESTED_BY",
+      "target": "TestSpecification",
+      "targetIdProp": "test_specification_id",
+      "description": "ISA-95 Part 2 cl. 5.5 (B2MML EquipmentClass.TestSpecificationID)."
+    }
+  ],
   "constraints": [],
   "semantics": [],
   "kpiRefs": [],
@@ -53,13 +105,16 @@
     "equipmentClass": "class",
     "note": "ISA-95 EquipmentClass — SPECIFIES_EQUIPMENT target via OperationsSegment for ProductDefinition; classifies Units.",
     "propertyMap": {
+      "base_equipment_class_ref": "EquipmentClass.EquipmentClassBaseID",
+      "test_specification_ref": "EquipmentClass.TestSpecificationID",
       "equipment_class_id": "EquipmentClass.ID",
       "description": "EquipmentClass.Description"
     },
     "notInIsa95": [
+      "parent_equipment_class_ref",
       "name"
     ],
-    "mappingNote": "name: B2MML EquipmentClass has ID and Description only; the short display name has no element of its own (description maps to Description)."
+    "mappingNote": "name: B2MML EquipmentClass has ID and Description only; the short display name has no element of its own (description maps to Description). Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent)."
   },
   "kgNodeLabel": "EquipmentClass",
   "kgIdProperty": "equipment_class_id"

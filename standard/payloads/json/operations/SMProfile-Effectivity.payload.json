@@ -1,0 +1,93 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-Effectivity.payload.json",
+  "title": "SMProfile-Effectivity payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/operations/effectivity.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-Effectivity",
+  "x-profileVersion": "1.0.0",
+  "x-payloadVersion": "1.1.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "Effectivity"
+    },
+    "profileRef": {
+      "const": "SMProfile-Effectivity"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "effectivity_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the effectivity as the source names it."
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "Date",
+            "SerialNumber",
+            "Lot",
+            "Unit"
+          ],
+          "description": "How the effectivity is stated: Date, SerialNumber, Lot or Unit."
+        },
+        "range_from": {
+          "type": "string",
+          "description": "Start of the range as the source writes it (a date, a serial number or a lot number)."
+        },
+        "range_to": {
+          "type": "string",
+          "description": "End of the range as the source writes it; empty = open."
+        },
+        "article_ref": {
+          "type": "string",
+          "description": "The article (revision) this effectivity qualifies."
+        },
+        "operations_definition_ref": {
+          "type": "string",
+          "description": "The operations definition this effectivity qualifies."
+        },
+        "operations_material_bill_ref": {
+          "type": "string",
+          "description": "The material bill this effectivity qualifies."
+        },
+        "operations_material_bill_item_ref": {
+          "type": "string",
+          "description": "The bill item this effectivity qualifies."
+        },
+        "end_item_ref": {
+          "type": "string",
+          "description": "The end product whose serial numbers, lots or units the range counts."
+        },
+        "engineering_change_ref": {
+          "type": "string",
+          "description": "The engineering change (ECN, SAP change number) under which the effectivity was set."
+        }
+      },
+      "required": [
+        "effectivity_id"
+      ]
+    }
+  },
+  "x-delivery": {
+    "effectivity_id": "transactional",
+    "kind": "transactional",
+    "range_from": "transactional",
+    "range_to": "transactional",
+    "article_ref": "transactional",
+    "operations_definition_ref": "transactional",
+    "operations_material_bill_ref": "transactional",
+    "operations_material_bill_item_ref": "transactional",
+    "end_item_ref": "transactional",
+    "engineering_change_ref": "transactional"
+  }
+}

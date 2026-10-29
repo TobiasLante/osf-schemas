@@ -1,0 +1,455 @@
+{
+  "profileId": "SMProfile-WorkDirective",
+  "version": "2.0.0",
+  "standard": "CarToUNS",
+  "category": "business",
+  "displayName": "Work Directive",
+  "description": "ISA-95 Part 4 cl. 6 (WorkDirective): a work master made specific for one job (the directive the job runs by).",
+  "parentType": null,
+  "abstract": false,
+  "properties": [
+    {
+      "name": "work_directive_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the work directive: its own id from the source system (ISA-95 WorkDirective.ID).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "version",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 WorkDirective.Version.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "description",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 WorkDirective.Description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "published_date",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "ISA-95 WorkDirective.PublishedDate.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "SP"
+    },
+    {
+      "name": "effective_start",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "ISA-95 WorkDirective.EffectiveStartDate.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "SP"
+    },
+    {
+      "name": "effective_end",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "ISA-95 WorkDirective.EffectiveEndDate.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "SP"
+    },
+    {
+      "name": "work_type",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 WorkDirective.WorkType.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD",
+      "enum": [
+        "Production",
+        "Maintenance",
+        "Quality",
+        "Inventory",
+        "Mixed",
+        "Other"
+      ]
+    },
+    {
+      "name": "duration",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 WorkDirective.Duration.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "work_directive_state",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 WorkDirective.WorkDirectiveState.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "SP",
+      "enum": [
+        "Waiting",
+        "Ready",
+        "Running",
+        "Completed",
+        "Aborted",
+        "Held",
+        "Paused",
+        "Suspended",
+        "Closed",
+        "Other"
+      ]
+    },
+    {
+      "name": "hierarchy_scope_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The element of the role-based equipment hierarchy this object belongs to (ISA-95 Part 2 cl. 5.1 hierarchy scope, IN_SCOPE_OF). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "work_master_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The WorkMaster (FOR_WORK_MASTER; ISA-95 WorkDirective → WorkMaster). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "workflow_specification_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The WorkflowSpecification (HAS_WORKFLOW; ISA-95 WorkDirective → WorkflowSpecification). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "parent_work_directive_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The WorkDirective this WorkDirective is part of (PART_OF; ISA-95 WorkDirective MADE_UP_OF WorkDirective). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "machine_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The Machine (SPECIFIES_EQUIPMENT; ISA-95 WorkDirective → Equipment). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "equipment_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The EquipmentClass (SPECIFIES_EQUIPMENT; ISA-95 WorkDirective → EquipmentClass). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "material_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The MaterialClass (SPECIFIES_MATERIAL; ISA-95 WorkDirective → MaterialClass). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "article_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The Article (SPECIFIES_MATERIAL; ISA-95 WorkDirective → MaterialDefinition). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "material_lot_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The MaterialLot (SPECIFIES_MATERIAL; ISA-95 WorkDirective → MaterialLot). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "quant_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The Quant (SPECIFIES_MATERIAL; ISA-95 WorkDirective → MaterialSubLot). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "person_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The Person (SPECIFIES_PERSONNEL; ISA-95 WorkDirective → Person). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "personnel_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The PersonnelClass (SPECIFIES_PERSONNEL; ISA-95 WorkDirective → PersonnelClass). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "tool_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The Tool (SPECIFIES_PHYSICAL_ASSET; ISA-95 WorkDirective → PhysicalAsset). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "physical_asset_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The PhysicalAssetClass (SPECIFIES_PHYSICAL_ASSET; ISA-95 WorkDirective → PhysicalAssetClass). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "test_specification_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The TestSpecification (TESTED_BY; ISA-95 WorkDirective → TestSpecification). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "FOR_WORK_MASTER",
+      "target": "WorkMaster",
+      "targetIdProp": "work_master_id",
+      "description": "ISA-95 Part 4 cl. 6 (B2MML WorkDirective.WorkMasterID)."
+    },
+    {
+      "type": "HAS_WORKFLOW",
+      "target": "WorkflowSpecification",
+      "targetIdProp": "workflow_specification_id",
+      "description": "ISA-95 Part 4 cl. 6 (B2MML WorkDirective.WorkflowSpecification)."
+    },
+    {
+      "type": "PART_OF",
+      "target": "WorkDirective",
+      "targetIdProp": "work_directive_id",
+      "description": "ISA-95 Part 4 cl. 6 (B2MML WorkDirective.WorkDirectiveChild)."
+    },
+    {
+      "type": "SPECIFIES_EQUIPMENT",
+      "target": "Machine",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 4 cl. 6 (B2MML WorkDirective.EquipmentSpecification.EquipmentID)."
+    },
+    {
+      "type": "SPECIFIES_EQUIPMENT",
+      "target": "EquipmentClass",
+      "targetIdProp": "equipment_class_id",
+      "description": "ISA-95 Part 4 cl. 6 (B2MML WorkDirective.EquipmentSpecification.EquipmentClassID)."
+    },
+    {
+      "type": "SPECIFIES_MATERIAL",
+      "target": "MaterialClass",
+      "targetIdProp": "material_class_id",
+      "description": "ISA-95 Part 4 cl. 6 (B2MML WorkDirective.MaterialSpecification.MaterialClassID)."
+    },
+    {
+      "type": "SPECIFIES_MATERIAL",
+      "target": "Article",
+      "targetIdProp": "article_no",
+      "description": "ISA-95 Part 4 cl. 6 (B2MML WorkDirective.MaterialSpecification.MaterialDefinitionID)."
+    },
+    {
+      "type": "SPECIFIES_MATERIAL",
+      "target": "MaterialLot",
+      "targetIdProp": "material_lot_no",
+      "description": "ISA-95 Part 4 cl. 6 (B2MML WorkDirective.MaterialSpecification.MaterialLotID)."
+    },
+    {
+      "type": "SPECIFIES_MATERIAL",
+      "target": "Quant",
+      "targetIdProp": "quant_no",
+      "description": "ISA-95 Part 4 cl. 6 (B2MML WorkDirective.MaterialSpecification.MaterialSubLotID)."
+    },
+    {
+      "type": "SPECIFIES_PERSONNEL",
+      "target": "Person",
+      "targetIdProp": "person_id",
+      "description": "ISA-95 Part 4 cl. 6 (B2MML WorkDirective.PersonnelSpecification.PersonID)."
+    },
+    {
+      "type": "SPECIFIES_PERSONNEL",
+      "target": "PersonnelClass",
+      "targetIdProp": "personnel_class_id",
+      "description": "ISA-95 Part 4 cl. 6 (B2MML WorkDirective.PersonnelSpecification.PersonnelClassID)."
+    },
+    {
+      "type": "SPECIFIES_PHYSICAL_ASSET",
+      "target": "Tooling",
+      "targetIdProp": "tool_id",
+      "description": "ISA-95 Part 4 cl. 6 (B2MML WorkDirective.PhysicalAssetSpecification.PhysicalAssetID)."
+    },
+    {
+      "type": "SPECIFIES_PHYSICAL_ASSET",
+      "target": "PhysicalAssetClass",
+      "targetIdProp": "physical_asset_class_id",
+      "description": "ISA-95 Part 4 cl. 6 (B2MML WorkDirective.PhysicalAssetSpecification.PhysicalAssetClassID)."
+    },
+    {
+      "type": "TESTED_BY",
+      "target": "TestSpecification",
+      "targetIdProp": "test_specification_id",
+      "description": "ISA-95 Part 4 cl. 6 (B2MML WorkDirective.PersonnelSpecification.TestSpecificationID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Enterprise",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Site",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Area",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "WorkCenter",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Machine",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iso:62264-WorkDirective"
+  ],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "WorkDirective",
+    "part": 4,
+    "momDomain": "production",
+    "level": 3,
+    "note": "ISA-95 Part 4 cl. 6 WorkDirective: a work master made specific for one job (the directive the job runs by). Core 4.0.0 (0.3.5, OPEN-0350, owner 07.10.).",
+    "propertyMap": {
+      "work_directive_id": "WorkDirective.ID",
+      "version": "WorkDirective.Version",
+      "description": "WorkDirective.Description",
+      "published_date": "WorkDirective.PublishedDate",
+      "effective_start": "WorkDirective.EffectiveStartDate",
+      "effective_end": "WorkDirective.EffectiveEndDate",
+      "work_type": "WorkDirective.WorkType",
+      "duration": "WorkDirective.Duration",
+      "work_directive_state": "WorkDirective.WorkDirectiveState",
+      "hierarchy_scope_ref": "WorkDirective.HierarchyScope.EquipmentID",
+      "work_master_ref": "WorkDirective.WorkMasterID",
+      "workflow_specification_ref": "WorkDirective.WorkflowSpecification",
+      "machine_ref": "WorkDirective.EquipmentSpecification.EquipmentID",
+      "equipment_class_ref": "WorkDirective.EquipmentSpecification.EquipmentClassID",
+      "material_class_ref": "WorkDirective.MaterialSpecification.MaterialClassID",
+      "article_ref": "WorkDirective.MaterialSpecification.MaterialDefinitionID",
+      "material_lot_ref": "WorkDirective.MaterialSpecification.MaterialLotID",
+      "quant_ref": "WorkDirective.MaterialSpecification.MaterialSubLotID",
+      "person_ref": "WorkDirective.PersonnelSpecification.PersonID",
+      "personnel_class_ref": "WorkDirective.PersonnelSpecification.PersonnelClassID",
+      "tool_ref": "WorkDirective.PhysicalAssetSpecification.PhysicalAssetID",
+      "physical_asset_class_ref": "WorkDirective.PhysicalAssetSpecification.PhysicalAssetClassID",
+      "test_specification_ref": "WorkDirective.PersonnelSpecification.TestSpecificationID"
+    },
+    "notInIsa95": [
+      "parent_work_directive_ref"
+    ],
+    "mappingNote": "Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent)."
+  },
+  "kgNodeLabel": "WorkDirective",
+  "kgIdProperty": "work_directive_id"
+}

@@ -2,7 +2,7 @@
   "type": "record",
   "name": "ShiftWindow",
   "namespace": "org.openshopfloor.payload.operations",
-  "doc": "GENERATED from standard/profiles/operations/shift-window.json 1.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "doc": "GENERATED from standard/profiles/operations/shift-window.json 2.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
   "fields": [
     {
       "name": "eventType",
@@ -19,7 +19,7 @@
     {
       "name": "id",
       "type": "string",
-      "doc": "Row key (no kgIdProperty); no + # * > / or space."
+      "doc": "Row key (shift_window_id); no + # * > / or space."
     },
     {
       "name": "entity",
@@ -46,7 +46,58 @@
     {
       "name": "profileVersion",
       "type": "string",
-      "default": "1.1.0"
+      "default": "2.1.0"
+    },
+    {
+      "name": "b2m",
+      "type": [
+        "null",
+        {
+          "type": "record",
+          "name": "B2M",
+          "fields": [
+            {
+              "name": "verb",
+              "type": {
+                "type": "enum",
+                "name": "B2MVerb",
+                "symbols": [
+                  "GET",
+                  "SHOW",
+                  "PROCESS",
+                  "ACKNOWLEDGE",
+                  "CHANGE",
+                  "RESPOND",
+                  "CANCEL",
+                  "CONFIRM",
+                  "SYNC"
+                ]
+              }
+            },
+            {
+              "name": "actionCode",
+              "type": [
+                "null",
+                {
+                  "type": "enum",
+                  "name": "B2MActionCode",
+                  "symbols": [
+                    "Add",
+                    "Change",
+                    "Delete",
+                    "Replaced",
+                    "Accepted",
+                    "Modified",
+                    "Rejected"
+                  ]
+                }
+              ],
+              "default": null
+            }
+          ]
+        }
+      ],
+      "default": null
     },
     {
       "name": "data",
@@ -54,6 +105,11 @@
         "type": "record",
         "name": "ShiftWindowData",
         "fields": [
+          {
+            "name": "shift_window_id",
+            "type": "string",
+            "doc": "Identity of the shift window: its own number from the source system (ISA-95 WorkCalendarEntry.ID; core 4.0.0 — before, the key was composed of department, weekday and shift)."
+          },
           {
             "name": "department_id",
             "type": "string",
@@ -87,6 +143,24 @@
             ],
             "default": null,
             "doc": "Unpaid break minutes inside the window. Full text: docs/history/standard/profiles/operations/shift-window.md, attributes › break_minutes › description."
+          },
+          {
+            "name": "work_calendar_definition_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The WorkCalendarDefinition this pattern entry belongs to (PART_OF; ISA-95 Part 4 cl. 13, B2MML WorkCalendarDefinition.WorkCalendarDefinitionEntry). Optional."
+          },
+          {
+            "name": "parent_shift_window_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The ShiftWindow this ShiftWindow is part of (PART_OF; ISA-95 WorkCalendarEntry MADE_UP_OF WorkCalendarEntry). Optional."
           }
         ]
       }

@@ -1,0 +1,153 @@
+{
+  "profileId": "SMProfile-ResourceNetworkConnection",
+  "version": "1.0.0",
+  "standard": "CarToUNS",
+  "category": "business",
+  "displayName": "Resource Network Connection",
+  "description": "ISA-95 Part 4 cl. 5 (ResourceNetworkConnection): one connection from a resource to a resource of a resource relationship network.",
+  "parentType": null,
+  "abstract": false,
+  "properties": [
+    {
+      "name": "resource_network_connection_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the resource network connection: its own id from the source system (ISA-95 ResourceNetworkConnection.ID).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "description",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 ResourceNetworkConnection.Description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "resource_network_connection_type_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The ResourceNetworkConnectionType (DEFINED_BY; ISA-95 ResourceNetworkConnection → ResourceNetworkConnectionType). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "from_resource_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The key of the object this ResourceNetworkConnection points at (any object, FROM_RESOURCE); its profile in from_resource_profile. Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "from_resource_profile",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The profile (profileId or label) of the object in from_resource_ref.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "resource_relationship_network_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The ResourceRelationshipNetwork this ResourceNetworkConnection is part of (PART_OF; ISA-95 ResourceRelationshipNetwork MADE_UP_OF ResourceNetworkConnection). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "to_resource_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The key of the object this ResourceNetworkConnection points at (any object, TO_RESOURCE); its profile in to_resource_profile. Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "to_resource_profile",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The profile (profileId or label) of the object in to_resource_ref.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "DEFINED_BY",
+      "target": "ResourceNetworkConnectionType",
+      "targetIdProp": "resource_network_connection_type_id",
+      "description": "ISA-95 Part 4 cl. 5 (B2MML ResourceNetworkConnection.ResourceNetworkConnectionTypeID)."
+    },
+    {
+      "type": "FROM_RESOURCE",
+      "target": "*",
+      "targetProfileProp": "from_resource_profile",
+      "description": "ISA-95 Part 4 cl. 5 (B2MML ResourceNetworkConnection.FromResourceReference.ResourceID)."
+    },
+    {
+      "type": "PART_OF",
+      "target": "ResourceRelationshipNetwork",
+      "targetIdProp": "resource_relationship_network_id",
+      "description": "ISA-95 Part 4 cl. 5 (B2MML ResourceRelationshipNetwork.ResourceNetworkConnection)."
+    },
+    {
+      "type": "TO_RESOURCE",
+      "target": "*",
+      "targetProfileProp": "to_resource_profile",
+      "description": "ISA-95 Part 4 cl. 5 (B2MML ResourceNetworkConnection.ToResourceReference.ResourceID)."
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iso:62264-ResourceNetworkConnection"
+  ],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "ResourceNetworkConnection",
+    "part": 4,
+    "momDomain": "production",
+    "level": 3,
+    "note": "ISA-95 Part 4 cl. 5 ResourceNetworkConnection: one connection from a resource to a resource of a resource relationship network. Core 4.0.0 (0.3.5, OPEN-0350, owner 07.10.).",
+    "propertyMap": {
+      "resource_network_connection_id": "ResourceNetworkConnection.ID",
+      "description": "ResourceNetworkConnection.Description",
+      "resource_network_connection_type_ref": "ResourceNetworkConnection.ResourceNetworkConnectionTypeID",
+      "from_resource_ref": "ResourceNetworkConnection.FromResourceReference.ResourceID",
+      "to_resource_ref": "ResourceNetworkConnection.ToResourceReference.ResourceID"
+    },
+    "notInIsa95": [
+      "from_resource_profile",
+      "resource_relationship_network_ref",
+      "to_resource_profile"
+    ],
+    "mappingNote": "from_resource_profile names the profile of the object in from_resource_ref (B2MML carries the object itself; P9-b). Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent)."
+  },
+  "kgNodeLabel": "ResourceNetworkConnection",
+  "kgIdProperty": "resource_network_connection_id"
+}

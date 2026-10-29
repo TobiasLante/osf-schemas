@@ -1,0 +1,89 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/quality/SMProfile-TestResult.payload.json",
+  "title": "SMProfile-TestResult payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/quality/test-result.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-TestResult",
+  "x-profileVersion": "1.0.0",
+  "x-payloadVersion": "1.1.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "TestResult"
+    },
+    "profileRef": {
+      "const": "SMProfile-TestResult"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "test_result_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the test result."
+        },
+        "description": {
+          "type": "string",
+          "description": "What was tested, as the source says it."
+        },
+        "evaluation_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the result was evaluated."
+        },
+        "expiration": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Until when the result holds (a qualification or a capability test runs out)."
+        },
+        "result": {
+          "type": "string",
+          "enum": [
+            "Passed",
+            "Failed",
+            "NotMeasured"
+          ],
+          "description": "The evaluated criterion result (B2MML TestResult.EvaluatedCriterionResult, free text there): Passed, Failed, or NotMeasured — a test that was never measured is neither a pass nor a fail. A source maps its words with valueMap."
+        },
+        "person_ref": {
+          "type": "string",
+          "description": "The tested object when it is a person (pseudonymous id) — a qualification test (TESTS)."
+        },
+        "machine_ref": {
+          "type": "string",
+          "description": "The tested object when it is a machine (Equipment) — an equipment capability test (TESTS)."
+        },
+        "tool_ref": {
+          "type": "string",
+          "description": "The tested object when it is a tool (physical asset) — a physical asset capability test (TESTS)."
+        },
+        "parent_test_result_ref": {
+          "type": "string",
+          "description": "The parent result this one is part of (PART_OF)."
+        }
+      },
+      "required": [
+        "test_result_id"
+      ]
+    }
+  },
+  "x-delivery": {
+    "test_result_id": "transactional",
+    "description": "transactional",
+    "evaluation_date": "transactional",
+    "expiration": "transactional",
+    "result": "transactional",
+    "person_ref": "transactional",
+    "machine_ref": "transactional",
+    "tool_ref": "transactional",
+    "parent_test_result_ref": "transactional"
+  }
+}

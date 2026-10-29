@@ -1,5 +1,250 @@
 {
-  "_note": "The version of the standard in this tree (KONZEPT-EIN-GUSS §5). A standard release is tagged standard/<version>; W8-RENAME (ISA-95 edge names, aliases) makes it a major: 2.0.0. Core 3.0.0 (F3, F7, F11, MaterialItem: breaking, no transition) makes it a major again: 4.0.0. Core 3.1.0 (WorkMaster, WorkResponse, JobResponse, PersonnelClass, Person, OperationsEvent, WorkRecord, WorkRecordSpecification; TestSpecification, OperationsCapability; JobOrder.work_master_ref: additive) makes it a minor: 4.1.0. Core 3.2.0 (audit clean-up, owner 08.10.2026: every property mapped to ISA-95 or declared outside, setpoints transactional on_change, SMProfile-Machine declares element_id, source_quality on SegmentResponse, quality facet only on readings, the hub by connectionRef) makes it a minor: 4.2.0.",
-  "version": "4.2.0",
-  "grammar": "4.0.0"
+  "_note": "The version of the standard in this tree (KONZEPT-EIN-GUSS §5). A standard release is tagged standard/<version>; W8-RENAME (ISA-95 edge names, aliases) makes it a major: 2.0.0. Core 3.0.0 (F3, F7, F11, MaterialItem: breaking, no transition) makes it a major again: 4.0.0. Core 3.1.0 (WorkMaster, WorkResponse, JobResponse, PersonnelClass, Person, OperationsEvent, WorkRecord, WorkRecordSpecification; TestSpecification, OperationsCapability; JobOrder.work_master_ref: additive) makes it a minor: 4.1.0. Core 3.2.0 (audit clean-up, owner 08.10.2026: every property mapped to ISA-95 or declared outside, setpoints transactional on_change, SMProfile-Machine declares element_id, source_quality on SegmentResponse, quality facet only on readings, the hub by connectionRef) makes it a minor: 4.2.0. Core 4.0.0 (from core 3.2.0 = standard 4.2.0; 0.3.5: the stream split telemetry / transactional, own keys for segment requirement / segment response / operations response / shift window, deprecated = error, ISA-95 Parts 1, 2, 4, 5 complete: breaking) makes it a major: 5.0.0. Core 4.1.0 (from core 4.0.0 = standard 5.0.0; 0.5.2: ISA-88 as MESA BatchML 0701 proves it — 14 profiles under profiles/batch/, grammar 4.4.0 with the isa88 block and catalogue: additive, no existing profile, key or edge changed) makes it a minor: 5.1.0. Core 5.0.0 (from core 4.1.0 = standard 5.1.0; 0.6.0, owner 12.10.2026: SMProfile-CustomerOrder status in the B2MML RequestState vocabulary: breaking) makes it a major: 6.0.0. Core 5.0.2 (from core 5.0.1 = standard 6.0.0; 0.6.6, owner 14.10.2026, the UNS audit of our own core: T1 valueTypes of WorkCalendarEntry, T5 the grain of every class that shares its ISA-95 object: additive, no key, edge or property removed or changed) makes it a minor: 6.1.0. Core 5.0.3 = core 5.0.2 whose standard.json keeps the move record of core 5.0.0 as 5.0.1 carried it (_breakingNote, breaking): 5.0.2 had removed it, and a removed key is classified breaking (the .99 dry run 5.0.1 → 5.0.2, 14.10.); same profiles, same standard 6.1.0. Left for core 6.0.0: E1 (WorkCenter PART_OF Area, the equipment model D1) and the T5 key findings (the equipment levels share element_id, the one Equipment ID of ISA-95 Part 2 — a key of their own would be breaking; BACKLOG-0660 B18). Core 5.0.4 (from core 5.0.3 = standard 6.1.0; 0.6.6, owner 16.10.2026 via opt-cc, variant (a) \"honest and loud\": the rule customer_order_overdue on SMProfile-CustomerOrder 4.1.0 — one new constraint, no key, edge or property removed or changed: additive) makes it a minor: 6.2.0. Core 5.0.5 (from core 5.0.4 = standard 6.2.0; 0.6.6-g, owner 22.10.2026: every profile property reaches the hub, what is no profile property stays on the edge): the 59 properties of SMProfile-InjectionMoldingMachine 3.1.0 (31) and SMProfile-CNC-Machine 3.1.0 (28) that were scope edge are scope hub; nothing else changed. scope edge → hub is additive (owner 22.10.2026: no reader loses a value; hub → edge stays breaking) — a minor: 6.3.0. It needs grammar 4.10.0, which no longer ties promotion raw to scope edge on a machine. Core 6.0.0 (0.7.0, owner 28./29.10.2026: close the ISA-95 gaps of the audit AUDIT-ISA95-2018 — H1 discrete machines at WorkCell in a ProductionLine, H3 every attribute on a B2MML field with a code list speaks that list) makes it a major: 7.0.0.",
+  "_breakingNote": "The move record of this core (0.7.0; the move from core 5.0.x = standard 6.x to core 6.0.0 = standard 7.0.0): every breaking change by name, read by Versions (\"Breaking changes:\") and the move draft; a source keeps its own words and maps them with valueMap.",
+  "_additiveNote": "What core 6.0.0 adds over core 5.0.5, by name.",
+  "version": "7.0.0",
+  "grammar": "4.12.0",
+  "breaking": [
+    {
+      "id": "machines-work-cell",
+      "text": "Machines: a discrete machine (CNC, injection moulding) is a WorkCell of a ProductionLine — ISA-95 Part 1 role-based hierarchy, discrete production (audit H1) — no longer a Unit of a ProcessCell (the batch branch). SMProfile-Machine, -CNC-Machine, -InjectionMoldingMachine say equipmentLevel WorkCell, Machine PART_OF ProductionLine; a plant's lines become ProductionLine, its machines WorkCell. The codes stay, so the UNS addresses stay; every reader of a level (rules, screens) takes a work unit as a machine.",
+      "profiles": [
+        "SMProfile-Machine",
+        "SMProfile-CNC-Machine",
+        "SMProfile-InjectionMoldingMachine"
+      ]
+    },
+    {
+      "id": "production-order-status",
+      "text": "Production order: status speaks the B2MML RequestState vocabulary (B2MML-Common.xsd RequestState1Type) instead of our own list — offen → Waiting, freigegeben → Released, in_arbeit → Running, fertig → Completed, abgeschlossen → Closed, storniert → Cancelled (the way the customer order moved in core 5.0.0); the rule material_ready_after_planned_end guards Released and Running; a source maps its words with valueMap.",
+      "profiles": [
+        "SMProfile-ProductionOrder"
+      ],
+      "values": [
+        {
+          "profile": "SMProfile-ProductionOrder",
+          "property": "status",
+          "map": {
+            "offen": "Waiting",
+            "freigegeben": "Released",
+            "in_arbeit": "Running",
+            "fertig": "Completed",
+            "abgeschlossen": "Closed",
+            "storniert": "Cancelled"
+          }
+        }
+      ]
+    },
+    {
+      "id": "response-states",
+      "text": "Operations response, segment response, job response, job order, work response, work order: status speaks the B2MML state lists (ResponseState1Type, JobOrderDispatchStatus1Type, RequestState1Type) — the operations response's in_arbeit / fertig become Running / Completed; a source maps its words with valueMap (ERP: IN_PROCESS and PARTIAL_CONFIRMED → Running, FINAL_CONFIRMED → Completed; PLANNED → Waiting, RELEASED → Released, IN_PROGRESS → Running, COMPLETED → Completed, CANCELLED → Cancelled, ON_HOLD → Held).",
+      "profiles": [
+        "SMProfile-OperationsResponse",
+        "SMProfile-SegmentResponse",
+        "SMProfile-JobResponse",
+        "SMProfile-JobOrder",
+        "SMProfile-WorkResponse",
+        "SMProfile-Workorder"
+      ],
+      "values": [
+        {
+          "profile": "SMProfile-OperationsResponse",
+          "property": "status",
+          "map": {
+            "in_arbeit": "Running",
+            "fertig": "Completed"
+          }
+        }
+      ]
+    },
+    {
+      "id": "operations-type",
+      "text": "Process segment and operations segment: operations_type speaks B2MML OperationsType (Production, Maintenance, Quality, Inventory, Mixed, Other) instead of lower-case words; a source maps production → Production, quality → Quality, inventory → Inventory, maintenance → Maintenance.",
+      "profiles": [
+        "SMProfile-ProcessSegment",
+        "SMProfile-OperationsSegment"
+      ],
+      "values": [
+        {
+          "profile": "SMProfile-ProcessSegment",
+          "property": "operations_type",
+          "map": {
+            "production": "Production",
+            "quality": "Quality",
+            "inventory": "Inventory",
+            "maintenance": "Maintenance"
+          }
+        },
+        {
+          "profile": "SMProfile-OperationsSegment",
+          "property": "operations_type",
+          "map": {
+            "production": "Production",
+            "quality": "Quality",
+            "inventory": "Inventory",
+            "maintenance": "Maintenance"
+          }
+        }
+      ]
+    },
+    {
+      "id": "material-use",
+      "text": "Segment requirement and segment response: material_use speaks B2MML MaterialUse (Consumable, Consumed, Produced, By-product Produced, Co-product Produced, Yield Produced, Material Consumed, Material Produced, Destructive Sample, Returned Sample, Retained Sample, Inventoried, Other) instead of our own list (ByProduct, Sample, MovedFrom, MovedTo); no source of the demo plant fills it today.",
+      "profiles": [
+        "SMProfile-SegmentRequirement",
+        "SMProfile-SegmentResponse"
+      ],
+      "values": [
+        {
+          "profile": "SMProfile-SegmentRequirement",
+          "property": "material_use",
+          "map": {
+            "Consumable": "Consumable",
+            "Consumed": "Consumed",
+            "Produced": "Produced",
+            "ByProduct": "By-product Produced"
+          }
+        },
+        {
+          "profile": "SMProfile-SegmentResponse",
+          "property": "material_use",
+          "map": {
+            "Consumable": "Consumable",
+            "Consumed": "Consumed",
+            "Produced": "Produced",
+            "ByProduct": "By-product Produced"
+          }
+        }
+      ]
+    },
+    {
+      "id": "code-list-enums",
+      "text": "Every attribute mapped onto a B2MML field with a code list carries that list as its enum (lint-isa95 I19): work_type / operations_type, the schedule, performance and directive states, capability_type, the operations event type, level, MOM and enterprise function, assembly type and relationship, relationship type and form, dependency, definition type, spatial format. A source that sends another word maps it with valueMap.",
+      "profiles": [
+        "SMProfile-JobList",
+        "SMProfile-JobResponseList",
+        "SMProfile-OperationsEventDefinition",
+        "SMProfile-OperationsEvent",
+        "SMProfile-OperationsMaterialBillItem",
+        "SMProfile-OperationsPerformance",
+        "SMProfile-OperationsSchedule",
+        "SMProfile-ResourceRelationshipNetwork",
+        "SMProfile-WorkCapability",
+        "SMProfile-WorkDirective",
+        "SMProfile-WorkMasterCapability",
+        "SMProfile-WorkMaster",
+        "SMProfile-WorkPerformance",
+        "SMProfile-WorkSchedule",
+        "SMProfile-WorkflowSpecificationConnectionType",
+        "SMProfile-WorkflowSpecificationConnection",
+        "SMProfile-WorkflowSpecification",
+        "SMProfile-OperationsCapability",
+        "SMProfile-Machine",
+        "SMProfile-Tooling",
+        "SMProfile-StorageLocation",
+        "SMProfile-Person"
+      ]
+    },
+    {
+      "id": "tooling",
+      "text": "Tool becomes Tooling (owner D3 13.10.2026, audit H2): an abstract physical asset with the kinds Mould, Die, CuttingTool and Fixture; parts_per_shot (the cavity count) lives on the Mould, tool_type is the profile itself, unit_ref and the edges Tool IMPLEMENTATION_OF Machine / InjectionMoldingMachine IMPLEMENTED_BY Tool are gone — the tool a machine runs with is the segment's PhysicalAssetRequirement / PhysicalAssetActual (REQUIRES_PHYSICAL_ASSET / ACTUAL_PHYSICAL_ASSET → Tooling). Every edge to Tool now targets Tooling; the key stays tool_id.",
+      "profiles": [
+        "SMProfile-Tooling",
+        "SMProfile-Mould",
+        "SMProfile-Die",
+        "SMProfile-CuttingTool",
+        "SMProfile-Fixture",
+        "SMProfile-InjectionMoldingMachine"
+      ]
+    }
+  ],
+  "additive": [
+    {
+      "id": "operations-type-on-the-wire",
+      "text": "Orders, requests and responses carry their ISA-95 operations type on the wire (audit M1): operations_type on production order, segment requirement, operations response, segment response, BDE confirmation, operations definition and product definition; work_type on work order, job order, work response and job response — B2MML OperationsType / WorkType, the code list as enum; a source without the column sets the profile's constant (Production). Additive: a new attribute.",
+      "profiles": [
+        "SMProfile-ProductionOrder",
+        "SMProfile-SegmentRequirement",
+        "SMProfile-OperationsResponse",
+        "SMProfile-SegmentResponse",
+        "SMProfile-BdeConfirmation",
+        "SMProfile-OperationsDefinition",
+        "SMProfile-ProductDefinition",
+        "SMProfile-Workorder",
+        "SMProfile-JobOrder",
+        "SMProfile-WorkResponse",
+        "SMProfile-JobResponse"
+      ]
+    },
+    {
+      "id": "isa95-mappings-audit",
+      "text": "Where ISA-95 has the field, the attribute names it (audit M2, M3, M4, L1, L3, L5): the operations definition's article is its produced material specification, planned start, department, good quantity, labour and machine minutes, the NC program, the product parameters and their bands, the machine setpoints map onto B2MML (conditional paths such as MaterialActual[MaterialUse=Produced]); the inspection lot's created_at is no evaluation date; qty_planned is quantity's name; the Level-4 extensions name no MOM domain. Documentation and mapping only: no value changes.",
+      "profiles": [
+        "SMProfile-OperationsDefinition",
+        "SMProfile-ProductionOrder",
+        "SMProfile-BdeConfirmation",
+        "SMProfile-SegmentResponse",
+        "SMProfile-ProductDefinition",
+        "SMProfile-CNC-Machine",
+        "SMProfile-InjectionMoldingMachine",
+        "SMProfile-InspectionLot",
+        "SMProfile-JobOrder",
+        "SMProfile-CustomerOrder",
+        "SMProfile-Customer"
+      ]
+    },
+    {
+      "id": "work-alerts",
+      "text": "ISA-95 Part 4 work alerts (PLAN-0700 S4): SMProfile-WorkAlert and SMProfile-WorkAlertDefinition after B2MML 0701 WorkAlert / WorkAlertDefinition — message, time stamp, priority, category, the effective dates. With them every ISA-95 information object of B2MML 0701 has a profile (the BatchML objects are the ISA-88 profiles'). Additive: two new profiles.",
+      "profiles": [
+        "SMProfile-WorkAlert",
+        "SMProfile-WorkAlertDefinition"
+      ]
+    },
+    {
+      "id": "resource-test-results",
+      "text": "ISA-95 Part 2 cl. 5.9 test results of the resources (PLAN-0700 S2): SMProfile-TestResult after B2MML 0701 TestResult — a personnel qualification test, an equipment or a physical asset capability test names the person, machine or tool it tested (TESTS); B2MML 0701 has one TestResult for every testable object (the 2013 QualificationTestResult, EquipmentCapabilityTestResult, PhysicalAssetCapabilityTestResult). Segment and job responses name it per actual (personnel_ / equipment_ / physical_asset_test_result_ref, HAS_TEST_RESULT); their inspection_lot_ref maps to MaterialActual.TestResult (was PersonnelActual — an inspection lot tests material). Additive: one new profile, three new optional links.",
+      "profiles": [
+        "SMProfile-TestResult",
+        "SMProfile-SegmentResponse",
+        "SMProfile-JobResponse"
+      ]
+    },
+    {
+      "id": "plm-model",
+      "text": "PLM model, part 1 (PLAN-0700 L1–L3, owner 29.10.2026: \"wir bauen kein PLM … nur die Modelle\"): the article carries its revision (MaterialDefinition.Version — at SAP the suffix dddd.1, dddd.2), a version as the second axis and the stem base_article_ref (both extensions), and its effectivity dates; operations definition and material bill name the BOM in PLM / ERP (BillOfMaterialsID), the operations definition its effectivity dates; SMProfile-TestSpecificationCriterion (B2MML TestSpecificationCriteria) is one characteristic of a test specification, whose version is the drawing revision; the product definition names the characteristic and the revision its band came from (characteristic_ref, source_revision — extensions, never invented). Additive: one new profile, new optional fields.",
+      "profiles": [
+        "SMProfile-Article",
+        "SMProfile-OperationsDefinition",
+        "SMProfile-OperationsMaterialBill",
+        "SMProfile-ProductDefinition",
+        "SMProfile-TestSpecification",
+        "SMProfile-TestSpecificationCriterion"
+      ]
+    },
+    {
+      "id": "plm-as-built",
+      "text": "PLM model, part 2 (PLAN-0700 L4, judged 29.10.2026): the as-built chain names the state it built without a composite key — B2MML references a definition by its ID alone, and at SAP the material number carries the revision (dddd.1). Where a source's id carries no version, operations_definition_version (production order, operations / segment response, segment requirement) and article_revision (material lot, operations / segment / job response, BDE confirmation) name it — optional extensions, never part of a key. Additive.",
+      "profiles": [
+        "SMProfile-ProductionOrder",
+        "SMProfile-OperationsResponse",
+        "SMProfile-SegmentRequirement",
+        "SMProfile-SegmentResponse",
+        "SMProfile-MaterialLot",
+        "SMProfile-JobResponse",
+        "SMProfile-BdeConfirmation"
+      ]
+    },
+    {
+      "id": "plm-extensions",
+      "text": "PLM model, part 3 (PLAN-0700 L5–L7, owner 29.10.2026: effectivity by date and by serial / lot both occur, the ERP is the truth): SMProfile-Effectivity (Date / SerialNumber / Lot / Unit, a range, the end item, the engineering change) — data for traceability, never evaluated; SMProfile-EngineeringChange (ECN, SAP change number) named by article, operations definition and material bill; Article.plm_part_ref (the part in PLM). All extensions with their reason. Additive.",
+      "profiles": [
+        "SMProfile-Effectivity",
+        "SMProfile-EngineeringChange",
+        "SMProfile-Article",
+        "SMProfile-OperationsDefinition",
+        "SMProfile-OperationsMaterialBill"
+      ]
+    }
+  ]
 }

@@ -2,10 +2,10 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/material/SMProfile-StorageLocation.payload.json",
   "title": "SMProfile-StorageLocation payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/material/storage-location.json 2.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/material/storage-location.json 3.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-StorageLocation",
-  "x-profileVersion": "2.0.0",
-  "x-payloadVersion": "1.0.0",
+  "x-profileVersion": "3.0.0",
+  "x-payloadVersion": "1.1.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
     "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
@@ -45,6 +45,36 @@
         "area_ref": {
           "type": "string",
           "description": "FK to Area.area_id (PART_OF) — roots the location in the site/area hierarchy."
+        },
+        "operational_location_class_ref": {
+          "type": "string",
+          "description": "The OperationalLocationClass (DEFINED_BY; ISA-95 OperationalLocation → OperationalLocationClass). Optional."
+        },
+        "parent_storage_location_ref": {
+          "type": "string",
+          "description": "The StorageLocation this StorageLocation is part of (PART_OF; ISA-95 OperationalLocation MADE_UP_OF OperationalLocation). Optional."
+        },
+        "spatial_definition": {
+          "type": "string",
+          "description": "The spatial definition (ISA-95 Part 2 cl. 5.2): the location or shape as text in spatial_format. Optional."
+        },
+        "spatial_format": {
+          "type": "string",
+          "enum": [
+            "WKT",
+            "WKB",
+            "GML",
+            "KML",
+            "GPX",
+            "GeoJSON",
+            "SVG",
+            "Other"
+          ],
+          "description": "The format of spatial_definition (e.g. WKT). Optional."
+        },
+        "spatial_srid": {
+          "type": "string",
+          "description": "The spatial reference system of spatial_definition (SRID). Optional."
         }
       },
       "required": [
@@ -57,6 +87,11 @@
     "name": "transactional",
     "warehouse": "transactional",
     "location_type": "transactional",
-    "area_ref": "transactional"
+    "area_ref": "transactional",
+    "operational_location_class_ref": "transactional",
+    "parent_storage_location_ref": "transactional",
+    "spatial_definition": "transactional",
+    "spatial_format": "transactional",
+    "spatial_srid": "transactional"
   }
 }

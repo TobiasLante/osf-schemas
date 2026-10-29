@@ -2,11 +2,14 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/equipment/SMProfile-InjectionMoldingMachine.payload.json",
   "title": "SMProfile-InjectionMoldingMachine payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/equipment/injection-molding-machine.json 3.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: signal (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/equipment/injection-molding-machine.json 4.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: signal (envelope.schema.json).",
   "x-profileRef": "SMProfile-InjectionMoldingMachine",
-  "x-profileVersion": "3.0.0",
-  "x-payloadVersion": "1.0.0",
-  "x-stream": "FACTORY",
+  "x-profileVersion": "4.0.0",
+  "x-payloadVersion": "1.1.0",
+  "x-streams": {
+    "telemetry": "FACTORY_TELEMETRY",
+    "transactional": "FACTORY_TRANSACTIONAL"
+  },
   "x-subjects": {
     "telemetry": "factory.{site}.{machine}.telemetry.{attr}",
     "transactional": "factory.{site}.{machine}.event.{attr}"
@@ -20,6 +23,12 @@
         "properties": {
           "attr": {
             "enum": [
+              "storage_location_ref",
+              "equipment_class_ref",
+              "test_specification_ref",
+              "spatial_definition",
+              "spatial_format",
+              "spatial_srid",
               "element_id",
               "machine_type",
               "status",
@@ -64,6 +73,12 @@
   "properties": {
     "attr": {
       "enum": [
+        "storage_location_ref",
+        "equipment_class_ref",
+        "test_specification_ref",
+        "spatial_definition",
+        "spatial_format",
+        "spatial_srid",
         "element_id",
         "machine_type",
         "status",
@@ -151,6 +166,12 @@
     "barrelZone4TempC"
   ],
   "x-transactional": [
+    "storage_location_ref",
+    "equipment_class_ref",
+    "test_specification_ref",
+    "spatial_definition",
+    "spatial_format",
+    "spatial_srid",
     "element_id",
     "machine_type",
     "status",
@@ -171,6 +192,52 @@
     "colourPurgeRemaining"
   ],
   "x-signals": {
+    "storage_location_ref": {
+      "type": "string",
+      "delivery": "transactional",
+      "scope": "hub",
+      "description": "The StorageLocation (AT_LOCATION; ISA-95 Equipment → OperationalLocation). Optional."
+    },
+    "equipment_class_ref": {
+      "type": "string",
+      "delivery": "transactional",
+      "scope": "hub",
+      "description": "The EquipmentClass (DEFINED_BY; ISA-95 Equipment → EquipmentClass). Optional."
+    },
+    "test_specification_ref": {
+      "type": "string",
+      "delivery": "transactional",
+      "scope": "hub",
+      "description": "The TestSpecification (TESTED_BY; ISA-95 Equipment → TestSpecification). Optional."
+    },
+    "spatial_definition": {
+      "type": "string",
+      "delivery": "transactional",
+      "scope": "hub",
+      "description": "The spatial definition (ISA-95 Part 2 cl. 5.2): the location or shape as text in spatial_format. Optional."
+    },
+    "spatial_format": {
+      "type": "string",
+      "enum": [
+        "WKT",
+        "WKB",
+        "GML",
+        "KML",
+        "GPX",
+        "GeoJSON",
+        "SVG",
+        "Other"
+      ],
+      "delivery": "transactional",
+      "scope": "hub",
+      "description": "The format of spatial_definition (e.g. WKT). Optional."
+    },
+    "spatial_srid": {
+      "type": "string",
+      "delivery": "transactional",
+      "scope": "hub",
+      "description": "The spatial reference system of spatial_definition (SRID). Optional."
+    },
     "element_id": {
       "type": "string",
       "delivery": "transactional",
@@ -205,7 +272,7 @@
       "type": "number",
       "unit": "SEC",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "description": "Machine uptime (seconds)."
     },
     "alarmsCount": {
@@ -243,105 +310,105 @@
       "type": "number",
       "unit": "CEL",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "description": "Actual hot-runner temperature (recipe-monitored)."
     },
     "nozzleTempC": {
       "type": "number",
       "unit": "CEL",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "description": "Actual nozzle / barrel-end temperature."
     },
     "cavityPressureBar": {
       "type": "number",
       "unit": "BAR",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "description": "Actual cavity pressure."
     },
     "mouldPressureBar": {
       "type": "number",
       "unit": "BAR",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "description": "Actual mould pressure."
     },
     "partMass_g": {
       "type": "number",
       "unit": "GRM",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "description": "Actual part mass (recipe-monitored)."
     },
     "peakPressureBar": {
       "type": "number",
       "unit": "BAR",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "description": "Actual peak injection pressure (recipe-monitored, cycle-gated)."
     },
     "holdPressureBar": {
       "type": "number",
       "unit": "BAR",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "description": "Actual hold pressure (recipe-monitored, cycle-gated)."
     },
     "backPressureBar": {
       "type": "number",
       "unit": "BAR",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "description": "Actual back pressure during plasticising."
     },
     "injectionSpeedMmPerSec": {
       "type": "number",
       "unit": "C16",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "description": "Actual injection speed."
     },
     "shotVolumeCm3": {
       "type": "number",
       "unit": "CMQ",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "description": "Actual shot volume."
     },
     "cushionMm": {
       "type": "number",
       "unit": "MMT",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "description": "Actual residual material cushion (recipe-monitored)."
     },
     "plastProgress": {
       "type": "number",
       "unit": "P1",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "description": "Plasticising progress of the current cycle."
     },
     "cycleTimeSec": {
       "type": "number",
       "unit": "SEC",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "description": "Actual cycle time per shot."
     },
     "elapsedSec": {
       "type": "number",
       "unit": "SEC",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "description": "Elapsed time in the current phase."
     },
     "remainingSec": {
       "type": "number",
       "unit": "SEC",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "description": "Remaining time (setup / phase)."
     },
     "switchoverReached": {
@@ -368,21 +435,21 @@
       "type": "number",
       "unit": "CEL",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "description": "Actual mould temperature."
     },
     "coolingFlowLMin": {
       "type": "number",
       "unit": "L2",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "description": "Mould cooling-water flow."
     },
     "lifePercent": {
       "type": "number",
       "unit": "P1",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "description": "Mould life consumed (percent)."
     },
     "totalShots": {
@@ -408,42 +475,42 @@
       "type": "number",
       "unit": "CEL",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "description": "Resin dryer actual temperature."
     },
     "dryerSetpointC": {
       "type": "number",
       "unit": "CEL",
       "delivery": "transactional",
-      "scope": "edge",
+      "scope": "hub",
       "description": "Resin dryer setpoint temperature."
     },
     "dryerResidenceMin": {
       "type": "number",
       "unit": "MIN",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "description": "Actual dryer residence time."
     },
     "dryerResidenceTargetMin": {
       "type": "number",
       "unit": "MIN",
       "delivery": "transactional",
-      "scope": "edge",
+      "scope": "hub",
       "description": "Target dryer residence time."
     },
     "hopperFillPct": {
       "type": "number",
       "unit": "P1",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "description": "Hopper fill level."
     },
     "hopperRefillThresholdPct": {
       "type": "number",
       "unit": "P1",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "description": "Hopper refill threshold."
     },
     "hopperRefillCount": {
@@ -456,14 +523,14 @@
       "type": "number",
       "unit": "P1",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "description": "Regrind ratio."
     },
     "colourMasterbatchPct": {
       "type": "number",
       "unit": "P1",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "description": "Colour masterbatch dosing ratio."
     },
     "colourPurgeRemaining": {
@@ -476,28 +543,28 @@
       "type": "number",
       "unit": "CEL",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "description": "Measured temperature of barrel heating zone 1. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, attributes › barrelZone1TempC › description."
     },
     "barrelZone2TempC": {
       "type": "number",
       "unit": "CEL",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "description": "Measured temperature of barrel heating zone 2. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, attributes › barrelZone2TempC › description."
     },
     "barrelZone3TempC": {
       "type": "number",
       "unit": "CEL",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "description": "Measured temperature of barrel heating zone 3. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, attributes › barrelZone3TempC › description."
     },
     "barrelZone4TempC": {
       "type": "number",
       "unit": "CEL",
       "delivery": "telemetry",
-      "scope": "edge",
+      "scope": "hub",
       "description": "Measured temperature of barrel heating zone 4. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, attributes › barrelZone4TempC › description."
     }
   }

@@ -2,10 +2,10 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-ProductionOrder.payload.json",
   "title": "SMProfile-ProductionOrder payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/operations/production-order.json 3.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/operations/production-order.json 4.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-ProductionOrder",
-  "x-profileVersion": "3.0.0",
-  "x-payloadVersion": "1.0.0",
+  "x-profileVersion": "4.0.0",
+  "x-payloadVersion": "1.1.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
     "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
@@ -80,12 +80,18 @@
         "status": {
           "type": "string",
           "enum": [
-            "offen",
-            "freigegeben",
-            "in_arbeit",
-            "fertig",
-            "abgeschlossen",
-            "storniert"
+            "Forecast",
+            "Released",
+            "Waiting",
+            "Cancelled",
+            "Ready",
+            "Running",
+            "Completed",
+            "Aborted",
+            "Held",
+            "Suspended",
+            "Closed",
+            "Other"
           ],
           "description": "Plan status of the OperationsRequest, as it reaches THIS profile through OUR source binding. Full text: docs/history/standard/profiles/operations/production-order.md, attributes › status › description."
         },
@@ -97,10 +103,38 @@
           "type": "string",
           "description": "v2.0 — instantiated routing (operations_definition_no, FOR_OPERATIONS_DEFINITION)."
         },
+        "operations_definition_version": {
+          "type": "string",
+          "description": "The version of the operations definition this order / response ran with, where the source's definition id carries none (a routing number with its own change state). Empty when the id itself names the version."
+        },
         "updated_at": {
           "type": "string",
           "format": "date-time",
           "description": "Last change. Server-managed and volatile on every read (sim-v5 returns a fresh value per GET), so promotion:never — kept in the snapshot but excluded from the change-trigger and never published on its own."
+        },
+        "operations_segment_ref": {
+          "type": "string",
+          "description": "The OperationsSegment (FOR_OPERATIONS_SEGMENT; ISA-95 OperationsRequest → OperationsSegment). Optional."
+        },
+        "operations_schedule_ref": {
+          "type": "string",
+          "description": "The OperationsSchedule this ProductionOrder is part of (PART_OF; ISA-95 OperationsSchedule MADE_UP_OF OperationsRequest). Optional."
+        },
+        "segment_response_ref": {
+          "type": "string",
+          "description": "The SegmentResponse (REQUESTS_SEGMENT_RESPONSE; ISA-95 OperationsRequest → SegmentResponse). Optional."
+        },
+        "operations_type": {
+          "type": "string",
+          "enum": [
+            "Production",
+            "Maintenance",
+            "Quality",
+            "Inventory",
+            "Mixed",
+            "Other"
+          ],
+          "description": "ISA-95 operations type (B2MML OperationsType; Part 3/4: which MOM area the object belongs to; audit M1). A source without the column sets the constant of the profile's momDomain (columnMappings const)."
         }
       },
       "required": [
@@ -124,6 +158,11 @@
     "status": "transactional",
     "priority": "transactional",
     "operations_definition_ref": "transactional",
-    "updated_at": "transactional"
+    "operations_definition_version": "transactional",
+    "updated_at": "transactional",
+    "operations_segment_ref": "transactional",
+    "operations_schedule_ref": "transactional",
+    "segment_response_ref": "transactional",
+    "operations_type": "transactional"
   }
 }

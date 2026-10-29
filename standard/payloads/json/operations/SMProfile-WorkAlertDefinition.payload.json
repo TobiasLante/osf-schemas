@@ -1,0 +1,80 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-WorkAlertDefinition.payload.json",
+  "title": "SMProfile-WorkAlertDefinition payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/operations/work-alert-definition.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-WorkAlertDefinition",
+  "x-profileVersion": "1.0.0",
+  "x-payloadVersion": "1.1.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "WorkAlertDefinition"
+    },
+    "profileRef": {
+      "const": "SMProfile-WorkAlertDefinition"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "work_alert_definition_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the work alert definition."
+        },
+        "name": {
+          "type": "string",
+          "description": "Description of the definition."
+        },
+        "version_label": {
+          "type": "string",
+          "description": "The definition's version."
+        },
+        "priority": {
+          "type": "string",
+          "description": "The priority alerts of this definition carry."
+        },
+        "alert_category": {
+          "type": "string",
+          "description": "The category alerts of this definition carry."
+        },
+        "published_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the definition was published."
+        },
+        "effective_start_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "From when the definition is effective."
+        },
+        "effective_end_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Until when the definition is effective."
+        }
+      },
+      "required": [
+        "work_alert_definition_id"
+      ]
+    }
+  },
+  "x-delivery": {
+    "work_alert_definition_id": "transactional",
+    "name": "transactional",
+    "version_label": "transactional",
+    "priority": "transactional",
+    "alert_category": "transactional",
+    "published_date": "transactional",
+    "effective_start_date": "transactional",
+    "effective_end_date": "transactional"
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-WorkCalendarEntry.payload.json",
+  "title": "SMProfile-WorkCalendarEntry payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/operations/work-calendar-entry.json 1.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-WorkCalendarEntry",
+  "x-profileVersion": "1.1.0",
+  "x-payloadVersion": "1.1.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "WorkCalendarEntry"
+    },
+    "profileRef": {
+      "const": "SMProfile-WorkCalendarEntry"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "work_calendar_entry_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the work calendar entry (join key): its own number from the source system."
+        },
+        "description": {
+          "type": "string",
+          "description": "What the entry is (e.g. early shift on a given day)."
+        },
+        "published_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the entry was published."
+        },
+        "start_date_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the entry starts."
+        },
+        "finish_date_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the entry finishes."
+        },
+        "entry_type": {
+          "type": "string",
+          "description": "The kind of entry (e.g. shift, planned stop)."
+        },
+        "hierarchy_scope_ref": {
+          "type": "string",
+          "description": "The equipment the entry applies to (IN_SCOPE_OF; ISA-95 Part 2 cl. 5.1 hierarchy scope)."
+        },
+        "work_calendar_ref": {
+          "type": "string",
+          "description": "The WorkCalendar this entry belongs to (PART_OF; B2MML WorkCalendar.WorkCalendarEntry)."
+        },
+        "parent_work_calendar_entry_ref": {
+          "type": "string",
+          "description": "The WorkCalendarEntry this entry is part of (PART_OF; B2MML WorkCalendarEntry.WorkCalendarEntryChild). Optional."
+        },
+        "work_calendar_definition_entry_ref": {
+          "type": "string",
+          "description": "The definition entry (the weekly pattern, e.g. a shift window) this entry was made from (B2MML WorkCalendarEntry.WorkCalendarDefintionEntryID)."
+        }
+      },
+      "required": [
+        "work_calendar_entry_id",
+        "start_date_time"
+      ]
+    }
+  },
+  "x-delivery": {
+    "work_calendar_entry_id": "transactional",
+    "description": "transactional",
+    "published_date": "transactional",
+    "start_date_time": "transactional",
+    "finish_date_time": "transactional",
+    "entry_type": "transactional",
+    "hierarchy_scope_ref": "transactional",
+    "work_calendar_ref": "transactional",
+    "parent_work_calendar_entry_ref": "transactional",
+    "work_calendar_definition_entry_ref": "transactional"
+  }
+}

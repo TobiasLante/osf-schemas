@@ -1,0 +1,117 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/batch/SMProfile-GRecipe.payload.json",
+  "title": "SMProfile-GRecipe payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/batch/g-recipe.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-GRecipe",
+  "x-profileVersion": "1.0.0",
+  "x-payloadVersion": "1.1.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "GRecipe"
+    },
+    "profileRef": {
+      "const": "SMProfile-GRecipe"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "g_recipe_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the recipe: its own id from the batch system (BatchML GRecipe.ID)."
+        },
+        "description": {
+          "type": "string",
+          "description": "BatchML GRecipe.Description."
+        },
+        "recipe_type": {
+          "type": "string",
+          "enum": [
+            "General",
+            "Site",
+            "Other"
+          ],
+          "description": "General or site recipe (BatchML GRecipeType)."
+        },
+        "life_cycle_state": {
+          "type": "string",
+          "enum": [
+            "Draft",
+            "Approved",
+            "Released",
+            "Effective",
+            "Withdrawn",
+            "Other"
+          ],
+          "description": "Life cycle state (BatchML LifeCycleState)."
+        },
+        "derived_from_ref": {
+          "type": "string",
+          "description": "The general recipe this site recipe is derived from (BatchML GRecipeHeader.DerivedFromID)."
+        },
+        "article_ref": {
+          "type": "string",
+          "description": "The product (BatchML GRecipeHeader.ProductID)."
+        },
+        "product_name": {
+          "type": "string",
+          "description": "BatchML GRecipeHeader.ProductName."
+        },
+        "batch_size": {
+          "type": "string",
+          "description": "BatchML GRecipeHeader.BatchSize."
+        },
+        "effective_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "BatchML GRecipeHeader.EffectiveDate."
+        },
+        "expiration_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "BatchML GRecipeHeader.ExpirationDate."
+        },
+        "input_material_ref": {
+          "type": "string",
+          "description": "A process input of the formula (BatchML GRecipeFormula.ProcessInputs.Material.MaterialID); one row per material."
+        },
+        "output_material_ref": {
+          "type": "string",
+          "description": "A process output of the formula (BatchML GRecipeFormula.ProcessOutputs.Material.MaterialID); one row per material."
+        },
+        "intermediate_material_ref": {
+          "type": "string",
+          "description": "A process intermediate of the formula (BatchML GRecipeFormula.ProcessIntermediates.Material.MaterialID); one row per material."
+        }
+      },
+      "required": [
+        "g_recipe_id"
+      ]
+    }
+  },
+  "x-delivery": {
+    "g_recipe_id": "transactional",
+    "description": "transactional",
+    "recipe_type": "transactional",
+    "life_cycle_state": "transactional",
+    "derived_from_ref": "transactional",
+    "article_ref": "transactional",
+    "product_name": "transactional",
+    "batch_size": "transactional",
+    "effective_date": "transactional",
+    "expiration_date": "transactional",
+    "input_material_ref": "transactional",
+    "output_material_ref": "transactional",
+    "intermediate_material_ref": "transactional"
+  }
+}

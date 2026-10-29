@@ -2,10 +2,10 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/equipment/SMProfile-EquipmentClass.payload.json",
   "title": "SMProfile-EquipmentClass payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/equipment/equipment-class.json 2.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/equipment/equipment-class.json 2.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-EquipmentClass",
-  "x-profileVersion": "2.0.0",
-  "x-payloadVersion": "1.0.0",
+  "x-profileVersion": "2.1.0",
+  "x-payloadVersion": "1.1.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
     "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
@@ -37,6 +37,18 @@
         "description": {
           "type": "string",
           "description": "What capability/role this class represents."
+        },
+        "base_equipment_class_ref": {
+          "type": "string",
+          "description": "The EquipmentClass (INCLUDES_PROPERTIES_OF; ISA-95 EquipmentClass → EquipmentClass). Optional."
+        },
+        "parent_equipment_class_ref": {
+          "type": "string",
+          "description": "The EquipmentClass this EquipmentClass is part of (PART_OF; ISA-95 EquipmentClass MADE_UP_OF EquipmentClass). Optional."
+        },
+        "test_specification_ref": {
+          "type": "string",
+          "description": "The TestSpecification (TESTED_BY; ISA-95 EquipmentClass → TestSpecification). Optional."
         }
       },
       "required": [
@@ -47,6 +59,9 @@
   "x-delivery": {
     "equipment_class_id": "transactional",
     "name": "transactional",
-    "description": "transactional"
+    "description": "transactional",
+    "base_equipment_class_ref": "transactional",
+    "parent_equipment_class_ref": "transactional",
+    "test_specification_ref": "transactional"
   }
 }

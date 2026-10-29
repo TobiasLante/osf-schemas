@@ -2,10 +2,10 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-CustomerOrder.payload.json",
   "title": "SMProfile-CustomerOrder payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/operations/customer-order.json 3.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/operations/customer-order.json 4.1.1 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-CustomerOrder",
-  "x-profileVersion": "3.0.0",
-  "x-payloadVersion": "1.0.0",
+  "x-profileVersion": "4.1.1",
+  "x-payloadVersion": "1.1.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
     "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
@@ -58,13 +58,20 @@
         "status": {
           "type": "string",
           "enum": [
-            "offen",
-            "freigegeben",
-            "in_arbeit",
-            "fertig",
-            "abgeschlossen"
+            "Forecast",
+            "Released",
+            "Waiting",
+            "Cancelled",
+            "Ready",
+            "Running",
+            "Completed",
+            "Aborted",
+            "Held",
+            "Suspended",
+            "Closed",
+            "Other"
           ],
-          "description": "Sales-order status, as it reaches THIS profile through OUR source binding. Full text: docs/history/standard/profiles/operations/customer-order.md, attributes › status › description."
+          "description": "Sales-order status in the B2MML RequestState vocabulary (MESA B2MML, the XML implementation of IEC 62264: B2MML-Common.xsd RequestState1Type); a source maps its own values with valueMap. Full text: docs/history/standard/profiles/operations/customer-order.md, attributes › status › description."
         },
         "priority": {
           "type": "string"

@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/equipment/SMProfile-Area.payload.json",
+  "title": "SMProfile-Area payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/equipment/area.json 1.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-Area",
+  "x-profileVersion": "1.1.0",
+  "x-payloadVersion": "1.1.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "Area"
+    },
+    "profileRef": {
+      "const": "SMProfile-Area"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "element_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the element: the id of the plant tree (sites/<site>/instances), the same key as a machine."
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name."
+        },
+        "site_ref": {
+          "type": "string",
+          "description": "The site this area belongs to (PART_OF)."
+        }
+      },
+      "required": [
+        "element_id"
+      ]
+    }
+  },
+  "x-delivery": {
+    "element_id": "transactional",
+    "name": "transactional",
+    "site_ref": "transactional"
+  }
+}

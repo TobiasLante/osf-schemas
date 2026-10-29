@@ -1,0 +1,112 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-WorkSchedule.payload.json",
+  "title": "SMProfile-WorkSchedule payload (NATS, MQTT)",
+  "description": "GENERATED from standard/profiles/operations/work-schedule.json 2.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "x-profileRef": "SMProfile-WorkSchedule",
+  "x-profileVersion": "2.0.0",
+  "x-payloadVersion": "1.1.0",
+  "x-stream": "BUSINESS",
+  "x-subjects": {
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+  },
+  "allOf": [
+    {
+      "$ref": "../../envelope.schema.json#/definitions/entity"
+    }
+  ],
+  "properties": {
+    "entity": {
+      "const": "WorkSchedule"
+    },
+    "profileRef": {
+      "const": "SMProfile-WorkSchedule"
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "work_schedule_id": {
+          "type": "string",
+          "pattern": "^[^+#*>/\\s]+$",
+          "description": "Identity of the work schedule: its own id from the source system (ISA-95 WorkSchedule.ID)."
+        },
+        "description": {
+          "type": "string",
+          "description": "ISA-95 WorkSchedule.Description."
+        },
+        "version": {
+          "type": "string",
+          "description": "ISA-95 WorkSchedule.Version."
+        },
+        "published_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISA-95 WorkSchedule.PublishedDate."
+        },
+        "start_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISA-95 WorkSchedule.StartTime."
+        },
+        "end_time": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISA-95 WorkSchedule.EndTime."
+        },
+        "work_type": {
+          "type": "string",
+          "enum": [
+            "Production",
+            "Maintenance",
+            "Quality",
+            "Inventory",
+            "Mixed",
+            "Other"
+          ],
+          "description": "ISA-95 WorkSchedule.WorkType."
+        },
+        "schedule_state": {
+          "type": "string",
+          "enum": [
+            "Forecast",
+            "Released",
+            "Waiting",
+            "Cancelled",
+            "Ready",
+            "Running",
+            "Completed",
+            "Aborted",
+            "Held",
+            "Suspended",
+            "Closed",
+            "Other"
+          ],
+          "description": "ISA-95 WorkSchedule.ScheduleState."
+        },
+        "hierarchy_scope_ref": {
+          "type": "string",
+          "description": "The element of the role-based equipment hierarchy this object belongs to (ISA-95 Part 2 cl. 5.1 hierarchy scope, IN_SCOPE_OF). Optional."
+        },
+        "parent_work_schedule_ref": {
+          "type": "string",
+          "description": "The WorkSchedule this WorkSchedule is part of (PART_OF; ISA-95 WorkSchedule MADE_UP_OF WorkSchedule). Optional."
+        }
+      },
+      "required": [
+        "work_schedule_id"
+      ]
+    }
+  },
+  "x-delivery": {
+    "work_schedule_id": "transactional",
+    "description": "transactional",
+    "version": "transactional",
+    "published_date": "transactional",
+    "start_time": "transactional",
+    "end_time": "transactional",
+    "work_type": "transactional",
+    "schedule_state": "transactional",
+    "hierarchy_scope_ref": "transactional",
+    "parent_work_schedule_ref": "transactional"
+  }
+}

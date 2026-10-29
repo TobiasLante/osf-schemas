@@ -1,0 +1,246 @@
+{
+  "profileId": "SMProfile-GRecipe",
+  "version": "1.0.0",
+  "standard": "CarToUNS",
+  "category": "business",
+  "displayName": "General / site recipe",
+  "description": "ISA-88 Part 3 (BatchML GRecipe): a general or a site recipe — its type, life cycle, header and formula.",
+  "parentType": null,
+  "abstract": false,
+  "properties": [
+    {
+      "name": "g_recipe_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the recipe: its own id from the batch system (BatchML GRecipe.ID).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "description",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML GRecipe.Description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "recipe_type",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "General or site recipe (BatchML GRecipeType).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD",
+      "enum": [
+        "General",
+        "Site",
+        "Other"
+      ]
+    },
+    {
+      "name": "life_cycle_state",
+      "dataType": "String",
+      "required": false,
+      "category": "Lifecycle",
+      "description": "Life cycle state (BatchML LifeCycleState).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV",
+      "enum": [
+        "Draft",
+        "Approved",
+        "Released",
+        "Effective",
+        "Withdrawn",
+        "Other"
+      ]
+    },
+    {
+      "name": "derived_from_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The general recipe this site recipe is derived from (BatchML GRecipeHeader.DerivedFromID).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "article_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The product (BatchML GRecipeHeader.ProductID).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "product_name",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML GRecipeHeader.ProductName.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "batch_size",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML GRecipeHeader.BatchSize.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "SP"
+    },
+    {
+      "name": "effective_date",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "BatchML GRecipeHeader.EffectiveDate.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "SP"
+    },
+    {
+      "name": "expiration_date",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "BatchML GRecipeHeader.ExpirationDate.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "SP"
+    },
+    {
+      "name": "input_material_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "A process input of the formula (BatchML GRecipeFormula.ProcessInputs.Material.MaterialID); one row per material.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "output_material_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "A process output of the formula (BatchML GRecipeFormula.ProcessOutputs.Material.MaterialID); one row per material.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "intermediate_material_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "A process intermediate of the formula (BatchML GRecipeFormula.ProcessIntermediates.Material.MaterialID); one row per material.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "DERIVED_FROM",
+      "target": "GRecipe",
+      "targetIdProp": "g_recipe_id",
+      "description": "The general recipe a site recipe is derived from (BatchML GRecipeHeader.DerivedFromID)."
+    },
+    {
+      "type": "FOR_PRODUCT",
+      "target": "Article",
+      "targetIdProp": "article_no",
+      "description": "The product of the recipe (BatchML GRecipeHeader.ProductID; BatchML does not type it as a MaterialDefinitionID)."
+    },
+    {
+      "type": "CONSUMES",
+      "target": "Article",
+      "targetIdProp": "article_no",
+      "description": "A process input of the formula (BatchML GRecipeMaterial.MaterialID; definition or class)."
+    },
+    {
+      "type": "CONSUMES",
+      "target": "MaterialClass",
+      "targetIdProp": "material_class_id",
+      "description": "A process input of the formula (BatchML GRecipeMaterial.MaterialID; definition or class)."
+    },
+    {
+      "type": "PRODUCES",
+      "target": "Article",
+      "targetIdProp": "article_no",
+      "description": "A process output of the formula (BatchML GRecipeMaterial.MaterialID; definition or class)."
+    },
+    {
+      "type": "PRODUCES",
+      "target": "MaterialClass",
+      "targetIdProp": "material_class_id",
+      "description": "A process output of the formula (BatchML GRecipeMaterial.MaterialID; definition or class)."
+    },
+    {
+      "type": "INTERMEDIATE",
+      "target": "Article",
+      "targetIdProp": "article_no",
+      "description": "A process intermediate of the formula (BatchML GRecipeMaterial.MaterialID; definition or class)."
+    },
+    {
+      "type": "INTERMEDIATE",
+      "target": "MaterialClass",
+      "targetIdProp": "material_class_id",
+      "description": "A process intermediate of the formula (BatchML GRecipeMaterial.MaterialID; definition or class)."
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iec:61512-GRecipe"
+  ],
+  "kpiRefs": [],
+  "isa88": {
+    "objectModel": "GRecipe",
+    "part": 3,
+    "grain": "one general or site recipe (version per recipe id)",
+    "note": "ISA-88 Part 3 as MESA BatchML 0701 carries it (BatchML-GeneralRecipe.xsd GRecipe). Core 4.1.0 (0.5.2, OPEN-0360, owner 09.10.2026).",
+    "propertyMap": {
+      "g_recipe_id": "GRecipe.ID",
+      "description": "GRecipe.Description",
+      "recipe_type": "GRecipe.GRecipeType",
+      "life_cycle_state": "GRecipe.LifeCycleState",
+      "derived_from_ref": "GRecipe.Header.DerivedFromID",
+      "article_ref": "GRecipe.Header.ProductID",
+      "product_name": "GRecipe.Header.ProductName",
+      "batch_size": "GRecipe.Header.BatchSize",
+      "effective_date": "GRecipe.Header.EffectiveDate",
+      "expiration_date": "GRecipe.Header.ExpirationDate",
+      "input_material_ref": "GRecipe.Formula.ProcessInputs.Material.MaterialID",
+      "output_material_ref": "GRecipe.Formula.ProcessOutputs.Material.MaterialID",
+      "intermediate_material_ref": "GRecipe.Formula.ProcessIntermediates.Material.MaterialID"
+    }
+  },
+  "kgNodeLabel": "GRecipe",
+  "kgIdProperty": "g_recipe_id"
+}

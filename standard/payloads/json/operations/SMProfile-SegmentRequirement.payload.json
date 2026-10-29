@@ -2,10 +2,10 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-SegmentRequirement.payload.json",
   "title": "SMProfile-SegmentRequirement payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/operations/segment-requirement.json 3.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/operations/segment-requirement.json 4.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-SegmentRequirement",
-  "x-profileVersion": "3.0.0",
-  "x-payloadVersion": "1.0.0",
+  "x-profileVersion": "4.0.0",
+  "x-payloadVersion": "1.1.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
     "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
@@ -28,7 +28,7 @@
         "segment_requirement_no": {
           "type": "string",
           "pattern": "^[^+#*>/\\s]+$",
-          "description": "Identity of the SegmentRequirement (join key). Recommendation: <production_order_no>.<sequence>."
+          "description": "Identity of the SegmentRequirement (join key): its number within its production order, <production_order_no>.<operation number> — as the source system keys an operation (order + operation number; OPEN-0350 round 4)."
         },
         "production_order_ref": {
           "type": "string",
@@ -49,13 +49,19 @@
         "material_use": {
           "type": "string",
           "enum": [
+            "Consumable",
             "Consumed",
             "Produced",
-            "Consumable",
-            "ByProduct",
-            "Sample",
-            "MovedFrom",
-            "MovedTo"
+            "By-product Produced",
+            "Co-product Produced",
+            "Yield Produced",
+            "Material Consumed",
+            "Material Produced",
+            "Destructive Sample",
+            "Returned Sample",
+            "Retained Sample",
+            "Inventoried",
+            "Other"
           ],
           "description": "ISA-95 MaterialRequirement.MaterialUse — the ROLE of the material in this stage. Encodes the 'Being Consumed/Produced/Tested/Moved'."
         },
@@ -80,6 +86,74 @@
           "type": "string",
           "format": "date-time",
           "description": "Planned stage end (target)."
+        },
+        "operations_definition_ref": {
+          "type": "string",
+          "description": "The OperationsDefinition (FOR_OPERATIONS_DEFINITION; ISA-95 SegmentRequirement → OperationsDefinition). Optional."
+        },
+        "operations_definition_version": {
+          "type": "string",
+          "description": "The version of the operations definition this order / response ran with, where the source's definition id carries none (a routing number with its own change state). Empty when the id itself names the version."
+        },
+        "operations_segment_ref": {
+          "type": "string",
+          "description": "The OperationsSegment (FOR_OPERATIONS_SEGMENT; ISA-95 SegmentRequirement → OperationsSegment). Optional."
+        },
+        "parent_segment_requirement_ref": {
+          "type": "string",
+          "description": "The SegmentRequirement this SegmentRequirement is part of (PART_OF; ISA-95 SegmentRequirement MADE_UP_OF SegmentRequirement). Optional."
+        },
+        "segment_response_ref": {
+          "type": "string",
+          "description": "The SegmentResponse (REQUESTS_SEGMENT_RESPONSE; ISA-95 SegmentRequirement → SegmentResponse). Optional."
+        },
+        "equipment_class_ref": {
+          "type": "string",
+          "description": "The EquipmentClass (REQUIRES_EQUIPMENT; ISA-95 SegmentRequirement → EquipmentClass). Optional."
+        },
+        "material_class_ref": {
+          "type": "string",
+          "description": "The MaterialClass (REQUIRES_MATERIAL; ISA-95 SegmentRequirement → MaterialClass). Optional."
+        },
+        "material_lot_ref": {
+          "type": "string",
+          "description": "The MaterialLot (REQUIRES_MATERIAL; ISA-95 SegmentRequirement → MaterialLot). Optional."
+        },
+        "quant_ref": {
+          "type": "string",
+          "description": "The Quant (REQUIRES_MATERIAL; ISA-95 SegmentRequirement → MaterialSubLot). Optional."
+        },
+        "person_ref": {
+          "type": "string",
+          "description": "The Person (REQUIRES_PERSONNEL; ISA-95 SegmentRequirement → Person). Optional."
+        },
+        "personnel_class_ref": {
+          "type": "string",
+          "description": "The PersonnelClass (REQUIRES_PERSONNEL; ISA-95 SegmentRequirement → PersonnelClass). Optional."
+        },
+        "tool_ref": {
+          "type": "string",
+          "description": "The Tool (REQUIRES_PHYSICAL_ASSET; ISA-95 SegmentRequirement → PhysicalAsset). Optional."
+        },
+        "physical_asset_class_ref": {
+          "type": "string",
+          "description": "The PhysicalAssetClass (REQUIRES_PHYSICAL_ASSET; ISA-95 SegmentRequirement → PhysicalAssetClass). Optional."
+        },
+        "test_specification_ref": {
+          "type": "string",
+          "description": "The TestSpecification (TESTED_BY; ISA-95 SegmentRequirement → TestSpecification). Optional."
+        },
+        "operations_type": {
+          "type": "string",
+          "enum": [
+            "Production",
+            "Maintenance",
+            "Quality",
+            "Inventory",
+            "Mixed",
+            "Other"
+          ],
+          "description": "ISA-95 operations type (B2MML OperationsType; Part 3/4: which MOM area the object belongs to; audit M1). A source without the column sets the constant of the profile's momDomain (columnMappings const)."
         }
       },
       "required": [
@@ -99,6 +173,21 @@
     "unit_of_measure": "transactional",
     "equipment_ref": "transactional",
     "planned_start_time": "transactional",
-    "planned_end_time": "transactional"
+    "planned_end_time": "transactional",
+    "operations_definition_ref": "transactional",
+    "operations_definition_version": "transactional",
+    "operations_segment_ref": "transactional",
+    "parent_segment_requirement_ref": "transactional",
+    "segment_response_ref": "transactional",
+    "equipment_class_ref": "transactional",
+    "material_class_ref": "transactional",
+    "material_lot_ref": "transactional",
+    "quant_ref": "transactional",
+    "person_ref": "transactional",
+    "personnel_class_ref": "transactional",
+    "tool_ref": "transactional",
+    "physical_asset_class_ref": "transactional",
+    "test_specification_ref": "transactional",
+    "operations_type": "transactional"
   }
 }
