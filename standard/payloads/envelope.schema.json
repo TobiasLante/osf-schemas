@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/envelope.schema.json",
   "title": "OSF payload envelope (NATS, MQTT, Kafka) - v1.1.0",
-  "description": "GENERATED from standard/sync/uns-convention.json 2.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Two shapes. signal = OT world (categories machine): one message per signal; telemetry on factory.{site}.{machine}.telemetry.{attr}, transactional on factory.{site}.{machine}.event.{attr} (streams FACTORY_TELEMETRY / FACTORY_TRANSACTIONAL). entity = IT world (categories business, material, quality, equipment): one message per source row on business.{enterprise}.{sourceId}.{entity}.{eventType}.{id} (stream BUSINESS), always transactional. A transactional message carries msgId: the JetStream Nats-Msg-Id and the Kafka key, for deduplication. b2m (optional): the ISA-95 Part 5 transaction verb and action code — a row is SYNC Add / Change / Delete (its eventType), a transactional signal SYNC Add, telemetry none.",
+  "description": "GENERATED from standard/sync/uns-convention.json 2.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Two shapes. signal = OT world (categories machine): one message per signal; telemetry on factory.{site}.{entity}.{machine}.telemetry.{attr}, transactional on factory.{site}.{entity}.{machine}.event.{attr} (streams FACTORY_TELEMETRY / FACTORY_TRANSACTIONAL). entity = IT world (categories business, material, quality, equipment): one message per source row on business.{enterprise}.{site}.{entity}.{sourceId}.{eventType}.{id} (stream BUSINESS), always transactional. A transactional message carries msgId: the JetStream Nats-Msg-Id, for deduplication; on Kafka a contract has ONE topic per site (<prefix>.{site}.{entity}, TopicNameStrategy) and the message key is the entity's key (the profile's kgIdProperty). b2m (optional): the ISA-95 Part 5 transaction verb and action code — a row is SYNC Add / Change / Delete (its eventType), a transactional signal SYNC Add, telemetry none.",
   "definitions": {
     "b2m": {
       "type": "object",
@@ -157,7 +157,7 @@
         "msgId": {
           "type": "string",
           "minLength": 1,
-          "description": "Unique message id (Nats-Msg-Id / Kafka key). Required for transactional."
+          "description": "Unique message id (Nats-Msg-Id; on Kafka the key is the entity's kgIdProperty). Required for transactional."
         },
         "quality": {
           "type": "string",
@@ -269,7 +269,7 @@
         "msgId": {
           "type": "string",
           "minLength": 1,
-          "description": "Unique message id (Nats-Msg-Id / Kafka key)."
+          "description": "Unique message id (Nats-Msg-Id; on Kafka the key is the entity's kgIdProperty)."
         },
         "profileRef": {
           "type": "string",

@@ -1,6 +1,12 @@
 {
   "type": "record",
   "name": "ProcessElement",
+  "x-kafka": {
+    "contract": "ProcessElement",
+    "key": "process_element_id",
+    "topic": "<prefix>.{site}.ProcessElement",
+    "strategy": "TopicNameStrategy"
+  },
   "namespace": "org.openshopfloor.payload.batch",
   "doc": "GENERATED from standard/profiles/batch/process-element.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
   "fields": [
@@ -36,7 +42,7 @@
     {
       "name": "msgId",
       "type": "string",
-      "doc": "Unique message id: the Kafka key, for deduplication."
+      "doc": "Unique message id: the Nats-Msg-Id, for deduplication. The Kafka key is the entity's key, process_element_id (x-kafka)."
     },
     {
       "name": "profileRef",

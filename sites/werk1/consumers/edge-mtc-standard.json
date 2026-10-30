@@ -7,9 +7,15 @@
   "carries": [
     "opcua-mtbridge-cnc-01"
   ],
+  "emitter": {
+    "type": "unsac-edge"
+  },
+  "syncs": [
+    "opcua-to-nats-cnc-mtc-01"
+  ],
   "capacity": 18,
   "authoring": "compiled",
-  "description": "Standard OT edge of cnc-mtc-01: subscribes the Sonder-Edge OPC-UA server, publishes to the hub. Capacity = signal count today, measured 23.09.",
+  "description": "Standard OT edge of cnc-mtc-01: subscribes the Sonder-Edge OPC-UA server, publishes to the hub. Capacity = signal count today, measured 23.09. Runs today as an old v4 edge; its move to v5 (emitter.type unsac-edge, the target) is open (owner 30.10.2026).",
   "feedback": {
     "grains": [
       "loaded"

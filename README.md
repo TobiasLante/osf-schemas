@@ -107,7 +107,7 @@ osf-schemas/
 │   └── werk1/                  
 │       ├── branding/               brand/theme assets (1 json)
 │       ├── connections/             (2 json)
-│       ├── consumers/               (15 json)
+│       ├── consumers/               (19 json)
 │       ├── historians/             historian-sink templates + instances (OUTPUT: UNS → customer DB)
 │       │   ├── grafana-dashboards/      (4 json)
 │       │   └── instances/               (3 json)
