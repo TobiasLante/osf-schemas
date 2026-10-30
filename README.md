@@ -2,6 +2,8 @@
 
 3-Schema system for the OpenShopFloor Knowledge Graph. The KG Builder pulls this repo and automatically constructs a Neo4j/Apache AGE Knowledge Graph — no LLM, no manual graph construction.
 
+The grammar (the meta-schemas every profile, source, instance and recipe is validated against) lives in i3x-v5 `packages/uns-grammar/validation/`, not in this repo.
+
 ## OSF vs. CESMII SM Profiles
 
 OSF schemas are inspired by [CESMII Smart Manufacturing Profiles](https://www.cesmii.org/) but extend them for Knowledge Graph construction:

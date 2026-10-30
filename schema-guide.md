@@ -597,9 +597,9 @@ Derived from `contract.json` (`nodes` grouped by key property; `edges` for usage
 In v3 every variable in an SM Profile carries a three-property contract that
 declares how its data is wired, where it is allowed to land, and what triggers
 a publish. These are **required** on every attribute in
-profiles with `category: "machine"` (under `standard/profiles/equipment/`, validated by `standard/validation/machine-profile-schema.json`)
+profiles with `category: "machine"` (under `standard/profiles/equipment/`, validated by `i3x-v5 packages/uns-grammar/validation/machine-profile-schema.json`)
 and the business-category profiles under `profiles/{erp,operations,qms,wms}/`
-(validated by `standard/validation/business-profile-schema.json` — there is no
+(validated by `i3x-v5 packages/uns-grammar/validation/business-profile-schema.json` — there is no
 `standard/profiles/business/` directory).
 
 ### `delivery` — wire class

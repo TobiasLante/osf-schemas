@@ -6,7 +6,7 @@ checked by a linter, not by review:
 | check | what it holds |
 |---|---|
 | lint-isa95 I7 | every `isa95.propertyMap` path resolves against B2MML 0701; a path may carry a condition `Child[Field=Value]` (e.g. `SegmentResponse.MaterialActual[MaterialUse=Produced].Quantity`) whose field must exist on the child |
-| lint-isa95 I10–I15 | every edge of a profile has its B2MML path in the grammar (`relationship-types.json` isa95), or is an extension / derived edge with its reason |
+| lint-isa95 I10–I15 | every edge of a profile has its B2MML path in the grammar (`i3x-v5 packages/uns-grammar/validation/relationship-types.json` isa95), or is an extension / derived edge with its reason |
 | lint-isa95 I16 | a property outside ISA-95 (`notInIsa95`) carries a `mappingNote` |
 | lint-isa95 I19 | a property mapped onto a B2MML field WITH a code list carries an enum that is a subset of that list (Other allowed) |
 | lint-isa88 | the same for the BatchML claims of the ISA-88 profiles |

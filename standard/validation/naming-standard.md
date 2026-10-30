@@ -1,7 +1,7 @@
 # OSF Naming Standard
 
 **Status:** descriptive. The level labels below are enforced by the `equipmentLevel` enum in
-`profile-unified-schema.json` and `intelligence-profile-schema.json`; `equipmentPath` is active since
+`i3x-v5 packages/uns-grammar/validation/profile-unified-schema.json` and `i3x-v5 packages/uns-grammar/validation/intelligence-profile-schema.json`; `equipmentPath` is active since
 next2.0 (see the last section). Nothing else validates against this file. It documents the identifier/label conventions **already in use** and pins one
 reserved forward-looking alias (`equipmentPath`). Machine-readable companion:
 [`naming-standard.json`](./naming-standard.json).
