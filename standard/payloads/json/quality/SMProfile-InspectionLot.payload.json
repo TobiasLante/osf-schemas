@@ -2,9 +2,9 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/quality/SMProfile-InspectionLot.payload.json",
   "title": "SMProfile-InspectionLot payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/quality/inspection-lot.json 3.2.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/quality/inspection-lot.json 3.3.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-InspectionLot",
-  "x-profileVersion": "3.2.0",
+  "x-profileVersion": "3.3.0",
   "x-payloadVersion": "1.1.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
@@ -73,6 +73,14 @@
           "type": "string",
           "format": "date-time"
         },
+        "material_lot_ref": {
+          "type": "string",
+          "description": "The inspected object when it is a material lot (B2MML MaterialLot) — the inspected charge (TESTS); not fed yet: the sim serves no lot per inspection lot (sim-v5 S10)."
+        },
+        "quant_ref": {
+          "type": "string",
+          "description": "The inspected object when it is a material sublot (Quant = B2MML MaterialSubLot) (TESTS); not fed yet (sim-v5 S10)."
+        },
         "parent_inspection_lot_ref": {
           "type": "string",
           "description": "The InspectionLot this InspectionLot is part of (PART_OF; ISA-95 TestResult MADE_UP_OF TestResult). Optional."
@@ -95,6 +103,8 @@
     "quantity": "transactional",
     "sample_size": "transactional",
     "created_at": "transactional",
+    "material_lot_ref": "transactional",
+    "quant_ref": "transactional",
     "parent_inspection_lot_ref": "transactional"
   }
 }

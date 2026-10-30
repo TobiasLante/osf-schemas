@@ -293,6 +293,13 @@
       "profiles": [
         "SMProfile-TestResult"
       ]
+    },
+    {
+      "id": "inspection-lot-material",
+      "text": "Inspection lot on its lot (owner 30.10.2026, item 7): SMProfile-InspectionLot's grain says \"the inspected article or lot\" but it only TESTS Article; it now also TESTS MaterialLot (material_lot_ref) and TESTS Quant (quant_ref, the MaterialSubLot), both B2MML TestResult.TestableObjectID (ISA-95 Part 2 cl. 5.9), as TestResult does (test-result-material). The source maps nothing yet: the sim serves no lot per inspection lot (sim-v5 S10). New optional properties and edges only; nothing removed. Additive.",
+      "profiles": [
+        "SMProfile-InspectionLot"
+      ]
     }
   ]
 }

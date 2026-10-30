@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-InspectionLot",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "standard": "CarToUNS",
   "category": "quality",
   "displayName": "Inspection Lot",
@@ -140,6 +140,28 @@
       "promotion": "on_change"
     },
     {
+      "name": "material_lot_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The inspected object when it is a material lot (B2MML MaterialLot) — the inspected charge (TESTS); not fed yet: the sim serves no lot per inspection lot (sim-v5 S10).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "quant_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The inspected object when it is a material sublot (Quant = B2MML MaterialSubLot) (TESTS); not fed yet (sim-v5 S10).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
       "name": "parent_inspection_lot_ref",
       "dataType": "String",
       "required": false,
@@ -156,6 +178,18 @@
       "type": "TESTS",
       "target": "Article",
       "targetIdProp": "article_no"
+    },
+    {
+      "type": "TESTS",
+      "target": "MaterialLot",
+      "targetIdProp": "material_lot_no",
+      "description": "The inspected object: a material lot (B2MML TestResult.TestableObjectID)."
+    },
+    {
+      "type": "TESTS",
+      "target": "Quant",
+      "targetIdProp": "quant_no",
+      "description": "The inspected object: a material sublot (Quant = MaterialSubLot) (B2MML TestResult.TestableObjectID)."
     },
     {
       "type": "PART_OF",
@@ -194,11 +228,13 @@
     "part": 2,
     "momDomain": "quality",
     "level": 3,
-    "note": "Inspection lot = TestResult (B2MML OperationsTest): the lot is the tested object, the usage decision is the evaluated criterion result.",
+    "note": "Inspection lot = TestResult (B2MML OperationsTest): the lot is the tested object, the usage decision is the evaluated criterion result. Core 6.0.0 (owner 30.10.2026): the tested object may be the article, a material lot (MaterialLot) or sublot (Quant), as for TestResult.",
     "propertyMap": {
       "lot_no": "TestResult.ID",
       "article_ref": "TestResult.TestableObjectID",
-      "decision": "TestResult.EvaluatedCriterionResult"
+      "decision": "TestResult.EvaluatedCriterionResult",
+      "material_lot_ref": "TestResult.TestableObjectID",
+      "quant_ref": "TestResult.TestableObjectID"
     },
     "notInIsa95": [
       "order_ref",
@@ -212,7 +248,7 @@
       "created_at"
     ],
     "mappingNote": "TestResult carries no order and no workflow state; both are OSF joins on the lot. TestResult carries no equipment, lot type, lot status, lot quantity or sample size either. Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent). created_at is the day the lot was opened, not the evaluation date of B2MML TestResult.EvaluationDate (the usage decision) — no source of the demo plant has that date (audit M4).",
-    "grain": "one test result of material (ISA-95 Part 2 cl. 5.9 TestResult): one row = one inspection lot — the tested article or lot with its usage decision, keyed by lot_no; the test result of a person, machine or tool is TestResult"
+    "grain": "one test result of material (ISA-95 Part 2 cl. 5.9 TestResult): one row = one inspection lot — the tested article, material lot (MaterialLot) or sublot (Quant) with its usage decision, keyed by lot_no; the test result of a person, machine or tool is TestResult"
   },
   "kgNodeLabel": "InspectionLot",
   "kgIdProperty": "lot_no"

@@ -2,7 +2,7 @@
   "type": "record",
   "name": "InspectionLot",
   "namespace": "org.openshopfloor.payload.quality",
-  "doc": "GENERATED from standard/profiles/quality/inspection-lot.json 3.2.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "doc": "GENERATED from standard/profiles/quality/inspection-lot.json 3.3.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
   "fields": [
     {
       "name": "eventType",
@@ -46,7 +46,7 @@
     {
       "name": "profileVersion",
       "type": "string",
-      "default": "3.2.0"
+      "default": "3.3.0"
     },
     {
       "name": "b2m",
@@ -196,6 +196,24 @@
               }
             ],
             "default": null
+          },
+          {
+            "name": "material_lot_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The inspected object when it is a material lot (B2MML MaterialLot) — the inspected charge (TESTS); not fed yet: the sim serves no lot per inspection lot (sim-v5 S10)."
+          },
+          {
+            "name": "quant_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The inspected object when it is a material sublot (Quant = B2MML MaterialSubLot) (TESTS); not fed yet (sim-v5 S10)."
           },
           {
             "name": "parent_inspection_lot_ref",

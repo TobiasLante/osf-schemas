@@ -511,7 +511,7 @@ Phase 5: Embeddings
 | `lot_no` | InspectionLot | 3 |
 | `master_recipe_id` | MasterRecipe | 2 |
 | `material_class_id` | MaterialClass, ThermoplasticClass | 19 |
-| `material_lot_no` | MaterialLot | 19 |
+| `material_lot_no` | MaterialLot | 20 |
 | `operational_location_class_id` | OperationalLocationClass | 3 |
 | `operations_capability_id` | OperationsCapability | — |
 | `operations_definition_no` | OperationsDefinition | 7 |
@@ -533,7 +533,7 @@ Phase 5: Embeddings
 | `product_definition_no` | ProductDefinition | — |
 | `production_order_no` | ProductionOrder | 4 |
 | `proposal_id` | ResolutionProposal | — |
-| `quant_no` | Quant | 16 |
+| `quant_no` | Quant | 17 |
 | `recipe_element_id` | RecipeElement | 2 |
 | `resource_network_connection_id` | ResourceNetworkConnection | — |
 | `resource_network_connection_type_id` | ResourceNetworkConnectionType | 1 |
