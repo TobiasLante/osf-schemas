@@ -1,6 +1,6 @@
 {
   "recipeId": "RECIPE-V4-14-0021-008",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "owner": "Process Engineering",
   "profileRef": "SMProfile-InjectionMoldingMachine",
   "displayName": "_V4_14-0021-008 (Gehäusedeckel Variante C) × SGM-GENERIC",
@@ -26,7 +26,7 @@
       235,
       280
     ],
-    "recipe:nozzle_temp_c_band": [
+    "recipe:melt_temp_band": [
       235,
       285
     ],
@@ -66,10 +66,6 @@
       1320,
       1458.9474
     ],
-    "recipe:part_mass_band": [
-      24.25,
-      25.75
-    ],
     "recipe:cycle_time_band": [
       7.02,
       8.97
@@ -104,7 +100,7 @@
     "recipe:barrel_zone2_temp_band": "process_estimate",
     "recipe:barrel_zone3_temp_band": "process_estimate",
     "recipe:barrel_zone4_temp_band": "process_estimate",
-    "recipe:nozzle_temp_c_band": "process_estimate",
+    "recipe:melt_temp_band": "process_estimate",
     "recipe:hotrunner_temp_band": "process_estimate",
     "recipe:mould_temp_band": "process_estimate",
     "recipe:injection_speed_band": "process_estimate",
@@ -114,7 +110,6 @@
     "recipe:cavity_pressure_bar_band": "process_estimate",
     "recipe:cushion_band": "process_estimate",
     "recipe:shot_volume_cm3_band": "process_estimate",
-    "recipe:part_mass_band": "process_estimate",
     "recipe:cycle_time_band": "process_estimate",
     "recipe:cooling_flow_band": "process_estimate",
     "recipe:dryer_temp_c_band": "process_estimate",
@@ -184,7 +179,7 @@
         "min_sample_n": 1000
       }
     },
-    "recipe:nozzle_temp_c_band": {
+    "recipe:melt_temp_band": {
       "cp_min": 1.33,
       "ca_max": 0.125,
       "max_stationarity_ratio": 2,
@@ -320,21 +315,6 @@
       }
     },
     "recipe:shot_volume_cm3_band": {
-      "cp_min": 1.33,
-      "ca_max": 0.125,
-      "max_stationarity_ratio": 2,
-      "population": {
-        "scope": "current_regime",
-        "regime_markers": {
-          "on_change": [
-            "tool_ref",
-            "Act_Ref_Resin"
-          ]
-        },
-        "min_sample_n": 1000
-      }
-    },
-    "recipe:part_mass_band": {
       "cp_min": 1.33,
       "ca_max": 0.125,
       "max_stationarity_ratio": 2,
@@ -518,7 +498,7 @@
       "unit": "CEL",
       "smAttribute": "Act_Temp_Nozzle",
       "monitored": true,
-      "valueFrom": "recipe:nozzle_temp_c_band"
+      "valueFrom": "recipe:melt_temp_band"
     },
     {
       "param": "hotrunnerTempC",
@@ -639,20 +619,6 @@
       "smAttribute": "Act_Volume_Shot",
       "monitored": true,
       "valueFrom": "recipe:shot_volume_cm3_band"
-    },
-    {
-      "param": "partMass_g",
-      "soll": 25,
-      "tolerance": [
-        24.25,
-        25.75
-      ],
-      "unit": "GRM",
-      "smAttribute": "Act_Mass_Part",
-      "monitored": true,
-      "valueFrom": "recipe:part_mass_band",
-      "constraintId": "recipe_part_mass_band",
-      "gate": "Act_State_InCycle==true"
     },
     {
       "param": "cycleTimeSec",

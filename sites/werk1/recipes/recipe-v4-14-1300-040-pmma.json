@@ -1,6 +1,6 @@
 {
   "recipeId": "RECIPE-V4-14-1300-040-PMMA",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "owner": "Process Engineering",
   "profileRef": "SMProfile-InjectionMoldingMachine",
   "displayName": "_V4_14-1300-040 (Lichtleiter PMMA, PMMA) × injection moulding machine",
@@ -42,7 +42,7 @@
       235,
       260
     ],
-    "recipe:nozzle_temp_c_band": [
+    "recipe:melt_temp_band": [
       235,
       265
     ],
@@ -108,7 +108,7 @@
     "recipe:barrel_zone2_temp_band": "process_estimate",
     "recipe:barrel_zone3_temp_band": "process_estimate",
     "recipe:barrel_zone4_temp_band": "process_estimate",
-    "recipe:nozzle_temp_c_band": "process_estimate",
+    "recipe:melt_temp_band": "process_estimate",
     "recipe:hotrunner_temp_band": "process_estimate",
     "recipe:mould_temp_band": "process_estimate",
     "recipe:injection_speed_band": "process_estimate",
@@ -244,7 +244,7 @@
         "min_sample_n": 1000
       }
     },
-    "recipe:nozzle_temp_c_band": {
+    "recipe:melt_temp_band": {
       "cp_min": 1.33,
       "ca_max": 0.125,
       "max_stationarity_ratio": 2,
@@ -573,7 +573,7 @@
       "unit": "CEL",
       "smAttribute": "Act_Temp_Nozzle",
       "monitored": true,
-      "valueFrom": "recipe:nozzle_temp_c_band"
+      "valueFrom": "recipe:melt_temp_band"
     },
     {
       "param": "hotrunnerTempC",
