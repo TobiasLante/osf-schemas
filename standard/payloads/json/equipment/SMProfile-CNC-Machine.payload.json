@@ -2,9 +2,9 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/equipment/SMProfile-CNC-Machine.payload.json",
   "title": "SMProfile-CNC-Machine payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/equipment/cnc-machine.json 4.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: signal (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/equipment/cnc-machine.json 5.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: signal (envelope.schema.json).",
   "x-profileRef": "SMProfile-CNC-Machine",
-  "x-profileVersion": "4.0.0",
+  "x-profileVersion": "5.0.0",
   "x-payloadVersion": "1.1.0",
   "x-streams": {
     "telemetry": "FACTORY_TELEMETRY",
@@ -31,8 +31,12 @@
               "spatial_srid",
               "element_id",
               "Act_Status_Machine",
-              "Act_Text_MachineMode",
+              "Act_Mode_Machine",
               "Act_Amount_Alarm",
+              "Act_State_ShiftActive",
+              "Act_Amount_LifeTime",
+              "Act_Amount_LifeTimeGood",
+              "Act_Amount_LifeTimeScrap",
               "Plan_Time_Cycle",
               "Act_Ref_Shift",
               "Act_Ref_Operator",
@@ -76,11 +80,16 @@
         "spatial_srid",
         "element_id",
         "Act_Status_Machine",
-        "Act_Text_MachineMode",
+        "Act_Mode_Machine",
         "Act_Amount_Alarm",
+        "Act_Time_Uptime",
+        "Act_State_ShiftActive",
+        "Act_Power_Machine",
+        "Act_Amount_LifeTime",
+        "Act_Amount_LifeTimeGood",
+        "Act_Amount_LifeTimeScrap",
         "Plan_Time_Cycle",
         "Act_Time_Cycle",
-        "Act_Energy_Power",
         "Act_Energy_Total",
         "Act_Ref_Shift",
         "Act_Ref_Operator",
@@ -107,7 +116,7 @@
         "Act_Vibration_X",
         "Act_Vibration_Y",
         "Act_Vibration_Z",
-        "Act_Energy_PowerSpindle",
+        "Act_Power_Spindle",
         "Act_Energy_Cycle",
         "Act_Temp_Spindle"
       ]
@@ -117,8 +126,9 @@
     }
   },
   "x-telemetry": [
+    "Act_Time_Uptime",
+    "Act_Power_Machine",
     "Act_Time_Cycle",
-    "Act_Energy_Power",
     "Act_Energy_Total",
     "Act_Speed_Spindle",
     "Act_Pct_SpindleLoad",
@@ -137,7 +147,7 @@
     "Act_Vibration_X",
     "Act_Vibration_Y",
     "Act_Vibration_Z",
-    "Act_Energy_PowerSpindle",
+    "Act_Power_Spindle",
     "Act_Energy_Cycle",
     "Act_Temp_Spindle"
   ],
@@ -150,8 +160,12 @@
     "spatial_srid",
     "element_id",
     "Act_Status_Machine",
-    "Act_Text_MachineMode",
+    "Act_Mode_Machine",
     "Act_Amount_Alarm",
+    "Act_State_ShiftActive",
+    "Act_Amount_LifeTime",
+    "Act_Amount_LifeTimeGood",
+    "Act_Amount_LifeTimeScrap",
     "Plan_Time_Cycle",
     "Act_Ref_Shift",
     "Act_Ref_Operator",
@@ -225,9 +239,9 @@
       ],
       "delivery": "transactional",
       "scope": "hub",
-      "description": "Actual machine status. Full text: docs/history/standard/profiles/equipment/cnc-machine.md, attributes › Act_Status_Machine › description."
+      "description": "Actual machine status (sim node Machine/status, the same on every machine); lifted into SMProfile-Machine in core 6.0.0. Full text: docs/history/standard/profiles/equipment/machine.md, attributes › Act_Status_Machine › description."
     },
-    "Act_Text_MachineMode": {
+    "Act_Mode_Machine": {
       "type": "string",
       "enum": [
         "AUTO",
@@ -236,15 +250,59 @@
       ],
       "delivery": "transactional",
       "scope": "hub",
-      "description": "Machine operating mode. Full text: docs/history/standard/profiles/equipment/cnc-machine.md, attributes › Act_Text_MachineMode › description."
+      "description": "Machine operating mode (sim node Machine/mode, the same on every machine); lifted into SMProfile-Machine in core 6.0.0. Full text: docs/history/standard/profiles/equipment/machine.md, attributes › Act_Mode_Machine › description."
     },
     "Act_Amount_Alarm": {
       "type": "integer",
+      "unit": "C62",
       "delivery": "transactional",
-      "scope": "hub"
+      "scope": "hub",
+      "description": "Number of active alarms (sim node Machine/alarms/_Count). Lifted into SMProfile-Machine in core 6.0.0 (owner 29.10.2026): CNC Act_Amount_Alarm, IMM alarmsCount."
+    },
+    "Act_Time_Uptime": {
+      "type": "number",
+      "unit": "SEC",
+      "delivery": "telemetry",
+      "scope": "hub",
+      "description": "Machine uptime (sim node Machine/uptimeSeconds). Lifted into SMProfile-Machine in core 6.0.0 (owner 29.10.2026): IMM uptimeSeconds."
+    },
+    "Act_State_ShiftActive": {
+      "type": "boolean",
+      "delivery": "transactional",
+      "scope": "hub",
+      "description": "A shift is active on the machine (sim node Machine/typeSpecific/shiftActive). Lifted into SMProfile-Machine in core 6.0.0 (owner 29.10.2026): IMM shiftActive; the CNC's Act_Ref_Shift (the shift id) stays on the CNC."
+    },
+    "Act_Power_Machine": {
+      "type": "number",
+      "unit": "KWT",
+      "delivery": "telemetry",
+      "scope": "hub",
+      "description": "Actual electrical power draw of the machine (sim node Machine/typeSpecific/powerKw) — a power, not an energy. Lifted into SMProfile-Machine in core 6.0.0 (owner 29.10.2026): CNC Act_Energy_Power, IMM powerKw."
+    },
+    "Act_Amount_LifeTime": {
+      "type": "integer",
+      "unit": "C62",
+      "delivery": "transactional",
+      "scope": "hub",
+      "description": "Lifetime counter of the machine: all parts made (partsCount/total) (sim node partsCount; owner 29.10.2026: the machine's counters stay on the machine, the quantities of one order are SegmentResponse qty_*)."
+    },
+    "Act_Amount_LifeTimeGood": {
+      "type": "integer",
+      "unit": "C62",
+      "delivery": "transactional",
+      "scope": "hub",
+      "description": "Lifetime counter of the machine: good parts (partsCount/good) (sim node partsCount; owner 29.10.2026: the machine's counters stay on the machine, the quantities of one order are SegmentResponse qty_*)."
+    },
+    "Act_Amount_LifeTimeScrap": {
+      "type": "integer",
+      "unit": "C62",
+      "delivery": "transactional",
+      "scope": "hub",
+      "description": "Lifetime counter of the machine: scrap parts (partsCount/scrap) (sim node partsCount; owner 29.10.2026: the machine's counters stay on the machine, the quantities of one order are SegmentResponse qty_*)."
     },
     "Plan_Time_Cycle": {
       "type": "number",
+      "unit": "SEC",
       "delivery": "transactional",
       "scope": "hub"
     },
@@ -254,15 +312,9 @@
       "delivery": "telemetry",
       "scope": "hub"
     },
-    "Act_Energy_Power": {
-      "type": "number",
-      "unit": "KWT",
-      "delivery": "telemetry",
-      "scope": "hub",
-      "description": "Actual electrical power draw (kW). Full text: docs/history/standard/profiles/equipment/cnc-machine.md, attributes › Act_Energy_Power › description."
-    },
     "Act_Energy_Total": {
       "type": "number",
+      "unit": "KWH",
       "delivery": "telemetry",
       "scope": "hub"
     },
@@ -284,6 +336,7 @@
     },
     "Set_Speed_Spindle": {
       "type": "number",
+      "unit": "RPM",
       "delivery": "transactional",
       "scope": "hub"
     },
@@ -295,6 +348,7 @@
     },
     "Act_Torque_Spindle": {
       "type": "number",
+      "unit": "NU",
       "delivery": "telemetry",
       "scope": "hub"
     },
@@ -306,11 +360,13 @@
     },
     "Set_Rate_Feed": {
       "type": "number",
+      "unit": "H81",
       "delivery": "transactional",
       "scope": "hub"
     },
     "Act_Pct_FeedOverride": {
       "type": "number",
+      "unit": "P1",
       "delivery": "telemetry",
       "scope": "hub"
     },
@@ -322,6 +378,7 @@
     },
     "Set_Pos_AxisX": {
       "type": "number",
+      "unit": "MMT",
       "delivery": "transactional",
       "scope": "hub"
     },
@@ -333,6 +390,7 @@
     },
     "Set_Pos_AxisY": {
       "type": "number",
+      "unit": "MMT",
       "delivery": "transactional",
       "scope": "hub"
     },
@@ -344,6 +402,7 @@
     },
     "Set_Pos_AxisZ": {
       "type": "number",
+      "unit": "MMT",
       "delivery": "transactional",
       "scope": "hub"
     },
@@ -371,16 +430,19 @@
     },
     "Act_Rate_CoolantFlow": {
       "type": "number",
+      "unit": "L2",
       "delivery": "telemetry",
       "scope": "hub"
     },
     "Act_Temp_Coolant": {
       "type": "number",
+      "unit": "CEL",
       "delivery": "telemetry",
       "scope": "hub"
     },
     "Act_Pressure_Coolant": {
       "type": "number",
+      "unit": "BAR",
       "delivery": "telemetry",
       "scope": "hub"
     },
@@ -399,13 +461,15 @@
       "delivery": "telemetry",
       "scope": "hub"
     },
-    "Act_Energy_PowerSpindle": {
+    "Act_Power_Spindle": {
       "type": "number",
+      "unit": "KWT",
       "delivery": "telemetry",
       "scope": "hub"
     },
     "Act_Energy_Cycle": {
       "type": "number",
+      "unit": "KWH",
       "delivery": "telemetry",
       "scope": "hub"
     },

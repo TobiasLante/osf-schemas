@@ -1,6 +1,6 @@
 {
  "crossConstraintId": "parts_counted_vs_booked",
- "version": "1.0.0",
+ "version": "1.0.1",
  "standard": "OSF",
  "displayName": "Parts counted (OT) vs. parts booked (ERP) — PARKED, the ERP cannot answer yet",
  "description": "The successor qty_shortfall's tombstone asked for: a left operand from OUTSIDE the ERP — the machine's own counted parts — against the ERP's booking. Full text: docs/history/standard/cross-constraints/parts_counted_vs_booked.md, description.",
@@ -44,7 +44,7 @@
   "profileRef": "SMProfile-SegmentResponse",
   "joinKey": "machine_id",
   "attr": "qty_good",
-  "$comment": "The machine's own counted good parts — the OT truth, and the operand that is INDEPENDENT of the ERP. It is NOT read as max-min: `good` is declared counter.semantics=cumulative_resettable / aggregation=sum_of_positive_deltas in SMProfile-InjectionMoldingMachine 2.2.0, because it resets on every container restart (10 resets measured over the sgm-004 history). Naive max-min: 55.622 parts. Reset-aware: 125.210. The reset-aware reading is confirmed by an identity that only closes if it is correct: good 125.210 + scrap 1.742 = total 126.952 = 8 cavities x shotCount 15.869, exactly.",
+  "$comment": "The machine's own counted good parts — the OT truth, and the operand that is INDEPENDENT of the ERP. It is NOT read as max-min: `good` is declared counter.semantics=cumulative_resettable / aggregation=sum_of_positive_deltas in SMProfile-InjectionMoldingMachine 2.2.0, because it resets on every container restart (10 resets measured over the sgm-004 history). Naive max-min: 55.622 parts. Reset-aware: 125.210. The reset-aware reading is confirmed by an identity that only closes if it is correct: good 125.210 + scrap 1.742 = total 126.952 = 8 cavities x Act_Amount_Shot (shotCount before core 6.0.0) 15.869, exactly.",
   "counterContract": {
    "aggregation": "sum_of_positive_deltas",
    "source": "i3x.values.<ipc>.counter",

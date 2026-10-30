@@ -2,9 +2,9 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/equipment/SMProfile-InjectionMoldingMachine.payload.json",
   "title": "SMProfile-InjectionMoldingMachine payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/equipment/injection-molding-machine.json 4.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: signal (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/equipment/injection-molding-machine.json 5.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: signal (envelope.schema.json).",
   "x-profileRef": "SMProfile-InjectionMoldingMachine",
-  "x-profileVersion": "4.0.0",
+  "x-profileVersion": "5.0.0",
   "x-payloadVersion": "1.1.0",
   "x-streams": {
     "telemetry": "FACTORY_TELEMETRY",
@@ -30,23 +30,26 @@
               "spatial_format",
               "spatial_srid",
               "element_id",
+              "Act_Status_Machine",
+              "Act_Mode_Machine",
+              "Act_Amount_Alarm",
+              "Act_State_ShiftActive",
+              "Act_Amount_LifeTime",
+              "Act_Amount_LifeTimeGood",
+              "Act_Amount_LifeTimeScrap",
               "machine_type",
-              "status",
-              "mode",
-              "shotCount",
-              "alarmsCount",
-              "inCycle",
-              "lastShotAt",
-              "shiftActive",
-              "reason",
-              "switchoverReached",
-              "phaseName",
-              "totalShots",
-              "resin",
-              "dryerSetpointC",
-              "dryerResidenceTargetMin",
-              "hopperRefillCount",
-              "colourPurgeRemaining"
+              "Act_Amount_Shot",
+              "Act_State_InCycle",
+              "Act_Time_LastShot",
+              "Act_Status_Reason",
+              "Act_State_Switchover",
+              "Act_Status_Phase",
+              "Act_Amount_MouldShots",
+              "Act_Ref_Resin",
+              "Set_Temp_Dryer",
+              "Set_Time_DryerResidence",
+              "Act_Amount_HopperRefill",
+              "Act_Amount_ColourPurge"
             ]
           }
         },
@@ -80,53 +83,56 @@
         "spatial_format",
         "spatial_srid",
         "element_id",
+        "Act_Status_Machine",
+        "Act_Mode_Machine",
+        "Act_Amount_Alarm",
+        "Act_Time_Uptime",
+        "Act_State_ShiftActive",
+        "Act_Power_Machine",
+        "Act_Amount_LifeTime",
+        "Act_Amount_LifeTimeGood",
+        "Act_Amount_LifeTimeScrap",
         "machine_type",
-        "status",
-        "mode",
-        "shotCount",
-        "uptimeSeconds",
-        "alarmsCount",
-        "inCycle",
-        "lastShotAt",
-        "shiftActive",
-        "reason",
-        "hotrunnerTempC",
-        "nozzleTempC",
-        "cavityPressureBar",
-        "mouldPressureBar",
-        "partMass_g",
-        "peakPressureBar",
-        "holdPressureBar",
-        "backPressureBar",
-        "injectionSpeedMmPerSec",
-        "shotVolumeCm3",
-        "cushionMm",
-        "plastProgress",
-        "cycleTimeSec",
-        "elapsedSec",
-        "remainingSec",
-        "switchoverReached",
-        "phaseName",
-        "mouldTempC",
-        "coolingFlowLMin",
-        "lifePercent",
-        "totalShots",
-        "powerKw",
-        "resin",
-        "dryerTempC",
-        "dryerSetpointC",
-        "dryerResidenceMin",
-        "dryerResidenceTargetMin",
-        "hopperFillPct",
-        "hopperRefillThresholdPct",
-        "hopperRefillCount",
-        "regrindRatioPct",
-        "colourMasterbatchPct",
-        "colourPurgeRemaining",
-        "barrelZone1TempC",
-        "barrelZone2TempC",
-        "barrelZone3TempC",
-        "barrelZone4TempC"
+        "Act_Amount_Shot",
+        "Act_State_InCycle",
+        "Act_Time_LastShot",
+        "Act_Status_Reason",
+        "Act_Temp_Hotrunner",
+        "Act_Temp_Nozzle",
+        "Act_Pressure_Cavity",
+        "Act_Pressure_Mould",
+        "Act_Mass_Part",
+        "Act_Pressure_Peak",
+        "Act_Pressure_Hold",
+        "Act_Pressure_Back",
+        "Act_Speed_Injection",
+        "Act_Volume_Shot",
+        "Act_Length_Cushion",
+        "Act_Prog_Plasticising",
+        "Act_Time_Cycle",
+        "Act_Time_PhaseElapsed",
+        "Act_Time_PhaseRemaining",
+        "Act_State_Switchover",
+        "Act_Status_Phase",
+        "Act_Temp_Mould",
+        "Act_Rate_CoolingFlow",
+        "Act_Pct_MouldLife",
+        "Act_Amount_MouldShots",
+        "Act_Ref_Resin",
+        "Act_Temp_Dryer",
+        "Set_Temp_Dryer",
+        "Act_Time_DryerResidence",
+        "Set_Time_DryerResidence",
+        "Act_Pct_HopperFill",
+        "Set_Pct_HopperRefill",
+        "Act_Amount_HopperRefill",
+        "Act_Pct_Regrind",
+        "Act_Pct_Masterbatch",
+        "Act_Amount_ColourPurge",
+        "Act_Temp_BarrelZone1",
+        "Act_Temp_BarrelZone2",
+        "Act_Temp_BarrelZone3",
+        "Act_Temp_BarrelZone4"
       ]
     },
     "profileRef": {
@@ -134,36 +140,36 @@
     }
   },
   "x-telemetry": [
-    "uptimeSeconds",
-    "hotrunnerTempC",
-    "nozzleTempC",
-    "cavityPressureBar",
-    "mouldPressureBar",
-    "partMass_g",
-    "peakPressureBar",
-    "holdPressureBar",
-    "backPressureBar",
-    "injectionSpeedMmPerSec",
-    "shotVolumeCm3",
-    "cushionMm",
-    "plastProgress",
-    "cycleTimeSec",
-    "elapsedSec",
-    "remainingSec",
-    "mouldTempC",
-    "coolingFlowLMin",
-    "lifePercent",
-    "powerKw",
-    "dryerTempC",
-    "dryerResidenceMin",
-    "hopperFillPct",
-    "hopperRefillThresholdPct",
-    "regrindRatioPct",
-    "colourMasterbatchPct",
-    "barrelZone1TempC",
-    "barrelZone2TempC",
-    "barrelZone3TempC",
-    "barrelZone4TempC"
+    "Act_Time_Uptime",
+    "Act_Power_Machine",
+    "Act_Temp_Hotrunner",
+    "Act_Temp_Nozzle",
+    "Act_Pressure_Cavity",
+    "Act_Pressure_Mould",
+    "Act_Mass_Part",
+    "Act_Pressure_Peak",
+    "Act_Pressure_Hold",
+    "Act_Pressure_Back",
+    "Act_Speed_Injection",
+    "Act_Volume_Shot",
+    "Act_Length_Cushion",
+    "Act_Prog_Plasticising",
+    "Act_Time_Cycle",
+    "Act_Time_PhaseElapsed",
+    "Act_Time_PhaseRemaining",
+    "Act_Temp_Mould",
+    "Act_Rate_CoolingFlow",
+    "Act_Pct_MouldLife",
+    "Act_Temp_Dryer",
+    "Act_Time_DryerResidence",
+    "Act_Pct_HopperFill",
+    "Set_Pct_HopperRefill",
+    "Act_Pct_Regrind",
+    "Act_Pct_Masterbatch",
+    "Act_Temp_BarrelZone1",
+    "Act_Temp_BarrelZone2",
+    "Act_Temp_BarrelZone3",
+    "Act_Temp_BarrelZone4"
   ],
   "x-transactional": [
     "storage_location_ref",
@@ -173,23 +179,26 @@
     "spatial_format",
     "spatial_srid",
     "element_id",
+    "Act_Status_Machine",
+    "Act_Mode_Machine",
+    "Act_Amount_Alarm",
+    "Act_State_ShiftActive",
+    "Act_Amount_LifeTime",
+    "Act_Amount_LifeTimeGood",
+    "Act_Amount_LifeTimeScrap",
     "machine_type",
-    "status",
-    "mode",
-    "shotCount",
-    "alarmsCount",
-    "inCycle",
-    "lastShotAt",
-    "shiftActive",
-    "reason",
-    "switchoverReached",
-    "phaseName",
-    "totalShots",
-    "resin",
-    "dryerSetpointC",
-    "dryerResidenceTargetMin",
-    "hopperRefillCount",
-    "colourPurgeRemaining"
+    "Act_Amount_Shot",
+    "Act_State_InCycle",
+    "Act_Time_LastShot",
+    "Act_Status_Reason",
+    "Act_State_Switchover",
+    "Act_Status_Phase",
+    "Act_Amount_MouldShots",
+    "Act_Ref_Resin",
+    "Set_Temp_Dryer",
+    "Set_Time_DryerResidence",
+    "Act_Amount_HopperRefill",
+    "Act_Amount_ColourPurge"
   ],
   "x-signals": {
     "storage_location_ref": {
@@ -244,180 +253,221 @@
       "scope": "hub",
       "description": "Identity of the machine: its i3X element id, the key (kgIdProperty) every machine profile inherits. ISA-95 Equipment.ID; it travels in the signal envelope."
     },
+    "Act_Status_Machine": {
+      "type": "string",
+      "enum": [
+        "RUNNING",
+        "IDLE",
+        "STOPPED",
+        "MAINTENANCE"
+      ],
+      "delivery": "transactional",
+      "scope": "hub",
+      "description": "Actual machine status (sim node Machine/status, the same on every machine); lifted into SMProfile-Machine in core 6.0.0. Full text: docs/history/standard/profiles/equipment/machine.md, attributes › Act_Status_Machine › description."
+    },
+    "Act_Mode_Machine": {
+      "type": "string",
+      "enum": [
+        "AUTO",
+        "MANUAL",
+        "SETUP"
+      ],
+      "delivery": "transactional",
+      "scope": "hub",
+      "description": "Machine operating mode (sim node Machine/mode, the same on every machine); lifted into SMProfile-Machine in core 6.0.0. Full text: docs/history/standard/profiles/equipment/machine.md, attributes › Act_Mode_Machine › description."
+    },
+    "Act_Amount_Alarm": {
+      "type": "integer",
+      "unit": "C62",
+      "delivery": "transactional",
+      "scope": "hub",
+      "description": "Number of active alarms (sim node Machine/alarms/_Count). Lifted into SMProfile-Machine in core 6.0.0 (owner 29.10.2026): CNC Act_Amount_Alarm, IMM alarmsCount."
+    },
+    "Act_Time_Uptime": {
+      "type": "number",
+      "unit": "SEC",
+      "delivery": "telemetry",
+      "scope": "hub",
+      "description": "Machine uptime (sim node Machine/uptimeSeconds). Lifted into SMProfile-Machine in core 6.0.0 (owner 29.10.2026): IMM uptimeSeconds."
+    },
+    "Act_State_ShiftActive": {
+      "type": "boolean",
+      "delivery": "transactional",
+      "scope": "hub",
+      "description": "A shift is active on the machine (sim node Machine/typeSpecific/shiftActive). Lifted into SMProfile-Machine in core 6.0.0 (owner 29.10.2026): IMM shiftActive; the CNC's Act_Ref_Shift (the shift id) stays on the CNC."
+    },
+    "Act_Power_Machine": {
+      "type": "number",
+      "unit": "KWT",
+      "delivery": "telemetry",
+      "scope": "hub",
+      "description": "Actual electrical power draw of the machine (sim node Machine/typeSpecific/powerKw) — a power, not an energy. Lifted into SMProfile-Machine in core 6.0.0 (owner 29.10.2026): CNC Act_Energy_Power, IMM powerKw."
+    },
+    "Act_Amount_LifeTime": {
+      "type": "integer",
+      "unit": "C62",
+      "delivery": "transactional",
+      "scope": "hub",
+      "description": "Lifetime counter of the machine: all parts made (partsCount/total) (sim node partsCount; owner 29.10.2026: the machine's counters stay on the machine, the quantities of one order are SegmentResponse qty_*)."
+    },
+    "Act_Amount_LifeTimeGood": {
+      "type": "integer",
+      "unit": "C62",
+      "delivery": "transactional",
+      "scope": "hub",
+      "description": "Lifetime counter of the machine: good parts (partsCount/good) (sim node partsCount; owner 29.10.2026: the machine's counters stay on the machine, the quantities of one order are SegmentResponse qty_*)."
+    },
+    "Act_Amount_LifeTimeScrap": {
+      "type": "integer",
+      "unit": "C62",
+      "delivery": "transactional",
+      "scope": "hub",
+      "description": "Lifetime counter of the machine: scrap parts (partsCount/scrap) (sim node partsCount; owner 29.10.2026: the machine's counters stay on the machine, the quantities of one order are SegmentResponse qty_*)."
+    },
     "machine_type": {
       "type": "string",
       "delivery": "transactional",
       "scope": "hub",
       "description": "Machine type / class (sim machineType)."
     },
-    "status": {
-      "type": "string",
-      "delivery": "transactional",
-      "scope": "hub",
-      "description": "Actual machine status. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, attributes › status › description."
-    },
-    "mode": {
-      "type": "string",
-      "delivery": "transactional",
-      "scope": "hub",
-      "description": "Operating mode. VOCABULARY NOT MEASURED YET — the earlier '(auto / manual / semi)' was unverified prose (the CNC profile measured AUTO/MANUAL/SETUP, uppercase — a different dialect … Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, attributes › mode › description."
-    },
-    "shotCount": {
+    "Act_Amount_Shot": {
       "type": "integer",
+      "unit": "C62",
       "delivery": "transactional",
       "scope": "hub",
       "description": "Shot count (cumulative). READ IT WITH `counter.aggregation`, NOT max-min: this counter resets."
     },
-    "uptimeSeconds": {
-      "type": "number",
-      "unit": "SEC",
-      "delivery": "telemetry",
-      "scope": "hub",
-      "description": "Machine uptime (seconds)."
-    },
-    "alarmsCount": {
-      "type": "integer",
-      "delivery": "transactional",
-      "scope": "hub",
-      "description": "Active alarm count."
-    },
-    "inCycle": {
+    "Act_State_InCycle": {
       "type": "boolean",
       "delivery": "transactional",
       "scope": "hub",
       "description": "Machine is in the injection cycle (cycle gate for pressure rules)."
     },
-    "lastShotAt": {
+    "Act_Time_LastShot": {
       "type": "string",
       "format": "date-time",
       "delivery": "transactional",
       "scope": "hub",
       "description": "Timestamp of the last shot."
     },
-    "shiftActive": {
-      "type": "boolean",
-      "delivery": "transactional",
-      "scope": "hub",
-      "description": "A production shift is active."
-    },
-    "reason": {
+    "Act_Status_Reason": {
       "type": "string",
       "delivery": "transactional",
       "scope": "hub",
       "description": "Stoppage / state reason code."
     },
-    "hotrunnerTempC": {
+    "Act_Temp_Hotrunner": {
       "type": "number",
       "unit": "CEL",
       "delivery": "telemetry",
       "scope": "hub",
       "description": "Actual hot-runner temperature (recipe-monitored)."
     },
-    "nozzleTempC": {
+    "Act_Temp_Nozzle": {
       "type": "number",
       "unit": "CEL",
       "delivery": "telemetry",
       "scope": "hub",
       "description": "Actual nozzle / barrel-end temperature."
     },
-    "cavityPressureBar": {
+    "Act_Pressure_Cavity": {
       "type": "number",
       "unit": "BAR",
       "delivery": "telemetry",
       "scope": "hub",
       "description": "Actual cavity pressure."
     },
-    "mouldPressureBar": {
+    "Act_Pressure_Mould": {
       "type": "number",
       "unit": "BAR",
       "delivery": "telemetry",
       "scope": "hub",
       "description": "Actual mould pressure."
     },
-    "partMass_g": {
+    "Act_Mass_Part": {
       "type": "number",
       "unit": "GRM",
       "delivery": "telemetry",
       "scope": "hub",
       "description": "Actual part mass (recipe-monitored)."
     },
-    "peakPressureBar": {
+    "Act_Pressure_Peak": {
       "type": "number",
       "unit": "BAR",
       "delivery": "telemetry",
       "scope": "hub",
       "description": "Actual peak injection pressure (recipe-monitored, cycle-gated)."
     },
-    "holdPressureBar": {
+    "Act_Pressure_Hold": {
       "type": "number",
       "unit": "BAR",
       "delivery": "telemetry",
       "scope": "hub",
       "description": "Actual hold pressure (recipe-monitored, cycle-gated)."
     },
-    "backPressureBar": {
+    "Act_Pressure_Back": {
       "type": "number",
       "unit": "BAR",
       "delivery": "telemetry",
       "scope": "hub",
       "description": "Actual back pressure during plasticising."
     },
-    "injectionSpeedMmPerSec": {
+    "Act_Speed_Injection": {
       "type": "number",
       "unit": "C16",
       "delivery": "telemetry",
       "scope": "hub",
       "description": "Actual injection speed."
     },
-    "shotVolumeCm3": {
+    "Act_Volume_Shot": {
       "type": "number",
       "unit": "CMQ",
       "delivery": "telemetry",
       "scope": "hub",
       "description": "Actual shot volume."
     },
-    "cushionMm": {
+    "Act_Length_Cushion": {
       "type": "number",
       "unit": "MMT",
       "delivery": "telemetry",
       "scope": "hub",
       "description": "Actual residual material cushion (recipe-monitored)."
     },
-    "plastProgress": {
+    "Act_Prog_Plasticising": {
       "type": "number",
       "unit": "P1",
       "delivery": "telemetry",
       "scope": "hub",
       "description": "Plasticising progress of the current cycle."
     },
-    "cycleTimeSec": {
+    "Act_Time_Cycle": {
       "type": "number",
       "unit": "SEC",
       "delivery": "telemetry",
       "scope": "hub",
       "description": "Actual cycle time per shot."
     },
-    "elapsedSec": {
+    "Act_Time_PhaseElapsed": {
       "type": "number",
       "unit": "SEC",
       "delivery": "telemetry",
       "scope": "hub",
       "description": "Elapsed time in the current phase."
     },
-    "remainingSec": {
+    "Act_Time_PhaseRemaining": {
       "type": "number",
       "unit": "SEC",
       "delivery": "telemetry",
       "scope": "hub",
       "description": "Remaining time (setup / phase)."
     },
-    "switchoverReached": {
+    "Act_State_Switchover": {
       "type": "boolean",
       "delivery": "transactional",
       "scope": "hub",
       "description": "Injection-to-hold switchover point reached."
     },
-    "phaseName": {
+    "Act_Status_Phase": {
       "type": "string",
       "enum": [
         "CLOSING",
@@ -431,136 +481,132 @@
       "scope": "hub",
       "description": "Current Euromap-77 cycle phase of the injection cycle. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, attributes › phaseName › description."
     },
-    "mouldTempC": {
+    "Act_Temp_Mould": {
       "type": "number",
       "unit": "CEL",
       "delivery": "telemetry",
       "scope": "hub",
       "description": "Actual mould temperature."
     },
-    "coolingFlowLMin": {
+    "Act_Rate_CoolingFlow": {
       "type": "number",
       "unit": "L2",
       "delivery": "telemetry",
       "scope": "hub",
       "description": "Mould cooling-water flow."
     },
-    "lifePercent": {
+    "Act_Pct_MouldLife": {
       "type": "number",
       "unit": "P1",
       "delivery": "telemetry",
       "scope": "hub",
       "description": "Mould life consumed (percent)."
     },
-    "totalShots": {
+    "Act_Amount_MouldShots": {
       "type": "integer",
+      "unit": "C62",
       "delivery": "transactional",
       "scope": "hub",
       "description": "Mould total shot counter (life). Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, attributes › totalShots › description."
     },
-    "powerKw": {
-      "type": "number",
-      "unit": "KWT",
-      "delivery": "telemetry",
-      "scope": "hub",
-      "description": "Actual electrical power draw (kW). Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, attributes › powerKw › description."
-    },
-    "resin": {
+    "Act_Ref_Resin": {
       "type": "string",
       "delivery": "transactional",
       "scope": "hub",
       "description": "Resin / material grade being processed."
     },
-    "dryerTempC": {
+    "Act_Temp_Dryer": {
       "type": "number",
       "unit": "CEL",
       "delivery": "telemetry",
       "scope": "hub",
       "description": "Resin dryer actual temperature."
     },
-    "dryerSetpointC": {
+    "Set_Temp_Dryer": {
       "type": "number",
       "unit": "CEL",
       "delivery": "transactional",
       "scope": "hub",
       "description": "Resin dryer setpoint temperature."
     },
-    "dryerResidenceMin": {
+    "Act_Time_DryerResidence": {
       "type": "number",
       "unit": "MIN",
       "delivery": "telemetry",
       "scope": "hub",
       "description": "Actual dryer residence time."
     },
-    "dryerResidenceTargetMin": {
+    "Set_Time_DryerResidence": {
       "type": "number",
       "unit": "MIN",
       "delivery": "transactional",
       "scope": "hub",
       "description": "Target dryer residence time."
     },
-    "hopperFillPct": {
+    "Act_Pct_HopperFill": {
       "type": "number",
       "unit": "P1",
       "delivery": "telemetry",
       "scope": "hub",
       "description": "Hopper fill level."
     },
-    "hopperRefillThresholdPct": {
+    "Set_Pct_HopperRefill": {
       "type": "number",
       "unit": "P1",
       "delivery": "telemetry",
       "scope": "hub",
       "description": "Hopper refill threshold."
     },
-    "hopperRefillCount": {
+    "Act_Amount_HopperRefill": {
       "type": "integer",
+      "unit": "C62",
       "delivery": "transactional",
       "scope": "hub",
       "description": "Hopper refill count."
     },
-    "regrindRatioPct": {
+    "Act_Pct_Regrind": {
       "type": "number",
       "unit": "P1",
       "delivery": "telemetry",
       "scope": "hub",
       "description": "Regrind ratio."
     },
-    "colourMasterbatchPct": {
+    "Act_Pct_Masterbatch": {
       "type": "number",
       "unit": "P1",
       "delivery": "telemetry",
       "scope": "hub",
       "description": "Colour masterbatch dosing ratio."
     },
-    "colourPurgeRemaining": {
+    "Act_Amount_ColourPurge": {
       "type": "integer",
+      "unit": "C62",
       "delivery": "transactional",
       "scope": "hub",
       "description": "Colour purge shots remaining."
     },
-    "barrelZone1TempC": {
+    "Act_Temp_BarrelZone1": {
       "type": "number",
       "unit": "CEL",
       "delivery": "telemetry",
       "scope": "hub",
       "description": "Measured temperature of barrel heating zone 1. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, attributes › barrelZone1TempC › description."
     },
-    "barrelZone2TempC": {
+    "Act_Temp_BarrelZone2": {
       "type": "number",
       "unit": "CEL",
       "delivery": "telemetry",
       "scope": "hub",
       "description": "Measured temperature of barrel heating zone 2. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, attributes › barrelZone2TempC › description."
     },
-    "barrelZone3TempC": {
+    "Act_Temp_BarrelZone3": {
       "type": "number",
       "unit": "CEL",
       "delivery": "telemetry",
       "scope": "hub",
       "description": "Measured temperature of barrel heating zone 3. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, attributes › barrelZone3TempC › description."
     },
-    "barrelZone4TempC": {
+    "Act_Temp_BarrelZone4": {
       "type": "number",
       "unit": "CEL",
       "delivery": "telemetry",

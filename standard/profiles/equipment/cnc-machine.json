@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-CNC-Machine",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "standard": "CarToUNS",
   "category": "machine",
   "displayName": "CNC Machine",
@@ -9,53 +9,14 @@
   "abstract": false,
   "properties": [
     {
-      "name": "Act_Status_Machine",
-      "dataType": "String",
-      "required": false,
-      "enum": [
-        "RUNNING",
-        "IDLE",
-        "STOPPED",
-        "MAINTENANCE"
-      ],
-      "description": "Actual machine status. Full text: docs/history/standard/profiles/equipment/cnc-machine.md, attributes › Act_Status_Machine › description.",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change",
-      "valueType": "PV"
-    },
-    {
-      "name": "Act_Text_MachineMode",
-      "dataType": "String",
-      "required": false,
-      "enum": [
-        "AUTO",
-        "MANUAL",
-        "SETUP"
-      ],
-      "description": "Machine operating mode. Full text: docs/history/standard/profiles/equipment/cnc-machine.md, attributes › Act_Text_MachineMode › description.",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change",
-      "valueType": "PV"
-    },
-    {
-      "name": "Act_Amount_Alarm",
-      "dataType": "Int32",
-      "required": false,
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change",
-      "valueType": "PV"
-    },
-    {
       "name": "Plan_Time_Cycle",
       "dataType": "Float",
       "required": false,
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "SP"
+      "valueType": "SP",
+      "unit": "SEC"
     },
     {
       "name": "Act_Time_Cycle",
@@ -68,24 +29,14 @@
       "valueType": "PV"
     },
     {
-      "name": "Act_Energy_Power",
-      "dataType": "Float",
-      "required": false,
-      "description": "Actual electrical power draw (kW). Full text: docs/history/standard/profiles/equipment/cnc-machine.md, attributes › Act_Energy_Power › description.",
-      "unit": "KWT",
-      "delivery": "telemetry",
-      "scope": "hub",
-      "promotion": "5sec",
-      "valueType": "PV"
-    },
-    {
       "name": "Act_Energy_Total",
       "dataType": "Float",
       "required": false,
       "delivery": "telemetry",
       "scope": "hub",
       "promotion": "raw",
-      "valueType": "PV"
+      "valueType": "PV",
+      "unit": "KWH"
     },
     {
       "name": "Act_Ref_Shift",
@@ -122,7 +73,8 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "SP"
+      "valueType": "SP",
+      "unit": "RPM"
     },
     {
       "name": "Act_Pct_SpindleLoad",
@@ -141,7 +93,8 @@
       "delivery": "telemetry",
       "scope": "hub",
       "promotion": "raw",
-      "valueType": "PV"
+      "valueType": "PV",
+      "unit": "NU"
     },
     {
       "name": "Act_Rate_Feed",
@@ -160,7 +113,8 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "SP"
+      "valueType": "SP",
+      "unit": "H81"
     },
     {
       "name": "Act_Pct_FeedOverride",
@@ -169,7 +123,8 @@
       "delivery": "telemetry",
       "scope": "hub",
       "promotion": "raw",
-      "valueType": "PV"
+      "valueType": "PV",
+      "unit": "P1"
     },
     {
       "name": "Act_Pos_AxisX",
@@ -188,7 +143,8 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "SP"
+      "valueType": "SP",
+      "unit": "MMT"
     },
     {
       "name": "Act_Pos_AxisY",
@@ -207,7 +163,8 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "SP"
+      "valueType": "SP",
+      "unit": "MMT"
     },
     {
       "name": "Act_Pos_AxisZ",
@@ -226,7 +183,8 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "SP"
+      "valueType": "SP",
+      "unit": "MMT"
     },
     {
       "name": "Act_Ref_ToolNumber",
@@ -273,7 +231,8 @@
       "delivery": "telemetry",
       "scope": "hub",
       "promotion": "raw",
-      "valueType": "PV"
+      "valueType": "PV",
+      "unit": "L2"
     },
     {
       "name": "Act_Temp_Coolant",
@@ -282,7 +241,8 @@
       "delivery": "telemetry",
       "scope": "hub",
       "promotion": "raw",
-      "valueType": "PV"
+      "valueType": "PV",
+      "unit": "CEL"
     },
     {
       "name": "Act_Pressure_Coolant",
@@ -291,7 +251,8 @@
       "delivery": "telemetry",
       "scope": "hub",
       "promotion": "raw",
-      "valueType": "PV"
+      "valueType": "PV",
+      "unit": "BAR"
     },
     {
       "name": "Act_Vibration_X",
@@ -321,13 +282,14 @@
       "valueType": "PV"
     },
     {
-      "name": "Act_Energy_PowerSpindle",
+      "name": "Act_Power_Spindle",
       "dataType": "Float",
       "required": false,
       "delivery": "telemetry",
       "scope": "hub",
       "promotion": "raw",
-      "valueType": "PV"
+      "valueType": "PV",
+      "unit": "KWT"
     },
     {
       "name": "Act_Energy_Cycle",
@@ -336,7 +298,8 @@
       "delivery": "telemetry",
       "scope": "hub",
       "promotion": "raw",
-      "valueType": "PV"
+      "valueType": "PV",
+      "unit": "KWH"
     },
     {
       "name": "Act_Temp_Spindle",
@@ -425,7 +388,7 @@
       "name": "spindle_power_control_limits",
       "description": "Control limits (warning and action limits) for active power kW. Full text: docs/history/standard/profiles/equipment/cnc-machine.md, constraints › spindle_power_control_limits › description.",
       "require": {
-        "attr": "Act_Energy_Power",
+        "attr": "Act_Power_Machine",
         "op": "within_limits",
         "limits": {
           "warn": [
@@ -536,7 +499,7 @@
         "value": "RUNNING"
       },
       "require": {
-        "attr": "Act_Energy_Power",
+        "attr": "Act_Power_Machine",
         "op": "gt",
         "value": 0
       },
@@ -565,11 +528,7 @@
     "opcuaTypeDefinition": "CNC_MachineType",
     "deviceClass": "CNC Machine",
     "notInIsa95": [
-      "Act_Status_Machine",
-      "Act_Text_MachineMode",
-      "Act_Amount_Alarm",
       "Act_Time_Cycle",
-      "Act_Energy_Power",
       "Act_Energy_Total",
       "Act_Ref_Shift",
       "Act_Ref_Operator",
@@ -591,7 +550,7 @@
       "Act_Vibration_X",
       "Act_Vibration_Y",
       "Act_Vibration_Z",
-      "Act_Energy_PowerSpindle",
+      "Act_Power_Spindle",
       "Act_Energy_Cycle",
       "Act_Temp_Spindle"
     ],
@@ -661,6 +620,36 @@
       "to": "SMProfile-SegmentResponse",
       "as": "program_status",
       "since": "3.0.0"
+    },
+    {
+      "name": "Act_Status_Machine",
+      "to": "SMProfile-Machine",
+      "as": "Act_Status_Machine",
+      "since": "6.0.0"
+    },
+    {
+      "name": "Act_Text_MachineMode",
+      "to": "SMProfile-Machine",
+      "as": "Act_Mode_Machine",
+      "since": "6.0.0"
+    },
+    {
+      "name": "Act_Amount_Alarm",
+      "to": "SMProfile-Machine",
+      "as": "Act_Amount_Alarm",
+      "since": "6.0.0"
+    },
+    {
+      "name": "Act_Energy_Power",
+      "to": "SMProfile-Machine",
+      "as": "Act_Power_Machine",
+      "since": "6.0.0"
+    },
+    {
+      "name": "Act_Energy_PowerSpindle",
+      "to": "SMProfile-CNC-Machine",
+      "as": "Act_Power_Spindle",
+      "since": "6.0.0"
     }
   ]
 }
