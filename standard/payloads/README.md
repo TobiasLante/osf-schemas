@@ -29,6 +29,5 @@ eventType (created = Add, updated = Change, deleted = Delete), a transactional s
 and transactional of a contract on the same topic; the message key is the entity's key (the profile's kgIdProperty, `x-kafka` of each `.avsc`).
 The NATS subjects carry the same `{site}.{entity}` (a subscriber filters per contract); the streams stay per delivery.
 
-
 Keys (`element_id`, `id`, the profile's key attribute) are subject tokens: no `+ # * > /` or space.
 Abstract and retired profiles send nothing and have no payload; a category in neither world of the convention has none.
