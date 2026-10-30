@@ -111,6 +111,21 @@
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/colourPurgeRemaining",
       "smAttribute": "Act_Amount_ColourPurge",
       "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/partsCount/good",
+      "smAttribute": "Act_Amount_LifeTimeGood",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/partsCount/scrap",
+      "smAttribute": "Act_Amount_LifeTimeScrap",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/partsCount/total",
+      "smAttribute": "Act_Amount_LifeTime",
+      "dataType": "ns=0;i=11"
     }
   ],
   "polling": {
@@ -126,21 +141,6 @@
     {
       "profileRef": "SMProfile-SegmentResponse",
       "nodeMappings": [
-        {
-          "opcuaNodeId": "ns=1;s=Machine/partsCount/good",
-          "smAttribute": "qty_good",
-          "dataType": "ns=0;i=11"
-        },
-        {
-          "opcuaNodeId": "ns=1;s=Machine/partsCount/scrap",
-          "smAttribute": "qty_scrap",
-          "dataType": "ns=0;i=11"
-        },
-        {
-          "opcuaNodeId": "ns=1;s=Machine/partsCount/total",
-          "smAttribute": "qty_total",
-          "dataType": "ns=0;i=11"
-        },
         {
           "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shot/currentProgram",
           "smAttribute": "program_ref",

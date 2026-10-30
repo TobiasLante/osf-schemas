@@ -191,7 +191,11 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "unit": "C62"
+      "unit": "C62",
+      "counter": {
+        "semantics": "cumulative_resettable",
+        "aggregation": "sum_of_positive_deltas"
+      }
     },
     {
       "name": "Act_Amount_LifeTimeGood",
@@ -203,7 +207,11 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "unit": "C62"
+      "unit": "C62",
+      "counter": {
+        "semantics": "cumulative_resettable",
+        "aggregation": "sum_of_positive_deltas"
+      }
     },
     {
       "name": "Act_Amount_LifeTimeScrap",
@@ -215,7 +223,11 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "unit": "C62"
+      "unit": "C62",
+      "counter": {
+        "semantics": "cumulative_resettable",
+        "aggregation": "sum_of_positive_deltas"
+      }
     },
     {
       "name": "Act_Time_Cycle",

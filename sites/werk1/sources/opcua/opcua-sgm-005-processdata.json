@@ -256,6 +256,21 @@
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/colourPurgeRemaining",
       "smAttribute": "Act_Amount_ColourPurge",
       "dataType": "Float64"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/partsCount/good",
+      "smAttribute": "Act_Amount_LifeTimeGood",
+      "dataType": "Float64"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/partsCount/scrap",
+      "smAttribute": "Act_Amount_LifeTimeScrap",
+      "dataType": "Float64"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/partsCount/total",
+      "smAttribute": "Act_Amount_LifeTime",
+      "dataType": "Float64"
     }
   ],
   "staticProperties": {
@@ -274,21 +289,6 @@
     {
       "profileRef": "SMProfile-SegmentResponse",
       "nodeMappings": [
-        {
-          "opcuaNodeId": "ns=1;s=Machine/partsCount/good",
-          "smAttribute": "qty_good",
-          "dataType": "Float64"
-        },
-        {
-          "opcuaNodeId": "ns=1;s=Machine/partsCount/scrap",
-          "smAttribute": "qty_scrap",
-          "dataType": "Float64"
-        },
-        {
-          "opcuaNodeId": "ns=1;s=Machine/partsCount/total",
-          "smAttribute": "qty_total",
-          "dataType": "Float64"
-        },
         {
           "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shot/currentProgram",
           "smAttribute": "program_ref",
