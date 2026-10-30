@@ -1,11 +1,11 @@
 {
  "crossConstraintId": "late_delivery",
- "version": "3.0.0",
+ "version": "3.1.0",
  "standard": "OSF",
  "displayName": "Delivery delay plan-vs-actual (PARKED) — RETIRED 2026-07-12",
  "description": "Delivery delay: actual completion (OperationsResponse.actual_end_time) is later than the planned completion of the OperationsRequest/ProductionOrder.",
  "$comment": "TOMBSTONE — the rule body below is preserved VERBATIM. Evidence, not configuration. Do NOT delete this file. Original $comment follows. >>> Cross-source facet (CAPT-B Phase 2, building block 4 — CONTRACT, PARKED): OperationsResponse.actual_end_time (actual) later than OperationsRequest/ProductionOrder.planned_end_time (planned), joined on production_order_no. PARKED because the sim NEVER fills 'lieferdatum_ist' (→ actual_end_time) → the rule would find no actual value → would always stay 'unknown' (no raise). In practice the live order_overdue (single-entity constraint on CustomerOrder.due_date vs $now) already covers the same case. Contract + mapping are deliberately prepared here: once the sim delivers the actual date, remove 'parked' and the rule goes live — WITHOUT any code change. op=lte: HOLDS (ok) when actual_end_time <= planned_end_time; VIOLATED on overrun. Modeled as a multi_source class. <<< The claim in that comment — that removing `parked` would make the rule work without a code change — is FALSE: see retiredReason.",
- "version_note": "2.1.0 (2026-07-12, CAPT-QTY) — parkedReason corrected: a SECOND, independent blocker was found.",
+ "version_note": "0.7.0 C (owner 30.10.2026): the rule body speaks the 6.0.0 names so the contract validates — left.joinKey production_order_ref (OperationsResponse's order key), when status eq Running (an open, not final confirmation: erp-operations-response maps final_confirmation false → Running; 'offen' is no status word). Still retired; both defects of retiredEvidence stand. Earlier: 2.1.0 (2026-07-12, CAPT-QTY) — parkedReason corrected: a SECOND, independent blocker was found.",
  "severity": "warning",
  "discrepancyClass": "multi_source",
  "concern": "operations",
@@ -13,11 +13,11 @@
  "accountable_role": "Production Control",
  "when": {
   "leftAttr": "status",
-  "eq": "offen"
+  "eq": "Running"
  },
  "left": {
   "profileRef": "SMProfile-OperationsResponse",
-  "joinKey": "production_order_no",
+  "joinKey": "production_order_ref",
   "attr": "actual_end_time"
  },
  "right": {

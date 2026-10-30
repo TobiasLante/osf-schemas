@@ -1,6 +1,6 @@
 {
  "crossConstraintId": "material_unavailable",
- "version": "3.0.0",
+ "version": "3.1.0",
  "standard": "OSF",
  "displayName": "Material unavailable (cross-domain ERP↔WMS) — PARKED (guard can never fire) — RETIRED 2026-07-12",
  "description": "Material unavailable: an active production response requires an article whose free WMS stock is 0.",
@@ -12,7 +12,7 @@
  "accountable_role": "Materials Planning",
  "when": {
   "leftAttr": "status",
-  "eq": "offen"
+  "eq": "Running"
  },
  "left": {
   "profileRef": "SMProfile-OperationsResponse",
@@ -61,5 +61,6 @@
    "A stock operand that is a real reservation/ATP figure, not a raw quant snapshot"
   ],
   "doNotResurrectAs": "the same rule with the guard deleted — it would then fire on every confirmed order, cancelled ones included."
- }
+ },
+ "version_note": "0.7.0 C (owner 30.10.2026): the rule body speaks the 6.0.0 names so the contract validates — when status eq Running (an open confirmation; 'offen' is no status word). Still retired."
 }
