@@ -19,16 +19,6 @@
       "unit": "SEC"
     },
     {
-      "name": "Act_Time_Cycle",
-      "dataType": "Float",
-      "required": false,
-      "delivery": "telemetry",
-      "scope": "hub",
-      "promotion": "raw",
-      "unit": "SEC",
-      "valueType": "PV"
-    },
-    {
       "name": "Act_Energy_Total",
       "dataType": "Float",
       "required": false,
@@ -212,16 +202,6 @@
       "delivery": "telemetry",
       "scope": "hub",
       "promotion": "raw",
-      "valueType": "PV"
-    },
-    {
-      "name": "Act_State_InCycle",
-      "dataType": "Boolean",
-      "required": false,
-      "description": "Machine is in the machining cycle (TRUE/FALSE). Trigger for the cycle-detect FSM on the edge.",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change",
       "valueType": "PV"
     },
     {
@@ -528,7 +508,6 @@
     "opcuaTypeDefinition": "CNC_MachineType",
     "deviceClass": "CNC Machine",
     "notInIsa95": [
-      "Act_Time_Cycle",
       "Act_Energy_Total",
       "Act_Ref_Shift",
       "Act_Ref_Operator",
@@ -543,7 +522,6 @@
       "Act_Ref_ToolNumber",
       "Act_Pct_ToolWear",
       "Act_Time_ToolLifeRemaining",
-      "Act_State_InCycle",
       "Act_Rate_CoolantFlow",
       "Act_Temp_Coolant",
       "Act_Pressure_Coolant",
@@ -649,6 +627,18 @@
       "name": "Act_Energy_PowerSpindle",
       "to": "SMProfile-CNC-Machine",
       "as": "Act_Power_Spindle",
+      "since": "6.0.0"
+    },
+    {
+      "name": "Act_Time_Cycle",
+      "to": "SMProfile-Machine",
+      "as": "Act_Time_Cycle",
+      "since": "6.0.0"
+    },
+    {
+      "name": "Act_State_InCycle",
+      "to": "SMProfile-Machine",
+      "as": "Act_State_InCycle",
       "since": "6.0.0"
     }
   ]

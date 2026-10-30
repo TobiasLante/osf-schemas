@@ -38,17 +38,6 @@
       "unit": "C62"
     },
     {
-      "name": "Act_State_InCycle",
-      "dataType": "Boolean",
-      "valueType": "PV",
-      "required": false,
-      "category": "Process",
-      "description": "Machine is in the injection cycle (cycle gate for pressure rules).",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
       "name": "Act_Time_LastShot",
       "dataType": "DateTime",
       "valueType": "PV",
@@ -249,21 +238,6 @@
         "onBad": "flag"
       },
       "unit": "P1"
-    },
-    {
-      "name": "Act_Time_Cycle",
-      "dataType": "Double",
-      "required": false,
-      "category": "Process",
-      "description": "Actual cycle time per shot.",
-      "delivery": "telemetry",
-      "scope": "hub",
-      "promotion": "raw",
-      "quality": {
-        "onBad": "flag"
-      },
-      "unit": "SEC",
-      "valueType": "PV"
     },
     {
       "name": "Act_Time_PhaseElapsed",
@@ -1466,7 +1440,6 @@
     "notInIsa95": [
       "machine_type",
       "Act_Amount_Shot",
-      "Act_State_InCycle",
       "Act_Time_LastShot",
       "Act_Status_Reason",
       "Act_Temp_Hotrunner",
@@ -1481,7 +1454,6 @@
       "Act_Volume_Shot",
       "Act_Length_Cushion",
       "Act_Prog_Plasticising",
-      "Act_Time_Cycle",
       "Act_Time_PhaseElapsed",
       "Act_Time_PhaseRemaining",
       "Act_State_Switchover",
@@ -1587,7 +1559,7 @@
     },
     {
       "name": "inCycle",
-      "to": "SMProfile-InjectionMoldingMachine",
+      "to": "SMProfile-Machine",
       "as": "Act_State_InCycle",
       "since": "6.0.0"
     },
@@ -1677,7 +1649,7 @@
     },
     {
       "name": "cycleTimeSec",
-      "to": "SMProfile-InjectionMoldingMachine",
+      "to": "SMProfile-Machine",
       "as": "Act_Time_Cycle",
       "since": "6.0.0"
     },

@@ -37,9 +37,9 @@
               "Act_Amount_LifeTime",
               "Act_Amount_LifeTimeGood",
               "Act_Amount_LifeTimeScrap",
+              "Act_State_InCycle",
               "machine_type",
               "Act_Amount_Shot",
-              "Act_State_InCycle",
               "Act_Time_LastShot",
               "Act_Status_Reason",
               "Act_State_Switchover",
@@ -93,9 +93,10 @@
         "Act_Amount_LifeTime",
         "Act_Amount_LifeTimeGood",
         "Act_Amount_LifeTimeScrap",
+        "Act_Time_Cycle",
+        "Act_State_InCycle",
         "machine_type",
         "Act_Amount_Shot",
-        "Act_State_InCycle",
         "Act_Time_LastShot",
         "Act_Status_Reason",
         "Act_Temp_Hotrunner",
@@ -110,7 +111,6 @@
         "Act_Volume_Shot",
         "Act_Length_Cushion",
         "Act_Prog_Plasticising",
-        "Act_Time_Cycle",
         "Act_Time_PhaseElapsed",
         "Act_Time_PhaseRemaining",
         "Act_State_Switchover",
@@ -143,6 +143,7 @@
   "x-telemetry": [
     "Act_Time_Uptime",
     "Act_Power_Machine",
+    "Act_Time_Cycle",
     "Act_Temp_Hotrunner",
     "Act_Temp_Nozzle",
     "Act_Pressure_Cavity",
@@ -155,7 +156,6 @@
     "Act_Volume_Shot",
     "Act_Length_Cushion",
     "Act_Prog_Plasticising",
-    "Act_Time_Cycle",
     "Act_Time_PhaseElapsed",
     "Act_Time_PhaseRemaining",
     "Act_Temp_Mould",
@@ -186,9 +186,9 @@
     "Act_Amount_LifeTime",
     "Act_Amount_LifeTimeGood",
     "Act_Amount_LifeTimeScrap",
+    "Act_State_InCycle",
     "machine_type",
     "Act_Amount_Shot",
-    "Act_State_InCycle",
     "Act_Time_LastShot",
     "Act_Status_Reason",
     "Act_State_Switchover",
@@ -325,6 +325,19 @@
       "scope": "hub",
       "description": "Lifetime counter of the machine: scrap parts (partsCount/scrap) (sim node partsCount; owner 29.10.2026: the machine's counters stay on the machine, the quantities of one order are SegmentResponse qty_*)."
     },
+    "Act_Time_Cycle": {
+      "type": "number",
+      "unit": "SEC",
+      "delivery": "telemetry",
+      "scope": "hub",
+      "description": "Actual cycle time of one cycle of the machine (sim node Machine/typeSpecific/cycle/cycleTimeSec, IMM …/shot/cycleTimeSec). Lifted into SMProfile-Machine in core 6.0.0 (owner 30.10.2026): CNC Act_Time_Cycle, IMM cycleTimeSec."
+    },
+    "Act_State_InCycle": {
+      "type": "boolean",
+      "delivery": "transactional",
+      "scope": "hub",
+      "description": "The machine is in its production cycle (TRUE/FALSE) — the cycle gate of the cycle-gated rules and the trigger of the cycle-detect FSM on the edge. Lifted into SMProfile-Machine in core 6.0.0 (owner 30.10.2026): CNC Act_State_InCycle, IMM inCycle."
+    },
     "machine_type": {
       "type": "string",
       "delivery": "transactional",
@@ -337,12 +350,6 @@
       "delivery": "transactional",
       "scope": "hub",
       "description": "Shot count (cumulative). READ IT WITH `counter.aggregation`, NOT max-min: this counter resets."
-    },
-    "Act_State_InCycle": {
-      "type": "boolean",
-      "delivery": "transactional",
-      "scope": "hub",
-      "description": "Machine is in the injection cycle (cycle gate for pressure rules)."
     },
     "Act_Time_LastShot": {
       "type": "string",
@@ -440,13 +447,6 @@
       "delivery": "telemetry",
       "scope": "hub",
       "description": "Plasticising progress of the current cycle."
-    },
-    "Act_Time_Cycle": {
-      "type": "number",
-      "unit": "SEC",
-      "delivery": "telemetry",
-      "scope": "hub",
-      "description": "Actual cycle time per shot."
     },
     "Act_Time_PhaseElapsed": {
       "type": "number",

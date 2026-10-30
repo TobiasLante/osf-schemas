@@ -37,6 +37,7 @@
               "Act_Amount_LifeTime",
               "Act_Amount_LifeTimeGood",
               "Act_Amount_LifeTimeScrap",
+              "Act_State_InCycle",
               "Plan_Time_Cycle",
               "Act_Ref_Shift",
               "Act_Ref_Operator",
@@ -44,8 +45,7 @@
               "Set_Rate_Feed",
               "Set_Pos_AxisX",
               "Set_Pos_AxisY",
-              "Set_Pos_AxisZ",
-              "Act_State_InCycle"
+              "Set_Pos_AxisZ"
             ]
           }
         },
@@ -88,8 +88,9 @@
         "Act_Amount_LifeTime",
         "Act_Amount_LifeTimeGood",
         "Act_Amount_LifeTimeScrap",
-        "Plan_Time_Cycle",
         "Act_Time_Cycle",
+        "Act_State_InCycle",
+        "Plan_Time_Cycle",
         "Act_Energy_Total",
         "Act_Ref_Shift",
         "Act_Ref_Operator",
@@ -109,7 +110,6 @@
         "Act_Ref_ToolNumber",
         "Act_Pct_ToolWear",
         "Act_Time_ToolLifeRemaining",
-        "Act_State_InCycle",
         "Act_Rate_CoolantFlow",
         "Act_Temp_Coolant",
         "Act_Pressure_Coolant",
@@ -166,6 +166,7 @@
     "Act_Amount_LifeTime",
     "Act_Amount_LifeTimeGood",
     "Act_Amount_LifeTimeScrap",
+    "Act_State_InCycle",
     "Plan_Time_Cycle",
     "Act_Ref_Shift",
     "Act_Ref_Operator",
@@ -173,8 +174,7 @@
     "Set_Rate_Feed",
     "Set_Pos_AxisX",
     "Set_Pos_AxisY",
-    "Set_Pos_AxisZ",
-    "Act_State_InCycle"
+    "Set_Pos_AxisZ"
   ],
   "x-signals": {
     "storage_location_ref": {
@@ -300,16 +300,23 @@
       "scope": "hub",
       "description": "Lifetime counter of the machine: scrap parts (partsCount/scrap) (sim node partsCount; owner 29.10.2026: the machine's counters stay on the machine, the quantities of one order are SegmentResponse qty_*)."
     },
-    "Plan_Time_Cycle": {
-      "type": "number",
-      "unit": "SEC",
-      "delivery": "transactional",
-      "scope": "hub"
-    },
     "Act_Time_Cycle": {
       "type": "number",
       "unit": "SEC",
       "delivery": "telemetry",
+      "scope": "hub",
+      "description": "Actual cycle time of one cycle of the machine (sim node Machine/typeSpecific/cycle/cycleTimeSec, IMM …/shot/cycleTimeSec). Lifted into SMProfile-Machine in core 6.0.0 (owner 30.10.2026): CNC Act_Time_Cycle, IMM cycleTimeSec."
+    },
+    "Act_State_InCycle": {
+      "type": "boolean",
+      "delivery": "transactional",
+      "scope": "hub",
+      "description": "The machine is in its production cycle (TRUE/FALSE) — the cycle gate of the cycle-gated rules and the trigger of the cycle-detect FSM on the edge. Lifted into SMProfile-Machine in core 6.0.0 (owner 30.10.2026): CNC Act_State_InCycle, IMM inCycle."
+    },
+    "Plan_Time_Cycle": {
+      "type": "number",
+      "unit": "SEC",
+      "delivery": "transactional",
       "scope": "hub"
     },
     "Act_Energy_Total": {
@@ -421,12 +428,6 @@
       "type": "number",
       "delivery": "telemetry",
       "scope": "hub"
-    },
-    "Act_State_InCycle": {
-      "type": "boolean",
-      "delivery": "transactional",
-      "scope": "hub",
-      "description": "Machine is in the machining cycle (TRUE/FALSE). Trigger for the cycle-detect FSM on the edge."
     },
     "Act_Rate_CoolantFlow": {
       "type": "number",

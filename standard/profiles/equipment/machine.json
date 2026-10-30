@@ -216,6 +216,32 @@
       "scope": "hub",
       "promotion": "on_change",
       "unit": "C62"
+    },
+    {
+      "name": "Act_Time_Cycle",
+      "dataType": "Double",
+      "valueType": "PV",
+      "required": false,
+      "category": "Process",
+      "description": "Actual cycle time of one cycle of the machine (sim node Machine/typeSpecific/cycle/cycleTimeSec, IMM …/shot/cycleTimeSec). Lifted into SMProfile-Machine in core 6.0.0 (owner 30.10.2026): CNC Act_Time_Cycle, IMM cycleTimeSec.",
+      "delivery": "telemetry",
+      "scope": "hub",
+      "promotion": "raw",
+      "quality": {
+        "onBad": "flag"
+      },
+      "unit": "SEC"
+    },
+    {
+      "name": "Act_State_InCycle",
+      "dataType": "Boolean",
+      "valueType": "PV",
+      "required": false,
+      "category": "Process",
+      "description": "The machine is in its production cycle (TRUE/FALSE) — the cycle gate of the cycle-gated rules and the trigger of the cycle-detect FSM on the edge. Lifted into SMProfile-Machine in core 6.0.0 (owner 30.10.2026): CNC Act_State_InCycle, IMM inCycle.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     }
   ],
   "relationships": [
@@ -266,7 +292,9 @@
       "Act_Power_Machine",
       "Act_Amount_LifeTime",
       "Act_Amount_LifeTimeGood",
-      "Act_Amount_LifeTimeScrap"
+      "Act_Amount_LifeTimeScrap",
+      "Act_Time_Cycle",
+      "Act_State_InCycle"
     ],
     "mappingNote": "The signals every machine shares (status, mode, alarms, uptime, shift flag, power, the lifetime part counters; core 6.0.0, owner 29.10.2026) are live machine signals. B2MML Equipment has no named field for them; a value would only sit in a generic EquipmentProperty, so they stay outside ISA-95 like the type-specific signals of CNC-Machine and InjectionMoldingMachine.",
     "propertyMap": {
