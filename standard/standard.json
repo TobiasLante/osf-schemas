@@ -193,6 +193,34 @@
         "SMProfile-CNC-Machine",
         "SMProfile-InjectionMoldingMachine"
       ]
+    },
+    {
+      "id": "parts-count-lifetime",
+      "text": "The machine's parts counters (owner 30.10.2026): an OPC UA partsCount node (good, scrap, total) is the machine's lifetime counter, Act_Amount_LifeTimeGood / Act_Amount_LifeTimeScrap / Act_Amount_LifeTime of SMProfile-Machine (cumulative, resettable) — no longer the order quantities qty_good / qty_scrap / qty_total of the SegmentResponse the source reports on (those come from the ERP). The move re-points every such mapping (owner 31.10.2026); the KPIs oee, quality-rate, scrap-rate and energy-per-part read the lifetime counters.",
+      "profiles": [
+        "SMProfile-Machine",
+        "SMProfile-SegmentResponse"
+      ],
+      "remap": [
+        {
+          "profile": "SMProfile-SegmentResponse",
+          "property": "qty_good",
+          "node": "partsCount/good",
+          "as": "Act_Amount_LifeTimeGood"
+        },
+        {
+          "profile": "SMProfile-SegmentResponse",
+          "property": "qty_scrap",
+          "node": "partsCount/scrap",
+          "as": "Act_Amount_LifeTimeScrap"
+        },
+        {
+          "profile": "SMProfile-SegmentResponse",
+          "property": "qty_total",
+          "node": "partsCount/total",
+          "as": "Act_Amount_LifeTime"
+        }
+      ]
     }
   ],
   "additive": [
