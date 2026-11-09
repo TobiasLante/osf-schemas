@@ -1,8 +1,14 @@
 {
   "type": "record",
   "name": "OperationsMaterialBill",
+  "x-kafka": {
+    "contract": "OperationsMaterialBill",
+    "key": "operations_material_bill_id",
+    "topic": "<prefix>.{site}.OperationsMaterialBill",
+    "strategy": "TopicNameStrategy"
+  },
   "namespace": "org.openshopfloor.payload.operations",
-  "doc": "GENERATED from standard/profiles/operations/operations-material-bill.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "doc": "GENERATED from standard/profiles/operations/operations-material-bill.json 1.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
   "fields": [
     {
       "name": "eventType",
@@ -36,7 +42,7 @@
     {
       "name": "msgId",
       "type": "string",
-      "doc": "Unique message id: the Kafka key, for deduplication."
+      "doc": "Unique message id: the Nats-Msg-Id, for deduplication. The Kafka key is the entity's key, operations_material_bill_id (x-kafka)."
     },
     {
       "name": "profileRef",
@@ -46,7 +52,7 @@
     {
       "name": "profileVersion",
       "type": "string",
-      "default": "1.0.0"
+      "default": "1.1.0"
     },
     {
       "name": "b2m",
@@ -181,6 +187,24 @@
             ],
             "default": null,
             "doc": "The element of the role-based equipment hierarchy this object belongs to (ISA-95 Part 2 cl. 5.1 hierarchy scope, IN_SCOPE_OF). Optional."
+          },
+          {
+            "name": "bill_of_materials_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The bill of materials in PLM or ERP this material bill was taken from — its id there."
+          },
+          {
+            "name": "engineering_change_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The engineering change (ECN, SAP change number) that released this material bill."
           }
         ]
       }

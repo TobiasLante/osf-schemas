@@ -2,13 +2,13 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-SegmentRequirement.payload.json",
   "title": "SMProfile-SegmentRequirement payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/operations/segment-requirement.json 3.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/operations/segment-requirement.json 4.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-SegmentRequirement",
-  "x-profileVersion": "3.1.0",
+  "x-profileVersion": "4.0.0",
   "x-payloadVersion": "1.1.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
-    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+    "transactional": "business.{enterprise}.{site}.{entity}.{sourceId}.{eventType}.{id}"
   },
   "allOf": [
     {
@@ -49,13 +49,19 @@
         "material_use": {
           "type": "string",
           "enum": [
+            "Consumable",
             "Consumed",
             "Produced",
-            "Consumable",
-            "ByProduct",
-            "Sample",
-            "MovedFrom",
-            "MovedTo"
+            "By-product Produced",
+            "Co-product Produced",
+            "Yield Produced",
+            "Material Consumed",
+            "Material Produced",
+            "Destructive Sample",
+            "Returned Sample",
+            "Retained Sample",
+            "Inventoried",
+            "Other"
           ],
           "description": "ISA-95 MaterialRequirement.MaterialUse — the ROLE of the material in this stage. Encodes the 'Being Consumed/Produced/Tested/Moved'."
         },
@@ -84,6 +90,10 @@
         "operations_definition_ref": {
           "type": "string",
           "description": "The OperationsDefinition (FOR_OPERATIONS_DEFINITION; ISA-95 SegmentRequirement → OperationsDefinition). Optional."
+        },
+        "operations_definition_version": {
+          "type": "string",
+          "description": "The version of the operations definition this order / response ran with, where the source's definition id carries none (a routing number with its own change state). Empty when the id itself names the version."
         },
         "operations_segment_ref": {
           "type": "string",
@@ -132,6 +142,18 @@
         "test_specification_ref": {
           "type": "string",
           "description": "The TestSpecification (TESTED_BY; ISA-95 SegmentRequirement → TestSpecification). Optional."
+        },
+        "operations_type": {
+          "type": "string",
+          "enum": [
+            "Production",
+            "Maintenance",
+            "Quality",
+            "Inventory",
+            "Mixed",
+            "Other"
+          ],
+          "description": "ISA-95 operations type (B2MML OperationsType; Part 3/4: which MOM area the object belongs to; audit M1). A source without the column sets the constant of the profile's momDomain (columnMappings const)."
         }
       },
       "required": [
@@ -153,6 +175,7 @@
     "planned_start_time": "transactional",
     "planned_end_time": "transactional",
     "operations_definition_ref": "transactional",
+    "operations_definition_version": "transactional",
     "operations_segment_ref": "transactional",
     "parent_segment_requirement_ref": "transactional",
     "segment_response_ref": "transactional",
@@ -164,6 +187,7 @@
     "personnel_class_ref": "transactional",
     "tool_ref": "transactional",
     "physical_asset_class_ref": "transactional",
-    "test_specification_ref": "transactional"
+    "test_specification_ref": "transactional",
+    "operations_type": "transactional"
   }
 }

@@ -2,13 +2,13 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-WorkCapability.payload.json",
   "title": "SMProfile-WorkCapability payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/operations/work-capability.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/operations/work-capability.json 2.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-WorkCapability",
-  "x-profileVersion": "1.0.0",
+  "x-profileVersion": "2.0.0",
   "x-payloadVersion": "1.1.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
-    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+    "transactional": "business.{enterprise}.{site}.{entity}.{sourceId}.{eventType}.{id}"
   },
   "allOf": [
     {
@@ -55,10 +55,27 @@
         },
         "operations_type": {
           "type": "string",
+          "enum": [
+            "Production",
+            "Maintenance",
+            "Quality",
+            "Inventory",
+            "Mixed",
+            "Other"
+          ],
           "description": "ISA-95 WorkCapability.OperationsType."
         },
         "capability_type": {
           "type": "string",
+          "enum": [
+            "Used",
+            "Unused",
+            "Total",
+            "Committed",
+            "Available",
+            "Unattainable",
+            "Other"
+          ],
           "description": "ISA-95 WorkCapability.CapabilityType."
         },
         "reason": {

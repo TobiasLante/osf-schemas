@@ -1,8 +1,14 @@
 {
   "type": "record",
   "name": "SegmentRequirement",
+  "x-kafka": {
+    "contract": "SegmentRequirement",
+    "key": "segment_requirement_no",
+    "topic": "<prefix>.{site}.SegmentRequirement",
+    "strategy": "TopicNameStrategy"
+  },
   "namespace": "org.openshopfloor.payload.operations",
-  "doc": "GENERATED from standard/profiles/operations/segment-requirement.json 3.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "doc": "GENERATED from standard/profiles/operations/segment-requirement.json 4.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
   "fields": [
     {
       "name": "eventType",
@@ -36,7 +42,7 @@
     {
       "name": "msgId",
       "type": "string",
-      "doc": "Unique message id: the Kafka key, for deduplication."
+      "doc": "Unique message id: the Nats-Msg-Id, for deduplication. The Kafka key is the entity's key, segment_requirement_no (x-kafka)."
     },
     {
       "name": "profileRef",
@@ -46,7 +52,7 @@
     {
       "name": "profileVersion",
       "type": "string",
-      "default": "3.1.0"
+      "default": "4.0.0"
     },
     {
       "name": "b2m",
@@ -212,6 +218,15 @@
             "doc": "The OperationsDefinition (FOR_OPERATIONS_DEFINITION; ISA-95 SegmentRequirement → OperationsDefinition). Optional."
           },
           {
+            "name": "operations_definition_version",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The version of the operations definition this order / response ran with, where the source's definition id carries none (a routing number with its own change state). Empty when the id itself names the version."
+          },
+          {
             "name": "operations_segment_ref",
             "type": [
               "null",
@@ -318,6 +333,15 @@
             ],
             "default": null,
             "doc": "The TestSpecification (TESTED_BY; ISA-95 SegmentRequirement → TestSpecification). Optional."
+          },
+          {
+            "name": "operations_type",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "ISA-95 operations type (B2MML OperationsType; Part 3/4: which MOM area the object belongs to; audit M1). A source without the column sets the constant of the profile's momDomain (columnMappings const)."
           }
         ]
       }
