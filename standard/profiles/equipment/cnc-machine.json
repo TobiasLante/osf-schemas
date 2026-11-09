@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-CNC-Machine",
-  "version": "5.0.0",
+  "version": "3.1.0",
   "standard": "CarToUNS",
   "category": "machine",
   "displayName": "CNC Machine",
@@ -9,14 +9,74 @@
   "abstract": false,
   "properties": [
     {
+      "name": "Act_Status_Machine",
+      "dataType": "String",
+      "required": false,
+      "enum": [
+        "RUNNING",
+        "IDLE",
+        "STOPPED",
+        "MAINTENANCE"
+      ],
+      "description": "Actual machine status. Full text: docs/history/standard/profiles/equipment/cnc-machine.md, attributes › Act_Status_Machine › description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
+    },
+    {
+      "name": "Act_Text_MachineMode",
+      "dataType": "String",
+      "required": false,
+      "enum": [
+        "AUTO",
+        "MANUAL",
+        "SETUP"
+      ],
+      "description": "Machine operating mode. Full text: docs/history/standard/profiles/equipment/cnc-machine.md, attributes › Act_Text_MachineMode › description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
+    },
+    {
+      "name": "Act_Amount_Alarm",
+      "dataType": "Int32",
+      "required": false,
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
+    },
+    {
       "name": "Plan_Time_Cycle",
       "dataType": "Float",
       "required": false,
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "SP",
-      "unit": "SEC"
+      "valueType": "SP"
+    },
+    {
+      "name": "Act_Time_Cycle",
+      "dataType": "Float",
+      "required": false,
+      "delivery": "telemetry",
+      "scope": "hub",
+      "promotion": "raw",
+      "unit": "SEC",
+      "valueType": "PV"
+    },
+    {
+      "name": "Act_Energy_Power",
+      "dataType": "Float",
+      "required": false,
+      "description": "Actual electrical power draw (kW). Full text: docs/history/standard/profiles/equipment/cnc-machine.md, attributes › Act_Energy_Power › description.",
+      "unit": "KWT",
+      "delivery": "telemetry",
+      "scope": "hub",
+      "promotion": "5sec",
+      "valueType": "PV"
     },
     {
       "name": "Act_Energy_Total",
@@ -25,8 +85,7 @@
       "delivery": "telemetry",
       "scope": "hub",
       "promotion": "raw",
-      "valueType": "PV",
-      "unit": "KWH"
+      "valueType": "PV"
     },
     {
       "name": "Act_Ref_Shift",
@@ -63,8 +122,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "SP",
-      "unit": "RPM"
+      "valueType": "SP"
     },
     {
       "name": "Act_Pct_SpindleLoad",
@@ -83,8 +141,7 @@
       "delivery": "telemetry",
       "scope": "hub",
       "promotion": "raw",
-      "valueType": "PV",
-      "unit": "NU"
+      "valueType": "PV"
     },
     {
       "name": "Act_Rate_Feed",
@@ -103,8 +160,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "SP",
-      "unit": "H81"
+      "valueType": "SP"
     },
     {
       "name": "Act_Pct_FeedOverride",
@@ -113,8 +169,7 @@
       "delivery": "telemetry",
       "scope": "hub",
       "promotion": "raw",
-      "valueType": "PV",
-      "unit": "P1"
+      "valueType": "PV"
     },
     {
       "name": "Act_Pos_AxisX",
@@ -133,8 +188,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "SP",
-      "unit": "MMT"
+      "valueType": "SP"
     },
     {
       "name": "Act_Pos_AxisY",
@@ -153,8 +207,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "SP",
-      "unit": "MMT"
+      "valueType": "SP"
     },
     {
       "name": "Act_Pos_AxisZ",
@@ -173,8 +226,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "SP",
-      "unit": "MMT"
+      "valueType": "SP"
     },
     {
       "name": "Act_Ref_ToolNumber",
@@ -205,14 +257,23 @@
       "valueType": "PV"
     },
     {
+      "name": "Act_State_InCycle",
+      "dataType": "Boolean",
+      "required": false,
+      "description": "Machine is in the machining cycle (TRUE/FALSE). Trigger for the cycle-detect FSM on the edge.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
+    },
+    {
       "name": "Act_Rate_CoolantFlow",
       "dataType": "Float",
       "required": false,
       "delivery": "telemetry",
       "scope": "hub",
       "promotion": "raw",
-      "valueType": "PV",
-      "unit": "L2"
+      "valueType": "PV"
     },
     {
       "name": "Act_Temp_Coolant",
@@ -221,8 +282,7 @@
       "delivery": "telemetry",
       "scope": "hub",
       "promotion": "raw",
-      "valueType": "PV",
-      "unit": "CEL"
+      "valueType": "PV"
     },
     {
       "name": "Act_Pressure_Coolant",
@@ -231,8 +291,7 @@
       "delivery": "telemetry",
       "scope": "hub",
       "promotion": "raw",
-      "valueType": "PV",
-      "unit": "BAR"
+      "valueType": "PV"
     },
     {
       "name": "Act_Vibration_X",
@@ -262,14 +321,13 @@
       "valueType": "PV"
     },
     {
-      "name": "Act_Power_Spindle",
+      "name": "Act_Energy_PowerSpindle",
       "dataType": "Float",
       "required": false,
       "delivery": "telemetry",
       "scope": "hub",
       "promotion": "raw",
-      "valueType": "PV",
-      "unit": "KWT"
+      "valueType": "PV"
     },
     {
       "name": "Act_Energy_Cycle",
@@ -278,8 +336,7 @@
       "delivery": "telemetry",
       "scope": "hub",
       "promotion": "raw",
-      "valueType": "PV",
-      "unit": "KWH"
+      "valueType": "PV"
     },
     {
       "name": "Act_Temp_Spindle",
@@ -368,7 +425,7 @@
       "name": "spindle_power_control_limits",
       "description": "Control limits (warning and action limits) for active power kW. Full text: docs/history/standard/profiles/equipment/cnc-machine.md, constraints › spindle_power_control_limits › description.",
       "require": {
-        "attr": "Act_Power_Machine",
+        "attr": "Act_Energy_Power",
         "op": "within_limits",
         "limits": {
           "warn": [
@@ -479,7 +536,7 @@
         "value": "RUNNING"
       },
       "require": {
-        "attr": "Act_Power_Machine",
+        "attr": "Act_Energy_Power",
         "op": "gt",
         "value": 0
       },
@@ -493,54 +550,54 @@
     }
   ],
   "semantics": [],
-  "kpiRefs": [
-    "KPI-Availability",
-    "KPI-Performance",
-    "KPI-Energy-Per-Part"
-  ],
+  "kpiRefs": [],
   "isa95": {
     "objectModel": "Equipment",
     "part": 2,
     "momDomain": "production",
-    "equipmentLevel": "WorkUnit",
+    "equipmentLevel": "Unit",
     "equipmentClass": "CNCMachine",
     "companionSpec": "OPC40077-CNC",
     "opcuaTypeDefinition": "CNC_MachineType",
     "deviceClass": "CNC Machine",
     "notInIsa95": [
+      "Act_Status_Machine",
+      "Act_Text_MachineMode",
+      "Act_Amount_Alarm",
+      "Plan_Time_Cycle",
+      "Act_Time_Cycle",
+      "Act_Energy_Power",
       "Act_Energy_Total",
       "Act_Ref_Shift",
       "Act_Ref_Operator",
       "Act_Speed_Spindle",
+      "Set_Speed_Spindle",
       "Act_Pct_SpindleLoad",
       "Act_Torque_Spindle",
       "Act_Rate_Feed",
+      "Set_Rate_Feed",
       "Act_Pct_FeedOverride",
       "Act_Pos_AxisX",
+      "Set_Pos_AxisX",
       "Act_Pos_AxisY",
+      "Set_Pos_AxisY",
       "Act_Pos_AxisZ",
+      "Set_Pos_AxisZ",
       "Act_Ref_ToolNumber",
       "Act_Pct_ToolWear",
       "Act_Time_ToolLifeRemaining",
+      "Act_State_InCycle",
       "Act_Rate_CoolantFlow",
       "Act_Temp_Coolant",
       "Act_Pressure_Coolant",
       "Act_Vibration_X",
       "Act_Vibration_Y",
       "Act_Vibration_Z",
-      "Act_Power_Spindle",
+      "Act_Energy_PowerSpindle",
       "Act_Energy_Cycle",
       "Act_Temp_Spindle"
     ],
-    "mappingNote": "These are live machine signals of the OPC UA CNC companion specification (status, cycle, spindle, axes, tool, coolant, energy, vibration). B2MML Equipment has no named field for them; a value would only sit in a generic EquipmentProperty. Audit M3 (core 6.0.0): the setpoints and planned values (Set_Speed_Spindle, Set_Rate_Feed, Set_Pos_AxisX, Set_Pos_AxisY, Set_Pos_AxisZ, Plan_Time_Cycle) are equipment properties of the machine (Equipment.EquipmentProperty, named by their ID); the live Level-2 signals stay outside ISA-95.",
-    "propertyMap": {
-      "Set_Speed_Spindle": "Equipment.EquipmentProperty[ID=Set_Speed_Spindle].Value.ValueString",
-      "Set_Rate_Feed": "Equipment.EquipmentProperty[ID=Set_Rate_Feed].Value.ValueString",
-      "Set_Pos_AxisX": "Equipment.EquipmentProperty[ID=Set_Pos_AxisX].Value.ValueString",
-      "Set_Pos_AxisY": "Equipment.EquipmentProperty[ID=Set_Pos_AxisY].Value.ValueString",
-      "Set_Pos_AxisZ": "Equipment.EquipmentProperty[ID=Set_Pos_AxisZ].Value.ValueString",
-      "Plan_Time_Cycle": "Equipment.EquipmentProperty[ID=Plan_Time_Cycle].Value.ValueString"
-    }
+    "mappingNote": "These are live machine signals of the OPC UA CNC companion specification (status, cycle, spindle, axes, tool, coolant, energy, vibration). B2MML Equipment has no named field for them; a value would only sit in a generic EquipmentProperty."
   },
   "kgNodeLabel": "CNC_Machine",
   "kgIdProperty": "element_id",
@@ -598,48 +655,6 @@
       "to": "SMProfile-SegmentResponse",
       "as": "program_status",
       "since": "3.0.0"
-    },
-    {
-      "name": "Act_Status_Machine",
-      "to": "SMProfile-Machine",
-      "as": "Act_Status_Machine",
-      "since": "6.0.0"
-    },
-    {
-      "name": "Act_Text_MachineMode",
-      "to": "SMProfile-Machine",
-      "as": "Act_Mode_Machine",
-      "since": "6.0.0"
-    },
-    {
-      "name": "Act_Amount_Alarm",
-      "to": "SMProfile-Machine",
-      "as": "Act_Amount_Alarm",
-      "since": "6.0.0"
-    },
-    {
-      "name": "Act_Energy_Power",
-      "to": "SMProfile-Machine",
-      "as": "Act_Power_Machine",
-      "since": "6.0.0"
-    },
-    {
-      "name": "Act_Energy_PowerSpindle",
-      "to": "SMProfile-CNC-Machine",
-      "as": "Act_Power_Spindle",
-      "since": "6.0.0"
-    },
-    {
-      "name": "Act_Time_Cycle",
-      "to": "SMProfile-Machine",
-      "as": "Act_Time_Cycle",
-      "since": "6.0.0"
-    },
-    {
-      "name": "Act_State_InCycle",
-      "to": "SMProfile-Machine",
-      "as": "Act_State_InCycle",
-      "since": "6.0.0"
     }
   ]
 }

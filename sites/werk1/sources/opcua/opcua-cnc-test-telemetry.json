@@ -41,7 +41,7 @@
         "CNC Mill 1 (Haas VF-2, v4-7533)",
         "mode"
       ],
-      "smAttribute": "Act_Mode_Machine",
+      "smAttribute": "Act_Text_MachineMode",
       "dataType": "String"
     },
     {
@@ -87,26 +87,33 @@
       ],
       "smAttribute": "Act_Rate_CoolantFlow",
       "dataType": "Double"
-    },
+    }
+  ],
+  "objects": [
     {
-      "opcuaNodeId": "ns=1;s=Machine/partsCount/good",
-      "browsePath": [
-        "CNC Mill 1 (Haas VF-2, v4-7533)",
-        "partsCount",
-        "good"
-      ],
-      "smAttribute": "Act_Amount_LifeTimeGood",
-      "dataType": "Double"
-    },
-    {
-      "opcuaNodeId": "ns=1;s=Machine/partsCount/scrap",
-      "browsePath": [
-        "CNC Mill 1 (Haas VF-2, v4-7533)",
-        "partsCount",
-        "scrap"
-      ],
-      "smAttribute": "Act_Amount_LifeTimeScrap",
-      "dataType": "Double"
+      "profileRef": "SMProfile-SegmentResponse",
+      "nodeMappings": [
+        {
+          "opcuaNodeId": "ns=1;s=Machine/partsCount/good",
+          "browsePath": [
+            "CNC Mill 1 (Haas VF-2, v4-7533)",
+            "partsCount",
+            "good"
+          ],
+          "smAttribute": "qty_good",
+          "dataType": "Double"
+        },
+        {
+          "opcuaNodeId": "ns=1;s=Machine/partsCount/scrap",
+          "browsePath": [
+            "CNC Mill 1 (Haas VF-2, v4-7533)",
+            "partsCount",
+            "scrap"
+          ],
+          "smAttribute": "qty_scrap",
+          "dataType": "Double"
+        }
+      ]
     }
   ],
   "polling": {

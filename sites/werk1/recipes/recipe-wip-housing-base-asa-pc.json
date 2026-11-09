@@ -43,7 +43,7 @@
         "regime_markers": {
           "on_change": [
             "tool_ref",
-            "Act_Ref_Resin"
+            "resin"
           ]
         },
         "min_sample_n": 1000
@@ -58,7 +58,7 @@
         "regime_markers": {
           "on_change": [
             "tool_ref",
-            "Act_Ref_Resin"
+            "resin"
           ]
         },
         "min_sample_n": 1000
@@ -73,7 +73,7 @@
         "regime_markers": {
           "on_change": [
             "tool_ref",
-            "Act_Ref_Resin"
+            "resin"
           ]
         },
         "min_sample_n": 1000
@@ -88,7 +88,7 @@
         "regime_markers": {
           "on_change": [
             "tool_ref",
-            "Act_Ref_Resin"
+            "resin"
           ]
         },
         "min_sample_n": 1000
@@ -105,10 +105,10 @@
       ],
       "unit": "GRM",
       "monitored": true,
-      "gate": "Act_State_InCycle==true",
+      "gate": "inCycle==true",
       "valueFrom": "recipe:part_mass_band",
       "constraintId": "recipe_part_mass_band",
-      "smAttribute": "Act_Mass_Part"
+      "smAttribute": "partMass_g"
     },
     {
       "param": "cushionMm",
@@ -121,7 +121,7 @@
       "monitored": true,
       "valueFrom": "recipe:cushion_band",
       "constraintId": "recipe_cushion_band",
-      "smAttribute": "Act_Length_Cushion"
+      "smAttribute": "cushionMm"
     },
     {
       "param": "peakPressureBar",
@@ -132,10 +132,10 @@
       ],
       "unit": "BAR",
       "monitored": true,
-      "gate": "Act_Status_Phase==HOLD",
+      "gate": "phaseName==HOLD",
       "valueFrom": "recipe:peak_pressure_band",
       "constraintId": "recipe_peak_pressure_band",
-      "smAttribute": "Act_Pressure_Peak"
+      "smAttribute": "peakPressureBar"
     },
     {
       "param": "holdPressureBar",
@@ -146,10 +146,10 @@
       ],
       "unit": "BAR",
       "monitored": true,
-      "gate": "Act_Status_Phase==HOLD",
+      "gate": "phaseName==HOLD",
       "valueFrom": "recipe:hold_pressure_band",
       "constraintId": "recipe_hold_pressure_band",
-      "smAttribute": "Act_Pressure_Hold"
+      "smAttribute": "holdPressureBar"
     }
   ]
 }

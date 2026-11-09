@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-JobOrder",
-  "version": "4.0.0",
+  "version": "3.2.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Job Order (dispatched job on one machine)",
@@ -83,21 +83,7 @@
       "description": "Dispatch state of the job as the source names it.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change",
-      "enum": [
-        "Waiting",
-        "Pending",
-        "Cancelled",
-        "Dispatched",
-        "Ready",
-        "Running",
-        "Completed",
-        "Aborted",
-        "Held",
-        "Suspended",
-        "Closed",
-        "Other"
-      ]
+      "promotion": "on_change"
     },
     {
       "name": "segment_requirement_ref",
@@ -219,23 +205,6 @@
       "scope": "hub",
       "promotion": "on_change",
       "valueType": "ID"
-    },
-    {
-      "name": "work_type",
-      "dataType": "String",
-      "description": "ISA-95 work type (B2MML WorkType, the OperationsType code list; Part 4; audit M1). A source without the column sets the constant of the profile's momDomain (columnMappings const).",
-      "enum": [
-        "Production",
-        "Maintenance",
-        "Quality",
-        "Inventory",
-        "Mixed",
-        "Other"
-      ],
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change",
-      "valueType": "PV"
     }
   ],
   "relationships": [
@@ -255,7 +224,7 @@
       "type": "REQUIRES_MATERIAL",
       "target": "MaterialLot",
       "targetIdProp": "material_lot_no",
-      "description": "The lots the job requires or consumes (B2MML MaterialRequirement; a made lot is a JobResponse ACTUAL_MATERIAL, audit L3); 1:n, the key sits on the lot (MaterialLot.job_order_ref). Full text: docs/history/standard/profiles/operations/job-order.md, relationships › REQUIRES_MATERIAL."
+      "description": "The lots the job consumes or produces (B2MML MaterialRequirement, MaterialUse); 1:n, the key sits on the lot (MaterialLot.job_order_ref, source edge direction in). Full text: docs/history/standard/profiles/operations/job-order.md, relationships › REQUIRES_MATERIAL."
     },
     {
       "type": "FOR_WORK_MASTER",
@@ -313,7 +282,7 @@
     },
     {
       "type": "REQUIRES_PHYSICAL_ASSET",
-      "target": "Tooling",
+      "target": "Tool",
       "targetIdProp": "tool_id",
       "description": "ISA-95 Part 4 cl. 7 (B2MML JobOrder.PhysicalAssetRequirement.PhysicalAssetID)."
     },
@@ -357,8 +326,7 @@
       "personnel_class_ref": "JobOrder.PersonnelRequirement.PersonnelClassID",
       "tool_ref": "JobOrder.PhysicalAssetRequirement.PhysicalAssetID",
       "physical_asset_class_ref": "JobOrder.PhysicalAssetRequirement.PhysicalAssetClassID",
-      "test_specification_ref": "JobOrder.PersonnelRequirement.TestSpecificationID",
-      "work_type": "JobOrder.WorkType"
+      "test_specification_ref": "JobOrder.PersonnelRequirement.TestSpecificationID"
     },
     "notInIsa95": [
       "workorder_ref",

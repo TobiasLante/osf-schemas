@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-OperationsResponse",
-  "version": "4.0.0",
+  "version": "3.0.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Operations Response (production actuals / confirmation)",
@@ -46,17 +46,6 @@
       }
     },
     {
-      "name": "article_revision",
-      "dataType": "String",
-      "required": false,
-      "category": "Link",
-      "description": "The revision of the article that was built or used, where the source's article number carries none (a PLM part number with revision A). Empty when the number itself names the revision (at SAP dddd.1).",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change",
-      "valueType": "MD"
-    },
-    {
       "name": "machine_ref",
       "dataType": "String",
       "required": false,
@@ -68,7 +57,7 @@
       "valueType": "ID",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "The machine of a response is its SegmentResponse's EquipmentActual — the edge lives there (SMProfile-SegmentResponse ACTUAL_EQUIPMENT); an edge from here would be a shortcut through SegmentResponse (retired 25.09.). Kept as a value (Explorer X1, judged core 6.0.0)."
+        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
       }
     },
     {
@@ -112,16 +101,8 @@
       "category": "Core",
       "description": "Actual status of the confirmation. Full text: docs/history/standard/profiles/operations/operations-response.md, attributes › status › description.",
       "enum": [
-        "Waiting",
-        "Ready",
-        "Running",
-        "Completed",
-        "Aborted",
-        "Held",
-        "Paused",
-        "Suspended",
-        "Closed",
-        "Other"
+        "in_arbeit",
+        "fertig"
       ],
       "delivery": "transactional",
       "scope": "hub",
@@ -161,17 +142,6 @@
       "valueType": "ID"
     },
     {
-      "name": "operations_definition_version",
-      "dataType": "String",
-      "required": false,
-      "category": "Link",
-      "description": "The version of the operations definition this order / response ran with, where the source's definition id carries none (a routing number with its own change state). Empty when the id itself names the version.",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change",
-      "valueType": "MD"
-    },
-    {
       "name": "operations_segment_ref",
       "dataType": "String",
       "required": false,
@@ -203,23 +173,6 @@
       "scope": "hub",
       "promotion": "on_change",
       "valueType": "ID"
-    },
-    {
-      "name": "operations_type",
-      "dataType": "String",
-      "description": "ISA-95 operations type (B2MML OperationsType; Part 3/4: which MOM area the object belongs to; audit M1). A source without the column sets the constant of the profile's momDomain (columnMappings const).",
-      "enum": [
-        "Production",
-        "Maintenance",
-        "Quality",
-        "Inventory",
-        "Mixed",
-        "Other"
-      ],
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change",
-      "valueType": "PV"
     }
   ],
   "relationships": [
@@ -273,18 +226,15 @@
       "operations_response_no": "OperationsResponse.ID",
       "operations_definition_ref": "OperationsResponse.OperationsDefinitionID",
       "operations_segment_ref": "OperationsResponse.OperationsSegmentID",
-      "segment_requirement_ref": "OperationsResponse.SegmentRequirementID",
-      "operations_type": "OperationsResponse.OperationsType"
+      "segment_requirement_ref": "OperationsResponse.SegmentRequirementID"
     },
     "notInIsa95": [
       "operations_performance_ref",
       "cycle_time_actual_sec",
       "completed_at",
-      "updated_at",
-      "operations_definition_version",
-      "article_revision"
+      "updated_at"
     ],
-    "mappingNote": "B2MML OperationsResponse has no cycle time; completed_at and updated_at are timestamps of the source (the end of the response is actual_end_time). Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent). PLM as-built (owner 29.10.2026): operations_definition_version and article_revision name the state that was built where the source's id carries none; B2MML references a definition by its ID alone (an ID means one state), so there is no field for it — an extension, never part of the key."
+    "mappingNote": "B2MML OperationsResponse has no cycle time; completed_at and updated_at are timestamps of the source (the end of the response is actual_end_time). Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent)."
   },
   "kgNodeLabel": "OperationsResponse",
   "kgIdProperty": "operations_response_no",
