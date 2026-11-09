@@ -1,12 +1,12 @@
 {
-  "profileId": "SMProfile-Tooling",
-  "version": "5.0.0",
+  "profileId": "SMProfile-Tool",
+  "version": "3.1.0",
   "standard": "CarToUNS",
   "category": "equipment",
-  "displayName": "Tooling (production resources / tools: mould, die, cutting tool, fixture)",
-  "description": "ISA-95 physical asset of the kind tooling (DE Fertigungshilfsmittel, SAP production resources/tools; owner D3): own identity, moves between machines and the store; abstract — a plant names a Mould, Die, CuttingTool or Fixture. The mounted tool is the segment's PhysicalAssetActual (audit H2).",
+  "displayName": "Tool (tooling / physical asset, e.g. mould)",
+  "description": "next/ v2.0 — ISA-95 physical asset / tooling (e.g. an injection mould, die, fixture). Neutral generalization of 'mould'. IMPLEMENTED_BY target of machine profiles; can be set up on an Unit.",
   "parentType": null,
-  "abstract": true,
+  "abstract": false,
   "properties": [
     {
       "name": "tool_id",
@@ -26,6 +26,39 @@
       "required": false,
       "category": "Core",
       "description": "Display name of the tool.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "tool_type",
+      "dataType": "String",
+      "valueType": "MD",
+      "required": false,
+      "category": "Core",
+      "description": "Type of tooling (e.g. mould, die, fixture).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "unit_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "FK to Machine.machine_id (IMPLEMENTATION_OF; Machine ≡ Unit level) — where the tool is currently set up.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "parts_per_shot",
+      "dataType": "Int32",
+      "valueType": "MD",
+      "required": false,
+      "category": "Planning",
+      "description": "Number of good parts ONE machine cycle yields with this tool: the mould's cavity count (moved here from ProductionOrder in core 3.0.0).",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -57,7 +90,7 @@
       "dataType": "String",
       "required": false,
       "category": "Link",
-      "description": "The Tooling this Tooling is part of (PART_OF; ISA-95 PhysicalAsset MADE_UP_OF PhysicalAsset). Optional.",
+      "description": "The Tool this Tool is part of (PART_OF; ISA-95 PhysicalAsset MADE_UP_OF PhysicalAsset). Optional.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
@@ -94,17 +127,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "MD",
-      "enum": [
-        "WKT",
-        "WKB",
-        "GML",
-        "KML",
-        "GPX",
-        "GeoJSON",
-        "SVG",
-        "Other"
-      ]
+      "valueType": "MD"
     },
     {
       "name": "spatial_srid",
@@ -120,6 +143,12 @@
   ],
   "relationships": [
     {
+      "type": "IMPLEMENTATION_OF",
+      "target": "Machine",
+      "targetIdProp": "element_id",
+      "description": "The machine the tool is currently set up on (Machine ≡ Unit level, consolidation 2026-07-15)."
+    },
+    {
       "type": "AT_LOCATION",
       "target": "StorageLocation",
       "targetIdProp": "storage_location_id",
@@ -133,9 +162,9 @@
     },
     {
       "type": "PART_OF",
-      "target": "Tooling",
+      "target": "Tool",
       "targetIdProp": "tool_id",
-      "description": "ISA-95 PhysicalAsset MADE_UP_OF PhysicalAsset: the tooling this tooling is part of. Optional."
+      "description": "ISA-95 Part 2 cl. 5.6 (B2MML PhysicalAsset.PhysicalAssetChild)."
     },
     {
       "type": "TESTED_BY",
@@ -152,7 +181,7 @@
     "part": 2,
     "momDomain": "production",
     "equipmentClass": "tooling",
-    "note": "ISA-95 PhysicalAsset (tooling, owner D3). The mounted tool of a machine is the segment's PhysicalAssetRequirement / PhysicalAssetActual, never Equipment IMPLEMENTED_BY (audit H2).",
+    "note": "ISA-95 PhysicalAsset (tooling). IMPLEMENTED_BY target of machine profiles; neutral replacement for 'Mould'.",
     "propertyMap": {
       "storage_location_ref": "PhysicalAsset.PhysicalLocation",
       "physical_asset_class_ref": "PhysicalAsset.PhysicalAssetClassID",
@@ -161,13 +190,16 @@
       "spatial_format": "PhysicalAsset.SpatialDefinition.Format",
       "spatial_srid": "PhysicalAsset.SpatialDefinition.SRID",
       "tool_id": "PhysicalAsset.ID",
-      "name": "PhysicalAsset.Description"
+      "name": "PhysicalAsset.Description",
+      "unit_ref": "PhysicalAsset.EquipmentAssetMapping.EquipmentID"
     },
     "notInIsa95": [
-      "parent_tool_ref"
+      "parent_tool_ref",
+      "tool_type",
+      "parts_per_shot"
     ],
-    "mappingNote": "parent_tool_ref is the containment key (PART_OF PhysicalAssetChild, reverse). The kind of tooling is its profile (Mould, Die, CuttingTool, Fixture), no free-text type; the machine it is mounted on belongs to the segment actual (audit H2)."
+    "mappingNote": "tool_type is a free-text kind (mould, die, fixture), no PhysicalAssetClass of the model; parts_per_shot (cavity count) is no field of B2MML PhysicalAsset. Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent)."
   },
-  "kgNodeLabel": "Tooling",
+  "kgNodeLabel": "Tool",
   "kgIdProperty": "tool_id"
 }

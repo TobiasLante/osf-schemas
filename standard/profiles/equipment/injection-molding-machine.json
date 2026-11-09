@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-InjectionMoldingMachine",
-  "version": "5.0.0",
+  "version": "3.1.0",
   "standard": "CarToUNS",
   "category": "machine",
   "displayName": "Injection Molding Machine",
@@ -20,7 +20,29 @@
       "promotion": "on_change"
     },
     {
-      "name": "Act_Amount_Shot",
+      "name": "status",
+      "dataType": "String",
+      "valueType": "PV",
+      "required": false,
+      "category": "BDE",
+      "description": "Actual machine status. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, attributes › status › description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "mode",
+      "dataType": "String",
+      "valueType": "PV",
+      "required": false,
+      "category": "BDE",
+      "description": "Operating mode. VOCABULARY NOT MEASURED YET — the earlier '(auto / manual / semi)' was unverified prose (the CNC profile measured AUTO/MANUAL/SETUP, uppercase — a different dialect … Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, attributes › mode › description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "shotCount",
       "dataType": "Int32",
       "valueType": "PV",
       "required": false,
@@ -34,11 +56,47 @@
         "aggregation": "sum_of_positive_deltas",
         "resetsObserved": 10,
         "measuredAt": "2026-07-12"
-      },
-      "unit": "C62"
+      }
     },
     {
-      "name": "Act_Time_LastShot",
+      "name": "uptimeSeconds",
+      "dataType": "Double",
+      "valueType": "PV",
+      "required": false,
+      "category": "BDE",
+      "description": "Machine uptime (seconds).",
+      "delivery": "telemetry",
+      "scope": "hub",
+      "promotion": "raw",
+      "quality": {
+        "onBad": "flag"
+      },
+      "unit": "SEC"
+    },
+    {
+      "name": "alarmsCount",
+      "dataType": "Int32",
+      "valueType": "PV",
+      "required": false,
+      "category": "BDE",
+      "description": "Active alarm count.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "inCycle",
+      "dataType": "Boolean",
+      "valueType": "PV",
+      "required": false,
+      "category": "Process",
+      "description": "Machine is in the injection cycle (cycle gate for pressure rules).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "lastShotAt",
       "dataType": "DateTime",
       "valueType": "PV",
       "required": false,
@@ -49,7 +107,18 @@
       "promotion": "on_change"
     },
     {
-      "name": "Act_Status_Reason",
+      "name": "shiftActive",
+      "dataType": "Boolean",
+      "valueType": "PV",
+      "required": false,
+      "category": "BDE",
+      "description": "A production shift is active.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "reason",
       "dataType": "String",
       "valueType": "PV",
       "required": false,
@@ -60,7 +129,7 @@
       "promotion": "on_change"
     },
     {
-      "name": "Act_Temp_Hotrunner",
+      "name": "hotrunnerTempC",
       "dataType": "Double",
       "required": false,
       "category": "Process",
@@ -75,7 +144,7 @@
       "valueType": "PV"
     },
     {
-      "name": "Act_Temp_Nozzle",
+      "name": "nozzleTempC",
       "dataType": "Double",
       "required": false,
       "category": "Process",
@@ -90,7 +159,7 @@
       "valueType": "PV"
     },
     {
-      "name": "Act_Pressure_Cavity",
+      "name": "cavityPressureBar",
       "dataType": "Double",
       "valueType": "PV",
       "required": false,
@@ -105,7 +174,7 @@
       "unit": "BAR"
     },
     {
-      "name": "Act_Pressure_Mould",
+      "name": "mouldPressureBar",
       "dataType": "Double",
       "valueType": "PV",
       "required": false,
@@ -120,7 +189,7 @@
       "unit": "BAR"
     },
     {
-      "name": "Act_Mass_Part",
+      "name": "partMass_g",
       "dataType": "Double",
       "required": false,
       "category": "Quality",
@@ -135,7 +204,7 @@
       "valueType": "PV"
     },
     {
-      "name": "Act_Pressure_Peak",
+      "name": "peakPressureBar",
       "dataType": "Double",
       "required": false,
       "category": "Process",
@@ -150,7 +219,7 @@
       "valueType": "PV"
     },
     {
-      "name": "Act_Pressure_Hold",
+      "name": "holdPressureBar",
       "dataType": "Double",
       "required": false,
       "category": "Process",
@@ -165,7 +234,7 @@
       "valueType": "PV"
     },
     {
-      "name": "Act_Pressure_Back",
+      "name": "backPressureBar",
       "dataType": "Double",
       "required": false,
       "category": "Process",
@@ -180,7 +249,7 @@
       "valueType": "PV"
     },
     {
-      "name": "Act_Speed_Injection",
+      "name": "injectionSpeedMmPerSec",
       "dataType": "Double",
       "required": false,
       "category": "Process",
@@ -195,7 +264,7 @@
       "valueType": "PV"
     },
     {
-      "name": "Act_Volume_Shot",
+      "name": "shotVolumeCm3",
       "dataType": "Double",
       "valueType": "PV",
       "required": false,
@@ -210,7 +279,7 @@
       "unit": "CMQ"
     },
     {
-      "name": "Act_Length_Cushion",
+      "name": "cushionMm",
       "dataType": "Double",
       "required": false,
       "category": "Process",
@@ -225,7 +294,7 @@
       "valueType": "PV"
     },
     {
-      "name": "Act_Prog_Plasticising",
+      "name": "plastProgress",
       "dataType": "Double",
       "valueType": "PV",
       "required": false,
@@ -240,7 +309,22 @@
       "unit": "P1"
     },
     {
-      "name": "Act_Time_PhaseElapsed",
+      "name": "cycleTimeSec",
+      "dataType": "Double",
+      "required": false,
+      "category": "Process",
+      "description": "Actual cycle time per shot.",
+      "delivery": "telemetry",
+      "scope": "hub",
+      "promotion": "raw",
+      "quality": {
+        "onBad": "flag"
+      },
+      "unit": "SEC",
+      "valueType": "PV"
+    },
+    {
+      "name": "elapsedSec",
       "dataType": "Double",
       "valueType": "PV",
       "required": false,
@@ -255,7 +339,7 @@
       "unit": "SEC"
     },
     {
-      "name": "Act_Time_PhaseRemaining",
+      "name": "remainingSec",
       "dataType": "Double",
       "valueType": "PV",
       "required": false,
@@ -270,7 +354,7 @@
       "unit": "SEC"
     },
     {
-      "name": "Act_State_Switchover",
+      "name": "switchoverReached",
       "dataType": "Boolean",
       "valueType": "PV",
       "required": false,
@@ -281,7 +365,7 @@
       "promotion": "on_change"
     },
     {
-      "name": "Act_Status_Phase",
+      "name": "phaseName",
       "dataType": "String",
       "valueType": "PV",
       "required": false,
@@ -300,7 +384,7 @@
       "promotion": "on_change"
     },
     {
-      "name": "Act_Temp_Mould",
+      "name": "mouldTempC",
       "dataType": "Double",
       "required": false,
       "category": "Process",
@@ -315,7 +399,7 @@
       "valueType": "PV"
     },
     {
-      "name": "Act_Rate_CoolingFlow",
+      "name": "coolingFlowLMin",
       "dataType": "Double",
       "required": false,
       "category": "Process",
@@ -330,7 +414,7 @@
       "valueType": "PV"
     },
     {
-      "name": "Act_Pct_MouldLife",
+      "name": "lifePercent",
       "dataType": "Double",
       "valueType": "PV",
       "required": false,
@@ -345,7 +429,7 @@
       "unit": "P1"
     },
     {
-      "name": "Act_Amount_MouldShots",
+      "name": "totalShots",
       "dataType": "Int32",
       "valueType": "PV",
       "required": false,
@@ -359,11 +443,25 @@
         "aggregation": "refuse",
         "resetsObserved": 153,
         "measuredAt": "2026-07-12"
-      },
-      "unit": "C62"
+      }
     },
     {
-      "name": "Act_Ref_Resin",
+      "name": "powerKw",
+      "dataType": "Double",
+      "valueType": "PV",
+      "required": false,
+      "category": "BDE",
+      "description": "Actual electrical power draw (kW). Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, attributes › powerKw › description.",
+      "delivery": "telemetry",
+      "scope": "hub",
+      "promotion": "5sec",
+      "quality": {
+        "onBad": "flag"
+      },
+      "unit": "KWT"
+    },
+    {
+      "name": "resin",
       "dataType": "String",
       "required": false,
       "category": "Material",
@@ -371,10 +469,10 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "PV"
     },
     {
-      "name": "Act_Temp_Dryer",
+      "name": "dryerTempC",
       "dataType": "Double",
       "valueType": "PV",
       "required": false,
@@ -389,7 +487,7 @@
       "unit": "CEL"
     },
     {
-      "name": "Set_Temp_Dryer",
+      "name": "dryerSetpointC",
       "dataType": "Double",
       "required": false,
       "category": "Material",
@@ -401,7 +499,7 @@
       "valueType": "SP"
     },
     {
-      "name": "Act_Time_DryerResidence",
+      "name": "dryerResidenceMin",
       "dataType": "Double",
       "valueType": "PV",
       "required": false,
@@ -416,7 +514,7 @@
       "unit": "MIN"
     },
     {
-      "name": "Set_Time_DryerResidence",
+      "name": "dryerResidenceTargetMin",
       "dataType": "Double",
       "valueType": "SP",
       "required": false,
@@ -428,7 +526,7 @@
       "unit": "MIN"
     },
     {
-      "name": "Act_Pct_HopperFill",
+      "name": "hopperFillPct",
       "dataType": "Double",
       "valueType": "PV",
       "required": false,
@@ -443,19 +541,22 @@
       "unit": "P1"
     },
     {
-      "name": "Set_Pct_HopperRefill",
+      "name": "hopperRefillThresholdPct",
       "dataType": "Double",
-      "valueType": "SP",
+      "valueType": "LIM",
       "required": false,
       "category": "Material",
       "description": "Hopper refill threshold.",
-      "delivery": "transactional",
+      "delivery": "telemetry",
       "scope": "hub",
-      "promotion": "on_change",
+      "promotion": "raw",
+      "quality": {
+        "onBad": "flag"
+      },
       "unit": "P1"
     },
     {
-      "name": "Act_Amount_HopperRefill",
+      "name": "hopperRefillCount",
       "dataType": "Int32",
       "valueType": "PV",
       "required": false,
@@ -463,11 +564,10 @@
       "description": "Hopper refill count.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change",
-      "unit": "C62"
+      "promotion": "on_change"
     },
     {
-      "name": "Act_Pct_Regrind",
+      "name": "regrindRatioPct",
       "dataType": "Double",
       "valueType": "PV",
       "required": false,
@@ -482,7 +582,7 @@
       "unit": "P1"
     },
     {
-      "name": "Act_Pct_Masterbatch",
+      "name": "colourMasterbatchPct",
       "dataType": "Double",
       "valueType": "PV",
       "required": false,
@@ -497,7 +597,7 @@
       "unit": "P1"
     },
     {
-      "name": "Act_Amount_ColourPurge",
+      "name": "colourPurgeRemaining",
       "dataType": "Int32",
       "valueType": "PV",
       "required": false,
@@ -505,11 +605,10 @@
       "description": "Colour purge shots remaining.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change",
-      "unit": "C62"
+      "promotion": "on_change"
     },
     {
-      "name": "Act_Temp_BarrelZone1",
+      "name": "barrelZone1TempC",
       "dataType": "Double",
       "required": false,
       "category": "Process",
@@ -524,7 +623,7 @@
       "valueType": "PV"
     },
     {
-      "name": "Act_Temp_BarrelZone2",
+      "name": "barrelZone2TempC",
       "dataType": "Double",
       "required": false,
       "category": "Process",
@@ -539,7 +638,7 @@
       "valueType": "PV"
     },
     {
-      "name": "Act_Temp_BarrelZone3",
+      "name": "barrelZone3TempC",
       "dataType": "Double",
       "required": false,
       "category": "Process",
@@ -554,7 +653,7 @@
       "valueType": "PV"
     },
     {
-      "name": "Act_Temp_BarrelZone4",
+      "name": "barrelZone4TempC",
       "dataType": "Double",
       "required": false,
       "category": "Process",
@@ -569,13 +668,19 @@
       "valueType": "PV"
     }
   ],
-  "relationships": [],
+  "relationships": [
+    {
+      "type": "IMPLEMENTED_BY",
+      "target": "Tool",
+      "targetIdProp": "tool_id"
+    }
+  ],
   "constraints": [
     {
       "name": "recipe_hotrunner_temp_band",
       "description": "Recipe / setting parameter: hot-runner temperature must lie within the target band (resolved at runtime via valueFrom recipe:hotrunner_temp_band). Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, constraints › recipe_hotrunner_temp_band › description.",
       "require": {
-        "attr": "Act_Temp_Hotrunner",
+        "attr": "hotrunnerTempC",
         "op": "between",
         "valueFrom": "recipe:hotrunner_temp_band"
       },
@@ -602,12 +707,12 @@
       "name": "recipe_part_mass_band",
       "description": "Recipe / setting parameter: part mass must lie within the target band (resolved at runtime via valueFrom recipe:part_mass_band; the recipe target is deliberately … Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, constraints › recipe_part_mass_band › description.",
       "when": {
-        "attr": "Act_State_InCycle",
+        "attr": "inCycle",
         "op": "eq",
         "value": true
       },
       "require": {
-        "attr": "Act_Mass_Part",
+        "attr": "partMass_g",
         "op": "between",
         "valueFrom": "recipe:part_mass_band"
       },
@@ -634,7 +739,7 @@
       "name": "recipe_cushion_band",
       "description": "Recipe / setting parameter: residual material cushion must lie within the target band (resolved at runtime via valueFrom recipe:cushion_band). Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, constraints › recipe_cushion_band › description.",
       "require": {
-        "attr": "Act_Length_Cushion",
+        "attr": "cushionMm",
         "op": "between",
         "valueFrom": "recipe:cushion_band"
       },
@@ -661,12 +766,12 @@
       "name": "recipe_peak_pressure_band",
       "description": "Recipe / setting parameter: peak injection pressure must lie within the target band (resolved at runtime via valueFrom recipe:peak_pressure_band). Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, constraints › recipe_peak_pressure_band › description.",
       "when": {
-        "attr": "Act_Status_Phase",
+        "attr": "phaseName",
         "op": "eq",
         "value": "HOLD"
       },
       "require": {
-        "attr": "Act_Pressure_Peak",
+        "attr": "peakPressureBar",
         "op": "between",
         "valueFrom": "recipe:peak_pressure_band"
       },
@@ -693,12 +798,12 @@
       "name": "recipe_hold_pressure_band",
       "description": "Recipe / setting parameter: hold pressure must lie within the target band (resolved at runtime via valueFrom recipe:hold_pressure_band). Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, constraints › recipe_hold_pressure_band › description.",
       "when": {
-        "attr": "Act_Status_Phase",
+        "attr": "phaseName",
         "op": "eq",
         "value": "HOLD"
       },
       "require": {
-        "attr": "Act_Pressure_Hold",
+        "attr": "holdPressureBar",
         "op": "between",
         "valueFrom": "recipe:hold_pressure_band"
       },
@@ -725,7 +830,7 @@
       "name": "equipment_hotrunner_temp_envelope",
       "description": "Equipment / asset-per-se: hot-runner temperature must stay within the machine's safe operating envelope, independent of the running recipe. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, constraints › equipment_hotrunner_temp_envelope › description.",
       "require": {
-        "attr": "Act_Temp_Hotrunner",
+        "attr": "hotrunnerTempC",
         "op": "between",
         "value": [
           180,
@@ -755,12 +860,12 @@
       "name": "equipment_peak_pressure_limit",
       "description": "Equipment / asset-per-se: peak injection pressure must stay below the machine's safe mechanical/hydraulic limit during the active cycle, independent of the … Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, constraints › equipment_peak_pressure_limit › description.",
       "when": {
-        "attr": "Act_State_InCycle",
+        "attr": "inCycle",
         "op": "eq",
         "value": true
       },
       "require": {
-        "attr": "Act_Pressure_Peak",
+        "attr": "peakPressureBar",
         "op": "between",
         "value": [
           0,
@@ -790,7 +895,7 @@
       "name": "hotrunner_control_limits",
       "description": "Control limits (warning and action limits) for the hot-runner temperature — a two-tier escalation band on top of the recipe SOLL. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, constraints › hotrunner_control_limits › description.",
       "require": {
-        "attr": "Act_Temp_Hotrunner",
+        "attr": "hotrunnerTempC",
         "op": "within_limits",
         "valueFrom": "recipe:hotrunner_control_limits"
       },
@@ -817,12 +922,12 @@
       "name": "recipe_mould_temp_band",
       "description": "Recipe / setting parameter: mouldTempC must lie within the active recipe band (valueFrom recipe:mould_temp_band — since 2026-07-12 the PA66 band [80,90] degC around … Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, constraints › recipe_mould_temp_band › description.",
       "when": {
-        "attr": "Act_State_InCycle",
+        "attr": "inCycle",
         "op": "eq",
         "value": true
       },
       "require": {
-        "attr": "Act_Temp_Mould",
+        "attr": "mouldTempC",
         "op": "between",
         "valueFrom": "recipe:mould_temp_band"
       },
@@ -849,7 +954,7 @@
       "name": "equipment_mould_temp_envelope",
       "description": "Equipment / asset-per-se (ASSUMED machine-spec default): mould temperature must stay within the machine cooling/heating envelope [15,120] degC. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, constraints › equipment_mould_temp_envelope › description.",
       "require": {
-        "attr": "Act_Temp_Mould",
+        "attr": "mouldTempC",
         "op": "between",
         "value": [
           15,
@@ -879,7 +984,7 @@
       "name": "equipment_dryer_temp_envelope",
       "description": "Equipment / asset-per-se (ASSUMED machine-spec default): resin dryer temperature must stay within [60,130] degC. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, constraints › equipment_dryer_temp_envelope › description.",
       "require": {
-        "attr": "Act_Temp_Dryer",
+        "attr": "dryerTempC",
         "op": "between",
         "value": [
           60,
@@ -909,12 +1014,12 @@
       "name": "equipment_cooling_flow_min",
       "description": "Equipment / asset-per-se (ASSUMED): mould cooling-water flow must be >= 5 L/min during the active cycle, else overheating risk.",
       "when": {
-        "attr": "Act_State_InCycle",
+        "attr": "inCycle",
         "op": "eq",
         "value": true
       },
       "require": {
-        "attr": "Act_Rate_CoolingFlow",
+        "attr": "coolingFlowLMin",
         "op": "gte",
         "value": 5
       },
@@ -931,7 +1036,7 @@
       "name": "mould_temp_control_limits",
       "description": "Control limits (warning and action limits) for mould temperature: warn band [82,88], action band [78,92] degC; both inside the equipment envelope [15,120] … Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, constraints › mould_temp_control_limits › description.",
       "require": {
-        "attr": "Act_Temp_Mould",
+        "attr": "mouldTempC",
         "op": "within_limits",
         "limits": {
           "warn": [
@@ -967,12 +1072,12 @@
       "name": "power_positive_when_running",
       "description": "Machine is in the injection cycle but draws 0 kW — sensor / edge-communication fault (equipment).",
       "when": {
-        "attr": "Act_State_InCycle",
+        "attr": "inCycle",
         "op": "eq",
         "value": true
       },
       "require": {
-        "attr": "Act_Power_Machine",
+        "attr": "powerKw",
         "op": "gt",
         "value": 0
       },
@@ -988,7 +1093,7 @@
       "name": "recipe_melt_temp_band",
       "description": "Melt (nozzle) temperature must lie within the recipe band. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, constraints › recipe_melt_temp_band › description.",
       "require": {
-        "attr": "Act_Temp_Nozzle",
+        "attr": "nozzleTempC",
         "op": "between",
         "valueFrom": "recipe:melt_temp_band"
       },
@@ -1015,12 +1120,12 @@
       "name": "recipe_injection_speed_band",
       "description": "Injection speed must lie within the recipe band. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, constraints › recipe_injection_speed_band › description.",
       "when": {
-        "attr": "Act_State_InCycle",
+        "attr": "inCycle",
         "op": "eq",
         "value": true
       },
       "require": {
-        "attr": "Act_Speed_Injection",
+        "attr": "injectionSpeedMmPerSec",
         "op": "between",
         "valueFrom": "recipe:injection_speed_band"
       },
@@ -1047,12 +1152,12 @@
       "name": "recipe_back_pressure_band",
       "description": "Back pressure (Staudruck) must lie within the recipe band. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, constraints › recipe_back_pressure_band › description.",
       "when": {
-        "attr": "Act_State_InCycle",
+        "attr": "inCycle",
         "op": "eq",
         "value": true
       },
       "require": {
-        "attr": "Act_Pressure_Back",
+        "attr": "backPressureBar",
         "op": "between",
         "valueFrom": "recipe:back_pressure_band"
       },
@@ -1079,12 +1184,12 @@
       "name": "recipe_cooling_flow_band",
       "description": "Mould cooling flow must lie within the recipe band. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, constraints › recipe_cooling_flow_band › description.",
       "when": {
-        "attr": "Act_State_InCycle",
+        "attr": "inCycle",
         "op": "eq",
         "value": true
       },
       "require": {
-        "attr": "Act_Rate_CoolingFlow",
+        "attr": "coolingFlowLMin",
         "op": "between",
         "valueFrom": "recipe:cooling_flow_band"
       },
@@ -1111,12 +1216,12 @@
       "name": "recipe_cycle_time_band",
       "description": "Cycle time must lie within the recipe band. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, constraints › recipe_cycle_time_band › description.",
       "when": {
-        "attr": "Act_State_InCycle",
+        "attr": "inCycle",
         "op": "eq",
         "value": true
       },
       "require": {
-        "attr": "Act_Time_Cycle",
+        "attr": "cycleTimeSec",
         "op": "between",
         "valueFrom": "recipe:cycle_time_band"
       },
@@ -1143,7 +1248,7 @@
       "name": "recipe_barrel_zone1_temp_band",
       "description": "Barrel heating zone 1: the melt profile along the screw. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, constraints › recipe_barrel_zone1_temp_band › description.",
       "require": {
-        "attr": "Act_Temp_BarrelZone1",
+        "attr": "barrelZone1TempC",
         "op": "between",
         "valueFrom": "recipe:barrel_zone1_temp_band"
       },
@@ -1170,7 +1275,7 @@
       "name": "recipe_barrel_zone1_control_limits",
       "description": "Barrel heating zone 1: the melt profile along the screw. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, constraints › recipe_barrel_zone1_control_limits › description.",
       "require": {
-        "attr": "Act_Temp_BarrelZone1",
+        "attr": "barrelZone1TempC",
         "op": "within_limits",
         "valueFrom": "recipe:barrel_zone1_control_limits"
       },
@@ -1197,7 +1302,7 @@
       "name": "recipe_barrel_zone2_temp_band",
       "description": "Barrel heating zone 2: the melt profile along the screw. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, constraints › recipe_barrel_zone2_temp_band › description.",
       "require": {
-        "attr": "Act_Temp_BarrelZone2",
+        "attr": "barrelZone2TempC",
         "op": "between",
         "valueFrom": "recipe:barrel_zone2_temp_band"
       },
@@ -1224,7 +1329,7 @@
       "name": "recipe_barrel_zone2_control_limits",
       "description": "Barrel heating zone 2: the melt profile along the screw. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, constraints › recipe_barrel_zone2_control_limits › description.",
       "require": {
-        "attr": "Act_Temp_BarrelZone2",
+        "attr": "barrelZone2TempC",
         "op": "within_limits",
         "valueFrom": "recipe:barrel_zone2_control_limits"
       },
@@ -1251,7 +1356,7 @@
       "name": "recipe_barrel_zone3_temp_band",
       "description": "Barrel heating zone 3: the melt profile along the screw. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, constraints › recipe_barrel_zone3_temp_band › description.",
       "require": {
-        "attr": "Act_Temp_BarrelZone3",
+        "attr": "barrelZone3TempC",
         "op": "between",
         "valueFrom": "recipe:barrel_zone3_temp_band"
       },
@@ -1278,7 +1383,7 @@
       "name": "recipe_barrel_zone3_control_limits",
       "description": "Barrel heating zone 3: the melt profile along the screw. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, constraints › recipe_barrel_zone3_control_limits › description.",
       "require": {
-        "attr": "Act_Temp_BarrelZone3",
+        "attr": "barrelZone3TempC",
         "op": "within_limits",
         "valueFrom": "recipe:barrel_zone3_control_limits"
       },
@@ -1305,7 +1410,7 @@
       "name": "recipe_barrel_zone4_temp_band",
       "description": "Barrel heating zone 4: the melt profile along the screw. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, constraints › recipe_barrel_zone4_temp_band › description.",
       "require": {
-        "attr": "Act_Temp_BarrelZone4",
+        "attr": "barrelZone4TempC",
         "op": "between",
         "valueFrom": "recipe:barrel_zone4_temp_band"
       },
@@ -1332,7 +1437,7 @@
       "name": "recipe_barrel_zone4_control_limits",
       "description": "Barrel heating zone 4: the melt profile along the screw. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, constraints › recipe_barrel_zone4_control_limits › description.",
       "require": {
-        "attr": "Act_Temp_BarrelZone4",
+        "attr": "barrelZone4TempC",
         "op": "within_limits",
         "valueFrom": "recipe:barrel_zone4_control_limits"
       },
@@ -1394,35 +1499,11 @@
       "shape": "band"
     },
     {
-      "ref": "recipe:cavity_pressure_bar_band",
-      "shape": "band"
-    },
-    {
-      "ref": "recipe:colour_masterbatch_pct_band",
-      "shape": "band"
-    },
-    {
       "ref": "recipe:cooling_flow_band",
       "shape": "band"
     },
     {
-      "ref": "recipe:cushion_band",
-      "shape": "band"
-    },
-    {
       "ref": "recipe:cycle_time_band",
-      "shape": "band"
-    },
-    {
-      "ref": "recipe:dryer_residence_min_band",
-      "shape": "band"
-    },
-    {
-      "ref": "recipe:dryer_temp_c_band",
-      "shape": "band"
-    },
-    {
-      "ref": "recipe:hold_pressure_band",
       "shape": "band"
     },
     {
@@ -1448,26 +1529,6 @@
     {
       "ref": "recipe:mould_temp_control_limits",
       "shape": "limits"
-    },
-    {
-      "ref": "recipe:part_mass_band",
-      "shape": "band"
-    },
-    {
-      "ref": "recipe:peak_pressure_band",
-      "shape": "band"
-    },
-    {
-      "ref": "recipe:power_kw_band",
-      "shape": "band"
-    },
-    {
-      "ref": "recipe:regrind_ratio_pct_band",
-      "shape": "band"
-    },
-    {
-      "ref": "recipe:shot_volume_cm3_band",
-      "shape": "band"
     }
   ],
   "semantics": [],
@@ -1476,55 +1537,61 @@
     "objectModel": "Equipment",
     "part": 2,
     "momDomain": "production",
-    "equipmentLevel": "WorkUnit",
+    "equipmentLevel": "Unit",
     "equipmentClass": "InjectionMoldingMachine",
     "companionSpec": "EUROMAP77",
     "opcuaTypeDefinition": "InjectionMouldingMachineType",
     "deviceClass": "Injection Moulding Machine",
     "notInIsa95": [
       "machine_type",
-      "Act_Amount_Shot",
-      "Act_Time_LastShot",
-      "Act_Status_Reason",
-      "Act_Temp_Hotrunner",
-      "Act_Temp_Nozzle",
-      "Act_Pressure_Cavity",
-      "Act_Pressure_Mould",
-      "Act_Mass_Part",
-      "Act_Pressure_Peak",
-      "Act_Pressure_Hold",
-      "Act_Pressure_Back",
-      "Act_Speed_Injection",
-      "Act_Volume_Shot",
-      "Act_Length_Cushion",
-      "Act_Prog_Plasticising",
-      "Act_Time_PhaseElapsed",
-      "Act_Time_PhaseRemaining",
-      "Act_State_Switchover",
-      "Act_Status_Phase",
-      "Act_Temp_Mould",
-      "Act_Rate_CoolingFlow",
-      "Act_Pct_MouldLife",
-      "Act_Amount_MouldShots",
-      "Act_Ref_Resin",
-      "Act_Temp_Dryer",
-      "Act_Time_DryerResidence",
-      "Act_Pct_HopperFill",
-      "Set_Pct_HopperRefill",
-      "Act_Amount_HopperRefill",
-      "Act_Pct_Regrind",
-      "Act_Pct_Masterbatch",
-      "Act_Amount_ColourPurge",
-      "Act_Temp_BarrelZone1",
-      "Act_Temp_BarrelZone2",
-      "Act_Temp_BarrelZone3",
-      "Act_Temp_BarrelZone4"
+      "status",
+      "mode",
+      "shotCount",
+      "uptimeSeconds",
+      "alarmsCount",
+      "inCycle",
+      "lastShotAt",
+      "shiftActive",
+      "reason",
+      "hotrunnerTempC",
+      "nozzleTempC",
+      "cavityPressureBar",
+      "mouldPressureBar",
+      "partMass_g",
+      "peakPressureBar",
+      "holdPressureBar",
+      "backPressureBar",
+      "injectionSpeedMmPerSec",
+      "shotVolumeCm3",
+      "cushionMm",
+      "plastProgress",
+      "cycleTimeSec",
+      "elapsedSec",
+      "remainingSec",
+      "switchoverReached",
+      "phaseName",
+      "mouldTempC",
+      "coolingFlowLMin",
+      "lifePercent",
+      "totalShots",
+      "powerKw",
+      "resin",
+      "dryerTempC",
+      "dryerSetpointC",
+      "dryerResidenceMin",
+      "dryerResidenceTargetMin",
+      "hopperFillPct",
+      "hopperRefillThresholdPct",
+      "hopperRefillCount",
+      "regrindRatioPct",
+      "colourMasterbatchPct",
+      "colourPurgeRemaining",
+      "barrelZone1TempC",
+      "barrelZone2TempC",
+      "barrelZone3TempC",
+      "barrelZone4TempC"
     ],
-    "mappingNote": "These are live machine signals of EUROMAP 77 (cycle, pressures, temperatures, mould, dryer, hopper, energy) plus the machine type string of the source. B2MML Equipment has no named field for them; a value would only sit in a generic EquipmentProperty. Audit M3 (core 6.0.0): the setpoints and planned values (Set_Temp_Dryer, Set_Time_DryerResidence) are equipment properties of the machine (Equipment.EquipmentProperty, named by their ID); the live Level-2 signals stay outside ISA-95. Core 6.0.0 (owner 29.10.2026): the signals every machine shares (status, mode, alarms, uptime, shift flag, power) live on SMProfile-Machine.",
-    "propertyMap": {
-      "Set_Temp_Dryer": "Equipment.EquipmentProperty[ID=Set_Temp_Dryer].Value.ValueString",
-      "Set_Time_DryerResidence": "Equipment.EquipmentProperty[ID=Set_Time_DryerResidence].Value.ValueString"
-    }
+    "mappingNote": "These are live machine signals of EUROMAP 77 (status, cycle, pressures, temperatures, mould, dryer, hopper, energy) plus the machine type string of the source. B2MML Equipment has no named field for them; a value would only sit in a generic EquipmentProperty."
   },
   "kgNodeLabel": "InjectionMoldingMachine",
   "kgIdProperty": "element_id",
@@ -1558,282 +1625,6 @@
       "to": "SMProfile-SegmentResponse",
       "as": "tool_ref",
       "since": "3.0.0"
-    },
-    {
-      "name": "status",
-      "to": "SMProfile-Machine",
-      "as": "Act_Status_Machine",
-      "since": "6.0.0"
-    },
-    {
-      "name": "mode",
-      "to": "SMProfile-Machine",
-      "as": "Act_Mode_Machine",
-      "since": "6.0.0"
-    },
-    {
-      "name": "alarmsCount",
-      "to": "SMProfile-Machine",
-      "as": "Act_Amount_Alarm",
-      "since": "6.0.0"
-    },
-    {
-      "name": "uptimeSeconds",
-      "to": "SMProfile-Machine",
-      "as": "Act_Time_Uptime",
-      "since": "6.0.0"
-    },
-    {
-      "name": "shiftActive",
-      "to": "SMProfile-Machine",
-      "as": "Act_State_ShiftActive",
-      "since": "6.0.0"
-    },
-    {
-      "name": "powerKw",
-      "to": "SMProfile-Machine",
-      "as": "Act_Power_Machine",
-      "since": "6.0.0"
-    },
-    {
-      "name": "shotCount",
-      "to": "SMProfile-InjectionMoldingMachine",
-      "as": "Act_Amount_Shot",
-      "since": "6.0.0"
-    },
-    {
-      "name": "inCycle",
-      "to": "SMProfile-Machine",
-      "as": "Act_State_InCycle",
-      "since": "6.0.0"
-    },
-    {
-      "name": "lastShotAt",
-      "to": "SMProfile-InjectionMoldingMachine",
-      "as": "Act_Time_LastShot",
-      "since": "6.0.0"
-    },
-    {
-      "name": "reason",
-      "to": "SMProfile-InjectionMoldingMachine",
-      "as": "Act_Status_Reason",
-      "since": "6.0.0"
-    },
-    {
-      "name": "hotrunnerTempC",
-      "to": "SMProfile-InjectionMoldingMachine",
-      "as": "Act_Temp_Hotrunner",
-      "since": "6.0.0"
-    },
-    {
-      "name": "nozzleTempC",
-      "to": "SMProfile-InjectionMoldingMachine",
-      "as": "Act_Temp_Nozzle",
-      "since": "6.0.0"
-    },
-    {
-      "name": "cavityPressureBar",
-      "to": "SMProfile-InjectionMoldingMachine",
-      "as": "Act_Pressure_Cavity",
-      "since": "6.0.0"
-    },
-    {
-      "name": "mouldPressureBar",
-      "to": "SMProfile-InjectionMoldingMachine",
-      "as": "Act_Pressure_Mould",
-      "since": "6.0.0"
-    },
-    {
-      "name": "partMass_g",
-      "to": "SMProfile-InjectionMoldingMachine",
-      "as": "Act_Mass_Part",
-      "since": "6.0.0"
-    },
-    {
-      "name": "peakPressureBar",
-      "to": "SMProfile-InjectionMoldingMachine",
-      "as": "Act_Pressure_Peak",
-      "since": "6.0.0"
-    },
-    {
-      "name": "holdPressureBar",
-      "to": "SMProfile-InjectionMoldingMachine",
-      "as": "Act_Pressure_Hold",
-      "since": "6.0.0"
-    },
-    {
-      "name": "backPressureBar",
-      "to": "SMProfile-InjectionMoldingMachine",
-      "as": "Act_Pressure_Back",
-      "since": "6.0.0"
-    },
-    {
-      "name": "injectionSpeedMmPerSec",
-      "to": "SMProfile-InjectionMoldingMachine",
-      "as": "Act_Speed_Injection",
-      "since": "6.0.0"
-    },
-    {
-      "name": "shotVolumeCm3",
-      "to": "SMProfile-InjectionMoldingMachine",
-      "as": "Act_Volume_Shot",
-      "since": "6.0.0"
-    },
-    {
-      "name": "cushionMm",
-      "to": "SMProfile-InjectionMoldingMachine",
-      "as": "Act_Length_Cushion",
-      "since": "6.0.0"
-    },
-    {
-      "name": "plastProgress",
-      "to": "SMProfile-InjectionMoldingMachine",
-      "as": "Act_Prog_Plasticising",
-      "since": "6.0.0"
-    },
-    {
-      "name": "cycleTimeSec",
-      "to": "SMProfile-Machine",
-      "as": "Act_Time_Cycle",
-      "since": "6.0.0"
-    },
-    {
-      "name": "elapsedSec",
-      "to": "SMProfile-InjectionMoldingMachine",
-      "as": "Act_Time_PhaseElapsed",
-      "since": "6.0.0"
-    },
-    {
-      "name": "remainingSec",
-      "to": "SMProfile-InjectionMoldingMachine",
-      "as": "Act_Time_PhaseRemaining",
-      "since": "6.0.0"
-    },
-    {
-      "name": "switchoverReached",
-      "to": "SMProfile-InjectionMoldingMachine",
-      "as": "Act_State_Switchover",
-      "since": "6.0.0"
-    },
-    {
-      "name": "phaseName",
-      "to": "SMProfile-InjectionMoldingMachine",
-      "as": "Act_Status_Phase",
-      "since": "6.0.0"
-    },
-    {
-      "name": "mouldTempC",
-      "to": "SMProfile-InjectionMoldingMachine",
-      "as": "Act_Temp_Mould",
-      "since": "6.0.0"
-    },
-    {
-      "name": "coolingFlowLMin",
-      "to": "SMProfile-InjectionMoldingMachine",
-      "as": "Act_Rate_CoolingFlow",
-      "since": "6.0.0"
-    },
-    {
-      "name": "lifePercent",
-      "to": "SMProfile-InjectionMoldingMachine",
-      "as": "Act_Pct_MouldLife",
-      "since": "6.0.0"
-    },
-    {
-      "name": "totalShots",
-      "to": "SMProfile-InjectionMoldingMachine",
-      "as": "Act_Amount_MouldShots",
-      "since": "6.0.0"
-    },
-    {
-      "name": "resin",
-      "to": "SMProfile-InjectionMoldingMachine",
-      "as": "Act_Ref_Resin",
-      "since": "6.0.0"
-    },
-    {
-      "name": "dryerTempC",
-      "to": "SMProfile-InjectionMoldingMachine",
-      "as": "Act_Temp_Dryer",
-      "since": "6.0.0"
-    },
-    {
-      "name": "dryerSetpointC",
-      "to": "SMProfile-InjectionMoldingMachine",
-      "as": "Set_Temp_Dryer",
-      "since": "6.0.0"
-    },
-    {
-      "name": "dryerResidenceMin",
-      "to": "SMProfile-InjectionMoldingMachine",
-      "as": "Act_Time_DryerResidence",
-      "since": "6.0.0"
-    },
-    {
-      "name": "dryerResidenceTargetMin",
-      "to": "SMProfile-InjectionMoldingMachine",
-      "as": "Set_Time_DryerResidence",
-      "since": "6.0.0"
-    },
-    {
-      "name": "hopperFillPct",
-      "to": "SMProfile-InjectionMoldingMachine",
-      "as": "Act_Pct_HopperFill",
-      "since": "6.0.0"
-    },
-    {
-      "name": "hopperRefillThresholdPct",
-      "to": "SMProfile-InjectionMoldingMachine",
-      "as": "Set_Pct_HopperRefill",
-      "since": "6.0.0"
-    },
-    {
-      "name": "hopperRefillCount",
-      "to": "SMProfile-InjectionMoldingMachine",
-      "as": "Act_Amount_HopperRefill",
-      "since": "6.0.0"
-    },
-    {
-      "name": "regrindRatioPct",
-      "to": "SMProfile-InjectionMoldingMachine",
-      "as": "Act_Pct_Regrind",
-      "since": "6.0.0"
-    },
-    {
-      "name": "colourMasterbatchPct",
-      "to": "SMProfile-InjectionMoldingMachine",
-      "as": "Act_Pct_Masterbatch",
-      "since": "6.0.0"
-    },
-    {
-      "name": "colourPurgeRemaining",
-      "to": "SMProfile-InjectionMoldingMachine",
-      "as": "Act_Amount_ColourPurge",
-      "since": "6.0.0"
-    },
-    {
-      "name": "barrelZone1TempC",
-      "to": "SMProfile-InjectionMoldingMachine",
-      "as": "Act_Temp_BarrelZone1",
-      "since": "6.0.0"
-    },
-    {
-      "name": "barrelZone2TempC",
-      "to": "SMProfile-InjectionMoldingMachine",
-      "as": "Act_Temp_BarrelZone2",
-      "since": "6.0.0"
-    },
-    {
-      "name": "barrelZone3TempC",
-      "to": "SMProfile-InjectionMoldingMachine",
-      "as": "Act_Temp_BarrelZone3",
-      "since": "6.0.0"
-    },
-    {
-      "name": "barrelZone4TempC",
-      "to": "SMProfile-InjectionMoldingMachine",
-      "as": "Act_Temp_BarrelZone4",
-      "since": "6.0.0"
     }
   ]
 }

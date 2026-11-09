@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-WorkMaster",
-  "version": "2.0.0",
+  "version": "1.1.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Work Master (how a job is done)",
@@ -50,15 +50,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "MD",
-      "enum": [
-        "Production",
-        "Maintenance",
-        "Quality",
-        "Inventory",
-        "Mixed",
-        "Other"
-      ]
+      "valueType": "MD"
     },
     {
       "name": "duration_sec",
@@ -282,7 +274,7 @@
     },
     {
       "type": "SPECIFIES_PHYSICAL_ASSET",
-      "target": "Tooling",
+      "target": "Tool",
       "targetIdProp": "tool_id",
       "description": "The tool a job needs (B2MML PhysicalAssetSpecification.PhysicalAssetID)."
     },

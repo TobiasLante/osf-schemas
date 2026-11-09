@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-Workorder",
-  "version": "4.0.0",
+  "version": "3.1.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Workorder (order sub-lot / order index)",
@@ -50,21 +50,7 @@
       "description": "Workorder status (e.g. released, running, complete).",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change",
-      "enum": [
-        "Forecast",
-        "Released",
-        "Waiting",
-        "Cancelled",
-        "Ready",
-        "Running",
-        "Completed",
-        "Aborted",
-        "Held",
-        "Suspended",
-        "Closed",
-        "Other"
-      ]
+      "promotion": "on_change"
     },
     {
       "name": "planned_start_time",
@@ -120,23 +106,6 @@
       "scope": "hub",
       "promotion": "on_change",
       "valueType": "ID"
-    },
-    {
-      "name": "work_type",
-      "dataType": "String",
-      "description": "ISA-95 work type (B2MML WorkType, the OperationsType code list; Part 4; audit M1). A source without the column sets the constant of the profile's momDomain (columnMappings const).",
-      "enum": [
-        "Production",
-        "Maintenance",
-        "Quality",
-        "Inventory",
-        "Mixed",
-        "Other"
-      ],
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change",
-      "valueType": "PV"
     }
   ],
   "relationships": [
@@ -182,8 +151,7 @@
       "status": "WorkRequest.RequestState",
       "segment_requirement_ref": "WorkRequest.SegmentRequirementID",
       "planned_start_time": "WorkRequest.StartTime",
-      "planned_end_time": "WorkRequest.EndTime",
-      "work_type": "WorkRequest.WorkType"
+      "planned_end_time": "WorkRequest.EndTime"
     },
     "notInIsa95": [
       "order_index",
