@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-OperationsSchedule",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Operations Schedule",
@@ -83,7 +83,15 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "MD"
+      "valueType": "MD",
+      "enum": [
+        "Production",
+        "Maintenance",
+        "Quality",
+        "Inventory",
+        "Mixed",
+        "Other"
+      ]
     },
     {
       "name": "schedule_state",
@@ -94,7 +102,21 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "SP"
+      "valueType": "SP",
+      "enum": [
+        "Forecast",
+        "Released",
+        "Waiting",
+        "Cancelled",
+        "Ready",
+        "Running",
+        "Completed",
+        "Aborted",
+        "Held",
+        "Suspended",
+        "Closed",
+        "Other"
+      ]
     },
     {
       "name": "hierarchy_scope_ref",

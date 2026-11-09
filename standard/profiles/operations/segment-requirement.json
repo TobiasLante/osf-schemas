@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-SegmentRequirement",
-  "version": "3.1.0",
+  "version": "4.0.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Segment Requirement (segment target per order)",
@@ -71,13 +71,19 @@
       "category": "Core",
       "description": "ISA-95 MaterialRequirement.MaterialUse — the ROLE of the material in this stage. Encodes the 'Being Consumed/Produced/Tested/Moved'.",
       "enum": [
+        "Consumable",
         "Consumed",
         "Produced",
-        "Consumable",
-        "ByProduct",
-        "Sample",
-        "MovedFrom",
-        "MovedTo"
+        "By-product Produced",
+        "Co-product Produced",
+        "Yield Produced",
+        "Material Consumed",
+        "Material Produced",
+        "Destructive Sample",
+        "Returned Sample",
+        "Retained Sample",
+        "Inventoried",
+        "Other"
       ],
       "delivery": "transactional",
       "scope": "hub",
@@ -148,6 +154,17 @@
       "scope": "hub",
       "promotion": "on_change",
       "valueType": "ID"
+    },
+    {
+      "name": "operations_definition_version",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The version of the operations definition this order / response ran with, where the source's definition id carries none (a routing number with its own change state). Empty when the id itself names the version.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
     },
     {
       "name": "operations_segment_ref",
@@ -280,6 +297,23 @@
       "scope": "hub",
       "promotion": "on_change",
       "valueType": "ID"
+    },
+    {
+      "name": "operations_type",
+      "dataType": "String",
+      "description": "ISA-95 operations type (B2MML OperationsType; Part 3/4: which MOM area the object belongs to; audit M1). A source without the column sets the constant of the profile's momDomain (columnMappings const).",
+      "enum": [
+        "Production",
+        "Maintenance",
+        "Quality",
+        "Inventory",
+        "Mixed",
+        "Other"
+      ],
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
     }
   ],
   "relationships": [
@@ -369,7 +403,7 @@
     },
     {
       "type": "REQUIRES_PHYSICAL_ASSET",
-      "target": "Tool",
+      "target": "Tooling",
       "targetIdProp": "tool_id",
       "description": "ISA-95 Part 2 cl. 6.2 (B2MML SegmentRequirement.PhysicalAssetRequirement.PhysicalAssetID)."
     },
@@ -419,13 +453,15 @@
       "tool_ref": "SegmentRequirement.PhysicalAssetRequirement.PhysicalAssetID",
       "physical_asset_class_ref": "SegmentRequirement.PhysicalAssetRequirement.PhysicalAssetClassID",
       "test_specification_ref": "SegmentRequirement.PersonnelRequirement.TestSpecificationID",
-      "unit_of_measure": "OperationsRequest.SegmentRequirement.MaterialRequirement.Quantity.UnitOfMeasure"
+      "unit_of_measure": "OperationsRequest.SegmentRequirement.MaterialRequirement.Quantity.UnitOfMeasure",
+      "operations_type": "OperationsRequest.SegmentRequirement.OperationsType"
     },
     "notInIsa95": [
       "parent_segment_requirement_ref",
-      "sequence"
+      "sequence",
+      "operations_definition_version"
     ],
-    "mappingNote": "sequence is carried by B2MML through the order of SegmentRequirement in OperationsRequest, not as a field. Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent)."
+    "mappingNote": "sequence is carried by B2MML through the order of SegmentRequirement in OperationsRequest, not as a field. Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent). PLM as-built (owner 29.10.2026): operations_definition_version names the state that was built where the source's id carries none; B2MML references a definition by its ID alone (an ID means one state), so there is no field for it — an extension, never part of the key."
   },
   "kgNodeLabel": "SegmentRequirement",
   "kgIdProperty": "segment_requirement_no",

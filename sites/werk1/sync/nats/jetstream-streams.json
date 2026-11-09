@@ -12,7 +12,7 @@
           "name": "EDGE_TELEMETRY",
           "$description": "Edge buffer of telemetry (delivery telemetry, scope hub) and the A' aggregates. Kept as before, the oldest dropped first.",
           "subjectsCapture": [
-            "factory.*.*.telemetry.>",
+            "factory.*.*.*.telemetry.>",
             "aggregate.>"
           ],
           "retention": "limits",
@@ -28,7 +28,7 @@
           "name": "EDGE_TRANSACTIONAL",
           "$description": "Edge buffer of transactional messages (business events on .event., the cpp cycle snapshots). Kept until the hub has them: 30 days / 1 GiB, NEW messages refused when full; duplicates (same Nats-Msg-Id) dropped within 24 h.",
           "subjectsCapture": [
-            "factory.*.*.event.>",
+            "factory.*.*.*.event.>",
             "cpp.>"
           ],
           "retention": "limits",
@@ -50,7 +50,7 @@
           "name": "FACTORY_TELEMETRY",
           "$description": "Central telemetry stream. Fed directly and by the cross-domain source of every edge's EDGE_TELEMETRY.",
           "subjectsCapture": [
-            "factory.*.*.telemetry.>",
+            "factory.*.*.*.telemetry.>",
             "aggregate.>"
           ],
           "sources": [
@@ -61,7 +61,7 @@
               "perEdgeDomain": true,
               "apiPrefixTemplate": "$JS.edge_${ipcCompact}.API",
               "filterSubjects": [
-                "factory.*.*.telemetry.>",
+                "factory.*.*.*.telemetry.>",
                 "aggregate.>"
               ]
             }
@@ -79,7 +79,7 @@
           "name": "FACTORY_TRANSACTIONAL",
           "$description": "Central transactional stream (business events, cpp cycle snapshots). Fed directly and by the cross-domain source of every edge's EDGE_TRANSACTIONAL. Kept 1 year; new messages refused when full (the edges keep them); duplicates dropped within 24 h.",
           "subjectsCapture": [
-            "factory.*.*.event.>",
+            "factory.*.*.*.event.>",
             "cpp.>"
           ],
           "sources": [
@@ -90,7 +90,7 @@
               "perEdgeDomain": true,
               "apiPrefixTemplate": "$JS.edge_${ipcCompact}.API",
               "filterSubjects": [
-                "factory.*.*.event.>",
+                "factory.*.*.*.event.>",
                 "cpp.>"
               ]
             }

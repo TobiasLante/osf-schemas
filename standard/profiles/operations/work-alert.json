@@ -1,0 +1,135 @@
+{
+  "profileId": "SMProfile-WorkAlert",
+  "version": "1.0.0",
+  "standard": "CarToUNS",
+  "category": "business",
+  "displayName": "Work Alert (Level 3 work alert)",
+  "description": "ISA-95 Part 4 work alert (B2MML 0701 WorkAlert): a notice of a work-related event raised at Level 3 — message, time, priority, category.",
+  "parentType": null,
+  "abstract": false,
+  "properties": [
+    {
+      "name": "work_alert_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the work alert: its own id from the source system.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "name",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Description of the alert.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "message_text",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "The alert's message text.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
+    },
+    {
+      "name": "time_stamp",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "When the alert was raised.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
+    },
+    {
+      "name": "priority",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "The alert's priority as the source names it.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
+    },
+    {
+      "name": "alert_category",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "The alert's category as the source names it.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
+    },
+    {
+      "name": "published_date",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "When the alert was published.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
+    },
+    {
+      "name": "effective_start_date",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "From when the alert is effective.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
+    },
+    {
+      "name": "effective_end_date",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "Until when the alert is effective.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
+    }
+  ],
+  "relationships": [],
+  "constraints": [],
+  "semantics": [],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "WorkAlert",
+    "part": 4,
+    "momDomain": "production",
+    "level": 3,
+    "note": "ISA-95 Part 4 WorkAlert (B2MML-WorkAlert.xsd). Its properties (WorkAlertProperty) are the plant's own; core 6.0.0 (0.7.0, PLAN-0700 S4).",
+    "propertyMap": {
+      "work_alert_id": "WorkAlert.ID",
+      "name": "WorkAlert.Description",
+      "message_text": "WorkAlert.MessageText",
+      "time_stamp": "WorkAlert.TimeStamp",
+      "priority": "WorkAlert.Priority",
+      "alert_category": "WorkAlert.Category",
+      "published_date": "WorkAlert.PublishedDate",
+      "effective_start_date": "WorkAlert.EffectiveStartDate",
+      "effective_end_date": "WorkAlert.EffectiveEndDate"
+    }
+  },
+  "kgNodeLabel": "WorkAlert",
+  "kgIdProperty": "work_alert_id"
+}

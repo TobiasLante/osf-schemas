@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-OperationsCapability",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Operations Capability (what the plant can do)",
@@ -39,7 +39,16 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "PV"
+      "valueType": "PV",
+      "enum": [
+        "Used",
+        "Unused",
+        "Total",
+        "Committed",
+        "Available",
+        "Unattainable",
+        "Other"
+      ]
     },
     {
       "name": "reason",
@@ -234,7 +243,7 @@
     },
     {
       "type": "CAPABILITY_PHYSICAL_ASSET",
-      "target": "Tool",
+      "target": "Tooling",
       "targetIdProp": "tool_id",
       "description": "B2MML PhysicalAssetCapability.PhysicalAssetID."
     },

@@ -34,7 +34,7 @@
         "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
         "status"
       ],
-      "smAttribute": "status",
+      "smAttribute": "Act_Status_Machine",
       "dataType": "ns=0;i=12"
     },
     {
@@ -43,7 +43,7 @@
         "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
         "mode"
       ],
-      "smAttribute": "mode",
+      "smAttribute": "Act_Mode_Machine",
       "dataType": "ns=0;i=12"
     },
     {
@@ -54,7 +54,7 @@
         "shot",
         "shotCount"
       ],
-      "smAttribute": "shotCount",
+      "smAttribute": "Act_Amount_Shot",
       "dataType": "ns=0;i=11"
     },
     {
@@ -63,7 +63,7 @@
         "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
         "uptimeSeconds"
       ],
-      "smAttribute": "uptimeSeconds",
+      "smAttribute": "Act_Time_Uptime",
       "dataType": "ns=0;i=11"
     },
     {
@@ -73,7 +73,7 @@
         "alarms",
         "_Count"
       ],
-      "smAttribute": "alarmsCount",
+      "smAttribute": "Act_Amount_Alarm",
       "dataType": "ns=0;i=6"
     },
     {
@@ -83,7 +83,7 @@
         "typeSpecific",
         "shiftActive"
       ],
-      "smAttribute": "shiftActive",
+      "smAttribute": "Act_State_ShiftActive",
       "dataType": "ns=0;i=1"
     },
     {
@@ -94,7 +94,7 @@
         "setup",
         "reason"
       ],
-      "smAttribute": "reason",
+      "smAttribute": "Act_Status_Reason",
       "dataType": "ns=0;i=12"
     },
     {
@@ -104,7 +104,37 @@
         "typeSpecific",
         "powerKw"
       ],
-      "smAttribute": "powerKw",
+      "smAttribute": "Act_Power_Machine",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/partsCount/good",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "partsCount",
+        "good"
+      ],
+      "smAttribute": "Act_Amount_LifeTimeGood",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/partsCount/scrap",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "partsCount",
+        "scrap"
+      ],
+      "smAttribute": "Act_Amount_LifeTimeScrap",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/partsCount/total",
+      "browsePath": [
+        "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
+        "partsCount",
+        "total"
+      ],
+      "smAttribute": "Act_Amount_LifeTime",
       "dataType": "ns=0;i=11"
     }
   ],
@@ -742,36 +772,6 @@
     {
       "profileRef": "SMProfile-SegmentResponse",
       "nodeMappings": [
-        {
-          "opcuaNodeId": "ns=1;s=Machine/partsCount/good",
-          "browsePath": [
-            "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
-            "partsCount",
-            "good"
-          ],
-          "smAttribute": "qty_good",
-          "dataType": "ns=0;i=11"
-        },
-        {
-          "opcuaNodeId": "ns=1;s=Machine/partsCount/scrap",
-          "browsePath": [
-            "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
-            "partsCount",
-            "scrap"
-          ],
-          "smAttribute": "qty_scrap",
-          "dataType": "ns=0;i=11"
-        },
-        {
-          "opcuaNodeId": "ns=1;s=Machine/partsCount/total",
-          "browsePath": [
-            "Spritzguss 1300kN Arburg Allrounder 470A (v4-SGM-012)",
-            "partsCount",
-            "total"
-          ],
-          "smAttribute": "qty_total",
-          "dataType": "ns=0;i=11"
-        },
         {
           "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shot/currentProgram",
           "browsePath": [

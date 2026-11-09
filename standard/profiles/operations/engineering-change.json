@@ -1,0 +1,68 @@
+{
+  "profileId": "SMProfile-EngineeringChange",
+  "version": "1.0.0",
+  "standard": "CarToUNS",
+  "category": "business",
+  "displayName": "Engineering Change (ECN, SAP change number)",
+  "description": "An engineering change as the system that owns it names it (a change notice in PLM, a change number in SAP ECM): the bracket that ties the revisions of PLM and ERP together. Not the model's own change request (SMProfile-ChangeRequest).",
+  "parentType": null,
+  "abstract": false,
+  "properties": [
+    {
+      "name": "change_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the change as the source names it (e.g. the SAP change number or the PLM change notice number).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "description",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "What the change is, as the source says it.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "valid_from",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "From when the change is valid, as the source states it.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "status",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "The state of the change in its source, in the source's own words.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    }
+  ],
+  "relationships": [],
+  "constraints": [],
+  "semantics": [],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "Extension",
+    "extension": true,
+    "level": 4,
+    "mappingNote": "B2MML 0701 has no engineering change object; definitions carry only a Version and effectivity dates. An extension (PLAN-0700 L6, owner 29.10.2026). status keeps the source's words: the lifecycle of a change differs per PLM / ERP and no list is invented."
+  },
+  "kgNodeLabel": "EngineeringChange",
+  "kgIdProperty": "change_id"
+}

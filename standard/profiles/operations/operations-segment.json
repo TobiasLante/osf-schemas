@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-OperationsSegment",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Operations Segment (step of a routing)",
@@ -41,10 +41,12 @@
       "scope": "hub",
       "promotion": "on_change",
       "enum": [
-        "production",
-        "inventory",
-        "quality",
-        "maintenance"
+        "Production",
+        "Maintenance",
+        "Quality",
+        "Inventory",
+        "Mixed",
+        "Other"
       ]
     },
     {
@@ -349,7 +351,7 @@
     },
     {
       "type": "SPECIFIES_PHYSICAL_ASSET",
-      "target": "Tool",
+      "target": "Tooling",
       "targetIdProp": "tool_id",
       "description": "ISA-95 Part 2 cl. 6.1 (B2MML OperationsSegment.PhysicalAssetSpecification.PhysicalAssetID)."
     },

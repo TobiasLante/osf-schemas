@@ -141,7 +141,7 @@
         "regime_markers": {
           "on_change": [
             "tool_ref",
-            "resin"
+            "Act_Ref_Resin"
           ]
         },
         "min_sample_n": 1000
@@ -156,7 +156,7 @@
         "regime_markers": {
           "on_change": [
             "tool_ref",
-            "resin"
+            "Act_Ref_Resin"
           ]
         },
         "min_sample_n": 1000
@@ -171,10 +171,10 @@
         "regime_markers": {
           "on_change": [
             "tool_ref",
-            "resin"
+            "Act_Ref_Resin"
           ],
           "on_reset": [
-            "shotCount"
+            "Act_Amount_Shot"
           ]
         },
         "min_sample_n": 1000
@@ -189,10 +189,10 @@
         "regime_markers": {
           "on_change": [
             "tool_ref",
-            "resin"
+            "Act_Ref_Resin"
           ],
           "on_reset": [
-            "shotCount"
+            "Act_Amount_Shot"
           ]
         },
         "min_sample_n": 1000
@@ -207,7 +207,7 @@
         "regime_markers": {
           "on_change": [
             "tool_ref",
-            "resin"
+            "Act_Ref_Resin"
           ]
         },
         "min_sample_n": 1000
@@ -222,7 +222,7 @@
         "regime_markers": {
           "on_change": [
             "tool_ref",
-            "resin"
+            "Act_Ref_Resin"
           ]
         },
         "min_sample_n": 1000
@@ -237,7 +237,7 @@
         "regime_markers": {
           "on_change": [
             "tool_ref",
-            "resin"
+            "Act_Ref_Resin"
           ]
         },
         "min_sample_n": 1000
@@ -252,7 +252,7 @@
         "regime_markers": {
           "on_change": [
             "tool_ref",
-            "resin"
+            "Act_Ref_Resin"
           ]
         },
         "min_sample_n": 1000
@@ -267,7 +267,7 @@
         "regime_markers": {
           "on_change": [
             "tool_ref",
-            "resin"
+            "Act_Ref_Resin"
           ]
         },
         "min_sample_n": 1000
@@ -282,7 +282,7 @@
         "regime_markers": {
           "on_change": [
             "tool_ref",
-            "resin"
+            "Act_Ref_Resin"
           ]
         },
         "min_sample_n": 1000
@@ -297,7 +297,7 @@
         "regime_markers": {
           "on_change": [
             "tool_ref",
-            "resin"
+            "Act_Ref_Resin"
           ]
         },
         "min_sample_n": 1000
@@ -312,7 +312,7 @@
         "regime_markers": {
           "on_change": [
             "tool_ref",
-            "resin"
+            "Act_Ref_Resin"
           ]
         },
         "min_sample_n": 1000
@@ -327,7 +327,7 @@
         "regime_markers": {
           "on_change": [
             "tool_ref",
-            "resin"
+            "Act_Ref_Resin"
           ]
         },
         "min_sample_n": 1000
@@ -342,7 +342,7 @@
         "regime_markers": {
           "on_change": [
             "tool_ref",
-            "resin"
+            "Act_Ref_Resin"
           ]
         },
         "min_sample_n": 1000
@@ -357,7 +357,7 @@
         "regime_markers": {
           "on_change": [
             "tool_ref",
-            "resin"
+            "Act_Ref_Resin"
           ]
         },
         "min_sample_n": 1000
@@ -372,7 +372,7 @@
         "regime_markers": {
           "on_change": [
             "tool_ref",
-            "resin"
+            "Act_Ref_Resin"
           ]
         },
         "min_sample_n": 1000
@@ -387,7 +387,7 @@
         "regime_markers": {
           "on_change": [
             "tool_ref",
-            "resin"
+            "Act_Ref_Resin"
           ]
         },
         "min_sample_n": 1000
@@ -406,7 +406,7 @@
       "monitored": true,
       "valueFrom": "recipe:hotrunner_temp_band",
       "constraintId": "recipe_hotrunner_temp_band",
-      "smAttribute": "hotrunnerTempC"
+      "smAttribute": "Act_Temp_Hotrunner"
     },
     {
       "param": "mouldTempC",
@@ -417,10 +417,10 @@
       ],
       "unit": "CEL",
       "monitored": true,
-      "gate": "inCycle==true",
+      "gate": "Act_State_InCycle==true",
       "valueFrom": "recipe:mould_temp_band",
       "constraintId": "recipe_mould_temp_band",
-      "smAttribute": "mouldTempC"
+      "smAttribute": "Act_Temp_Mould"
     },
     {
       "param": "nozzleTempC",
@@ -433,7 +433,7 @@
       "monitored": true,
       "valueFrom": "recipe:melt_temp_band",
       "constraintId": "recipe_melt_temp_band",
-      "smAttribute": "nozzleTempC"
+      "smAttribute": "Act_Temp_Nozzle"
     },
     {
       "param": "injectionSpeedMmPerSec",
@@ -444,10 +444,10 @@
       ],
       "unit": "C16",
       "monitored": true,
-      "gate": "inCycle==true",
+      "gate": "Act_State_InCycle==true",
       "valueFrom": "recipe:injection_speed_band",
       "constraintId": "recipe_injection_speed_band",
-      "smAttribute": "injectionSpeedMmPerSec"
+      "smAttribute": "Act_Speed_Injection"
     },
     {
       "param": "backPressureBar",
@@ -458,24 +458,24 @@
       ],
       "unit": "BAR",
       "monitored": true,
-      "gate": "inCycle==true",
+      "gate": "Act_State_InCycle==true",
       "valueFrom": "recipe:back_pressure_band",
       "constraintId": "recipe_back_pressure_band",
-      "smAttribute": "backPressureBar"
+      "smAttribute": "Act_Pressure_Back"
     },
     {
       "param": "coolingFlowLMin",
-      "soll": 22.0,
+      "soll": 22,
       "tolerance": [
         19.8,
         24.2
       ],
       "unit": "L2",
       "monitored": true,
-      "gate": "inCycle==true",
+      "gate": "Act_State_InCycle==true",
       "valueFrom": "recipe:cooling_flow_band",
       "constraintId": "recipe_cooling_flow_band",
-      "smAttribute": "coolingFlowLMin"
+      "smAttribute": "Act_Rate_CoolingFlow"
     },
     {
       "param": "cycleTimeSec",
@@ -486,10 +486,10 @@
       ],
       "unit": "SEC",
       "monitored": true,
-      "gate": "inCycle==true",
+      "gate": "Act_State_InCycle==true",
       "valueFrom": "recipe:cycle_time_band",
       "constraintId": "recipe_cycle_time_band",
-      "smAttribute": "cycleTimeSec"
+      "smAttribute": "Act_Time_Cycle"
     },
     {
       "param": "barrelZone1TempC",
@@ -502,7 +502,7 @@
       "monitored": true,
       "valueFrom": "recipe:barrel_zone1_temp_band",
       "constraintId": "recipe_barrel_zone1_temp_band",
-      "smAttribute": "barrelZone1TempC"
+      "smAttribute": "Act_Temp_BarrelZone1"
     },
     {
       "param": "barrelZone2TempC",
@@ -515,7 +515,7 @@
       "monitored": true,
       "valueFrom": "recipe:barrel_zone2_temp_band",
       "constraintId": "recipe_barrel_zone2_temp_band",
-      "smAttribute": "barrelZone2TempC"
+      "smAttribute": "Act_Temp_BarrelZone2"
     },
     {
       "param": "barrelZone3TempC",
@@ -528,7 +528,7 @@
       "monitored": true,
       "valueFrom": "recipe:barrel_zone3_temp_band",
       "constraintId": "recipe_barrel_zone3_temp_band",
-      "smAttribute": "barrelZone3TempC"
+      "smAttribute": "Act_Temp_BarrelZone3"
     },
     {
       "param": "barrelZone4TempC",
@@ -541,7 +541,7 @@
       "monitored": true,
       "valueFrom": "recipe:barrel_zone4_temp_band",
       "constraintId": "recipe_barrel_zone4_temp_band",
-      "smAttribute": "barrelZone4TempC"
+      "smAttribute": "Act_Temp_BarrelZone4"
     }
   ]
 }
