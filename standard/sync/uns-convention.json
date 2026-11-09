@@ -19,8 +19,8 @@
           "transactional": "FACTORY_TRANSACTIONAL"
         },
         "subjectPatterns": {
-          "telemetry": "factory.{site}.{machine}.telemetry.{attr}",
-          "transactional": "factory.{site}.{machine}.event.{attr}"
+          "telemetry": "factory.{site}.{entity}.{machine}.telemetry.{attr}",
+          "transactional": "factory.{site}.{entity}.{machine}.event.{attr}"
         }
       }
     },
@@ -48,7 +48,7 @@
           "transactional": "BUSINESS"
         },
         "subjectPatterns": {
-          "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+          "transactional": "business.{enterprise}.{site}.{entity}.{sourceId}.{eventType}.{id}"
         }
       }
     }
