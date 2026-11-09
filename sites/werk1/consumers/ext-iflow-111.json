@@ -1,0 +1,25 @@
+{
+  "consumerId": "ext-iflow-111",
+  "version": "1.0.0",
+  "kind": "middleware",
+  "stage": "push",
+  "ring": 0,
+  "carries": [
+    "opcua-ftlinx-01-telemetry",
+    "opcua-ftlinx-01-event"
+  ],
+  "capacity": 19,
+  "capacityKind": "measured",
+  "authoring": "compiled",
+  "description": "i-flow on .111 (http://192.168.178.111) publishes ftlinx-01 — a product of the plant; UNSaC writes its configuration (target iflow-111). Took ftlinx-01 over from edge-ftlinx-01, whose unsac-edge never ran (owner 09.11.2026).",
+  "emitter": {
+    "type": "external"
+  },
+  "feedback": {
+    "grains": [
+      "loaded"
+    ],
+    "maxAgeSeconds": 900
+  },
+  "$feedback": "loaded only: the product reports what it has loaded through its target adapter; no observation of its subjects yet."
+}
