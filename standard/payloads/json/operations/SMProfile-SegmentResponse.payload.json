@@ -2,13 +2,13 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-SegmentResponse.payload.json",
   "title": "SMProfile-SegmentResponse payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/operations/segment-response.json 5.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/operations/segment-response.json 4.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-SegmentResponse",
-  "x-profileVersion": "5.0.0",
+  "x-profileVersion": "4.0.0",
   "x-payloadVersion": "1.1.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
-    "transactional": "business.{enterprise}.{site}.{entity}.{sourceId}.{eventType}.{id}"
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
   },
   "allOf": [
     {
@@ -53,19 +53,13 @@
         "material_use": {
           "type": "string",
           "enum": [
-            "Consumable",
             "Consumed",
             "Produced",
-            "By-product Produced",
-            "Co-product Produced",
-            "Yield Produced",
-            "Material Consumed",
-            "Material Produced",
-            "Destructive Sample",
-            "Returned Sample",
-            "Retained Sample",
-            "Inventoried",
-            "Other"
+            "Consumable",
+            "ByProduct",
+            "Sample",
+            "MovedFrom",
+            "MovedTo"
           ],
           "description": "ISA-95 MaterialActual.MaterialUse — the ROLE of the material (actual). Mirrors the SegmentRequirement role."
         },
@@ -93,18 +87,6 @@
         },
         "status": {
           "type": "string",
-          "enum": [
-            "Waiting",
-            "Ready",
-            "Running",
-            "Completed",
-            "Aborted",
-            "Held",
-            "Paused",
-            "Suspended",
-            "Closed",
-            "Other"
-          ],
           "description": "Actual status of the stage (e.g. running, complete, aborted). Derived from the MES OrderState."
         },
         "qty_good": {
@@ -138,18 +120,6 @@
         "article_ref": {
           "type": "string",
           "description": "The article the machine reports it is producing. Reported by the machine source through objects[] (owner 25.09.); history: docs/history/standard/profiles/operations/segment-response.md."
-        },
-        "article_revision": {
-          "type": "string",
-          "description": "The revision of the article that was built or used, where the source's article number carries none (a PLM part number with revision A). Empty when the number itself names the revision (at SAP dddd.1)."
-        },
-        "recipe_ref": {
-          "type": "string",
-          "description": "The recipe the order ran with (its recipeId in sites/<site>/recipes)."
-        },
-        "recipe_version": {
-          "type": "string",
-          "description": "The released version (semver) of that recipe."
         },
         "program_line": {
           "type": "integer",
@@ -195,29 +165,13 @@
           "type": "string",
           "description": "The OperationsDefinition (FOR_OPERATIONS_DEFINITION; ISA-95 SegmentResponse → OperationsDefinition). Optional."
         },
-        "operations_definition_version": {
-          "type": "string",
-          "description": "The version of the operations definition this order / response ran with, where the source's definition id carries none (a routing number with its own change state). Empty when the id itself names the version."
-        },
         "operations_segment_ref": {
           "type": "string",
           "description": "The OperationsSegment (FOR_OPERATIONS_SEGMENT; ISA-95 SegmentResponse → OperationsSegment). Optional."
         },
         "inspection_lot_ref": {
           "type": "string",
-          "description": "The InspectionLot — the test result of a material actual (HAS_TEST_RESULT; ISA-95 SegmentResponse → MaterialActual → TestResult). Optional."
-        },
-        "personnel_test_result_ref": {
-          "type": "string",
-          "description": "The TestResult of a person (qualification test) the response used (HAS_TEST_RESULT; ISA-95 SegmentResponse → PersonnelActual → TestResult). Optional."
-        },
-        "equipment_test_result_ref": {
-          "type": "string",
-          "description": "The TestResult of a machine (equipment capability test) the response used (HAS_TEST_RESULT; ISA-95 SegmentResponse → EquipmentActual → TestResult). Optional."
-        },
-        "physical_asset_test_result_ref": {
-          "type": "string",
-          "description": "The TestResult of a tool (physical asset capability test) the response used (HAS_TEST_RESULT; ISA-95 SegmentResponse → PhysicalAssetActual → TestResult). Optional."
+          "description": "The InspectionLot (HAS_TEST_RESULT; ISA-95 SegmentResponse → TestResult). Optional."
         },
         "parent_segment_response_ref": {
           "type": "string",
@@ -231,18 +185,6 @@
             "BAD"
           ],
           "description": "Quality the source reported for this record: the worst OPC UA StatusCode (Good / Uncertain / Bad) of the fields the edge read for it. Left out when the source reports none (ERP REST). A field of the record, not the telemetry quality facet (learning T10)."
-        },
-        "operations_type": {
-          "type": "string",
-          "enum": [
-            "Production",
-            "Maintenance",
-            "Quality",
-            "Inventory",
-            "Mixed",
-            "Other"
-          ],
-          "description": "ISA-95 operations type (B2MML OperationsType; Part 3/4: which MOM area the object belongs to; audit M1). A source without the column sets the constant of the profile's momDomain (columnMappings const)."
         }
       },
       "required": [
@@ -273,9 +215,6 @@
     "qty_rework": "transactional",
     "production_order_ref": "transactional",
     "article_ref": "transactional",
-    "article_revision": "transactional",
-    "recipe_ref": "transactional",
-    "recipe_version": "transactional",
     "program_line": "transactional",
     "program_status": "transactional",
     "equipment_class_ref": "transactional",
@@ -287,14 +226,9 @@
     "job_response_ref": "transactional",
     "work_response_ref": "transactional",
     "operations_definition_ref": "transactional",
-    "operations_definition_version": "transactional",
     "operations_segment_ref": "transactional",
     "inspection_lot_ref": "transactional",
-    "personnel_test_result_ref": "transactional",
-    "equipment_test_result_ref": "transactional",
-    "physical_asset_test_result_ref": "transactional",
     "parent_segment_response_ref": "transactional",
-    "source_quality": "transactional",
-    "operations_type": "transactional"
+    "source_quality": "transactional"
   }
 }

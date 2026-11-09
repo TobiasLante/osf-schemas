@@ -2,13 +2,13 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-OperationsCapability.payload.json",
   "title": "SMProfile-OperationsCapability payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/operations/operations-capability.json 2.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/operations/operations-capability.json 1.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-OperationsCapability",
-  "x-profileVersion": "2.0.0",
+  "x-profileVersion": "1.1.0",
   "x-payloadVersion": "1.1.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
-    "transactional": "business.{enterprise}.{site}.{entity}.{sourceId}.{eventType}.{id}"
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
   },
   "allOf": [
     {
@@ -36,15 +36,6 @@
         },
         "capability_type": {
           "type": "string",
-          "enum": [
-            "Used",
-            "Unused",
-            "Total",
-            "Committed",
-            "Available",
-            "Unattainable",
-            "Other"
-          ],
           "description": "ISA-95 CapabilityType: Available, Committed or Unattainable."
         },
         "reason": {

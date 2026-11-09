@@ -1,14 +1,8 @@
 {
   "type": "record",
   "name": "MaterialLot",
-  "x-kafka": {
-    "contract": "MaterialLot",
-    "key": "material_lot_no",
-    "topic": "<prefix>.{site}.MaterialLot",
-    "strategy": "TopicNameStrategy"
-  },
   "namespace": "org.openshopfloor.payload.material",
-  "doc": "GENERATED from standard/profiles/material/material-lot.json 3.3.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "doc": "GENERATED from standard/profiles/material/material-lot.json 3.2.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
   "fields": [
     {
       "name": "eventType",
@@ -42,7 +36,7 @@
     {
       "name": "msgId",
       "type": "string",
-      "doc": "Unique message id: the Nats-Msg-Id, for deduplication. The Kafka key is the entity's key, material_lot_no (x-kafka)."
+      "doc": "Unique message id: the Kafka key, for deduplication."
     },
     {
       "name": "profileRef",
@@ -52,7 +46,7 @@
     {
       "name": "profileVersion",
       "type": "string",
-      "default": "3.3.0"
+      "default": "3.2.0"
     },
     {
       "name": "b2m",
@@ -124,15 +118,6 @@
             ],
             "default": null,
             "doc": "FK to Article.article_no (DEFINED_BY) = MaterialLot.MaterialDefinitionID. The MaterialDefinition of this lot."
-          },
-          {
-            "name": "article_revision",
-            "type": [
-              "null",
-              "string"
-            ],
-            "default": null,
-            "doc": "The revision of the article that was built or used, where the source's article number carries none (a PLM part number with revision A). Empty when the number itself names the revision (at SAP dddd.1)."
           },
           {
             "name": "quantity",

@@ -2,13 +2,13 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-WorkMaster.payload.json",
   "title": "SMProfile-WorkMaster payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/operations/work-master.json 2.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/operations/work-master.json 1.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-WorkMaster",
-  "x-profileVersion": "2.0.0",
+  "x-profileVersion": "1.1.0",
   "x-payloadVersion": "1.1.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
-    "transactional": "business.{enterprise}.{site}.{entity}.{sourceId}.{eventType}.{id}"
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
   },
   "allOf": [
     {
@@ -40,14 +40,6 @@
         },
         "work_type": {
           "type": "string",
-          "enum": [
-            "Production",
-            "Maintenance",
-            "Quality",
-            "Inventory",
-            "Mixed",
-            "Other"
-          ],
           "description": "ISA-95 WorkType: Production, Maintenance, Quality or Inventory."
         },
         "duration_sec": {

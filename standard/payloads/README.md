@@ -12,7 +12,7 @@ Two shapes (`envelope.schema.json`), from the convention:
 
 - **signal** (categories machine; 2 profiles): one message per signal,
   `{element_id, attr, value, timestamp, delivery, msgId?}`. Every attribute of the machine is listed, edge ones included.
-- **entity** (categories business, material, quality, equipment; 88 profiles): one message per source row,
+- **entity** (categories business, material, quality, equipment; 79 profiles): one message per source row,
   `{eventType, id, entity, timestamp, msgId, data}`; `data` carries the profile's attributes, inherited ones included.
 
 Both may carry `b2m {verb, actionCode}` (optional; ISA-95 Part 5 as B2MML 0700 names it): a row is `SYNC` with the action code of its
@@ -22,12 +22,8 @@ eventType (created = Add, updated = Change, deleted = Delete), a transactional s
 
 | delivery | subject | msgId |
 |---|---|---|
-| telemetry | `factory.{site}.{entity}.{machine}.telemetry.{attr}` | not needed |
-| transactional | `factory.{site}.{entity}.{machine}.event.{attr}` · `business.{enterprise}.{site}.{entity}.{sourceId}.{eventType}.{id}` | required (Nats-Msg-Id; on Kafka the key is the entity's kgIdProperty: deduplication, nothing lost) |
-
-**Kafka: one topic per contract and site** (`<prefix>.{site}.{entity}`, TopicNameStrategy: the contract's Avro value schema under `<topic>-value`), telemetry
-and transactional of a contract on the same topic; the message key is the entity's key (the profile's kgIdProperty, `x-kafka` of each `.avsc`).
-The NATS subjects carry the same `{site}.{entity}` (a subscriber filters per contract); the streams stay per delivery.
+| telemetry | `factory.{site}.{machine}.telemetry.{attr}` | not needed |
+| transactional | `factory.{site}.{machine}.event.{attr}` · `business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}` | required (Nats-Msg-Id / Kafka key: deduplication, nothing lost) |
 
 Keys (`element_id`, `id`, the profile's key attribute) are subject tokens: no `+ # * > /` or space.
 Abstract and retired profiles send nothing and have no payload; a category in neither world of the convention has none.

@@ -2,13 +2,13 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-OperationsEventDefinition.payload.json",
   "title": "SMProfile-OperationsEventDefinition payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/operations/operations-event-definition.json 2.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/operations/operations-event-definition.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-OperationsEventDefinition",
-  "x-profileVersion": "2.0.0",
+  "x-profileVersion": "1.0.0",
   "x-payloadVersion": "1.1.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
-    "transactional": "business.{enterprise}.{site}.{entity}.{sourceId}.{eventType}.{id}"
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
   },
   "allOf": [
     {
@@ -59,69 +59,22 @@
         },
         "operations_event_type": {
           "type": "string",
-          "enum": [
-            "Event",
-            "Alert",
-            "Alarm",
-            "Other"
-          ],
           "description": "ISA-95 OperationsEventDefinition.OperationsEventType."
         },
         "operations_event_level": {
           "type": "string",
-          "enum": [
-            "Level 2",
-            "Level 3",
-            "Level 4",
-            "Other"
-          ],
           "description": "ISA-95 OperationsEventDefinition.OperationsEventLevel."
         },
         "operations_type": {
           "type": "string",
-          "enum": [
-            "Production",
-            "Maintenance",
-            "Quality",
-            "Inventory",
-            "Mixed",
-            "Other"
-          ],
           "description": "ISA-95 OperationsEventDefinition.OperationsType."
         },
         "momfunction": {
           "type": "string",
-          "enum": [
-            "Resource management",
-            "Definition management",
-            "Detailed scheduling",
-            "Dispatching",
-            "Execution management",
-            "Data collection",
-            "Performance analysis",
-            "Tracking",
-            "Other"
-          ],
           "description": "ISA-95 OperationsEventDefinition.MOMFunction."
         },
         "enterprise_function": {
           "type": "string",
-          "enum": [
-            "Order processing",
-            "Operations scheduling",
-            "Production control",
-            "Material and energy control",
-            "Procurement",
-            "Quality assurance",
-            "Product inventory control",
-            "product cost accounting",
-            "Product shipping administration",
-            "Maintenance management",
-            "Marketing and sales",
-            "Research and Development",
-            "Engineering",
-            "Other"
-          ],
           "description": "ISA-95 OperationsEventDefinition.EnterpriseFunction."
         },
         "event_category": {

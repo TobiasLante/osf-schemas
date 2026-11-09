@@ -1,14 +1,8 @@
 {
   "type": "record",
-  "name": "Fixture",
-  "x-kafka": {
-    "contract": "Fixture",
-    "key": "tool_id",
-    "topic": "<prefix>.{site}.Fixture",
-    "strategy": "TopicNameStrategy"
-  },
+  "name": "Tool",
   "namespace": "org.openshopfloor.payload.equipment",
-  "doc": "GENERATED from standard/profiles/equipment/fixture.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "doc": "GENERATED from standard/profiles/equipment/tool.json 3.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
   "fields": [
     {
       "name": "eventType",
@@ -30,7 +24,7 @@
     {
       "name": "entity",
       "type": "string",
-      "default": "Fixture"
+      "default": "Tool"
     },
     {
       "name": "timestamp",
@@ -42,17 +36,17 @@
     {
       "name": "msgId",
       "type": "string",
-      "doc": "Unique message id: the Nats-Msg-Id, for deduplication. The Kafka key is the entity's key, tool_id (x-kafka)."
+      "doc": "Unique message id: the Kafka key, for deduplication."
     },
     {
       "name": "profileRef",
       "type": "string",
-      "default": "SMProfile-Fixture"
+      "default": "SMProfile-Tool"
     },
     {
       "name": "profileVersion",
       "type": "string",
-      "default": "1.0.0"
+      "default": "3.1.0"
     },
     {
       "name": "b2m",
@@ -109,7 +103,7 @@
       "name": "data",
       "type": {
         "type": "record",
-        "name": "FixtureData",
+        "name": "ToolData",
         "fields": [
           {
             "name": "tool_id",
@@ -124,6 +118,33 @@
             ],
             "default": null,
             "doc": "Display name of the tool."
+          },
+          {
+            "name": "tool_type",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "Type of tooling (e.g. mould, die, fixture)."
+          },
+          {
+            "name": "unit_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "FK to Machine.machine_id (IMPLEMENTATION_OF; Machine ≡ Unit level) — where the tool is currently set up."
+          },
+          {
+            "name": "parts_per_shot",
+            "type": [
+              "null",
+              "long"
+            ],
+            "default": null,
+            "doc": "Number of good parts ONE machine cycle yields with this tool: the mould's cavity count (moved here from ProductionOrder in core 3.0.0)."
           },
           {
             "name": "storage_location_ref",
@@ -150,7 +171,7 @@
               "string"
             ],
             "default": null,
-            "doc": "The Tooling this Tooling is part of (PART_OF; ISA-95 PhysicalAsset MADE_UP_OF PhysicalAsset). Optional."
+            "doc": "The Tool this Tool is part of (PART_OF; ISA-95 PhysicalAsset MADE_UP_OF PhysicalAsset). Optional."
           },
           {
             "name": "test_specification_ref",

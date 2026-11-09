@@ -2,13 +2,13 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-JobResponse.payload.json",
   "title": "SMProfile-JobResponse payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/operations/job-response.json 2.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/operations/job-response.json 1.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-JobResponse",
-  "x-profileVersion": "2.0.0",
+  "x-profileVersion": "1.1.0",
   "x-payloadVersion": "1.1.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
-    "transactional": "business.{enterprise}.{site}.{entity}.{sourceId}.{eventType}.{id}"
+    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
   },
   "allOf": [
     {
@@ -70,18 +70,6 @@
         },
         "status": {
           "type": "string",
-          "enum": [
-            "Waiting",
-            "Ready",
-            "Running",
-            "Completed",
-            "Aborted",
-            "Held",
-            "Paused",
-            "Suspended",
-            "Closed",
-            "Other"
-          ],
           "description": "Job state as the source names it (ISA-95 JobState)."
         },
         "equipment_class_ref": {
@@ -95,10 +83,6 @@
         "article_ref": {
           "type": "string",
           "description": "The Article (ACTUAL_MATERIAL; ISA-95 JobResponse → MaterialDefinition). Optional."
-        },
-        "article_revision": {
-          "type": "string",
-          "description": "The revision of the article that was built or used, where the source's article number carries none (a PLM part number with revision A). Empty when the number itself names the revision (at SAP dddd.1)."
         },
         "quant_ref": {
           "type": "string",
@@ -126,35 +110,11 @@
         },
         "inspection_lot_ref": {
           "type": "string",
-          "description": "The InspectionLot — the test result of a material actual (HAS_TEST_RESULT; ISA-95 JobResponse → MaterialActual → TestResult). Optional."
-        },
-        "personnel_test_result_ref": {
-          "type": "string",
-          "description": "The TestResult of a person (qualification test) the response used (HAS_TEST_RESULT; ISA-95 JobResponse → PersonnelActual → TestResult). Optional."
-        },
-        "equipment_test_result_ref": {
-          "type": "string",
-          "description": "The TestResult of a machine (equipment capability test) the response used (HAS_TEST_RESULT; ISA-95 JobResponse → EquipmentActual → TestResult). Optional."
-        },
-        "physical_asset_test_result_ref": {
-          "type": "string",
-          "description": "The TestResult of a tool (physical asset capability test) the response used (HAS_TEST_RESULT; ISA-95 JobResponse → PhysicalAssetActual → TestResult). Optional."
+          "description": "The InspectionLot (HAS_TEST_RESULT; ISA-95 JobResponse → TestResult). Optional."
         },
         "job_response_list_ref": {
           "type": "string",
           "description": "The JobResponseList this JobResponse is part of (PART_OF; ISA-95 JobResponseList MADE_UP_OF JobResponse). Optional."
-        },
-        "work_type": {
-          "type": "string",
-          "enum": [
-            "Production",
-            "Maintenance",
-            "Quality",
-            "Inventory",
-            "Mixed",
-            "Other"
-          ],
-          "description": "ISA-95 work type (B2MML WorkType, the OperationsType code list; Part 4; audit M1). A source without the column sets the constant of the profile's momDomain (columnMappings const)."
         }
       },
       "required": [
@@ -177,7 +137,6 @@
     "equipment_class_ref": "transactional",
     "material_class_ref": "transactional",
     "article_ref": "transactional",
-    "article_revision": "transactional",
     "quant_ref": "transactional",
     "personnel_class_ref": "transactional",
     "physical_asset_class_ref": "transactional",
@@ -185,10 +144,6 @@
     "workflow_specification_ref": "transactional",
     "workflow_specification_node_ref": "transactional",
     "inspection_lot_ref": "transactional",
-    "personnel_test_result_ref": "transactional",
-    "equipment_test_result_ref": "transactional",
-    "physical_asset_test_result_ref": "transactional",
-    "job_response_list_ref": "transactional",
-    "work_type": "transactional"
+    "job_response_list_ref": "transactional"
   }
 }

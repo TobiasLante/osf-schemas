@@ -1,14 +1,8 @@
 {
   "type": "record",
   "name": "SegmentResponse",
-  "x-kafka": {
-    "contract": "SegmentResponse",
-    "key": "segment_response_no",
-    "topic": "<prefix>.{site}.SegmentResponse",
-    "strategy": "TopicNameStrategy"
-  },
   "namespace": "org.openshopfloor.payload.operations",
-  "doc": "GENERATED from standard/profiles/operations/segment-response.json 5.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "doc": "GENERATED from standard/profiles/operations/segment-response.json 4.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
   "fields": [
     {
       "name": "eventType",
@@ -42,7 +36,7 @@
     {
       "name": "msgId",
       "type": "string",
-      "doc": "Unique message id: the Nats-Msg-Id, for deduplication. The Kafka key is the entity's key, segment_response_no (x-kafka)."
+      "doc": "Unique message id: the Kafka key, for deduplication."
     },
     {
       "name": "profileRef",
@@ -52,7 +46,7 @@
     {
       "name": "profileVersion",
       "type": "string",
-      "default": "5.0.0"
+      "default": "4.0.0"
     },
     {
       "name": "b2m",
@@ -299,33 +293,6 @@
             "doc": "The article the machine reports it is producing. Reported by the machine source through objects[] (owner 25.09.); history: docs/history/standard/profiles/operations/segment-response.md."
           },
           {
-            "name": "article_revision",
-            "type": [
-              "null",
-              "string"
-            ],
-            "default": null,
-            "doc": "The revision of the article that was built or used, where the source's article number carries none (a PLM part number with revision A). Empty when the number itself names the revision (at SAP dddd.1)."
-          },
-          {
-            "name": "recipe_ref",
-            "type": [
-              "null",
-              "string"
-            ],
-            "default": null,
-            "doc": "The recipe the order ran with (its recipeId in sites/<site>/recipes)."
-          },
-          {
-            "name": "recipe_version",
-            "type": [
-              "null",
-              "string"
-            ],
-            "default": null,
-            "doc": "The released version (semver) of that recipe."
-          },
-          {
             "name": "program_line",
             "type": [
               "null",
@@ -425,15 +392,6 @@
             "doc": "The OperationsDefinition (FOR_OPERATIONS_DEFINITION; ISA-95 SegmentResponse → OperationsDefinition). Optional."
           },
           {
-            "name": "operations_definition_version",
-            "type": [
-              "null",
-              "string"
-            ],
-            "default": null,
-            "doc": "The version of the operations definition this order / response ran with, where the source's definition id carries none (a routing number with its own change state). Empty when the id itself names the version."
-          },
-          {
             "name": "operations_segment_ref",
             "type": [
               "null",
@@ -449,34 +407,7 @@
               "string"
             ],
             "default": null,
-            "doc": "The InspectionLot — the test result of a material actual (HAS_TEST_RESULT; ISA-95 SegmentResponse → MaterialActual → TestResult). Optional."
-          },
-          {
-            "name": "personnel_test_result_ref",
-            "type": [
-              "null",
-              "string"
-            ],
-            "default": null,
-            "doc": "The TestResult of a person (qualification test) the response used (HAS_TEST_RESULT; ISA-95 SegmentResponse → PersonnelActual → TestResult). Optional."
-          },
-          {
-            "name": "equipment_test_result_ref",
-            "type": [
-              "null",
-              "string"
-            ],
-            "default": null,
-            "doc": "The TestResult of a machine (equipment capability test) the response used (HAS_TEST_RESULT; ISA-95 SegmentResponse → EquipmentActual → TestResult). Optional."
-          },
-          {
-            "name": "physical_asset_test_result_ref",
-            "type": [
-              "null",
-              "string"
-            ],
-            "default": null,
-            "doc": "The TestResult of a tool (physical asset capability test) the response used (HAS_TEST_RESULT; ISA-95 SegmentResponse → PhysicalAssetActual → TestResult). Optional."
+            "doc": "The InspectionLot (HAS_TEST_RESULT; ISA-95 SegmentResponse → TestResult). Optional."
           },
           {
             "name": "parent_segment_response_ref",
@@ -495,15 +426,6 @@
             ],
             "default": null,
             "doc": "Quality the source reported for this record: the worst OPC UA StatusCode (Good / Uncertain / Bad) of the fields the edge read for it. Left out when the source reports none (ERP REST). A field of the record, not the telemetry quality facet (learning T10)."
-          },
-          {
-            "name": "operations_type",
-            "type": [
-              "null",
-              "string"
-            ],
-            "default": null,
-            "doc": "ISA-95 operations type (B2MML OperationsType; Part 3/4: which MOM area the object belongs to; audit M1). A source without the column sets the constant of the profile's momDomain (columnMappings const)."
           }
         ]
       }
