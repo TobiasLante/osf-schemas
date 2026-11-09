@@ -1,0 +1,25 @@
+{
+  "consumerId": "ext-highbyte-111",
+  "version": "1.0.0",
+  "kind": "gateway",
+  "stage": "push",
+  "ring": 0,
+  "carries": [
+    "opcua-sgm-001-telemetry",
+    "opcua-sgm-001-event"
+  ],
+  "capacity": 43,
+  "capacityKind": "measured",
+  "authoring": "compiled",
+  "description": "HighByte on .111 (http://192.168.178.111:45245) publishes sgm-001 — a product of the plant; UNSaC writes its configuration (target highbyte-111). Took sgm-001 over from edge-sgm-001, whose unsac-edge never ran (owner 09.11.2026).",
+  "emitter": {
+    "type": "external"
+  },
+  "feedback": {
+    "grains": [
+      "loaded"
+    ],
+    "maxAgeSeconds": 900
+  },
+  "$feedback": "loaded only: the product reports what it has loaded through its target adapter; no observation of its subjects yet."
+}
