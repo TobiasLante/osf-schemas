@@ -135,22 +135,6 @@
       "abstract": false,
       "source": "standard/profiles/equipment/cnc-machine.json"
     },
-    "CuttingTool": {
-      "key": "tool_id",
-      "profile": "SMProfile-CuttingTool",
-      "category": "equipment",
-      "parentType": "Tooling",
-      "abstract": false,
-      "source": "standard/profiles/equipment/cutting-tool.json"
-    },
-    "Die": {
-      "key": "tool_id",
-      "profile": "SMProfile-Die",
-      "category": "equipment",
-      "parentType": "Tooling",
-      "abstract": false,
-      "source": "standard/profiles/equipment/die.json"
-    },
     "Enterprise": {
       "key": "element_id",
       "profile": "SMProfile-Enterprise",
@@ -166,14 +150,6 @@
       "parentType": null,
       "abstract": false,
       "source": "standard/profiles/equipment/equipment-class.json"
-    },
-    "Fixture": {
-      "key": "tool_id",
-      "profile": "SMProfile-Fixture",
-      "category": "equipment",
-      "parentType": "Tooling",
-      "abstract": false,
-      "source": "standard/profiles/equipment/fixture.json"
     },
     "InjectionMoldingMachine": {
       "key": "element_id",
@@ -191,14 +167,6 @@
       "abstract": true,
       "source": "standard/profiles/equipment/machine.json"
     },
-    "Mould": {
-      "key": "tool_id",
-      "profile": "SMProfile-Mould",
-      "category": "equipment",
-      "parentType": "Tooling",
-      "abstract": false,
-      "source": "standard/profiles/equipment/mould.json"
-    },
     "PhysicalAssetClass": {
       "key": "physical_asset_class_id",
       "profile": "SMProfile-PhysicalAssetClass",
@@ -215,13 +183,13 @@
       "abstract": false,
       "source": "standard/profiles/equipment/site.json"
     },
-    "Tooling": {
+    "Tool": {
       "key": "tool_id",
-      "profile": "SMProfile-Tooling",
+      "profile": "SMProfile-Tool",
       "category": "equipment",
       "parentType": null,
-      "abstract": true,
-      "source": "standard/profiles/equipment/tooling.json"
+      "abstract": false,
+      "source": "standard/profiles/equipment/tool.json"
     },
     "WorkCenter": {
       "key": "element_id",
@@ -350,22 +318,6 @@
       "parentType": null,
       "abstract": false,
       "source": "standard/profiles/operations/customer.json"
-    },
-    "Effectivity": {
-      "key": "effectivity_id",
-      "profile": "SMProfile-Effectivity",
-      "category": "business",
-      "parentType": null,
-      "abstract": false,
-      "source": "standard/profiles/operations/effectivity.json"
-    },
-    "EngineeringChange": {
-      "key": "change_id",
-      "profile": "SMProfile-EngineeringChange",
-      "category": "business",
-      "parentType": null,
-      "abstract": false,
-      "source": "standard/profiles/operations/engineering-change.json"
     },
     "JobList": {
       "key": "job_list_id",
@@ -567,22 +519,6 @@
       "abstract": false,
       "source": "standard/profiles/operations/shift-window.json"
     },
-    "WorkAlertDefinition": {
-      "key": "work_alert_definition_id",
-      "profile": "SMProfile-WorkAlertDefinition",
-      "category": "business",
-      "parentType": null,
-      "abstract": false,
-      "source": "standard/profiles/operations/work-alert-definition.json"
-    },
-    "WorkAlert": {
-      "key": "work_alert_id",
-      "profile": "SMProfile-WorkAlert",
-      "category": "business",
-      "parentType": null,
-      "abstract": false,
-      "source": "standard/profiles/operations/work-alert.json"
-    },
     "WorkCalendarDefinitionEntry": {
       "key": "work_calendar_definition_entry_id",
       "profile": "SMProfile-WorkCalendarDefinitionEntry",
@@ -767,22 +703,6 @@
       "abstract": false,
       "source": "standard/profiles/quality/spcanalysis.json"
     },
-    "TestResult": {
-      "key": "test_result_id",
-      "profile": "SMProfile-TestResult",
-      "category": "quality",
-      "parentType": null,
-      "abstract": false,
-      "source": "standard/profiles/quality/test-result.json"
-    },
-    "TestSpecificationCriterion": {
-      "key": "criterion_id",
-      "profile": "SMProfile-TestSpecificationCriterion",
-      "category": "quality",
-      "parentType": null,
-      "abstract": false,
-      "source": "standard/profiles/quality/test-specification-criterion.json"
-    },
     "TestSpecification": {
       "key": "test_specification_id",
       "profile": "SMProfile-TestSpecification",
@@ -877,7 +797,7 @@
       "type": "FOR_PHYSICAL_ASSET",
       "from": "BatchEvent",
       "to": [
-        "Tooling"
+        "Tool"
       ],
       "targetIdProp": [
         "tool_id"
@@ -993,7 +913,7 @@
       "type": "FOR_PHYSICAL_ASSET",
       "from": "BatchProductionRecord",
       "to": [
-        "Tooling"
+        "Tool"
       ],
       "targetIdProp": [
         "tool_id"
@@ -1194,6 +1114,16 @@
       ]
     },
     {
+      "type": "IMPLEMENTED_BY",
+      "from": "InjectionMoldingMachine",
+      "to": [
+        "Tool"
+      ],
+      "targetIdProp": [
+        "tool_id"
+      ]
+    },
+    {
       "type": "PART_OF",
       "from": "InspectionLot",
       "to": [
@@ -1207,14 +1137,10 @@
       "type": "TESTS",
       "from": "InspectionLot",
       "to": [
-        "Article",
-        "MaterialLot",
-        "Quant"
+        "Article"
       ],
       "targetIdProp": [
-        "article_no",
-        "material_lot_no",
-        "quant_no"
+        "article_no"
       ]
     },
     {
@@ -1308,7 +1234,7 @@
       "from": "JobOrder",
       "to": [
         "PhysicalAssetClass",
-        "Tooling"
+        "Tool"
       ],
       "targetIdProp": [
         "physical_asset_class_id",
@@ -1370,7 +1296,7 @@
       "from": "JobResponse",
       "to": [
         "PhysicalAssetClass",
-        "Tooling"
+        "Tool"
       ],
       "targetIdProp": [
         "physical_asset_class_id",
@@ -1421,12 +1347,10 @@
       "type": "HAS_TEST_RESULT",
       "from": "JobResponse",
       "to": [
-        "InspectionLot",
-        "TestResult"
+        "InspectionLot"
       ],
       "targetIdProp": [
-        "lot_no",
-        "test_result_id"
+        "lot_no"
       ]
     },
     {
@@ -1489,7 +1413,7 @@
       "type": "PART_OF",
       "from": "Machine",
       "to": [
-        "WorkCenter"
+        "ProcessCell"
       ]
     },
     {
@@ -1693,7 +1617,7 @@
       "from": "OperationsCapability",
       "to": [
         "PhysicalAssetClass",
-        "Tooling"
+        "Tool"
       ],
       "targetIdProp": [
         "physical_asset_class_id",
@@ -2033,7 +1957,7 @@
       "from": "OperationsSegment",
       "to": [
         "PhysicalAssetClass",
-        "Tooling"
+        "Tool"
       ],
       "targetIdProp": [
         "physical_asset_class_id",
@@ -2243,7 +2167,7 @@
       "from": "ProcessSegment",
       "to": [
         "PhysicalAssetClass",
-        "Tooling"
+        "Tool"
       ],
       "targetIdProp": [
         "physical_asset_class_id",
@@ -2561,7 +2485,7 @@
       "from": "SegmentRequirement",
       "to": [
         "PhysicalAssetClass",
-        "Tooling"
+        "Tool"
       ],
       "targetIdProp": [
         "physical_asset_class_id",
@@ -2623,7 +2547,7 @@
       "from": "SegmentResponse",
       "to": [
         "PhysicalAssetClass",
-        "Tooling"
+        "Tool"
       ],
       "targetIdProp": [
         "physical_asset_class_id",
@@ -2676,12 +2600,10 @@
       "type": "HAS_TEST_RESULT",
       "from": "SegmentResponse",
       "to": [
-        "InspectionLot",
-        "TestResult"
+        "InspectionLot"
       ],
       "targetIdProp": [
-        "lot_no",
-        "test_result_id"
+        "lot_no"
       ]
     },
     {
@@ -2759,34 +2681,6 @@
     },
     {
       "type": "PART_OF",
-      "from": "TestResult",
-      "to": [
-        "TestResult"
-      ],
-      "targetIdProp": [
-        "test_result_id"
-      ]
-    },
-    {
-      "type": "TESTS",
-      "from": "TestResult",
-      "to": [
-        "Machine",
-        "MaterialLot",
-        "Person",
-        "Quant",
-        "Tooling"
-      ],
-      "targetIdProp": [
-        "element_id",
-        "material_lot_no",
-        "person_id",
-        "quant_no",
-        "tool_id"
-      ]
-    },
-    {
-      "type": "PART_OF",
       "from": "TestSpecification",
       "to": [
         "TestSpecification"
@@ -2808,7 +2702,7 @@
         "Person",
         "PersonnelClass",
         "ProcessSegment",
-        "Tooling",
+        "Tool",
         "WorkMaster"
       ],
       "targetIdProp": [
@@ -2827,7 +2721,7 @@
     },
     {
       "type": "AT_LOCATION",
-      "from": "Tooling",
+      "from": "Tool",
       "to": [
         "StorageLocation"
       ],
@@ -2837,7 +2731,7 @@
     },
     {
       "type": "DEFINED_BY",
-      "from": "Tooling",
+      "from": "Tool",
       "to": [
         "PhysicalAssetClass"
       ],
@@ -2846,10 +2740,20 @@
       ]
     },
     {
-      "type": "PART_OF",
-      "from": "Tooling",
+      "type": "IMPLEMENTATION_OF",
+      "from": "Tool",
       "to": [
-        "Tooling"
+        "Machine"
+      ],
+      "targetIdProp": [
+        "element_id"
+      ]
+    },
+    {
+      "type": "PART_OF",
+      "from": "Tool",
+      "to": [
+        "Tool"
       ],
       "targetIdProp": [
         "tool_id"
@@ -2857,7 +2761,7 @@
     },
     {
       "type": "TESTED_BY",
-      "from": "Tooling",
+      "from": "Tool",
       "to": [
         "TestSpecification"
       ],
@@ -2990,7 +2894,7 @@
       "from": "WorkCapability",
       "to": [
         "PhysicalAssetClass",
-        "Tooling"
+        "Tool"
       ],
       "targetIdProp": [
         "physical_asset_class_id",
@@ -3110,7 +3014,7 @@
       "from": "WorkDirective",
       "to": [
         "PhysicalAssetClass",
-        "Tooling"
+        "Tool"
       ],
       "targetIdProp": [
         "physical_asset_class_id",
@@ -3318,7 +3222,7 @@
       "from": "WorkMasterCapability",
       "to": [
         "PhysicalAssetClass",
-        "Tooling"
+        "Tool"
       ],
       "targetIdProp": [
         "physical_asset_class_id",
@@ -3456,7 +3360,7 @@
       "from": "WorkMaster",
       "to": [
         "PhysicalAssetClass",
-        "Tooling"
+        "Tool"
       ],
       "targetIdProp": [
         "physical_asset_class_id",
@@ -3702,7 +3606,9 @@
   },
   "treeTargets": {
     "_comment": "Relationship targets that are equipment levels of the instance tree (instance-schema equipmentLevel): the edge resolves through the partOf chain of sites/<site>/instances, no targetIdProp (resolvedBy: instances).",
-    "entries": []
+    "entries": [
+      "Machine -[PART_OF]-> ProcessCell"
+    ]
   },
   "aliases": {
     "_comment": "Observed non-conformant vocabulary (agent-conformance test 2026-07-09) -> conformant repo form. Never write the left side. Note: RESPONDS_TO, TRIGGERS, FOR_* ARE conformant repo vocabulary (see edges); ON_MACHINE and EXECUTED_AT are retired (only ISA-95 edges).",
@@ -3807,6 +3713,12 @@
         "since": "2.0.0"
       },
       {
+        "alias": "SET_UP_ON",
+        "from": "Tool",
+        "type": "IMPLEMENTATION_OF",
+        "since": "2.0.0"
+      },
+      {
         "alias": "USED_EQUIPMENT",
         "from": "SegmentResponse",
         "type": "ACTUAL_EQUIPMENT",
@@ -3816,6 +3728,12 @@
         "alias": "USES_EQUIPMENT",
         "from": "SegmentRequirement",
         "type": "REQUIRES_EQUIPMENT",
+        "since": "2.0.0"
+      },
+      {
+        "alias": "USES_TOOL",
+        "from": "InjectionMoldingMachine",
+        "type": "IMPLEMENTED_BY",
         "since": "2.0.0"
       }
     ]
