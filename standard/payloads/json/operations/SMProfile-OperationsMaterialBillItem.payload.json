@@ -2,13 +2,13 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-OperationsMaterialBillItem.payload.json",
   "title": "SMProfile-OperationsMaterialBillItem payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/operations/operations-material-bill-item.json 1.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/operations/operations-material-bill-item.json 2.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-OperationsMaterialBillItem",
-  "x-profileVersion": "1.0.0",
+  "x-profileVersion": "2.0.0",
   "x-payloadVersion": "1.1.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
-    "transactional": "business.{enterprise}.{sourceId}.{entity}.{eventType}.{id}"
+    "transactional": "business.{enterprise}.{site}.{entity}.{sourceId}.{eventType}.{id}"
   },
   "allOf": [
     {
@@ -59,10 +59,20 @@
         },
         "assembly_type": {
           "type": "string",
+          "enum": [
+            "Physical",
+            "Logical",
+            "Other"
+          ],
           "description": "ISA-95 OperationsMaterialBillItem.AssemblyType."
         },
         "assembly_relationship": {
           "type": "string",
+          "enum": [
+            "Permanent",
+            "Transient",
+            "Other"
+          ],
           "description": "ISA-95 OperationsMaterialBillItem.AssemblyRelationship."
         },
         "hierarchy_scope_ref": {

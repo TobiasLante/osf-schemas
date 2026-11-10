@@ -1,8 +1,14 @@
 {
   "type": "record",
   "name": "JobOrder",
+  "x-kafka": {
+    "contract": "JobOrder",
+    "key": "job_order_no",
+    "topic": "<prefix>.{site}.JobOrder",
+    "strategy": "TopicNameStrategy"
+  },
   "namespace": "org.openshopfloor.payload.operations",
-  "doc": "GENERATED from standard/profiles/operations/job-order.json 3.2.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "doc": "GENERATED from standard/profiles/operations/job-order.json 4.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
   "fields": [
     {
       "name": "eventType",
@@ -36,7 +42,7 @@
     {
       "name": "msgId",
       "type": "string",
-      "doc": "Unique message id: the Kafka key, for deduplication."
+      "doc": "Unique message id: the Nats-Msg-Id, for deduplication. The Kafka key is the entity's key, job_order_no (x-kafka)."
     },
     {
       "name": "profileRef",
@@ -46,7 +52,7 @@
     {
       "name": "profileVersion",
       "type": "string",
-      "default": "3.2.0"
+      "default": "4.0.0"
     },
     {
       "name": "b2m",
@@ -264,6 +270,15 @@
             ],
             "default": null,
             "doc": "The TestSpecification (TESTED_BY; ISA-95 JobOrder → TestSpecification). Optional."
+          },
+          {
+            "name": "work_type",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "ISA-95 work type (B2MML WorkType, the OperationsType code list; Part 4; audit M1). A source without the column sets the constant of the profile's momDomain (columnMappings const)."
           }
         ]
       }
