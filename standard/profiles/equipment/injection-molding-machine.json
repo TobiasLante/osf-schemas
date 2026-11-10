@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-InjectionMoldingMachine",
-  "version": "5.0.0",
+  "version": "5.1.0",
   "standard": "CarToUNS",
   "category": "machine",
   "displayName": "Injection Molding Machine",
@@ -723,13 +723,14 @@
     },
     {
       "name": "equipment_hotrunner_temp_envelope",
-      "description": "Equipment / asset-per-se: hot-runner temperature must stay within the machine's safe operating envelope, independent of the running recipe. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, constraints › equipment_hotrunner_temp_envelope › description.",
+      "description": "Machine protection: Act_Temp_Hotrunner within the machine's limit capability:hotrunner_temp (its settings), else the class default — product-independent; owner 10.11.2026.",
       "require": {
         "attr": "Act_Temp_Hotrunner",
         "op": "between",
-        "value": [
-          180,
-          310
+        "valueFrom": "capability:hotrunner_temp",
+        "default": [
+          20,
+          400
         ]
       },
       "severity": "warning",
@@ -748,12 +749,12 @@
       "mom_category": "maintenance",
       "accountable_role": "Maintenance",
       "deviation_class": "equipment",
-      "since": "2026-06-19",
+      "since": "6.1.0",
       "impact_basis": "HK"
     },
     {
       "name": "equipment_peak_pressure_limit",
-      "description": "Equipment / asset-per-se: peak injection pressure must stay below the machine's safe mechanical/hydraulic limit during the active cycle, independent of the … Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, constraints › equipment_peak_pressure_limit › description.",
+      "description": "Machine protection: Act_Pressure_Peak within the machine's limit capability:peak_pressure (its settings), else the class default — product-independent; owner 10.11.2026.",
       "when": {
         "attr": "Act_State_InCycle",
         "op": "eq",
@@ -762,9 +763,10 @@
       "require": {
         "attr": "Act_Pressure_Peak",
         "op": "between",
-        "value": [
+        "valueFrom": "capability:peak_pressure",
+        "default": [
           0,
-          1000
+          2200
         ]
       },
       "severity": "error",
@@ -783,7 +785,7 @@
       "mom_category": "maintenance",
       "accountable_role": "Maintenance",
       "deviation_class": "equipment",
-      "since": "2026-06-19",
+      "since": "6.1.0",
       "impact_basis": "HK"
     },
     {
@@ -847,13 +849,14 @@
     },
     {
       "name": "equipment_mould_temp_envelope",
-      "description": "Equipment / asset-per-se (ASSUMED machine-spec default): mould temperature must stay within the machine cooling/heating envelope [15,120] degC. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, constraints › equipment_mould_temp_envelope › description.",
+      "description": "Machine protection: Act_Temp_Mould within the machine's limit capability:mould_temp (its settings), else the class default — product-independent; owner 10.11.2026.",
       "require": {
         "attr": "Act_Temp_Mould",
         "op": "between",
-        "value": [
-          15,
-          120
+        "valueFrom": "capability:mould_temp",
+        "default": [
+          10,
+          140
         ]
       },
       "severity": "warning",
@@ -872,18 +875,19 @@
       "mom_category": "maintenance",
       "accountable_role": "Maintenance",
       "deviation_class": "equipment",
-      "since": "2026-06-25",
+      "since": "6.1.0",
       "impact_basis": "HK"
     },
     {
       "name": "equipment_dryer_temp_envelope",
-      "description": "Equipment / asset-per-se (ASSUMED machine-spec default): resin dryer temperature must stay within [60,130] degC. Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, constraints › equipment_dryer_temp_envelope › description.",
+      "description": "Machine protection: Act_Temp_Dryer within the machine's limit capability:dryer_temp (its settings), else the class default — product-independent; owner 10.11.2026.",
       "require": {
         "attr": "Act_Temp_Dryer",
         "op": "between",
-        "value": [
-          60,
-          130
+        "valueFrom": "capability:dryer_temp",
+        "default": [
+          40,
+          160
         ]
       },
       "severity": "warning",
@@ -902,7 +906,7 @@
       "mom_category": "maintenance",
       "accountable_role": "Maintenance",
       "deviation_class": "equipment",
-      "since": "2026-06-25",
+      "since": "6.1.0",
       "impact_basis": "HK"
     },
     {
@@ -929,20 +933,11 @@
     },
     {
       "name": "mould_temp_control_limits",
-      "description": "Control limits (warning and action limits) for mould temperature: warn band [82,88], action band [78,92] degC; both inside the equipment envelope [15,120] … Full text: docs/history/standard/profiles/equipment/injection-molding-machine.md, constraints › mould_temp_control_limits › description.",
+      "description": "Product band of the mould temperature with warn/action limits — from the article's recipe or the machine's default recipe (moved off the class, owner 10.11.2026).",
       "require": {
         "attr": "Act_Temp_Mould",
         "op": "within_limits",
-        "limits": {
-          "warn": [
-            82,
-            88
-          ],
-          "action": [
-            78,
-            92
-          ]
-        }
+        "valueFrom": "recipe:mould_temp_control_limits"
       },
       "severity": "warning",
       "discrepancyClass": "control_limit",
@@ -960,7 +955,7 @@
       "mom_category": "quality",
       "accountable_role": "Process Engineering",
       "deviation_class": "recipe",
-      "since": "2026-06-25",
+      "since": "6.1.0",
       "impact_basis": "HK"
     },
     {
@@ -1354,119 +1349,343 @@
       "deviation_class": "recipe",
       "since": "2026-09-20",
       "impact_basis": "HK"
+    },
+    {
+      "name": "equipment_barrel_zone1_temp_limit",
+      "description": "Machine protection: Act_Temp_BarrelZone1 within the machine's limit capability:barrel_zone1_temp (its settings), else the class default — product-independent; owner 10.11.2026.",
+      "when": {
+        "attr": "Act_State_InCycle",
+        "op": "eq",
+        "value": true
+      },
+      "require": {
+        "attr": "Act_Temp_BarrelZone1",
+        "op": "between",
+        "valueFrom": "capability:barrel_zone1_temp",
+        "default": [
+          20,
+          400
+        ]
+      },
+      "severity": "error",
+      "discrepancyClass": "constraint",
+      "persistence": {
+        "raise": {
+          "k": 2,
+          "of": 3
+        },
+        "clear": {
+          "deadband_pct": 0.15,
+          "consecutive": 3
+        }
+      },
+      "concern": "operations",
+      "mom_category": "maintenance",
+      "accountable_role": "Maintenance",
+      "deviation_class": "equipment",
+      "since": "6.1.0",
+      "impact_basis": "HK"
+    },
+    {
+      "name": "equipment_barrel_zone2_temp_limit",
+      "description": "Machine protection: Act_Temp_BarrelZone2 within the machine's limit capability:barrel_zone2_temp (its settings), else the class default — product-independent; owner 10.11.2026.",
+      "when": {
+        "attr": "Act_State_InCycle",
+        "op": "eq",
+        "value": true
+      },
+      "require": {
+        "attr": "Act_Temp_BarrelZone2",
+        "op": "between",
+        "valueFrom": "capability:barrel_zone2_temp",
+        "default": [
+          20,
+          400
+        ]
+      },
+      "severity": "error",
+      "discrepancyClass": "constraint",
+      "persistence": {
+        "raise": {
+          "k": 2,
+          "of": 3
+        },
+        "clear": {
+          "deadband_pct": 0.15,
+          "consecutive": 3
+        }
+      },
+      "concern": "operations",
+      "mom_category": "maintenance",
+      "accountable_role": "Maintenance",
+      "deviation_class": "equipment",
+      "since": "6.1.0",
+      "impact_basis": "HK"
+    },
+    {
+      "name": "equipment_barrel_zone3_temp_limit",
+      "description": "Machine protection: Act_Temp_BarrelZone3 within the machine's limit capability:barrel_zone3_temp (its settings), else the class default — product-independent; owner 10.11.2026.",
+      "when": {
+        "attr": "Act_State_InCycle",
+        "op": "eq",
+        "value": true
+      },
+      "require": {
+        "attr": "Act_Temp_BarrelZone3",
+        "op": "between",
+        "valueFrom": "capability:barrel_zone3_temp",
+        "default": [
+          20,
+          400
+        ]
+      },
+      "severity": "error",
+      "discrepancyClass": "constraint",
+      "persistence": {
+        "raise": {
+          "k": 2,
+          "of": 3
+        },
+        "clear": {
+          "deadband_pct": 0.15,
+          "consecutive": 3
+        }
+      },
+      "concern": "operations",
+      "mom_category": "maintenance",
+      "accountable_role": "Maintenance",
+      "deviation_class": "equipment",
+      "since": "6.1.0",
+      "impact_basis": "HK"
+    },
+    {
+      "name": "equipment_barrel_zone4_temp_limit",
+      "description": "Machine protection: Act_Temp_BarrelZone4 within the machine's limit capability:barrel_zone4_temp (its settings), else the class default — product-independent; owner 10.11.2026.",
+      "when": {
+        "attr": "Act_State_InCycle",
+        "op": "eq",
+        "value": true
+      },
+      "require": {
+        "attr": "Act_Temp_BarrelZone4",
+        "op": "between",
+        "valueFrom": "capability:barrel_zone4_temp",
+        "default": [
+          20,
+          400
+        ]
+      },
+      "severity": "error",
+      "discrepancyClass": "constraint",
+      "persistence": {
+        "raise": {
+          "k": 2,
+          "of": 3
+        },
+        "clear": {
+          "deadband_pct": 0.15,
+          "consecutive": 3
+        }
+      },
+      "concern": "operations",
+      "mom_category": "maintenance",
+      "accountable_role": "Maintenance",
+      "deviation_class": "equipment",
+      "since": "6.1.0",
+      "impact_basis": "HK"
+    },
+    {
+      "name": "equipment_melt_temp_limit",
+      "description": "Machine protection: Act_Temp_Nozzle within the machine's limit capability:melt_temp (its settings), else the class default — product-independent; owner 10.11.2026.",
+      "when": {
+        "attr": "Act_State_InCycle",
+        "op": "eq",
+        "value": true
+      },
+      "require": {
+        "attr": "Act_Temp_Nozzle",
+        "op": "between",
+        "valueFrom": "capability:melt_temp",
+        "default": [
+          20,
+          400
+        ]
+      },
+      "severity": "error",
+      "discrepancyClass": "constraint",
+      "persistence": {
+        "raise": {
+          "k": 2,
+          "of": 3
+        },
+        "clear": {
+          "deadband_pct": 0.15,
+          "consecutive": 3
+        }
+      },
+      "concern": "operations",
+      "mom_category": "maintenance",
+      "accountable_role": "Maintenance",
+      "deviation_class": "equipment",
+      "since": "6.1.0",
+      "impact_basis": "HK"
+    },
+    {
+      "name": "equipment_injection_speed_limit",
+      "description": "Machine protection: Act_Speed_Injection within the machine's limit capability:injection_speed (its settings), else the class default — product-independent; owner 10.11.2026.",
+      "when": {
+        "attr": "Act_State_InCycle",
+        "op": "eq",
+        "value": true
+      },
+      "require": {
+        "attr": "Act_Speed_Injection",
+        "op": "between",
+        "valueFrom": "capability:injection_speed",
+        "default": [
+          0,
+          300
+        ]
+      },
+      "severity": "error",
+      "discrepancyClass": "constraint",
+      "persistence": {
+        "raise": {
+          "k": 2,
+          "of": 3
+        },
+        "clear": {
+          "deadband_pct": 0.15,
+          "consecutive": 3
+        }
+      },
+      "concern": "operations",
+      "mom_category": "maintenance",
+      "accountable_role": "Maintenance",
+      "deviation_class": "equipment",
+      "since": "6.1.0",
+      "impact_basis": "HK"
+    },
+    {
+      "name": "equipment_back_pressure_limit",
+      "description": "Machine protection: Act_Pressure_Back within the machine's limit capability:back_pressure (its settings), else the class default — product-independent; owner 10.11.2026.",
+      "when": {
+        "attr": "Act_State_InCycle",
+        "op": "eq",
+        "value": true
+      },
+      "require": {
+        "attr": "Act_Pressure_Back",
+        "op": "between",
+        "valueFrom": "capability:back_pressure",
+        "default": [
+          0,
+          300
+        ]
+      },
+      "severity": "error",
+      "discrepancyClass": "constraint",
+      "persistence": {
+        "raise": {
+          "k": 2,
+          "of": 3
+        },
+        "clear": {
+          "deadband_pct": 0.15,
+          "consecutive": 3
+        }
+      },
+      "concern": "operations",
+      "mom_category": "maintenance",
+      "accountable_role": "Maintenance",
+      "deviation_class": "equipment",
+      "since": "6.1.0",
+      "impact_basis": "HK"
+    },
+    {
+      "name": "equipment_cooling_flow_limit",
+      "description": "Machine protection: Act_Rate_CoolingFlow within the machine's limit capability:cooling_flow (its settings), else the class default — product-independent; owner 10.11.2026.",
+      "when": {
+        "attr": "Act_State_InCycle",
+        "op": "eq",
+        "value": true
+      },
+      "require": {
+        "attr": "Act_Rate_CoolingFlow",
+        "op": "between",
+        "valueFrom": "capability:cooling_flow",
+        "default": [
+          0,
+          80
+        ]
+      },
+      "severity": "error",
+      "discrepancyClass": "constraint",
+      "persistence": {
+        "raise": {
+          "k": 2,
+          "of": 3
+        },
+        "clear": {
+          "deadband_pct": 0.15,
+          "consecutive": 3
+        }
+      },
+      "concern": "operations",
+      "mom_category": "maintenance",
+      "accountable_role": "Maintenance",
+      "deviation_class": "equipment",
+      "since": "6.1.0",
+      "impact_basis": "HK"
     }
   ],
   "settings": [
     {
-      "ref": "recipe:back_pressure_band",
+      "ref": "capability:barrel_zone1_temp",
       "shape": "band"
     },
     {
-      "ref": "recipe:barrel_zone1_control_limits",
-      "shape": "limits"
-    },
-    {
-      "ref": "recipe:barrel_zone1_temp_band",
+      "ref": "capability:barrel_zone2_temp",
       "shape": "band"
     },
     {
-      "ref": "recipe:barrel_zone2_control_limits",
-      "shape": "limits"
-    },
-    {
-      "ref": "recipe:barrel_zone2_temp_band",
+      "ref": "capability:barrel_zone3_temp",
       "shape": "band"
     },
     {
-      "ref": "recipe:barrel_zone3_control_limits",
-      "shape": "limits"
-    },
-    {
-      "ref": "recipe:barrel_zone3_temp_band",
+      "ref": "capability:barrel_zone4_temp",
       "shape": "band"
     },
     {
-      "ref": "recipe:barrel_zone4_control_limits",
-      "shape": "limits"
-    },
-    {
-      "ref": "recipe:barrel_zone4_temp_band",
+      "ref": "capability:hotrunner_temp",
       "shape": "band"
     },
     {
-      "ref": "recipe:cavity_pressure_bar_band",
+      "ref": "capability:melt_temp",
       "shape": "band"
     },
     {
-      "ref": "recipe:colour_masterbatch_pct_band",
+      "ref": "capability:mould_temp",
       "shape": "band"
     },
     {
-      "ref": "recipe:cooling_flow_band",
+      "ref": "capability:injection_speed",
       "shape": "band"
     },
     {
-      "ref": "recipe:cushion_band",
+      "ref": "capability:back_pressure",
       "shape": "band"
     },
     {
-      "ref": "recipe:cycle_time_band",
+      "ref": "capability:cooling_flow",
       "shape": "band"
     },
     {
-      "ref": "recipe:dryer_residence_min_band",
+      "ref": "capability:peak_pressure",
       "shape": "band"
     },
     {
-      "ref": "recipe:dryer_temp_c_band",
-      "shape": "band"
-    },
-    {
-      "ref": "recipe:hold_pressure_band",
-      "shape": "band"
-    },
-    {
-      "ref": "recipe:hotrunner_control_limits",
-      "shape": "limits"
-    },
-    {
-      "ref": "recipe:hotrunner_temp_band",
-      "shape": "band"
-    },
-    {
-      "ref": "recipe:injection_speed_band",
-      "shape": "band"
-    },
-    {
-      "ref": "recipe:melt_temp_band",
-      "shape": "band"
-    },
-    {
-      "ref": "recipe:mould_temp_band",
-      "shape": "band"
-    },
-    {
-      "ref": "recipe:mould_temp_control_limits",
-      "shape": "limits"
-    },
-    {
-      "ref": "recipe:part_mass_band",
-      "shape": "band"
-    },
-    {
-      "ref": "recipe:peak_pressure_band",
-      "shape": "band"
-    },
-    {
-      "ref": "recipe:power_kw_band",
-      "shape": "band"
-    },
-    {
-      "ref": "recipe:regrind_ratio_pct_band",
-      "shape": "band"
-    },
-    {
-      "ref": "recipe:shot_volume_cm3_band",
+      "ref": "capability:dryer_temp",
       "shape": "band"
     }
   ],

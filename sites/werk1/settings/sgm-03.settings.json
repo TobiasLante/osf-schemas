@@ -2,67 +2,59 @@
   "settingsId": "SETTINGS-sgm-03",
   "instanceRef": "sgm-03",
   "class": "SMProfile-InjectionMoldingMachine",
-  "version": "1.0.0",
+  "equipment_class_ref": "SGM-1300",
+  "version": "2.0.0",
   "owner": "Maintenance",
-  "displayName": "sgm-03 machine settings",
-  "description": "Capability envelope of sgm-03 (Arburg Allrounder 520A, 1300 kN, all-electric), derived from the sim's machine master (0.7.0, owner 29.10.2026) — typical ranges of the class, process_estimate; no setup band.",
+  "displayName": "sgm-03 machine limits",
+  "description": "Machine limits (capability). Derived: temperatures, speed and pressures from the sim machine master; peak pressure and dryer from vendor data of the model class (owner 10.11.2026: limits only in git). Product bands live in recipes.",
   "values": {
-    "recipe:barrel_zone1_temp_band": [
+    "capability:barrel_zone1_temp": [
       20,
       400
     ],
-    "recipe:barrel_zone2_temp_band": [
+    "capability:barrel_zone2_temp": [
       20,
       400
     ],
-    "recipe:barrel_zone3_temp_band": [
+    "capability:barrel_zone3_temp": [
       20,
       400
     ],
-    "recipe:barrel_zone4_temp_band": [
+    "capability:barrel_zone4_temp": [
       20,
       400
     ],
-    "recipe:hotrunner_temp_band": [
+    "capability:hotrunner_temp": [
       20,
       400
     ],
-    "recipe:melt_temp_band": [
+    "capability:melt_temp": [
       20,
       400
     ],
-    "recipe:mould_temp_band": [
+    "capability:mould_temp": [
       10,
       140
     ],
-    "recipe:injection_speed_band": [
+    "capability:injection_speed": [
       0,
       300
     ],
-    "recipe:back_pressure_band": [
+    "capability:back_pressure": [
       0,
       300
     ],
-    "recipe:cooling_flow_band": [
+    "capability:cooling_flow": [
       0,
       40
     ],
-    "recipe:cycle_time_band": [
-      1.5,
-      600
+    "capability:peak_pressure": [
+      0,
+      2200
+    ],
+    "capability:dryer_temp": [
+      40,
+      160
     ]
-  },
-  "toleranceSource": {
-    "recipe:barrel_zone1_temp_band": "process_estimate",
-    "recipe:barrel_zone2_temp_band": "process_estimate",
-    "recipe:barrel_zone3_temp_band": "process_estimate",
-    "recipe:barrel_zone4_temp_band": "process_estimate",
-    "recipe:hotrunner_temp_band": "process_estimate",
-    "recipe:melt_temp_band": "process_estimate",
-    "recipe:mould_temp_band": "process_estimate",
-    "recipe:injection_speed_band": "process_estimate",
-    "recipe:back_pressure_band": "process_estimate",
-    "recipe:cooling_flow_band": "process_estimate",
-    "recipe:cycle_time_band": "process_estimate"
   }
 }

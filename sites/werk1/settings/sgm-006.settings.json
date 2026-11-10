@@ -2,546 +2,59 @@
   "settingsId": "SETTINGS-sgm-006",
   "instanceRef": "sgm-006",
   "class": "SMProfile-InjectionMoldingMachine",
-  "version": "1.1.0",
+  "equipment_class_ref": "SGM-1300",
+  "version": "2.0.0",
   "owner": "Maintenance",
-  "displayName": "sgm-006 machine settings",
-  "description": "Machine setting bands of sgm-006 (per instance, independent of any recipe; the class declares which settings exist). Moved from recipe-sgm-006-default.json (W8-RECIPE); history: docs/history/sites/werk1/settings/sgm-006.settings.md.",
+  "displayName": "sgm-006 machine limits",
+  "description": "Machine limits (capability). Derived: temperatures, speed and pressures from the sim machine master; peak pressure and dryer from vendor data of the model class (owner 10.11.2026: limits only in git). Product bands live in recipes.",
   "values": {
-    "recipe:hotrunner_temp_band": [
-      218.5,
-      231.5
+    "capability:barrel_zone1_temp": [
+      20,
+      400
     ],
-    "recipe:hotrunner_control_limits": {
-      "warn": [
-        221.5,
-        228.5
-      ],
-      "action": [
-        218.5,
-        231.5
-      ]
-    },
-    "recipe:mould_temp_band": [
-      80,
-      90
+    "capability:barrel_zone2_temp": [
+      20,
+      400
     ],
-    "recipe:mould_temp_control_limits": {
-      "warn": [
-        82,
-        88
-      ],
-      "action": [
-        80,
-        90
-      ]
-    },
-    "recipe:melt_temp_band": [
-      218.5,
-      231.5
+    "capability:barrel_zone3_temp": [
+      20,
+      400
     ],
-    "recipe:injection_speed_band": [
-      53.07,
-      66.93
+    "capability:barrel_zone4_temp": [
+      20,
+      400
     ],
-    "recipe:back_pressure_band": [
-      76.91,
-      123.09
+    "capability:hotrunner_temp": [
+      20,
+      400
     ],
-    "recipe:cooling_flow_band": [
-      19.8,
-      24.2
+    "capability:melt_temp": [
+      20,
+      400
     ],
-    "recipe:cycle_time_band": [
-      20.7,
-      25.3
+    "capability:mould_temp": [
+      10,
+      140
     ],
-    "recipe:barrel_zone1_temp_band": [
-      188.5,
-      201.5
+    "capability:injection_speed": [
+      0,
+      300
     ],
-    "recipe:barrel_zone1_control_limits": {
-      "warn": [
-        191.75,
-        198.25
-      ],
-      "action": [
-        188.5,
-        201.5
-      ]
-    },
-    "recipe:barrel_zone2_temp_band": [
-      198.5,
-      211.5
+    "capability:back_pressure": [
+      0,
+      300
     ],
-    "recipe:barrel_zone2_control_limits": {
-      "warn": [
-        201.75,
-        208.25
-      ],
-      "action": [
-        198.5,
-        211.5
-      ]
-    },
-    "recipe:barrel_zone3_temp_band": [
-      208.5,
-      221.5
+    "capability:cooling_flow": [
+      0,
+      40
     ],
-    "recipe:barrel_zone3_control_limits": {
-      "warn": [
-        211.75,
-        218.25
-      ],
-      "action": [
-        208.5,
-        221.5
-      ]
-    },
-    "recipe:barrel_zone4_temp_band": [
-      213.5,
-      226.5
+    "capability:peak_pressure": [
+      0,
+      2200
     ],
-    "recipe:barrel_zone4_control_limits": {
-      "warn": [
-        216.75,
-        223.25
-      ],
-      "action": [
-        213.5,
-        226.5
-      ]
-    }
-  },
-  "toleranceSource": {
-    "recipe:hotrunner_temp_band": "process_estimate",
-    "recipe:hotrunner_control_limits": "process_estimate",
-    "recipe:mould_temp_band": "norm",
-    "recipe:mould_temp_control_limits": "process_estimate",
-    "recipe:melt_temp_band": "process_estimate",
-    "recipe:injection_speed_band": "process_estimate",
-    "recipe:back_pressure_band": "process_estimate",
-    "recipe:cooling_flow_band": "process_estimate",
-    "recipe:cycle_time_band": "process_estimate",
-    "recipe:barrel_zone1_temp_band": "process_estimate",
-    "recipe:barrel_zone1_control_limits": "process_estimate",
-    "recipe:barrel_zone2_temp_band": "process_estimate",
-    "recipe:barrel_zone2_control_limits": "process_estimate",
-    "recipe:barrel_zone3_temp_band": "process_estimate",
-    "recipe:barrel_zone3_control_limits": "process_estimate",
-    "recipe:barrel_zone4_temp_band": "process_estimate",
-    "recipe:barrel_zone4_control_limits": "process_estimate"
-  },
-  "capability": {
-    "recipe:hotrunner_temp_band": {
-      "cp_min": 1.33,
-      "ca_max": 0.125,
-      "max_stationarity_ratio": 2,
-      "population": {
-        "scope": "current_regime",
-        "regime_markers": {
-          "on_change": [
-            "tool_ref",
-            "Act_Ref_Resin"
-          ]
-        },
-        "min_sample_n": 1000
-      }
-    },
-    "recipe:hotrunner_control_limits": {
-      "cp_min": 1.33,
-      "ca_max": 0.125,
-      "max_stationarity_ratio": 2,
-      "population": {
-        "scope": "current_regime",
-        "regime_markers": {
-          "on_change": [
-            "tool_ref",
-            "Act_Ref_Resin"
-          ]
-        },
-        "min_sample_n": 1000
-      }
-    },
-    "recipe:mould_temp_band": {
-      "cp_min": 1.33,
-      "ca_max": 0.125,
-      "max_stationarity_ratio": 2,
-      "population": {
-        "scope": "current_regime",
-        "regime_markers": {
-          "on_change": [
-            "tool_ref",
-            "Act_Ref_Resin"
-          ],
-          "on_reset": [
-            "Act_Amount_Shot"
-          ]
-        },
-        "min_sample_n": 1000
-      }
-    },
-    "recipe:mould_temp_control_limits": {
-      "cp_min": 1.33,
-      "ca_max": 0.125,
-      "max_stationarity_ratio": 2,
-      "population": {
-        "scope": "current_regime",
-        "regime_markers": {
-          "on_change": [
-            "tool_ref",
-            "Act_Ref_Resin"
-          ],
-          "on_reset": [
-            "Act_Amount_Shot"
-          ]
-        },
-        "min_sample_n": 1000
-      }
-    },
-    "recipe:melt_temp_band": {
-      "cp_min": 1.33,
-      "ca_max": 0.125,
-      "max_stationarity_ratio": 2,
-      "population": {
-        "scope": "current_regime",
-        "regime_markers": {
-          "on_change": [
-            "tool_ref",
-            "Act_Ref_Resin"
-          ]
-        },
-        "min_sample_n": 1000
-      }
-    },
-    "recipe:injection_speed_band": {
-      "cp_min": 1.33,
-      "ca_max": 0.125,
-      "max_stationarity_ratio": 2,
-      "population": {
-        "scope": "current_regime",
-        "regime_markers": {
-          "on_change": [
-            "tool_ref",
-            "Act_Ref_Resin"
-          ]
-        },
-        "min_sample_n": 1000
-      }
-    },
-    "recipe:back_pressure_band": {
-      "cp_min": 1.33,
-      "ca_max": 0.125,
-      "max_stationarity_ratio": 2,
-      "population": {
-        "scope": "current_regime",
-        "regime_markers": {
-          "on_change": [
-            "tool_ref",
-            "Act_Ref_Resin"
-          ]
-        },
-        "min_sample_n": 1000
-      }
-    },
-    "recipe:cooling_flow_band": {
-      "cp_min": 1.33,
-      "ca_max": 0.125,
-      "max_stationarity_ratio": 2,
-      "population": {
-        "scope": "current_regime",
-        "regime_markers": {
-          "on_change": [
-            "tool_ref",
-            "Act_Ref_Resin"
-          ]
-        },
-        "min_sample_n": 1000
-      }
-    },
-    "recipe:cycle_time_band": {
-      "cp_min": 1.33,
-      "ca_max": 0.125,
-      "max_stationarity_ratio": 2,
-      "population": {
-        "scope": "current_regime",
-        "regime_markers": {
-          "on_change": [
-            "tool_ref",
-            "Act_Ref_Resin"
-          ]
-        },
-        "min_sample_n": 1000
-      }
-    },
-    "recipe:barrel_zone1_temp_band": {
-      "cp_min": 1.33,
-      "ca_max": 0.125,
-      "max_stationarity_ratio": 2,
-      "population": {
-        "scope": "current_regime",
-        "regime_markers": {
-          "on_change": [
-            "tool_ref",
-            "Act_Ref_Resin"
-          ]
-        },
-        "min_sample_n": 1000
-      }
-    },
-    "recipe:barrel_zone1_control_limits": {
-      "cp_min": 1.33,
-      "ca_max": 0.125,
-      "max_stationarity_ratio": 2,
-      "population": {
-        "scope": "current_regime",
-        "regime_markers": {
-          "on_change": [
-            "tool_ref",
-            "Act_Ref_Resin"
-          ]
-        },
-        "min_sample_n": 1000
-      }
-    },
-    "recipe:barrel_zone2_temp_band": {
-      "cp_min": 1.33,
-      "ca_max": 0.125,
-      "max_stationarity_ratio": 2,
-      "population": {
-        "scope": "current_regime",
-        "regime_markers": {
-          "on_change": [
-            "tool_ref",
-            "Act_Ref_Resin"
-          ]
-        },
-        "min_sample_n": 1000
-      }
-    },
-    "recipe:barrel_zone2_control_limits": {
-      "cp_min": 1.33,
-      "ca_max": 0.125,
-      "max_stationarity_ratio": 2,
-      "population": {
-        "scope": "current_regime",
-        "regime_markers": {
-          "on_change": [
-            "tool_ref",
-            "Act_Ref_Resin"
-          ]
-        },
-        "min_sample_n": 1000
-      }
-    },
-    "recipe:barrel_zone3_temp_band": {
-      "cp_min": 1.33,
-      "ca_max": 0.125,
-      "max_stationarity_ratio": 2,
-      "population": {
-        "scope": "current_regime",
-        "regime_markers": {
-          "on_change": [
-            "tool_ref",
-            "Act_Ref_Resin"
-          ]
-        },
-        "min_sample_n": 1000
-      }
-    },
-    "recipe:barrel_zone3_control_limits": {
-      "cp_min": 1.33,
-      "ca_max": 0.125,
-      "max_stationarity_ratio": 2,
-      "population": {
-        "scope": "current_regime",
-        "regime_markers": {
-          "on_change": [
-            "tool_ref",
-            "Act_Ref_Resin"
-          ]
-        },
-        "min_sample_n": 1000
-      }
-    },
-    "recipe:barrel_zone4_temp_band": {
-      "cp_min": 1.33,
-      "ca_max": 0.125,
-      "max_stationarity_ratio": 2,
-      "population": {
-        "scope": "current_regime",
-        "regime_markers": {
-          "on_change": [
-            "tool_ref",
-            "Act_Ref_Resin"
-          ]
-        },
-        "min_sample_n": 1000
-      }
-    },
-    "recipe:barrel_zone4_control_limits": {
-      "cp_min": 1.33,
-      "ca_max": 0.125,
-      "max_stationarity_ratio": 2,
-      "population": {
-        "scope": "current_regime",
-        "regime_markers": {
-          "on_change": [
-            "tool_ref",
-            "Act_Ref_Resin"
-          ]
-        },
-        "min_sample_n": 1000
-      }
-    }
-  },
-  "parameters": [
-    {
-      "param": "hotrunnerTempC",
-      "soll": 225,
-      "tolerance": [
-        218.5,
-        231.5
-      ],
-      "unit": "CEL",
-      "monitored": true,
-      "valueFrom": "recipe:hotrunner_temp_band",
-      "constraintId": "recipe_hotrunner_temp_band",
-      "smAttribute": "Act_Temp_Hotrunner"
-    },
-    {
-      "param": "mouldTempC",
-      "soll": 85,
-      "tolerance": [
-        80,
-        90
-      ],
-      "unit": "CEL",
-      "monitored": true,
-      "gate": "Act_State_InCycle==true",
-      "valueFrom": "recipe:mould_temp_band",
-      "constraintId": "recipe_mould_temp_band",
-      "smAttribute": "Act_Temp_Mould"
-    },
-    {
-      "param": "nozzleTempC",
-      "soll": 225,
-      "tolerance": [
-        218.5,
-        231.5
-      ],
-      "unit": "CEL",
-      "monitored": true,
-      "valueFrom": "recipe:melt_temp_band",
-      "constraintId": "recipe_melt_temp_band",
-      "smAttribute": "Act_Temp_Nozzle"
-    },
-    {
-      "param": "injectionSpeedMmPerSec",
-      "soll": 60,
-      "tolerance": [
-        53.07,
-        66.93
-      ],
-      "unit": "C16",
-      "monitored": true,
-      "gate": "Act_State_InCycle==true",
-      "valueFrom": "recipe:injection_speed_band",
-      "constraintId": "recipe_injection_speed_band",
-      "smAttribute": "Act_Speed_Injection"
-    },
-    {
-      "param": "backPressureBar",
-      "soll": 100,
-      "tolerance": [
-        76.91,
-        123.09
-      ],
-      "unit": "BAR",
-      "monitored": true,
-      "gate": "Act_State_InCycle==true",
-      "valueFrom": "recipe:back_pressure_band",
-      "constraintId": "recipe_back_pressure_band",
-      "smAttribute": "Act_Pressure_Back"
-    },
-    {
-      "param": "coolingFlowLMin",
-      "soll": 22,
-      "tolerance": [
-        19.8,
-        24.2
-      ],
-      "unit": "L2",
-      "monitored": true,
-      "gate": "Act_State_InCycle==true",
-      "valueFrom": "recipe:cooling_flow_band",
-      "constraintId": "recipe_cooling_flow_band",
-      "smAttribute": "Act_Rate_CoolingFlow"
-    },
-    {
-      "param": "cycleTimeSec",
-      "soll": 23,
-      "tolerance": [
-        20.7,
-        25.3
-      ],
-      "unit": "SEC",
-      "monitored": true,
-      "gate": "Act_State_InCycle==true",
-      "valueFrom": "recipe:cycle_time_band",
-      "constraintId": "recipe_cycle_time_band",
-      "smAttribute": "Act_Time_Cycle"
-    },
-    {
-      "param": "barrelZone1TempC",
-      "soll": 195,
-      "tolerance": [
-        188.5,
-        201.5
-      ],
-      "unit": "CEL",
-      "monitored": true,
-      "valueFrom": "recipe:barrel_zone1_temp_band",
-      "constraintId": "recipe_barrel_zone1_temp_band",
-      "smAttribute": "Act_Temp_BarrelZone1"
-    },
-    {
-      "param": "barrelZone2TempC",
-      "soll": 205,
-      "tolerance": [
-        198.5,
-        211.5
-      ],
-      "unit": "CEL",
-      "monitored": true,
-      "valueFrom": "recipe:barrel_zone2_temp_band",
-      "constraintId": "recipe_barrel_zone2_temp_band",
-      "smAttribute": "Act_Temp_BarrelZone2"
-    },
-    {
-      "param": "barrelZone3TempC",
-      "soll": 215,
-      "tolerance": [
-        208.5,
-        221.5
-      ],
-      "unit": "CEL",
-      "monitored": true,
-      "valueFrom": "recipe:barrel_zone3_temp_band",
-      "constraintId": "recipe_barrel_zone3_temp_band",
-      "smAttribute": "Act_Temp_BarrelZone3"
-    },
-    {
-      "param": "barrelZone4TempC",
-      "soll": 220,
-      "tolerance": [
-        213.5,
-        226.5
-      ],
-      "unit": "CEL",
-      "monitored": true,
-      "valueFrom": "recipe:barrel_zone4_temp_band",
-      "constraintId": "recipe_barrel_zone4_temp_band",
-      "smAttribute": "Act_Temp_BarrelZone4"
-    }
-  ]
+    "capability:dryer_temp": [
+      40,
+      160
+    ]
+  }
 }
