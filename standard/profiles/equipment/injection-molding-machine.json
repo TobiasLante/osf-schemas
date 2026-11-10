@@ -729,8 +729,8 @@
         "op": "between",
         "valueFrom": "capability:hotrunner_temp",
         "default": [
-          20,
-          400
+          180,
+          310
         ]
       },
       "severity": "warning",
@@ -754,7 +754,7 @@
     },
     {
       "name": "equipment_peak_pressure_limit",
-      "description": "Machine protection: Act_Pressure_Peak within the machine's limit capability:peak_pressure (its settings), else the class default — product-independent; owner 10.11.2026.",
+      "description": "Peak pressure inside the machine's limit (capability:peak_pressure in its settings), else the class default [0, 2200] bar — derived: the widest real machine maximum of the plant (sim machine master, sgm-22). Core 6.0.0 fixed [0, 1000], which 54 product recipes (up to 1500 bar) contradicted.",
       "when": {
         "attr": "Act_State_InCycle",
         "op": "eq",
@@ -855,8 +855,8 @@
         "op": "between",
         "valueFrom": "capability:mould_temp",
         "default": [
-          10,
-          140
+          15,
+          120
         ]
       },
       "severity": "warning",
@@ -886,8 +886,8 @@
         "op": "between",
         "valueFrom": "capability:dryer_temp",
         "default": [
-          40,
-          160
+          60,
+          130
         ]
       },
       "severity": "warning",

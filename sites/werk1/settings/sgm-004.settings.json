@@ -6,15 +6,6 @@
   "version": "2.0.0",
   "owner": "Maintenance",
   "displayName": "sgm-004 machine limits",
-  "description": "Machine limits (capability). Derived: temperatures, speed and pressures from the sim machine master; peak pressure and dryer from vendor data of the model class (owner 10.11.2026: limits only in git). Product bands live in recipes.",
-  "values": {
-    "capability:peak_pressure": [
-      0,
-      2200
-    ],
-    "capability:dryer_temp": [
-      40,
-      160
-    ]
-  }
+  "description": "Machine limits (capability:*) where this machine's own data differs from its class: cooling flow and injection speed from the machine settings of core 6.0.0 (derived), peak pressure from the sim machine master (sgm-21, sgm-22). Every other limit is the class default of SMProfile-InjectionMoldingMachine. Product bands live in recipes.",
+  "values": {}
 }
