@@ -1,15 +1,16 @@
 {
-  "_note": "Line line-rockwell in area cnc: the ProcessCell and its machines.",
+  "_note": "Line line-rockwell in area cnc: the ProductionLine (a WorkCenter) and its machines (WorkCell).",
   "instances": [
     {
       "id": "cnc-line-rockwell",
-      "equipmentLevel": "ProcessCell",
+      "equipmentLevel": "ProductionLine",
       "code": "line-rockwell",
-      "partOf": "cnc"
+      "partOf": "cnc",
+      "class": "SMProfile-WorkCenter"
     },
     {
       "id": "rockwell-01",
-      "equipmentLevel": "Unit",
+      "equipmentLevel": "WorkCell",
       "code": "rockwell-01",
       "class": "SMProfile-CNC-Machine",
       "name": "Rockwell Cell (onboard OPC-UA)",

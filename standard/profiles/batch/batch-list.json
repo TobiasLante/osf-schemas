@@ -1,0 +1,88 @@
+{
+  "profileId": "SMProfile-BatchList",
+  "version": "1.0.0",
+  "standard": "CarToUNS",
+  "category": "business",
+  "displayName": "Batch list",
+  "description": "ISA-88 Part 2 (BatchML BatchList): the batch schedule — a list of batch list entries.",
+  "parentType": null,
+  "abstract": false,
+  "properties": [
+    {
+      "name": "batch_list_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the list (BatchML ListHeader.ID).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "version",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML ListHeader.Version.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "description",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML BatchList.Description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "origin",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML ListHeader.Origin.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "create_date",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "BatchML ListHeader.CreateDate.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "SP"
+    }
+  ],
+  "relationships": [],
+  "constraints": [],
+  "semantics": [
+    "iec:61512-BatchList"
+  ],
+  "kpiRefs": [],
+  "isa88": {
+    "objectModel": "BatchList",
+    "part": 2,
+    "grain": "one batch list (the batch schedule)",
+    "note": "ISA-88 Part 2 as MESA BatchML 0701 carries it (BatchML-BatchInformation.xsd BatchList). Core 4.1.0 (0.5.2, OPEN-0360, owner 09.10.2026).",
+    "propertyMap": {
+      "batch_list_id": "BatchList.ListHeader.ID",
+      "version": "BatchList.ListHeader.Version",
+      "description": "BatchList.Description",
+      "origin": "BatchList.ListHeader.Origin",
+      "create_date": "BatchList.ListHeader.CreateDate"
+    }
+  },
+  "kgNodeLabel": "BatchList",
+  "kgIdProperty": "batch_list_id"
+}

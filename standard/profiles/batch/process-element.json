@@ -1,0 +1,227 @@
+{
+  "profileId": "SMProfile-ProcessElement",
+  "version": "1.0.0",
+  "standard": "CarToUNS",
+  "category": "business",
+  "displayName": "Process element",
+  "description": "ISA-88 Part 3 (BatchML ProcessElement): the process model of a general or site recipe — process, stage, operation, action.",
+  "parentType": null,
+  "abstract": false,
+  "properties": [
+    {
+      "name": "process_element_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the element (BatchML ProcessElement.ID).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "description",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML ProcessElement.Description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "process_element_type",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Process, process stage, process operation or process action (BatchML ProcessElementType).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD",
+      "enum": [
+        "Process",
+        "Process Stage",
+        "Process Operation",
+        "Process Action",
+        "Other"
+      ]
+    },
+    {
+      "name": "life_cycle_state",
+      "dataType": "String",
+      "required": false,
+      "category": "Lifecycle",
+      "description": "BatchML ProcessElement.LifeCycleState.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV",
+      "enum": [
+        "Draft",
+        "Approved",
+        "Released",
+        "Effective",
+        "Withdrawn",
+        "Other"
+      ]
+    },
+    {
+      "name": "sequence_order",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML ProcessElement.SequenceOrder.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD",
+      "enum": [
+        "First Parallel",
+        "Middle Parallel",
+        "End Parallel",
+        "First In Path",
+        "Last In Path",
+        "Not In Parallel",
+        "Single First Parallel",
+        "Single Middle Parallel",
+        "Single End Parallel",
+        "Other"
+      ]
+    },
+    {
+      "name": "sequence_path",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML ProcessElement.SequencePath.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "follows_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The element this one follows: the From end of the directed link that ends here (BatchML DirectedLink.FromID; the parent element holds the link).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "material_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "A material of the element (BatchML GRecipeMaterials.Material.MaterialID); one row per material.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "materials_type",
+      "dataType": "String",
+      "required": false,
+      "category": "Material",
+      "description": "Input, output or intermediate — the material list of the row (BatchML MaterialsType).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD",
+      "enum": [
+        "Input",
+        "Output",
+        "Intermediate",
+        "Other"
+      ]
+    },
+    {
+      "name": "g_recipe_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The recipe whose process procedure this element is (BatchML nests it in GRecipe.ProcessProcedure).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "parent_process_element_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The element this one is part of (BatchML nests ProcessElement in ProcessElement).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "PART_OF",
+      "target": "GRecipe",
+      "targetIdProp": "g_recipe_id",
+      "description": "The recipe whose process procedure this element is (BatchML GRecipe.ProcessProcedure)."
+    },
+    {
+      "type": "PART_OF",
+      "target": "ProcessElement",
+      "targetIdProp": "process_element_id",
+      "description": "The element this one is part of (BatchML ProcessElement.ProcessElement)."
+    },
+    {
+      "type": "FOLLOWS",
+      "target": "ProcessElement",
+      "targetIdProp": "process_element_id",
+      "description": "The element this one follows (BatchML DirectedLink From → To)."
+    },
+    {
+      "type": "USES_MATERIAL",
+      "target": "Article",
+      "targetIdProp": "article_no",
+      "description": "A material of the element; materials_type says input, output or intermediate (BatchML GRecipeMaterial.MaterialID)."
+    },
+    {
+      "type": "USES_MATERIAL",
+      "target": "MaterialClass",
+      "targetIdProp": "material_class_id",
+      "description": "A material of the element; materials_type says input, output or intermediate (BatchML GRecipeMaterial.MaterialID)."
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iec:61512-ProcessElement"
+  ],
+  "kpiRefs": [],
+  "isa88": {
+    "objectModel": "ProcessElement",
+    "part": 3,
+    "grain": "one process, process stage, process operation or process action",
+    "note": "ISA-88 Part 3 as MESA BatchML 0701 carries it (BatchML-GeneralRecipe.xsd ProcessElement). Core 4.1.0 (0.5.2, OPEN-0360, owner 09.10.2026).",
+    "propertyMap": {
+      "process_element_id": "ProcessElement.ID",
+      "description": "ProcessElement.Description",
+      "process_element_type": "ProcessElement.ProcessElementType",
+      "life_cycle_state": "ProcessElement.LifeCycleState",
+      "sequence_order": "ProcessElement.SequenceOrder",
+      "sequence_path": "ProcessElement.SequencePath",
+      "follows_ref": "ProcessElement.DirectedLink.FromID",
+      "material_ref": "ProcessElement.Materials.Material.MaterialID",
+      "materials_type": "ProcessElement.Materials.MaterialsType"
+    },
+    "notInBatchML": [
+      "g_recipe_ref",
+      "parent_process_element_ref"
+    ],
+    "mappingNote": "Containment is PART_OF on the child with a reference to the parent (BatchML nests the child inside the parent)."
+  },
+  "kgNodeLabel": "ProcessElement",
+  "kgIdProperty": "process_element_id"
+}

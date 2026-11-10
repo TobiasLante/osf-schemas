@@ -1,0 +1,229 @@
+{
+  "profileId": "SMProfile-OperationsMaterialBillItem",
+  "version": "2.0.0",
+  "standard": "CarToUNS",
+  "category": "business",
+  "displayName": "Operations Material Bill Item",
+  "description": "ISA-95 Part 2 cl. 6.1 (OperationsMaterialBillItem): one item of an operations material bill (quantity, use, assembly).",
+  "parentType": null,
+  "abstract": false,
+  "properties": [
+    {
+      "name": "operations_material_bill_item_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the operations material bill item: its own id from the source system (ISA-95 OperationsMaterialBillItem.ID).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "description",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 OperationsMaterialBillItem.Description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "version",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 OperationsMaterialBillItem.Version.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "published_date",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "ISA-95 OperationsMaterialBillItem.PublishedDate.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "effective_start",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "ISA-95 OperationsMaterialBillItem.EffectiveStartDate.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "effective_end",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "ISA-95 OperationsMaterialBillItem.EffectiveEndDate.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "use_type",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 OperationsMaterialBillItem.UseType.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "assembly_type",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 OperationsMaterialBillItem.AssemblyType.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD",
+      "enum": [
+        "Physical",
+        "Logical",
+        "Other"
+      ]
+    },
+    {
+      "name": "assembly_relationship",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 OperationsMaterialBillItem.AssemblyRelationship.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD",
+      "enum": [
+        "Permanent",
+        "Transient",
+        "Other"
+      ]
+    },
+    {
+      "name": "hierarchy_scope_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The element of the role-based equipment hierarchy this object belongs to (ISA-95 Part 2 cl. 5.1 hierarchy scope, IN_SCOPE_OF). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "assembled_from_operations_material_bill_item_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The OperationsMaterialBillItem (ASSEMBLED_FROM; ISA-95 OperationsMaterialBillItem → OperationsMaterialBillItem). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "operations_material_bill_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The OperationsMaterialBill this OperationsMaterialBillItem is part of (PART_OF; ISA-95 OperationsMaterialBill MADE_UP_OF OperationsMaterialBillItem). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "ASSEMBLED_FROM",
+      "target": "OperationsMaterialBillItem",
+      "targetIdProp": "operations_material_bill_item_id",
+      "description": "ISA-95 Part 2 cl. 6.1 (B2MML OperationsMaterialBillItem.AssemblyBillOfMaterialItem)."
+    },
+    {
+      "type": "PART_OF",
+      "target": "OperationsMaterialBill",
+      "targetIdProp": "operations_material_bill_id",
+      "description": "ISA-95 Part 2 cl. 6.1 (B2MML OperationsMaterialBill.OperationsMaterialBillItem)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Enterprise",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Site",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Area",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "WorkCenter",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Machine",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iso:62264-OperationsMaterialBillItem"
+  ],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "OperationsMaterialBillItem",
+    "part": 2,
+    "momDomain": "production",
+    "level": 3,
+    "note": "ISA-95 Part 2 cl. 6.1 OperationsMaterialBillItem: one item of an operations material bill (quantity, use, assembly). Core 4.0.0 (0.3.5, OPEN-0350, owner 07.10.).",
+    "propertyMap": {
+      "operations_material_bill_item_id": "OperationsMaterialBillItem.ID",
+      "description": "OperationsMaterialBillItem.Description",
+      "version": "OperationsMaterialBillItem.Version",
+      "published_date": "OperationsMaterialBillItem.PublishedDate",
+      "effective_start": "OperationsMaterialBillItem.EffectiveStartDate",
+      "effective_end": "OperationsMaterialBillItem.EffectiveEndDate",
+      "use_type": "OperationsMaterialBillItem.UseType",
+      "assembly_type": "OperationsMaterialBillItem.AssemblyType",
+      "assembly_relationship": "OperationsMaterialBillItem.AssemblyRelationship",
+      "hierarchy_scope_ref": "OperationsMaterialBillItem.HierarchyScope.EquipmentID",
+      "assembled_from_operations_material_bill_item_ref": "OperationsMaterialBillItem.AssemblyBillOfMaterialItem"
+    },
+    "notInIsa95": [
+      "operations_material_bill_ref"
+    ],
+    "mappingNote": "Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent)."
+  },
+  "kgNodeLabel": "OperationsMaterialBillItem",
+  "kgIdProperty": "operations_material_bill_item_id"
+}

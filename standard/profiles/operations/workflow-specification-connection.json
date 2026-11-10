@@ -1,0 +1,130 @@
+{
+  "profileId": "SMProfile-WorkflowSpecificationConnection",
+  "version": "2.0.0",
+  "standard": "CarToUNS",
+  "category": "business",
+  "displayName": "Workflow Specification Connection",
+  "description": "ISA-95 Part 4 cl. 6 (WorkflowSpecificationConnection): one connection between two nodes of a workflow specification.",
+  "parentType": null,
+  "abstract": false,
+  "properties": [
+    {
+      "name": "workflow_specification_connection_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the workflow specification connection: its own id from the source system (ISA-95 WorkflowSpecificationConnection.ID).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "description",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 WorkflowSpecificationConnection.Description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "dependency",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 WorkflowSpecificationConnection.Dependency.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD",
+      "enum": [
+        "NotFollow",
+        "PossibleParallel",
+        "NotInParallel",
+        "AtStart",
+        "AfterStart",
+        "AfterEnd",
+        "NoLaterAfterStart",
+        "NoEarlierAfterStart",
+        "NoLaterAfterEnd",
+        "NoEarlierAfterEnd",
+        "Other"
+      ]
+    },
+    {
+      "name": "dependency_factor",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 WorkflowSpecificationConnection.DependencyFactor.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "workflow_specification_connection_type_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The WorkflowSpecificationConnectionType (DEFINED_BY; ISA-95 WorkflowSpecificationConnection → WorkflowSpecificationConnectionType). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "workflow_specification_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The WorkflowSpecification this WorkflowSpecificationConnection is part of (PART_OF; ISA-95 WorkflowSpecification MADE_UP_OF WorkflowSpecificationConnection). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "DEFINED_BY",
+      "target": "WorkflowSpecificationConnectionType",
+      "targetIdProp": "workflow_specification_connection_type_id",
+      "description": "ISA-95 Part 4 cl. 6 (B2MML WorkflowSpecificationConnection.WorkflowSpecificationConnectionTypeID)."
+    },
+    {
+      "type": "PART_OF",
+      "target": "WorkflowSpecification",
+      "targetIdProp": "workflow_specification_id",
+      "description": "ISA-95 Part 4 cl. 6 (B2MML WorkflowSpecification.WorkflowSpecificationConnection)."
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iso:62264-WorkflowSpecificationConnection"
+  ],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "WorkflowSpecificationConnection",
+    "part": 4,
+    "momDomain": "production",
+    "level": 3,
+    "note": "ISA-95 Part 4 cl. 6 WorkflowSpecificationConnection: one connection between two nodes of a workflow specification. Core 4.0.0 (0.3.5, OPEN-0350, owner 07.10.).",
+    "propertyMap": {
+      "workflow_specification_connection_id": "WorkflowSpecificationConnection.ID",
+      "description": "WorkflowSpecificationConnection.Description",
+      "dependency": "WorkflowSpecificationConnection.Dependency",
+      "dependency_factor": "WorkflowSpecificationConnection.DependencyFactor",
+      "workflow_specification_connection_type_ref": "WorkflowSpecificationConnection.WorkflowSpecificationConnectionTypeID"
+    },
+    "notInIsa95": [
+      "workflow_specification_ref"
+    ],
+    "mappingNote": "Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent)."
+  },
+  "kgNodeLabel": "WorkflowSpecificationConnection",
+  "kgIdProperty": "workflow_specification_connection_id"
+}

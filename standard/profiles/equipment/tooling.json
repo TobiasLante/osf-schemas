@@ -1,0 +1,173 @@
+{
+  "profileId": "SMProfile-Tooling",
+  "version": "5.0.0",
+  "standard": "CarToUNS",
+  "category": "equipment",
+  "displayName": "Tooling (production resources / tools: mould, die, cutting tool, fixture)",
+  "description": "ISA-95 physical asset of the kind tooling (DE Fertigungshilfsmittel, SAP production resources/tools; owner D3): own identity, moves between machines and the store; abstract — a plant names a Mould, Die, CuttingTool or Fixture. The mounted tool is the segment's PhysicalAssetActual (audit H2).",
+  "parentType": null,
+  "abstract": true,
+  "properties": [
+    {
+      "name": "tool_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Tool identity / key.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "name",
+      "dataType": "String",
+      "valueType": "MD",
+      "required": false,
+      "category": "Core",
+      "description": "Display name of the tool.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "storage_location_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The StorageLocation (AT_LOCATION; ISA-95 PhysicalAsset → OperationalLocation). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "physical_asset_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The PhysicalAssetClass (DEFINED_BY; ISA-95 PhysicalAsset → PhysicalAssetClass). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "parent_tool_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The Tooling this Tooling is part of (PART_OF; ISA-95 PhysicalAsset MADE_UP_OF PhysicalAsset). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "test_specification_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The TestSpecification (TESTED_BY; ISA-95 PhysicalAsset → TestSpecification). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "spatial_definition",
+      "dataType": "String",
+      "required": false,
+      "category": "Location",
+      "description": "The spatial definition (ISA-95 Part 2 cl. 5.2): the location or shape as text in spatial_format. Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "spatial_format",
+      "dataType": "String",
+      "required": false,
+      "category": "Location",
+      "description": "The format of spatial_definition (e.g. WKT). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD",
+      "enum": [
+        "WKT",
+        "WKB",
+        "GML",
+        "KML",
+        "GPX",
+        "GeoJSON",
+        "SVG",
+        "Other"
+      ]
+    },
+    {
+      "name": "spatial_srid",
+      "dataType": "String",
+      "required": false,
+      "category": "Location",
+      "description": "The spatial reference system of spatial_definition (SRID). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "AT_LOCATION",
+      "target": "StorageLocation",
+      "targetIdProp": "storage_location_id",
+      "description": "ISA-95 Part 2 cl. 5.6 (B2MML PhysicalAsset.PhysicalLocation)."
+    },
+    {
+      "type": "DEFINED_BY",
+      "target": "PhysicalAssetClass",
+      "targetIdProp": "physical_asset_class_id",
+      "description": "ISA-95 Part 2 cl. 5.6 (B2MML PhysicalAsset.PhysicalAssetClassID)."
+    },
+    {
+      "type": "PART_OF",
+      "target": "Tooling",
+      "targetIdProp": "tool_id",
+      "description": "ISA-95 PhysicalAsset MADE_UP_OF PhysicalAsset: the tooling this tooling is part of. Optional."
+    },
+    {
+      "type": "TESTED_BY",
+      "target": "TestSpecification",
+      "targetIdProp": "test_specification_id",
+      "description": "ISA-95 Part 2 cl. 5.6 (B2MML PhysicalAsset.TestSpecificationID)."
+    }
+  ],
+  "constraints": [],
+  "semantics": [],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "PhysicalAsset",
+    "part": 2,
+    "momDomain": "production",
+    "equipmentClass": "tooling",
+    "note": "ISA-95 PhysicalAsset (tooling, owner D3). The mounted tool of a machine is the segment's PhysicalAssetRequirement / PhysicalAssetActual, never Equipment IMPLEMENTED_BY (audit H2).",
+    "propertyMap": {
+      "storage_location_ref": "PhysicalAsset.PhysicalLocation",
+      "physical_asset_class_ref": "PhysicalAsset.PhysicalAssetClassID",
+      "test_specification_ref": "PhysicalAsset.TestSpecificationID",
+      "spatial_definition": "PhysicalAsset.SpatialDefinition.Value",
+      "spatial_format": "PhysicalAsset.SpatialDefinition.Format",
+      "spatial_srid": "PhysicalAsset.SpatialDefinition.SRID",
+      "tool_id": "PhysicalAsset.ID",
+      "name": "PhysicalAsset.Description"
+    },
+    "notInIsa95": [
+      "parent_tool_ref"
+    ],
+    "mappingNote": "parent_tool_ref is the containment key (PART_OF PhysicalAssetChild, reverse). The kind of tooling is its profile (Mould, Die, CuttingTool, Fixture), no free-text type; the machine it is mounted on belongs to the segment actual (audit H2)."
+  },
+  "kgNodeLabel": "Tooling",
+  "kgIdProperty": "tool_id"
+}

@@ -1,0 +1,178 @@
+{
+  "profileId": "SMProfile-ResourceRelationshipNetwork",
+  "version": "2.0.0",
+  "standard": "CarToUNS",
+  "category": "business",
+  "displayName": "Resource Relationship Network",
+  "description": "ISA-95 Part 4 cl. 5 (ResourceRelationshipNetwork): a network of connections between resources.",
+  "parentType": null,
+  "abstract": false,
+  "properties": [
+    {
+      "name": "resource_relationship_network_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the resource relationship network: its own id from the source system (ISA-95 ResourceRelationshipNetwork.ID).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "version",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 ResourceRelationshipNetwork.Version.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "description",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 ResourceRelationshipNetwork.Description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "published_date",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "ISA-95 ResourceRelationshipNetwork.PublishedDate.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "effective_start",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "ISA-95 ResourceRelationshipNetwork.EffectiveStartDate.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "effective_end",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "ISA-95 ResourceRelationshipNetwork.EffectiveEndDate.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "relationship_type",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 ResourceRelationshipNetwork.RelationshipType.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD",
+      "enum": [
+        "Logical",
+        "Physical",
+        "Other"
+      ]
+    },
+    {
+      "name": "relationship_form",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 ResourceRelationshipNetwork.RelationshipForm.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD",
+      "enum": [
+        "Permanent",
+        "Transient",
+        "Other"
+      ]
+    },
+    {
+      "name": "hierarchy_scope_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The element of the role-based equipment hierarchy this object belongs to (ISA-95 Part 2 cl. 5.1 hierarchy scope, IN_SCOPE_OF). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Enterprise",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Site",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Area",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "WorkCenter",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Machine",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iso:62264-ResourceRelationshipNetwork"
+  ],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "ResourceRelationshipNetwork",
+    "part": 4,
+    "momDomain": "production",
+    "level": 3,
+    "note": "ISA-95 Part 4 cl. 5 ResourceRelationshipNetwork: a network of connections between resources. Core 4.0.0 (0.3.5, OPEN-0350, owner 07.10.).",
+    "propertyMap": {
+      "resource_relationship_network_id": "ResourceRelationshipNetwork.ID",
+      "version": "ResourceRelationshipNetwork.Version",
+      "description": "ResourceRelationshipNetwork.Description",
+      "published_date": "ResourceRelationshipNetwork.PublishedDate",
+      "effective_start": "ResourceRelationshipNetwork.EffectiveStartDate",
+      "effective_end": "ResourceRelationshipNetwork.EffectiveEndDate",
+      "relationship_type": "ResourceRelationshipNetwork.RelationshipType",
+      "relationship_form": "ResourceRelationshipNetwork.RelationshipForm",
+      "hierarchy_scope_ref": "ResourceRelationshipNetwork.HierarchyScope.EquipmentID"
+    }
+  },
+  "kgNodeLabel": "ResourceRelationshipNetwork",
+  "kgIdProperty": "resource_relationship_network_id"
+}

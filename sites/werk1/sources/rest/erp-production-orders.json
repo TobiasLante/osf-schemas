@@ -1,6 +1,6 @@
 {
   "sourceId": "erp-production-orders",
-  "version": "4.2.0",
+  "version": "5.0.0",
   "sourceType": "rest",
   "functionalLevel": 4,
   "syncType": "polling",
@@ -74,7 +74,15 @@
     },
     {
       "column": "status",
-      "smAttribute": "status"
+      "smAttribute": "status",
+      "valueMap": {
+        "offen": "Waiting",
+        "freigegeben": "Released",
+        "in_arbeit": "Running",
+        "fertig": "Completed",
+        "abgeschlossen": "Closed",
+        "storniert": "Cancelled"
+      }
     },
     {
       "column": "prioritaet",
@@ -95,6 +103,10 @@
     {
       "column": "geplante_stueckzahl",
       "smAttribute": "quantity"
+    },
+    {
+      "smAttribute": "operations_type",
+      "const": "Production"
     }
   ],
   "filter": null,

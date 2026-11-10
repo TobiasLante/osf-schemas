@@ -1,0 +1,439 @@
+{
+  "profileId": "SMProfile-BatchListEntry",
+  "version": "1.0.0",
+  "standard": "CarToUNS",
+  "category": "business",
+  "displayName": "Batch list entry",
+  "description": "ISA-88 Part 2 (BatchML BatchListEntry): a batch, campaign or one of its unit procedures, operations or phases on the batch list.",
+  "parentType": null,
+  "abstract": false,
+  "properties": [
+    {
+      "name": "batch_list_entry_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the entry (BatchML BatchListEntry.ID).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "description",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML BatchListEntry.Description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "entry_type",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Campaign, batch, unit procedure, operation or phase (BatchML BatchListEntryType).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD",
+      "enum": [
+        "Campaign",
+        "Batch",
+        "UnitProcedure",
+        "Operation",
+        "Phase",
+        "Other"
+      ]
+    },
+    {
+      "name": "status",
+      "dataType": "String",
+      "required": false,
+      "category": "Status",
+      "description": "Batch state (BatchML BatchStatus). A change is a batch event of subtype State Change.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV",
+      "enum": [
+        "Idle",
+        "Running",
+        "Complete",
+        "Pausing",
+        "Paused",
+        "Holding",
+        "Held",
+        "Restarting",
+        "Stopping",
+        "Stopped",
+        "Aborting",
+        "Aborted",
+        "Other"
+      ]
+    },
+    {
+      "name": "mode",
+      "dataType": "String",
+      "required": false,
+      "category": "Status",
+      "description": "BatchML Mode.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV",
+      "enum": [
+        "Automatic",
+        "SemiAutomatic",
+        "Manual",
+        "Other"
+      ]
+    },
+    {
+      "name": "external_id",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML BatchListEntry.ExternalID.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "recipe_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The recipe the entry runs (BatchML BatchListEntry.RecipeID).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "recipe_version",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML BatchListEntry.RecipeVersion.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "batch_id",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "The batch id (a value; BatchML has no batch object it points to).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "material_lot_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The lot (BatchML BatchListEntry.LotID).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "campaign_id",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML BatchListEntry.CampaignID (a value).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "article_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The product (BatchML BatchListEntry.ProductID).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "order_id",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML BatchListEntry.OrderID — text: BatchML does not say which order.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "requested_start_time",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "BatchML BatchListEntry.RequestedStartTime.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "SP"
+    },
+    {
+      "name": "actual_start_time",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "BatchML BatchListEntry.ActualStartTime.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
+    },
+    {
+      "name": "requested_end_time",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "BatchML BatchListEntry.RequestedEndTime.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "SP"
+    },
+    {
+      "name": "actual_end_time",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "BatchML BatchListEntry.ActualEndTime.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
+    },
+    {
+      "name": "batch_priority",
+      "dataType": "String",
+      "required": false,
+      "category": "Planning",
+      "description": "BatchML BatchListEntry.BatchPriority.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "SP"
+    },
+    {
+      "name": "requested_batch_size",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML BatchListEntry.RequestedBatchSize.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "SP"
+    },
+    {
+      "name": "actual_batch_size",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML BatchListEntry.ActualBatchSize.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
+    },
+    {
+      "name": "unit_of_measure",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML BatchListEntry.UnitOfMeasure.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "note",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML BatchListEntry.Note.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "machine_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The requested equipment (BatchML BatchListEntry.EquipmentID).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "equipment_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The requested equipment class (BatchML BatchListEntry.EquipmentClassID).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "actual_machine_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The equipment the entry ran on (BatchML BatchListEntry.ActualEquipmentID).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "batch_list_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The batch list the entry is on (BatchML nests it in BatchList.BatchListEntry).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "parent_batch_list_entry_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The entry this one is part of (BatchML nests BatchListEntry in BatchListEntry).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "USES_RECIPE",
+      "target": "MasterRecipe",
+      "targetIdProp": "master_recipe_id",
+      "description": "The recipe the entry runs (BatchML BatchListEntry.RecipeID + RecipeVersion; BatchML does not type the id)."
+    },
+    {
+      "type": "USES_RECIPE",
+      "target": "ControlRecipe",
+      "targetIdProp": "control_recipe_id",
+      "description": "The recipe the entry runs (BatchML BatchListEntry.RecipeID + RecipeVersion; BatchML does not type the id)."
+    },
+    {
+      "type": "FOR_MATERIAL_LOT",
+      "target": "MaterialLot",
+      "targetIdProp": "material_lot_no",
+      "description": "The lot (BatchML BatchListEntry.LotID)."
+    },
+    {
+      "type": "FOR_PRODUCT",
+      "target": "Article",
+      "targetIdProp": "article_no",
+      "description": "The product (BatchML BatchListEntry.ProductID; not typed as a MaterialDefinitionID)."
+    },
+    {
+      "type": "REQUESTED_EQUIPMENT",
+      "target": "Machine",
+      "targetIdProp": "element_id",
+      "description": "The requested equipment (BatchML BatchListEntry.EquipmentID)."
+    },
+    {
+      "type": "REQUESTED_EQUIPMENT",
+      "target": "EquipmentClass",
+      "targetIdProp": "equipment_class_id",
+      "description": "The requested equipment class (BatchML BatchListEntry.EquipmentClassID)."
+    },
+    {
+      "type": "ACTUAL_EQUIPMENT",
+      "target": "Machine",
+      "targetIdProp": "element_id",
+      "description": "The equipment the entry ran on (BatchML BatchListEntry.ActualEquipmentID)."
+    },
+    {
+      "type": "PART_OF",
+      "target": "BatchList",
+      "targetIdProp": "batch_list_id",
+      "description": "The batch list the entry is on."
+    },
+    {
+      "type": "PART_OF",
+      "target": "BatchListEntry",
+      "targetIdProp": "batch_list_entry_id",
+      "description": "The entry this one is part of (a batch's unit procedures and phases)."
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iec:61512-BatchListEntry"
+  ],
+  "kpiRefs": [],
+  "isa88": {
+    "objectModel": "BatchListEntry",
+    "part": 2,
+    "grain": "one batch, campaign or one of its unit procedures, operations or phases",
+    "note": "ISA-88 Part 2 as MESA BatchML 0701 carries it (BatchML-BatchInformation.xsd BatchListEntry). Core 4.1.0 (0.5.2, OPEN-0360, owner 09.10.2026).",
+    "propertyMap": {
+      "batch_list_entry_id": "BatchListEntry.ID",
+      "description": "BatchListEntry.Description",
+      "entry_type": "BatchListEntry.BatchListEntryType",
+      "status": "BatchListEntry.Status",
+      "mode": "BatchListEntry.Mode",
+      "external_id": "BatchListEntry.ExternalID",
+      "recipe_ref": "BatchListEntry.RecipeID",
+      "recipe_version": "BatchListEntry.RecipeVersion",
+      "batch_id": "BatchListEntry.BatchID",
+      "material_lot_ref": "BatchListEntry.LotID",
+      "campaign_id": "BatchListEntry.CampaignID",
+      "article_ref": "BatchListEntry.ProductID",
+      "order_id": "BatchListEntry.OrderID",
+      "requested_start_time": "BatchListEntry.RequestedStartTime",
+      "actual_start_time": "BatchListEntry.ActualStartTime",
+      "requested_end_time": "BatchListEntry.RequestedEndTime",
+      "actual_end_time": "BatchListEntry.ActualEndTime",
+      "batch_priority": "BatchListEntry.BatchPriority",
+      "requested_batch_size": "BatchListEntry.RequestedBatchSize",
+      "actual_batch_size": "BatchListEntry.ActualBatchSize",
+      "unit_of_measure": "BatchListEntry.UnitOfMeasure",
+      "note": "BatchListEntry.Note",
+      "machine_ref": "BatchListEntry.EquipmentID",
+      "equipment_class_ref": "BatchListEntry.EquipmentClassID",
+      "actual_machine_ref": "BatchListEntry.ActualEquipmentID"
+    },
+    "notInBatchML": [
+      "batch_list_ref",
+      "parent_batch_list_entry_ref"
+    ],
+    "mappingNote": "Containment is PART_OF on the child with a reference to the parent (BatchML nests the child inside the parent)."
+  },
+  "kgNodeLabel": "BatchListEntry",
+  "kgIdProperty": "batch_list_entry_id"
+}

@@ -1,0 +1,162 @@
+{
+  "profileId": "SMProfile-WorkflowSpecificationNodeType",
+  "version": "1.0.0",
+  "standard": "CarToUNS",
+  "category": "business",
+  "displayName": "Workflow Specification Node Type",
+  "description": "ISA-95 Part 4 cl. 6 (WorkflowSpecificationNodeType): the type of a workflow specification node.",
+  "parentType": null,
+  "abstract": false,
+  "properties": [
+    {
+      "name": "workflow_specification_node_type_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the workflow specification node type: its own id from the source system (ISA-95 WorkflowSpecificationNodeType.ID).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "description",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 WorkflowSpecificationNodeType.Description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "version",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 WorkflowSpecificationNodeType.Version.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "published_date",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "ISA-95 WorkflowSpecificationNodeType.PublishedDate.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "effective_start",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "ISA-95 WorkflowSpecificationNodeType.EffectiveStartDate.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "effective_end",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "ISA-95 WorkflowSpecificationNodeType.EffectiveEndDate.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "hierarchy_scope_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The element of the role-based equipment hierarchy this object belongs to (ISA-95 Part 2 cl. 5.1 hierarchy scope, IN_SCOPE_OF). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "base_workflow_specification_node_type_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The WorkflowSpecificationNodeType (INCLUDES_PROPERTIES_OF; ISA-95 WorkflowSpecificationNodeType → WorkflowSpecificationNodeType). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "INCLUDES_PROPERTIES_OF",
+      "target": "WorkflowSpecificationNodeType",
+      "targetIdProp": "workflow_specification_node_type_id",
+      "description": "ISA-95 Part 4 cl. 6 (B2MML WorkflowSpecificationNodeType.WorkflowSpecificationNodeTypeBaseID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Enterprise",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Site",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Area",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "WorkCenter",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Machine",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iso:62264-WorkflowSpecificationNodeType"
+  ],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "WorkflowSpecificationNodeType",
+    "part": 4,
+    "momDomain": "production",
+    "level": 3,
+    "note": "ISA-95 Part 4 cl. 6 WorkflowSpecificationNodeType: the type of a workflow specification node. Core 4.0.0 (0.3.5, OPEN-0350, owner 07.10.).",
+    "propertyMap": {
+      "workflow_specification_node_type_id": "WorkflowSpecificationNodeType.ID",
+      "description": "WorkflowSpecificationNodeType.Description",
+      "version": "WorkflowSpecificationNodeType.Version",
+      "published_date": "WorkflowSpecificationNodeType.PublishedDate",
+      "effective_start": "WorkflowSpecificationNodeType.EffectiveStartDate",
+      "effective_end": "WorkflowSpecificationNodeType.EffectiveEndDate",
+      "hierarchy_scope_ref": "WorkflowSpecificationNodeType.HierarchyScope.EquipmentID",
+      "base_workflow_specification_node_type_ref": "WorkflowSpecificationNodeType.WorkflowSpecificationNodeTypeBaseID"
+    }
+  },
+  "kgNodeLabel": "WorkflowSpecificationNodeType",
+  "kgIdProperty": "workflow_specification_node_type_id"
+}

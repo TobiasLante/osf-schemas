@@ -1,0 +1,77 @@
+{
+  "profileId": "SMProfile-Area",
+  "version": "1.1.0",
+  "standard": "CarToUNS",
+  "category": "equipment",
+  "displayName": "Area (role-based equipment hierarchy)",
+  "description": "ISA-95 Part 2 cl. 5.5 (Equipment): an area of a site; equipment level Area.",
+  "parentType": null,
+  "abstract": false,
+  "properties": [
+    {
+      "name": "element_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the element: the id of the plant tree (sites/<site>/instances), the same key as a machine.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "name",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Display name.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "site_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The site this area belongs to (PART_OF).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "PART_OF",
+      "target": "Site",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.5 (B2MML Equipment.EquipmentChild)."
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iso:62264-Equipment"
+  ],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "Equipment",
+    "part": 2,
+    "momDomain": "production",
+    "level": 3,
+    "note": "ISA-95 Part 2 cl. 5.5 Equipment: an area of a site; equipment level Area. Core 4.0.0 (0.3.5, OPEN-0350, owner 07.10.).",
+    "propertyMap": {
+      "element_id": "Equipment.ID",
+      "name": "Equipment.Description"
+    },
+    "equipmentLevel": "Area",
+    "grain": "one equipment element at equipment level Area (ISA-95 Part 2 cl. 5.5; B2MML-Common.xsd EquipmentLevel1Type Area): one row = one area of a site, keyed by its Equipment ID element_id — the one ID space all levels of the role-based equipment hierarchy share",
+    "notInIsa95": [
+      "site_ref"
+    ],
+    "mappingNote": "Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent)."
+  },
+  "kgNodeLabel": "Area",
+  "kgIdProperty": "element_id"
+}

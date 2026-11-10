@@ -2,6 +2,8 @@
 
 3-Schema system for the OpenShopFloor Knowledge Graph. The KG Builder pulls this repo and automatically constructs a Neo4j/Apache AGE Knowledge Graph — no LLM, no manual graph construction.
 
+The grammar (the meta-schemas every profile, source, instance and recipe is validated against) lives in i3x-v5 `packages/uns-grammar/validation/`, not in this repo.
+
 ## OSF vs. CESMII SM Profiles
 
 OSF schemas are inspired by [CESMII Smart Manufacturing Profiles](https://www.cesmii.org/) but extend them for Knowledge Graph construction:
@@ -22,11 +24,11 @@ OSF schemas are inspired by [CESMII Smart Manufacturing Profiles](https://www.ce
 
 1. **Source-agnostic graph** — The KG fuses data from OPC-UA, MTConnect and REST sources into one graph. The i3X API queries the graph, never a source directly. Whether data came from an ERP REST projection, an MTConnect agent or an OPC-UA server doesn't matter. (The v3-era PostgreSQL/MQTT/Kafka/MCP ingestion paths are archived under `backup/pre-next2.0/` — no service loads them.)
 
-2. **Polymorphic edge resolution** — `targetIdProp: "machine_id"` automatically resolves to all profile types sharing that ID property. Add a new machine type → all existing edges find it without source schema changes.
+2. **Polymorphic edge resolution** — `targetIdProp: "element_id"` automatically resolves to all profile types sharing that ID property. Add a new machine type → all existing edges find it without source schema changes.
 
 3. **Schema-driven, not code-driven** — Change a JSON file, push to GitHub. The KG Builder rebuilds. No recompilation, no redeployment.
 
-4. **Inheritance reduces duplication** — machine types share one abstract `Machine` parent that carries the identity (`machine_id`) and the machine-level relationships (`PART_OF` direct; `ProductionOrder`/`Article` reached via SegmentRequirement/Response edges); every child (`CNC_Machine`, `InjectionMoldingMachine`) adds only its own attribute set and is found by every existing `targetIdProp: "machine_id"` edge.
+4. **Inheritance reduces duplication** — machine types share one abstract `Machine` parent that carries the identity (`element_id`, the one Equipment ID since core 3.0.0) and the machine-level relationships (`PART_OF` direct; `ProductionOrder`/`Article` reached via SegmentRequirement/Response edges); every child (`CNC_Machine`, `InjectionMoldingMachine`) adds only its own attribute set and is found by every existing `targetIdProp: "element_id"` edge.
 
 ## Data Flow
 
@@ -105,14 +107,14 @@ osf-schemas/
 │   └── werk1/                  
 │       ├── branding/               brand/theme assets (1 json)
 │       ├── connections/             (2 json)
-│       ├── consumers/               (16 json)
+│       ├── consumers/               (19 json)
 │       ├── historians/             historian-sink templates + instances (OUTPUT: UNS → customer DB)
 │       │   ├── grafana-dashboards/      (4 json)
 │       │   └── instances/               (3 json)
-│       ├── instances/              the plant tree: Enterprise → Site → Area → ProcessCell → Unit (ISA-88 equipment levels) (6 json)
+│       ├── instances/              the plant tree: Enterprise → Site → Area → ProcessCell → Unit (ISA-88 equipment levels) (9 json)
 │       ├── mappings/               protocol canon: DataItem/tag → SM attribute (SSOT for discovery + gen-flows) (1 json)
-│       ├── recipes/                GitHub-managed recipe master data (see recipes/README.md) (5 json)
-│       ├── settings/                (3 json)
+│       ├── recipes/                GitHub-managed recipe master data (see recipes/README.md) (79 json)
+│       ├── settings/                (22 json)
 │       ├── sources/                Schema 2: Data Sources (instance binding)
 │       │   ├── mtconnect/              MTConnect agent mappings (2 json)
 │       │   ├── opcua/                  OPC-UA endpoint → machine mappings (15 json)
@@ -138,17 +140,18 @@ osf-schemas/
 │   │   └── views/                   (1 json)
 │   ├── kpis/                   KPI definitions — inputs drawn from the source-fed vocabulary (lint-kpis) (6 json)
 │   ├── mappings/               protocol canon: DataItem/tag → SM attribute (SSOT for discovery + gen-flows) (3 json)
-│   ├── payloads/                (37 json)
+│   ├── payloads/                (91 json)
 │   ├── profiles/               Schema 1: SM Profiles (type system)
-│   │   ├── equipment/              ISA-95 equipment: Machine (abstract parent), CNC_Machine, InjectionMoldingMachine, EquipmentClass, EquipmentModel (compact), Tool (6 json)
+│   │   ├── batch/                   (14 json)
+│   │   ├── equipment/              ISA-95 equipment: Machine (abstract parent), CNC_Machine, InjectionMoldingMachine, EquipmentClass, EquipmentModel (compact), Tool (15 json)
 │   │   ├── intelligence/           multi-truth layer: Discrepancy, ResolutionProposal, AutoResolveRule, … (5 json)
-│   │   ├── material/               ISA-95 material: Article (MaterialDefinition), MaterialLot, Quant (MaterialSubLot), StorageLocation (6 json)
-│   │   ├── operations/             ISA-95 operations (Part 2 + WorkRequest): OperationsDefinition, ProcessSegment, Segment{Requirement,Response}, ProductionOrder, ProductDefinition, (Operations)Response, BdeConfirmation, Workorder, ShiftWindow, Customer(-Order) (22 json)
+│   │   ├── material/               ISA-95 material: Article (MaterialDefinition), MaterialLot, Quant (MaterialSubLot), StorageLocation (7 json)
+│   │   ├── operations/             ISA-95 operations (Part 2 + WorkRequest): OperationsDefinition, ProcessSegment, Segment{Requirement,Response}, ProductionOrder, ProductDefinition, (Operations)Response, BdeConfirmation, Workorder, ShiftWindow, Customer(-Order) (51 json)
 │   │   ├── personnel/               (2 json)
-│   │   └── quality/                ISA-95 quality: InspectionLot, SPCAnalysis (3 json)
+│   │   └── quality/                ISA-95 quality: InspectionLot, SPCAnalysis (5 json)
 │   ├── sync/                   Schema 3: Live Sync (transport layer) (1 json)
 │   ├── unit-conversions/       UNECE unit table (discovery-time scale/offset lookup) (1 json)
-│   ├── validation/             ajv meta-schemas (per-file shape validation) (41 json)
+│   ├── validation/             ajv meta-schemas (per-file shape validation) (23 json)
 │   ├── contract.json           GENERATED ontology contract (gen-contract.mjs) — agents read this FIRST
 │   └── standard.json
 ├── CLAUDE.md               agent instructions
@@ -164,7 +167,7 @@ osf-schemas/
 <!-- gen:counts:begin -->
 | Category | Count | Files |
 |---|---|---|
-| Profiles | 44 | equipment 6 · intelligence 5 · material 6 · operations 22 · personnel 2 · quality 3 |
+| Profiles | 99 | batch 14 · equipment 15 · intelligence 5 · material 7 · operations 51 · personnel 2 · quality 5 |
 | Sources — mtconnect | 2 | mtconnect-cnc-01, mtconnect-cnc-mtc-02 |
 | Sources — opcua | 15 | opcua-cnc-001-event, opcua-cnc-001-telemetry, opcua-cnc-002-event, opcua-cnc-002-telemetry, opcua-ftlinx-01-event, opcua-ftlinx-01-telemetry, opcua-mtbridge-cnc-01, opcua-rockwell-01-event, opcua-rockwell-01-telemetry, opcua-sgm-001-event, opcua-sgm-001-telemetry, opcua-sgm-004-processdata, opcua-sgm-005-processdata, opcua-sgm-006-bde, opcua-sgm-006-processdata |
 | Sources — rest | 18 | erp-bde-confirmations, erp-customer-orders, erp-job-orders, erp-machine-pools, erp-material-lots, erp-operations-definitions, erp-operations-response, erp-operations-segments, erp-process-segments, erp-production-orders, erp-segment-requirements, erp-segment-responses, erp-workorders, sim-v5-erp-articles, sim-v5-erp-calendar, sim-v5-erp-customers, sim-v5-qms-inspections, sim-v5-wms-quants |
@@ -173,10 +176,10 @@ osf-schemas/
 | Sync — opcua-server | 1 | mtconnect-to-opcua-cnc-mtc-01 |
 | Sync — polling | 1 | sim-v5-poll |
 | Sync — uns-convention.json | 1 | uns-convention |
-| Recipes | 5 (2 parked) | recipe-sgm-004-pa66gf30-bracket-b *(parked)*, recipe-sgm-004-pa66gf30-housing-a *(parked)*, recipe-v4-12-0044-003-pa66gf30, recipe-v4-14-1300-040-pmma, recipe-wip-housing-base-asa-pc |
+| Recipes | 79 (2 parked) | recipe-sgm-004-default, recipe-sgm-004-pa66gf30-bracket-b *(parked)*, recipe-sgm-004-pa66gf30-housing-a *(parked)*, recipe-sgm-005-default, recipe-sgm-006-default, recipe-v4-12-0044-001, recipe-v4-12-0044-002, recipe-v4-12-0044-003-pa66gf30, recipe-v4-12-0044-004, recipe-v4-12-0044-005, recipe-v4-12-0044-006, recipe-v4-14-0021-006, recipe-v4-14-0021-007, recipe-v4-14-0021-008, recipe-v4-14-0021-009, recipe-v4-14-0021-010, recipe-v4-14-0021-011, recipe-v4-14-0204-001, recipe-v4-14-0204-002, recipe-v4-14-0204-003, recipe-v4-14-0204-004, recipe-v4-14-0204-005, recipe-v4-14-0204-006, recipe-v4-14-1300-001, recipe-v4-14-1300-002, recipe-v4-14-1300-003, recipe-v4-14-1300-004, recipe-v4-14-1300-005, recipe-v4-14-1300-006, recipe-v4-14-1300-007, recipe-v4-14-1300-008, recipe-v4-14-1300-009, recipe-v4-14-1300-010, recipe-v4-14-1300-011, recipe-v4-14-1300-012, recipe-v4-14-1300-013, recipe-v4-14-1300-014, recipe-v4-14-1300-015, recipe-v4-14-1300-016, recipe-v4-14-1300-017, recipe-v4-14-1300-018, recipe-v4-14-1300-019, recipe-v4-14-1300-020, recipe-v4-14-1300-021, recipe-v4-14-1300-022, recipe-v4-14-1300-023, recipe-v4-14-1300-024, recipe-v4-14-1300-025, recipe-v4-14-1300-026, recipe-v4-14-1300-027, recipe-v4-14-1300-028, recipe-v4-14-1300-029, recipe-v4-14-1300-030, recipe-v4-14-1300-031, recipe-v4-14-1300-032, recipe-v4-14-1300-033, recipe-v4-14-1300-034, recipe-v4-14-1300-035, recipe-v4-14-1300-036, recipe-v4-14-1300-037, recipe-v4-14-1300-038, recipe-v4-14-1300-039, recipe-v4-14-1300-040-pmma, recipe-v4-14-1300-041, recipe-v4-14-1300-042, recipe-v4-14-1300-043, recipe-v4-14-1300-044, recipe-v4-14-1300-045, recipe-v4-14-1300-046, recipe-v4-14-1300-047, recipe-v4-14-1300-048, recipe-v4-14-1300-049, recipe-v4-14-1300-050, recipe-v4-14-2500-007, recipe-v4-14-2500-009, recipe-v4-14-2500-017, recipe-v4-bg-gg-004, recipe-v4-bg-gh-010, recipe-wip-housing-base-asa-pc |
 | KPIs | 6 (2 parked) | availability, energy-per-part *(parked)*, oee, performance *(parked)*, quality-rate, scrap-rate |
 
-Measured from the tree by `i3x-v5 packages/schemas-ci/osf/gen-docs.mjs` — the same sums `lint-refs` prints (`lint-refs: 44 profiles, 35 sources, 9 sync files`).
+Measured from the tree by `i3x-v5 packages/schemas-ci/osf/gen-docs.mjs` — the same sums `lint-refs` prints (`lint-refs: 99 profiles, 35 sources, 9 sync files`).
 <!-- gen:counts:end -->
 
 ## Inheritance
@@ -184,10 +187,10 @@ Measured from the tree by `i3x-v5 packages/schemas-ci/osf/gen-docs.mjs` — the 
 Profiles support `parentType` inheritance. The KG Builder merges parent attributes and relationships into children at load time. Child definitions override parent on name collision.
 
 ```
-Machine (abstract)               identity + relationship parent: machine_id,
-│                                PART_OF direct; Order/Article via SegmentRequirement/Response — no attributes of its own
+Machine (abstract)               identity + relationship parent: element_id and the ISA-95 Equipment properties,
+│                                PART_OF its WorkCenter; Order/Article via SegmentRequirement/Response
 ├── CNC_Machine                  adds the CNC attribute set (BDE/OEE + spindle/feed/program)
-└── InjectionMoldingMachine      adds the ISA-88 process-parameter set + USES_TOOL
+└── InjectionMoldingMachine      adds the EUROMAP 77 process-parameter set (the mould it runs with is the segment's PhysicalAssetActual → Tooling)
 ```
 
 That is the whole inheritance tree today. There is **no** abstract `Order`

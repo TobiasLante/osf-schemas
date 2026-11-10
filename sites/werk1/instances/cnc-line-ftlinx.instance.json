@@ -1,15 +1,16 @@
 {
-  "_note": "Line line-ftlinx in area cnc: the ProcessCell and its machines.",
+  "_note": "Line line-ftlinx in area cnc: the ProductionLine (a WorkCenter) and its machines (WorkCell).",
   "instances": [
     {
       "id": "cnc-line-ftlinx",
-      "equipmentLevel": "ProcessCell",
+      "equipmentLevel": "ProductionLine",
       "code": "line-ftlinx",
-      "partOf": "cnc"
+      "partOf": "cnc",
+      "class": "SMProfile-WorkCenter"
     },
     {
       "id": "ftlinx-01",
-      "equipmentLevel": "Unit",
+      "equipmentLevel": "WorkCell",
       "code": "ftlinx-01",
       "class": "SMProfile-CNC-Machine",
       "name": "Rockwell Cell (via FactoryTalk Linx)",

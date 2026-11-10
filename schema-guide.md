@@ -14,14 +14,14 @@ osf-schemas/
 │   └── werk1/                  
 │       ├── branding/               brand/theme assets (1 json)
 │       ├── connections/             (2 json)
-│       ├── consumers/               (16 json)
+│       ├── consumers/               (19 json)
 │       ├── historians/             historian-sink templates + instances (OUTPUT: UNS → customer DB)
 │       │   ├── grafana-dashboards/      (4 json)
 │       │   └── instances/               (3 json)
-│       ├── instances/              the plant tree: Enterprise → Site → Area → ProcessCell → Unit (ISA-88 equipment levels) (6 json)
+│       ├── instances/              the plant tree: Enterprise → Site → Area → ProcessCell → Unit (ISA-88 equipment levels) (9 json)
 │       ├── mappings/               protocol canon: DataItem/tag → SM attribute (SSOT for discovery + gen-flows) (1 json)
-│       ├── recipes/                GitHub-managed recipe master data (see recipes/README.md) (5 json)
-│       ├── settings/                (3 json)
+│       ├── recipes/                GitHub-managed recipe master data (see recipes/README.md) (79 json)
+│       ├── settings/                (22 json)
 │       ├── sources/                Schema 2: Data Sources (instance binding)
 │       │   ├── mtconnect/              MTConnect agent mappings (2 json)
 │       │   ├── opcua/                  OPC-UA endpoint → machine mappings (15 json)
@@ -47,17 +47,18 @@ osf-schemas/
 │   │   └── views/                   (1 json)
 │   ├── kpis/                   KPI definitions — inputs drawn from the source-fed vocabulary (lint-kpis) (6 json)
 │   ├── mappings/               protocol canon: DataItem/tag → SM attribute (SSOT for discovery + gen-flows) (3 json)
-│   ├── payloads/                (37 json)
+│   ├── payloads/                (91 json)
 │   ├── profiles/               Schema 1: SM Profiles (type system)
-│   │   ├── equipment/              ISA-95 equipment: Machine (abstract parent), CNC_Machine, InjectionMoldingMachine, EquipmentClass, EquipmentModel (compact), Tool (6 json)
+│   │   ├── batch/                   (14 json)
+│   │   ├── equipment/              ISA-95 equipment: Machine (abstract parent), CNC_Machine, InjectionMoldingMachine, EquipmentClass, EquipmentModel (compact), Tool (15 json)
 │   │   ├── intelligence/           multi-truth layer: Discrepancy, ResolutionProposal, AutoResolveRule, … (5 json)
-│   │   ├── material/               ISA-95 material: Article (MaterialDefinition), MaterialLot, Quant (MaterialSubLot), StorageLocation (6 json)
-│   │   ├── operations/             ISA-95 operations (Part 2 + WorkRequest): OperationsDefinition, ProcessSegment, Segment{Requirement,Response}, ProductionOrder, ProductDefinition, (Operations)Response, BdeConfirmation, Workorder, ShiftWindow, Customer(-Order) (22 json)
+│   │   ├── material/               ISA-95 material: Article (MaterialDefinition), MaterialLot, Quant (MaterialSubLot), StorageLocation (7 json)
+│   │   ├── operations/             ISA-95 operations (Part 2 + WorkRequest): OperationsDefinition, ProcessSegment, Segment{Requirement,Response}, ProductionOrder, ProductDefinition, (Operations)Response, BdeConfirmation, Workorder, ShiftWindow, Customer(-Order) (51 json)
 │   │   ├── personnel/               (2 json)
-│   │   └── quality/                ISA-95 quality: InspectionLot, SPCAnalysis (3 json)
+│   │   └── quality/                ISA-95 quality: InspectionLot, SPCAnalysis (5 json)
 │   ├── sync/                   Schema 3: Live Sync (transport layer) (1 json)
 │   ├── unit-conversions/       UNECE unit table (discovery-time scale/offset lookup) (1 json)
-│   ├── validation/             ajv meta-schemas (per-file shape validation) (41 json)
+│   ├── validation/             ajv meta-schemas (per-file shape validation) (23 json)
 │   ├── contract.json           GENERATED ontology contract (gen-contract.mjs) — agents read this FIRST
 │   └── standard.json
 ├── CLAUDE.md               agent instructions
@@ -81,7 +82,7 @@ Alles aus der v3-Ära (PostgreSQL-Sources, MQTT-UNS-/Kafka-/Webhook-Syncs) liegt
 <!-- gen:counts:begin -->
 | Category | Count | Files |
 |---|---|---|
-| Profiles | 44 | equipment 6 · intelligence 5 · material 6 · operations 22 · personnel 2 · quality 3 |
+| Profiles | 99 | batch 14 · equipment 15 · intelligence 5 · material 7 · operations 51 · personnel 2 · quality 5 |
 | Sources — mtconnect | 2 | mtconnect-cnc-01, mtconnect-cnc-mtc-02 |
 | Sources — opcua | 15 | opcua-cnc-001-event, opcua-cnc-001-telemetry, opcua-cnc-002-event, opcua-cnc-002-telemetry, opcua-ftlinx-01-event, opcua-ftlinx-01-telemetry, opcua-mtbridge-cnc-01, opcua-rockwell-01-event, opcua-rockwell-01-telemetry, opcua-sgm-001-event, opcua-sgm-001-telemetry, opcua-sgm-004-processdata, opcua-sgm-005-processdata, opcua-sgm-006-bde, opcua-sgm-006-processdata |
 | Sources — rest | 18 | erp-bde-confirmations, erp-customer-orders, erp-job-orders, erp-machine-pools, erp-material-lots, erp-operations-definitions, erp-operations-response, erp-operations-segments, erp-process-segments, erp-production-orders, erp-segment-requirements, erp-segment-responses, erp-workorders, sim-v5-erp-articles, sim-v5-erp-calendar, sim-v5-erp-customers, sim-v5-qms-inspections, sim-v5-wms-quants |
@@ -90,10 +91,10 @@ Alles aus der v3-Ära (PostgreSQL-Sources, MQTT-UNS-/Kafka-/Webhook-Syncs) liegt
 | Sync — opcua-server | 1 | mtconnect-to-opcua-cnc-mtc-01 |
 | Sync — polling | 1 | sim-v5-poll |
 | Sync — uns-convention.json | 1 | uns-convention |
-| Recipes | 5 (2 parked) | recipe-sgm-004-pa66gf30-bracket-b *(parked)*, recipe-sgm-004-pa66gf30-housing-a *(parked)*, recipe-v4-12-0044-003-pa66gf30, recipe-v4-14-1300-040-pmma, recipe-wip-housing-base-asa-pc |
+| Recipes | 79 (2 parked) | recipe-sgm-004-default, recipe-sgm-004-pa66gf30-bracket-b *(parked)*, recipe-sgm-004-pa66gf30-housing-a *(parked)*, recipe-sgm-005-default, recipe-sgm-006-default, recipe-v4-12-0044-001, recipe-v4-12-0044-002, recipe-v4-12-0044-003-pa66gf30, recipe-v4-12-0044-004, recipe-v4-12-0044-005, recipe-v4-12-0044-006, recipe-v4-14-0021-006, recipe-v4-14-0021-007, recipe-v4-14-0021-008, recipe-v4-14-0021-009, recipe-v4-14-0021-010, recipe-v4-14-0021-011, recipe-v4-14-0204-001, recipe-v4-14-0204-002, recipe-v4-14-0204-003, recipe-v4-14-0204-004, recipe-v4-14-0204-005, recipe-v4-14-0204-006, recipe-v4-14-1300-001, recipe-v4-14-1300-002, recipe-v4-14-1300-003, recipe-v4-14-1300-004, recipe-v4-14-1300-005, recipe-v4-14-1300-006, recipe-v4-14-1300-007, recipe-v4-14-1300-008, recipe-v4-14-1300-009, recipe-v4-14-1300-010, recipe-v4-14-1300-011, recipe-v4-14-1300-012, recipe-v4-14-1300-013, recipe-v4-14-1300-014, recipe-v4-14-1300-015, recipe-v4-14-1300-016, recipe-v4-14-1300-017, recipe-v4-14-1300-018, recipe-v4-14-1300-019, recipe-v4-14-1300-020, recipe-v4-14-1300-021, recipe-v4-14-1300-022, recipe-v4-14-1300-023, recipe-v4-14-1300-024, recipe-v4-14-1300-025, recipe-v4-14-1300-026, recipe-v4-14-1300-027, recipe-v4-14-1300-028, recipe-v4-14-1300-029, recipe-v4-14-1300-030, recipe-v4-14-1300-031, recipe-v4-14-1300-032, recipe-v4-14-1300-033, recipe-v4-14-1300-034, recipe-v4-14-1300-035, recipe-v4-14-1300-036, recipe-v4-14-1300-037, recipe-v4-14-1300-038, recipe-v4-14-1300-039, recipe-v4-14-1300-040-pmma, recipe-v4-14-1300-041, recipe-v4-14-1300-042, recipe-v4-14-1300-043, recipe-v4-14-1300-044, recipe-v4-14-1300-045, recipe-v4-14-1300-046, recipe-v4-14-1300-047, recipe-v4-14-1300-048, recipe-v4-14-1300-049, recipe-v4-14-1300-050, recipe-v4-14-2500-007, recipe-v4-14-2500-009, recipe-v4-14-2500-017, recipe-v4-bg-gg-004, recipe-v4-bg-gh-010, recipe-wip-housing-base-asa-pc |
 | KPIs | 6 (2 parked) | availability, energy-per-part *(parked)*, oee, performance *(parked)*, quality-rate, scrap-rate |
 
-Measured from the tree by `i3x-v5 packages/schemas-ci/osf/gen-docs.mjs` — the same sums `lint-refs` prints (`lint-refs: 44 profiles, 35 sources, 9 sync files`).
+Measured from the tree by `i3x-v5 packages/schemas-ci/osf/gen-docs.mjs` — the same sums `lint-refs` prints (`lint-refs: 99 profiles, 35 sources, 9 sync files`).
 <!-- gen:counts:end -->
 
 ---
@@ -203,7 +204,7 @@ Defines **what types of nodes exist** — their label, ID property, attributes, 
   "attributes": [],
   "relationships": [],
   "kgNodeLabel": "CNC_Machine",
-  "kgIdProperty": "machine_id"
+  "kgIdProperty": "element_id"
 }
 ```
 
@@ -212,7 +213,7 @@ Defines **what types of nodes exist** — their label, ID property, attributes, 
 | Field | Purpose |
 |-------|---------|
 | `kgNodeLabel` | Neo4j label for this node type (e.g. `CNC_Machine`) |
-| `kgIdProperty` | Property used as unique ID (e.g. `machine_id`) |
+| `kgIdProperty` | Property used as unique ID (e.g. `element_id`) |
 | `parentType` | Parent profile — resolved by `profileId` or `kgNodeLabel` |
 | `abstract` | If `true`, skip index creation (parent-only, no direct instances) |
 | `attributes` | Array of `{ name, dataType, unit?, category, description?, enum? }` |
@@ -260,13 +261,13 @@ When `parentType` is set, the KG Builder merges at load time:
 3. **Multi-level**: grandparent → parent → child works (resolved depth-first).
 4. **Cycles**: detected and broken silently (partial inheritance).
 
-**Example:** `CNC_Machine` has `parentType: "Machine"`. `Machine` is a **thin abstract parent** — it carries the identity (`machine_id`) and its relationships (`PART_OF` direct; Order/Article reached via SegmentRequirement/Response) and **zero attributes of its own**. After inheritance, `CNC_Machine` keeps its own attribute set and gains the Machine relationships plus the `:Machine` parent label.
+**Example:** `CNC_Machine` has `parentType: "Machine"`. `Machine` is a **thin abstract parent** — it carries the identity (`element_id`, the one Equipment ID since core 3.0.0), the ISA-95 Equipment properties (equipment class, storage location, spatial definition) and its relationships (`PART_OF` its WorkCenter; Order/Article reached via SegmentRequirement/Response). After inheritance, `CNC_Machine` keeps its own attribute set and gains the Machine relationships plus the `:Machine` parent label.
 
 ### What the builder does
 
 ```cypher
 -- Phase 1: Create range index (skipped for abstract profiles)
-CREATE INDEX IF NOT EXISTS FOR (n:CNC_Machine) ON (n.machine_id)
+CREATE INDEX IF NOT EXISTS FOR (n:CNC_Machine) ON (n.element_id)
 
 -- Phase 2d: Apply parent labels
 MATCH (n:CNC_Machine) SET n:Machine
@@ -341,7 +342,7 @@ Shortened from the real `sites/werk1/sources/opcua/opcua-sgm-004-processdata.jso
 
 **`edges`**: `fkColumn` → `targetIdProp`. The builder resolves `targetIdProp` to ALL profile labels sharing that `kgIdProperty` (polymorphic resolution).
 
-**`targetIdProp` example:** `"machine_id"` resolves to every label whose `kgIdProperty` is `machine_id` — see the generated *Common `targetIdProp` Values* table below. Add a new machine type with the same key and every existing edge finds it, no source change needed.
+**`targetIdProp` example:** `"element_id"` resolves to every label whose `kgIdProperty` is `element_id` — see the generated *Common `targetIdProp` Values* table below. Add a new machine type with the same key and every existing edge finds it, no source change needed.
 
 **Environment variables:** `"${HISTORIAN_HOST}"`-style values are replaced at load time from `process.env`.
 
@@ -482,42 +483,91 @@ Phase 5: Embeddings
 | targetIdProp | Resolves to label(s) | Edge rules using it |
 |---|---|---|
 | `analysis_id` | SPCAnalysis | — |
-| `article_no` | Article | 10 |
+| `article_no` | Article | 26 |
+| `batch_change_id` | BatchChange | — |
+| `batch_comment_id` | BatchComment | — |
+| `batch_event_id` | BatchEvent | 1 |
+| `batch_list_entry_id` | BatchListEntry | 1 |
+| `batch_list_id` | BatchList | 1 |
+| `batch_production_record_id` | BatchProductionRecord | 4 |
+| `change_id` | EngineeringChange | — |
 | `change_request_id` | ChangeRequest | — |
 | `confirmation_no` | BdeConfirmation | — |
+| `control_recipe_id` | ControlRecipe | 2 |
+| `criterion_id` | TestSpecificationCriterion | — |
 | `customer_no` | Customer | — |
 | `discrepancy_id` | ConstraintDiscrepancy, Discrepancy | — |
-| `element_id` | CNC_Machine, InjectionMoldingMachine, Machine | 10 |
-| `equipment_class_id` | EquipmentClass | 3 |
+| `effectivity_id` | Effectivity | — |
+| `element_id` | Area, CNC_Machine, Enterprise, InjectionMoldingMachine, Machine, Site, WorkCenter | 54 |
+| `equipment_class_id` | EquipmentClass | 18 |
+| `equipment_connection_id` | EquipmentConnection | — |
+| `equipment_procedural_element_class_id` | EquipmentProceduralElementClass | 1 |
+| `equipment_procedural_element_id` | EquipmentProceduralElement | — |
+| `g_recipe_id` | GRecipe | 2 |
+| `job_list_id` | JobList | 1 |
 | `job_order_no` | JobOrder | 1 |
-| `job_response_id` | JobResponse | — |
-| `lot_no` | InspectionLot | — |
-| `material_class_id` | MaterialClass, ThermoplasticClass | 4 |
-| `material_lot_no` | MaterialLot | 7 |
+| `job_response_id` | JobResponse | 1 |
+| `job_response_list_id` | JobResponseList | 1 |
+| `lot_no` | InspectionLot | 3 |
+| `master_recipe_id` | MasterRecipe | 2 |
+| `material_class_id` | MaterialClass, ThermoplasticClass | 19 |
+| `material_lot_no` | MaterialLot | 20 |
+| `operational_location_class_id` | OperationalLocationClass | 3 |
 | `operations_capability_id` | OperationsCapability | — |
-| `operations_definition_no` | OperationsDefinition | 4 |
+| `operations_definition_no` | OperationsDefinition | 7 |
+| `operations_event_class_id` | OperationsEventClass | 3 |
+| `operations_event_definition_id` | OperationsEventDefinition | 1 |
 | `operations_event_id` | OperationsEvent | 1 |
-| `operations_segment_no` | OperationsSegment | 3 |
+| `operations_material_bill_id` | OperationsMaterialBill | 3 |
+| `operations_material_bill_item_id` | OperationsMaterialBillItem | 1 |
+| `operations_performance_id` | OperationsPerformance | 1 |
+| `operations_response_no` | OperationsResponse | 1 |
+| `operations_schedule_id` | OperationsSchedule | 2 |
+| `operations_segment_no` | OperationsSegment | 9 |
 | `order_no` | CustomerOrder | — |
-| `person_id` | Person | 2 |
-| `personnel_class_id` | PersonnelClass | 5 |
-| `process_segment_no` | ProcessSegment | 6 |
+| `person_id` | Person | 13 |
+| `personnel_class_id` | PersonnelClass | 14 |
+| `physical_asset_class_id` | PhysicalAssetClass | 14 |
+| `process_element_id` | ProcessElement | 2 |
+| `process_segment_no` | ProcessSegment | 9 |
 | `product_definition_no` | ProductDefinition | — |
-| `production_order_no` | OperationsResponse, ProductionOrder | 4 |
+| `production_order_no` | ProductionOrder | 4 |
 | `proposal_id` | ResolutionProposal | — |
-| `quant_no` | Quant | 1 |
+| `quant_no` | Quant | 17 |
+| `recipe_element_id` | RecipeElement | 2 |
+| `resource_network_connection_id` | ResourceNetworkConnection | — |
+| `resource_network_connection_type_id` | ResourceNetworkConnectionType | 1 |
+| `resource_relationship_network_id` | ResourceRelationshipNetwork | 1 |
 | `response_id` | Response | — |
 | `rule_id` | AutoResolveRule | — |
-| `segment_requirement_no` | SegmentRequirement | 2 |
-| `segment_response_no` | SegmentResponse | 1 |
-| `storage_location_id` | StorageLocation | 2 |
-| `test_specification_id` | TestSpecification | 1 |
-| `tool_id` | Tool | 5 |
-| `work_master_id` | WorkMaster | 4 |
+| `segment_requirement_no` | SegmentRequirement | 6 |
+| `segment_response_no` | SegmentResponse | 4 |
+| `shift_window_id` | ShiftWindow | 1 |
+| `storage_location_id` | StorageLocation | 6 |
+| `test_result_id` | TestResult | 3 |
+| `test_specification_id` | TestSpecification | 17 |
+| `tool_id` | CuttingTool, Die, Fixture, Mould, Tooling | 16 |
+| `work_alert_definition_id` | WorkAlertDefinition | — |
+| `work_alert_id` | WorkAlert | — |
+| `work_calendar_definition_entry_id` | WorkCalendarDefinitionEntry | 1 |
+| `work_calendar_definition_id` | WorkCalendarDefinition | 2 |
+| `work_calendar_entry_id` | WorkCalendarEntry | 1 |
+| `work_calendar_id` | WorkCalendar | 1 |
+| `work_capability_id` | WorkCapability | 1 |
+| `work_directive_id` | WorkDirective | 3 |
+| `work_master_capability_id` | WorkMasterCapability | 1 |
+| `work_master_id` | WorkMaster | 7 |
+| `work_performance_id` | WorkPerformance | 2 |
 | `work_record_id` | WorkRecord | 1 |
 | `work_record_specification_id` | WorkRecordSpecification | 2 |
-| `work_response_id` | WorkResponse | 1 |
-| `workorder_no` | Workorder | 2 |
+| `work_response_id` | WorkResponse | 3 |
+| `work_schedule_id` | WorkSchedule | 3 |
+| `workflow_specification_connection_id` | WorkflowSpecificationConnection | — |
+| `workflow_specification_connection_type_id` | WorkflowSpecificationConnectionType | 2 |
+| `workflow_specification_id` | WorkflowSpecification | 6 |
+| `workflow_specification_node_id` | WorkflowSpecificationNode | 1 |
+| `workflow_specification_node_type_id` | WorkflowSpecificationNodeType | 2 |
+| `workorder_no` | Workorder | 3 |
 
 Derived from `contract.json` (`nodes` grouped by key property; `edges` for usage). A `targetIdProp` resolves to **every** label sharing that `kgIdProperty` — polymorphic resolution.
 <!-- gen:targetIdProp:end -->
@@ -526,10 +576,10 @@ Derived from `contract.json` (`nodes` grouped by key property; `edges` for usage
 
 ## Adding a New Machine Type
 
-1. Create `standard/profiles/equipment/<type>.json` (`category: "machine"`) with `parentType: "Machine"` and `kgIdProperty: "machine_id"`
-2. Add the machine's own attributes (the abstract `Machine` parent contributes identity + relationships — it has no attributes of its own)
+1. Create `standard/profiles/equipment/<type>.json` (`category: "machine"`) with `parentType: "Machine"` and `kgIdProperty: "element_id"`
+2. Add the machine's own attributes (the abstract `Machine` parent contributes the identity, the ISA-95 Equipment properties and the relationships)
 3. Add OPC-UA mapping in `sites/<site>/sources/opcua/<machine-id>-<category>.json`
-4. All existing edges with `targetIdProp: "machine_id"` automatically find the new type — **no source schema changes needed**
+4. All existing edges with `targetIdProp: "element_id"` automatically find the new type — **no source schema changes needed**
 
 ## Adding a New ERP Entity
 
@@ -547,9 +597,9 @@ Derived from `contract.json` (`nodes` grouped by key property; `edges` for usage
 In v3 every variable in an SM Profile carries a three-property contract that
 declares how its data is wired, where it is allowed to land, and what triggers
 a publish. These are **required** on every attribute in
-profiles with `category: "machine"` (under `standard/profiles/equipment/`, validated by `standard/validation/machine-profile-schema.json`)
+profiles with `category: "machine"` (under `standard/profiles/equipment/`, validated by `i3x-v5 packages/uns-grammar/validation/machine-profile-schema.json`)
 and the business-category profiles under `profiles/{erp,operations,qms,wms}/`
-(validated by `standard/validation/business-profile-schema.json` — there is no
+(validated by `i3x-v5 packages/uns-grammar/validation/business-profile-schema.json` — there is no
 `standard/profiles/business/` directory).
 
 ### `delivery` — wire class

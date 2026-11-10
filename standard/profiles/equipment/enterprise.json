@@ -1,0 +1,55 @@
+{
+  "profileId": "SMProfile-Enterprise",
+  "version": "1.1.0",
+  "standard": "CarToUNS",
+  "category": "equipment",
+  "displayName": "Enterprise (role-based equipment hierarchy)",
+  "description": "ISA-95 Part 2 cl. 5.5 (Equipment): the top of the role-based equipment hierarchy (ISA-95 Part 1 levels); equipment level Enterprise.",
+  "parentType": null,
+  "abstract": false,
+  "properties": [
+    {
+      "name": "element_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the element: the id of the plant tree (sites/<site>/instances), the same key as a machine.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "name",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Display name.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    }
+  ],
+  "relationships": [],
+  "constraints": [],
+  "semantics": [
+    "iso:62264-Equipment"
+  ],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "Equipment",
+    "part": 2,
+    "momDomain": "production",
+    "level": 4,
+    "note": "ISA-95 Part 2 cl. 5.5 Equipment: the top of the role-based equipment hierarchy (ISA-95 Part 1 levels); equipment level Enterprise. Core 4.0.0 (0.3.5, OPEN-0350, owner 07.10.).",
+    "propertyMap": {
+      "element_id": "Equipment.ID",
+      "name": "Equipment.Description"
+    },
+    "equipmentLevel": "Enterprise",
+    "grain": "one equipment element at equipment level Enterprise (ISA-95 Part 2 cl. 5.5; B2MML-Common.xsd EquipmentLevel1Type Enterprise): one row = one enterprise, keyed by its Equipment ID element_id — the one ID space all levels of the role-based equipment hierarchy share"
+  },
+  "kgNodeLabel": "Enterprise",
+  "kgIdProperty": "element_id"
+}

@@ -7,9 +7,15 @@
   "carries": [
     "mtconnect-cnc-01"
   ],
+  "emitter": {
+    "type": "unsac-edge"
+  },
+  "syncs": [
+    "mtconnect-to-opcua-cnc-mtc-01"
+  ],
   "capacity": 18,
   "authoring": "compiled",
-  "description": "MTConnect Sonder-Edge of cnc-mtc-01: reads the MTConnect agent and serves it as OPC-UA (bridge). Capacity = signal count today, measured 23.09.",
+  "description": "MTConnect Sonder-Edge of cnc-mtc-01: reads the MTConnect agent and serves it as OPC-UA (bridge). Capacity = signal count today, measured 23.09. Runs today as an old v4 edge; its move to v5 (emitter.type unsac-edge, the target) is open (owner 30.10.2026).",
   "feedback": {
     "grains": [
       "loaded"

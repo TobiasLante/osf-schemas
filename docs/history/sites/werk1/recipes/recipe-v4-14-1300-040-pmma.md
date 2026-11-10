@@ -8,3 +8,11 @@ Owner 25.09.2026: a machine never runs without a recipe. The part values were pa
 per-machine file named no part; the part each machine runs was read from sim-v5 on .154 (OPC-UA program + ERP order).
 All four bands are process_estimate: they are what the machine holds today, not a drawing. Replace part_mass_band with a
 drawing-derived band as soon as the drawing exists (see recipe-v4-12-0044-003-pa66gf30.json for the pattern).
+
+## 0.7.0 R3 (29.10.2026)
+
+18 parameters added from the typical PMMA processing window (process_estimate), the earlier values unchanged.
+
+## 0.7.0 C (30.10.2026)
+
+The nozzle temperature band is recipe:melt_temp_band, the ref the class declares and its rule recipe_melt_temp_band reads on Act_Temp_Nozzle (was recipe:nozzle_temp_c_band, a second name no class declared; owner 30.10.2026: a recipe value exists only if the class declares it). Values unchanged.

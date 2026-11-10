@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-Article",
-  "version": "2.2.0",
+  "version": "2.4.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Article (article / part)",
@@ -209,6 +209,117 @@
         "Permanent",
         "Transient"
       ]
+    },
+    {
+      "name": "test_specification_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The TestSpecification (TESTED_BY; ISA-95 MaterialDefinition → TestSpecification). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "revision",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "The revision of the article as the source names it — at SAP the suffix of the material number (dddd.1, dddd.2), elsewhere the revision field of the part. Never derived from the number by the model.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "version",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "The version within a revision (the second axis: iteration or processing state, e.g. A.3 in a PLM). Kept apart from the revision.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "base_article_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The article the revisions share (the stem dddd), as the source delivers it or by a rule declared on the source — the model never splits a number.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "A revision names its stem as a value: there is no stem object the ERP delivers, and B2MML MaterialDefinition has no link between revisions."
+      }
+    },
+    {
+      "name": "effective_start",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "From when this article revision is valid (effectivity by date). An effectivity by serial number, lot or unit is no date and has no B2MML field (an extension of its own, PLAN-0700 L5).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "effective_end",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "Until when this article revision is valid.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "published_date",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "When this article revision was released by the system that owns it.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "engineering_change_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The engineering change (ECN, SAP change number) that released this article revision.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "Kept as a value: an engineering change is an extension object with no edge into the ISA-95 catalogue."
+      }
+    },
+    {
+      "name": "plm_part_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The part number of this article in PLM (e.g. a Windchill part) where it differs from the ERP number; empty when the source does not name it.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "Kept as a value: the part lives in PLM; no profile of ours holds it."
+      }
     }
   ],
   "relationships": [
@@ -223,6 +334,12 @@
       "target": "Article",
       "targetIdProp": "article_no",
       "description": "The material definitions this article is assembled from (B2MML MaterialDefinition.AssemblyDefinition, ISA-95 Part 2 cl. 5.7); one edge per component, delivered by the source."
+    },
+    {
+      "type": "TESTED_BY",
+      "target": "TestSpecification",
+      "targetIdProp": "test_specification_id",
+      "description": "ISA-95 Part 2 cl. 5.7 (B2MML MaterialDefinition.TestSpecificationID)."
     }
   ],
   "constraints": [
@@ -255,7 +372,12 @@
       "name": "MaterialDefinition.Description",
       "material_class_ref": "MaterialDefinition.MaterialClassID",
       "assembly_type": "MaterialDefinition.AssemblyType",
-      "assembly_relationship": "MaterialDefinition.AssemblyRelationship"
+      "assembly_relationship": "MaterialDefinition.AssemblyRelationship",
+      "test_specification_ref": "MaterialDefinition.TestSpecificationID",
+      "revision": "MaterialDefinition.Version",
+      "effective_start": "MaterialDefinition.EffectiveStartDate",
+      "effective_end": "MaterialDefinition.EffectiveEndDate",
+      "published_date": "MaterialDefinition.PublishedDate"
     },
     "notInIsa95": [
       "unit",
@@ -270,9 +392,14 @@
       "stock_blocked",
       "stock_available",
       "reorder_level",
-      "safety_stock"
+      "safety_stock",
+      "version",
+      "base_article_ref",
+      "engineering_change_ref",
+      "plm_part_ref"
     ],
-    "mappingNote": "The unit of a MaterialDefinition sits on its property or quantity in B2MML, not on the definition itself. type, lead time, ABC class, cost, price, currency, stock figures, reorder level and safety stock are ERP article master and inventory fields; B2MML MaterialDefinition has no field for them."
+    "mappingNote": "The unit of a MaterialDefinition sits on its property or quantity in B2MML, not on the definition itself. type, lead time, ABC class, cost, price, currency, stock figures, reorder level and safety stock are ERP article master and inventory fields; B2MML MaterialDefinition has no field for them. PLM model (owner 29.10.2026): the revision is MaterialDefinition.Version; B2MML has one version field, so the second axis version (an iteration within a revision) and base_article_ref (the stem the revisions share) are extensions with no B2MML field. PLM extensions (owner 29.10.2026): engineering_change_ref and plm_part_ref have no B2MML field — B2MML knows no engineering change and no PLM part number next to the material definition.",
+    "grain": "one revision of one article (ISA-95 Part 2 MaterialDefinition): one row = one material number as the source delivers it (at SAP dddd.1, dddd.2 — each revision its own number), keyed by article_no; its family is the MaterialClass, its stem base_article_ref"
   },
   "kgNodeLabel": "Article",
   "kgIdProperty": "article_no"

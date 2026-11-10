@@ -1,0 +1,199 @@
+{
+  "profileId": "SMProfile-WorkCalendarEntry",
+  "version": "1.1.0",
+  "standard": "CarToUNS",
+  "category": "business",
+  "displayName": "Work Calendar Entry",
+  "description": "ISA-95 Part 4 cl. 13 (WorkCalendarEntry): one dated entry of a work calendar — a shift or a stop with its start and finish (OPEN-0350 round 4).",
+  "parentType": null,
+  "abstract": false,
+  "properties": [
+    {
+      "name": "work_calendar_entry_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the work calendar entry (join key): its own number from the source system.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "description",
+      "dataType": "String",
+      "valueType": "MD",
+      "required": false,
+      "category": "Core",
+      "description": "What the entry is (e.g. early shift on a given day).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "published_date",
+      "dataType": "DateTime",
+      "valueType": "MD",
+      "required": false,
+      "category": "Core",
+      "description": "When the entry was published.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "start_date_time",
+      "dataType": "DateTime",
+      "valueType": "MD",
+      "required": true,
+      "category": "Core",
+      "description": "When the entry starts.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "finish_date_time",
+      "dataType": "DateTime",
+      "valueType": "MD",
+      "required": false,
+      "category": "Core",
+      "description": "When the entry finishes.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "entry_type",
+      "dataType": "String",
+      "valueType": "MD",
+      "required": false,
+      "category": "Core",
+      "description": "The kind of entry (e.g. shift, planned stop).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "hierarchy_scope_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The equipment the entry applies to (IN_SCOPE_OF; ISA-95 Part 2 cl. 5.1 hierarchy scope).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "work_calendar_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The WorkCalendar this entry belongs to (PART_OF; B2MML WorkCalendar.WorkCalendarEntry).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "parent_work_calendar_entry_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The WorkCalendarEntry this entry is part of (PART_OF; B2MML WorkCalendarEntry.WorkCalendarEntryChild). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "work_calendar_definition_entry_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The definition entry (the weekly pattern, e.g. a shift window) this entry was made from (B2MML WorkCalendarEntry.WorkCalendarDefintionEntryID).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "The reference is kept as a value: the ISA-95 edge catalogue has no edge for it."
+      }
+    }
+  ],
+  "relationships": [
+    {
+      "type": "PART_OF",
+      "target": "WorkCalendar",
+      "targetIdProp": "work_calendar_id",
+      "description": "ISA-95 Part 4 cl. 13 (B2MML WorkCalendar.WorkCalendarEntry)."
+    },
+    {
+      "type": "PART_OF",
+      "target": "WorkCalendarEntry",
+      "targetIdProp": "work_calendar_entry_id",
+      "description": "ISA-95 Part 4 cl. 13 (B2MML WorkCalendarEntry.WorkCalendarEntryChild)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Enterprise",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Site",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Area",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "WorkCenter",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Machine",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iso:62264-WorkCalendarEntry"
+  ],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "WorkCalendarEntry",
+    "part": 4,
+    "momDomain": "production",
+    "level": 3,
+    "note": "ISA-95 Part 4 cl. 13 WorkCalendarEntry: one dated entry of a work calendar. A weekly pattern is a WorkCalendarDefinitionEntry (the shift window). Core 4.0.0 (0.3.5, OPEN-0350 round 4).",
+    "propertyMap": {
+      "work_calendar_entry_id": "WorkCalendarEntry.ID",
+      "description": "WorkCalendarEntry.Description",
+      "published_date": "WorkCalendarEntry.PublishedDate",
+      "start_date_time": "WorkCalendarEntry.StartDateTime",
+      "finish_date_time": "WorkCalendarEntry.FinishDateTime",
+      "entry_type": "WorkCalendarEntry.EntryType",
+      "hierarchy_scope_ref": "WorkCalendarEntry.HierarchyScope.EquipmentID",
+      "work_calendar_definition_entry_ref": "WorkCalendarEntry.WorkCalendarDefintionEntryID"
+    },
+    "notInIsa95": [
+      "work_calendar_ref",
+      "parent_work_calendar_entry_ref"
+    ],
+    "mappingNote": "Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent)."
+  },
+  "kgNodeLabel": "WorkCalendarEntry",
+  "kgIdProperty": "work_calendar_entry_id"
+}

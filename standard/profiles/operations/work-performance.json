@@ -1,0 +1,227 @@
+{
+  "profileId": "SMProfile-WorkPerformance",
+  "version": "2.0.0",
+  "standard": "CarToUNS",
+  "category": "business",
+  "displayName": "Work Performance",
+  "description": "ISA-95 Part 4 cl. 8 (WorkPerformance): the performance of a work schedule (the container of work responses).",
+  "parentType": null,
+  "abstract": false,
+  "properties": [
+    {
+      "name": "work_performance_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the work performance: its own id from the source system (ISA-95 WorkPerformance.ID).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "description",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 WorkPerformance.Description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "version",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 WorkPerformance.Version.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "published_date",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "ISA-95 WorkPerformance.PublishedDate.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "start_time",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "ISA-95 WorkPerformance.StartTime.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
+    },
+    {
+      "name": "end_time",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "ISA-95 WorkPerformance.EndTime.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
+    },
+    {
+      "name": "work_type",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 WorkPerformance.WorkType.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD",
+      "enum": [
+        "Production",
+        "Maintenance",
+        "Quality",
+        "Inventory",
+        "Mixed",
+        "Other"
+      ]
+    },
+    {
+      "name": "work_state",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 WorkPerformance.WorkState.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV",
+      "enum": [
+        "Waiting",
+        "Ready",
+        "Running",
+        "Completed",
+        "Aborted",
+        "Held",
+        "Paused",
+        "Suspended",
+        "Closed",
+        "Other"
+      ]
+    },
+    {
+      "name": "hierarchy_scope_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The element of the role-based equipment hierarchy this object belongs to (ISA-95 Part 2 cl. 5.1 hierarchy scope, IN_SCOPE_OF). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "work_schedule_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The WorkSchedule (FOR_WORK_SCHEDULE; ISA-95 WorkPerformance → WorkSchedule). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "parent_work_performance_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The WorkPerformance this WorkPerformance is part of (PART_OF; ISA-95 WorkPerformance MADE_UP_OF WorkPerformance). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "FOR_WORK_SCHEDULE",
+      "target": "WorkSchedule",
+      "targetIdProp": "work_schedule_id",
+      "description": "ISA-95 Part 4 cl. 8 (B2MML WorkPerformance.WorkScheduleID)."
+    },
+    {
+      "type": "PART_OF",
+      "target": "WorkPerformance",
+      "targetIdProp": "work_performance_id",
+      "description": "ISA-95 Part 4 cl. 8 (B2MML WorkPerformance.WorkPerformanceChild)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Enterprise",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Site",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Area",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "WorkCenter",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Machine",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iso:62264-WorkPerformance"
+  ],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "WorkPerformance",
+    "part": 4,
+    "momDomain": "production",
+    "level": 3,
+    "note": "ISA-95 Part 4 cl. 8 WorkPerformance: the performance of a work schedule (the container of work responses). Core 4.0.0 (0.3.5, OPEN-0350, owner 07.10.).",
+    "propertyMap": {
+      "work_performance_id": "WorkPerformance.ID",
+      "description": "WorkPerformance.Description",
+      "version": "WorkPerformance.Version",
+      "published_date": "WorkPerformance.PublishedDate",
+      "start_time": "WorkPerformance.StartTime",
+      "end_time": "WorkPerformance.EndTime",
+      "work_type": "WorkPerformance.WorkType",
+      "work_state": "WorkPerformance.WorkState",
+      "hierarchy_scope_ref": "WorkPerformance.HierarchyScope.EquipmentID",
+      "work_schedule_ref": "WorkPerformance.WorkScheduleID"
+    },
+    "notInIsa95": [
+      "parent_work_performance_ref"
+    ],
+    "mappingNote": "Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent)."
+  },
+  "kgNodeLabel": "WorkPerformance",
+  "kgIdProperty": "work_performance_id"
+}

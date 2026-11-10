@@ -1,6 +1,6 @@
 {
   "recipeId": "RECIPE-sgm-004-PA66GF30-bracket-B",
-  "version": "5.1.0",
+  "version": "5.2.0",
   "owner": "Process Engineering",
   "profileRef": "SMProfile-InjectionMoldingMachine",
   "displayName": "PA66-GF30 bracket-B on sgm-004 (mould-B)",
@@ -120,7 +120,35 @@
         288.5,
         301.5
       ]
-    }
+    },
+    "recipe:cavity_pressure_bar_band": [
+      300,
+      900
+    ],
+    "recipe:shot_volume_cm3_band": [
+      5.3403,
+      5.9024
+    ],
+    "recipe:dryer_temp_c_band": [
+      70,
+      90
+    ],
+    "recipe:dryer_residence_min_band": [
+      192,
+      480
+    ],
+    "recipe:regrind_ratio_pct_band": [
+      0,
+      10
+    ],
+    "recipe:colour_masterbatch_pct_band": [
+      0,
+      3
+    ],
+    "recipe:power_kw_band": [
+      5,
+      30
+    ]
   },
   "toleranceSource": {
     "recipe:hotrunner_temp_band": "process_estimate",
@@ -142,7 +170,14 @@
     "recipe:barrel_zone3_temp_band": "process_estimate",
     "recipe:barrel_zone3_control_limits": "process_estimate",
     "recipe:barrel_zone4_temp_band": "process_estimate",
-    "recipe:barrel_zone4_control_limits": "process_estimate"
+    "recipe:barrel_zone4_control_limits": "process_estimate",
+    "recipe:cavity_pressure_bar_band": "process_estimate",
+    "recipe:shot_volume_cm3_band": "process_estimate",
+    "recipe:dryer_temp_c_band": "process_estimate",
+    "recipe:dryer_residence_min_band": "process_estimate",
+    "recipe:regrind_ratio_pct_band": "process_estimate",
+    "recipe:colour_masterbatch_pct_band": "process_estimate",
+    "recipe:power_kw_band": "process_estimate"
   },
   "capability": {
     "recipe:hotrunner_temp_band": {
@@ -155,7 +190,7 @@
           "on_change": [
             "tool_ref",
             "program_ref",
-            "resin"
+            "Act_Ref_Resin"
           ]
         },
         "min_sample_n": 1000
@@ -170,7 +205,7 @@
         "regime_markers": {
           "on_change": [
             "tool_ref",
-            "resin"
+            "Act_Ref_Resin"
           ]
         },
         "min_sample_n": 1000
@@ -186,7 +221,7 @@
           "on_change": [
             "tool_ref",
             "program_ref",
-            "resin"
+            "Act_Ref_Resin"
           ]
         },
         "min_sample_n": 1000
@@ -202,7 +237,7 @@
           "on_change": [
             "tool_ref",
             "program_ref",
-            "resin"
+            "Act_Ref_Resin"
           ]
         },
         "min_sample_n": 1000
@@ -218,7 +253,7 @@
           "on_change": [
             "tool_ref",
             "program_ref",
-            "resin"
+            "Act_Ref_Resin"
           ]
         },
         "min_sample_n": 1000
@@ -234,7 +269,7 @@
           "on_change": [
             "tool_ref",
             "program_ref",
-            "resin"
+            "Act_Ref_Resin"
           ]
         },
         "min_sample_n": 1000
@@ -250,10 +285,10 @@
           "on_change": [
             "tool_ref",
             "program_ref",
-            "resin"
+            "Act_Ref_Resin"
           ],
           "on_reset": [
-            "shotCount"
+            "Act_Amount_Shot"
           ]
         },
         "min_sample_n": 1000
@@ -268,7 +303,7 @@
         "regime_markers": {
           "on_change": [
             "tool_ref",
-            "resin"
+            "Act_Ref_Resin"
           ]
         },
         "min_sample_n": 1000
@@ -283,7 +318,7 @@
         "regime_markers": {
           "on_change": [
             "tool_ref",
-            "resin"
+            "Act_Ref_Resin"
           ]
         },
         "min_sample_n": 1000
@@ -298,7 +333,7 @@
         "regime_markers": {
           "on_change": [
             "tool_ref",
-            "resin"
+            "Act_Ref_Resin"
           ]
         },
         "min_sample_n": 1000
@@ -313,7 +348,7 @@
         "regime_markers": {
           "on_change": [
             "tool_ref",
-            "resin"
+            "Act_Ref_Resin"
           ]
         },
         "min_sample_n": 1000
@@ -328,7 +363,7 @@
         "regime_markers": {
           "on_change": [
             "tool_ref",
-            "resin"
+            "Act_Ref_Resin"
           ]
         },
         "min_sample_n": 1000
@@ -343,7 +378,7 @@
         "regime_markers": {
           "on_change": [
             "tool_ref",
-            "resin"
+            "Act_Ref_Resin"
           ]
         },
         "min_sample_n": 1000
@@ -358,7 +393,7 @@
         "regime_markers": {
           "on_change": [
             "tool_ref",
-            "resin"
+            "Act_Ref_Resin"
           ]
         },
         "min_sample_n": 1000
@@ -373,7 +408,7 @@
         "regime_markers": {
           "on_change": [
             "tool_ref",
-            "resin"
+            "Act_Ref_Resin"
           ]
         },
         "min_sample_n": 1000
@@ -388,7 +423,7 @@
         "regime_markers": {
           "on_change": [
             "tool_ref",
-            "resin"
+            "Act_Ref_Resin"
           ]
         },
         "min_sample_n": 1000
@@ -403,7 +438,7 @@
         "regime_markers": {
           "on_change": [
             "tool_ref",
-            "resin"
+            "Act_Ref_Resin"
           ]
         },
         "min_sample_n": 1000
@@ -418,7 +453,7 @@
         "regime_markers": {
           "on_change": [
             "tool_ref",
-            "resin"
+            "Act_Ref_Resin"
           ]
         },
         "min_sample_n": 1000
@@ -433,7 +468,7 @@
         "regime_markers": {
           "on_change": [
             "tool_ref",
-            "resin"
+            "Act_Ref_Resin"
           ]
         },
         "min_sample_n": 1000
@@ -448,7 +483,112 @@
         "regime_markers": {
           "on_change": [
             "tool_ref",
-            "resin"
+            "Act_Ref_Resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:cavity_pressure_bar_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "tool_ref",
+            "Act_Ref_Resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:shot_volume_cm3_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "tool_ref",
+            "Act_Ref_Resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:dryer_temp_c_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "tool_ref",
+            "Act_Ref_Resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:dryer_residence_min_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "tool_ref",
+            "Act_Ref_Resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:regrind_ratio_pct_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "tool_ref",
+            "Act_Ref_Resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:colour_masterbatch_pct_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "tool_ref",
+            "Act_Ref_Resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:power_kw_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "tool_ref",
+            "Act_Ref_Resin"
           ]
         },
         "min_sample_n": 1000
@@ -461,7 +601,7 @@
       "soll": "PA66-GF30",
       "unit": "",
       "monitored": false,
-      "smAttribute": "resin"
+      "smAttribute": "Act_Ref_Resin"
     },
     {
       "param": "hotrunnerTempC",
@@ -474,7 +614,7 @@
       "monitored": true,
       "valueFrom": "recipe:hotrunner_temp_band",
       "constraintId": "recipe_hotrunner_temp_band",
-      "smAttribute": "hotrunnerTempC"
+      "smAttribute": "Act_Temp_Hotrunner"
     },
     {
       "param": "partMass_g",
@@ -485,10 +625,10 @@
       ],
       "unit": "GRM",
       "monitored": true,
-      "gate": "inCycle==true",
+      "gate": "Act_State_InCycle==true",
       "valueFrom": "recipe:part_mass_band",
       "constraintId": "recipe_part_mass_band",
-      "smAttribute": "partMass_g"
+      "smAttribute": "Act_Mass_Part"
     },
     {
       "param": "cushionMm",
@@ -501,7 +641,7 @@
       "monitored": true,
       "valueFrom": "recipe:cushion_band",
       "constraintId": "recipe_cushion_band",
-      "smAttribute": "cushionMm"
+      "smAttribute": "Act_Length_Cushion"
     },
     {
       "param": "peakPressureBar",
@@ -512,10 +652,10 @@
       ],
       "unit": "BAR",
       "monitored": true,
-      "gate": "phaseName==HOLD",
+      "gate": "Act_Status_Phase==HOLD",
       "valueFrom": "recipe:peak_pressure_band",
       "constraintId": "recipe_peak_pressure_band",
-      "smAttribute": "peakPressureBar"
+      "smAttribute": "Act_Pressure_Peak"
     },
     {
       "param": "holdPressureBar",
@@ -526,10 +666,10 @@
       ],
       "unit": "BAR",
       "monitored": true,
-      "gate": "phaseName==HOLD",
+      "gate": "Act_Status_Phase==HOLD",
       "valueFrom": "recipe:hold_pressure_band",
       "constraintId": "recipe_hold_pressure_band",
-      "smAttribute": "holdPressureBar"
+      "smAttribute": "Act_Pressure_Hold"
     },
     {
       "param": "mouldTempC",
@@ -540,10 +680,10 @@
       ],
       "unit": "CEL",
       "monitored": true,
-      "gate": "inCycle==true",
+      "gate": "Act_State_InCycle==true",
       "valueFrom": "recipe:mould_temp_band",
       "constraintId": "recipe_mould_temp_band",
-      "smAttribute": "mouldTempC"
+      "smAttribute": "Act_Temp_Mould"
     },
     {
       "param": "nozzleTempC",
@@ -556,7 +696,7 @@
       "monitored": true,
       "valueFrom": "recipe:melt_temp_band",
       "constraintId": "recipe_melt_temp_band",
-      "smAttribute": "nozzleTempC"
+      "smAttribute": "Act_Temp_Nozzle"
     },
     {
       "param": "injectionSpeedMmPerSec",
@@ -567,10 +707,10 @@
       ],
       "unit": "C16",
       "monitored": true,
-      "gate": "inCycle==true",
+      "gate": "Act_State_InCycle==true",
       "valueFrom": "recipe:injection_speed_band",
       "constraintId": "recipe_injection_speed_band",
-      "smAttribute": "injectionSpeedMmPerSec"
+      "smAttribute": "Act_Speed_Injection"
     },
     {
       "param": "backPressureBar",
@@ -581,24 +721,24 @@
       ],
       "unit": "BAR",
       "monitored": true,
-      "gate": "inCycle==true",
+      "gate": "Act_State_InCycle==true",
       "valueFrom": "recipe:back_pressure_band",
       "constraintId": "recipe_back_pressure_band",
-      "smAttribute": "backPressureBar"
+      "smAttribute": "Act_Pressure_Back"
     },
     {
       "param": "coolingFlowLMin",
-      "soll": 22.0,
+      "soll": 22,
       "tolerance": [
         19.8,
         24.2
       ],
       "unit": "L2",
       "monitored": true,
-      "gate": "inCycle==true",
+      "gate": "Act_State_InCycle==true",
       "valueFrom": "recipe:cooling_flow_band",
       "constraintId": "recipe_cooling_flow_band",
-      "smAttribute": "coolingFlowLMin"
+      "smAttribute": "Act_Rate_CoolingFlow"
     },
     {
       "param": "cycleTimeSec",
@@ -609,10 +749,10 @@
       ],
       "unit": "SEC",
       "monitored": true,
-      "gate": "inCycle==true",
+      "gate": "Act_State_InCycle==true",
       "valueFrom": "recipe:cycle_time_band",
       "constraintId": "recipe_cycle_time_band",
-      "smAttribute": "cycleTimeSec"
+      "smAttribute": "Act_Time_Cycle"
     },
     {
       "param": "barrelZone1TempC",
@@ -625,7 +765,7 @@
       "monitored": true,
       "valueFrom": "recipe:barrel_zone1_temp_band",
       "constraintId": "recipe_barrel_zone1_temp_band",
-      "smAttribute": "barrelZone1TempC"
+      "smAttribute": "Act_Temp_BarrelZone1"
     },
     {
       "param": "barrelZone2TempC",
@@ -638,7 +778,7 @@
       "monitored": true,
       "valueFrom": "recipe:barrel_zone2_temp_band",
       "constraintId": "recipe_barrel_zone2_temp_band",
-      "smAttribute": "barrelZone2TempC"
+      "smAttribute": "Act_Temp_BarrelZone2"
     },
     {
       "param": "barrelZone3TempC",
@@ -651,7 +791,7 @@
       "monitored": true,
       "valueFrom": "recipe:barrel_zone3_temp_band",
       "constraintId": "recipe_barrel_zone3_temp_band",
-      "smAttribute": "barrelZone3TempC"
+      "smAttribute": "Act_Temp_BarrelZone3"
     },
     {
       "param": "barrelZone4TempC",
@@ -664,11 +804,96 @@
       "monitored": true,
       "valueFrom": "recipe:barrel_zone4_temp_band",
       "constraintId": "recipe_barrel_zone4_temp_band",
-      "smAttribute": "barrelZone4TempC"
+      "smAttribute": "Act_Temp_BarrelZone4"
+    },
+    {
+      "param": "cavityPressureBar",
+      "soll": 560,
+      "tolerance": [
+        300,
+        900
+      ],
+      "unit": "BAR",
+      "smAttribute": "Act_Pressure_Cavity",
+      "monitored": true,
+      "valueFrom": "recipe:cavity_pressure_bar_band"
+    },
+    {
+      "param": "shotVolumeCm3",
+      "soll": 5.6213,
+      "tolerance": [
+        5.3403,
+        5.9024
+      ],
+      "unit": "CMQ",
+      "smAttribute": "Act_Volume_Shot",
+      "monitored": true,
+      "valueFrom": "recipe:shot_volume_cm3_band"
+    },
+    {
+      "param": "dryerTempC",
+      "soll": 80,
+      "tolerance": [
+        70,
+        90
+      ],
+      "unit": "CEL",
+      "smAttribute": "Act_Temp_Dryer",
+      "monitored": true,
+      "valueFrom": "recipe:dryer_temp_c_band"
+    },
+    {
+      "param": "dryerResidenceMin",
+      "soll": 240,
+      "tolerance": [
+        192,
+        480
+      ],
+      "unit": "MIN",
+      "smAttribute": "Act_Time_DryerResidence",
+      "monitored": true,
+      "valueFrom": "recipe:dryer_residence_min_band"
+    },
+    {
+      "param": "regrindRatioPct",
+      "soll": 10,
+      "tolerance": [
+        0,
+        10
+      ],
+      "unit": "P1",
+      "smAttribute": "Act_Pct_Regrind",
+      "monitored": true,
+      "valueFrom": "recipe:regrind_ratio_pct_band"
+    },
+    {
+      "param": "colourMasterbatchPct",
+      "soll": 0,
+      "tolerance": [
+        0,
+        3
+      ],
+      "unit": "P1",
+      "smAttribute": "Act_Pct_Masterbatch",
+      "monitored": true,
+      "valueFrom": "recipe:colour_masterbatch_pct_band"
+    },
+    {
+      "param": "powerKw",
+      "soll": 15,
+      "tolerance": [
+        5,
+        30
+      ],
+      "unit": "KWT",
+      "smAttribute": "Act_Power_Machine",
+      "monitored": true,
+      "valueFrom": "recipe:power_kw_band"
     }
   ],
   "parked": true,
   "parkedAt": "2026-07-12",
   "parkedBy": "CAPT-INTEGRATE",
-  "parkedReason": "PARKED — this recipe can NEVER match a production order, and it has never matched one. MEASURED 2026-07-12 against the FULL article master of sim-v5 PROD (.154): 222 articles, population exhausted. match.article \"bracket-B\" DOES NOT EXIST among them. The ERP keys its articles as PART-A/B/C, WIP-*, RAW-*, _V4_*. Consequence: match never fires, the bands never resolve, and NOTHING is ever checked against this recipe — silently. It has been shipped as if it were monitoring sgm-004 since it was written. It was not. The only recipe that actually binds sgm-004 is recipe-sgm-004-default.json, which matches on equipment (sgm-004), not on article.\n\nWHY IT IS PARKED AND NOT REPAIRED: repairing it means naming the article this recipe is FOR, and that is a product decision, not an inference. Plausible candidates exist — \"PART-B\" (FINISHED, \"Montagewinkel-Baugruppe\") and \"WIP-BRACKET-CNC\" (WIP, \"Montagewinkel CNC-vorbearbeitet\") — but picking one on resemblance would be inventing a fact about the customer's product. A wrong article is worse than a parked recipe: it would silently apply PA66-GF30 bands to the wrong part and then look like it was working.\n\nPRECONDITION TO UN-PARK: set match.article to an article_no that exists in SMProfile-Article, confirmed by the product owner. ci/check-vocab-drift.mjs then verifies it against the live article master on every run and FAILS (exit 1) if it ever goes dead again. Un-parking without that check passing is not allowed."
+  "parkedReason": "PARKED — this recipe can NEVER match a production order, and it has never matched one. MEASURED 2026-07-12 against the FULL article master of sim-v5 PROD (.154): 222 articles, population exhausted. match.article \"bracket-B\" DOES NOT EXIST among them. The ERP keys its articles as PART-A/B/C, WIP-*, RAW-*, _V4_*. Consequence: match never fires, the bands never resolve, and NOTHING is ever checked against this recipe — silently. It has been shipped as if it were monitoring sgm-004 since it was written. It was not. The only recipe that actually binds sgm-004 is recipe-sgm-004-default.json, which matches on equipment (sgm-004), not on article.\n\nWHY IT IS PARKED AND NOT REPAIRED: repairing it means naming the article this recipe is FOR, and that is a product decision, not an inference. Plausible candidates exist — \"PART-B\" (FINISHED, \"Montagewinkel-Baugruppe\") and \"WIP-BRACKET-CNC\" (WIP, \"Montagewinkel CNC-vorbearbeitet\") — but picking one on resemblance would be inventing a fact about the customer's product. A wrong article is worse than a parked recipe: it would silently apply PA66-GF30 bands to the wrong part and then look like it was working.\n\nPRECONDITION TO UN-PARK: set match.article to an article_no that exists in SMProfile-Article, confirmed by the product owner. ci/check-vocab-drift.mjs then verifies it against the live article master on every run and FAILS (exit 1) if it ever goes dead again. Un-parking without that check passing is not allowed.",
+  "equipmentClassNote": "ERP routing group —; the plant runs the article on every machine of POOL-SGM — the recipe binds to the profile, every injection moulding machine (owner 10.11.2026); each machine's limits still guard it"
 }

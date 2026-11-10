@@ -1,19 +1,26 @@
 {
  "_comment": "COMPACT EQUIPMENT MODEL — the ONE documented exception to the entity-profile standard. Full text: docs/history/standard/profiles/equipment/equipment-model.md, _comment.",
  "modelId": "SMProfile-EquipmentModel",
- "version": "2.0.0",
+ "version": "3.0.0",
  "standard": "ISA-95",
- "displayName": "Equipment Model (compact, 7 levels — the documented exception)",
+ "displayName": "Equipment Model (compact, the role-based levels of ISA-95 Part 1 and ISA-88 — the documented exception)",
  "isa95": { "objectModel": "Equipment", "momDomain": "production" },
  "attributeConvention": "each level: <node>_id (key) | <node>_code | name | <parent>_ref (FK -> parent.<parent>_id, realises PART_OF)",
- "foBinding": { "level": "Unit", "fkOnFo": "machine_ref", "joinTo": "unit_id" },
+ "foBinding": { "fkOnFo": "machine_ref", "levels": [ { "level": "WorkCell", "joinTo": "work_cell_id" }, { "level": "Unit", "joinTo": "unit_id" }, { "level": "StorageUnit", "joinTo": "storage_unit_id" }, { "level": "WorkUnit", "joinTo": "work_unit_id" } ], "note": "An order, segment or tool binds to the WORK UNIT of its branch (ISA-95 Part 1); which branch a work center uses is said by the plant's instances (equipmentLevel), never by the standard or the site — one site can run a batch area and a discrete line side by side (2026-10-29)." },
  "hierarchy": [
   { "node": "Enterprise", "key": "enterprise_id", "model": "ISA-95" },
   { "node": "Site", "key": "site_id", "parent": "Enterprise", "model": "ISA-95" },
   { "node": "Area", "key": "area_id", "parent": "Site", "model": "ISA-95" },
-  { "node": "ProcessCell", "key": "process_cell_id", "parent": "Area", "model": "ISA-88" },
-  { "node": "Unit", "key": "unit_id", "parent": "ProcessCell", "model": "ISA-88", "note": "OT-relevant 'machine'/process-stage level; orders & segments bind here." },
-  { "node": "EquipmentModule", "key": "equipment_module_id", "parent": "Unit", "model": "ISA-88" },
+  { "node": "ProductionLine", "key": "production_line_id", "parent": "Area", "model": "ISA-95", "note": "Work center of discrete production (Part 1 role-based hierarchy); the line of the UNS path." },
+  { "node": "WorkCell", "key": "work_cell_id", "parent": "ProductionLine", "model": "ISA-95", "note": "Work unit of discrete production: the OT-relevant 'machine' level of a discrete plant; orders & segments bind here (core 6.0.0, audit H1)." },
+  { "node": "ProcessCell", "key": "process_cell_id", "parent": "Area", "model": "ISA-88", "note": "Work center of batch production (ISA-88 / Part 1)." },
+  { "node": "Unit", "key": "unit_id", "parent": "ProcessCell", "model": "ISA-88", "note": "Work unit of batch production: the machine/process-stage level of a batch plant." },
+  { "node": "ProductionUnit", "key": "production_unit_id", "parent": "Area", "model": "ISA-95", "note": "Work center of continuous production (Part 1); no work unit is assumed without the norm text." },
+  { "node": "StorageZone", "key": "storage_zone_id", "parent": "Area", "model": "ISA-95", "note": "Work center of storage (Part 1)." },
+  { "node": "StorageUnit", "key": "storage_unit_id", "parent": "StorageZone", "model": "ISA-95", "note": "Work unit of storage (Part 1)." },
+  { "node": "WorkCenter", "key": "work_center_id", "parent": "Area", "model": "ISA-95", "note": "The generic work center (Part 2 EquipmentLevel WorkCenter)." },
+  { "node": "WorkUnit", "key": "work_unit_id", "parent": "WorkCenter", "model": "ISA-95", "note": "The generic work unit (Part 2 EquipmentLevel WorkUnit)." },
+  { "node": "EquipmentModule", "key": "equipment_module_id", "parent": "Unit", "model": "ISA-88", "note": "Below a work unit (ISA-88 names the Unit)." },
   { "node": "ControlModule", "key": "control_module_id", "parent": "EquipmentModule", "model": "ISA-88" }
  ]
 }

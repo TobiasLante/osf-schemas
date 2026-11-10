@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-OperationsResponse",
-  "version": "2.3.0",
+  "version": "4.0.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Operations Response (production actuals / confirmation)",
@@ -9,11 +9,22 @@
   "abstract": false,
   "properties": [
     {
-      "name": "production_order_no",
+      "name": "operations_response_no",
       "dataType": "String",
       "required": true,
       "category": "Core",
-      "description": "Join key — the OperationsRequest whose actuals this confirms (RESPONDS_TO).",
+      "description": "Identity of the operations response: its own number from the source system (ISA-95 OperationsResponse.ID; core 4.0.0, F3).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "production_order_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "The production order (OperationsRequest) these actuals answer (RESPONDS_TO). Until core 4.0.0 this was the key production_order_no.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
@@ -35,6 +46,17 @@
       }
     },
     {
+      "name": "article_revision",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The revision of the article that was built or used, where the source's article number carries none (a PLM part number with revision A). Empty when the number itself names the revision (at SAP dddd.1).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
       "name": "machine_ref",
       "dataType": "String",
       "required": false,
@@ -46,7 +68,7 @@
       "valueType": "ID",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
+        "reason": "The machine of a response is its SegmentResponse's EquipmentActual — the edge lives there (SMProfile-SegmentResponse ACTUAL_EQUIPMENT); an edge from here would be a shortcut through SegmentResponse (retired 25.09.). Kept as a value (Explorer X1, judged core 6.0.0)."
       }
     },
     {
@@ -90,8 +112,16 @@
       "category": "Core",
       "description": "Actual status of the confirmation. Full text: docs/history/standard/profiles/operations/operations-response.md, attributes › status › description.",
       "enum": [
-        "in_arbeit",
-        "fertig"
+        "Waiting",
+        "Ready",
+        "Running",
+        "Completed",
+        "Aborted",
+        "Held",
+        "Paused",
+        "Suspended",
+        "Closed",
+        "Other"
       ],
       "delivery": "transactional",
       "scope": "hub",
@@ -118,6 +148,78 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "never"
+    },
+    {
+      "name": "operations_definition_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The OperationsDefinition (FOR_OPERATIONS_DEFINITION; ISA-95 OperationsResponse → OperationsDefinition). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "operations_definition_version",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The version of the operations definition this order / response ran with, where the source's definition id carries none (a routing number with its own change state). Empty when the id itself names the version.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "operations_segment_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The OperationsSegment (FOR_OPERATIONS_SEGMENT; ISA-95 OperationsResponse → OperationsSegment). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "operations_performance_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The OperationsPerformance this OperationsResponse is part of (PART_OF; ISA-95 OperationsPerformance MADE_UP_OF OperationsResponse). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "segment_requirement_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The SegmentRequirement (RESPONDS_TO; ISA-95 OperationsResponse → SegmentRequirement). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "operations_type",
+      "dataType": "String",
+      "description": "ISA-95 operations type (B2MML OperationsType; Part 3/4: which MOM area the object belongs to; audit M1). A source without the column sets the constant of the profile's momDomain (columnMappings const).",
+      "enum": [
+        "Production",
+        "Maintenance",
+        "Quality",
+        "Inventory",
+        "Mixed",
+        "Other"
+      ],
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
     }
   ],
   "relationships": [
@@ -126,6 +228,30 @@
       "target": "SegmentResponse",
       "description": "v2.0 — Inverse of SegmentResponse.PART_OF: the actuals per ProcessSegment.",
       "targetIdProp": "segment_response_no"
+    },
+    {
+      "type": "FOR_OPERATIONS_DEFINITION",
+      "target": "OperationsDefinition",
+      "targetIdProp": "operations_definition_no",
+      "description": "ISA-95 Part 2 cl. 6.3 (B2MML OperationsResponse.OperationsDefinitionID)."
+    },
+    {
+      "type": "FOR_OPERATIONS_SEGMENT",
+      "target": "OperationsSegment",
+      "targetIdProp": "operations_segment_no",
+      "description": "ISA-95 Part 2 cl. 6.3 (B2MML OperationsResponse.OperationsSegmentID)."
+    },
+    {
+      "type": "PART_OF",
+      "target": "OperationsPerformance",
+      "targetIdProp": "operations_performance_id",
+      "description": "ISA-95 Part 2 cl. 6.3 (B2MML OperationsPerformance.OperationsResponse)."
+    },
+    {
+      "type": "RESPONDS_TO",
+      "target": "SegmentRequirement",
+      "targetIdProp": "segment_requirement_no",
+      "description": "ISA-95 Part 2 cl. 6.3 (B2MML OperationsResponse.SegmentRequirementID)."
     }
   ],
   "constraints": [],
@@ -138,20 +264,36 @@
     "level": 3,
     "note": "Level-3 MOM OperationsResponse (B2MML) = the actuals. Full text: docs/history/standard/profiles/operations/operations-response.md, isa95 › note.",
     "propertyMap": {
-      "production_order_no": "OperationsResponse.OperationsRequestID",
       "article_ref": "OperationsResponse.SegmentResponse.MaterialActual.MaterialDefinitionID",
       "machine_ref": "OperationsResponse.SegmentResponse.EquipmentActual.EquipmentID",
       "quantity_produced": "OperationsResponse.SegmentResponse.MaterialActual.Quantity",
       "actual_end_time": "OperationsResponse.EndTime",
-      "status": "OperationsResponse.ResponseState"
+      "status": "OperationsResponse.ResponseState",
+      "production_order_ref": "OperationsResponse.OperationsRequestID",
+      "operations_response_no": "OperationsResponse.ID",
+      "operations_definition_ref": "OperationsResponse.OperationsDefinitionID",
+      "operations_segment_ref": "OperationsResponse.OperationsSegmentID",
+      "segment_requirement_ref": "OperationsResponse.SegmentRequirementID",
+      "operations_type": "OperationsResponse.OperationsType"
     },
     "notInIsa95": [
+      "operations_performance_ref",
       "cycle_time_actual_sec",
       "completed_at",
-      "updated_at"
+      "updated_at",
+      "operations_definition_version",
+      "article_revision"
     ],
-    "mappingNote": "B2MML OperationsResponse has no cycle time; completed_at and updated_at are timestamps of the source (the end of the response is actual_end_time)."
+    "mappingNote": "B2MML OperationsResponse has no cycle time; completed_at and updated_at are timestamps of the source (the end of the response is actual_end_time). Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent). PLM as-built (owner 29.10.2026): operations_definition_version and article_revision name the state that was built where the source's id carries none; B2MML references a definition by its ID alone (an ID means one state), so there is no field for it — an extension, never part of the key."
   },
   "kgNodeLabel": "OperationsResponse",
-  "kgIdProperty": "production_order_no"
+  "kgIdProperty": "operations_response_no",
+  "movedAttributes": [
+    {
+      "name": "production_order_no",
+      "to": "SMProfile-OperationsResponse",
+      "as": "production_order_ref",
+      "since": "4.0.0"
+    }
+  ]
 }

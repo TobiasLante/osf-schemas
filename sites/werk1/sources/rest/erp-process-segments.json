@@ -1,6 +1,6 @@
 {
  "sourceId": "erp-process-segments",
- "version": "1.0.0",
+ "version": "2.0.0",
  "sourceType": "rest",
  "functionalLevel": 4,
  "syncType": "polling",
@@ -43,7 +43,13 @@
   },
   {
    "column": "operations_type",
-   "smAttribute": "operations_type"
+   "smAttribute": "operations_type",
+   "valueMap": {
+    "production": "Production",
+    "quality": "Quality",
+    "inventory": "Inventory",
+    "maintenance": "Maintenance"
+   }
   }
  ],
  "description": "Reusable stages (ISA-95 ProcessSegment) from sim-v5 erp-operations GET /process-segments, keyed by process_segment_code: 588 rows, 4 distinct stages, full refresh. Full text: docs/history/sites/werk1/sources/rest/erp-process-segments.md, description."

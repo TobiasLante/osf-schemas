@@ -1,0 +1,77 @@
+{
+  "profileId": "SMProfile-WorkCenter",
+  "version": "1.2.0",
+  "standard": "CarToUNS",
+  "category": "equipment",
+  "displayName": "Work Center (role-based equipment hierarchy)",
+  "description": "ISA-95 Part 2 cl. 5.5 (Equipment): a work center of an area — any work-center role of the Part 1 role-based hierarchy (process cell, production line, production unit, storage zone or the generic work center); the role is the instance's equipmentLevel.",
+  "parentType": null,
+  "abstract": false,
+  "properties": [
+    {
+      "name": "element_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the element: the id of the plant tree (sites/<site>/instances), the same key as a machine.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "name",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Display name.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "area_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The area this workcenter belongs to (PART_OF).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "PART_OF",
+      "target": "Area",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.5 (B2MML Equipment.EquipmentChild)."
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iso:62264-Equipment"
+  ],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "Equipment",
+    "part": 2,
+    "momDomain": "production",
+    "level": 3,
+    "note": "ISA-95 Part 2 cl. 5.5 Equipment: a work center of an area in any work-center role; the class says the generic level WorkCenter, the instance its role (equipmentLevel). Core 4.0.0 (OPEN-0350, owner 07.10.); core 6.0.0 audit M-04: every work center of the plant tree is an instance of it.",
+    "propertyMap": {
+      "element_id": "Equipment.ID",
+      "name": "Equipment.Description"
+    },
+    "equipmentLevel": "WorkCenter",
+    "grain": "one equipment element in a work-center role (ISA-95 Part 2 cl. 5.5; the class says the generic level WorkCenter of B2MML-Common.xsd EquipmentLevel1Type, the instance its role: ProductionLine, WorkCenter, ProcessCell …): one row = one work center of an area, keyed by its Equipment ID element_id — the one ID space all levels of the role-based equipment hierarchy share",
+    "notInIsa95": [
+      "area_ref"
+    ],
+    "mappingNote": "Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent)."
+  },
+  "kgNodeLabel": "WorkCenter",
+  "kgIdProperty": "element_id"
+}

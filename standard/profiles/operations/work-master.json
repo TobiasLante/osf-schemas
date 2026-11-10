@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-WorkMaster",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Work Master (how a job is done)",
@@ -50,7 +50,15 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "MD"
+      "valueType": "MD",
+      "enum": [
+        "Production",
+        "Maintenance",
+        "Quality",
+        "Inventory",
+        "Mixed",
+        "Other"
+      ]
     },
     {
       "name": "duration_sec",
@@ -151,6 +159,94 @@
       "scope": "hub",
       "promotion": "on_change",
       "valueType": "ID"
+    },
+    {
+      "name": "workflow_specification_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The WorkflowSpecification (HAS_WORKFLOW; ISA-95 WorkMaster → WorkflowSpecification). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "machine_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The Machine (SPECIFIES_EQUIPMENT; ISA-95 WorkMaster → Equipment). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "material_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The MaterialClass (SPECIFIES_MATERIAL; ISA-95 WorkMaster → MaterialClass). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "material_lot_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The MaterialLot (SPECIFIES_MATERIAL; ISA-95 WorkMaster → MaterialLot). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "quant_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The Quant (SPECIFIES_MATERIAL; ISA-95 WorkMaster → MaterialSubLot). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "person_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The Person (SPECIFIES_PERSONNEL; ISA-95 WorkMaster → Person). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "physical_asset_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The PhysicalAssetClass (SPECIFIES_PHYSICAL_ASSET; ISA-95 WorkMaster → PhysicalAssetClass). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "test_specification_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The TestSpecification (TESTED_BY; ISA-95 WorkMaster → TestSpecification). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
     }
   ],
   "relationships": [
@@ -186,7 +282,7 @@
     },
     {
       "type": "SPECIFIES_PHYSICAL_ASSET",
-      "target": "Tool",
+      "target": "Tooling",
       "targetIdProp": "tool_id",
       "description": "The tool a job needs (B2MML PhysicalAssetSpecification.PhysicalAssetID)."
     },
@@ -201,6 +297,54 @@
       "target": "WorkMaster",
       "targetIdProp": "work_master_id",
       "description": "The parent work master (ISA-95: WorkMaster MADE_UP_OF WorkMaster)."
+    },
+    {
+      "type": "HAS_WORKFLOW",
+      "target": "WorkflowSpecification",
+      "targetIdProp": "workflow_specification_id",
+      "description": "ISA-95 Part 4 cl. 6 (B2MML WorkMaster.WorkflowSpecification)."
+    },
+    {
+      "type": "SPECIFIES_EQUIPMENT",
+      "target": "Machine",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 4 cl. 6 (B2MML WorkMaster.EquipmentSpecification.EquipmentID)."
+    },
+    {
+      "type": "SPECIFIES_MATERIAL",
+      "target": "MaterialClass",
+      "targetIdProp": "material_class_id",
+      "description": "ISA-95 Part 4 cl. 6 (B2MML WorkMaster.MaterialSpecification.MaterialClassID)."
+    },
+    {
+      "type": "SPECIFIES_MATERIAL",
+      "target": "MaterialLot",
+      "targetIdProp": "material_lot_no",
+      "description": "ISA-95 Part 4 cl. 6 (B2MML WorkMaster.MaterialSpecification.MaterialLotID)."
+    },
+    {
+      "type": "SPECIFIES_MATERIAL",
+      "target": "Quant",
+      "targetIdProp": "quant_no",
+      "description": "ISA-95 Part 4 cl. 6 (B2MML WorkMaster.MaterialSpecification.MaterialSubLotID)."
+    },
+    {
+      "type": "SPECIFIES_PERSONNEL",
+      "target": "Person",
+      "targetIdProp": "person_id",
+      "description": "ISA-95 Part 4 cl. 6 (B2MML WorkMaster.PersonnelSpecification.PersonID)."
+    },
+    {
+      "type": "SPECIFIES_PHYSICAL_ASSET",
+      "target": "PhysicalAssetClass",
+      "targetIdProp": "physical_asset_class_id",
+      "description": "ISA-95 Part 4 cl. 6 (B2MML WorkMaster.PhysicalAssetSpecification.PhysicalAssetClassID)."
+    },
+    {
+      "type": "TESTED_BY",
+      "target": "TestSpecification",
+      "targetIdProp": "test_specification_id",
+      "description": "ISA-95 Part 4 cl. 6 (B2MML WorkMaster.PersonnelSpecification.TestSpecificationID)."
     }
   ],
   "constraints": [],
@@ -226,7 +370,15 @@
       "equipment_class_ref": "WorkMaster.EquipmentSpecification.EquipmentClassID",
       "material_ref": "WorkMaster.MaterialSpecification.MaterialDefinitionID",
       "tool_ref": "WorkMaster.PhysicalAssetSpecification.PhysicalAssetID",
-      "personnel_class_ref": "WorkMaster.PersonnelSpecification.PersonnelClassID"
+      "personnel_class_ref": "WorkMaster.PersonnelSpecification.PersonnelClassID",
+      "workflow_specification_ref": "WorkMaster.WorkflowSpecification",
+      "machine_ref": "WorkMaster.EquipmentSpecification.EquipmentID",
+      "material_class_ref": "WorkMaster.MaterialSpecification.MaterialClassID",
+      "material_lot_ref": "WorkMaster.MaterialSpecification.MaterialLotID",
+      "quant_ref": "WorkMaster.MaterialSpecification.MaterialSubLotID",
+      "person_ref": "WorkMaster.PersonnelSpecification.PersonID",
+      "physical_asset_class_ref": "WorkMaster.PhysicalAssetSpecification.PhysicalAssetClassID",
+      "test_specification_ref": "WorkMaster.PersonnelSpecification.TestSpecificationID"
     },
     "notInIsa95": [
       "parent_work_master_ref"

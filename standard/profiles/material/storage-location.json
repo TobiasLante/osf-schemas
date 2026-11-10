@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-StorageLocation",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Storage Location",
@@ -62,6 +62,71 @@
       "scope": "hub",
       "promotion": "on_change",
       "valueType": "ID"
+    },
+    {
+      "name": "operational_location_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The OperationalLocationClass (DEFINED_BY; ISA-95 OperationalLocation → OperationalLocationClass). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "parent_storage_location_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The StorageLocation this StorageLocation is part of (PART_OF; ISA-95 OperationalLocation MADE_UP_OF OperationalLocation). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "spatial_definition",
+      "dataType": "String",
+      "required": false,
+      "category": "Location",
+      "description": "The spatial definition (ISA-95 Part 2 cl. 5.2): the location or shape as text in spatial_format. Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "spatial_format",
+      "dataType": "String",
+      "required": false,
+      "category": "Location",
+      "description": "The format of spatial_definition (e.g. WKT). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD",
+      "enum": [
+        "WKT",
+        "WKB",
+        "GML",
+        "KML",
+        "GPX",
+        "GeoJSON",
+        "SVG",
+        "Other"
+      ]
+    },
+    {
+      "name": "spatial_srid",
+      "dataType": "String",
+      "required": false,
+      "category": "Location",
+      "description": "The spatial reference system of spatial_definition (SRID). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
     }
   ],
   "relationships": [
@@ -70,6 +135,18 @@
       "target": "Area",
       "resolvedBy": "instances",
       "description": "The area/site section this storage location sits in."
+    },
+    {
+      "type": "DEFINED_BY",
+      "target": "OperationalLocationClass",
+      "targetIdProp": "operational_location_class_id",
+      "description": "ISA-95 Part 2 cl. 5.3 (B2MML OperationalLocation.OperationalClassID)."
+    },
+    {
+      "type": "PART_OF",
+      "target": "StorageLocation",
+      "targetIdProp": "storage_location_id",
+      "description": "ISA-95 Part 2 cl. 5.3 (B2MML OperationalLocation.OperationalLocationChild)."
     }
   ],
   "constraints": [],
@@ -82,15 +159,20 @@
     "level": 3,
     "note": "ISA-95 storage location — the AT_LOCATION target for MaterialLot and Quant.",
     "propertyMap": {
+      "operational_location_class_ref": "OperationalLocation.OperationalClassID",
+      "spatial_definition": "OperationalLocation.SpatialDefinition.Value",
+      "spatial_format": "OperationalLocation.SpatialDefinition.Format",
+      "spatial_srid": "OperationalLocation.SpatialDefinition.SRID",
       "storage_location_id": "OperationalLocation.ID",
       "name": "OperationalLocation.Description",
       "area_ref": "OperationalLocation.HierarchyScope.EquipmentID"
     },
     "notInIsa95": [
+      "parent_storage_location_ref",
       "warehouse",
       "location_type"
     ],
-    "mappingNote": "In B2MML StorageLocation is a field of MaterialLot and MaterialSubLot; the place it points at is an OperationalLocation. warehouse and location_type are free-text values of the source; B2MML OperationalLocation has no field for them."
+    "mappingNote": "In B2MML StorageLocation is a field of MaterialLot and MaterialSubLot; the place it points at is an OperationalLocation. warehouse and location_type are free-text values of the source; B2MML OperationalLocation has no field for them. Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent)."
   },
   "kgNodeLabel": "StorageLocation",
   "kgIdProperty": "storage_location_id"

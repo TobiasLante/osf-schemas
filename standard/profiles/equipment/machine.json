@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-Machine",
-  "version": "3.0.0",
+  "version": "5.0.0",
   "standard": "CarToUNS",
   "category": "machine",
   "displayName": "Machine (Abstract Parent)",
@@ -8,6 +8,82 @@
   "parentType": null,
   "abstract": true,
   "properties": [
+    {
+      "name": "storage_location_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The StorageLocation (AT_LOCATION; ISA-95 Equipment → OperationalLocation). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "equipment_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The EquipmentClass (DEFINED_BY; ISA-95 Equipment → EquipmentClass). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "test_specification_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The TestSpecification (TESTED_BY; ISA-95 Equipment → TestSpecification). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "spatial_definition",
+      "dataType": "String",
+      "required": false,
+      "category": "Location",
+      "description": "The spatial definition (ISA-95 Part 2 cl. 5.2): the location or shape as text in spatial_format. Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "spatial_format",
+      "dataType": "String",
+      "required": false,
+      "category": "Location",
+      "description": "The format of spatial_definition (e.g. WKT). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD",
+      "enum": [
+        "WKT",
+        "WKB",
+        "GML",
+        "KML",
+        "GPX",
+        "GeoJSON",
+        "SVG",
+        "Other"
+      ]
+    },
+    {
+      "name": "spatial_srid",
+      "dataType": "String",
+      "required": false,
+      "category": "Location",
+      "description": "The spatial reference system of spatial_definition (SRID). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
     {
       "name": "element_id",
       "dataType": "String",
@@ -18,33 +94,229 @@
       "scope": "hub",
       "promotion": "on_change",
       "valueType": "ID"
+    },
+    {
+      "name": "Act_Status_Machine",
+      "dataType": "String",
+      "required": false,
+      "enum": [
+        "RUNNING",
+        "IDLE",
+        "STOPPED",
+        "MAINTENANCE"
+      ],
+      "description": "Actual machine status (sim node Machine/status, the same on every machine); lifted into SMProfile-Machine in core 6.0.0. Full text: docs/history/standard/profiles/equipment/machine.md, attributes › Act_Status_Machine › description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV",
+      "category": "BDE"
+    },
+    {
+      "name": "Act_Mode_Machine",
+      "dataType": "String",
+      "required": false,
+      "enum": [
+        "AUTO",
+        "MANUAL",
+        "SETUP"
+      ],
+      "description": "Machine operating mode (sim node Machine/mode, the same on every machine); lifted into SMProfile-Machine in core 6.0.0. Full text: docs/history/standard/profiles/equipment/machine.md, attributes › Act_Mode_Machine › description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV",
+      "category": "BDE"
+    },
+    {
+      "name": "Act_Amount_Alarm",
+      "dataType": "Int32",
+      "required": false,
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV",
+      "category": "BDE",
+      "unit": "C62",
+      "description": "Number of active alarms (sim node Machine/alarms/_Count). Lifted into SMProfile-Machine in core 6.0.0 (owner 29.10.2026): CNC Act_Amount_Alarm, IMM alarmsCount."
+    },
+    {
+      "name": "Act_Time_Uptime",
+      "dataType": "Double",
+      "valueType": "PV",
+      "required": false,
+      "category": "BDE",
+      "description": "Machine uptime (sim node Machine/uptimeSeconds). Lifted into SMProfile-Machine in core 6.0.0 (owner 29.10.2026): IMM uptimeSeconds.",
+      "delivery": "telemetry",
+      "scope": "hub",
+      "promotion": "raw",
+      "quality": {
+        "onBad": "flag"
+      },
+      "unit": "SEC"
+    },
+    {
+      "name": "Act_State_ShiftActive",
+      "dataType": "Boolean",
+      "valueType": "PV",
+      "required": false,
+      "category": "BDE",
+      "description": "A shift is active on the machine (sim node Machine/typeSpecific/shiftActive). Lifted into SMProfile-Machine in core 6.0.0 (owner 29.10.2026): IMM shiftActive; the CNC's Act_Ref_Shift (the shift id) stays on the CNC.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "Act_Power_Machine",
+      "dataType": "Float",
+      "valueType": "PV",
+      "required": false,
+      "category": "BDE",
+      "description": "Actual electrical power draw of the machine (sim node Machine/typeSpecific/powerKw) — a power, not an energy. Lifted into SMProfile-Machine in core 6.0.0 (owner 29.10.2026): CNC Act_Energy_Power, IMM powerKw.",
+      "delivery": "telemetry",
+      "scope": "hub",
+      "promotion": "5sec",
+      "quality": {
+        "onBad": "flag"
+      },
+      "unit": "KWT"
+    },
+    {
+      "name": "Act_Amount_LifeTime",
+      "dataType": "Int32",
+      "valueType": "PV",
+      "required": false,
+      "category": "BDE",
+      "description": "Lifetime counter of the machine: all parts made (partsCount/total) (sim node partsCount; owner 29.10.2026: the machine's counters stay on the machine, the quantities of one order are SegmentResponse qty_*).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "unit": "C62",
+      "counter": {
+        "semantics": "cumulative_resettable",
+        "aggregation": "sum_of_positive_deltas"
+      }
+    },
+    {
+      "name": "Act_Amount_LifeTimeGood",
+      "dataType": "Int32",
+      "valueType": "PV",
+      "required": false,
+      "category": "BDE",
+      "description": "Lifetime counter of the machine: good parts (partsCount/good) (sim node partsCount; owner 29.10.2026: the machine's counters stay on the machine, the quantities of one order are SegmentResponse qty_*).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "unit": "C62",
+      "counter": {
+        "semantics": "cumulative_resettable",
+        "aggregation": "sum_of_positive_deltas"
+      }
+    },
+    {
+      "name": "Act_Amount_LifeTimeScrap",
+      "dataType": "Int32",
+      "valueType": "PV",
+      "required": false,
+      "category": "BDE",
+      "description": "Lifetime counter of the machine: scrap parts (partsCount/scrap) (sim node partsCount; owner 29.10.2026: the machine's counters stay on the machine, the quantities of one order are SegmentResponse qty_*).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "unit": "C62",
+      "counter": {
+        "semantics": "cumulative_resettable",
+        "aggregation": "sum_of_positive_deltas"
+      }
+    },
+    {
+      "name": "Act_Time_Cycle",
+      "dataType": "Double",
+      "valueType": "PV",
+      "required": false,
+      "category": "Process",
+      "description": "Actual cycle time of one cycle of the machine (sim node Machine/typeSpecific/cycle/cycleTimeSec, IMM …/shot/cycleTimeSec). Lifted into SMProfile-Machine in core 6.0.0 (owner 30.10.2026): CNC Act_Time_Cycle, IMM cycleTimeSec.",
+      "delivery": "telemetry",
+      "scope": "hub",
+      "promotion": "raw",
+      "quality": {
+        "onBad": "flag"
+      },
+      "unit": "SEC"
+    },
+    {
+      "name": "Act_State_InCycle",
+      "dataType": "Boolean",
+      "valueType": "PV",
+      "required": false,
+      "category": "Process",
+      "description": "The machine is in its production cycle (TRUE/FALSE) — the cycle gate of the cycle-gated rules and the trigger of the cycle-detect FSM on the edge. Lifted into SMProfile-Machine in core 6.0.0 (owner 30.10.2026): CNC Act_State_InCycle, IMM inCycle.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     }
   ],
   "relationships": [
     {
       "type": "PART_OF",
-      "target": "ProcessCell",
+      "target": "WorkCenter",
       "resolvedBy": "instances",
-      "description": "ISA-88: the machine is part of a ProcessCell (line)."
+      "description": "ISA-95 Part 1 role-based hierarchy: a machine is a work unit of its work center — a WorkCenter node in any work-center role (ProductionLine, audit H1; the generic WorkCenter of a job shop, X2); the role is the instance's equipmentLevel (audit M-04)."
+    },
+    {
+      "type": "AT_LOCATION",
+      "target": "StorageLocation",
+      "targetIdProp": "storage_location_id",
+      "description": "ISA-95 Part 2 cl. 5.5 (B2MML Equipment.OperationalLocation)."
+    },
+    {
+      "type": "DEFINED_BY",
+      "target": "EquipmentClass",
+      "targetIdProp": "equipment_class_id",
+      "description": "ISA-95 Part 2 cl. 5.5 (B2MML Equipment.EquipmentClassID)."
+    },
+    {
+      "type": "TESTED_BY",
+      "target": "TestSpecification",
+      "targetIdProp": "test_specification_id",
+      "description": "ISA-95 Part 2 cl. 5.5 (B2MML Equipment.TestSpecificationID)."
     }
   ],
   "constraints": [],
   "semantics": [],
   "kpiRefs": [
     "KPI-OEE",
-    "KPI-Availability",
-    "KPI-Performance",
     "KPI-Quality-Rate",
-    "KPI-Energy-Per-Part",
     "KPI-Scrap-Rate"
   ],
   "isa95": {
     "objectModel": "Equipment",
     "part": 2,
     "momDomain": "production",
-    "equipmentLevel": "Unit",
+    "equipmentLevel": "WorkUnit",
+    "grain": "one equipment element (a machine) — the class fixes NO place in the equipment hierarchy: a machine is a machine, the level is where the instance stands (owner 29.10.2026: in a ProductionLine it is a WorkCell of the line, free-standing it is a WorkUnit of its WorkCenter; sites/<site>/instances equipmentLevel = B2MML Equipment.EquipmentLevel). isa95.equipmentLevel WorkUnit is the generic work-unit level of B2MML EquipmentLevel1Type, kept only because lint-isa95 I17 / test-lint-isa95-levels need a string on the class — it claims no place. One row = one machine (CNC-Machine and InjectionMoldingMachine inherit this grain), keyed by its Equipment ID element_id — the one ID space all levels of the role-based equipment hierarchy share",
+    "notInIsa95": [
+      "Act_Status_Machine",
+      "Act_Mode_Machine",
+      "Act_Amount_Alarm",
+      "Act_Time_Uptime",
+      "Act_State_ShiftActive",
+      "Act_Power_Machine",
+      "Act_Amount_LifeTime",
+      "Act_Amount_LifeTimeGood",
+      "Act_Amount_LifeTimeScrap",
+      "Act_Time_Cycle",
+      "Act_State_InCycle"
+    ],
+    "mappingNote": "The signals every machine shares (status, mode, alarms, uptime, shift flag, power, the lifetime part counters; core 6.0.0, owner 29.10.2026) are live machine signals. B2MML Equipment has no named field for them; a value would only sit in a generic EquipmentProperty, so they stay outside ISA-95 like the type-specific signals of CNC-Machine and InjectionMoldingMachine.",
     "propertyMap": {
-      "element_id": "Equipment.ID"
+      "element_id": "Equipment.ID",
+      "storage_location_ref": "Equipment.OperationalLocation",
+      "equipment_class_ref": "Equipment.EquipmentClassID",
+      "test_specification_ref": "Equipment.TestSpecificationID",
+      "spatial_definition": "Equipment.SpatialDefinition.Value",
+      "spatial_format": "Equipment.SpatialDefinition.Format",
+      "spatial_srid": "Equipment.SpatialDefinition.SRID"
     },
     "companionSpec": "OPC40001-1",
     "opcuaTypeDefinition": "MachineType",

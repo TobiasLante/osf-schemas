@@ -1,0 +1,110 @@
+{
+  "profileId": "SMProfile-BatchComment",
+  "version": "1.0.0",
+  "standard": "CarToUNS",
+  "category": "business",
+  "displayName": "Batch comment",
+  "description": "ISA-88 Part 4 (BatchML Comments.Comment): a comment on an entry of a batch production record.",
+  "parentType": null,
+  "abstract": false,
+  "properties": [
+    {
+      "name": "batch_comment_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the comment: its record entry id (BatchML Comment.EntryID).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "timestamp",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "BatchML Comment.TimeStamp.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
+    },
+    {
+      "name": "record_reference",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "The entry the comment is about (BatchML Comment.RecordReference — the id of any record entry).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "comment_text",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML Comment.CommentText.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "person_name",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML Comment.PersonID — a name (NameType), not the id of a person.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "batch_production_record_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The record the comment is part of (BatchML nests it in BatchProductionRecord.Comments).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "PART_OF",
+      "target": "BatchProductionRecord",
+      "targetIdProp": "batch_production_record_id",
+      "description": "The record the comment is part of."
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iec:61512-Comment"
+  ],
+  "kpiRefs": [],
+  "isa88": {
+    "objectModel": "Comment",
+    "part": 4,
+    "grain": "one comment in a batch production record",
+    "note": "ISA-88 Part 4 as MESA BatchML 0701 carries it (BatchML-BatchProductionRecord.xsd Comment). Core 4.1.0 (0.5.2, OPEN-0360, owner 09.10.2026).",
+    "propertyMap": {
+      "batch_comment_id": "Comment.EntryID",
+      "timestamp": "Comment.TimeStamp",
+      "record_reference": "Comment.RecordReference",
+      "comment_text": "Comment.CommentText",
+      "person_name": "Comment.PersonID"
+    },
+    "notInBatchML": [
+      "batch_production_record_ref"
+    ],
+    "mappingNote": "Containment is PART_OF on the child with a reference to the parent."
+  },
+  "kgNodeLabel": "BatchComment",
+  "kgIdProperty": "batch_comment_id"
+}

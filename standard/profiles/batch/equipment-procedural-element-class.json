@@ -1,0 +1,111 @@
+{
+  "profileId": "SMProfile-EquipmentProceduralElementClass",
+  "version": "1.0.0",
+  "standard": "CarToUNS",
+  "category": "business",
+  "displayName": "Equipment procedural element class",
+  "description": "ISA-88 Part 2 (BatchML EquipmentProceduralElementClass): the template of an equipment procedural element.",
+  "parentType": null,
+  "abstract": false,
+  "properties": [
+    {
+      "name": "equipment_procedural_element_class_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the class (BatchML EquipmentProceduralElementClass.ID).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "description",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML EquipmentProceduralElementClass.Description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "element_type",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML EquipmentProceduralElementType.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD",
+      "enum": [
+        "Procedure",
+        "UnitProcedure",
+        "Operation",
+        "Phase",
+        "Other"
+      ]
+    },
+    {
+      "name": "machine_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The equipment the class is held by (BatchML nests it in EquipmentElement.EquipmentProceduralElementClass).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "equipment_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The equipment class the class is held by (BatchML EquipmentElement of type Class).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "PART_OF",
+      "target": "Machine",
+      "targetIdProp": "element_id",
+      "description": "The equipment the class is held by."
+    },
+    {
+      "type": "PART_OF",
+      "target": "EquipmentClass",
+      "targetIdProp": "equipment_class_id",
+      "description": "The equipment class the class is held by."
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iec:61512-EquipmentProceduralElementClass"
+  ],
+  "kpiRefs": [],
+  "isa88": {
+    "objectModel": "EquipmentProceduralElementClass",
+    "part": 2,
+    "grain": "one template of an equipment procedural element",
+    "note": "ISA-88 Part 2 as MESA BatchML 0701 carries it (BatchML-BatchInformation.xsd EquipmentProceduralElementClass). Core 4.1.0 (0.5.2, OPEN-0360, owner 09.10.2026).",
+    "propertyMap": {
+      "equipment_procedural_element_class_id": "EquipmentProceduralElementClass.ID",
+      "description": "EquipmentProceduralElementClass.Description",
+      "element_type": "EquipmentProceduralElementClass.EquipmentProceduralElementType"
+    },
+    "notInBatchML": [
+      "machine_ref",
+      "equipment_class_ref"
+    ],
+    "mappingNote": "Containment is PART_OF on the child with a reference to the parent (BatchML nests it in the EquipmentElement)."
+  },
+  "kgNodeLabel": "EquipmentProceduralElementClass",
+  "kgIdProperty": "equipment_procedural_element_class_id"
+}

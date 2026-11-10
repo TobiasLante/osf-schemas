@@ -1,6 +1,7 @@
 {
  "sourceId": "erp-workorders",
- "version": "1.0.0",
+ "version": "2.0.0",
+ "$window": "0.6.6-g (owner 22.10.2026, the living window): the source reads the living part, not the whole history — the last 7 days",
  "sourceType": "rest",
  "functionalLevel": 4,
  "syncType": "polling",
@@ -15,7 +16,7 @@
  ],
  "connection": {
   "baseUrl": "http://192.168.178.154:38060",
-  "path": "/workorders",
+  "path": "/workorders?since=P7D",
   "method": "GET",
   "auth": null,
   "timeoutMs": 10000
@@ -47,7 +48,15 @@
   },
   {
    "column": "status",
-   "smAttribute": "status"
+   "smAttribute": "status",
+   "valueMap": {
+    "PLANNED": "Waiting",
+    "RELEASED": "Released",
+    "IN_PROGRESS": "Running",
+    "COMPLETED": "Completed",
+    "CANCELLED": "Cancelled",
+    "ON_HOLD": "Held"
+   }
   },
   {
    "column": "planned_start_time",
@@ -56,6 +65,10 @@
   {
    "column": "planned_end_time",
    "smAttribute": "planned_end_time"
+  },
+  {
+   "smAttribute": "work_type",
+   "const": "Production"
   }
  ],
  "edges": [

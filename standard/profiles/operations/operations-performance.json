@@ -1,0 +1,206 @@
+{
+  "profileId": "SMProfile-OperationsPerformance",
+  "version": "2.0.0",
+  "standard": "CarToUNS",
+  "category": "business",
+  "displayName": "Operations Performance",
+  "description": "ISA-95 Part 2 cl. 6.3 (OperationsPerformance): the performance of an operations schedule (the container of operations responses).",
+  "parentType": null,
+  "abstract": false,
+  "properties": [
+    {
+      "name": "operations_performance_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the operations performance: its own id from the source system (ISA-95 OperationsPerformance.ID).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "description",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 OperationsPerformance.Description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "version",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 OperationsPerformance.Version.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "published_date",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "ISA-95 OperationsPerformance.PublishedDate.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "start_time",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "ISA-95 OperationsPerformance.StartTime.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
+    },
+    {
+      "name": "end_time",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "ISA-95 OperationsPerformance.Endtime.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
+    },
+    {
+      "name": "operations_type",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 OperationsPerformance.OperationsType.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD",
+      "enum": [
+        "Production",
+        "Maintenance",
+        "Quality",
+        "Inventory",
+        "Mixed",
+        "Other"
+      ]
+    },
+    {
+      "name": "performance_state",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 OperationsPerformance.PerformanceState.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV",
+      "enum": [
+        "Waiting",
+        "Ready",
+        "Running",
+        "Completed",
+        "Aborted",
+        "Held",
+        "Paused",
+        "Suspended",
+        "Closed",
+        "Other"
+      ]
+    },
+    {
+      "name": "hierarchy_scope_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The element of the role-based equipment hierarchy this object belongs to (ISA-95 Part 2 cl. 5.1 hierarchy scope, IN_SCOPE_OF). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "operations_schedule_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The OperationsSchedule (FOR_OPERATIONS_SCHEDULE; ISA-95 OperationsPerformance → OperationsSchedule). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "FOR_OPERATIONS_SCHEDULE",
+      "target": "OperationsSchedule",
+      "targetIdProp": "operations_schedule_id",
+      "description": "ISA-95 Part 2 cl. 6.3 (B2MML OperationsPerformance.OperationsScheduleID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Enterprise",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Site",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Area",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "WorkCenter",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Machine",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iso:62264-OperationsPerformance"
+  ],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "OperationsPerformance",
+    "part": 2,
+    "momDomain": "production",
+    "level": 3,
+    "note": "ISA-95 Part 2 cl. 6.3 OperationsPerformance: the performance of an operations schedule (the container of operations responses). Core 4.0.0 (0.3.5, OPEN-0350, owner 07.10.).",
+    "propertyMap": {
+      "operations_performance_id": "OperationsPerformance.ID",
+      "description": "OperationsPerformance.Description",
+      "version": "OperationsPerformance.Version",
+      "published_date": "OperationsPerformance.PublishedDate",
+      "start_time": "OperationsPerformance.StartTime",
+      "end_time": "OperationsPerformance.Endtime",
+      "operations_type": "OperationsPerformance.OperationsType",
+      "performance_state": "OperationsPerformance.PerformanceState",
+      "hierarchy_scope_ref": "OperationsPerformance.HierarchyScope.EquipmentID",
+      "operations_schedule_ref": "OperationsPerformance.OperationsScheduleID"
+    }
+  },
+  "kgNodeLabel": "OperationsPerformance",
+  "kgIdProperty": "operations_performance_id"
+}

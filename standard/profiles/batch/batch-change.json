@@ -1,0 +1,110 @@
+{
+  "profileId": "SMProfile-BatchChange",
+  "version": "1.0.0",
+  "standard": "CarToUNS",
+  "category": "business",
+  "displayName": "Batch change",
+  "description": "ISA-88 Part 4 (BatchML ChangeHistory.Change): a change of an entry of a batch production record — the data before and the reason.",
+  "parentType": null,
+  "abstract": false,
+  "properties": [
+    {
+      "name": "batch_change_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the change: its record entry id (BatchML Change.EntryID).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "timestamp",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "BatchML Change.TimeStamp.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
+    },
+    {
+      "name": "record_reference",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "The entry that was changed (BatchML Change.RecordReference — the id of any record entry).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "prechange_data",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML Change.PrechangeData.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "reason",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML Change.Reason.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "batch_production_record_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The record the change is part of (BatchML nests it in BatchProductionRecord.ChangeHistory).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "PART_OF",
+      "target": "BatchProductionRecord",
+      "targetIdProp": "batch_production_record_id",
+      "description": "The record the change is part of."
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iec:61512-Change"
+  ],
+  "kpiRefs": [],
+  "isa88": {
+    "objectModel": "Change",
+    "part": 4,
+    "grain": "one change of an entry of a batch production record",
+    "note": "ISA-88 Part 4 as MESA BatchML 0701 carries it (BatchML-BatchProductionRecord.xsd Change). Core 4.1.0 (0.5.2, OPEN-0360, owner 09.10.2026).",
+    "propertyMap": {
+      "batch_change_id": "Change.EntryID",
+      "timestamp": "Change.TimeStamp",
+      "record_reference": "Change.RecordReference",
+      "prechange_data": "Change.PrechangeData",
+      "reason": "Change.Reason"
+    },
+    "notInBatchML": [
+      "batch_production_record_ref"
+    ],
+    "mappingNote": "Containment is PART_OF on the child with a reference to the parent."
+  },
+  "kgNodeLabel": "BatchChange",
+  "kgIdProperty": "batch_change_id"
+}

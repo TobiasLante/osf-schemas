@@ -1,0 +1,338 @@
+{
+  "profileId": "SMProfile-OperationsEventDefinition",
+  "version": "2.0.0",
+  "standard": "CarToUNS",
+  "category": "business",
+  "displayName": "Operations Event Definition",
+  "description": "ISA-95 Part 2 cl. 5.11 (OperationsEventDefinition): the definition of a kind of operations event (priority, type, category, acknowledgement).",
+  "parentType": null,
+  "abstract": false,
+  "properties": [
+    {
+      "name": "operations_event_definition_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the operations event definition: its own id from the source system (ISA-95 OperationsEventDefinition.ID).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "description",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 OperationsEventDefinition.Description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "version",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 OperationsEventDefinition.Version.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "published_date",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "ISA-95 OperationsEventDefinition.PublishedDate.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "effective_start",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "ISA-95 OperationsEventDefinition.EffectiveStartDate.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "effective_end",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "ISA-95 OperationsEventDefinition.EffectiveEndDate.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "priority",
+      "dataType": "Int32",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 OperationsEventDefinition.Priority (a rank, no unit).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "operations_event_type",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 OperationsEventDefinition.OperationsEventType.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD",
+      "enum": [
+        "Event",
+        "Alert",
+        "Alarm",
+        "Other"
+      ]
+    },
+    {
+      "name": "operations_event_level",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 OperationsEventDefinition.OperationsEventLevel.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD",
+      "enum": [
+        "Level 2",
+        "Level 3",
+        "Level 4",
+        "Other"
+      ]
+    },
+    {
+      "name": "operations_type",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 OperationsEventDefinition.OperationsType.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD",
+      "enum": [
+        "Production",
+        "Maintenance",
+        "Quality",
+        "Inventory",
+        "Mixed",
+        "Other"
+      ]
+    },
+    {
+      "name": "momfunction",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 OperationsEventDefinition.MOMFunction.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD",
+      "enum": [
+        "Resource management",
+        "Definition management",
+        "Detailed scheduling",
+        "Dispatching",
+        "Execution management",
+        "Data collection",
+        "Performance analysis",
+        "Tracking",
+        "Other"
+      ]
+    },
+    {
+      "name": "enterprise_function",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 OperationsEventDefinition.EnterpriseFunction.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD",
+      "enum": [
+        "Order processing",
+        "Operations scheduling",
+        "Production control",
+        "Material and energy control",
+        "Procurement",
+        "Quality assurance",
+        "Product inventory control",
+        "product cost accounting",
+        "Product shipping administration",
+        "Maintenance management",
+        "Marketing and sales",
+        "Research and Development",
+        "Engineering",
+        "Other"
+      ]
+    },
+    {
+      "name": "event_category",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 OperationsEventDefinition.Category.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "acknowledgement",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 OperationsEventDefinition.Acknowledgement.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "event_source",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 OperationsEventDefinition.Source.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "hierarchy_scope_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The element of the role-based equipment hierarchy this object belongs to (ISA-95 Part 2 cl. 5.1 hierarchy scope, IN_SCOPE_OF). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "operations_event_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The OperationsEventClass (DEFINED_BY; ISA-95 OperationsEventDefinition → OperationsEventClass). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "parent_operations_event_definition_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The OperationsEventDefinition this OperationsEventDefinition is part of (PART_OF; ISA-95 OperationsEventDefinition MADE_UP_OF OperationsEventDefinition). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "DEFINED_BY",
+      "target": "OperationsEventClass",
+      "targetIdProp": "operations_event_class_id",
+      "description": "ISA-95 Part 2 cl. 5.11 (B2MML OperationsEventDefinition.OperationsEventClassID)."
+    },
+    {
+      "type": "PART_OF",
+      "target": "OperationsEventDefinition",
+      "targetIdProp": "operations_event_definition_id",
+      "description": "ISA-95 Part 2 cl. 5.11 (B2MML OperationsEventDefinition.OperationsEventDefinitionChild)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Enterprise",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Site",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Area",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "WorkCenter",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Machine",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iso:62264-OperationsEventDefinition"
+  ],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "OperationsEventDefinition",
+    "part": 2,
+    "momDomain": "production",
+    "level": 3,
+    "note": "ISA-95 Part 2 cl. 5.11 OperationsEventDefinition: the definition of a kind of operations event (priority, type, category, acknowledgement). Core 4.0.0 (0.3.5, OPEN-0350, owner 07.10.).",
+    "propertyMap": {
+      "operations_event_definition_id": "OperationsEventDefinition.ID",
+      "description": "OperationsEventDefinition.Description",
+      "version": "OperationsEventDefinition.Version",
+      "published_date": "OperationsEventDefinition.PublishedDate",
+      "effective_start": "OperationsEventDefinition.EffectiveStartDate",
+      "effective_end": "OperationsEventDefinition.EffectiveEndDate",
+      "priority": "OperationsEventDefinition.Priority",
+      "operations_event_type": "OperationsEventDefinition.OperationsEventType",
+      "operations_event_level": "OperationsEventDefinition.OperationsEventLevel",
+      "operations_type": "OperationsEventDefinition.OperationsType",
+      "momfunction": "OperationsEventDefinition.MOMFunction",
+      "enterprise_function": "OperationsEventDefinition.EnterpriseFunction",
+      "event_category": "OperationsEventDefinition.Category",
+      "acknowledgement": "OperationsEventDefinition.Acknowledgement",
+      "event_source": "OperationsEventDefinition.Source",
+      "hierarchy_scope_ref": "OperationsEventDefinition.HierarchyScope.EquipmentID",
+      "operations_event_class_ref": "OperationsEventDefinition.OperationsEventClassID"
+    },
+    "notInIsa95": [
+      "parent_operations_event_definition_ref"
+    ],
+    "mappingNote": "Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent)."
+  },
+  "kgNodeLabel": "OperationsEventDefinition",
+  "kgIdProperty": "operations_event_definition_id"
+}

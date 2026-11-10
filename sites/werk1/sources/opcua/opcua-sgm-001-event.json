@@ -34,82 +34,97 @@
     },
     {
       "opcuaNodeId": "ns=1;s=Machine/status",
-      "smAttribute": "status",
+      "smAttribute": "Act_Status_Machine",
       "dataType": "ns=0;i=12"
     },
     {
       "opcuaNodeId": "ns=1;s=Machine/mode",
-      "smAttribute": "mode",
+      "smAttribute": "Act_Mode_Machine",
       "dataType": "ns=0;i=12"
     },
     {
       "opcuaNodeId": "ns=1;s=Machine/alarms/_Count",
-      "smAttribute": "alarmsCount",
+      "smAttribute": "Act_Amount_Alarm",
       "dataType": "ns=0;i=6"
     },
     {
       "opcuaNodeId": "ns=1;s=Machine/uptimeSeconds",
-      "smAttribute": "uptimeSeconds",
+      "smAttribute": "Act_Time_Uptime",
       "dataType": "ns=0;i=11"
     },
     {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shot/inCycle",
-      "smAttribute": "inCycle",
+      "smAttribute": "Act_State_InCycle",
       "dataType": "ns=0;i=1"
     },
     {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shot/shotCount",
-      "smAttribute": "shotCount",
+      "smAttribute": "Act_Amount_Shot",
       "dataType": "ns=0;i=11"
     },
     {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shot/lastShotAt",
-      "smAttribute": "lastShotAt",
+      "smAttribute": "Act_Time_LastShot",
       "dataType": "ns=0;i=12"
     },
     {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/mould/totalShots",
-      "smAttribute": "totalShots",
+      "smAttribute": "Act_Amount_MouldShots",
       "dataType": "ns=0;i=11"
     },
     {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/phase/name",
-      "smAttribute": "phaseName",
+      "smAttribute": "Act_Status_Phase",
       "dataType": "ns=0;i=12"
     },
     {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/phase/elapsedSec",
-      "smAttribute": "elapsedSec",
+      "smAttribute": "Act_Time_PhaseElapsed",
       "dataType": "ns=0;i=11"
     },
     {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/phase/switchoverReached",
-      "smAttribute": "switchoverReached",
+      "smAttribute": "Act_State_Switchover",
       "dataType": "ns=0;i=1"
     },
     {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/setup/remainingSec",
-      "smAttribute": "remainingSec",
+      "smAttribute": "Act_Time_PhaseRemaining",
       "dataType": "ns=0;i=11"
     },
     {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shiftActive",
-      "smAttribute": "shiftActive",
+      "smAttribute": "Act_State_ShiftActive",
       "dataType": "ns=0;i=1"
     },
     {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/resin",
-      "smAttribute": "resin",
+      "smAttribute": "Act_Ref_Resin",
       "dataType": "ns=0;i=12"
     },
     {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/hopperRefillCount",
-      "smAttribute": "hopperRefillCount",
+      "smAttribute": "Act_Amount_HopperRefill",
       "dataType": "ns=0;i=11"
     },
     {
       "opcuaNodeId": "ns=1;s=Machine/typeSpecific/material/colourPurgeRemaining",
-      "smAttribute": "colourPurgeRemaining",
+      "smAttribute": "Act_Amount_ColourPurge",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/partsCount/good",
+      "smAttribute": "Act_Amount_LifeTimeGood",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/partsCount/scrap",
+      "smAttribute": "Act_Amount_LifeTimeScrap",
+      "dataType": "ns=0;i=11"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/partsCount/total",
+      "smAttribute": "Act_Amount_LifeTime",
       "dataType": "ns=0;i=11"
     }
   ],
@@ -126,21 +141,6 @@
     {
       "profileRef": "SMProfile-SegmentResponse",
       "nodeMappings": [
-        {
-          "opcuaNodeId": "ns=1;s=Machine/partsCount/good",
-          "smAttribute": "qty_good",
-          "dataType": "ns=0;i=11"
-        },
-        {
-          "opcuaNodeId": "ns=1;s=Machine/partsCount/scrap",
-          "smAttribute": "qty_scrap",
-          "dataType": "ns=0;i=11"
-        },
-        {
-          "opcuaNodeId": "ns=1;s=Machine/partsCount/total",
-          "smAttribute": "qty_total",
-          "dataType": "ns=0;i=11"
-        },
         {
           "opcuaNodeId": "ns=1;s=Machine/typeSpecific/shot/currentProgram",
           "smAttribute": "program_ref",

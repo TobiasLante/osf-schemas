@@ -1,8 +1,14 @@
 {
   "type": "record",
   "name": "InspectionLot",
+  "x-kafka": {
+    "contract": "InspectionLot",
+    "key": "lot_no",
+    "topic": "<prefix>.{site}.InspectionLot",
+    "strategy": "TopicNameStrategy"
+  },
   "namespace": "org.openshopfloor.payload.quality",
-  "doc": "GENERATED from standard/profiles/quality/inspection-lot.json 3.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "doc": "GENERATED from standard/profiles/quality/inspection-lot.json 3.3.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
   "fields": [
     {
       "name": "eventType",
@@ -36,7 +42,7 @@
     {
       "name": "msgId",
       "type": "string",
-      "doc": "Unique message id: the Kafka key, for deduplication."
+      "doc": "Unique message id: the Nats-Msg-Id, for deduplication. The Kafka key is the entity's key, lot_no (x-kafka)."
     },
     {
       "name": "profileRef",
@@ -46,7 +52,58 @@
     {
       "name": "profileVersion",
       "type": "string",
-      "default": "3.0.0"
+      "default": "3.3.0"
+    },
+    {
+      "name": "b2m",
+      "type": [
+        "null",
+        {
+          "type": "record",
+          "name": "B2M",
+          "fields": [
+            {
+              "name": "verb",
+              "type": {
+                "type": "enum",
+                "name": "B2MVerb",
+                "symbols": [
+                  "GET",
+                  "SHOW",
+                  "PROCESS",
+                  "ACKNOWLEDGE",
+                  "CHANGE",
+                  "RESPOND",
+                  "CANCEL",
+                  "CONFIRM",
+                  "SYNC"
+                ]
+              }
+            },
+            {
+              "name": "actionCode",
+              "type": [
+                "null",
+                {
+                  "type": "enum",
+                  "name": "B2MActionCode",
+                  "symbols": [
+                    "Add",
+                    "Change",
+                    "Delete",
+                    "Replaced",
+                    "Accepted",
+                    "Modified",
+                    "Rejected"
+                  ]
+                }
+              ],
+              "default": null
+            }
+          ]
+        }
+      ],
+      "default": null
     },
     {
       "name": "data",
@@ -145,6 +202,33 @@
               }
             ],
             "default": null
+          },
+          {
+            "name": "material_lot_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The inspected object when it is a material lot (B2MML MaterialLot) — the inspected charge (TESTS); not fed yet: the sim serves no lot per inspection lot (sim-v5 S10)."
+          },
+          {
+            "name": "quant_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The inspected object when it is a material sublot (Quant = B2MML MaterialSubLot) (TESTS); not fed yet (sim-v5 S10)."
+          },
+          {
+            "name": "parent_inspection_lot_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The InspectionLot this InspectionLot is part of (PART_OF; ISA-95 TestResult MADE_UP_OF TestResult). Optional."
           }
         ]
       }

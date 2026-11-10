@@ -1,0 +1,25 @@
+{
+  "consumerId": "ext-opcua-sgm-005-to-mqtt",
+  "version": "1.0.0",
+  "kind": "gateway",
+  "stage": "push",
+  "ring": 0,
+  "reads": [
+    "sites/werk1/sync/mqtt/opcua-sgm-005-to-mqtt.json",
+    "sites/werk1/sources/opcua/opcua-sgm-005-processdata.json"
+  ],
+  "authoring": "compiled",
+  "description": "Vendor software (HighByte, i-flow or Node-RED, as the route opcua-sgm-005-to-mqtt names it) that reads opcua-sgm-005-processdata directly and publishes it over MQTT; UNSaC writes its configuration from the route (tier vendor). One consumer per route (owner 30.10.2026): no file proves two routes run in one instance.",
+  "emitter": {
+    "type": "external"
+  },
+  "syncs": [
+    "opcua-sgm-005-to-mqtt"
+  ],
+  "feedback": {
+    "grains": [
+      "seen"
+    ],
+    "maxAgeSeconds": 900
+  }
+}

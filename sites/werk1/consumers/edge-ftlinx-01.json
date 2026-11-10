@@ -8,9 +8,15 @@
     "opcua-ftlinx-01-telemetry",
     "opcua-ftlinx-01-event"
   ],
+  "emitter": {
+    "type": "unsac-edge"
+  },
+  "syncs": [
+    "uns-convention"
+  ],
   "capacity": 19,
   "authoring": "compiled",
-  "description": "OT edge of ftlinx-01 (edge-runtime + Node-RED). Capacity = signal count carried today, measured 23.09.; no declared limit yet.",
+  "description": "OT edge of ftlinx-01: carries opcua-ftlinx-01-telemetry and opcua-ftlinx-01-event. Capacity = signal count carried today, measured 23.09.; no declared limit yet. Runs today as an old v4 edge; its move to v5 (emitter.type unsac-edge, the target) is open (owner 30.10.2026).",
   "feedback": {
     "grains": [
       "loaded"

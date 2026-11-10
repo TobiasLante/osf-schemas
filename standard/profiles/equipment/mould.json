@@ -1,0 +1,38 @@
+{
+  "profileId": "SMProfile-Mould",
+  "version": "1.0.0",
+  "standard": "CarToUNS",
+  "category": "equipment",
+  "displayName": "Mould (injection mould)",
+  "description": "Tooling: an injection mould with its cavities (owner D3).",
+  "parentType": "Tooling",
+  "abstract": false,
+  "properties": [
+    {
+      "name": "parts_per_shot",
+      "dataType": "Int32",
+      "valueType": "MD",
+      "required": false,
+      "category": "Planning",
+      "description": "Number of good parts ONE machine cycle yields with this tool: the mould's cavity count (moved here from ProductionOrder in core 3.0.0).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    }
+  ],
+  "relationships": [],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "PhysicalAsset",
+    "part": 2,
+    "momDomain": "production",
+    "equipmentClass": "Mould",
+    "propertyMap": {},
+    "notInIsa95": [
+      "parts_per_shot"
+    ],
+    "mappingNote": "parts_per_shot is the mould's cavity count — no B2MML PhysicalAsset field; a PhysicalAssetProperty of the plant's own naming when needed."
+  },
+  "kgNodeLabel": "Mould",
+  "kgIdProperty": "tool_id"
+}

@@ -1,0 +1,189 @@
+{
+  "profileId": "SMProfile-WorkflowSpecificationNode",
+  "version": "1.0.0",
+  "standard": "CarToUNS",
+  "category": "business",
+  "displayName": "Workflow Specification Node",
+  "description": "ISA-95 Part 4 cl. 6 (WorkflowSpecificationNode): one node of a workflow specification.",
+  "parentType": null,
+  "abstract": false,
+  "properties": [
+    {
+      "name": "workflow_specification_node_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the workflow specification node: its own id from the source system (ISA-95 WorkflowSpecificationNode.ID).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "description",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 WorkflowSpecificationNode.Description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "hierarchy_scope_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The element of the role-based equipment hierarchy this object belongs to (ISA-95 Part 2 cl. 5.1 hierarchy scope, IN_SCOPE_OF). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "workflow_specification_node_type_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The WorkflowSpecificationNodeType (DEFINED_BY; ISA-95 WorkflowSpecificationNode → WorkflowSpecificationNodeType). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "work_directive_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The WorkDirective (FOR_WORK_DIRECTIVE; ISA-95 WorkflowSpecificationNode → WorkDirective). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "work_master_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The WorkMaster (FOR_WORK_MASTER; ISA-95 WorkflowSpecificationNode → WorkMaster). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "workflow_specification_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The WorkflowSpecification (HAS_WORKFLOW; ISA-95 WorkflowSpecificationNode → WorkflowSpecification). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "part_of_workflow_specification_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The WorkflowSpecification this WorkflowSpecificationNode is part of (PART_OF; ISA-95 WorkflowSpecification MADE_UP_OF WorkflowSpecificationNode). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "DEFINED_BY",
+      "target": "WorkflowSpecificationNodeType",
+      "targetIdProp": "workflow_specification_node_type_id",
+      "description": "ISA-95 Part 4 cl. 6 (B2MML WorkflowSpecificationNode.WorkflowSpecificationNodeTypeID)."
+    },
+    {
+      "type": "FOR_WORK_DIRECTIVE",
+      "target": "WorkDirective",
+      "targetIdProp": "work_directive_id",
+      "description": "ISA-95 Part 4 cl. 6 (B2MML WorkflowSpecificationNode.WorkDirectiveID)."
+    },
+    {
+      "type": "FOR_WORK_MASTER",
+      "target": "WorkMaster",
+      "targetIdProp": "work_master_id",
+      "description": "ISA-95 Part 4 cl. 6 (B2MML WorkflowSpecificationNode.WorkMasterID)."
+    },
+    {
+      "type": "HAS_WORKFLOW",
+      "target": "WorkflowSpecification",
+      "targetIdProp": "workflow_specification_id",
+      "description": "ISA-95 Part 4 cl. 6 (B2MML WorkflowSpecificationNode.WorkflowSpecification)."
+    },
+    {
+      "type": "PART_OF",
+      "target": "WorkflowSpecification",
+      "targetIdProp": "workflow_specification_id",
+      "description": "ISA-95 Part 4 cl. 6 (B2MML WorkflowSpecification.WorkflowSpecificationNode)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Enterprise",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Site",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Area",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "WorkCenter",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Machine",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iso:62264-WorkflowSpecificationNode"
+  ],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "WorkflowSpecificationNode",
+    "part": 4,
+    "momDomain": "production",
+    "level": 3,
+    "note": "ISA-95 Part 4 cl. 6 WorkflowSpecificationNode: one node of a workflow specification. Core 4.0.0 (0.3.5, OPEN-0350, owner 07.10.).",
+    "propertyMap": {
+      "workflow_specification_node_id": "WorkflowSpecificationNode.ID",
+      "description": "WorkflowSpecificationNode.Description",
+      "hierarchy_scope_ref": "WorkflowSpecificationNode.HierarchyScope.EquipmentID",
+      "workflow_specification_node_type_ref": "WorkflowSpecificationNode.WorkflowSpecificationNodeTypeID",
+      "work_directive_ref": "WorkflowSpecificationNode.WorkDirectiveID",
+      "work_master_ref": "WorkflowSpecificationNode.WorkMasterID",
+      "workflow_specification_ref": "WorkflowSpecificationNode.WorkflowSpecification"
+    },
+    "notInIsa95": [
+      "part_of_workflow_specification_ref"
+    ],
+    "mappingNote": "Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent)."
+  },
+  "kgNodeLabel": "WorkflowSpecificationNode",
+  "kgIdProperty": "workflow_specification_node_id"
+}

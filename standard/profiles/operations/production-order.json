@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-ProductionOrder",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Production Order (manufacturing order / OperationsRequest — PLAN/target)",
@@ -61,7 +61,7 @@
       "valueType": "ID",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
+        "reason": "The machine of an order is its SegmentRequirement's EquipmentRequirement — the edge lives there (SMProfile-SegmentRequirement REQUIRES_EQUIPMENT); an edge from here would be a shortcut (retired 25.09.). Kept as a value (Explorer X1, judged core 6.0.0)."
       }
     },
     {
@@ -164,12 +164,18 @@
       "category": "Core",
       "description": "Plan status of the OperationsRequest, as it reaches THIS profile through OUR source binding. Full text: docs/history/standard/profiles/operations/production-order.md, attributes › status › description.",
       "enum": [
-        "offen",
-        "freigegeben",
-        "in_arbeit",
-        "fertig",
-        "abgeschlossen",
-        "storniert"
+        "Forecast",
+        "Released",
+        "Waiting",
+        "Cancelled",
+        "Ready",
+        "Running",
+        "Completed",
+        "Aborted",
+        "Held",
+        "Suspended",
+        "Closed",
+        "Other"
       ],
       "delivery": "transactional",
       "scope": "hub",
@@ -198,6 +204,17 @@
       "valueType": "ID"
     },
     {
+      "name": "operations_definition_version",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The version of the operations definition this order / response ran with, where the source's definition id carries none (a routing number with its own change state). Empty when the id itself names the version.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
       "name": "updated_at",
       "dataType": "DateTime",
       "valueType": "PV",
@@ -207,6 +224,56 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "never"
+    },
+    {
+      "name": "operations_segment_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The OperationsSegment (FOR_OPERATIONS_SEGMENT; ISA-95 OperationsRequest → OperationsSegment). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "operations_schedule_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The OperationsSchedule this ProductionOrder is part of (PART_OF; ISA-95 OperationsSchedule MADE_UP_OF OperationsRequest). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "segment_response_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The SegmentResponse (REQUESTS_SEGMENT_RESPONSE; ISA-95 OperationsRequest → SegmentResponse). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "operations_type",
+      "dataType": "String",
+      "description": "ISA-95 operations type (B2MML OperationsType; Part 3/4: which MOM area the object belongs to; audit M1). A source without the column sets the constant of the profile's momDomain (columnMappings const).",
+      "enum": [
+        "Production",
+        "Maintenance",
+        "Quality",
+        "Inventory",
+        "Mixed",
+        "Other"
+      ],
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
     }
   ],
   "relationships": [
@@ -221,6 +288,24 @@
       "target": "SegmentRequirement",
       "description": "v2.0 — Inverse of SegmentRequirement.PART_OF: the target segments per ProcessSegment.",
       "targetIdProp": "segment_requirement_no"
+    },
+    {
+      "type": "FOR_OPERATIONS_SEGMENT",
+      "target": "OperationsSegment",
+      "targetIdProp": "operations_segment_no",
+      "description": "ISA-95 Part 2 cl. 6.2 (B2MML OperationsRequest.OperationsSegmentID)."
+    },
+    {
+      "type": "PART_OF",
+      "target": "OperationsSchedule",
+      "targetIdProp": "operations_schedule_id",
+      "description": "ISA-95 Part 2 cl. 6.2 (B2MML OperationsSchedule.OperationsRequest)."
+    },
+    {
+      "type": "REQUESTS_SEGMENT_RESPONSE",
+      "target": "SegmentResponse",
+      "targetIdProp": "segment_response_no",
+      "description": "ISA-95 Part 2 cl. 6.2 (B2MML OperationsRequest.RequestedSegmentResponse)."
     }
   ],
   "constraints": [
@@ -231,8 +316,8 @@
         "attr": "status",
         "op": "in",
         "value": [
-          "freigegeben",
-          "in_arbeit"
+          "Released",
+          "Running"
         ]
       },
       "require": {
@@ -262,22 +347,27 @@
       "operations_definition_ref": "OperationsRequest.OperationsDefinitionID",
       "article_ref": "OperationsRequest.SegmentRequirement.MaterialRequirement.MaterialDefinitionID",
       "machine_ref": "OperationsRequest.SegmentRequirement.EquipmentRequirement.EquipmentID",
-      "qty_planned": "OperationsRequest.SegmentRequirement.MaterialRequirement.Quantity",
       "planned_end_time": "OperationsRequest.EndTime",
       "status": "OperationsRequest.RequestState",
+      "operations_segment_ref": "OperationsRequest.OperationsSegmentID",
+      "segment_response_ref": "OperationsRequest.RequestedSegmentResponse",
       "quantity": "OperationsRequest.SegmentRequirement.MaterialRequirement.Quantity",
-      "priority": "OperationsRequest.Priority"
+      "priority": "OperationsRequest.Priority",
+      "operations_type": "OperationsRequest.OperationsType",
+      "planned_start_time": "OperationsRequest.StartTime",
+      "department_ref": "OperationsRequest.HierarchyScope.EquipmentID"
     },
     "notInIsa95": [
       "sales_order_ref",
-      "department_ref",
-      "planned_start_time",
+      "operations_schedule_ref",
       "cycle_time_planned_sec",
       "dispatch_sequence",
       "material_ready_at",
-      "updated_at"
+      "updated_at",
+      "qty_planned",
+      "operations_definition_version"
     ],
-    "mappingNote": "sales_order_ref is the ERP key of the Level-4 customer order this OperationsRequest serves. ISA-95 Part 2 has no element for a business-level order on the OperationsRequest, so it is kept as a plain reference value, not mapped and not an edge (owner 25.09.: only ISA-95 edges; owner 06.10. round 4: the reference stays). department_ref is the ERP department (not an ISA-95 hierarchy element), planned_start_time is the start of the next open operation (not of the request), and cycle time, dispatch sequence and material-ready time are planning values of the source with no B2MML field; updated_at is a technical timestamp of the source."
+    "mappingNote": "sales_order_ref is the ERP key of the Level-4 customer order this OperationsRequest serves. ISA-95 Part 2 has no element for a business-level order on the OperationsRequest, so it is kept as a plain reference value, not mapped and not an edge (owner 25.09.: only ISA-95 edges; owner 06.10. round 4: the reference stays). department_ref is the ERP department (not an ISA-95 hierarchy element), planned_start_time is the start of the next open operation (not of the request), and cycle time, dispatch sequence and material-ready time are planning values of the source with no B2MML field; updated_at is a technical timestamp of the source. Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent). qty_planned names the same B2MML field as quantity (SegmentRequirement.MaterialRequirement.Quantity); quantity carries the mapping, qty_planned is its name for the qty_shortfall rule (audit L1). Audit M3 (core 6.0.0): planned_start_time is OperationsRequest.StartTime, department_ref the request's HierarchyScope; cycle_time_planned_sec stays ours — SegmentRequirement.Duration is the planned duration of the segment, not the time per part. PLM as-built (owner 29.10.2026): operations_definition_version names the state that was built where the source's id carries none; B2MML references a definition by its ID alone (an ID means one state), so there is no field for it — an extension, never part of the key."
   },
   "kgNodeLabel": "ProductionOrder",
   "kgIdProperty": "production_order_no",
@@ -332,13 +422,13 @@
     },
     {
       "name": "mould_ref",
-      "to": "SMProfile-Tool",
+      "to": "SMProfile-Tooling",
       "as": "tool_id",
       "since": "3.0.0"
     },
     {
       "name": "parts_per_shot",
-      "to": "SMProfile-Tool",
+      "to": "SMProfile-Mould",
       "as": "parts_per_shot",
       "since": "3.0.0"
     }

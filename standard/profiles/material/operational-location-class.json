@@ -1,0 +1,183 @@
+{
+  "profileId": "SMProfile-OperationalLocationClass",
+  "version": "1.0.0",
+  "standard": "CarToUNS",
+  "category": "material",
+  "displayName": "Operational Location Class",
+  "description": "ISA-95 Part 2 cl. 5.3 (OperationalLocationClass): a class of operational locations (e.g. a kind of storage bin).",
+  "parentType": null,
+  "abstract": false,
+  "properties": [
+    {
+      "name": "operational_location_class_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the operational location class: its own id from the source system (ISA-95 OperationalLocationClass.ID).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "description",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 OperationalLocationClass.Description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "version",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 OperationalLocationClass.Version.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "published_date",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "ISA-95 OperationalLocationClass.PublishedDate.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "effective_start",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "ISA-95 OperationalLocationClass.EffectiveStartDate.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "effective_end",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "ISA-95 OperationalLocationClass.EffectiveEndDate.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "hierarchy_scope_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The element of the role-based equipment hierarchy this object belongs to (ISA-95 Part 2 cl. 5.1 hierarchy scope, IN_SCOPE_OF). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "base_operational_location_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The OperationalLocationClass (INCLUDES_PROPERTIES_OF; ISA-95 OperationalLocationClass → OperationalLocationClass). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "parent_operational_location_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The OperationalLocationClass this OperationalLocationClass is part of (PART_OF; ISA-95 OperationalLocationClass MADE_UP_OF OperationalLocationClass). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "INCLUDES_PROPERTIES_OF",
+      "target": "OperationalLocationClass",
+      "targetIdProp": "operational_location_class_id",
+      "description": "ISA-95 Part 2 cl. 5.3 (B2MML OperationalLocationClass.OperationalLocationClassBaseID)."
+    },
+    {
+      "type": "PART_OF",
+      "target": "OperationalLocationClass",
+      "targetIdProp": "operational_location_class_id",
+      "description": "ISA-95 Part 2 cl. 5.3 (B2MML OperationalLocationClass.OperationalLocationClassChild)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Enterprise",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Site",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Area",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "WorkCenter",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Machine",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iso:62264-OperationalLocationClass"
+  ],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "OperationalLocationClass",
+    "part": 2,
+    "momDomain": "production",
+    "level": 3,
+    "note": "ISA-95 Part 2 cl. 5.3 OperationalLocationClass: a class of operational locations (e.g. a kind of storage bin). Core 4.0.0 (0.3.5, OPEN-0350, owner 07.10.).",
+    "propertyMap": {
+      "operational_location_class_id": "OperationalLocationClass.ID",
+      "description": "OperationalLocationClass.Description",
+      "version": "OperationalLocationClass.Version",
+      "published_date": "OperationalLocationClass.PublishedDate",
+      "effective_start": "OperationalLocationClass.EffectiveStartDate",
+      "effective_end": "OperationalLocationClass.EffectiveEndDate",
+      "hierarchy_scope_ref": "OperationalLocationClass.HierarchyScope.EquipmentID",
+      "base_operational_location_class_ref": "OperationalLocationClass.OperationalLocationClassBaseID"
+    },
+    "notInIsa95": [
+      "parent_operational_location_class_ref"
+    ],
+    "mappingNote": "Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent)."
+  },
+  "kgNodeLabel": "OperationalLocationClass",
+  "kgIdProperty": "operational_location_class_id"
+}

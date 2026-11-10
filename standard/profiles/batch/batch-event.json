@@ -1,0 +1,287 @@
+{
+  "profileId": "SMProfile-BatchEvent",
+  "version": "2.0.0",
+  "standard": "CarToUNS",
+  "category": "business",
+  "displayName": "Batch event",
+  "description": "ISA-88 Part 4 (BatchML Events.Event, SingleEventType): what happened during a batch — a state change, a consumption, a message … — by whom and on which equipment.",
+  "parentType": null,
+  "abstract": false,
+  "properties": [
+    {
+      "name": "batch_event_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the event: its record entry id (BatchML SingleEvent.EntryID).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "timestamp",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "BatchML SingleEvent.TimeStamp.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
+    },
+    {
+      "name": "description",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML SingleEvent.Description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "event_type",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML EventType.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD",
+      "enum": [
+        "Alarm",
+        "Control Recipe",
+        "Equipment",
+        "General",
+        "Material",
+        "Message",
+        "Operator",
+        "Procedural Execution",
+        "Other"
+      ]
+    },
+    {
+      "name": "event_sub_type",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML EventSubType (State Change = a batch or phase changed its batch state).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD",
+      "enum": [
+        "Allocation",
+        "Application",
+        "Consume",
+        "Deallocation",
+        "Equipment",
+        "Message",
+        "Mode Change",
+        "Mode Command",
+        "Modification",
+        "Movement",
+        "Parameter Data",
+        "Process",
+        "Process Data",
+        "Produce",
+        "Prompt",
+        "Prompt Response",
+        "Property Value Change",
+        "Reconciliation",
+        "Security",
+        "State Change",
+        "State Command",
+        "Status Change",
+        "System",
+        "Target End Time",
+        "Target Start Time",
+        "Other"
+      ]
+    },
+    {
+      "name": "machine_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "BatchML SingleEvent.EquipmentID.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "value",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML SingleEvent.Value (for a State Change the new state).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
+    },
+    {
+      "name": "previous_value",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML SingleEvent.PreviousValue.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
+    },
+    {
+      "name": "message_text",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML SingleEvent.MessageText.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "person_name",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML SingleEvent.PersonID — a name (NameType), not the id of a person.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "computer_id",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML SingleEvent.ComputerID.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "tool_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "BatchML SingleEvent.PhysicalAssetID.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "procedural_element_reference",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML SingleEvent.ProceduralElementReference — text: BatchML does not say which object.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "category",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "BatchML SingleEvent.Category.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "batch_event_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "BatchML SingleEvent.AssociatedEventID.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "batch_production_record_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The record the event is part of (BatchML nests it in BatchProductionRecord.Events).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    }
+  ],
+  "relationships": [
+    {
+      "type": "FOR_EQUIPMENT",
+      "target": "Machine",
+      "targetIdProp": "element_id",
+      "description": "The equipment the event happened on."
+    },
+    {
+      "type": "FOR_PHYSICAL_ASSET",
+      "target": "Tooling",
+      "targetIdProp": "tool_id",
+      "description": "The physical asset of the event."
+    },
+    {
+      "type": "ASSOCIATED_WITH",
+      "target": "BatchEvent",
+      "targetIdProp": "batch_event_id",
+      "description": "The event this one is associated with."
+    },
+    {
+      "type": "PART_OF",
+      "target": "BatchProductionRecord",
+      "targetIdProp": "batch_production_record_id",
+      "description": "The record the event is part of."
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iec:61512-SingleEvent"
+  ],
+  "kpiRefs": [],
+  "isa88": {
+    "objectModel": "SingleEvent",
+    "part": 4,
+    "grain": "one event of a batch production record",
+    "note": "ISA-88 Part 4 as MESA BatchML 0701 carries it (BatchML-BatchProductionRecord.xsd SingleEvent). Core 4.1.0 (0.5.2, OPEN-0360, owner 09.10.2026).",
+    "propertyMap": {
+      "batch_event_id": "SingleEvent.EntryID",
+      "timestamp": "SingleEvent.TimeStamp",
+      "description": "SingleEvent.Description",
+      "event_type": "SingleEvent.EventType",
+      "event_sub_type": "SingleEvent.EventSubType",
+      "machine_ref": "SingleEvent.EquipmentID",
+      "value": "SingleEvent.Value",
+      "previous_value": "SingleEvent.PreviousValue",
+      "message_text": "SingleEvent.MessageText",
+      "person_name": "SingleEvent.PersonID",
+      "computer_id": "SingleEvent.ComputerID",
+      "tool_ref": "SingleEvent.PhysicalAssetID",
+      "procedural_element_reference": "SingleEvent.ProceduralElementReference",
+      "category": "SingleEvent.Category",
+      "batch_event_ref": "SingleEvent.AssociatedEventID"
+    },
+    "notInBatchML": [
+      "batch_production_record_ref"
+    ],
+    "mappingNote": "Containment is PART_OF on the child with a reference to the parent (BatchML nests the entry inside the record)."
+  },
+  "kgNodeLabel": "BatchEvent",
+  "kgIdProperty": "batch_event_id"
+}

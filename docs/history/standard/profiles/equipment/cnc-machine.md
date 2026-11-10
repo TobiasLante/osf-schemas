@@ -67,3 +67,10 @@ Owner 25.09.2026: an order actual measured at a machine (part counts, order, art
 - `SMProfile-CNC-Machine.Act_Status_Program` → `SMProfile-SegmentResponse.program_status`; its description was: 
 - attribute-aliases entry [{"profileRef": "SMProfile-CNC-Machine", "attribute": "Act_Amount_PartGood"}, {"profileRef": "SMProfile-InjectionMoldingMachine", "attribute": "good"}] retired: all members are now SMProfile-SegmentResponse.qty_good
 - attribute-aliases entry [{"profileRef": "SMProfile-CNC-Machine", "attribute": "Act_Amount_PartScrap"}, {"profileRef": "SMProfile-InjectionMoldingMachine", "attribute": "scrap"}] retired: all members are now SMProfile-SegmentResponse.qty_scrap
+
+## properties › scope (core 5.0.5, 0.6.6-g, owner 22.10.2026)
+Every property of this profile reaches the hub: the 28 properties that were scope edge are scope hub, each at its own cadence
+(promotion: raw every value, <N>sec / <N>min at most once per interval, on_change on a change). What is no property of the profile (an OPC UA
+node without a mapping, the edge history) never leaves the edge. Before, raw telemetry stayed in the edge Timescale (Topology Edge+1) and the
+hub carried no telemetry of the machine at all — measured on our dev installation, 21.10.2026: the hub telemetry stream held 0 messages while a machine ran. Additive (no
+reader loses a value; owner 22.10.2026: scope edge → hub is additive, hub → edge stays breaking): profile 3.0.0 → 3.1.0. Needs grammar 4.10.0.

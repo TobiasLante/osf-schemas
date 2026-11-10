@@ -1,0 +1,191 @@
+{
+  "profileId": "SMProfile-OperationsMaterialBill",
+  "version": "1.1.0",
+  "standard": "CarToUNS",
+  "category": "business",
+  "displayName": "Operations Material Bill",
+  "description": "ISA-95 Part 2 cl. 6.1 (OperationsMaterialBill): the bill of material of an operations definition or segment.",
+  "parentType": null,
+  "abstract": false,
+  "properties": [
+    {
+      "name": "operations_material_bill_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the operations material bill: its own id from the source system (ISA-95 OperationsMaterialBill.ID).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "description",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 OperationsMaterialBill.Description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "version",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 OperationsMaterialBill.Version.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "published_date",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "ISA-95 OperationsMaterialBill.PublishedDate.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "effective_start",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "ISA-95 OperationsMaterialBill.EffectiveStartDate.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "effective_end",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "ISA-95 OperationsMaterialBill.EffectiveEndDate.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "use_type",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "ISA-95 OperationsMaterialBill.UseType.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "hierarchy_scope_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The element of the role-based equipment hierarchy this object belongs to (ISA-95 Part 2 cl. 5.1 hierarchy scope, IN_SCOPE_OF). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "bill_of_materials_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The bill of materials in PLM or ERP this material bill was taken from — its id there.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "The BOM lives in PLM / ERP: kept as its id there; no profile of ours holds that BOM."
+      }
+    },
+    {
+      "name": "engineering_change_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The engineering change (ECN, SAP change number) that released this material bill.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "Kept as a value: an engineering change is an extension object with no edge into the ISA-95 catalogue."
+      }
+    }
+  ],
+  "relationships": [
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Enterprise",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Site",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Area",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "WorkCenter",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    },
+    {
+      "type": "IN_SCOPE_OF",
+      "target": "Machine",
+      "targetIdProp": "element_id",
+      "description": "ISA-95 Part 2 cl. 5.1 hierarchy scope (B2MML <Object>.HierarchyScope.EquipmentID)."
+    }
+  ],
+  "constraints": [],
+  "semantics": [
+    "iso:62264-OperationsMaterialBill"
+  ],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "OperationsMaterialBill",
+    "part": 2,
+    "momDomain": "production",
+    "level": 3,
+    "note": "ISA-95 Part 2 cl. 6.1 OperationsMaterialBill: the bill of material of an operations definition or segment. Core 4.0.0 (0.3.5, OPEN-0350, owner 07.10.).",
+    "propertyMap": {
+      "operations_material_bill_id": "OperationsMaterialBill.ID",
+      "description": "OperationsMaterialBill.Description",
+      "version": "OperationsMaterialBill.Version",
+      "published_date": "OperationsMaterialBill.PublishedDate",
+      "effective_start": "OperationsMaterialBill.EffectiveStartDate",
+      "effective_end": "OperationsMaterialBill.EffectiveEndDate",
+      "use_type": "OperationsMaterialBill.UseType",
+      "hierarchy_scope_ref": "OperationsMaterialBill.HierarchyScope.EquipmentID",
+      "bill_of_materials_ref": "OperationsMaterialBill.BillOfMaterialsID"
+    },
+    "notInIsa95": [
+      "engineering_change_ref"
+    ],
+    "mappingNote": "PLM extensions (owner 29.10.2026): engineering_change_ref has no B2MML field — B2MML knows no engineering change."
+  },
+  "kgNodeLabel": "OperationsMaterialBill",
+  "kgIdProperty": "operations_material_bill_id"
+}

@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-JobOrder",
-  "version": "3.1.0",
+  "version": "4.0.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Job Order (dispatched job on one machine)",
@@ -83,7 +83,159 @@
       "description": "Dispatch state of the job as the source names it.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "enum": [
+        "Waiting",
+        "Pending",
+        "Cancelled",
+        "Dispatched",
+        "Ready",
+        "Running",
+        "Completed",
+        "Aborted",
+        "Held",
+        "Suspended",
+        "Closed",
+        "Other"
+      ]
+    },
+    {
+      "name": "segment_requirement_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The SegmentRequirement (FOR_SEGMENT_REQUIREMENT; ISA-95 JobOrder → SegmentRequirement). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "job_list_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The JobList this JobOrder is part of (PART_OF; ISA-95 JobList MADE_UP_OF JobOrder). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "equipment_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The EquipmentClass (REQUIRES_EQUIPMENT; ISA-95 JobOrder → EquipmentClass). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "material_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The MaterialClass (REQUIRES_MATERIAL; ISA-95 JobOrder → MaterialClass). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "article_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The Article (REQUIRES_MATERIAL; ISA-95 JobOrder → MaterialDefinition). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "quant_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The Quant (REQUIRES_MATERIAL; ISA-95 JobOrder → MaterialSubLot). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "person_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The Person (REQUIRES_PERSONNEL; ISA-95 JobOrder → Person). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "personnel_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The PersonnelClass (REQUIRES_PERSONNEL; ISA-95 JobOrder → PersonnelClass). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "tool_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The Tool (REQUIRES_PHYSICAL_ASSET; ISA-95 JobOrder → PhysicalAsset). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "physical_asset_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The PhysicalAssetClass (REQUIRES_PHYSICAL_ASSET; ISA-95 JobOrder → PhysicalAssetClass). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "test_specification_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The TestSpecification (TESTED_BY; ISA-95 JobOrder → TestSpecification). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "work_type",
+      "dataType": "String",
+      "description": "ISA-95 work type (B2MML WorkType, the OperationsType code list; Part 4; audit M1). A source without the column sets the constant of the profile's momDomain (columnMappings const).",
+      "enum": [
+        "Production",
+        "Maintenance",
+        "Quality",
+        "Inventory",
+        "Mixed",
+        "Other"
+      ],
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
     }
   ],
   "relationships": [
@@ -103,13 +255,79 @@
       "type": "REQUIRES_MATERIAL",
       "target": "MaterialLot",
       "targetIdProp": "material_lot_no",
-      "description": "The lots the job consumes or produces (B2MML MaterialRequirement, MaterialUse); 1:n, the key sits on the lot (MaterialLot.job_order_ref, source edge direction in). Full text: docs/history/standard/profiles/operations/job-order.md, relationships › REQUIRES_MATERIAL."
+      "description": "The lots the job requires or consumes (B2MML MaterialRequirement; a made lot is a JobResponse ACTUAL_MATERIAL, audit L3); 1:n, the key sits on the lot (MaterialLot.job_order_ref). Full text: docs/history/standard/profiles/operations/job-order.md, relationships › REQUIRES_MATERIAL."
     },
     {
       "type": "FOR_WORK_MASTER",
       "target": "WorkMaster",
       "targetIdProp": "work_master_id",
       "description": "The work master the job runs by (B2MML JobOrder.WorkMasterID)."
+    },
+    {
+      "type": "FOR_SEGMENT_REQUIREMENT",
+      "target": "SegmentRequirement",
+      "targetIdProp": "segment_requirement_no",
+      "description": "ISA-95 Part 4 cl. 7 (B2MML JobOrder.SegmentRequirementID)."
+    },
+    {
+      "type": "PART_OF",
+      "target": "JobList",
+      "targetIdProp": "job_list_id",
+      "description": "ISA-95 Part 4 cl. 7 (B2MML JobList.JobOrder)."
+    },
+    {
+      "type": "REQUIRES_EQUIPMENT",
+      "target": "EquipmentClass",
+      "targetIdProp": "equipment_class_id",
+      "description": "ISA-95 Part 4 cl. 7 (B2MML JobOrder.EquipmentRequirement.EquipmentClassID)."
+    },
+    {
+      "type": "REQUIRES_MATERIAL",
+      "target": "MaterialClass",
+      "targetIdProp": "material_class_id",
+      "description": "ISA-95 Part 4 cl. 7 (B2MML JobOrder.MaterialRequirement.MaterialClassID)."
+    },
+    {
+      "type": "REQUIRES_MATERIAL",
+      "target": "Article",
+      "targetIdProp": "article_no",
+      "description": "ISA-95 Part 4 cl. 7 (B2MML JobOrder.MaterialRequirement.MaterialDefinitionID)."
+    },
+    {
+      "type": "REQUIRES_MATERIAL",
+      "target": "Quant",
+      "targetIdProp": "quant_no",
+      "description": "ISA-95 Part 4 cl. 7 (B2MML JobOrder.MaterialRequirement.MaterialSubLotID)."
+    },
+    {
+      "type": "REQUIRES_PERSONNEL",
+      "target": "Person",
+      "targetIdProp": "person_id",
+      "description": "ISA-95 Part 4 cl. 7 (B2MML JobOrder.PersonnelRequirement.PersonID)."
+    },
+    {
+      "type": "REQUIRES_PERSONNEL",
+      "target": "PersonnelClass",
+      "targetIdProp": "personnel_class_id",
+      "description": "ISA-95 Part 4 cl. 7 (B2MML JobOrder.PersonnelRequirement.PersonnelClassID)."
+    },
+    {
+      "type": "REQUIRES_PHYSICAL_ASSET",
+      "target": "Tooling",
+      "targetIdProp": "tool_id",
+      "description": "ISA-95 Part 4 cl. 7 (B2MML JobOrder.PhysicalAssetRequirement.PhysicalAssetID)."
+    },
+    {
+      "type": "REQUIRES_PHYSICAL_ASSET",
+      "target": "PhysicalAssetClass",
+      "targetIdProp": "physical_asset_class_id",
+      "description": "ISA-95 Part 4 cl. 7 (B2MML JobOrder.PhysicalAssetRequirement.PhysicalAssetClassID)."
+    },
+    {
+      "type": "TESTED_BY",
+      "target": "TestSpecification",
+      "targetIdProp": "test_specification_id",
+      "description": "ISA-95 Part 4 cl. 7 (B2MML JobOrder.PersonnelRequirement.TestSpecificationID)."
     }
   ],
   "constraints": [],
@@ -129,12 +347,24 @@
       "work_master_ref": "JobOrder.WorkMasterID",
       "start_planned": "JobOrder.StartTime",
       "end_planned": "JobOrder.EndTime",
-      "status": "JobOrder.DispatchStatus"
+      "status": "JobOrder.DispatchStatus",
+      "segment_requirement_ref": "JobOrder.SegmentRequirementID",
+      "equipment_class_ref": "JobOrder.EquipmentRequirement.EquipmentClassID",
+      "material_class_ref": "JobOrder.MaterialRequirement.MaterialClassID",
+      "article_ref": "JobOrder.MaterialRequirement.MaterialDefinitionID",
+      "quant_ref": "JobOrder.MaterialRequirement.MaterialSubLotID",
+      "person_ref": "JobOrder.PersonnelRequirement.PersonID",
+      "personnel_class_ref": "JobOrder.PersonnelRequirement.PersonnelClassID",
+      "tool_ref": "JobOrder.PhysicalAssetRequirement.PhysicalAssetID",
+      "physical_asset_class_ref": "JobOrder.PhysicalAssetRequirement.PhysicalAssetClassID",
+      "test_specification_ref": "JobOrder.PersonnelRequirement.TestSpecificationID",
+      "work_type": "JobOrder.WorkType"
     },
     "notInIsa95": [
-      "workorder_ref"
+      "workorder_ref",
+      "job_list_ref"
     ],
-    "mappingNote": "The parent WorkRequest is carried by B2MML through the nesting of JobOrder in WorkRequest, not as a field. Actuals are reported per order and operation (Part 2 SegmentResponse); Part 4 actuals need a source keyed by job."
+    "mappingNote": "The parent WorkRequest is carried by B2MML through the nesting of JobOrder in WorkRequest, not as a field. Actuals are reported per order and operation (Part 2 SegmentResponse); Part 4 actuals need a source keyed by job. Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent)."
   },
   "kgNodeLabel": "JobOrder",
   "kgIdProperty": "job_order_no"

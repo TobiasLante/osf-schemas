@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-JobResponse",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Job Response (actuals of a job order)",
@@ -127,6 +127,200 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
+      "valueType": "PV",
+      "enum": [
+        "Waiting",
+        "Ready",
+        "Running",
+        "Completed",
+        "Aborted",
+        "Held",
+        "Paused",
+        "Suspended",
+        "Closed",
+        "Other"
+      ]
+    },
+    {
+      "name": "equipment_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The EquipmentClass (ACTUAL_EQUIPMENT; ISA-95 JobResponse → EquipmentClass). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "material_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The MaterialClass (ACTUAL_MATERIAL; ISA-95 JobResponse → MaterialClass). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "article_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The Article (ACTUAL_MATERIAL; ISA-95 JobResponse → MaterialDefinition). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "article_revision",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The revision of the article that was built or used, where the source's article number carries none (a PLM part number with revision A). Empty when the number itself names the revision (at SAP dddd.1).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "quant_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The Quant (ACTUAL_MATERIAL; ISA-95 JobResponse → MaterialSubLot). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "personnel_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The PersonnelClass (ACTUAL_PERSONNEL; ISA-95 JobResponse → PersonnelClass). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "physical_asset_class_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The PhysicalAssetClass (ACTUAL_PHYSICAL_ASSET; ISA-95 JobResponse → PhysicalAssetClass). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "work_directive_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The WorkDirective (EXECUTED_DIRECTIVE; ISA-95 JobResponse → WorkDirective). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "workflow_specification_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The WorkflowSpecification (FOR_WORKFLOW_SPECIFICATION; ISA-95 JobResponse → WorkflowSpecification). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "workflow_specification_node_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The WorkflowSpecificationNode (FOR_WORKFLOW_SPECIFICATION_NODE; ISA-95 JobResponse → WorkflowSpecificationNode). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "inspection_lot_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The InspectionLot — the test result of a material actual (HAS_TEST_RESULT; ISA-95 JobResponse → MaterialActual → TestResult). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "personnel_test_result_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The TestResult of a person (qualification test) the response used (HAS_TEST_RESULT; ISA-95 JobResponse → PersonnelActual → TestResult). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "equipment_test_result_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The TestResult of a machine (equipment capability test) the response used (HAS_TEST_RESULT; ISA-95 JobResponse → EquipmentActual → TestResult). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "physical_asset_test_result_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The TestResult of a tool (physical asset capability test) the response used (HAS_TEST_RESULT; ISA-95 JobResponse → PhysicalAssetActual → TestResult). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "job_response_list_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The JobResponseList this JobResponse is part of (PART_OF; ISA-95 JobResponseList MADE_UP_OF JobResponse). Optional.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "work_type",
+      "dataType": "String",
+      "description": "ISA-95 work type (B2MML WorkType, the OperationsType code list; Part 4; audit M1). A source without the column sets the constant of the profile's momDomain (columnMappings const).",
+      "enum": [
+        "Production",
+        "Maintenance",
+        "Quality",
+        "Inventory",
+        "Mixed",
+        "Other"
+      ],
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
       "valueType": "PV"
     }
   ],
@@ -163,7 +357,7 @@
     },
     {
       "type": "ACTUAL_PHYSICAL_ASSET",
-      "target": "Tool",
+      "target": "Tooling",
       "targetIdProp": "tool_id",
       "description": "The tool the job used (B2MML PhysicalAssetActual.PhysicalAssetID)."
     },
@@ -172,6 +366,78 @@
       "target": "Person",
       "targetIdProp": "person_id",
       "description": "The person who ran the job (B2MML PersonnelActual.PersonID)."
+    },
+    {
+      "type": "ACTUAL_EQUIPMENT",
+      "target": "EquipmentClass",
+      "targetIdProp": "equipment_class_id",
+      "description": "ISA-95 Part 4 cl. 8 (B2MML JobResponse.EquipmentActual.EquipmentClassID)."
+    },
+    {
+      "type": "ACTUAL_MATERIAL",
+      "target": "MaterialClass",
+      "targetIdProp": "material_class_id",
+      "description": "ISA-95 Part 4 cl. 8 (B2MML JobResponse.MaterialActual.MaterialClassID)."
+    },
+    {
+      "type": "ACTUAL_MATERIAL",
+      "target": "Article",
+      "targetIdProp": "article_no",
+      "description": "ISA-95 Part 4 cl. 8 (B2MML JobResponse.MaterialActual.MaterialDefinitionID)."
+    },
+    {
+      "type": "ACTUAL_MATERIAL",
+      "target": "Quant",
+      "targetIdProp": "quant_no",
+      "description": "ISA-95 Part 4 cl. 8 (B2MML JobResponse.MaterialActual.MaterialSubLotID)."
+    },
+    {
+      "type": "ACTUAL_PERSONNEL",
+      "target": "PersonnelClass",
+      "targetIdProp": "personnel_class_id",
+      "description": "ISA-95 Part 4 cl. 8 (B2MML JobResponse.PersonnelActual.PersonnelClassID)."
+    },
+    {
+      "type": "ACTUAL_PHYSICAL_ASSET",
+      "target": "PhysicalAssetClass",
+      "targetIdProp": "physical_asset_class_id",
+      "description": "ISA-95 Part 4 cl. 8 (B2MML JobResponse.PhysicalAssetActual.PhysicalAssetClassID)."
+    },
+    {
+      "type": "EXECUTED_DIRECTIVE",
+      "target": "WorkDirective",
+      "targetIdProp": "work_directive_id",
+      "description": "ISA-95 Part 4 cl. 8 (B2MML JobResponse.WorkDirective)."
+    },
+    {
+      "type": "FOR_WORKFLOW_SPECIFICATION",
+      "target": "WorkflowSpecification",
+      "targetIdProp": "workflow_specification_id",
+      "description": "ISA-95 Part 4 cl. 8 (B2MML JobResponse.WorkflowSpecificationID)."
+    },
+    {
+      "type": "FOR_WORKFLOW_SPECIFICATION_NODE",
+      "target": "WorkflowSpecificationNode",
+      "targetIdProp": "workflow_specification_node_id",
+      "description": "ISA-95 Part 4 cl. 8 (B2MML JobResponse.WorkflowSpecificationNodeID)."
+    },
+    {
+      "type": "HAS_TEST_RESULT",
+      "target": "InspectionLot",
+      "targetIdProp": "lot_no",
+      "description": "ISA-95 Part 4 cl. 8 (B2MML JobResponse.MaterialActual.TestResult)."
+    },
+    {
+      "type": "HAS_TEST_RESULT",
+      "target": "TestResult",
+      "targetIdProp": "test_result_id",
+      "description": "ISA-95 Part 4 cl. 8 (B2MML JobResponse.PersonnelActual / EquipmentActual / PhysicalAssetActual.TestResult): the result of a resource test."
+    },
+    {
+      "type": "PART_OF",
+      "target": "JobResponseList",
+      "targetIdProp": "job_response_list_id",
+      "description": "ISA-95 Part 4 cl. 8 (B2MML JobResponseList.JobResponse)."
     }
   ],
   "constraints": [],
@@ -195,12 +461,28 @@
       "person_ref": "JobResponse.PersonnelActual.PersonID",
       "start_time": "JobResponse.StartTime",
       "end_time": "JobResponse.EndTime",
-      "status": "JobResponse.JobState"
+      "status": "JobResponse.JobState",
+      "equipment_class_ref": "JobResponse.EquipmentActual.EquipmentClassID",
+      "material_class_ref": "JobResponse.MaterialActual.MaterialClassID",
+      "article_ref": "JobResponse.MaterialActual.MaterialDefinitionID",
+      "quant_ref": "JobResponse.MaterialActual.MaterialSubLotID",
+      "personnel_class_ref": "JobResponse.PersonnelActual.PersonnelClassID",
+      "physical_asset_class_ref": "JobResponse.PhysicalAssetActual.PhysicalAssetClassID",
+      "work_directive_ref": "JobResponse.WorkDirective",
+      "workflow_specification_ref": "JobResponse.WorkflowSpecificationID",
+      "workflow_specification_node_ref": "JobResponse.WorkflowSpecificationNodeID",
+      "inspection_lot_ref": "JobResponse.MaterialActual.TestResult",
+      "work_type": "JobResponse.WorkType",
+      "personnel_test_result_ref": "JobResponse.PersonnelActual.TestResult",
+      "equipment_test_result_ref": "JobResponse.EquipmentActual.TestResult",
+      "physical_asset_test_result_ref": "JobResponse.PhysicalAssetActual.TestResult"
     },
     "notInIsa95": [
-      "work_response_ref"
+      "work_response_ref",
+      "job_response_list_ref",
+      "article_revision"
     ],
-    "mappingNote": "B2MML carries the parent WorkResponse through the nesting of JobResponse in WorkResponse, not as a field."
+    "mappingNote": "B2MML carries the parent WorkResponse through the nesting of JobResponse in WorkResponse, not as a field. Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent). PLM as-built (owner 29.10.2026): article_revision names the state that was built where the source's id carries none; B2MML references a definition by its ID alone (an ID means one state), so there is no field for it — an extension, never part of the key."
   },
   "kgNodeLabel": "JobResponse",
   "kgIdProperty": "job_response_id"

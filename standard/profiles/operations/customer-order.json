@@ -1,10 +1,10 @@
 {
   "profileId": "SMProfile-CustomerOrder",
-  "version": "3.0.0",
+  "version": "4.1.1",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Customer Order (sales order)",
-  "description": "RETIRED 2026-08-13 (CAPT-ORDER) — see retiredReason. Full text: docs/history/standard/profiles/operations/customer-order.md, description.",
+  "description": "Customer order (sales order) of the ERP, Level 4 above the MOM boundary; bound by the demo plant's ERP source erp-customer-orders. Its status speaks the B2MML RequestState vocabulary (core 5.0.0). Full text: docs/history/standard/profiles/operations/customer-order.md, description.",
   "parentType": null,
   "abstract": false,
   "retirementId": "retired:SMProfile-CustomerOrder@2026-08-13",
@@ -104,13 +104,20 @@
       "required": false,
       "category": "Core",
       "enum": [
-        "offen",
-        "freigegeben",
-        "in_arbeit",
-        "fertig",
-        "abgeschlossen"
+        "Forecast",
+        "Released",
+        "Waiting",
+        "Cancelled",
+        "Ready",
+        "Running",
+        "Completed",
+        "Aborted",
+        "Held",
+        "Suspended",
+        "Closed",
+        "Other"
       ],
-      "description": "Sales-order status, as it reaches THIS profile through OUR source binding. Full text: docs/history/standard/profiles/operations/customer-order.md, attributes › status › description.",
+      "description": "Sales-order status in the B2MML RequestState vocabulary (MESA B2MML, the XML implementation of IEC 62264: B2MML-Common.xsd RequestState1Type); a source maps its own values with valueMap. Full text: docs/history/standard/profiles/operations/customer-order.md, attributes › status › description.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -169,6 +176,34 @@
         "document": "docs/history/standard/profiles/operations/customer-order-retirement.md"
       },
       "$comment": "See docs/history/standard/profiles/operations/customer-order-retirement.md."
+    },
+    {
+      "name": "customer_order_overdue",
+      "description": "An open customer order (B2MML RequestState before an end state, not Forecast) is past its due date: the delivery commitment is missed. Follows retired:order_overdue@2026-07-12. Full text: docs/history/standard/profiles/operations/customer-order.md, constraints › customer_order_overdue.",
+      "when": {
+        "attr": "status",
+        "op": "in",
+        "value": [
+          "Released",
+          "Waiting",
+          "Ready",
+          "Running",
+          "Held",
+          "Suspended"
+        ]
+      },
+      "require": {
+        "attr": "due_date",
+        "op": "gte",
+        "valueAttr": "$now"
+      },
+      "severity": "warning",
+      "discrepancyClass": "constraint",
+      "concern": "operations",
+      "mom_category": "production",
+      "accountable_role": "Production Control",
+      "since": "2026-10-16",
+      "impact_basis": "penalty"
     }
   ],
   "semantics": [],
@@ -176,16 +211,15 @@
   "isa95": {
     "objectModel": "Extension",
     "extension": true,
-    "momDomain": "business",
     "level": 4,
-    "note": "Level-4 sales order (B2MML/ERP, above the MOM boundary). Triggers a Level-3 OperationsRequest (ProductionOrder); ISA-95 has no edge for that, the reference is kept as a value. due_date = customer delivery commitment, not the production EndTime.",
+    "note": "Level-4 sales order (B2MML/ERP, above the MOM boundary; no momDomain, audit L5). Triggers a Level-3 OperationsRequest (ProductionOrder) — status speaks its B2MML RequestState vocabulary. Full text: docs/history/standard/profiles/operations/customer-order.md, isa95 › note.",
     "notInIsa95": [
       "order_no",
       "customer_ref",
       "due_date",
       "priority"
     ],
-    "mappingNote": "Level 4 sales order. ISA-95 stops at the MOM boundary; B2MML 0700 has no SalesOrder object."
+    "mappingNote": "Level 4 sales order. ISA-95 stops at the MOM boundary; B2MML 0701 has no SalesOrder object."
   },
   "kgNodeLabel": "CustomerOrder",
   "kgIdProperty": "order_no"
