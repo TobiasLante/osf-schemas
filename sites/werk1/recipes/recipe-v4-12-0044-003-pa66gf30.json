@@ -7,7 +7,7 @@
   "description": "Part values of _V4_12-0044-003 on the injection moulding machine class; partMass_g comes from drawing DWG-12-0044-003. Moved from recipe-sgm-004-default.json (W8-RECIPE); history: docs/history/sites/werk1/recipes/recipe-sgm-004-default.md.",
   "match": {
     "article": "_V4_12-0044-003",
-    "equipmentClass": "SGM-1300"
+    "equipmentClass": "SMProfile-InjectionMoldingMachine"
   },
   "values": {
     "recipe:part_mass_band": [
@@ -767,5 +767,5 @@
       ]
     }
   },
-  "equipmentClassNote": "derived — no machine group → SGM-1300 (the sim has no generic class; 10.11.2026)"
+  "equipmentClassNote": "ERP routing group —; the plant runs the article on every machine of POOL-SGM — the recipe binds to the profile, every injection moulding machine (owner 10.11.2026); each machine's limits still guard it"
 }

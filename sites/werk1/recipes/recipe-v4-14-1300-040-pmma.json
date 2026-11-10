@@ -7,7 +7,7 @@
   "description": "Part values of _V4_14-1300-040 on the injection moulding machine class (process_estimate, no drawing yet). History: docs/history/sites/werk1/recipes/recipe-v4-14-1300-040-pmma.md.",
   "match": {
     "article": "_V4_14-1300-040",
-    "equipmentClass": "SGM-1300"
+    "equipmentClass": "SMProfile-InjectionMoldingMachine"
   },
   "values": {
     "recipe:part_mass_band": [
@@ -743,5 +743,5 @@
       "valueFrom": "recipe:power_kw_band"
     }
   ],
-  "equipmentClassNote": "derived — no machine group → SGM-1300 (the sim has no generic class; 10.11.2026)"
+  "equipmentClassNote": "ERP routing group —; the plant runs the article on every machine of POOL-SGM — the recipe binds to the profile, every injection moulding machine (owner 10.11.2026); each machine's limits still guard it"
 }
