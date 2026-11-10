@@ -1,6 +1,6 @@
 {
  "crossConstraintId": "qty_shortfall",
- "version": "3.0.0",
+ "version": "3.1.0",
  "standard": "OSF",
  "displayName": "Quantity shortfall (plan vs. actual) — RETIRED 2026-07-12",
  "description": "RETIRED. Compared OperationsResponse.quantity_produced (BDE confirmations) against ProductionOrder.qty_planned. Full text: docs/history/standard/cross-constraints/qty_shortfall.md, description.",
@@ -51,11 +51,11 @@
  "accountable_role": "Production",
  "when": {
   "leftAttr": "status",
-  "ne": "offen"
+  "ne": "Running"
  },
  "left": {
   "profileRef": "SMProfile-OperationsResponse",
-  "joinKey": "production_order_no",
+  "joinKey": "production_order_ref",
   "attr": "quantity_produced"
  },
  "right": {
@@ -65,5 +65,6 @@
  },
  "op": "gte",
  "since": "2026-06-15",
- "impact_basis": "margin"
+ "impact_basis": "margin",
+ "version_note": "0.7.0 C (owner 30.10.2026): the rule body speaks the 6.0.0 names so the contract validates — left.joinKey production_order_ref, when status ne Running (final confirmations only: final_confirmation true → Completed). Still retired."
 }

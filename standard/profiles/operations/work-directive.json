@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-WorkDirective",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Work Directive",
@@ -83,7 +83,15 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "MD"
+      "valueType": "MD",
+      "enum": [
+        "Production",
+        "Maintenance",
+        "Quality",
+        "Inventory",
+        "Mixed",
+        "Other"
+      ]
     },
     {
       "name": "duration",
@@ -105,7 +113,19 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "SP"
+      "valueType": "SP",
+      "enum": [
+        "Waiting",
+        "Ready",
+        "Running",
+        "Completed",
+        "Aborted",
+        "Held",
+        "Paused",
+        "Suspended",
+        "Closed",
+        "Other"
+      ]
     },
     {
       "name": "hierarchy_scope_ref",
@@ -342,7 +362,7 @@
     },
     {
       "type": "SPECIFIES_PHYSICAL_ASSET",
-      "target": "Tool",
+      "target": "Tooling",
       "targetIdProp": "tool_id",
       "description": "ISA-95 Part 4 cl. 6 (B2MML WorkDirective.PhysicalAssetSpecification.PhysicalAssetID)."
     },

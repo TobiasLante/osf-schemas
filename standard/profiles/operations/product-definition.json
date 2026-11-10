@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-ProductDefinition",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Product Definition (Recipe / SOLL master)",
@@ -184,6 +184,53 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "never"
+    },
+    {
+      "name": "operations_type",
+      "dataType": "String",
+      "description": "ISA-95 operations type (B2MML OperationsType; Part 3/4: which MOM area the object belongs to; audit M1). A source without the column sets the constant of the profile's momDomain (columnMappings const).",
+      "enum": [
+        "Production",
+        "Maintenance",
+        "Quality",
+        "Inventory",
+        "Mixed",
+        "Other"
+      ],
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "characteristic_ref",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The characteristic the band of this parameter comes from: the criterion of the test specification (SMProfile-TestSpecificationCriterion, e.g. the balloon number on the drawing). Empty until a real source names it — never invented.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "Kept as a value: B2MML ParameterSpecification has no link to a test criterion (the criterion names the parameter, EvaluatedPropertyID)."
+      }
+    },
+    {
+      "name": "source_revision",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "The revision of the drawing or document that set the band. Empty until a real source names it — never invented.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "Kept as a value: the revision is the version of the test specification the criterion belongs to; B2MML ParameterSpecification has no field for it."
+      }
     }
   ],
   "relationships": [],
@@ -201,21 +248,24 @@
       "name": "OperationsDefinition.Description",
       "version_label": "OperationsDefinition.Version",
       "article_ref": "OperationsDefinition.OperationsSegment.MaterialSpecification.MaterialDefinitionID",
-      "equipment_class_ref": "OperationsDefinition.OperationsSegment.EquipmentSpecification.EquipmentClassID"
+      "equipment_class_ref": "OperationsDefinition.OperationsSegment.EquipmentSpecification.EquipmentClassID",
+      "operations_type": "OperationsDefinition.OperationsType",
+      "param_name": "OperationsDefinition.OperationsSegment.ParameterSpecification.ID",
+      "target_value": "OperationsDefinition.OperationsSegment.ParameterSpecification.Value.ValueString",
+      "unit": "OperationsDefinition.OperationsSegment.ParameterSpecification.Value.UnitOfMeasure",
+      "warn_lo": "OperationsDefinition.OperationsSegment.ParameterSpecification.ParameterChild[ID=warn_lo].Value.ValueString",
+      "warn_hi": "OperationsDefinition.OperationsSegment.ParameterSpecification.ParameterChild[ID=warn_hi].Value.ValueString",
+      "action_lo": "OperationsDefinition.OperationsSegment.ParameterSpecification.ParameterChild[ID=action_lo].Value.ValueString",
+      "action_hi": "OperationsDefinition.OperationsSegment.ParameterSpecification.ParameterChild[ID=action_hi].Value.ValueString"
     },
     "notInIsa95": [
       "status",
       "setup_ref",
-      "param_name",
-      "target_value",
-      "warn_lo",
-      "warn_hi",
-      "action_lo",
-      "action_hi",
-      "unit",
-      "updated_at"
+      "updated_at",
+      "characteristic_ref",
+      "source_revision"
     ],
-    "mappingNote": "B2MML 0700 has no ProductDefinition object; the recipe is an OperationsDefinition. B2MML OperationsDefinition has no lifecycle status and no setup axis; the controlled property with its target and warning/action bands is no named B2MML field; updated_at is a technical timestamp of the source.",
+    "mappingNote": "B2MML 0701 has no ProductDefinition object; the recipe is an OperationsDefinition. B2MML OperationsDefinition has no lifecycle status and no setup axis; the controlled property with its target and warning/action bands is no named B2MML field; updated_at is a technical timestamp of the source. Audit M3 (core 6.0.0): the specification of one parameter is OperationsSegment.ParameterSpecification (ID = param_name, Value with its UnitOfMeasure); the two bands are nested parameters named warn_lo / warn_hi / action_lo / action_hi. PLM model (owner 29.10.2026): characteristic_ref and source_revision name the characteristic and the drawing revision a band was derived from; B2MML ParameterSpecification has no field for them — the characteristic itself is a TestSpecificationCriteria (SMProfile-TestSpecificationCriterion), its revision the TestSpecification Version.",
     "grain": "one parameter of a product definition: one row = one param_name of one definition (key <definition>.<param_name>)"
   },
   "kgNodeLabel": "ProductDefinition",

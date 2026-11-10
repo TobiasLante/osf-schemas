@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-OperationsEvent",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Operations Event (business event at Level 3)",
@@ -39,7 +39,13 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "PV"
+      "valueType": "PV",
+      "enum": [
+        "Event",
+        "Alert",
+        "Alarm",
+        "Other"
+      ]
     },
     {
       "name": "category",

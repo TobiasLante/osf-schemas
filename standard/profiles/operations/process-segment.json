@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-ProcessSegment",
-  "version": "3.1.0",
+  "version": "4.0.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Process Segment (reusable manufacturing stage)",
@@ -49,10 +49,12 @@
       "category": "Core",
       "description": "ISA-95 'Mixed Operation Schedule' classification of the stage. Corresponds to the momDomain.",
       "enum": [
-        "production",
-        "inventory",
-        "quality",
-        "maintenance"
+        "Production",
+        "Maintenance",
+        "Quality",
+        "Inventory",
+        "Mixed",
+        "Other"
       ],
       "delivery": "transactional",
       "scope": "hub",
@@ -303,7 +305,7 @@
     },
     {
       "type": "SPECIFIES_PHYSICAL_ASSET",
-      "target": "Tool",
+      "target": "Tooling",
       "targetIdProp": "tool_id",
       "description": "ISA-95 Part 2 cl. 5.8 (B2MML ProcessSegment.PhysicalAssetSegmentSpecification.PhysicalAssetID)."
     },

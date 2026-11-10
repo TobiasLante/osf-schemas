@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-StorageLocation",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Storage Location",
@@ -105,7 +105,17 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "MD"
+      "valueType": "MD",
+      "enum": [
+        "WKT",
+        "WKB",
+        "GML",
+        "KML",
+        "GPX",
+        "GeoJSON",
+        "SVG",
+        "Other"
+      ]
     },
     {
       "name": "spatial_srid",

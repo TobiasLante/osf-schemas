@@ -1,0 +1,123 @@
+{
+  "profileId": "SMProfile-WorkAlertDefinition",
+  "version": "1.0.0",
+  "standard": "CarToUNS",
+  "category": "business",
+  "displayName": "Work Alert Definition",
+  "description": "ISA-95 Part 4 work alert definition (B2MML 0701 WorkAlertDefinition): the kind of a work alert — priority, category, version.",
+  "parentType": null,
+  "abstract": false,
+  "properties": [
+    {
+      "name": "work_alert_definition_id",
+      "dataType": "String",
+      "required": true,
+      "category": "Core",
+      "description": "Identity of the work alert definition.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "ID"
+    },
+    {
+      "name": "name",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "Description of the definition.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "version_label",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "The definition's version.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "MD"
+    },
+    {
+      "name": "priority",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "The priority alerts of this definition carry.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
+    },
+    {
+      "name": "alert_category",
+      "dataType": "String",
+      "required": false,
+      "category": "Core",
+      "description": "The category alerts of this definition carry.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
+    },
+    {
+      "name": "published_date",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "When the definition was published.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
+    },
+    {
+      "name": "effective_start_date",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "From when the definition is effective.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
+    },
+    {
+      "name": "effective_end_date",
+      "dataType": "DateTime",
+      "required": false,
+      "category": "Timing",
+      "description": "Until when the definition is effective.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "valueType": "PV"
+    }
+  ],
+  "relationships": [],
+  "constraints": [],
+  "semantics": [],
+  "kpiRefs": [],
+  "isa95": {
+    "objectModel": "WorkAlertDefinition",
+    "part": 4,
+    "momDomain": "production",
+    "level": 3,
+    "note": "ISA-95 Part 4 WorkAlertDefinition (B2MML-WorkAlert.xsd); core 6.0.0 (0.7.0, PLAN-0700 S4).",
+    "propertyMap": {
+      "work_alert_definition_id": "WorkAlertDefinition.ID",
+      "name": "WorkAlertDefinition.Description",
+      "version_label": "WorkAlertDefinition.Version",
+      "priority": "WorkAlertDefinition.Priority",
+      "alert_category": "WorkAlertDefinition.Category",
+      "published_date": "WorkAlertDefinition.PublishedDate",
+      "effective_start_date": "WorkAlertDefinition.EffectiveStartDate",
+      "effective_end_date": "WorkAlertDefinition.EffectiveEndDate"
+    }
+  },
+  "kgNodeLabel": "WorkAlertDefinition",
+  "kgIdProperty": "work_alert_definition_id"
+}
