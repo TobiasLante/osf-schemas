@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-WorkMasterCapability",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Work Master Capability",
@@ -83,7 +83,16 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "MD"
+      "valueType": "MD",
+      "enum": [
+        "Used",
+        "Unused",
+        "Total",
+        "Committed",
+        "Available",
+        "Unattainable",
+        "Other"
+      ]
     },
     {
       "name": "reason",
@@ -302,7 +311,7 @@
     },
     {
       "type": "CAPABILITY_PHYSICAL_ASSET",
-      "target": "Tool",
+      "target": "Tooling",
       "targetIdProp": "tool_id",
       "description": "ISA-95 Part 4 cl. 9/10 (B2MML WorkMasterCapability.PhysicalAssetCapability.PhysicalAssetID)."
     },

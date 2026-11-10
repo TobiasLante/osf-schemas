@@ -43,7 +43,7 @@
         "regime_markers": {
           "on_change": [
             "tool_ref",
-            "resin"
+            "Act_Ref_Resin"
           ]
         },
         "min_sample_n": 1000
@@ -58,7 +58,7 @@
         "regime_markers": {
           "on_change": [
             "tool_ref",
-            "resin"
+            "Act_Ref_Resin"
           ]
         },
         "min_sample_n": 1000
@@ -73,7 +73,7 @@
         "regime_markers": {
           "on_change": [
             "tool_ref",
-            "resin"
+            "Act_Ref_Resin"
           ]
         },
         "min_sample_n": 1000
@@ -88,7 +88,7 @@
         "regime_markers": {
           "on_change": [
             "tool_ref",
-            "resin"
+            "Act_Ref_Resin"
           ]
         },
         "min_sample_n": 1000
@@ -105,10 +105,10 @@
       ],
       "unit": "GRM",
       "monitored": true,
-      "gate": "inCycle==true",
+      "gate": "Act_State_InCycle==true",
       "valueFrom": "recipe:part_mass_band",
       "constraintId": "recipe_part_mass_band",
-      "smAttribute": "partMass_g",
+      "smAttribute": "Act_Mass_Part",
       "economics": {
         "model": "material_overconsumption",
         "materialArticleRef": "_V4_RM-PA66-GF30",
@@ -127,7 +127,7 @@
       "monitored": true,
       "valueFrom": "recipe:cushion_band",
       "constraintId": "recipe_cushion_band",
-      "smAttribute": "cushionMm"
+      "smAttribute": "Act_Length_Cushion"
     },
     {
       "param": "peakPressureBar",
@@ -138,10 +138,10 @@
       ],
       "unit": "BAR",
       "monitored": true,
-      "gate": "phaseName==HOLD",
+      "gate": "Act_Status_Phase==HOLD",
       "valueFrom": "recipe:peak_pressure_band",
       "constraintId": "recipe_peak_pressure_band",
-      "smAttribute": "peakPressureBar"
+      "smAttribute": "Act_Pressure_Peak"
     },
     {
       "param": "holdPressureBar",
@@ -152,10 +152,10 @@
       ],
       "unit": "BAR",
       "monitored": true,
-      "gate": "phaseName==HOLD",
+      "gate": "Act_Status_Phase==HOLD",
       "valueFrom": "recipe:hold_pressure_band",
       "constraintId": "recipe_hold_pressure_band",
-      "smAttribute": "holdPressureBar"
+      "smAttribute": "Act_Pressure_Hold"
     }
   ],
   "provenance": {
