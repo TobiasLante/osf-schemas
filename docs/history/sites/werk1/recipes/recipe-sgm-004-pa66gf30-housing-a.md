@@ -9,3 +9,7 @@ GitHub-managed injection-molding recipe (Einstellparameter / SOLL) for article h
 ## 0.7.0 R3 (29.10.2026)
 
 7 parameters added from the typical PA66GF30 processing window (process_estimate), the earlier values unchanged.
+
+## 5.3.0 (11.11.2026)
+
+recipe:mould_temp_control_limits added; the other control limits were already there and follow the same rule. Owner 11.11.2026: control limits in every article recipe, warn at a fixed distance as in the machine default recipes — action = the band itself, warn = the band inset by 3 °C (hot runner), 2 °C (mould) and 3.25 °C (barrel zones 1–4); toleranceSource process_estimate, capability as the band. The bands are unchanged. Before, only the machine default recipes carried control limits, so a job with an article recipe was not watched.
