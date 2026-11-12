@@ -1,6 +1,6 @@
 {
   "recipeId": "RECIPE-V4-14-0204-003",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "owner": "Process Engineering",
   "profileRef": "SMProfile-InjectionMoldingMachine",
   "displayName": "_V4_14-0204-003 (Präzisionsbauteil Typ C) × InjectionMoldingMachine",
@@ -14,18 +14,58 @@
       200,
       220
     ],
+    "recipe:barrel_zone1_control_limits": {
+      "warn": [
+        203.25,
+        216.75
+      ],
+      "action": [
+        200,
+        220
+      ]
+    },
     "recipe:barrel_zone2_temp_band": [
       215,
       245
     ],
+    "recipe:barrel_zone2_control_limits": {
+      "warn": [
+        218.25,
+        241.75
+      ],
+      "action": [
+        215,
+        245
+      ]
+    },
     "recipe:barrel_zone3_temp_band": [
       230,
       250
     ],
+    "recipe:barrel_zone3_control_limits": {
+      "warn": [
+        233.25,
+        246.75
+      ],
+      "action": [
+        230,
+        250
+      ]
+    },
     "recipe:barrel_zone4_temp_band": [
       235,
       260
     ],
+    "recipe:barrel_zone4_control_limits": {
+      "warn": [
+        238.25,
+        256.75
+      ],
+      "action": [
+        235,
+        260
+      ]
+    },
     "recipe:melt_temp_band": [
       235,
       265
@@ -34,10 +74,30 @@
       232,
       248
     ],
+    "recipe:hotrunner_control_limits": {
+      "warn": [
+        235,
+        245
+      ],
+      "action": [
+        232,
+        248
+      ]
+    },
     "recipe:mould_temp_band": [
       40,
       80
     ],
+    "recipe:mould_temp_control_limits": {
+      "warn": [
+        42,
+        78
+      ],
+      "action": [
+        40,
+        80
+      ]
+    },
     "recipe:injection_speed_band": [
       40,
       80
@@ -97,12 +157,18 @@
   },
   "toleranceSource": {
     "recipe:barrel_zone1_temp_band": "process_estimate",
+    "recipe:barrel_zone1_control_limits": "process_estimate",
     "recipe:barrel_zone2_temp_band": "process_estimate",
+    "recipe:barrel_zone2_control_limits": "process_estimate",
     "recipe:barrel_zone3_temp_band": "process_estimate",
+    "recipe:barrel_zone3_control_limits": "process_estimate",
     "recipe:barrel_zone4_temp_band": "process_estimate",
+    "recipe:barrel_zone4_control_limits": "process_estimate",
     "recipe:melt_temp_band": "process_estimate",
     "recipe:hotrunner_temp_band": "process_estimate",
+    "recipe:hotrunner_control_limits": "process_estimate",
     "recipe:mould_temp_band": "process_estimate",
+    "recipe:mould_temp_control_limits": "process_estimate",
     "recipe:injection_speed_band": "process_estimate",
     "recipe:hold_pressure_band": "process_estimate",
     "recipe:peak_pressure_band": "process_estimate",
@@ -134,7 +200,37 @@
         "min_sample_n": 1000
       }
     },
+    "recipe:barrel_zone1_control_limits": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "tool_ref",
+            "Act_Ref_Resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
     "recipe:barrel_zone2_temp_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "tool_ref",
+            "Act_Ref_Resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:barrel_zone2_control_limits": {
       "cp_min": 1.33,
       "ca_max": 0.125,
       "max_stationarity_ratio": 2,
@@ -164,7 +260,37 @@
         "min_sample_n": 1000
       }
     },
+    "recipe:barrel_zone3_control_limits": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "tool_ref",
+            "Act_Ref_Resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
     "recipe:barrel_zone4_temp_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "tool_ref",
+            "Act_Ref_Resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:barrel_zone4_control_limits": {
       "cp_min": 1.33,
       "ca_max": 0.125,
       "max_stationarity_ratio": 2,
@@ -209,7 +335,37 @@
         "min_sample_n": 1000
       }
     },
+    "recipe:hotrunner_control_limits": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "tool_ref",
+            "Act_Ref_Resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
     "recipe:mould_temp_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "tool_ref",
+            "Act_Ref_Resin"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:mould_temp_control_limits": {
       "cp_min": 1.33,
       "ca_max": 0.125,
       "max_stationarity_ratio": 2,

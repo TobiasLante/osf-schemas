@@ -1,6 +1,6 @@
 {
   "recipeId": "RECIPE-sgm-004-PA66GF30-housing-A",
-  "version": "5.2.0",
+  "version": "5.3.0",
   "owner": "Process Engineering",
   "profileRef": "SMProfile-InjectionMoldingMachine",
   "displayName": "PA66-GF30 housing-A on sgm-004 (mould-A)",
@@ -45,6 +45,16 @@
       80,
       90
     ],
+    "recipe:mould_temp_control_limits": {
+      "warn": [
+        82,
+        88
+      ],
+      "action": [
+        80,
+        90
+      ]
+    },
     "recipe:melt_temp_band": [
       288.5,
       301.5
@@ -158,6 +168,7 @@
     "recipe:peak_pressure_band": "process_estimate",
     "recipe:hold_pressure_band": "process_estimate",
     "recipe:mould_temp_band": "norm",
+    "recipe:mould_temp_control_limits": "process_estimate",
     "recipe:melt_temp_band": "process_estimate",
     "recipe:injection_speed_band": "process_estimate",
     "recipe:back_pressure_band": "process_estimate",
@@ -276,6 +287,25 @@
       }
     },
     "recipe:mould_temp_band": {
+      "cp_min": 1.33,
+      "ca_max": 0.125,
+      "max_stationarity_ratio": 2,
+      "population": {
+        "scope": "current_regime",
+        "regime_markers": {
+          "on_change": [
+            "tool_ref",
+            "program_ref",
+            "Act_Ref_Resin"
+          ],
+          "on_reset": [
+            "Act_Amount_Shot"
+          ]
+        },
+        "min_sample_n": 1000
+      }
+    },
+    "recipe:mould_temp_control_limits": {
       "cp_min": 1.33,
       "ca_max": 0.125,
       "max_stationarity_ratio": 2,
