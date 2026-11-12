@@ -111,7 +111,7 @@ osf-schemas/
 │       ├── historians/             historian-sink templates + instances (OUTPUT: UNS → customer DB)
 │       │   ├── grafana-dashboards/      (4 json)
 │       │   └── instances/               (3 json)
-│       ├── instances/              the plant tree: Enterprise → Site → Area → ProcessCell → Unit (ISA-88 equipment levels) (9 json)
+│       ├── instances/              the plant tree: Enterprise → Site → Area → work centers (production lines, work cells) → work units (ISA-95 role-based levels, core 6.0.0) (9 json)
 │       ├── mappings/               protocol canon: DataItem/tag → SM attribute (SSOT for discovery + gen-flows) (1 json)
 │       ├── recipes/                GitHub-managed recipe master data (see recipes/README.md) (79 json)
 │       ├── settings/                (22 json)
