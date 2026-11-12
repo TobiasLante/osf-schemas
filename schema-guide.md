@@ -87,7 +87,7 @@ Measured from the tree by `i3x-v5 packages/schemas-ci/osf/gen-docs.mjs` — the 
 
 ---
 
-## Historians (`standard/historians/<db>/<template>.json`)
+## Historians (`i3x-v5 packages/uns-grammar/historians/<db>/<template>.json` — the grammar; the tree carries no copy since core 6.2.0)
 
 Templates für Historian-Sinks. i3X liefert den Historian **nicht** mit —
 der Kunde bringt Postgres/Timescale, MSSQL oder InfluxDB. Diese Templates
@@ -99,12 +99,12 @@ konfiguriert sind.
 `sites/werk1/sync/polling/` (das ist INPUT aus einer Kunden-DB).
 
 **Unterstützt:**
-- `standard/historians/postgresql/historian-template.json` — `node-red-contrib-postgresql`, optional Timescale-Hypertable + Compression + Retention.
-- `standard/historians/mssql/historian-template.json` — `node-red-contrib-mssql-plus`.
-- `standard/historians/influxdb/historian-template.json` — `node-red-contrib-influxdb` 2.x, Measurement pro Domain.
-- `standard/historians/nats-jetstream/historian-template.json` (v3, additive) — `@i3x/nr-nats` durable consumer auf einem JetStream-Stream → Postgres-Insert in dieselbe `uns_history`-Tabelle. Wird verwendet wenn die Source `transport: ['nats']` setzt; bei `['mqtt','nats']` läuft der MQTT-Historian-Pfad parallel.
+- `i3x-v5 packages/uns-grammar/historians/postgresql/historian-template.json` — `node-red-contrib-postgresql`, optional Timescale-Hypertable + Compression + Retention.
+- `i3x-v5 packages/uns-grammar/historians/mssql/historian-template.json` — `node-red-contrib-mssql-plus`.
+- `i3x-v5 packages/uns-grammar/historians/influxdb/historian-template.json` — `node-red-contrib-influxdb` 2.x, Measurement pro Domain.
+- `i3x-v5 packages/uns-grammar/historians/nats-jetstream/historian-template.json` (v3, additive) — `@i3x/nr-nats` durable consumer auf einem JetStream-Stream → Postgres-Insert in dieselbe `uns_history`-Tabelle. Wird verwendet wenn die Source `transport: ['nats']` setzt; bei `['mqtt','nats']` läuft der MQTT-Historian-Pfad parallel.
 
-Daneben liegen unter `standard/historians/` keine Templates, sondern konkrete Artefakte:
+Daneben liegen unter `i3x-v5 packages/uns-grammar/historians/` keine Templates, sondern konkrete Artefakte:
 `instances/` (deklarierte Historian-Instanzen edge/central), `central-ts-tables/`
 (Central-Timescale-Tabellendefinitionen), `postgresql-cagg/` (Continuous
 Aggregates), `postgresql-pivot/` (Pivot-Routing), `views/` und
@@ -120,13 +120,13 @@ Template-Shape gemeinsam:
 
 ---
 
-## Companion-Spec-Registry (`standard/companion-specs/index.json`)
+## Companion-Spec-Registry (`i3x-v5 packages/uns-grammar/companion-specs/index.json`)
 
 Flat registry of OPC-UA Companion-Spec NodeSet2.xml download URLs.
 Referenced by `companionSpec` field on SM-Profiles so the discovery
 pipeline can fetch the authoritative NodeSet on demand.
 
-**File:** `standard/companion-specs/index.json`
+**File:** `i3x-v5 packages/uns-grammar/companion-specs/index.json` (the grammar)
 
 ```json
 {

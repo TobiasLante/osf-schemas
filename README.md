@@ -88,7 +88,7 @@ numbers are in the generated [Counts](#counts) block below.)
 | Consumer | Reads | Produces |
 |----------|-------|----------|
 | **KG Builder** | All 3 schemas | Knowledge Graph (nodes, edges, embeddings) |
-| **Edge codegen** (discovery / nr-codegen) | `standard/mappings/` + `sites/werk1/sources/` + `sites/werk1/sync/nats/` + `standard/historians/` | Node-RED flows, JetStream publishes, historian writers |
+| **Edge codegen** (discovery / nr-codegen) | `standard/mappings/` + `sites/werk1/sources/` + `sites/werk1/sync/nats/` + the grammar's historian templates (`i3x-v5 packages/uns-grammar/historians/`) | Node-RED flows, JetStream publishes, historian writers |
 | **JetStream provisioning** (`provision-jetstream.sh`) | `sites/werk1/sync/nats/jetstream-streams.json` | streams + consumers on edge/hub NATS |
 | **it-evaluator** | `sites/werk1/recipes/` (runtime fetch) + constraint facets | deviations, capability verdicts (Cp/Ca) |
 | **i3X API** | Schema 1 (profiles) | REST API with type hierarchy |

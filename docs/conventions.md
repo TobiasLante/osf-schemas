@@ -14,7 +14,7 @@ Its shape is `i3x-v5 packages/uns-grammar/validation/sync-schema.json` › `defi
 every scope=hub signal has a hub target, telemetry and events never share a pattern, every address lands in its own
 world's stream and in no other, and no two signals share an address or a UNS path. The v3 class table that stood here
 (7-segment raw telemetry, `aggregate.*`, `cpp.*`) described the v4 bridge; the parser shapes of that bridge are in
-`standard/historians/nats-jetstream/historian-template.json` › `subjectParser.byRoot`.
+`i3x-v5 packages/uns-grammar/historians/nats-jetstream/historian-template.json` › `subjectParser.byRoot` (the grammar; the tree carries no copy since core 6.2.0).
 
 The subjects below are NOT signals (management, snapshots, alerts/actions) and stay documented here.
 
@@ -116,4 +116,4 @@ uns.action.cnc-001.acknowledge.AC-3300     # plant→edge action request
 |---------------------|------------------------------------------------|
 | Signal subjects + UNS paths | `standard/sync/uns-convention.json` (+ declared routes in `sites/<site>/sync/<transport>/`) |
 | Profile definitions | `standard/profiles/business/*.json`                     |
-| Validators          | `i3x-v5 packages/uns-grammar/validation/business-profile-schema.json`, `standard/validation/it-edge-source-schema.json` |
+| Validators          | `i3x-v5 packages/uns-grammar/validation/business-profile-schema.json`, `i3x-v5 packages/uns-grammar/validation/it-edge-source-schema.json` |
