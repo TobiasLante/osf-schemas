@@ -14,3 +14,5 @@ next/ v4 — PHASE-0 ARCHITECTURE FIX: REAL ERP ProductionOrder (Level-3 Operati
 order serves — null for the sim's system customer INTERNAL-PRODUCTION (stock orders are no customer orders), else the parent order of a partial
 release (`-S1` rest orders) or the order itself. Before, it was `kundenauftrag_nr`, which named the production order's own number for 987 of 987
 orders on the demo broker (explorer census 11.11.2026). The CustomerOrder edge for this reference comes with the reference targets (0.7.2 K13).
+
+The keyset cursor is the response field `order_id` (the sim, 12.11.2026: "as the cursor only order_id"; today equal to production_order_no).
