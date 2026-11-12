@@ -33,18 +33,8 @@ osf-schemas/
 │       │   └── polling/                REST polling schedule (1 json)
 │       └── site.model.json
 ├── standard/               CENTRAL — classes, contracts, vocabulary, edge catalogue; one per enterprise
-│   ├── companion-specs/        OPC-UA Companion-Spec registry (NodeSet2.xml URLs) (1 json)
 │   ├── cross-constraints/      cross-profile discrepancy constraints (PLAN vs IST rules) (4 json)
 │   ├── flows/                  Node-RED flow templates (OPC-UA → UNS standard flow) (1 json)
-│   ├── historians/             historian-sink templates + instances (OUTPUT: UNS → customer DB)
-│   │   ├── central-ts-tables/       (2 json)
-│   │   ├── influxdb/                (1 json)
-│   │   ├── mssql/                   (1 json)
-│   │   ├── nats-jetstream/          (1 json)
-│   │   ├── postgresql/              (1 json)
-│   │   ├── postgresql-cagg/         (1 json)
-│   │   ├── postgresql-pivot/        (1 json)
-│   │   └── views/                   (1 json)
 │   ├── kpis/                   KPI definitions — inputs drawn from the source-fed vocabulary (lint-kpis) (6 json)
 │   ├── mappings/               protocol canon: DataItem/tag → SM attribute (SSOT for discovery + gen-flows) (3 json)
 │   ├── payloads/                (91 json)
@@ -57,8 +47,6 @@ osf-schemas/
 │   │   ├── personnel/               (2 json)
 │   │   └── quality/                ISA-95 quality: InspectionLot, SPCAnalysis (5 json)
 │   ├── sync/                   Schema 3: Live Sync (transport layer) (1 json)
-│   ├── unit-conversions/       UNECE unit table (discovery-time scale/offset lookup) (1 json)
-│   ├── validation/             ajv meta-schemas (per-file shape validation) (23 json)
 │   ├── contract.json           GENERATED ontology contract (gen-contract.mjs) — agents read this FIRST
 │   └── standard.json
 ├── CLAUDE.md               agent instructions
