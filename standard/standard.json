@@ -233,10 +233,9 @@
     },
     {
       "id": "material-capability-stock",
-      "text": "Stock as its own record (M-34, owner 13.11.2026): SMProfile-OperationsCapability gains quantity, quantity_unit and storage_location (B2MML MaterialCapability) — one record per article × storage location × capability type (Total, Committed, Unattainable, Available). The article's stock_free/_reserved/_blocked/_available are deprecated (replacedBy OperationsCapability) and no longer mapped. Additive.",
+      "text": "Stock as its own record (M-34, owner 13.11.2026): SMProfile-OperationsCapability gains quantity, quantity_unit and storage_location (B2MML MaterialCapability) — one record per article × storage location × capability type (Total, Committed, Unattainable, Available). The article's stock_free/_reserved/_blocked/_available stay unchanged until the plants feed the new record: they are deprecated in a later core (a deprecated field a plant maps is an error, and every plant of core 6.1.0 maps them — deprecating them here would block its move). The reference plant reads the new record from sim-v5-stock-capability. Additive.",
       "profiles": [
-        "SMProfile-OperationsCapability",
-        "SMProfile-Article"
+        "SMProfile-OperationsCapability"
       ]
     },
     {
