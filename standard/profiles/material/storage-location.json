@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-StorageLocation",
-  "version": "3.0.1",
+  "version": "3.0.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Storage Location",
@@ -61,14 +61,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "IN_SCOPE_OF",
-        "targets": [
-          "Area"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "operational_location_class_ref",
@@ -79,14 +72,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "DEFINED_BY",
-        "targets": [
-          "OperationalLocationClass"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "parent_storage_location_ref",
@@ -97,14 +83,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "PART_OF",
-        "targets": [
-          "StorageLocation"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "spatial_definition",

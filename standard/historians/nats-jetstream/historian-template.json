@@ -1,0 +1,88 @@
+{
+  "$description": "Historian-Sink-Template via NATS JetStream durable consumer + TimescaleDB. Full text: docs/history/standard/historians/nats-jetstream/historian-template.md, $description.",
+  "syncId": "nats-jetstream-historian",
+  "version": "2.0.1",
+  "syncType": "nats-jetstream",
+  "deployTarget": "it",
+  "nodeRedContrib": "@i3x/nr-nats",
+  "consumer": {
+    "stream": "FACTORY",
+    "$streamNote": "FACTORY (hub tier, sites/werk1/sync/nats/jetstream-streams.json v1.3.0) is the only stream whose subjectsCapture — factory.>, cpp.>, aggregate.> — covers the telemetry world this historian persists; deployTarget 'it' puts the flow on the hub side where FACTORY lives (the edge tier only has EDGE_EXPORT, which the hub FACTORY sources cross-domain). durable_name / filter_subject / ack_policy / deliver_policy mirror the SSOT's consumers.historian-write entry 1:1, so a flow generated from this template binds to the declared consumer identity instead of competing with it.",
+    "durable_name": "historian-write",
+    "filter_subject": ">",
+    "ack_policy": "explicit",
+    "deliver_policy": "new",
+    "max_ack_pending": 1000,
+    "ack_wait": "30s",
+    "max_deliver": 5
+  },
+  "connection": {
+    "host": "${HISTORIAN_HOST}",
+    "port": "${HISTORIAN_PORT:-5432}",
+    "database": "${HISTORIAN_DB}",
+    "user": "${HISTORIAN_USER}",
+    "password": "${HISTORIAN_PASSWORD}",
+    "ssl": false,
+    "maxConnections": 10
+  },
+  "tableStructure": {
+    "defaultTable": "uns_history",
+    "createIfMissing": false,
+    "$note": "Same 1:1 shape as the postgresql historian template — fed by either MQTT or NATS, the historian table doesn't care.",
+    "$headersReality": "The I3x-* header sources below are the DESIGNED primary path, but the live-verified FACTORY messages carry NO NATS headers at all (i3x-v4 services/gateway/src/i3x/telemetry-source.ts, measured 2026-05-21 via `nats stream get FACTORY`: 'headers: NONE — machine + attribute are encoded entirely in the subject'). In practice the row-builder resolves nearly every message through subjectParser.fallbackOrder — which is why that parser must match the real subject shapes, not a hypothetical one.",
+    "columns": [
+      { "name": "ts",         "type": "timestamptz",      "source": "$.timestamp",   "notNull": true },
+      { "name": "machine",    "type": "text",             "source": "msg.headers.I3x-Machine",   "notNull": true, "index": true },
+      { "name": "category",   "type": "text",             "source": "msg.headers.I3x-Domain",    "notNull": true, "index": true },
+      { "name": "variable",   "type": "text",             "source": "msg.headers.I3x-Attribute", "notNull": true, "index": true },
+      { "name": "value",      "type": "double precision", "source": "msg._valueNum" },
+      { "name": "value_text", "type": "text",             "source": "msg._valueText" },
+      { "name": "unit",       "type": "text",             "source": "$.unit" },
+      { "name": "topic",      "type": "text",             "source": "msg.subject",   "notNull": true }
+    ]
+  },
+  "subjectParser": {
+    "$description": "CORRECTED 2026-07-15 (CAPT-HIST): the former single default pattern {enterprise}.{site}.{area}.{line}.{machine}.{domain}.{attribute} with machineSegment=4 described the 7-segment Class-A … Full text: docs/history/standard/historians/nats-jetstream/historian-template.md, subjectParser › $description.",
+    "routing": "root token + segment count (must agree with the subject patterns of standard/sync/uns-convention.json and byRoot below)",
+    "fallbackOrder": [
+      "msg.headers (I3x-Machine / I3x-Domain / I3x-Attribute — designed convention, absent on the live stream, see tableStructure.$headersReality)",
+      "payload fields (Class-C payloads MUST carry { machine, variable, ... } per the v3 class table (now: standard/sync/uns-convention.json) — the only reliable source for the non-canonical 4/6-segment factory.* shapes the bridge also keeps)",
+      "subject parse per byRoot below"
+    ],
+    "byRoot": {
+      "factory": {
+        "$class": "C — OT event, transactional/hub/on_change. Canonical 5-segment shape; the bridge keeps 4-6-seg factory.* as 'entity', but 5 is what the codegen emits. Live-verified example: factory.werk1.cnc-001.event.Act_Status_Machine.",
+        "pattern": "factory.{site}.{machine}.{category}.{attribute}",
+        "segments": 5,
+        "machineSegment": 2,
+        "domainSegment": 3,
+        "attributeSegment": 4
+      },
+      "aggregate": {
+        "$class": "A' — hub aggregate, telemetry/hub/aggregate. {window} is a duration token (300s, 5min, 1h, ...), not a category — the domain column takes the literal below.",
+        "pattern": "aggregate.{site}.{machine}.{window}.{metric}",
+        "segments": 5,
+        "machineSegment": 2,
+        "attributeSegment": 4,
+        "domainLiteral": "aggregate"
+      },
+      "cpp": {
+        "$class": "B — cycle snapshot, transactional/hub/on_cycle_end. {opId} is a runtime value, not an attribute; the trailing token is the fixed literal 'snapshot'. Snapshot payloads are cycle documents, not single scalars — cpp-vault owns their real persistence; a historian row from this shape is a pointer, not the snapshot.",
+        "pattern": "cpp.{site}.{machine}.{opId}.snapshot",
+        "segments": 5,
+        "machineSegment": 2,
+        "domainLiteral": "cpp",
+        "attributeLiteral": "snapshot"
+      }
+    }
+  },
+  "insertStrategy": {
+    "mode": "batch",
+    "batchSize": 500,
+    "batchIntervalMs": 1000,
+    "onConflict": "none"
+  },
+  "subscribeFilters": [">"],
+  "$subscribeFiltersNote": "'>' on the FACTORY consumer = everything the stream captures: factory.>, cpp.>, aggregate.> — matching the SSOT consumers.historian-write filter_subject '>' exactly. Do not narrow this here without changing the SSOT first; a durable consumer's filter is part of its identity.",
+  "description": "JetStream-backed historian write — durable, replayable, ack-on-insert. Full text: docs/history/standard/historians/nats-jetstream/historian-template.md, description."
+}

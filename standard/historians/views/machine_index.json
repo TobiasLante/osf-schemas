@@ -1,0 +1,10 @@
+{
+  "$description": "Lookup-View die fuer jede Maschine den machine_type und ihre process_table liefert. Full text: docs/history/standard/historians/views/machine_index.md, $description.",
+  "syncId": "machine-index-view",
+  "syncType": "postgresql-view",
+  "version": "1.0.0",
+  "deployTarget": "it",
+  "view": "machine_index",
+  "schema": "public",
+  "definition": "SELECT DISTINCT machine_id, 'CNC'::text AS machine_type, 'cnc_process_data'::text AS process_table FROM cnc_process_data UNION SELECT DISTINCT machine_id, 'SGM'::text, 'injection_molding_data'::text FROM injection_molding_data"
+}

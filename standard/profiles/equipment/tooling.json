@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-Tooling",
-  "version": "5.0.1",
+  "version": "5.0.0",
   "standard": "CarToUNS",
   "category": "equipment",
   "displayName": "Tooling (production resources / tools: mould, die, cutting tool, fixture)",
@@ -39,14 +39,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "AT_LOCATION",
-        "targets": [
-          "StorageLocation"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "physical_asset_class_ref",
@@ -57,14 +50,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "DEFINED_BY",
-        "targets": [
-          "PhysicalAssetClass"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "parent_tool_ref",
@@ -75,14 +61,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "PART_OF",
-        "targets": [
-          "Tooling"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "test_specification_ref",
@@ -93,14 +72,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "TESTED_BY",
-        "targets": [
-          "TestSpecification"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "spatial_definition",

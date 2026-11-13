@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-WorkResponse",
-  "version": "2.0.1",
+  "version": "2.0.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Work Response (actuals of a work order)",
@@ -28,14 +28,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "RESPONDS_TO",
-        "targets": [
-          "Workorder"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "start_time",
@@ -91,14 +84,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "PART_OF",
-        "targets": [
-          "WorkPerformance"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "parent_work_response_ref",
@@ -109,14 +95,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "PART_OF",
-        "targets": [
-          "WorkResponse"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "work_type",

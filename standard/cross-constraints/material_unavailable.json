@@ -1,7 +1,7 @@
 {
  "crossConstraintId": "material_unavailable",
- "version": "3.1.1",
- "standard": "CarToUNS",
+ "version": "3.1.0",
+ "standard": "OSF",
  "displayName": "Material unavailable (cross-domain ERP↔WMS) — PARKED (guard can never fire) — RETIRED 2026-07-12",
  "description": "Material unavailable: an active production response requires an article whose free WMS stock is 0.",
  "$comment": "TOMBSTONE — the rule body below is preserved VERBATIM as it ran until 2026-07-12. It is evidence, not configuration; retired:true means it is loaded, never evaluated, and its (zero) open episodes are superseded with superseded_by=retirementId. Do NOT delete this file. Original $comment follows. >>> Cross-source facet (CAPT-B Phase 2, building block 3): an active production response (OperationsResponse, status=offen) requires an article whose free WMS stock is 0. The right side is N:1 (many quants per article) → 'aggregate' condenses the free stock (quantity, filtered to blocked==0) via sum. HOLDS (ok) when sum(free) > threshold(0); VIOLATED (raised) at 0. Modeled as a true multi_source class. SAFETY: 0 matches → 'unknown' (no raise before the WMS source has been observed at all). NOTE: needs a next/ quant projection with attributes article_ref/quantity/blocked (article_ref-keyed) — see report open question 'WMS projection'. <<< That intent was never reachable in production: see retiredReason.",

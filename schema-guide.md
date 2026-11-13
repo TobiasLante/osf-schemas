@@ -18,15 +18,14 @@ osf-schemas/
 │       ├── historians/             historian-sink templates + instances (OUTPUT: UNS → customer DB)
 │       │   ├── grafana-dashboards/      (4 json)
 │       │   └── instances/               (3 json)
-│       ├── instances/              the plant tree: Enterprise → Site → Area → work centers (production lines, work cells) → work units (ISA-95 role-based levels, core 6.0.0) (9 json)
+│       ├── instances/              the plant tree: Enterprise → Site → Area → ProcessCell → Unit (ISA-88 equipment levels) (9 json)
 │       ├── mappings/               protocol canon: DataItem/tag → SM attribute (SSOT for discovery + gen-flows) (1 json)
 │       ├── recipes/                GitHub-managed recipe master data (see recipes/README.md) (79 json)
 │       ├── settings/                (22 json)
 │       ├── sources/                Schema 2: Data Sources (instance binding)
 │       │   ├── mtconnect/              MTConnect agent mappings (2 json)
 │       │   ├── opcua/                  OPC-UA endpoint → machine mappings (15 json)
-│       │   ├── rest/                   sim-v5 REST polling (ERP/QMS/WMS projections) (18 json)
-│       │   └── static/                 fixed lists of the model (the rows in the source, read like a csv list) (1 json)
+│       │   └── rest/                   sim-v5 REST polling (ERP/QMS/WMS projections) (18 json)
 │       ├── sync/                   Schema 3: Live Sync (transport layer)
 │       │   ├── mqtt/                   vendor software (HighByte, i-flow, Node-RED): machine OPC UA server → MQTT broker (4 json)
 │       │   ├── nats/                   NATS subjects + JetStream stream declarations (suite hub) (2 json)
@@ -34,11 +33,21 @@ osf-schemas/
 │       │   └── polling/                REST polling schedule (1 json)
 │       └── site.model.json
 ├── standard/               CENTRAL — classes, contracts, vocabulary, edge catalogue; one per enterprise
+│   ├── companion-specs/        OPC-UA Companion-Spec registry (NodeSet2.xml URLs) (1 json)
 │   ├── cross-constraints/      cross-profile discrepancy constraints (PLAN vs IST rules) (4 json)
 │   ├── flows/                  Node-RED flow templates (OPC-UA → UNS standard flow) (1 json)
+│   ├── historians/             historian-sink templates + instances (OUTPUT: UNS → customer DB)
+│   │   ├── central-ts-tables/       (2 json)
+│   │   ├── influxdb/                (1 json)
+│   │   ├── mssql/                   (1 json)
+│   │   ├── nats-jetstream/          (1 json)
+│   │   ├── postgresql/              (1 json)
+│   │   ├── postgresql-cagg/         (1 json)
+│   │   ├── postgresql-pivot/        (1 json)
+│   │   └── views/                   (1 json)
 │   ├── kpis/                   KPI definitions — inputs drawn from the source-fed vocabulary (lint-kpis) (6 json)
 │   ├── mappings/               protocol canon: DataItem/tag → SM attribute (SSOT for discovery + gen-flows) (3 json)
-│   ├── payloads/                (90 json)
+│   ├── payloads/                (91 json)
 │   ├── profiles/               Schema 1: SM Profiles (type system)
 │   │   ├── batch/                   (14 json)
 │   │   ├── equipment/              ISA-95 equipment: Machine (abstract parent), CNC_Machine, InjectionMoldingMachine, EquipmentClass, EquipmentModel (compact), Tool (15 json)
@@ -48,6 +57,8 @@ osf-schemas/
 │   │   ├── personnel/               (2 json)
 │   │   └── quality/                ISA-95 quality: InspectionLot, SPCAnalysis (5 json)
 │   ├── sync/                   Schema 3: Live Sync (transport layer) (1 json)
+│   ├── unit-conversions/       UNECE unit table (discovery-time scale/offset lookup) (1 json)
+│   ├── validation/             ajv meta-schemas (per-file shape validation) (23 json)
 │   ├── contract.json           GENERATED ontology contract (gen-contract.mjs) — agents read this FIRST
 │   └── standard.json
 ├── CLAUDE.md               agent instructions
@@ -74,8 +85,7 @@ Alles aus der v3-Ära (PostgreSQL-Sources, MQTT-UNS-/Kafka-/Webhook-Syncs) liegt
 | Profiles | 99 | batch 14 · equipment 15 · intelligence 5 · material 7 · operations 51 · personnel 2 · quality 5 |
 | Sources — mtconnect | 2 | mtconnect-cnc-01, mtconnect-cnc-mtc-02 |
 | Sources — opcua | 15 | opcua-cnc-001-event, opcua-cnc-001-telemetry, opcua-cnc-002-event, opcua-cnc-002-telemetry, opcua-ftlinx-01-event, opcua-ftlinx-01-telemetry, opcua-mtbridge-cnc-01, opcua-rockwell-01-event, opcua-rockwell-01-telemetry, opcua-sgm-001-event, opcua-sgm-001-telemetry, opcua-sgm-004-processdata, opcua-sgm-005-processdata, opcua-sgm-006-bde, opcua-sgm-006-processdata |
-| Sources — rest | 18 | erp-bde-confirmations, erp-customer-orders, erp-job-orders, erp-material-lots, erp-operations-definitions, erp-operations-response, erp-operations-segments, erp-process-segments, erp-production-orders, erp-segment-requirements, erp-segment-responses, erp-workorders, sim-v5-erp-articles, sim-v5-erp-calendar, sim-v5-erp-customers, sim-v5-qms-inspections, sim-v5-stock-capability, sim-v5-wms-quants |
-| Sources — static | 1 | model-equipment-classes |
+| Sources — rest | 18 | erp-bde-confirmations, erp-customer-orders, erp-job-orders, erp-machine-pools, erp-material-lots, erp-operations-definitions, erp-operations-response, erp-operations-segments, erp-process-segments, erp-production-orders, erp-segment-requirements, erp-segment-responses, erp-workorders, sim-v5-erp-articles, sim-v5-erp-calendar, sim-v5-erp-customers, sim-v5-qms-inspections, sim-v5-wms-quants |
 | Sync — mqtt | 4 | opcua-cnc-001-event-to-mqtt, opcua-cnc-001-telemetry-to-mqtt, opcua-sgm-004-to-mqtt, opcua-sgm-005-to-mqtt |
 | Sync — nats | 2 | jetstream-streams, opcua-to-nats-cnc-mtc-01 |
 | Sync — opcua-server | 1 | mtconnect-to-opcua-cnc-mtc-01 |
@@ -84,12 +94,12 @@ Alles aus der v3-Ära (PostgreSQL-Sources, MQTT-UNS-/Kafka-/Webhook-Syncs) liegt
 | Recipes | 79 (2 parked) | recipe-sgm-004-default, recipe-sgm-004-pa66gf30-bracket-b *(parked)*, recipe-sgm-004-pa66gf30-housing-a *(parked)*, recipe-sgm-005-default, recipe-sgm-006-default, recipe-v4-12-0044-001, recipe-v4-12-0044-002, recipe-v4-12-0044-003-pa66gf30, recipe-v4-12-0044-004, recipe-v4-12-0044-005, recipe-v4-12-0044-006, recipe-v4-14-0021-006, recipe-v4-14-0021-007, recipe-v4-14-0021-008, recipe-v4-14-0021-009, recipe-v4-14-0021-010, recipe-v4-14-0021-011, recipe-v4-14-0204-001, recipe-v4-14-0204-002, recipe-v4-14-0204-003, recipe-v4-14-0204-004, recipe-v4-14-0204-005, recipe-v4-14-0204-006, recipe-v4-14-1300-001, recipe-v4-14-1300-002, recipe-v4-14-1300-003, recipe-v4-14-1300-004, recipe-v4-14-1300-005, recipe-v4-14-1300-006, recipe-v4-14-1300-007, recipe-v4-14-1300-008, recipe-v4-14-1300-009, recipe-v4-14-1300-010, recipe-v4-14-1300-011, recipe-v4-14-1300-012, recipe-v4-14-1300-013, recipe-v4-14-1300-014, recipe-v4-14-1300-015, recipe-v4-14-1300-016, recipe-v4-14-1300-017, recipe-v4-14-1300-018, recipe-v4-14-1300-019, recipe-v4-14-1300-020, recipe-v4-14-1300-021, recipe-v4-14-1300-022, recipe-v4-14-1300-023, recipe-v4-14-1300-024, recipe-v4-14-1300-025, recipe-v4-14-1300-026, recipe-v4-14-1300-027, recipe-v4-14-1300-028, recipe-v4-14-1300-029, recipe-v4-14-1300-030, recipe-v4-14-1300-031, recipe-v4-14-1300-032, recipe-v4-14-1300-033, recipe-v4-14-1300-034, recipe-v4-14-1300-035, recipe-v4-14-1300-036, recipe-v4-14-1300-037, recipe-v4-14-1300-038, recipe-v4-14-1300-039, recipe-v4-14-1300-040-pmma, recipe-v4-14-1300-041, recipe-v4-14-1300-042, recipe-v4-14-1300-043, recipe-v4-14-1300-044, recipe-v4-14-1300-045, recipe-v4-14-1300-046, recipe-v4-14-1300-047, recipe-v4-14-1300-048, recipe-v4-14-1300-049, recipe-v4-14-1300-050, recipe-v4-14-2500-007, recipe-v4-14-2500-009, recipe-v4-14-2500-017, recipe-v4-bg-gg-004, recipe-v4-bg-gh-010, recipe-wip-housing-base-asa-pc |
 | KPIs | 6 (2 parked) | availability, energy-per-part *(parked)*, oee, performance *(parked)*, quality-rate, scrap-rate |
 
-Measured from the tree by `i3x-v5 packages/schemas-ci/osf/gen-docs.mjs` — the same sums `lint-refs` prints (`lint-refs: 99 profiles, 36 sources, 9 sync files`).
+Measured from the tree by `i3x-v5 packages/schemas-ci/osf/gen-docs.mjs` — the same sums `lint-refs` prints (`lint-refs: 99 profiles, 35 sources, 9 sync files`).
 <!-- gen:counts:end -->
 
 ---
 
-## Historians (`i3x-v5 packages/uns-grammar/historians/<db>/<template>.json` — the grammar; the tree carries no copy since core 6.2.0)
+## Historians (`standard/historians/<db>/<template>.json`)
 
 Templates für Historian-Sinks. i3X liefert den Historian **nicht** mit —
 der Kunde bringt Postgres/Timescale, MSSQL oder InfluxDB. Diese Templates
@@ -101,12 +111,12 @@ konfiguriert sind.
 `sites/werk1/sync/polling/` (das ist INPUT aus einer Kunden-DB).
 
 **Unterstützt:**
-- `i3x-v5 packages/uns-grammar/historians/postgresql/historian-template.json` — `node-red-contrib-postgresql`, optional Timescale-Hypertable + Compression + Retention.
-- `i3x-v5 packages/uns-grammar/historians/mssql/historian-template.json` — `node-red-contrib-mssql-plus`.
-- `i3x-v5 packages/uns-grammar/historians/influxdb/historian-template.json` — `node-red-contrib-influxdb` 2.x, Measurement pro Domain.
-- `i3x-v5 packages/uns-grammar/historians/nats-jetstream/historian-template.json` (v3, additive) — `@i3x/nr-nats` durable consumer auf einem JetStream-Stream → Postgres-Insert in dieselbe `uns_history`-Tabelle. Wird verwendet wenn die Source `transport: ['nats']` setzt; bei `['mqtt','nats']` läuft der MQTT-Historian-Pfad parallel.
+- `standard/historians/postgresql/historian-template.json` — `node-red-contrib-postgresql`, optional Timescale-Hypertable + Compression + Retention.
+- `standard/historians/mssql/historian-template.json` — `node-red-contrib-mssql-plus`.
+- `standard/historians/influxdb/historian-template.json` — `node-red-contrib-influxdb` 2.x, Measurement pro Domain.
+- `standard/historians/nats-jetstream/historian-template.json` (v3, additive) — `@i3x/nr-nats` durable consumer auf einem JetStream-Stream → Postgres-Insert in dieselbe `uns_history`-Tabelle. Wird verwendet wenn die Source `transport: ['nats']` setzt; bei `['mqtt','nats']` läuft der MQTT-Historian-Pfad parallel.
 
-Daneben liegen unter `i3x-v5 packages/uns-grammar/historians/` keine Templates, sondern konkrete Artefakte:
+Daneben liegen unter `standard/historians/` keine Templates, sondern konkrete Artefakte:
 `instances/` (deklarierte Historian-Instanzen edge/central), `central-ts-tables/`
 (Central-Timescale-Tabellendefinitionen), `postgresql-cagg/` (Continuous
 Aggregates), `postgresql-pivot/` (Pivot-Routing), `views/` und
@@ -122,13 +132,13 @@ Template-Shape gemeinsam:
 
 ---
 
-## Companion-Spec-Registry (`i3x-v5 packages/uns-grammar/companion-specs/index.json`)
+## Companion-Spec-Registry (`standard/companion-specs/index.json`)
 
 Flat registry of OPC-UA Companion-Spec NodeSet2.xml download URLs.
 Referenced by `companionSpec` field on SM-Profiles so the discovery
 pipeline can fetch the authoritative NodeSet on demand.
 
-**File:** `i3x-v5 packages/uns-grammar/companion-specs/index.json` (the grammar)
+**File:** `standard/companion-specs/index.json`
 
 ```json
 {
@@ -501,7 +511,7 @@ Phase 5: Embeddings
 | `lot_no` | InspectionLot | 3 |
 | `master_recipe_id` | MasterRecipe | 2 |
 | `material_class_id` | MaterialClass, ThermoplasticClass | 19 |
-| `material_lot_no` | MaterialLot | 19 |
+| `material_lot_no` | MaterialLot | 20 |
 | `operational_location_class_id` | OperationalLocationClass | 3 |
 | `operations_capability_id` | OperationsCapability | — |
 | `operations_definition_no` | OperationsDefinition | 7 |
@@ -523,7 +533,7 @@ Phase 5: Embeddings
 | `product_definition_no` | ProductDefinition | — |
 | `production_order_no` | ProductionOrder | 4 |
 | `proposal_id` | ResolutionProposal | — |
-| `quant_no` | Quant | 16 |
+| `quant_no` | Quant | 17 |
 | `recipe_element_id` | RecipeElement | 2 |
 | `resource_network_connection_id` | ResourceNetworkConnection | — |
 | `resource_network_connection_type_id` | ResourceNetworkConnectionType | 1 |
@@ -540,7 +550,7 @@ Phase 5: Embeddings
 | `work_alert_definition_id` | WorkAlertDefinition | — |
 | `work_alert_id` | WorkAlert | — |
 | `work_calendar_definition_entry_id` | WorkCalendarDefinitionEntry | 1 |
-| `work_calendar_definition_id` | WorkCalendarDefinition | 1 |
+| `work_calendar_definition_id` | WorkCalendarDefinition | 2 |
 | `work_calendar_entry_id` | WorkCalendarEntry | 1 |
 | `work_calendar_id` | WorkCalendar | 1 |
 | `work_capability_id` | WorkCapability | 1 |

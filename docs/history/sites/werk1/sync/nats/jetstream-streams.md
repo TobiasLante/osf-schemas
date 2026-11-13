@@ -29,11 +29,3 @@ Central durable IT business-event stream (CAPT-V3-IT-EVENT-PERSISTENCE). Capture
 ## deliveryClassRouting › $description
 
 Maps an SMProfile attribute's delivery class to the JetStream stream a generated NR-node publishes into. nr-codegen reads THIS — there is no expect-stream literal in generate.ts. The stream named here must exist in tiers.edge.streams (the NR-node always publishes into its own edge domain; the hub pulls via the declared source).
-
-## version 3.0.0 (core 6.2.0, 12.11.2026, audit core610 3.3)
-
-Core 6.0.0 moved every factory capture to the five-token subjects of uns-convention 3.0.0 (`factory.*.*.*.telemetry.>`, `factory.*.*.*.event.>`)
-and kept version 2.0.0 — 3.0.0 records that change; the content is unchanged here. The `$topology` text still described the v4 path (edge stream
-EDGE_EXPORT sourced cross-domain by a hub stream FACTORY on .150); it now says only what this file declares. The old text, verbatim:
-
-> Two JetStream tiers. EDGE tier: one NATS per Edge-IPC, JetStream domain edge_<ipc>. HUB tier: central NATS on .150, default JetStream domain. The hub does NOT capture factory.*/cpp.*/aggregate.* by core-NATS leaf propagation alone for the durable path — it SOURCES the per-edge EDGE_EXPORT stream cross-domain ($JS.edge_<ipc>.API). A transactional NR-node publishes durably into its LOCAL edge EDGE_EXPORT stream (honest ack in the edge domain); the hub FACTORY stream pulls it via the declared source. This is why a transactional publish uses expectStream=EDGE_EXPORT, not FACTORY: the edge cannot address the domain-less hub JetStream over the leaf.

@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-OperationsSegment",
-  "version": "2.0.1",
+  "version": "2.0.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Operations Segment (step of a routing)",
@@ -81,14 +81,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "PART_OF",
-        "targets": [
-          "OperationsDefinition"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "process_segment_ref",
@@ -99,14 +92,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "FOR_PROCESS_SEGMENT",
-        "targets": [
-          "ProcessSegment"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "material_ref",
@@ -120,10 +106,7 @@
       "valueType": "ID",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet.",
-        "targets": [
-          "Article"
-        ]
+        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
       }
     },
     {
@@ -135,14 +118,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "SPECIFIES_EQUIPMENT",
-        "targets": [
-          "EquipmentClass"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "depends_on_operations_segment_ref",
@@ -153,14 +129,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "DEPENDS_ON",
-        "targets": [
-          "OperationsSegment"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "depends_on_process_segment_ref",
@@ -171,14 +140,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "DEPENDS_ON",
-        "targets": [
-          "ProcessSegment"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "operations_material_bill_ref",
@@ -189,14 +151,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "HAS_MATERIAL_BILL",
-        "targets": [
-          "OperationsMaterialBill"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "parent_operations_segment_ref",
@@ -207,14 +162,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "PART_OF",
-        "targets": [
-          "OperationsSegment"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "machine_ref",
@@ -225,14 +173,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "SPECIFIES_EQUIPMENT",
-        "targets": [
-          "Machine"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "material_class_ref",
@@ -243,14 +184,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "SPECIFIES_MATERIAL",
-        "targets": [
-          "MaterialClass"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "material_lot_ref",
@@ -261,14 +195,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "SPECIFIES_MATERIAL",
-        "targets": [
-          "MaterialLot"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "quant_ref",
@@ -279,14 +206,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "SPECIFIES_MATERIAL",
-        "targets": [
-          "Quant"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "person_ref",
@@ -297,14 +217,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "SPECIFIES_PERSONNEL",
-        "targets": [
-          "Person"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "personnel_class_ref",
@@ -315,14 +228,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "SPECIFIES_PERSONNEL",
-        "targets": [
-          "PersonnelClass"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "tool_ref",
@@ -333,14 +239,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "SPECIFIES_PHYSICAL_ASSET",
-        "targets": [
-          "Tooling"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "physical_asset_class_ref",
@@ -351,14 +250,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "SPECIFIES_PHYSICAL_ASSET",
-        "targets": [
-          "PhysicalAssetClass"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "test_specification_ref",
@@ -369,14 +261,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "TESTED_BY",
-        "targets": [
-          "TestSpecification"
-        ]
-      }
+      "valueType": "ID"
     }
   ],
   "relationships": [

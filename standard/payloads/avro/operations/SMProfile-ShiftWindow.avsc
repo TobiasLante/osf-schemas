@@ -8,7 +8,7 @@
     "strategy": "TopicNameStrategy"
   },
   "namespace": "org.openshopfloor.payload.operations",
-  "doc": "GENERATED from standard/profiles/operations/shift-window.json 2.2.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "doc": "GENERATED from standard/profiles/operations/shift-window.json 2.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
   "fields": [
     {
       "name": "eventType",
@@ -52,7 +52,7 @@
     {
       "name": "profileVersion",
       "type": "string",
-      "default": "2.2.0"
+      "default": "2.1.0"
     },
     {
       "name": "b2m",
@@ -112,119 +112,6 @@
         "name": "ShiftWindowData",
         "fields": [
           {
-            "name": "work_calendar_definition_entry_id",
-            "type": "string",
-            "doc": "Identity of the work calendar definition entry: its own id from the source system (ISA-95 WorkCalendarDefinitionEntry.ID)."
-          },
-          {
-            "name": "description",
-            "type": [
-              "null",
-              "string"
-            ],
-            "default": null,
-            "doc": "ISA-95 WorkCalendarDefinitionEntry.Description."
-          },
-          {
-            "name": "version",
-            "type": [
-              "null",
-              "string"
-            ],
-            "default": null,
-            "doc": "ISA-95 WorkCalendarDefinitionEntry.Version."
-          },
-          {
-            "name": "published_date",
-            "type": [
-              "null",
-              {
-                "type": "long",
-                "logicalType": "timestamp-millis"
-              }
-            ],
-            "default": null,
-            "doc": "ISA-95 WorkCalendarDefinitionEntry.PublishedDate."
-          },
-          {
-            "name": "effective_start",
-            "type": [
-              "null",
-              {
-                "type": "long",
-                "logicalType": "timestamp-millis"
-              }
-            ],
-            "default": null,
-            "doc": "ISA-95 WorkCalendarDefinitionEntry.EffectiveStartDate."
-          },
-          {
-            "name": "effective_end",
-            "type": [
-              "null",
-              {
-                "type": "long",
-                "logicalType": "timestamp-millis"
-              }
-            ],
-            "default": null,
-            "doc": "ISA-95 WorkCalendarDefinitionEntry.EffectiveEndDate."
-          },
-          {
-            "name": "recurrence_time",
-            "type": [
-              "null",
-              "string"
-            ],
-            "default": null,
-            "doc": "ISA-95 WorkCalendarDefinitionEntry.RecurrenceTime."
-          },
-          {
-            "name": "duration_rule",
-            "type": [
-              "null",
-              "string"
-            ],
-            "default": null,
-            "doc": "ISA-95 WorkCalendarDefinitionEntry.DurationRule."
-          },
-          {
-            "name": "entry_type",
-            "type": [
-              "null",
-              "string"
-            ],
-            "default": null,
-            "doc": "ISA-95 WorkCalendarDefinitionEntry.EntryType."
-          },
-          {
-            "name": "hierarchy_scope_ref",
-            "type": [
-              "null",
-              "string"
-            ],
-            "default": null,
-            "doc": "The element of the role-based equipment hierarchy this object belongs to (ISA-95 Part 2 cl. 5.1 hierarchy scope, IN_SCOPE_OF). Optional."
-          },
-          {
-            "name": "work_calendar_definition_ref",
-            "type": [
-              "null",
-              "string"
-            ],
-            "default": null,
-            "doc": "The WorkCalendarDefinition this pattern entry belongs to (PART_OF; ISA-95 Part 4 cl. 13, B2MML WorkCalendarDefinition.WorkCalendarDefinitionEntry). Optional."
-          },
-          {
-            "name": "parent_work_calendar_definition_entry_ref",
-            "type": [
-              "null",
-              "string"
-            ],
-            "default": null,
-            "doc": "The WorkCalendarDefinitionEntry this WorkCalendarDefinitionEntry is part of (PART_OF; ISA-95 WorkCalendarDefinitionEntry MADE_UP_OF WorkCalendarDefinitionEntry). Optional."
-          },
-          {
             "name": "shift_window_id",
             "type": "string",
             "doc": "Identity of the shift window: its own number from the source system (ISA-95 WorkCalendarEntry.ID; core 4.0.0 — before, the key was composed of department, weekday and shift)."
@@ -262,6 +149,15 @@
             ],
             "default": null,
             "doc": "Unpaid break minutes inside the window. Full text: docs/history/standard/profiles/operations/shift-window.md, attributes › break_minutes › description."
+          },
+          {
+            "name": "work_calendar_definition_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The WorkCalendarDefinition this pattern entry belongs to (PART_OF; ISA-95 Part 4 cl. 13, B2MML WorkCalendarDefinition.WorkCalendarDefinitionEntry). Optional."
           },
           {
             "name": "parent_shift_window_ref",

@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-SegmentResponse",
-  "version": "5.0.1",
+  "version": "5.0.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Segment Response (segment actuals per order)",
@@ -28,14 +28,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "PART_OF",
-        "targets": [
-          "OperationsResponse"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "segment_requirement_ref",
@@ -46,14 +39,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "RESPONDS_TO",
-        "targets": [
-          "SegmentRequirement"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "process_segment_ref",
@@ -64,14 +50,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "FOR_PROCESS_SEGMENT",
-        "targets": [
-          "ProcessSegment"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "sequence",
@@ -93,14 +72,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "ACTUAL_MATERIAL",
-        "targets": [
-          "MaterialLot"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "material_use",
@@ -159,14 +131,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "ACTUAL_EQUIPMENT",
-        "targets": [
-          "Machine"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "actual_start_time",
@@ -306,12 +271,7 @@
       ],
       "refStatus": {
         "kind": "refOnly",
-        "reason": "B2MML 0701 SegmentResponse names no program: the program is a parameter of the process segment it answers (FOR_PROCESS_SEGMENT). Kept as a value (core 6.2.0 K11).",
-        "external": {
-          "system": "machine",
-          "object": "NC program",
-          "key": "name"
-        }
+        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
       }
     },
     {
@@ -333,14 +293,7 @@
           "profileRef": "SMProfile-CNC-Machine",
           "attribute": "Act_Ref_Tool"
         }
-      ],
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "ACTUAL_PHYSICAL_ASSET",
-        "targets": [
-          "Tooling"
-        ]
-      }
+      ]
     },
     {
       "name": "qty_rework",
@@ -372,14 +325,7 @@
           "profileRef": "SMProfile-CNC-Machine",
           "attribute": "Act_Ref_ProductionOrder"
         }
-      ],
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "RESPONDS_TO",
-        "targets": [
-          "ProductionOrder"
-        ]
-      }
+      ]
     },
     {
       "name": "article_ref",
@@ -395,20 +341,13 @@
           "profileRef": "SMProfile-CNC-Machine",
           "attribute": "Act_Ref_Article"
         }
-      ],
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "ACTUAL_MATERIAL",
-        "targets": [
-          "Article"
-        ]
-      }
+      ]
     },
     {
       "name": "article_revision",
       "dataType": "String",
       "required": false,
-      "category": "Core",
+      "category": "Link",
       "description": "The revision of the article that was built or used, where the source's article number carries none (a PLM part number with revision A). Empty when the number itself names the revision (at SAP dddd.1).",
       "delivery": "transactional",
       "scope": "hub",
@@ -427,19 +366,14 @@
       "valueType": "ID",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "A setpoint recipe of the plant's model tree (sites/<site>/recipes) — no node of the graph.",
-        "external": {
-          "system": "UNS-as-Code",
-          "object": "setpoint recipe",
-          "key": "recipeId"
-        }
+        "reason": "A recipe is a released git file (sites/<site>/recipes, R3), no profile of ours — B2MML 0701 has no field for it on a response; kept as a value for traceability (R5)."
       }
     },
     {
       "name": "recipe_version",
       "dataType": "String",
       "required": false,
-      "category": "Core",
+      "category": "Link",
       "description": "The released version (semver) of that recipe.",
       "delivery": "transactional",
       "scope": "hub",
@@ -487,14 +421,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "ACTUAL_EQUIPMENT",
-        "targets": [
-          "EquipmentClass"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "material_class_ref",
@@ -505,14 +432,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "ACTUAL_MATERIAL",
-        "targets": [
-          "MaterialClass"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "quant_ref",
@@ -523,14 +443,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "ACTUAL_MATERIAL",
-        "targets": [
-          "Quant"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "person_ref",
@@ -541,14 +454,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "ACTUAL_PERSONNEL",
-        "targets": [
-          "Person"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "personnel_class_ref",
@@ -559,14 +465,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "ACTUAL_PERSONNEL",
-        "targets": [
-          "PersonnelClass"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "physical_asset_class_ref",
@@ -577,14 +476,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "ACTUAL_PHYSICAL_ASSET",
-        "targets": [
-          "PhysicalAssetClass"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "job_response_ref",
@@ -595,14 +487,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "DETAILED_BY",
-        "targets": [
-          "JobResponse"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "work_response_ref",
@@ -613,14 +498,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "DETAILED_BY",
-        "targets": [
-          "WorkResponse"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "operations_definition_ref",
@@ -631,20 +509,13 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "FOR_OPERATIONS_DEFINITION",
-        "targets": [
-          "OperationsDefinition"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "operations_definition_version",
       "dataType": "String",
       "required": false,
-      "category": "Core",
+      "category": "Link",
       "description": "The version of the operations definition this order / response ran with, where the source's definition id carries none (a routing number with its own change state). Empty when the id itself names the version.",
       "delivery": "transactional",
       "scope": "hub",
@@ -660,14 +531,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "FOR_OPERATIONS_SEGMENT",
-        "targets": [
-          "OperationsSegment"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "inspection_lot_ref",
@@ -678,14 +542,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "HAS_TEST_RESULT",
-        "targets": [
-          "InspectionLot"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "personnel_test_result_ref",
@@ -696,14 +553,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "HAS_TEST_RESULT",
-        "targets": [
-          "TestResult"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "equipment_test_result_ref",
@@ -714,14 +564,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "HAS_TEST_RESULT",
-        "targets": [
-          "TestResult"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "physical_asset_test_result_ref",
@@ -732,14 +575,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "HAS_TEST_RESULT",
-        "targets": [
-          "TestResult"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "parent_segment_response_ref",
@@ -750,14 +586,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "PART_OF",
-        "targets": [
-          "SegmentResponse"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "source_quality",

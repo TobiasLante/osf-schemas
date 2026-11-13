@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-WorkCapability",
-  "version": "2.0.1",
+  "version": "2.0.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Work Capability",
@@ -144,18 +144,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "IN_SCOPE_OF",
-        "targets": [
-          "Area",
-          "Enterprise",
-          "Machine",
-          "Site",
-          "WorkCenter"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "machine_ref",
@@ -166,14 +155,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "CAPABILITY_EQUIPMENT",
-        "targets": [
-          "Machine"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "equipment_class_ref",
@@ -184,14 +166,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "CAPABILITY_EQUIPMENT",
-        "targets": [
-          "EquipmentClass"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "material_class_ref",
@@ -202,14 +177,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "CAPABILITY_MATERIAL",
-        "targets": [
-          "MaterialClass"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "article_ref",
@@ -220,14 +188,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "CAPABILITY_MATERIAL",
-        "targets": [
-          "Article"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "material_lot_ref",
@@ -238,14 +199,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "CAPABILITY_MATERIAL",
-        "targets": [
-          "MaterialLot"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "quant_ref",
@@ -256,14 +210,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "CAPABILITY_MATERIAL",
-        "targets": [
-          "Quant"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "person_ref",
@@ -274,14 +221,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "CAPABILITY_PERSONNEL",
-        "targets": [
-          "Person"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "personnel_class_ref",
@@ -292,14 +232,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "CAPABILITY_PERSONNEL",
-        "targets": [
-          "PersonnelClass"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "tool_ref",
@@ -310,14 +243,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "CAPABILITY_PHYSICAL_ASSET",
-        "targets": [
-          "Tooling"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "physical_asset_class_ref",
@@ -328,14 +254,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "CAPABILITY_PHYSICAL_ASSET",
-        "targets": [
-          "PhysicalAssetClass"
-        ]
-      }
+      "valueType": "ID"
     }
   ],
   "relationships": [

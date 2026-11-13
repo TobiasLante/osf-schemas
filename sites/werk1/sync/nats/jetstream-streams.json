@@ -1,9 +1,9 @@
 {
   "$description": "JetStream stream declarations for the i3x v3 stack — the SINGLE SOURCE OF TRUTH for stream names, subject filters and the edge→hub source topology. Full text: docs/history/sites/werk1/sync/nats/jetstream-streams.md, $description.",
   "syncId": "jetstream-streams",
-  "version": "3.0.0",
+  "version": "2.0.0",
   "syncType": "nats-jetstream",
-  "$topology": "Two tiers. The HUB tier of a plant keeps telemetry in FACTORY_TELEMETRY and events in FACTORY_TRANSACTIONAL, at the subject depth of standard/sync/uns-convention.json (factory.{site}.{entity}.{machine}.telemetry|event.{attr}); IT edges publish into BUSINESS. How an edge's events reach the hub (its own stream, the forward, the quarantine) is the edge software's, not this declaration's. Full text: docs/history/sites/werk1/sync/nats/jetstream-streams.md, version 3.0.0.",
+  "$topology": "Two JetStream tiers. EDGE tier: one NATS per Edge-IPC, JetStream domain edge_<ipc>. HUB tier: central NATS on .150, default JetStream domain. The hub does NOT capture factory.*/cpp.*/aggregate.* by core-NATS leaf propagation alone for the durable path — it SOURCES the per-edge EDGE_EXPORT stream cross-domain ($JS.edge_<ipc>.API). A transactional NR-node publishes durably into its LOCAL edge EDGE_EXPORT stream (honest ack in the edge domain); the hub FACTORY stream pulls it via the declared source. This is why a transactional publish uses expectStream=EDGE_EXPORT, not FACTORY: the edge cannot address the domain-less hub JetStream over the leaf.",
   "tiers": {
     "edge": {
       "$description": "Streams provisioned on every Edge-IPC NATS (JetStream domain edge_<ipc>). nr-codegen resolves the publish-target stream for each NR JetStream node against this list by matching the node's subject against subjectsCapture.",

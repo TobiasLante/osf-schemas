@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-GRecipe",
-  "version": "1.1.0",
+  "version": "1.0.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "General / site recipe",
@@ -74,14 +74,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "DERIVED_FROM",
-        "targets": [
-          "GRecipe"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "article_ref",
@@ -92,14 +85,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "FOR_PRODUCT",
-        "targets": [
-          "Article"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "product_name",
@@ -154,14 +140,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "CONSUMES",
-        "targets": [
-          "Article"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "output_material_ref",
@@ -172,14 +151,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "PRODUCES",
-        "targets": [
-          "Article"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "intermediate_material_ref",
@@ -190,14 +162,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "INTERMEDIATE",
-        "targets": [
-          "Article"
-        ]
-      }
+      "valueType": "ID"
     }
   ],
   "relationships": [
@@ -277,8 +242,5 @@
     }
   },
   "kgNodeLabel": "GRecipe",
-  "kgIdProperty": "g_recipe_id",
-  "catalog": {
-    "reason": "BatchML 0701 (ISA-88) class for plants with batch processes; the reference plant werk1 manufactures discretely and has no source for it (model question 8, owner 13.11.2026)"
-  }
+  "kgIdProperty": "g_recipe_id"
 }

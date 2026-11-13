@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-JobOrder",
-  "version": "4.1.0",
+  "version": "4.0.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Job Order (dispatched job on one machine)",
@@ -28,14 +28,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "PART_OF",
-        "targets": [
-          "Workorder"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "machine_ref",
@@ -46,14 +39,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "REQUIRES_EQUIPMENT",
-        "targets": [
-          "Machine"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "work_master_ref",
@@ -64,14 +50,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "FOR_WORK_MASTER",
-        "targets": [
-          "WorkMaster"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "start_planned",
@@ -101,7 +80,7 @@
       "valueType": "PV",
       "required": false,
       "category": "Core",
-      "description": "Dispatch state of the job (B2MML JobOrderDispatchStatus). An open job whose preconditions are met is Ready, an open job otherwise Waiting (OPC 10031-4 Tab. 42; M-15).",
+      "description": "Dispatch state of the job as the source names it.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
@@ -121,17 +100,6 @@
       ]
     },
     {
-      "name": "status_source",
-      "dataType": "String",
-      "valueType": "PV",
-      "required": false,
-      "category": "Core",
-      "description": "The job's state as the source names it, before the mapping to the B2MML dispatch state (M-15: e.g. OPEN, IN_PROCESS).",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change"
-    },
-    {
       "name": "segment_requirement_ref",
       "dataType": "String",
       "required": false,
@@ -140,14 +108,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "FOR_SEGMENT_REQUIREMENT",
-        "targets": [
-          "SegmentRequirement"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "job_list_ref",
@@ -158,14 +119,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "PART_OF",
-        "targets": [
-          "JobList"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "equipment_class_ref",
@@ -176,14 +130,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "REQUIRES_EQUIPMENT",
-        "targets": [
-          "EquipmentClass"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "material_class_ref",
@@ -194,14 +141,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "REQUIRES_MATERIAL",
-        "targets": [
-          "MaterialClass"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "article_ref",
@@ -212,14 +152,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "REQUIRES_MATERIAL",
-        "targets": [
-          "Article"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "quant_ref",
@@ -230,14 +163,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "REQUIRES_MATERIAL",
-        "targets": [
-          "Quant"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "person_ref",
@@ -248,14 +174,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "REQUIRES_PERSONNEL",
-        "targets": [
-          "Person"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "personnel_class_ref",
@@ -266,14 +185,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "REQUIRES_PERSONNEL",
-        "targets": [
-          "PersonnelClass"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "tool_ref",
@@ -284,14 +196,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "REQUIRES_PHYSICAL_ASSET",
-        "targets": [
-          "Tooling"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "physical_asset_class_ref",
@@ -302,14 +207,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "REQUIRES_PHYSICAL_ASSET",
-        "targets": [
-          "PhysicalAssetClass"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "test_specification_ref",
@@ -320,14 +218,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "TESTED_BY",
-        "targets": [
-          "TestSpecification"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "work_type",
@@ -471,8 +362,7 @@
     },
     "notInIsa95": [
       "workorder_ref",
-      "job_list_ref",
-      "status_source"
+      "job_list_ref"
     ],
     "mappingNote": "The parent WorkRequest is carried by B2MML through the nesting of JobOrder in WorkRequest, not as a field. Actuals are reported per order and operation (Part 2 SegmentResponse); Part 4 actuals need a source keyed by job. Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent)."
   },

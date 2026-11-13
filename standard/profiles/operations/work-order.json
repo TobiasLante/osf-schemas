@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-Workorder",
-  "version": "4.0.1",
+  "version": "4.0.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Workorder (order sub-lot / order index)",
@@ -28,14 +28,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "FOR_OPERATIONS_REQUEST",
-        "targets": [
-          "ProductionOrder"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "order_index",
@@ -104,14 +97,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "FOR_SEGMENT_REQUIREMENT",
-        "targets": [
-          "SegmentRequirement"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "parent_workorder_ref",
@@ -122,14 +108,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "PART_OF",
-        "targets": [
-          "Workorder"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "work_schedule_ref",
@@ -140,14 +119,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "PART_OF",
-        "targets": [
-          "WorkSchedule"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "work_type",

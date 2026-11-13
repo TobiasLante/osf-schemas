@@ -2,9 +2,9 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-BdeConfirmation.payload.json",
   "title": "SMProfile-BdeConfirmation payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/operations/bde-confirmation.json 1.2.1 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/operations/bde-confirmation.json 1.2.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-BdeConfirmation",
-  "x-profileVersion": "1.2.1",
+  "x-profileVersion": "1.2.0",
   "x-payloadVersion": "1.1.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
@@ -80,22 +80,18 @@
         },
         "labor_min": {
           "type": "number",
-          "x-unit": "MIN",
           "description": "Personnel minutes booked against this confirmation. Full text: docs/history/standard/profiles/operations/bde-confirmation.md, attributes › labor_min › description."
         },
         "machine_min": {
           "type": "number",
-          "x-unit": "MIN",
           "description": "Machine minutes booked against this confirmation."
         },
         "setup_min": {
           "type": "number",
-          "x-unit": "MIN",
           "description": "Setup minutes booked against this confirmation. MEASURED: non-zero on 25 of 800 rows — setup is an event, not a per-booking constant, so a zero here is a real 'no setup on this booking'."
         },
         "cycle_time_actual_sec": {
           "type": "number",
-          "x-unit": "SEC",
           "description": "Actually measured cycle time per piece (s) for this booking."
         },
         "actual_start_time": {

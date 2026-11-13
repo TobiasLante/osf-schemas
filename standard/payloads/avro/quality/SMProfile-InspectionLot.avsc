@@ -8,7 +8,7 @@
     "strategy": "TopicNameStrategy"
   },
   "namespace": "org.openshopfloor.payload.quality",
-  "doc": "GENERATED from standard/profiles/quality/inspection-lot.json 3.4.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "doc": "GENERATED from standard/profiles/quality/inspection-lot.json 3.3.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
   "fields": [
     {
       "name": "eventType",
@@ -52,7 +52,7 @@
     {
       "name": "profileVersion",
       "type": "string",
-      "default": "3.4.0"
+      "default": "3.3.0"
     },
     {
       "name": "b2m",
@@ -112,106 +112,6 @@
         "name": "InspectionLotData",
         "fields": [
           {
-            "name": "test_result_id",
-            "type": "string",
-            "doc": "Identity of the test result."
-          },
-          {
-            "name": "description",
-            "type": [
-              "null",
-              "string"
-            ],
-            "default": null,
-            "doc": "What was tested, as the source says it."
-          },
-          {
-            "name": "evaluation_date",
-            "type": [
-              "null",
-              {
-                "type": "long",
-                "logicalType": "timestamp-millis"
-              }
-            ],
-            "default": null,
-            "doc": "When the result was evaluated."
-          },
-          {
-            "name": "expiration",
-            "type": [
-              "null",
-              {
-                "type": "long",
-                "logicalType": "timestamp-millis"
-              }
-            ],
-            "default": null,
-            "doc": "Until when the result holds (a qualification or a capability test runs out)."
-          },
-          {
-            "name": "result",
-            "type": [
-              "null",
-              "string"
-            ],
-            "default": null,
-            "doc": "The evaluated criterion result (B2MML TestResult.EvaluatedCriterionResult, free text there): Passed, Failed, or NotMeasured — a test that was never measured is neither a pass nor a fail. A source maps its words with valueMap."
-          },
-          {
-            "name": "person_ref",
-            "type": [
-              "null",
-              "string"
-            ],
-            "default": null,
-            "doc": "The tested object when it is a person (pseudonymous id) — a qualification test (TESTS)."
-          },
-          {
-            "name": "machine_ref",
-            "type": [
-              "null",
-              "string"
-            ],
-            "default": null
-          },
-          {
-            "name": "tool_ref",
-            "type": [
-              "null",
-              "string"
-            ],
-            "default": null,
-            "doc": "The tested object when it is a tool (physical asset) — a physical asset capability test (TESTS)."
-          },
-          {
-            "name": "material_lot_ref",
-            "type": [
-              "null",
-              "string"
-            ],
-            "default": null,
-            "doc": "The inspected object when it is a material lot (B2MML MaterialLot) — the inspected charge (TESTS); not fed yet: the sim serves no lot per inspection lot (sim-v5 S10)."
-          },
-          {
-            "name": "quant_ref",
-            "type": [
-              "null",
-              "string"
-            ],
-            "default": null,
-            "doc": "The inspected object when it is a material sublot (Quant = B2MML MaterialSubLot) (TESTS); not fed yet (sim-v5 S10)."
-          },
-          {
-            "name": "parent_test_result_ref",
-            "type": [
-              "null",
-              "string"
-            ],
-            "default": null,
-            "doc": "The parent result this one is part of (PART_OF)."
-          },
-          {
             "name": "lot_no",
             "type": "string"
           },
@@ -226,6 +126,14 @@
           },
           {
             "name": "article_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null
+          },
+          {
+            "name": "machine_ref",
             "type": [
               "null",
               "string"
@@ -294,6 +202,24 @@
               }
             ],
             "default": null
+          },
+          {
+            "name": "material_lot_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The inspected object when it is a material lot (B2MML MaterialLot) — the inspected charge (TESTS); not fed yet: the sim serves no lot per inspection lot (sim-v5 S10)."
+          },
+          {
+            "name": "quant_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The inspected object when it is a material sublot (Quant = B2MML MaterialSubLot) (TESTS); not fed yet (sim-v5 S10)."
           },
           {
             "name": "parent_inspection_lot_ref",

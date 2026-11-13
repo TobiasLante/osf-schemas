@@ -9,8 +9,3 @@ JobOrders = one row of erp.order_operations (workorder x operation x machine), s
 ## status valueMap (2.1.0, core 6.0.0 audit M-15, 29.10.2026)
 
 CANCELLED → Cancelled added: the ERP's operation statuses are erp.order_operations.status in {OPEN, IN_PROCESS, PARTIAL_CONFIRMED, FINAL_CONFIRMED, CANCELLED} (measured, standard/cross-constraints/qty_shortfall.json retiredReason); Cancelled is the same word in B2MML JobOrderDispatchStatus1Type. OPEN stays unmapped on purpose: whether an open ERP operation is Waiting, Pending or Ready in JobOrderDispatchStatus needs the norm text (no guess). A GET /api/operations?since=P7D on .154 (29.10.2026, 200 rows) carried only FINAL_CONFIRMED 186, PARTIAL_CONFIRMED 12, IN_PROCESS 2.
-
-## version 2.2.0 (core 6.2.0, 12.11.2026, S5b / model audit M-14)
-
-`workorder_ref` and the PART_OF edge to the Workorder come from `/api/operations.workorder_no` (5000 of 5000 rows carry it, sim 11.11.2026). Before,
-both read `production_order_no` and joined it onto `workorder_no` — two id spaces (model audit M-14); the edge resolved almost never.

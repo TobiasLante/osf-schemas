@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-Machine",
-  "version": "5.0.1",
+  "version": "5.0.0",
   "standard": "CarToUNS",
   "category": "machine",
   "displayName": "Machine (Abstract Parent)",
@@ -17,14 +17,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "AT_LOCATION",
-        "targets": [
-          "StorageLocation"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "equipment_class_ref",
@@ -35,14 +28,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "DEFINED_BY",
-        "targets": [
-          "EquipmentClass"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "test_specification_ref",
@@ -53,14 +39,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "TESTED_BY",
-        "targets": [
-          "TestSpecification"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "spatial_definition",

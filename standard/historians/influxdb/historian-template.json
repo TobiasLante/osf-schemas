@@ -1,0 +1,35 @@
+{
+  "$description": "Historian-Write-Template für InfluxDB 2.x via node-red-contrib-influxdb. Influx-Datenmodell: measurement + tags + fields. Wir legen pro Domain ein measurement an, machine_id/attribute als tags, value/unit/quality als fields.",
+  "syncId": "influxdb-historian",
+  "version": "1.0.0",
+  "syncType": "influxdb",
+  "nodeRedContrib": "node-red-contrib-influxdb",
+  "influxVersion": "2.0",
+  "connection": {
+    "url": "${HISTORIAN_URL}",
+    "token": "${HISTORIAN_TOKEN}",
+    "org": "${HISTORIAN_ORG}",
+    "bucket": "${HISTORIAN_BUCKET}"
+  },
+  "pointStructure": {
+    "measurementSource": "$.domain",
+    "tags": [
+      { "key": "machine_id", "source": "$.machine_id" },
+      { "key": "attribute",  "source": "$.attribute" },
+      { "key": "unit",       "source": "$.unit" },
+      { "key": "quality",    "source": "$.quality" }
+    ],
+    "fields": [
+      { "key": "value",      "source": "$.value",      "type": "float" },
+      { "key": "value_text", "source": "$.value_text", "type": "string" }
+    ],
+    "timestampSource": "$.ts",
+    "timestampPrecision": "ms"
+  },
+  "insertStrategy": {
+    "mode": "batch",
+    "batchSize": 500,
+    "batchIntervalMs": 1000
+  },
+  "subscribeFilters": ["+/+/+/+/+/+/+"]
+}

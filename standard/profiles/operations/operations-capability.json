@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-OperationsCapability",
-  "version": "2.1.0",
+  "version": "2.0.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Operations Capability (what the plant can do)",
@@ -35,7 +35,7 @@
       "dataType": "String",
       "required": false,
       "category": "Core",
-      "description": "ISA-95 CapabilityType (B2MML CapabilityTypeType): Used, Unused, Total, Committed, Available, Unattainable or Other. For material stock: Total = on hand, Committed = reserved, Unattainable = blocked, Available = Total − Unattainable − Committed (M-34).",
+      "description": "ISA-95 CapabilityType: Available, Committed or Unattainable.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
@@ -84,39 +84,6 @@
       "valueType": "SP"
     },
     {
-      "name": "quantity",
-      "dataType": "Double",
-      "required": false,
-      "category": "Core",
-      "description": "The quantity of this capability (B2MML MaterialCapability.Quantity), e.g. the stock of an article at a storage location (M-34).",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change",
-      "valueType": "PV"
-    },
-    {
-      "name": "quantity_unit",
-      "dataType": "String",
-      "required": false,
-      "category": "Core",
-      "description": "The unit of quantity as the source names it (B2MML QuantityValueType.UnitOfMeasure); the unit of the article.",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change",
-      "valueType": "SP"
-    },
-    {
-      "name": "storage_location",
-      "dataType": "String",
-      "required": false,
-      "category": "Core",
-      "description": "Where the capability holds (B2MML MaterialCapability.StorageLocation, a location, not a reference), e.g. the warehouse of the stock.",
-      "delivery": "transactional",
-      "scope": "hub",
-      "promotion": "on_change",
-      "valueType": "SP"
-    },
-    {
       "name": "process_segment_ref",
       "dataType": "String",
       "required": false,
@@ -125,14 +92,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "CAPABILITY_FOR_PROCESS_SEGMENT",
-        "targets": [
-          "ProcessSegment"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "operations_segment_ref",
@@ -143,14 +103,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "CAPABILITY_FOR_OPERATIONS_SEGMENT",
-        "targets": [
-          "OperationsSegment"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "machine_ref",
@@ -161,14 +114,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "CAPABILITY_EQUIPMENT",
-        "targets": [
-          "Machine"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "material_ref",
@@ -179,14 +125,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "CAPABILITY_MATERIAL",
-        "targets": [
-          "Article"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "tool_ref",
@@ -197,14 +136,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "CAPABILITY_PHYSICAL_ASSET",
-        "targets": [
-          "Tooling"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "personnel_class_ref",
@@ -215,14 +147,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "CAPABILITY_PERSONNEL",
-        "targets": [
-          "PersonnelClass"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "equipment_class_ref",
@@ -233,14 +158,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "CAPABILITY_EQUIPMENT",
-        "targets": [
-          "EquipmentClass"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "material_class_ref",
@@ -251,14 +169,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "CAPABILITY_MATERIAL",
-        "targets": [
-          "MaterialClass"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "material_lot_ref",
@@ -269,14 +180,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "CAPABILITY_MATERIAL",
-        "targets": [
-          "MaterialLot"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "quant_ref",
@@ -287,14 +191,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "CAPABILITY_MATERIAL",
-        "targets": [
-          "Quant"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "person_ref",
@@ -305,14 +202,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "CAPABILITY_PERSONNEL",
-        "targets": [
-          "Person"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "physical_asset_class_ref",
@@ -323,14 +213,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "CAPABILITY_PHYSICAL_ASSET",
-        "targets": [
-          "PhysicalAssetClass"
-        ]
-      }
+      "valueType": "ID"
     }
   ],
   "relationships": [
@@ -429,9 +312,6 @@
       "operations_segment_ref": "OperationsCapability.OperationsSegmentCapability.OperationsSegmentID",
       "machine_ref": "OperationsCapability.EquipmentCapability.EquipmentID",
       "material_ref": "OperationsCapability.MaterialCapability.MaterialDefinitionID",
-      "quantity": "OperationsCapability.MaterialCapability.Quantity.QuantityString",
-      "quantity_unit": "OperationsCapability.MaterialCapability.Quantity.UnitOfMeasure",
-      "storage_location": "OperationsCapability.MaterialCapability.StorageLocation",
       "tool_ref": "OperationsCapability.PhysicalAssetCapability.PhysicalAssetID",
       "personnel_class_ref": "OperationsCapability.PersonnelCapability.PersonnelClassID",
       "equipment_class_ref": "OperationsCapability.EquipmentCapability.EquipmentClassID",

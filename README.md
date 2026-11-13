@@ -88,7 +88,7 @@ numbers are in the generated [Counts](#counts) block below.)
 | Consumer | Reads | Produces |
 |----------|-------|----------|
 | **KG Builder** | All 3 schemas | Knowledge Graph (nodes, edges, embeddings) |
-| **Edge codegen** (discovery / nr-codegen) | `standard/mappings/` + `sites/werk1/sources/` + `sites/werk1/sync/nats/` + the grammar's historian templates (`i3x-v5 packages/uns-grammar/historians/`) | Node-RED flows, JetStream publishes, historian writers |
+| **Edge codegen** (discovery / nr-codegen) | `standard/mappings/` + `sites/werk1/sources/` + `sites/werk1/sync/nats/` + `standard/historians/` | Node-RED flows, JetStream publishes, historian writers |
 | **JetStream provisioning** (`provision-jetstream.sh`) | `sites/werk1/sync/nats/jetstream-streams.json` | streams + consumers on edge/hub NATS |
 | **it-evaluator** | `sites/werk1/recipes/` (runtime fetch) + constraint facets | deviations, capability verdicts (Cp/Ca) |
 | **i3X API** | Schema 1 (profiles) | REST API with type hierarchy |
@@ -111,15 +111,14 @@ osf-schemas/
 │       ├── historians/             historian-sink templates + instances (OUTPUT: UNS → customer DB)
 │       │   ├── grafana-dashboards/      (4 json)
 │       │   └── instances/               (3 json)
-│       ├── instances/              the plant tree: Enterprise → Site → Area → work centers (production lines, work cells) → work units (ISA-95 role-based levels, core 6.0.0) (9 json)
+│       ├── instances/              the plant tree: Enterprise → Site → Area → ProcessCell → Unit (ISA-88 equipment levels) (9 json)
 │       ├── mappings/               protocol canon: DataItem/tag → SM attribute (SSOT for discovery + gen-flows) (1 json)
 │       ├── recipes/                GitHub-managed recipe master data (see recipes/README.md) (79 json)
 │       ├── settings/                (22 json)
 │       ├── sources/                Schema 2: Data Sources (instance binding)
 │       │   ├── mtconnect/              MTConnect agent mappings (2 json)
 │       │   ├── opcua/                  OPC-UA endpoint → machine mappings (15 json)
-│       │   ├── rest/                   sim-v5 REST polling (ERP/QMS/WMS projections) (18 json)
-│       │   └── static/                 fixed lists of the model (the rows in the source, read like a csv list) (1 json)
+│       │   └── rest/                   sim-v5 REST polling (ERP/QMS/WMS projections) (18 json)
 │       ├── sync/                   Schema 3: Live Sync (transport layer)
 │       │   ├── mqtt/                   vendor software (HighByte, i-flow, Node-RED): machine OPC UA server → MQTT broker (4 json)
 │       │   ├── nats/                   NATS subjects + JetStream stream declarations (suite hub) (2 json)
@@ -127,11 +126,21 @@ osf-schemas/
 │       │   └── polling/                REST polling schedule (1 json)
 │       └── site.model.json
 ├── standard/               CENTRAL — classes, contracts, vocabulary, edge catalogue; one per enterprise
+│   ├── companion-specs/        OPC-UA Companion-Spec registry (NodeSet2.xml URLs) (1 json)
 │   ├── cross-constraints/      cross-profile discrepancy constraints (PLAN vs IST rules) (4 json)
 │   ├── flows/                  Node-RED flow templates (OPC-UA → UNS standard flow) (1 json)
+│   ├── historians/             historian-sink templates + instances (OUTPUT: UNS → customer DB)
+│   │   ├── central-ts-tables/       (2 json)
+│   │   ├── influxdb/                (1 json)
+│   │   ├── mssql/                   (1 json)
+│   │   ├── nats-jetstream/          (1 json)
+│   │   ├── postgresql/              (1 json)
+│   │   ├── postgresql-cagg/         (1 json)
+│   │   ├── postgresql-pivot/        (1 json)
+│   │   └── views/                   (1 json)
 │   ├── kpis/                   KPI definitions — inputs drawn from the source-fed vocabulary (lint-kpis) (6 json)
 │   ├── mappings/               protocol canon: DataItem/tag → SM attribute (SSOT for discovery + gen-flows) (3 json)
-│   ├── payloads/                (90 json)
+│   ├── payloads/                (91 json)
 │   ├── profiles/               Schema 1: SM Profiles (type system)
 │   │   ├── batch/                   (14 json)
 │   │   ├── equipment/              ISA-95 equipment: Machine (abstract parent), CNC_Machine, InjectionMoldingMachine, EquipmentClass, EquipmentModel (compact), Tool (15 json)
@@ -141,6 +150,8 @@ osf-schemas/
 │   │   ├── personnel/               (2 json)
 │   │   └── quality/                ISA-95 quality: InspectionLot, SPCAnalysis (5 json)
 │   ├── sync/                   Schema 3: Live Sync (transport layer) (1 json)
+│   ├── unit-conversions/       UNECE unit table (discovery-time scale/offset lookup) (1 json)
+│   ├── validation/             ajv meta-schemas (per-file shape validation) (23 json)
 │   ├── contract.json           GENERATED ontology contract (gen-contract.mjs) — agents read this FIRST
 │   └── standard.json
 ├── CLAUDE.md               agent instructions
@@ -159,8 +170,7 @@ osf-schemas/
 | Profiles | 99 | batch 14 · equipment 15 · intelligence 5 · material 7 · operations 51 · personnel 2 · quality 5 |
 | Sources — mtconnect | 2 | mtconnect-cnc-01, mtconnect-cnc-mtc-02 |
 | Sources — opcua | 15 | opcua-cnc-001-event, opcua-cnc-001-telemetry, opcua-cnc-002-event, opcua-cnc-002-telemetry, opcua-ftlinx-01-event, opcua-ftlinx-01-telemetry, opcua-mtbridge-cnc-01, opcua-rockwell-01-event, opcua-rockwell-01-telemetry, opcua-sgm-001-event, opcua-sgm-001-telemetry, opcua-sgm-004-processdata, opcua-sgm-005-processdata, opcua-sgm-006-bde, opcua-sgm-006-processdata |
-| Sources — rest | 18 | erp-bde-confirmations, erp-customer-orders, erp-job-orders, erp-material-lots, erp-operations-definitions, erp-operations-response, erp-operations-segments, erp-process-segments, erp-production-orders, erp-segment-requirements, erp-segment-responses, erp-workorders, sim-v5-erp-articles, sim-v5-erp-calendar, sim-v5-erp-customers, sim-v5-qms-inspections, sim-v5-stock-capability, sim-v5-wms-quants |
-| Sources — static | 1 | model-equipment-classes |
+| Sources — rest | 18 | erp-bde-confirmations, erp-customer-orders, erp-job-orders, erp-machine-pools, erp-material-lots, erp-operations-definitions, erp-operations-response, erp-operations-segments, erp-process-segments, erp-production-orders, erp-segment-requirements, erp-segment-responses, erp-workorders, sim-v5-erp-articles, sim-v5-erp-calendar, sim-v5-erp-customers, sim-v5-qms-inspections, sim-v5-wms-quants |
 | Sync — mqtt | 4 | opcua-cnc-001-event-to-mqtt, opcua-cnc-001-telemetry-to-mqtt, opcua-sgm-004-to-mqtt, opcua-sgm-005-to-mqtt |
 | Sync — nats | 2 | jetstream-streams, opcua-to-nats-cnc-mtc-01 |
 | Sync — opcua-server | 1 | mtconnect-to-opcua-cnc-mtc-01 |
@@ -169,49 +179,8 @@ osf-schemas/
 | Recipes | 79 (2 parked) | recipe-sgm-004-default, recipe-sgm-004-pa66gf30-bracket-b *(parked)*, recipe-sgm-004-pa66gf30-housing-a *(parked)*, recipe-sgm-005-default, recipe-sgm-006-default, recipe-v4-12-0044-001, recipe-v4-12-0044-002, recipe-v4-12-0044-003-pa66gf30, recipe-v4-12-0044-004, recipe-v4-12-0044-005, recipe-v4-12-0044-006, recipe-v4-14-0021-006, recipe-v4-14-0021-007, recipe-v4-14-0021-008, recipe-v4-14-0021-009, recipe-v4-14-0021-010, recipe-v4-14-0021-011, recipe-v4-14-0204-001, recipe-v4-14-0204-002, recipe-v4-14-0204-003, recipe-v4-14-0204-004, recipe-v4-14-0204-005, recipe-v4-14-0204-006, recipe-v4-14-1300-001, recipe-v4-14-1300-002, recipe-v4-14-1300-003, recipe-v4-14-1300-004, recipe-v4-14-1300-005, recipe-v4-14-1300-006, recipe-v4-14-1300-007, recipe-v4-14-1300-008, recipe-v4-14-1300-009, recipe-v4-14-1300-010, recipe-v4-14-1300-011, recipe-v4-14-1300-012, recipe-v4-14-1300-013, recipe-v4-14-1300-014, recipe-v4-14-1300-015, recipe-v4-14-1300-016, recipe-v4-14-1300-017, recipe-v4-14-1300-018, recipe-v4-14-1300-019, recipe-v4-14-1300-020, recipe-v4-14-1300-021, recipe-v4-14-1300-022, recipe-v4-14-1300-023, recipe-v4-14-1300-024, recipe-v4-14-1300-025, recipe-v4-14-1300-026, recipe-v4-14-1300-027, recipe-v4-14-1300-028, recipe-v4-14-1300-029, recipe-v4-14-1300-030, recipe-v4-14-1300-031, recipe-v4-14-1300-032, recipe-v4-14-1300-033, recipe-v4-14-1300-034, recipe-v4-14-1300-035, recipe-v4-14-1300-036, recipe-v4-14-1300-037, recipe-v4-14-1300-038, recipe-v4-14-1300-039, recipe-v4-14-1300-040-pmma, recipe-v4-14-1300-041, recipe-v4-14-1300-042, recipe-v4-14-1300-043, recipe-v4-14-1300-044, recipe-v4-14-1300-045, recipe-v4-14-1300-046, recipe-v4-14-1300-047, recipe-v4-14-1300-048, recipe-v4-14-1300-049, recipe-v4-14-1300-050, recipe-v4-14-2500-007, recipe-v4-14-2500-009, recipe-v4-14-2500-017, recipe-v4-bg-gg-004, recipe-v4-bg-gh-010, recipe-wip-housing-base-asa-pc |
 | KPIs | 6 (2 parked) | availability, energy-per-part *(parked)*, oee, performance *(parked)*, quality-rate, scrap-rate |
 
-Measured from the tree by `i3x-v5 packages/schemas-ci/osf/gen-docs.mjs` — the same sums `lint-refs` prints (`lint-refs: 99 profiles, 36 sources, 9 sync files`).
+Measured from the tree by `i3x-v5 packages/schemas-ci/osf/gen-docs.mjs` — the same sums `lint-refs` prints (`lint-refs: 99 profiles, 35 sources, 9 sync files`).
 <!-- gen:counts:end -->
-
-## Model notes (core 6.2.0, model questions of 13.11.2026)
-
-**The four orders** — class name (the plant's word) · ISA-95 object · level; the chain runs top to bottom:
-
-| Class | ISA-95 / B2MML object | Level | Linked by |
-|---|---|---|---|
-| CustomerOrder | — (sales order, an extension) | 4 | ProductionOrder.sales_order_ref |
-| ProductionOrder | OperationsRequest (Part 2) | 4 → 3 | — |
-| Workorder | WorkRequest (Part 4) | 3 | FOR_OPERATIONS_REQUEST → ProductionOrder |
-| JobOrder | JobOrder (Part 4), the job of one machine | 3 | PART_OF Workorder · FOR_SEGMENT_REQUIREMENT → SegmentRequirement |
-
-`Workorder` keeps its spelling until core 7.0.0 (the knowledge-graph label); it becomes `WorkOrder` there, with an alias.
-
-**One row, two objects:** a row of the ERP's `/api/operations` is the plan of one operation: it feeds the SegmentRequirement (Part 2, the
-requirement of the order) and the JobOrder (Part 4, the job dispatched to a machine) — same key, joined by FOR_SEGMENT_REQUIREMENT. What was
-done (quantities, personnel, machine and setup minutes) is the SegmentResponse from the confirmations.
-
-**Material and inspection:** a Quant (MaterialSubLot) belongs to its lot through `lot` (B2MML MaterialSubLot.MaterialLotID; the lot is MADE_UP_OF
-its quants); its article is reached through the lot (Quant → MaterialLot → Article; `article_ref` on the quant is a search field). An
-InspectionLot is a TestResult: it TESTS the lot, the quant or the article; the test specification hangs on the tested object (TESTED_BY), not on
-the result. `quant_ref` on a lot names one sublot only (B2MML allows several; no source fills it yet).
-
-**Batch catalogue:** the 14 classes under `profiles/batch/` follow BatchML 0701 (ISA-88). They are kept for plants with batch processes and are
-marked `catalog` (the reference plant manufactures discretely and has no source for them). Their equipment edges reach every level of the
-equipment hierarchy (Enterprise … WorkCenter … Machine), as BatchML names "equipment" of any level.
-
-**Master recipe status (model audit M-20, decided 13.11.2026 by the norm text):** BatchML 0701 gives the master recipe's `Header.Status` the type
-`BatchStatusType` (the procedural states) — the model keeps exactly that; a master recipe's approval is BatchML's `Header.ApprovalHistory`
-(no source delivers it, so the model does not carry it yet), and only the general recipe has a life cycle (`GRecipe.LifeCycleState`:
-Draft … Withdrawn). BatchML's control recipe names no master recipe: a batch reaches its master recipe through the batch list entry
-(`BatchListEntry.RecipeID` = USES_RECIPE MasterRecipe), so there is no DERIVED_FROM between control and master recipe.
-
-**Cross-constraints (model audit M-41, 0.7.2 K4b): active 0.** The four files in `standard/cross-constraints/` are kept as evidence; none is
-evaluated — `late_delivery`, `material_unavailable` and `qty_shortfall` are retired, `parts_counted_vs_booked` is parked (each file says why in its
-`retired` / `parked` note). A cross-constraint becomes active again only as a new version without `retired` / `parked`, with its inputs fed by
-sources of the plant. (A model folder holds JSON only: this note lives here, not in the folder.)
-
-**Polymorphic references:** `record_object_ref` (RECORDS) and `from_resource_ref` / `to_resource_ref` point at ANY object (B2MML
-InformationObject / Resource); their refStatus says `targets: ["*"]` and names the property that carries the object's profile (`targetBy`) —
-the contract cannot list the targets (model audit M-36, decided: polymorphic by the norm).
 
 ## Inheritance
 
