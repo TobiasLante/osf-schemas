@@ -12,7 +12,7 @@ Two shapes (`envelope.schema.json`), from the convention:
 
 - **signal** (categories machine; 2 profiles): one message per signal,
   `{element_id, attr, value, timestamp, delivery, msgId?}`. Every attribute of the machine is listed, edge ones included.
-- **entity** (categories business, material, quality, equipment; 88 profiles): one message per source row,
+- **entity** (categories business, material, quality, equipment; 87 profiles): one message per source row,
   `{eventType, id, entity, timestamp, msgId, data}`; `data` carries the profile's attributes, inherited ones included.
 
 Both may carry `b2m {verb, actionCode}` (optional; ISA-95 Part 5 as B2MML 0701 names it): a row is `SYNC` with the action code of its

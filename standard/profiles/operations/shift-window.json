@@ -1,11 +1,11 @@
 {
   "profileId": "SMProfile-ShiftWindow",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Shift Window (ERP shift calendar)",
   "description": "One entry of the ERP weekly shift pattern (`/api/calendar` -> `week_pattern`): department x ISO weekday x shift, with the working-time window and its breaks. Full text: docs/history/standard/profiles/operations/shift-window.md, description.",
-  "parentType": null,
+  "parentType": "WorkCalendarDefinitionEntry",
   "abstract": false,
   "properties": [
     {
@@ -133,12 +133,6 @@
   "kgNodeLabel": "ShiftWindow",
   "kgIdProperty": "shift_window_id",
   "relationships": [
-    {
-      "type": "PART_OF",
-      "target": "WorkCalendarDefinition",
-      "targetIdProp": "work_calendar_definition_id",
-      "description": "ISA-95 Part 4 cl. 13 (B2MML WorkCalendarDefinition.WorkCalendarDefinitionEntry)."
-    },
     {
       "type": "PART_OF",
       "target": "ShiftWindow",

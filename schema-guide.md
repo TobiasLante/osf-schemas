@@ -38,7 +38,7 @@ osf-schemas/
 │   ├── flows/                  Node-RED flow templates (OPC-UA → UNS standard flow) (1 json)
 │   ├── kpis/                   KPI definitions — inputs drawn from the source-fed vocabulary (lint-kpis) (6 json)
 │   ├── mappings/               protocol canon: DataItem/tag → SM attribute (SSOT for discovery + gen-flows) (3 json)
-│   ├── payloads/                (91 json)
+│   ├── payloads/                (90 json)
 │   ├── profiles/               Schema 1: SM Profiles (type system)
 │   │   ├── batch/                   (14 json)
 │   │   ├── equipment/              ISA-95 equipment: Machine (abstract parent), CNC_Machine, InjectionMoldingMachine, EquipmentClass, EquipmentModel (compact), Tool (15 json)
@@ -501,7 +501,7 @@ Phase 5: Embeddings
 | `lot_no` | InspectionLot | 3 |
 | `master_recipe_id` | MasterRecipe | 2 |
 | `material_class_id` | MaterialClass, ThermoplasticClass | 19 |
-| `material_lot_no` | MaterialLot | 20 |
+| `material_lot_no` | MaterialLot | 19 |
 | `operational_location_class_id` | OperationalLocationClass | 3 |
 | `operations_capability_id` | OperationsCapability | — |
 | `operations_definition_no` | OperationsDefinition | 7 |
@@ -523,7 +523,7 @@ Phase 5: Embeddings
 | `product_definition_no` | ProductDefinition | — |
 | `production_order_no` | ProductionOrder | 4 |
 | `proposal_id` | ResolutionProposal | — |
-| `quant_no` | Quant | 17 |
+| `quant_no` | Quant | 16 |
 | `recipe_element_id` | RecipeElement | 2 |
 | `resource_network_connection_id` | ResourceNetworkConnection | — |
 | `resource_network_connection_type_id` | ResourceNetworkConnectionType | 1 |
@@ -540,7 +540,7 @@ Phase 5: Embeddings
 | `work_alert_definition_id` | WorkAlertDefinition | — |
 | `work_alert_id` | WorkAlert | — |
 | `work_calendar_definition_entry_id` | WorkCalendarDefinitionEntry | 1 |
-| `work_calendar_definition_id` | WorkCalendarDefinition | 2 |
+| `work_calendar_definition_id` | WorkCalendarDefinition | 1 |
 | `work_calendar_entry_id` | WorkCalendarEntry | 1 |
 | `work_calendar_id` | WorkCalendar | 1 |
 | `work_capability_id` | WorkCapability | 1 |

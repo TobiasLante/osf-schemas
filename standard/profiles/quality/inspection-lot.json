@@ -1,11 +1,11 @@
 {
   "profileId": "SMProfile-InspectionLot",
-  "version": "3.3.0",
+  "version": "3.4.0",
   "standard": "CarToUNS",
   "category": "quality",
   "displayName": "Inspection Lot",
   "description": "next/ v4 — QMS inspection lot. Attributes aligned to the LIVE projection of source sim-v5-qms-inspections (article_ref/order_ref/state/decision), NOT the legacy base profile. Carries the ISA-95 quality mapping AND the deviation constraint (lot_rejected), evaluated centrally by it-evaluator.",
-  "parentType": null,
+  "parentType": "TestResult",
   "abstract": false,
   "properties": [
     {
@@ -178,18 +178,6 @@
       "type": "TESTS",
       "target": "Article",
       "targetIdProp": "article_no"
-    },
-    {
-      "type": "TESTS",
-      "target": "MaterialLot",
-      "targetIdProp": "material_lot_no",
-      "description": "The inspected object: a material lot (B2MML TestResult.TestableObjectID)."
-    },
-    {
-      "type": "TESTS",
-      "target": "Quant",
-      "targetIdProp": "quant_no",
-      "description": "The inspected object: a material sublot (Quant = MaterialSubLot) (B2MML TestResult.TestableObjectID)."
     },
     {
       "type": "PART_OF",

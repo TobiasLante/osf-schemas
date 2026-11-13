@@ -501,6 +501,9 @@
       "category": "business",
       "parentType": null,
       "abstract": false,
+      "retired": true,
+      "retiredAt": "2026-11-13",
+      "retirementId": null,
       "source": "standard/profiles/operations/product-definition.json"
     },
     "ProductionOrder": {
@@ -563,7 +566,7 @@
       "key": "shift_window_id",
       "profile": "SMProfile-ShiftWindow",
       "category": "business",
-      "parentType": null,
+      "parentType": "WorkCalendarDefinitionEntry",
       "abstract": false,
       "source": "standard/profiles/operations/shift-window.json"
     },
@@ -755,7 +758,7 @@
       "key": "lot_no",
       "profile": "SMProfile-InspectionLot",
       "category": "quality",
-      "parentType": null,
+      "parentType": "TestResult",
       "abstract": false,
       "source": "standard/profiles/quality/inspection-lot.json"
     },
@@ -1207,14 +1210,10 @@
       "type": "TESTS",
       "from": "InspectionLot",
       "to": [
-        "Article",
-        "MaterialLot",
-        "Quant"
+        "Article"
       ],
       "targetIdProp": [
-        "article_no",
-        "material_lot_no",
-        "quant_no"
+        "article_no"
       ]
     },
     {
@@ -2712,12 +2711,10 @@
       "type": "PART_OF",
       "from": "ShiftWindow",
       "to": [
-        "ShiftWindow",
-        "WorkCalendarDefinition"
+        "ShiftWindow"
       ],
       "targetIdProp": [
-        "shift_window_id",
-        "work_calendar_definition_id"
+        "shift_window_id"
       ]
     },
     {

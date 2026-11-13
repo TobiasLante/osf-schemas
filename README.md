@@ -131,7 +131,7 @@ osf-schemas/
 │   ├── flows/                  Node-RED flow templates (OPC-UA → UNS standard flow) (1 json)
 │   ├── kpis/                   KPI definitions — inputs drawn from the source-fed vocabulary (lint-kpis) (6 json)
 │   ├── mappings/               protocol canon: DataItem/tag → SM attribute (SSOT for discovery + gen-flows) (3 json)
-│   ├── payloads/                (91 json)
+│   ├── payloads/                (90 json)
 │   ├── profiles/               Schema 1: SM Profiles (type system)
 │   │   ├── batch/                   (14 json)
 │   │   ├── equipment/              ISA-95 equipment: Machine (abstract parent), CNC_Machine, InjectionMoldingMachine, EquipmentClass, EquipmentModel (compact), Tool (15 json)

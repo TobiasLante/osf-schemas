@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-ProductDefinition",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Product Definition (Recipe / SOLL master)",
@@ -269,5 +269,9 @@
     "grain": "one parameter of a product definition: one row = one param_name of one definition (key <definition>.<param_name>)"
   },
   "kgNodeLabel": "ProductDefinition",
-  "kgIdProperty": "product_definition_no"
+  "kgIdProperty": "product_definition_no",
+  "retired": true,
+  "retiredAt": "2026-11-13",
+  "retiredBy": "owner 13.11.2026 (model question 4a, M-18/M-19/M-21)",
+  "retiredReason": "ISA-95 2013 / B2MML 0701 know only OperationsDefinition (and recipes = WorkMaster, Part 4); ProductDefinition had no source, no edges and no data in the reference plant"
 }
