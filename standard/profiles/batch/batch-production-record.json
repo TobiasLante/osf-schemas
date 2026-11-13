@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-BatchProductionRecord",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Batch record",
@@ -39,7 +39,18 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "IN_SCOPE_OF",
+        "targets": [
+          "Area",
+          "Enterprise",
+          "Machine",
+          "Site",
+          "WorkCenter"
+        ]
+      }
     },
     {
       "name": "published_date",
@@ -127,7 +138,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "FOR_EQUIPMENT",
+        "targets": [
+          "Machine"
+        ]
+      }
     },
     {
       "name": "material_lot_ref",
@@ -138,7 +156,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "FOR_MATERIAL_LOT",
+        "targets": [
+          "MaterialLot"
+        ]
+      }
     },
     {
       "name": "article_ref",
@@ -149,7 +174,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "FOR_MATERIAL_DEFINITION",
+        "targets": [
+          "Article"
+        ]
+      }
     },
     {
       "name": "tool_ref",
@@ -160,7 +192,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "FOR_PHYSICAL_ASSET",
+        "targets": [
+          "Tooling"
+        ]
+      }
     },
     {
       "name": "record_status",
@@ -204,7 +243,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "PART_OF",
+        "targets": [
+          "BatchProductionRecord"
+        ]
+      }
     },
     {
       "name": "record_object_ref",
@@ -215,13 +261,21 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "RECORDS",
+        "targets": [
+          "*"
+        ],
+        "targetBy": "record_object_profile"
+      }
     },
     {
       "name": "record_object_profile",
       "dataType": "String",
       "required": false,
-      "category": "Link",
+      "category": "Core",
       "description": "The profile of the object in record_object_ref (BatchML carries the object itself).",
       "delivery": "transactional",
       "scope": "hub",
@@ -265,6 +319,30 @@
       "target": "Machine",
       "targetIdProp": "element_id",
       "description": "The equipment the record is for."
+    },
+    {
+      "type": "FOR_EQUIPMENT",
+      "target": "Enterprise",
+      "targetIdProp": "element_id",
+      "description": "The equipment the record is for — BatchML: any level of the equipment hierarchy (here Enterprise; model question 8)."
+    },
+    {
+      "type": "FOR_EQUIPMENT",
+      "target": "Site",
+      "targetIdProp": "element_id",
+      "description": "The equipment the record is for — BatchML: any level of the equipment hierarchy (here Site; model question 8)."
+    },
+    {
+      "type": "FOR_EQUIPMENT",
+      "target": "Area",
+      "targetIdProp": "element_id",
+      "description": "The equipment the record is for — BatchML: any level of the equipment hierarchy (here Area; model question 8)."
+    },
+    {
+      "type": "FOR_EQUIPMENT",
+      "target": "WorkCenter",
+      "targetIdProp": "element_id",
+      "description": "The equipment the record is for — BatchML: any level of the equipment hierarchy (here WorkCenter; model question 8)."
     },
     {
       "type": "FOR_MATERIAL_LOT",
@@ -334,5 +412,8 @@
     "mappingNote": "Containment is PART_OF on the child with a reference to the parent (BatchML nests the child inside the parent). record_object_profile names the profile of the object in record_object_ref (BatchML carries the object itself). Data sets (process values) are telemetry: never objects, the record reaches them by time range at the historian."
   },
   "kgNodeLabel": "BatchProductionRecord",
-  "kgIdProperty": "batch_production_record_id"
+  "kgIdProperty": "batch_production_record_id",
+  "catalog": {
+    "reason": "BatchML 0701 (ISA-88) class for plants with batch processes; the reference plant werk1 manufactures discretely and has no source for it (model question 8, owner 13.11.2026)"
+  }
 }

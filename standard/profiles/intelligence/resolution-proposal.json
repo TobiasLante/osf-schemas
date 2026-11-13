@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-ResolutionProposal",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "standard": "CarToUNS",
   "category": "intelligence",
   "displayName": "Resolution Proposal",
@@ -143,7 +143,12 @@
       "description": "Hash-chain ref (vault-hashchain) for the proposal event — same Ed25519 chain as the Discrepancy lifecycle events",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
+        "reason": "An entry of the vault's hash chain (outside the model).",
+        "external": {
+          "system": "vault-hashchain",
+          "object": "event",
+          "key": "hash"
+        }
       }
     }
   ],

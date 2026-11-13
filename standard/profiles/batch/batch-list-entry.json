@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-BatchListEntry",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Batch list entry",
@@ -112,7 +112,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "USES_RECIPE",
+        "targets": [
+          "MasterRecipe"
+        ]
+      }
     },
     {
       "name": "recipe_version",
@@ -145,7 +152,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "FOR_MATERIAL_LOT",
+        "targets": [
+          "MaterialLot"
+        ]
+      }
     },
     {
       "name": "campaign_id",
@@ -167,7 +181,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "FOR_PRODUCT",
+        "targets": [
+          "Article"
+        ]
+      }
     },
     {
       "name": "order_id",
@@ -288,7 +309,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "REQUESTED_EQUIPMENT",
+        "targets": [
+          "Machine"
+        ]
+      }
     },
     {
       "name": "equipment_class_ref",
@@ -299,7 +327,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "REQUESTED_EQUIPMENT",
+        "targets": [
+          "EquipmentClass"
+        ]
+      }
     },
     {
       "name": "actual_machine_ref",
@@ -310,7 +345,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "ACTUAL_EQUIPMENT",
+        "targets": [
+          "Machine"
+        ]
+      }
     },
     {
       "name": "batch_list_ref",
@@ -321,7 +363,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "PART_OF",
+        "targets": [
+          "BatchList"
+        ]
+      }
     },
     {
       "name": "parent_batch_list_entry_ref",
@@ -332,7 +381,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "PART_OF",
+        "targets": [
+          "BatchListEntry"
+        ]
+      }
     }
   ],
   "relationships": [
@@ -368,6 +424,30 @@
     },
     {
       "type": "REQUESTED_EQUIPMENT",
+      "target": "Enterprise",
+      "targetIdProp": "element_id",
+      "description": "The requested equipment (BatchML BatchListEntry.EquipmentID) — BatchML: any level of the equipment hierarchy (here Enterprise; model question 8)."
+    },
+    {
+      "type": "REQUESTED_EQUIPMENT",
+      "target": "Site",
+      "targetIdProp": "element_id",
+      "description": "The requested equipment (BatchML BatchListEntry.EquipmentID) — BatchML: any level of the equipment hierarchy (here Site; model question 8)."
+    },
+    {
+      "type": "REQUESTED_EQUIPMENT",
+      "target": "Area",
+      "targetIdProp": "element_id",
+      "description": "The requested equipment (BatchML BatchListEntry.EquipmentID) — BatchML: any level of the equipment hierarchy (here Area; model question 8)."
+    },
+    {
+      "type": "REQUESTED_EQUIPMENT",
+      "target": "WorkCenter",
+      "targetIdProp": "element_id",
+      "description": "The requested equipment (BatchML BatchListEntry.EquipmentID) — BatchML: any level of the equipment hierarchy (here WorkCenter; model question 8)."
+    },
+    {
+      "type": "REQUESTED_EQUIPMENT",
       "target": "EquipmentClass",
       "targetIdProp": "equipment_class_id",
       "description": "The requested equipment class (BatchML BatchListEntry.EquipmentClassID)."
@@ -377,6 +457,30 @@
       "target": "Machine",
       "targetIdProp": "element_id",
       "description": "The equipment the entry ran on (BatchML BatchListEntry.ActualEquipmentID)."
+    },
+    {
+      "type": "ACTUAL_EQUIPMENT",
+      "target": "Enterprise",
+      "targetIdProp": "element_id",
+      "description": "The equipment the entry ran on (BatchML BatchListEntry.ActualEquipmentID) — BatchML: any level of the equipment hierarchy (here Enterprise; model question 8)."
+    },
+    {
+      "type": "ACTUAL_EQUIPMENT",
+      "target": "Site",
+      "targetIdProp": "element_id",
+      "description": "The equipment the entry ran on (BatchML BatchListEntry.ActualEquipmentID) — BatchML: any level of the equipment hierarchy (here Site; model question 8)."
+    },
+    {
+      "type": "ACTUAL_EQUIPMENT",
+      "target": "Area",
+      "targetIdProp": "element_id",
+      "description": "The equipment the entry ran on (BatchML BatchListEntry.ActualEquipmentID) — BatchML: any level of the equipment hierarchy (here Area; model question 8)."
+    },
+    {
+      "type": "ACTUAL_EQUIPMENT",
+      "target": "WorkCenter",
+      "targetIdProp": "element_id",
+      "description": "The equipment the entry ran on (BatchML BatchListEntry.ActualEquipmentID) — BatchML: any level of the equipment hierarchy (here WorkCenter; model question 8)."
     },
     {
       "type": "PART_OF",
@@ -435,5 +539,8 @@
     "mappingNote": "Containment is PART_OF on the child with a reference to the parent (BatchML nests the child inside the parent)."
   },
   "kgNodeLabel": "BatchListEntry",
-  "kgIdProperty": "batch_list_entry_id"
+  "kgIdProperty": "batch_list_entry_id",
+  "catalog": {
+    "reason": "BatchML 0701 (ISA-88) class for plants with batch processes; the reference plant werk1 manufactures discretely and has no source for it (model question 8, owner 13.11.2026)"
+  }
 }

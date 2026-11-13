@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-Effectivity",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Effectivity (from when / from which serial, lot or unit a definition state holds)",
@@ -70,7 +70,10 @@
       "valueType": "ID",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "Kept as a value: an extension object has no edge into the ISA-95 catalogue."
+        "reason": "Kept as a value: an extension object has no edge into the ISA-95 catalogue.",
+        "targets": [
+          "Article"
+        ]
       }
     },
     {
@@ -85,7 +88,10 @@
       "valueType": "ID",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "Kept as a value: an extension object has no edge into the ISA-95 catalogue."
+        "reason": "Kept as a value: an extension object has no edge into the ISA-95 catalogue.",
+        "targets": [
+          "OperationsDefinition"
+        ]
       }
     },
     {
@@ -100,7 +106,10 @@
       "valueType": "ID",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "Kept as a value: an extension object has no edge into the ISA-95 catalogue."
+        "reason": "Kept as a value: an extension object has no edge into the ISA-95 catalogue.",
+        "targets": [
+          "OperationsMaterialBill"
+        ]
       }
     },
     {
@@ -115,7 +124,10 @@
       "valueType": "ID",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "Kept as a value: an extension object has no edge into the ISA-95 catalogue."
+        "reason": "Kept as a value: an extension object has no edge into the ISA-95 catalogue.",
+        "targets": [
+          "OperationsMaterialBillItem"
+        ]
       }
     },
     {
@@ -130,7 +142,10 @@
       "valueType": "ID",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "Kept as a value: an extension object has no edge into the ISA-95 catalogue."
+        "reason": "ISA-95 effectivity names its end item by value; core 6.2.0 draws no edge for it.",
+        "targets": [
+          "Article"
+        ]
       }
     },
     {
@@ -145,7 +160,10 @@
       "valueType": "ID",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "Kept as a value: an extension object has no edge into the ISA-95 catalogue."
+        "reason": "Kept as a value: an extension object has no edge into the ISA-95 catalogue.",
+        "targets": [
+          "EngineeringChange"
+        ]
       }
     }
   ],

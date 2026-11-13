@@ -1,11 +1,11 @@
 {
   "profileId": "SMProfile-InspectionLot",
-  "version": "3.3.0",
+  "version": "3.4.0",
   "standard": "CarToUNS",
   "category": "quality",
   "displayName": "Inspection Lot",
   "description": "next/ v4 — QMS inspection lot. Attributes aligned to the LIVE projection of source sim-v5-qms-inspections (article_ref/order_ref/state/decision), NOT the legacy base profile. Carries the ISA-95 quality mapping AND the deviation constraint (lot_rejected), evaluated centrally by it-evaluator.",
-  "parentType": null,
+  "parentType": "TestResult",
   "abstract": false,
   "properties": [
     {
@@ -30,7 +30,10 @@
       "promotion": "on_change",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
+        "reason": "B2MML 0701 TestResult names no order: it tests one object (TestableObjectID) — the order is reached through the tested lot (TESTS MaterialLot, the lot of the job order). Kept as a value (core 6.2.0 K11).",
+        "targets": [
+          "CustomerOrder"
+        ]
       }
     },
     {
@@ -41,7 +44,14 @@
       "category": "Link",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "TESTS",
+        "targets": [
+          "Article"
+        ]
+      }
     },
     {
       "name": "machine_ref",
@@ -54,7 +64,10 @@
       "promotion": "on_change",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "B2MML 0701 TestResult names no equipment of its own (it tests an object, TestableObjectID): the machine is kept as a value (Explorer X1, judged core 6.0.0)."
+        "reason": "B2MML 0701 TestResult names no equipment of its own (it tests an object, TestableObjectID): the machine is kept as a value (Explorer X1, judged core 6.0.0).",
+        "targets": [
+          "Machine"
+        ]
       }
     },
     {
@@ -148,7 +161,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "TESTS",
+        "targets": [
+          "MaterialLot"
+        ]
+      }
     },
     {
       "name": "quant_ref",
@@ -159,7 +179,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "TESTS",
+        "targets": [
+          "Quant"
+        ]
+      }
     },
     {
       "name": "parent_inspection_lot_ref",
@@ -170,7 +197,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "PART_OF",
+        "targets": [
+          "InspectionLot"
+        ]
+      }
     }
   ],
   "relationships": [
@@ -178,18 +212,6 @@
       "type": "TESTS",
       "target": "Article",
       "targetIdProp": "article_no"
-    },
-    {
-      "type": "TESTS",
-      "target": "MaterialLot",
-      "targetIdProp": "material_lot_no",
-      "description": "The inspected object: a material lot (B2MML TestResult.TestableObjectID)."
-    },
-    {
-      "type": "TESTS",
-      "target": "Quant",
-      "targetIdProp": "quant_no",
-      "description": "The inspected object: a material sublot (Quant = MaterialSubLot) (B2MML TestResult.TestableObjectID)."
     },
     {
       "type": "PART_OF",

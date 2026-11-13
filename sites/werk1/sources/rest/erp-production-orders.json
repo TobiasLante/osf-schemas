@@ -1,6 +1,6 @@
 {
   "sourceId": "erp-production-orders",
-  "version": "5.0.0",
+  "version": "5.1.0",
   "sourceType": "rest",
   "functionalLevel": 4,
   "syncType": "polling",
@@ -31,7 +31,7 @@
     "batchSize": 5000,
     "paginate": true,
     "paginationMode": "keyset",
-    "paginationOrderKey": "production_order_no",
+    "paginationOrderKey": "order_id",
     "keysetParam": "after_id"
   },
   "columnMappings": [
@@ -41,7 +41,7 @@
       "isId": true
     },
     {
-      "column": "kundenauftrag_nr",
+      "column": "sales_order_no",
       "smAttribute": "sales_order_ref"
     },
     {

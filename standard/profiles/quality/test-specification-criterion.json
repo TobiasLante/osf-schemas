@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-TestSpecificationCriterion",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "standard": "CarToUNS",
   "category": "quality",
   "displayName": "Test Specification Criterion (one characteristic)",
@@ -57,16 +57,12 @@
       "name": "evaluated_property",
       "dataType": "String",
       "required": false,
-      "category": "Link",
+      "category": "Core",
       "description": "The property this criterion evaluates — the parameter (param_name) of the product definition whose band it sets.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "refOnly",
-        "reason": "Kept as a value: it names a property, not an object."
-      }
+      "valueType": "ID"
     },
     {
       "name": "test_specification_ref",
@@ -80,7 +76,10 @@
       "valueType": "ID",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "Kept as a value: B2MML nests the criteria inside their specification; a criterion is no object of the ISA-95 edge catalogue, so the link lives in the key, not in an edge."
+        "reason": "Kept as a value: B2MML nests the criteria inside their specification; a criterion is no object of the ISA-95 edge catalogue, so the link lives in the key, not in an edge.",
+        "targets": [
+          "TestSpecification"
+        ]
       }
     }
   ],

@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-TestSpecification",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "standard": "CarToUNS",
   "category": "quality",
   "displayName": "Test Specification (how something is tested)",
@@ -74,7 +74,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "TEST_FOR",
+        "targets": [
+          "Article"
+        ]
+      }
     },
     {
       "name": "material_class_ref",
@@ -85,7 +92,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "TEST_FOR",
+        "targets": [
+          "MaterialClass"
+        ]
+      }
     },
     {
       "name": "material_lot_ref",
@@ -96,7 +110,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "TEST_FOR",
+        "targets": [
+          "MaterialLot"
+        ]
+      }
     },
     {
       "name": "machine_ref",
@@ -107,7 +128,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "TEST_FOR",
+        "targets": [
+          "Machine"
+        ]
+      }
     },
     {
       "name": "equipment_class_ref",
@@ -118,7 +146,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "TEST_FOR",
+        "targets": [
+          "EquipmentClass"
+        ]
+      }
     },
     {
       "name": "tool_ref",
@@ -129,7 +164,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "TEST_FOR",
+        "targets": [
+          "Tooling"
+        ]
+      }
     },
     {
       "name": "person_ref",
@@ -140,7 +182,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "TEST_FOR",
+        "targets": [
+          "Person"
+        ]
+      }
     },
     {
       "name": "personnel_class_ref",
@@ -151,7 +200,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "TEST_FOR",
+        "targets": [
+          "PersonnelClass"
+        ]
+      }
     },
     {
       "name": "process_segment_ref",
@@ -162,7 +218,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "TEST_FOR",
+        "targets": [
+          "ProcessSegment"
+        ]
+      }
     },
     {
       "name": "operations_segment_ref",
@@ -173,7 +236,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "TEST_FOR",
+        "targets": [
+          "OperationsSegment"
+        ]
+      }
     },
     {
       "name": "work_master_ref",
@@ -184,7 +254,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "TEST_FOR",
+        "targets": [
+          "WorkMaster"
+        ]
+      }
     },
     {
       "name": "parent_specification_ref",
@@ -195,7 +272,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "PART_OF",
+        "targets": [
+          "TestSpecification"
+        ]
+      }
     }
   ],
   "relationships": [

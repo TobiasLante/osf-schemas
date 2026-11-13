@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-CustomerOrder",
-  "version": "4.1.1",
+  "version": "4.1.2",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Customer Order (sales order)",
@@ -30,7 +30,10 @@
       "valueType": "ID",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "The reference is kept as a value: ISA-95 has no link from a Level-4 customer order (owner 25.09.: only ISA-95 edges)."
+        "reason": "The reference is kept as a value: ISA-95 has no link from a Level-4 customer order (owner 25.09.: only ISA-95 edges).",
+        "targets": [
+          "Customer"
+        ]
       }
     },
     {

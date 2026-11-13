@@ -2,9 +2,9 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/material/SMProfile-Article.payload.json",
   "title": "SMProfile-Article payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/material/article.json 2.4.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/material/article.json 2.5.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-Article",
-  "x-profileVersion": "2.4.0",
+  "x-profileVersion": "2.5.0",
   "x-payloadVersion": "1.1.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
@@ -39,7 +39,8 @@
           "type": "string"
         },
         "lead_time_days": {
-          "type": "integer"
+          "type": "integer",
+          "x-unit": "DAY"
         },
         "abc_class": {
           "type": "string"

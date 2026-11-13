@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-WorkRecordSpecification",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Work Record Specification (template of a record)",
@@ -50,7 +50,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "FOR_EQUIPMENT",
+        "targets": [
+          "Machine"
+        ]
+      }
     },
     {
       "name": "material_lot_ref",
@@ -61,7 +68,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "FOR_MATERIAL_LOT",
+        "targets": [
+          "MaterialLot"
+        ]
+      }
     },
     {
       "name": "material_ref",
@@ -72,7 +86,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "FOR_MATERIAL_DEFINITION",
+        "targets": [
+          "Article"
+        ]
+      }
     },
     {
       "name": "parent_specification_ref",
@@ -83,7 +104,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "PART_OF",
+        "targets": [
+          "WorkRecordSpecification"
+        ]
+      }
     },
     {
       "name": "record_object_ref",
@@ -94,13 +122,21 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "RECORDS",
+        "targets": [
+          "*"
+        ],
+        "targetBy": "record_object_profile"
+      }
     },
     {
       "name": "record_object_profile",
       "dataType": "String",
       "required": false,
-      "category": "Link",
+      "category": "Core",
       "description": "The profile (profileId or label) of the object in record_object_ref.",
       "delivery": "transactional",
       "scope": "hub",

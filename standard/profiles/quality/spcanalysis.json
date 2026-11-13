@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-SPCAnalysis",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "standard": "CarToUNS",
   "category": "quality",
   "displayName": "SPC Analysis",
@@ -24,7 +24,14 @@
       "category": "Link",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "SPC analysis is no ISA-95 object: it names the inspection lot whose measurements it judges.",
+        "targets": [
+          "InspectionLot"
+        ]
+      }
     },
     {
       "name": "characteristic_no",
