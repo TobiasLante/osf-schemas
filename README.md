@@ -198,6 +198,16 @@ the result. `quant_ref` on a lot names one sublot only (B2MML allows several; no
 marked `catalog` (the reference plant manufactures discretely and has no source for them). Their equipment edges reach every level of the
 equipment hierarchy (Enterprise … WorkCenter … Machine), as BatchML names "equipment" of any level.
 
+**Master recipe status (model audit M-20, decided 13.11.2026 by the norm text):** BatchML 0701 gives the master recipe's `Header.Status` the type
+`BatchStatusType` (the procedural states) — the model keeps exactly that; a master recipe's approval is BatchML's `Header.ApprovalHistory`
+(no source delivers it, so the model does not carry it yet), and only the general recipe has a life cycle (`GRecipe.LifeCycleState`:
+Draft … Withdrawn). BatchML's control recipe names no master recipe: a batch reaches its master recipe through the batch list entry
+(`BatchListEntry.RecipeID` = USES_RECIPE MasterRecipe), so there is no DERIVED_FROM between control and master recipe.
+
+**Polymorphic references:** `record_object_ref` (RECORDS) and `from_resource_ref` / `to_resource_ref` point at ANY object (B2MML
+InformationObject / Resource); their refStatus says `targets: ["*"]` and names the property that carries the object's profile (`targetBy`) —
+the contract cannot list the targets (model audit M-36, decided: polymorphic by the norm).
+
 ## Inheritance
 
 Profiles support `parentType` inheritance. The KG Builder merges parent attributes and relationships into children at load time. Child definitions override parent on name collision.
