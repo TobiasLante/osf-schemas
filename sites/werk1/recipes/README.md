@@ -1,4 +1,8 @@
-# sites/werk1/recipes/ — GitHub-managed recipe master data (ISA-95 ProductDefinition SOLL)
+# sites/werk1/recipes/ — GitHub-managed recipe master data (setpoints and tolerance bands)
+
+> **Demo data (model audit M-42, core 6.2.0):** the 73 `recipe-v4-*.json` files are derived from the simulator's article master (sim-v5) —
+> demo fixtures to exercise the recipe path, **not engineering data**. Some combinations (finish vs. material) are implausible —
+> nobody chose them; a real plant replaces them with its own recipes. The hand-made recipes (`recipe-sgm-*`, machine defaults) are the reference.
 
 This folder is the **single home for recipe / ProductDefinition master data**, managed in
 GitHub — **no other system**. Owner: **Process Engineering**.
