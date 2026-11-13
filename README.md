@@ -118,7 +118,7 @@ osf-schemas/
 │       ├── sources/                Schema 2: Data Sources (instance binding)
 │       │   ├── mtconnect/              MTConnect agent mappings (2 json)
 │       │   ├── opcua/                  OPC-UA endpoint → machine mappings (15 json)
-│       │   ├── rest/                   sim-v5 REST polling (ERP/QMS/WMS projections) (17 json)
+│       │   ├── rest/                   sim-v5 REST polling (ERP/QMS/WMS projections) (18 json)
 │       │   └── static/                 fixed lists of the model (the rows in the source, read like a csv list) (1 json)
 │       ├── sync/                   Schema 3: Live Sync (transport layer)
 │       │   ├── mqtt/                   vendor software (HighByte, i-flow, Node-RED): machine OPC UA server → MQTT broker (4 json)
@@ -159,7 +159,7 @@ osf-schemas/
 | Profiles | 99 | batch 14 · equipment 15 · intelligence 5 · material 7 · operations 51 · personnel 2 · quality 5 |
 | Sources — mtconnect | 2 | mtconnect-cnc-01, mtconnect-cnc-mtc-02 |
 | Sources — opcua | 15 | opcua-cnc-001-event, opcua-cnc-001-telemetry, opcua-cnc-002-event, opcua-cnc-002-telemetry, opcua-ftlinx-01-event, opcua-ftlinx-01-telemetry, opcua-mtbridge-cnc-01, opcua-rockwell-01-event, opcua-rockwell-01-telemetry, opcua-sgm-001-event, opcua-sgm-001-telemetry, opcua-sgm-004-processdata, opcua-sgm-005-processdata, opcua-sgm-006-bde, opcua-sgm-006-processdata |
-| Sources — rest | 17 | erp-bde-confirmations, erp-customer-orders, erp-job-orders, erp-material-lots, erp-operations-definitions, erp-operations-response, erp-operations-segments, erp-process-segments, erp-production-orders, erp-segment-requirements, erp-segment-responses, erp-workorders, sim-v5-erp-articles, sim-v5-erp-calendar, sim-v5-erp-customers, sim-v5-qms-inspections, sim-v5-wms-quants |
+| Sources — rest | 18 | erp-bde-confirmations, erp-customer-orders, erp-job-orders, erp-material-lots, erp-operations-definitions, erp-operations-response, erp-operations-segments, erp-process-segments, erp-production-orders, erp-segment-requirements, erp-segment-responses, erp-workorders, sim-v5-erp-articles, sim-v5-erp-calendar, sim-v5-erp-customers, sim-v5-qms-inspections, sim-v5-stock-capability, sim-v5-wms-quants |
 | Sources — static | 1 | model-equipment-classes |
 | Sync — mqtt | 4 | opcua-cnc-001-event-to-mqtt, opcua-cnc-001-telemetry-to-mqtt, opcua-sgm-004-to-mqtt, opcua-sgm-005-to-mqtt |
 | Sync — nats | 2 | jetstream-streams, opcua-to-nats-cnc-mtc-01 |
@@ -169,7 +169,7 @@ osf-schemas/
 | Recipes | 79 (2 parked) | recipe-sgm-004-default, recipe-sgm-004-pa66gf30-bracket-b *(parked)*, recipe-sgm-004-pa66gf30-housing-a *(parked)*, recipe-sgm-005-default, recipe-sgm-006-default, recipe-v4-12-0044-001, recipe-v4-12-0044-002, recipe-v4-12-0044-003-pa66gf30, recipe-v4-12-0044-004, recipe-v4-12-0044-005, recipe-v4-12-0044-006, recipe-v4-14-0021-006, recipe-v4-14-0021-007, recipe-v4-14-0021-008, recipe-v4-14-0021-009, recipe-v4-14-0021-010, recipe-v4-14-0021-011, recipe-v4-14-0204-001, recipe-v4-14-0204-002, recipe-v4-14-0204-003, recipe-v4-14-0204-004, recipe-v4-14-0204-005, recipe-v4-14-0204-006, recipe-v4-14-1300-001, recipe-v4-14-1300-002, recipe-v4-14-1300-003, recipe-v4-14-1300-004, recipe-v4-14-1300-005, recipe-v4-14-1300-006, recipe-v4-14-1300-007, recipe-v4-14-1300-008, recipe-v4-14-1300-009, recipe-v4-14-1300-010, recipe-v4-14-1300-011, recipe-v4-14-1300-012, recipe-v4-14-1300-013, recipe-v4-14-1300-014, recipe-v4-14-1300-015, recipe-v4-14-1300-016, recipe-v4-14-1300-017, recipe-v4-14-1300-018, recipe-v4-14-1300-019, recipe-v4-14-1300-020, recipe-v4-14-1300-021, recipe-v4-14-1300-022, recipe-v4-14-1300-023, recipe-v4-14-1300-024, recipe-v4-14-1300-025, recipe-v4-14-1300-026, recipe-v4-14-1300-027, recipe-v4-14-1300-028, recipe-v4-14-1300-029, recipe-v4-14-1300-030, recipe-v4-14-1300-031, recipe-v4-14-1300-032, recipe-v4-14-1300-033, recipe-v4-14-1300-034, recipe-v4-14-1300-035, recipe-v4-14-1300-036, recipe-v4-14-1300-037, recipe-v4-14-1300-038, recipe-v4-14-1300-039, recipe-v4-14-1300-040-pmma, recipe-v4-14-1300-041, recipe-v4-14-1300-042, recipe-v4-14-1300-043, recipe-v4-14-1300-044, recipe-v4-14-1300-045, recipe-v4-14-1300-046, recipe-v4-14-1300-047, recipe-v4-14-1300-048, recipe-v4-14-1300-049, recipe-v4-14-1300-050, recipe-v4-14-2500-007, recipe-v4-14-2500-009, recipe-v4-14-2500-017, recipe-v4-bg-gg-004, recipe-v4-bg-gh-010, recipe-wip-housing-base-asa-pc |
 | KPIs | 6 (2 parked) | availability, energy-per-part *(parked)*, oee, performance *(parked)*, quality-rate, scrap-rate |
 
-Measured from the tree by `i3x-v5 packages/schemas-ci/osf/gen-docs.mjs` — the same sums `lint-refs` prints (`lint-refs: 99 profiles, 35 sources, 9 sync files`).
+Measured from the tree by `i3x-v5 packages/schemas-ci/osf/gen-docs.mjs` — the same sums `lint-refs` prints (`lint-refs: 99 profiles, 36 sources, 9 sync files`).
 <!-- gen:counts:end -->
 
 ## Model notes (core 6.2.0, model questions of 13.11.2026)

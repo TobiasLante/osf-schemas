@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-Article",
-  "version": "2.4.0",
+  "version": "2.5.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Article (article / part)",
@@ -112,7 +112,13 @@
       "description": "Free (unblocked) stock of this article across all warehouses (menge_frei). Served by GET /api/articles, which is ARTICLE_WITH_STOCK_AND_PRICE_SQL. This is the article-level figure the WMS Quant rows sum to; a single Quant is one pallet/lot in one bin and is NOT a stock position.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "deprecated": {
+        "replacedBy": "SMProfile-OperationsCapability.quantity",
+        "since": "2.5.0",
+        "until": "3.0.0",
+        "reason": "M-34 (owner 13.11.2026): stock is no property of the material definition — ISA-95 / B2MML MaterialCapability per article × storage location (here: Total − Unattainable of the article's MaterialCapability rows); fed by sim-v5-stock-capability"
+      }
     },
     {
       "name": "stock_reserved",
@@ -123,7 +129,13 @@
       "description": "Quantity already committed to orders (menge_reserviert) — free stock that is spoken for.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "deprecated": {
+        "replacedBy": "SMProfile-OperationsCapability.quantity",
+        "since": "2.5.0",
+        "until": "3.0.0",
+        "reason": "M-34 (owner 13.11.2026): stock is no property of the material definition — ISA-95 / B2MML MaterialCapability per article × storage location (here: Committed); fed by sim-v5-stock-capability"
+      }
     },
     {
       "name": "stock_blocked",
@@ -134,7 +146,13 @@
       "description": "Quantity blocked / on hold (menge_blockiert).",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "deprecated": {
+        "replacedBy": "SMProfile-OperationsCapability.quantity",
+        "since": "2.5.0",
+        "until": "3.0.0",
+        "reason": "M-34 (owner 13.11.2026): stock is no property of the material definition — ISA-95 / B2MML MaterialCapability per article × storage location (here: Unattainable); fed by sim-v5-stock-capability"
+      }
     },
     {
       "name": "stock_available",
@@ -145,7 +163,13 @@
       "description": "AVAILABLE-TO-PROMISE: free minus reserved (verfuegbar). Full text: docs/history/standard/profiles/material/article.md, attributes › stock_available › description.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "deprecated": {
+        "replacedBy": "SMProfile-OperationsCapability.quantity",
+        "since": "2.5.0",
+        "until": "3.0.0",
+        "reason": "M-34 (owner 13.11.2026): stock is no property of the material definition — ISA-95 / B2MML MaterialCapability per article × storage location (here: Available); fed by sim-v5-stock-capability"
+      }
     },
     {
       "name": "reorder_level",
