@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-JobOrder",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Job Order (dispatched job on one machine)",
@@ -80,7 +80,7 @@
       "valueType": "PV",
       "required": false,
       "category": "Core",
-      "description": "Dispatch state of the job as the source names it.",
+      "description": "Dispatch state of the job (B2MML JobOrderDispatchStatus). An open job whose preconditions are met is Ready, an open job otherwise Waiting (OPC 10031-4 Tab. 42; M-15).",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
@@ -98,6 +98,17 @@
         "Closed",
         "Other"
       ]
+    },
+    {
+      "name": "status_source",
+      "dataType": "String",
+      "valueType": "PV",
+      "required": false,
+      "category": "Core",
+      "description": "The job's state as the source names it, before the mapping to the B2MML dispatch state (M-15: e.g. OPEN, IN_PROCESS).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     },
     {
       "name": "segment_requirement_ref",
@@ -362,7 +373,8 @@
     },
     "notInIsa95": [
       "workorder_ref",
-      "job_list_ref"
+      "job_list_ref",
+      "status_source"
     ],
     "mappingNote": "The parent WorkRequest is carried by B2MML through the nesting of JobOrder in WorkRequest, not as a field. Actuals are reported per order and operation (Part 2 SegmentResponse); Part 4 actuals need a source keyed by job. Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent)."
   },
