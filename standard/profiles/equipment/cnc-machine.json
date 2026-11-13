@@ -35,13 +35,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "deprecated": {
-        "replacedBy": "SMProfile-ShiftWindow",
-        "since": "5.1.0",
-        "until": "6.0.0",
-        "reason": "M-28 (owner 13.11.2026): the shift is an entry of the work calendar (ShiftWindow, a WorkCalendarDefinitionEntry), not an equipment property; no source maps it and the sim CNC has no such node — the ERP confirmation names its shift"
-      }
+      "valueType": "ID"
     },
     {
       "name": "Act_Ref_Operator",
@@ -50,13 +44,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "deprecated": {
-        "replacedBy": "SMProfile-SegmentResponse.person_ref",
-        "since": "5.1.0",
-        "until": "6.0.0",
-        "reason": "M-28 (owner 13.11.2026): who did the work is B2MML SegmentResponse.PersonnelActual.PersonID (ISA-95), not an equipment property; no source maps it and the sim CNC has no such node — the ERP confirmation names the worker (person_ref)"
-      }
+      "valueType": "ID"
     },
     {
       "name": "Act_Speed_Spindle",

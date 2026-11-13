@@ -283,7 +283,7 @@
     },
     {
       "id": "cnc-operator-shift-deprecated",
-      "text": "The CNC's Act_Ref_Operator and Act_Ref_Shift are deprecated (M-28, owner 13.11.2026): who worked is SegmentResponse.person_ref (B2MML PersonnelActual), the shift is the work calendar (ShiftWindow); no source mapped either. Additive.",
+      "text": "The CNC's Act_Ref_Operator and Act_Ref_Shift are to be replaced (M-28, owner 13.11.2026): who worked is SegmentResponse.person_ref (B2MML PersonnelActual), the shift is the work calendar (ShiftWindow). Not deprecated in 6.2.0: a deprecated field a plant maps is an error, and a CNC discovered over OPC UA may expose and map them — the deprecation follows in a later core. Additive.",
       "profiles": [
         "SMProfile-CNC-Machine"
       ]
