@@ -204,6 +204,11 @@ equipment hierarchy (Enterprise … WorkCenter … Machine), as BatchML names "e
 Draft … Withdrawn). BatchML's control recipe names no master recipe: a batch reaches its master recipe through the batch list entry
 (`BatchListEntry.RecipeID` = USES_RECIPE MasterRecipe), so there is no DERIVED_FROM between control and master recipe.
 
+**Cross-constraints (model audit M-41, 0.7.2 K4b): active 0.** The four files in `standard/cross-constraints/` are kept as evidence; none is
+evaluated — `late_delivery`, `material_unavailable` and `qty_shortfall` are retired, `parts_counted_vs_booked` is parked (each file says why in its
+`retired` / `parked` note). A cross-constraint becomes active again only as a new version without `retired` / `parked`, with its inputs fed by
+sources of the plant. (A model folder holds JSON only: this note lives here, not in the folder.)
+
 **Polymorphic references:** `record_object_ref` (RECORDS) and `from_resource_ref` / `to_resource_ref` point at ANY object (B2MML
 InformationObject / Resource); their refStatus says `targets: ["*"]` and names the property that carries the object's profile (`targetBy`) —
 the contract cannot list the targets (model audit M-36, decided: polymorphic by the norm).
