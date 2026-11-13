@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-MaterialLot",
-  "version": "3.3.0",
+  "version": "3.3.1",
   "standard": "CarToUNS",
   "category": "material",
   "displayName": "Material Lot (the correct term for 'batch')",
@@ -86,7 +86,7 @@
       "valueType": "ID",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
+        "reason": "B2MML 0701 MaterialLot names no order: a lot belongs to an order through the job order's material requirement (JobOrder REQUIRES_MATERIAL MaterialLot, job_order_ref). Kept as a value (core 6.2.0 K11)."
       }
     },
     {

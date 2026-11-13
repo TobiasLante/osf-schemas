@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-BdeConfirmation",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "BDE Confirmation (shop-floor booking, one row per confirmation)",
@@ -42,7 +42,7 @@
       "valueType": "ID",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
+        "reason": "The article of a confirmation is its SegmentResponse's MaterialActual (SMProfile-SegmentResponse ACTUAL_MATERIAL) — an edge from here would be a shortcut through SegmentResponse. Kept as a value (core 6.2.0 K11)."
       }
     },
     {

@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-Quant",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "standard": "CarToUNS",
   "category": "material",
   "displayName": "Quant (inventory stock unit / MaterialSublot)",
@@ -31,7 +31,7 @@
       "valueType": "ID",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
+        "reason": "B2MML 0701 MaterialSubLot carries no MaterialDefinitionID: the article is the lot's (Quant PART_OF MaterialLot, MaterialLot DEFINED_BY MaterialDefinition). Kept as a value (core 6.2.0 K11)."
       }
     },
     {
