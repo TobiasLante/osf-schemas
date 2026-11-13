@@ -1,6 +1,6 @@
 {
   "sourceId": "erp-customer-orders",
-  "version": "1.2.0",
+  "version": "1.1.0",
   "sourceType": "rest",
   "functionalLevel": 4,
   "syncType": "polling",
@@ -15,7 +15,7 @@
   ],
   "connection": {
     "baseUrl": "http://192.168.178.154:38260",
-    "path": "/api/customer-orders?since=P7D",
+    "path": "/api/customer-orders",
     "method": "GET",
     "auth": null,
     "timeoutMs": 10000
@@ -29,7 +29,8 @@
     "changeDetection": "full_refresh",
     "intervalMs": 300000,
     "batchSize": 5000,
-    "paginate": true, "paginationMode": "keyset", "paginationOrderKey": "order_id", "keysetParam": "after_id" },
+    "paginate": true
+  },
   "columnMappings": [
     {
       "column": "kundenauftrag_nr",

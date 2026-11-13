@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-BdeConfirmation",
-  "version": "1.2.1",
+  "version": "1.2.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "BDE Confirmation (shop-floor booking, one row per confirmation)",
@@ -28,14 +28,7 @@
       "description": "The production order this booking confirms (RESPONDS_TO). NOT the identity at this grain — many confirmations share one order.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "RESPONDS_TO",
-        "targets": [
-          "ProductionOrder"
-        ]
-      }
+      "promotion": "on_change"
     },
     {
       "name": "article_ref",
@@ -49,17 +42,14 @@
       "valueType": "ID",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "The article of a confirmation is its SegmentResponse's MaterialActual (SMProfile-SegmentResponse ACTUAL_MATERIAL) — an edge from here would be a shortcut through SegmentResponse. Kept as a value (core 6.2.0 K11).",
-        "targets": [
-          "Article"
-        ]
+        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
       }
     },
     {
       "name": "article_revision",
       "dataType": "String",
       "required": false,
-      "category": "Core",
+      "category": "Link",
       "description": "The revision of the article that was built or used, where the source's article number carries none (a PLM part number with revision A). Empty when the number itself names the revision (at SAP dddd.1).",
       "delivery": "transactional",
       "scope": "hub",
@@ -78,19 +68,14 @@
       "valueType": "ID",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "A setpoint recipe of the plant's model tree (sites/<site>/recipes) — no node of the graph.",
-        "external": {
-          "system": "UNS-as-Code",
-          "object": "setpoint recipe",
-          "key": "recipeId"
-        }
+        "reason": "A recipe is a released git file (sites/<site>/recipes, R3), no profile of ours — B2MML 0701 has no field for it on a response; kept as a value for traceability (R5)."
       }
     },
     {
       "name": "recipe_version",
       "dataType": "String",
       "required": false,
-      "category": "Core",
+      "category": "Link",
       "description": "The released version (semver) of that recipe.",
       "delivery": "transactional",
       "scope": "hub",
@@ -109,10 +94,7 @@
       "valueType": "ID",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "The machine of a confirmation is its SegmentResponse's EquipmentActual — the edge lives there (SMProfile-SegmentResponse ACTUAL_EQUIPMENT); an edge from here would be a shortcut through SegmentResponse (retired 25.09.). Kept as a value (Explorer X1, judged core 6.0.0).",
-        "targets": [
-          "Machine"
-        ]
+        "reason": "The machine of a confirmation is its SegmentResponse's EquipmentActual — the edge lives there (SMProfile-SegmentResponse ACTUAL_EQUIPMENT); an edge from here would be a shortcut through SegmentResponse (retired 25.09.). Kept as a value (Explorer X1, judged core 6.0.0)."
       }
     },
     {
@@ -184,7 +166,6 @@
     {
       "name": "labor_min",
       "dataType": "Double",
-      "unit": "MIN",
       "valueType": "PV",
       "required": false,
       "category": "Effort",
@@ -196,7 +177,6 @@
     {
       "name": "machine_min",
       "dataType": "Double",
-      "unit": "MIN",
       "valueType": "PV",
       "required": false,
       "category": "Effort",
@@ -208,7 +188,6 @@
     {
       "name": "setup_min",
       "dataType": "Double",
-      "unit": "MIN",
       "valueType": "PV",
       "required": false,
       "category": "Effort",
@@ -220,7 +199,6 @@
     {
       "name": "cycle_time_actual_sec",
       "dataType": "Double",
-      "unit": "SEC",
       "valueType": "PV",
       "required": false,
       "category": "Execution",

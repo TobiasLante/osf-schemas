@@ -1,8 +1,4 @@
-# sites/werk1/recipes/ — GitHub-managed recipe master data (setpoints and tolerance bands)
-
-> **Demo data (model audit M-42, core 6.2.0):** the 73 `recipe-v4-*.json` files are derived from the simulator's article master (sim-v5) —
-> demo fixtures to exercise the recipe path, **not engineering data**. Some combinations (finish vs. material) are implausible —
-> nobody chose them; a real plant replaces them with its own recipes. The hand-made recipes (`recipe-sgm-*`, machine defaults) are the reference.
+# sites/werk1/recipes/ — GitHub-managed recipe master data (ISA-95 ProductDefinition SOLL)
 
 This folder is the **single home for recipe / ProductDefinition master data**, managed in
 GitHub — **no other system**. Owner: **Process Engineering**.
@@ -26,7 +22,7 @@ no crash) — exactly as with `RECIPE_SOURCE=none`.
 
 Shortened from the real `recipe-sgm-004-pa66gf30-housing-a.json`. Note that
 **`toleranceSource` and `capability` are REQUIRED** by
-`i3x-v5 packages/uns-grammar/validation/recipe-schema.json` (the grammar) — a recipe without them fails CI. (An earlier
+`standard/validation/recipe-schema.json` — a recipe without them fails CI. (An earlier
 version of this README showed an example without both; the repo's own CI
 rejected the README's own example.)
 
@@ -81,7 +77,7 @@ rejected the README's own example.)
 
 ## Validation
 
-- Structure: `i3x-v5 packages/uns-grammar/validation/recipe-schema.json` (the grammar; ajv, via the CI shape-validation step).
+- Structure: `standard/validation/recipe-schema.json` (ajv, via the CI shape-validation step).
 - Cross-ref + types: `node ci/lint-recipes.mjs` (= `npm run validate:recipes`; band tuples
   numeric, ref namespace, no duplicate match within a profile, `match.equipment` must be a
   machine id declared in `sites/werk1/sources/**`).

@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-Quant",
-  "version": "3.1.1",
+  "version": "3.1.0",
   "standard": "CarToUNS",
   "category": "material",
   "displayName": "Quant (inventory stock unit / MaterialSublot)",
@@ -31,10 +31,7 @@
       "valueType": "ID",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "B2MML 0701 MaterialSubLot carries no MaterialDefinitionID: the article is the lot's (Quant PART_OF MaterialLot, MaterialLot DEFINED_BY MaterialDefinition). Kept as a value (core 6.2.0 K11).",
-        "targets": [
-          "Article"
-        ]
+        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
       }
     },
     {
@@ -112,14 +109,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "ASSEMBLED_FROM",
-        "targets": [
-          "MaterialLot"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "assembled_from_quant_ref",
@@ -130,14 +120,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "ASSEMBLED_FROM",
-        "targets": [
-          "Quant"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "parent_quant_ref",
@@ -148,14 +131,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "PART_OF",
-        "targets": [
-          "Quant"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "test_specification_ref",
@@ -166,14 +142,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "TESTED_BY",
-        "targets": [
-          "TestSpecification"
-        ]
-      }
+      "valueType": "ID"
     }
   ],
   "relationships": [

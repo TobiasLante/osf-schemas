@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-OperationsPerformance",
-  "version": "2.0.1",
+  "version": "2.0.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Operations Performance",
@@ -125,18 +125,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "IN_SCOPE_OF",
-        "targets": [
-          "Area",
-          "Enterprise",
-          "Machine",
-          "Site",
-          "WorkCenter"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "operations_schedule_ref",
@@ -147,14 +136,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "FOR_OPERATIONS_SCHEDULE",
-        "targets": [
-          "OperationsSchedule"
-        ]
-      }
+      "valueType": "ID"
     }
   ],
   "relationships": [

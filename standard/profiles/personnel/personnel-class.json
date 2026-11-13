@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-PersonnelClass",
-  "version": "1.1.1",
+  "version": "1.1.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Personnel Class (role or skill group)",
@@ -39,14 +39,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "INCLUDES_PROPERTIES_OF",
-        "targets": [
-          "PersonnelClass"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "test_specification_ref",
@@ -57,14 +50,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "TESTED_BY",
-        "targets": [
-          "TestSpecification"
-        ]
-      }
+      "valueType": "ID"
     }
   ],
   "relationships": [

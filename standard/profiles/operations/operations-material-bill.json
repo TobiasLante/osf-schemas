@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-OperationsMaterialBill",
-  "version": "1.1.1",
+  "version": "1.1.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Operations Material Bill",
@@ -94,18 +94,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "IN_SCOPE_OF",
-        "targets": [
-          "Area",
-          "Enterprise",
-          "Machine",
-          "Site",
-          "WorkCenter"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "bill_of_materials_ref",
@@ -119,12 +108,7 @@
       "valueType": "ID",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "B2MML BillOfMaterialsID: a bill of materials in the system that owns it (PLM or ERP), outside the model.",
-        "external": {
-          "system": "PLM or ERP",
-          "object": "bill of materials",
-          "key": "BillOfMaterialsID"
-        }
+        "reason": "The BOM lives in PLM / ERP: kept as its id there; no profile of ours holds that BOM."
       }
     },
     {
@@ -139,10 +123,7 @@
       "valueType": "ID",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "Kept as a value: an engineering change is an extension object with no edge into the ISA-95 catalogue.",
-        "targets": [
-          "EngineeringChange"
-        ]
+        "reason": "Kept as a value: an engineering change is an extension object with no edge into the ISA-95 catalogue."
       }
     }
   ],

@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-ChangeRequest",
-  "version": "2.0.1",
+  "version": "2.0.0",
   "standard": "CarToUNS",
   "category": "intelligence",
   "displayName": "Change Request",
@@ -21,15 +21,7 @@
       "valueType": "ID",
       "dataType": "String",
       "category": "Reference",
-      "description": "The Discrepancy this change-request answers — the divergence that motivated challenging the band/aim. The reference lives in this key (no ISA-95 edge, owner 25.09.).",
-      "refStatus": {
-        "kind": "refOnly",
-        "reason": "The change request answers this discrepancy; the reference lives in this key (intelligence layer, no ISA-95 edge).",
-        "targets": [
-          "ConstraintDiscrepancy",
-          "Discrepancy"
-        ]
-      }
+      "description": "The Discrepancy this change-request answers — the divergence that motivated challenging the band/aim. The reference lives in this key (no ISA-95 edge, owner 25.09.)."
     },
     {
       "name": "machine_id",
@@ -156,12 +148,7 @@
       "description": "Hash-chain ref (vault-hashchain) for the change-request events — same Ed25519 chain as the Discrepancy lifecycle and ResolutionProposal events.",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "An entry of the vault's hash chain (outside the model).",
-        "external": {
-          "system": "vault-hashchain",
-          "object": "event",
-          "key": "hash"
-        }
+        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
       }
     }
   ],

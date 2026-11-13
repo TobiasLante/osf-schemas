@@ -1,9 +1,9 @@
 {
   "_note": "The version of the standard in this tree (KONZEPT-EIN-GUSS §5). A standard release is tagged standard/<version>; W8-RENAME (ISA-95 edge names, aliases) makes it a major: 2.0.0. Core 3.0.0 (F3, F7, F11, MaterialItem: breaking, no transition) makes it a major again: 4.0.0. Core 3.1.0 (WorkMaster, WorkResponse, JobResponse, PersonnelClass, Person, OperationsEvent, WorkRecord, WorkRecordSpecification; TestSpecification, OperationsCapability; JobOrder.work_master_ref: additive) makes it a minor: 4.1.0. Core 3.2.0 (audit clean-up, owner 08.10.2026: every property mapped to ISA-95 or declared outside, setpoints transactional on_change, SMProfile-Machine declares element_id, source_quality on SegmentResponse, quality facet only on readings, the hub by connectionRef) makes it a minor: 4.2.0. Core 4.0.0 (from core 3.2.0 = standard 4.2.0; 0.3.5: the stream split telemetry / transactional, own keys for segment requirement / segment response / operations response / shift window, deprecated = error, ISA-95 Parts 1, 2, 4, 5 complete: breaking) makes it a major: 5.0.0. Core 4.1.0 (from core 4.0.0 = standard 5.0.0; 0.5.2: ISA-88 as MESA BatchML 0701 proves it — 14 profiles under profiles/batch/, grammar 4.4.0 with the isa88 block and catalogue: additive, no existing profile, key or edge changed) makes it a minor: 5.1.0. Core 5.0.0 (from core 4.1.0 = standard 5.1.0; 0.6.0, owner 12.10.2026: SMProfile-CustomerOrder status in the B2MML RequestState vocabulary: breaking) makes it a major: 6.0.0. Core 5.0.2 (from core 5.0.1 = standard 6.0.0; 0.6.6, owner 14.10.2026, the UNS audit of our own core: T1 valueTypes of WorkCalendarEntry, T5 the grain of every class that shares its ISA-95 object: additive, no key, edge or property removed or changed) makes it a minor: 6.1.0. Core 5.0.3 = core 5.0.2 whose standard.json keeps the move record of core 5.0.0 as 5.0.1 carried it (_breakingNote, breaking): 5.0.2 had removed it, and a removed key is classified breaking (the .99 dry run 5.0.1 → 5.0.2, 14.10.); same profiles, same standard 6.1.0. Left for core 6.0.0: E1 (WorkCenter PART_OF Area, the equipment model D1) and the T5 key findings (the equipment levels share element_id, the one Equipment ID of ISA-95 Part 2 — a key of their own would be breaking; BACKLOG-0660 B18). Core 5.0.4 (from core 5.0.3 = standard 6.1.0; 0.6.6, owner 16.10.2026 via opt-cc, variant (a) \"honest and loud\": the rule customer_order_overdue on SMProfile-CustomerOrder 4.1.0 — one new constraint, no key, edge or property removed or changed: additive) makes it a minor: 6.2.0. Core 5.0.5 (from core 5.0.4 = standard 6.2.0; 0.6.6-g, owner 22.10.2026: every profile property reaches the hub, what is no profile property stays on the edge): the 59 properties of SMProfile-InjectionMoldingMachine 3.1.0 (31) and SMProfile-CNC-Machine 3.1.0 (28) that were scope edge are scope hub; nothing else changed. scope edge → hub is additive (owner 22.10.2026: no reader loses a value; hub → edge stays breaking) — a minor: 6.3.0. It needs grammar 4.10.0, which no longer ties promotion raw to scope edge on a machine. Core 6.0.0 (0.7.0, owner 28./29.10.2026: close the ISA-95 gaps of the audit AUDIT-ISA95-2018 — H1 discrete machines at WorkCell in a ProductionLine, H3 every attribute on a B2MML field with a code list speaks that list) makes it a major: 7.0.0. Core 6.1.0 (from core 6.0.0 = standard 7.0.0; 0.7.1, owner 10.11.2026: the machine limit is no recipe — a profile rule protects the machine with its own limits, capability:<param> per machine in its settings and the class default in the profile; a recipe narrows the band for one product on a machine class; recipes bind to the machine's equipment class (equipment_class_ref) and a machine may have a default recipe) makes it a minor: 7.1.0.",
   "_breakingNote": "The move record of this core (0.7.0; the move from core 5.0.x = standard 6.x to core 6.0.0 = standard 7.0.0): every breaking change by name, read by Versions (\"Breaking changes:\") and the move draft; a source keeps its own words and maps them with valueMap.",
-  "_additiveNote": "What core 6.2.0 adds over core 6.1.0, by name, first (core 6.1.0's additions over 6.0.0 and core 6.0.0's over 5.0.5 follow).",
-  "version": "7.2.0",
-  "grammar": "4.13.0",
+  "_additiveNote": "What core 6.1.0 adds over core 6.0.0, by name (core 6.0.0's additions over core 5.0.5 follow).",
+  "version": "7.1.0",
+  "grammar": "4.12.0",
   "breaking": [
     {
       "id": "machines-work-cell",
@@ -225,92 +225,8 @@
   ],
   "additive": [
     {
-      "id": "equipment-classes-static",
-      "text": "Pools and machine groups as a fixed list (K8, owner 12.11.2026 \"unbedingt a\"): a static source (grammar 4.13.0: records in the source) of SMProfile-EquipmentClass, the groups PART_OF their pool; the reference plant reads the pools no longer from the sim (sites/werk1/sources/static/model-equipment-classes.json). Additive.",
-      "profiles": [
-        "SMProfile-EquipmentClass"
-      ]
-    },
-    {
-      "id": "material-capability-stock",
-      "text": "Stock as its own record (M-34, owner 13.11.2026): SMProfile-OperationsCapability gains quantity, quantity_unit and storage_location (B2MML MaterialCapability) — one record per article × storage location × capability type (Total, Committed, Unattainable, Available). The article's stock_free/_reserved/_blocked/_available stay unchanged until the plants feed the new record: they are deprecated in a later core (a deprecated field a plant maps is an error, and every plant of core 6.1.0 maps them — deprecating them here would block its move). The reference plant reads the new record from sim-v5-stock-capability. Additive.",
-      "profiles": [
-        "SMProfile-OperationsCapability"
-      ]
-    },
-    {
-      "id": "job-order-dispatch-state",
-      "text": "An open job order is Ready when its preconditions are met, Waiting otherwise (M-15, owner 13.11.2026; B2MML JobOrderDispatchStatus, OPC 10031-4 Tab. 42): a column mapping may carry valueMapWhen (grammar 4.13.0); SMProfile-JobOrder gains status_source (the source's own word). Additive.",
-      "profiles": [
-        "SMProfile-JobOrder"
-      ]
-    },
-    {
-      "id": "job-order-segment-requirement",
-      "text": "A job order names its segment requirement (M-12, owner 13.11.2026): JobOrder FOR_SEGMENT_REQUIREMENT → SegmentRequirement is drawn by the reference plant (B2MML JobOrder.SegmentRequirementID). Additive.",
-      "profiles": [
-        "SMProfile-JobOrder"
-      ]
-    },
-    {
-      "id": "indexed-attributes",
-      "text": "An attribute measured several times per machine says so (K6, audit core610 3.7): indexed: true (grammar 4.13.0); SMProfile-InjectionMoldingMachine 5.2.0 declares its cavity signals indexed; the index comes from the address, never from the place in a file. Additive.",
-      "profiles": [
-        "SMProfile-InjectionMoldingMachine"
-      ]
-    },
-    {
-      "id": "inspection-lot-material-refs",
-      "text": "An inspection lot names the lot or sublot it tested (K21): the reference plant's QMS source maps material_lot_ref and quant_ref (TESTS MaterialLot / Quant). Additive.",
-      "profiles": [
-        "SMProfile-InspectionLot"
-      ]
-    },
-    {
-      "id": "specializations-declared",
-      "text": "Pairs on one ISA-95 object become declared specializations (model question 4, owner 13.11.2026): SMProfile-ShiftWindow parentType WorkCalendarDefinitionEntry, SMProfile-InspectionLot parentType TestResult (their inherited edges declared once); InspectionLot.state loses its single-value enum. Additive.",
-      "profiles": [
-        "SMProfile-ShiftWindow",
-        "SMProfile-InspectionLot"
-      ]
-    },
-    {
-      "id": "product-definition-retired",
-      "text": "SMProfile-ProductDefinition is retired (model question 4a, owner 13.11.2026): ISA-95 2013 / B2MML 0701 know only OperationsDefinition; it had no source, no edge and no data. Its payload is no longer generated. Additive (a tombstone).",
-      "profiles": [
-        "SMProfile-ProductDefinition"
-      ]
-    },
-    {
-      "id": "cnc-operator-shift-deprecated",
-      "text": "The CNC's Act_Ref_Operator and Act_Ref_Shift are to be replaced (M-28, owner 13.11.2026): who worked is SegmentResponse.person_ref (B2MML PersonnelActual), the shift is the work calendar (ShiftWindow). Not deprecated in 6.2.0: a deprecated field a plant maps is an error, and a CNC discovered over OPC UA may expose and map them — the deprecation follows in a later core. Additive.",
-      "profiles": [
-        "SMProfile-CNC-Machine"
-      ]
-    },
-    {
-      "id": "batch-catalogue",
-      "text": "The 14 BatchML / ISA-88 classes are marked catalog (M-37, owner 13.11.2026: kept for plants with batch processes; the reference plant has none) and their equipment edges reach every level of the hierarchy (Enterprise … WorkCenter … Machine), as BatchML names equipment of any level. Additive.",
-      "profiles": [
-        "SMProfile-BatchChange",
-        "SMProfile-BatchComment",
-        "SMProfile-BatchEvent",
-        "SMProfile-BatchList",
-        "SMProfile-BatchListEntry",
-        "SMProfile-BatchProductionRecord",
-        "SMProfile-ControlRecipe",
-        "SMProfile-EquipmentConnection",
-        "SMProfile-EquipmentProceduralElement",
-        "SMProfile-EquipmentProceduralElementClass",
-        "SMProfile-GRecipe",
-        "SMProfile-MasterRecipe",
-        "SMProfile-ProcessElement",
-        "SMProfile-RecipeElement"
-      ]
-    },
-    {
       "id": "machine-capability",
-      "text": "Machine limits and recipes apart (owner 10.11.2026: \"constraint: 0 to 100 bar or the machine breaks; recipe: 20 to 25 bar for this product on this machine\"): SMProfile-InjectionMoldingMachine 5.1.0 guards every process value with a limit rule on capability:<param> (barrel zones, hot runner, melt, mould, injection speed, back pressure, cooling flow, peak pressure, dryer) whose class default is core 6.0.0's class limit where it had one (hot runner 180–310 °C, mould 15–120 °C, dryer 60–130 °C) barrel zones 50–320 °C (the sim's limit) and otherwise the old settings envelope; peak pressure 0–2200 bar (derived: the widest real machine maximum, sgm-22 — the old 0–1000 bar contradicted 54 product recipes); a machine's settings carry its own capability:* limit only where its data differs from the class (cooling flow, injection speed; peak pressure of sgm-21 and sgm-22 from the sim machine master) and its equipment class (equipment_class_ref, the machine group SGM-1300 / SGM-2500 / SGM-4000 / SGM-SMALL). recipe:* comes only from a recipe; a recipe binds to the profile or to an equipment class (match.equipmentClass) and may name one machine (match.machine) — the 76 article recipes bind to the profile: the plant runs every article on every machine of POOL-SGM (owner 10.11.2026) — sgm-004, sgm-005 and sgm-006 keep their narrow bands as their default recipe; an article recipe wins over it. No key, edge or property removed; the class settings[] name the capability limits. Additive.",
+      "text": "Machine limits and recipes apart (owner 10.11.2026: \"constraint: 0 to 100 bar or the machine breaks; recipe: 20 to 25 bar for this product on this machine\"): SMProfile-InjectionMoldingMachine 5.1.0 guards every process value with a limit rule on capability:<param> (barrel zones, hot runner, melt, mould, injection speed, back pressure, cooling flow, peak pressure, dryer) whose class default is core 6.0.0's class limit where it had one (hot runner 180–310 °C, mould 15–120 °C, dryer 60–130 °C) barrel zones 50–320 °C (the sim's limit) and otherwise the old settings envelope; peak pressure 0–2200 bar (derived: the widest real machine maximum, sgm-22 — the old 0–1000 bar contradicted 54 product recipes); a machine's settings carry its own capability:* limit only where its data differs from the class (cooling flow, injection speed; peak pressure of sgm-21 and sgm-22 from the sim machine master) and its equipment class (equipment_class_ref, the machine group SGM-1300 / SGM-2500 / SGM-4000 / SGM-SMALL). recipe:* comes only from a recipe; a recipe binds to the profile or to an equipment class (match.equipmentClass) and may name one machine (match.machine) — the 75 article recipes bind to the profile: the plant runs every article on every machine of POOL-SGM (owner 10.11.2026) — sgm-004, sgm-005 and sgm-006 keep their narrow bands as their default recipe; an article recipe wins over it. No key, edge or property removed; the class settings[] name the capability limits. Additive.",
       "profiles": [
         "SMProfile-InjectionMoldingMachine"
       ]
@@ -431,18 +347,6 @@
       "profiles": [
         "SMProfile-InspectionLot"
       ]
-    },
-    {
-      "id": "reference-targets",
-      "text": "Reference targets (owner 11.11.2026 \"beides ja\", 0.7.2 K13, grammar 4.13.0): a reference is a property named *_ref or named like another node's key, and its refStatus says WHERE it points — targets (contract node names; \"*\" with targetBy for a polymorphic one), or external {system, object, key}, the relationship that carries it and its direction. All 405 references of the core carry it (lint-ref-targets, mandatory from standard 7.2.0); the keys of the targets are derived in contract.json refTargets, never written at the property. 19 properties that are no references (revisions, versions, *_profile) left category Link. Additive: no property, key or edge changed."
-    },
-    {
-      "id": "business-number-units",
-      "text": "Units for the business numbers that carried theirs only in the name (model audit M-27, core 6.2.0 K4b): labor_min, machine_min, setup_min, break_minutes (MIN), cycle_time_actual_sec, cycle_time_planned_sec (SEC), lead_time_days (DAY; the grammar's UNECE list learnt DAY). Their open-units entries hold until standard 7.2.0. Additive: the values do not change."
-    },
-    {
-      "id": "hierarchy-names",
-      "text": "Display names for the nine hierarchy nodes of the demo plant that had none (model audit M-40): the enterprise, the site, the two areas and the five lines. Additive."
     }
   ]
 }

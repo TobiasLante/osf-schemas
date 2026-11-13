@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-ProductionOrder",
-  "version": "4.0.1",
+  "version": "4.0.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Production Order (manufacturing order / OperationsRequest — PLAN/target)",
@@ -31,10 +31,7 @@
       "valueType": "ID",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "The reference is kept as a value: ISA-95 has no edge for a Level-4 order (owner 25.09.: only ISA-95 edges).",
-        "targets": [
-          "CustomerOrder"
-        ]
+        "reason": "The reference is kept as a value: ISA-95 has no edge for a Level-4 order (owner 25.09.: only ISA-95 edges)."
       }
     },
     {
@@ -49,10 +46,7 @@
       "valueType": "ID",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet.",
-        "targets": [
-          "Article"
-        ]
+        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
       }
     },
     {
@@ -67,10 +61,7 @@
       "valueType": "ID",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "The machine of an order is its SegmentRequirement's EquipmentRequirement — the edge lives there (SMProfile-SegmentRequirement REQUIRES_EQUIPMENT); an edge from here would be a shortcut (retired 25.09.). Kept as a value (Explorer X1, judged core 6.0.0).",
-        "targets": [
-          "Machine"
-        ]
+        "reason": "The machine of an order is its SegmentRequirement's EquipmentRequirement — the edge lives there (SMProfile-SegmentRequirement REQUIRES_EQUIPMENT); an edge from here would be a shortcut (retired 25.09.). Kept as a value (Explorer X1, judged core 6.0.0)."
       }
     },
     {
@@ -85,16 +76,7 @@
       "valueType": "ID",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet.",
-        "targets": [
-          "Area",
-          "CNC_Machine",
-          "Enterprise",
-          "InjectionMoldingMachine",
-          "Machine",
-          "Site",
-          "WorkCenter"
-        ]
+        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
       }
     },
     {
@@ -133,7 +115,6 @@
     {
       "name": "cycle_time_planned_sec",
       "dataType": "Int32",
-      "unit": "SEC",
       "valueType": "SP",
       "required": false,
       "category": "Planning",
@@ -220,20 +201,13 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "FOR_OPERATIONS_DEFINITION",
-        "targets": [
-          "OperationsDefinition"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "operations_definition_version",
       "dataType": "String",
       "required": false,
-      "category": "Core",
+      "category": "Link",
       "description": "The version of the operations definition this order / response ran with, where the source's definition id carries none (a routing number with its own change state). Empty when the id itself names the version.",
       "delivery": "transactional",
       "scope": "hub",
@@ -260,14 +234,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "FOR_OPERATIONS_SEGMENT",
-        "targets": [
-          "OperationsSegment"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "operations_schedule_ref",
@@ -278,14 +245,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "PART_OF",
-        "targets": [
-          "OperationsSchedule"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "segment_response_ref",
@@ -296,14 +256,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "REQUESTS_SEGMENT_RESPONSE",
-        "targets": [
-          "SegmentResponse"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "operations_type",

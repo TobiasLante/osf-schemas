@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-ProcessElement",
-  "version": "1.1.0",
+  "version": "1.0.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Process element",
@@ -110,14 +110,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "FOLLOWS",
-        "targets": [
-          "ProcessElement"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "material_ref",
@@ -128,14 +121,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "USES_MATERIAL",
-        "targets": [
-          "Article"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "materials_type",
@@ -163,14 +149,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "PART_OF",
-        "targets": [
-          "GRecipe"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "parent_process_element_ref",
@@ -181,14 +160,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "PART_OF",
-        "targets": [
-          "ProcessElement"
-        ]
-      }
+      "valueType": "ID"
     }
   ],
   "relationships": [
@@ -251,8 +223,5 @@
     "mappingNote": "Containment is PART_OF on the child with a reference to the parent (BatchML nests the child inside the parent)."
   },
   "kgNodeLabel": "ProcessElement",
-  "kgIdProperty": "process_element_id",
-  "catalog": {
-    "reason": "BatchML 0701 (ISA-88) class for plants with batch processes; the reference plant werk1 manufactures discretely and has no source for it (model question 8, owner 13.11.2026)"
-  }
+  "kgIdProperty": "process_element_id"
 }

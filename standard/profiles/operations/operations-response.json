@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-OperationsResponse",
-  "version": "4.0.1",
+  "version": "4.0.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Operations Response (production actuals / confirmation)",
@@ -28,14 +28,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "RESPONDS_TO",
-        "targets": [
-          "ProductionOrder"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "article_ref",
@@ -49,17 +42,14 @@
       "valueType": "ID",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet.",
-        "targets": [
-          "Article"
-        ]
+        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
       }
     },
     {
       "name": "article_revision",
       "dataType": "String",
       "required": false,
-      "category": "Core",
+      "category": "Link",
       "description": "The revision of the article that was built or used, where the source's article number carries none (a PLM part number with revision A). Empty when the number itself names the revision (at SAP dddd.1).",
       "delivery": "transactional",
       "scope": "hub",
@@ -78,10 +68,7 @@
       "valueType": "ID",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "The machine of a response is its SegmentResponse's EquipmentActual — the edge lives there (SMProfile-SegmentResponse ACTUAL_EQUIPMENT); an edge from here would be a shortcut through SegmentResponse (retired 25.09.). Kept as a value (Explorer X1, judged core 6.0.0).",
-        "targets": [
-          "Machine"
-        ]
+        "reason": "The machine of a response is its SegmentResponse's EquipmentActual — the edge lives there (SMProfile-SegmentResponse ACTUAL_EQUIPMENT); an edge from here would be a shortcut through SegmentResponse (retired 25.09.). Kept as a value (Explorer X1, judged core 6.0.0)."
       }
     },
     {
@@ -98,7 +85,6 @@
     {
       "name": "cycle_time_actual_sec",
       "dataType": "Double",
-      "unit": "SEC",
       "valueType": "PV",
       "required": false,
       "category": "Execution",
@@ -172,20 +158,13 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "FOR_OPERATIONS_DEFINITION",
-        "targets": [
-          "OperationsDefinition"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "operations_definition_version",
       "dataType": "String",
       "required": false,
-      "category": "Core",
+      "category": "Link",
       "description": "The version of the operations definition this order / response ran with, where the source's definition id carries none (a routing number with its own change state). Empty when the id itself names the version.",
       "delivery": "transactional",
       "scope": "hub",
@@ -201,14 +180,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "FOR_OPERATIONS_SEGMENT",
-        "targets": [
-          "OperationsSegment"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "operations_performance_ref",
@@ -219,14 +191,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "PART_OF",
-        "targets": [
-          "OperationsPerformance"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "segment_requirement_ref",
@@ -237,14 +202,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "RESPONDS_TO",
-        "targets": [
-          "SegmentRequirement"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "operations_type",

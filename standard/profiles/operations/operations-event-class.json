@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-OperationsEventClass",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Operations Event Class",
@@ -83,18 +83,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "IN_SCOPE_OF",
-        "targets": [
-          "Area",
-          "Enterprise",
-          "Machine",
-          "Site",
-          "WorkCenter"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "base_operations_event_class_ref",
@@ -105,14 +94,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "INCLUDES_PROPERTIES_OF",
-        "targets": [
-          "OperationsEventClass"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "parent_operations_event_class_ref",
@@ -123,14 +105,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "PART_OF",
-        "targets": [
-          "OperationsEventClass"
-        ]
-      }
+      "valueType": "ID"
     }
   ],
   "relationships": [

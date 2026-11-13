@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-WorkCalendarEntry",
-  "version": "1.1.1",
+  "version": "1.1.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Work Calendar Entry",
@@ -83,18 +83,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "IN_SCOPE_OF",
-        "targets": [
-          "Area",
-          "Enterprise",
-          "Machine",
-          "Site",
-          "WorkCenter"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "work_calendar_ref",
@@ -105,14 +94,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "PART_OF",
-        "targets": [
-          "WorkCalendar"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "parent_work_calendar_entry_ref",
@@ -123,14 +105,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "PART_OF",
-        "targets": [
-          "WorkCalendarEntry"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "work_calendar_definition_entry_ref",
@@ -144,10 +119,7 @@
       "valueType": "ID",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "The reference is kept as a value: the ISA-95 edge catalogue has no edge for it.",
-        "targets": [
-          "WorkCalendarDefinitionEntry"
-        ]
+        "reason": "The reference is kept as a value: the ISA-95 edge catalogue has no edge for it."
       }
     }
   ],

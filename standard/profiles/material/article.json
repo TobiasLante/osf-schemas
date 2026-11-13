@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-Article",
-  "version": "2.5.0",
+  "version": "2.4.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Article (article / part)",
@@ -51,7 +51,6 @@
     {
       "name": "lead_time_days",
       "dataType": "Int32",
-      "unit": "DAY",
       "valueType": "MD",
       "required": false,
       "category": "Planning",
@@ -179,14 +178,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "DEFINED_BY",
-        "targets": [
-          "MaterialClass"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "assembly_type",
@@ -227,14 +219,7 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID",
-      "refStatus": {
-        "kind": "edge",
-        "relationship": "TESTED_BY",
-        "targets": [
-          "TestSpecification"
-        ]
-      }
+      "valueType": "ID"
     },
     {
       "name": "revision",
@@ -270,10 +255,7 @@
       "valueType": "ID",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "A revision names its stem as a value: there is no stem object the ERP delivers, and B2MML MaterialDefinition has no link between revisions.",
-        "targets": [
-          "Article"
-        ]
+        "reason": "A revision names its stem as a value: there is no stem object the ERP delivers, and B2MML MaterialDefinition has no link between revisions."
       }
     },
     {
@@ -321,10 +303,7 @@
       "valueType": "ID",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "Kept as a value: an engineering change is an extension object with no edge into the ISA-95 catalogue.",
-        "targets": [
-          "EngineeringChange"
-        ]
+        "reason": "Kept as a value: an engineering change is an extension object with no edge into the ISA-95 catalogue."
       }
     },
     {
@@ -339,12 +318,7 @@
       "valueType": "ID",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "The part's number in PLM (outside the model, e.g. a Windchill part) — kept as a value.",
-        "external": {
-          "system": "PLM",
-          "object": "part",
-          "key": "number"
-        }
+        "reason": "Kept as a value: the part lives in PLM; no profile of ours holds it."
       }
     }
   ],

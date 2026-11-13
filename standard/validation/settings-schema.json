@@ -1,0 +1,59 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://osf-schemas/next/validation/settings-schema.json",
+  "title": "OSF machine settings — sites/<site>/settings/<instance>.settings.json",
+  "description": "Setting bands of ONE machine instance, independent of any recipe (owner 24.09.2026). The class (profile settings[]) declares which settings exist; this file holds the values of one instance. Owner Maintenance. lint-settings checks it against the plant tree and the class.",
+  "type": "object",
+  "required": [
+    "settingsId",
+    "instanceRef",
+    "class",
+    "version",
+    "owner",
+    "values"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "settingsId": {
+      "type": "string",
+      "pattern": "^SETTINGS-[A-Za-z0-9-]+$"
+    },
+    "instanceRef": {
+      "type": "string",
+      "minLength": 1,
+      "description": "id of a Unit in the plant tree"
+    },
+    "class": {
+      "type": "string",
+      "pattern": "^SMProfile-",
+      "description": "must equal the class of that instance"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 1
+    },
+    "displayName": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "values": {
+      "type": "object",
+      "description": "ref -> [lo, hi] or { warn, action }; every ref is declared in the class settings[]"
+    },
+    "toleranceSource": {
+      "type": "object"
+    },
+    "capability": {
+      "type": "object"
+    },
+    "parameters": {
+      "type": "array"
+    }
+  }
+}
