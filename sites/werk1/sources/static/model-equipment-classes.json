@@ -13,7 +13,7 @@
   "transport": [
     "nats"
   ],
-  "description": "The pools and the machine groups of werk1 as a fixed list in the model (core 6.2.0 K8, owner 12.11.2026 \"unbedingt a\"): the 13 pools with the names sim-v5 /pools gives them, the SGM machine groups (equipmentClass of sim-v5 /api/machines) PART_OF POOL-SGM, named by their id (the sim names them no other way). Read by opt-c5 on 13.11.2026 from sim-v5 PROD. The pools are no longer read from the sim (formerly the REST source erp-machine-pools): tools/check-pools-vs-sim.mjs compares this list with the sim, read only. Pool membership of a machine is not here: a machine is DEFINED_BY its class through its settings (equipment_class_ref).",
+  "description": "The pools and machine groups of werk1 as a fixed list in the model (core 6.2.0 K8). Full text: docs/history/sites/werk1/sources/static/model-equipment-classes.md, description.",
   "response": {
     "format": "json",
     "rootPath": "$",
