@@ -74,7 +74,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "DERIVED_FROM",
+        "targets": [
+          "GRecipe"
+        ]
+      }
     },
     {
       "name": "article_ref",
@@ -85,7 +92,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "FOR_PRODUCT",
+        "targets": [
+          "Article"
+        ]
+      }
     },
     {
       "name": "product_name",
@@ -140,7 +154,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "CONSUMES",
+        "targets": [
+          "Article"
+        ]
+      }
     },
     {
       "name": "output_material_ref",
@@ -151,7 +172,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "PRODUCES",
+        "targets": [
+          "Article"
+        ]
+      }
     },
     {
       "name": "intermediate_material_ref",
@@ -162,7 +190,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "INTERMEDIATE",
+        "targets": [
+          "Article"
+        ]
+      }
     }
   ],
   "relationships": [

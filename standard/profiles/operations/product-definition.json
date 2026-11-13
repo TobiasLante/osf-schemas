@@ -64,7 +64,10 @@
       "valueType": "ID",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
+        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet.",
+        "targets": [
+          "Article"
+        ]
       }
     },
     {
@@ -79,7 +82,10 @@
       "valueType": "ID",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
+        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet.",
+        "targets": [
+          "EquipmentClass"
+        ]
       }
     },
     {
@@ -94,7 +100,10 @@
       "valueType": "ID",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
+        "reason": "The setup/mould binding axis of the retired product definition (core 6.2.0 4a) — kept as a value.",
+        "targets": [
+          "Mould"
+        ]
       }
     },
     {
@@ -214,23 +223,22 @@
       "valueType": "ID",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "Kept as a value: B2MML ParameterSpecification has no link to a test criterion (the criterion names the parameter, EvaluatedPropertyID)."
+        "reason": "The test specification criterion the band comes from — kept as a value (product definition retired, core 6.2.0 4a).",
+        "targets": [
+          "TestSpecificationCriterion"
+        ]
       }
     },
     {
       "name": "source_revision",
       "dataType": "String",
       "required": false,
-      "category": "Link",
+      "category": "Provenance",
       "description": "The revision of the drawing or document that set the band. Empty until a real source names it — never invented.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "MD",
-      "refStatus": {
-        "kind": "refOnly",
-        "reason": "Kept as a value: the revision is the version of the test specification the criterion belongs to; B2MML ParameterSpecification has no field for it."
-      }
+      "valueType": "MD"
     }
   ],
   "relationships": [],

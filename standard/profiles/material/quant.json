@@ -31,7 +31,10 @@
       "valueType": "ID",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "B2MML 0701 MaterialSubLot carries no MaterialDefinitionID: the article is the lot's (Quant PART_OF MaterialLot, MaterialLot DEFINED_BY MaterialDefinition). Kept as a value (core 6.2.0 K11)."
+        "reason": "B2MML 0701 MaterialSubLot carries no MaterialDefinitionID: the article is the lot's (Quant PART_OF MaterialLot, MaterialLot DEFINED_BY MaterialDefinition). Kept as a value (core 6.2.0 K11).",
+        "targets": [
+          "Article"
+        ]
       }
     },
     {
@@ -109,7 +112,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "ASSEMBLED_FROM",
+        "targets": [
+          "MaterialLot"
+        ]
+      }
     },
     {
       "name": "assembled_from_quant_ref",
@@ -120,7 +130,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "ASSEMBLED_FROM",
+        "targets": [
+          "Quant"
+        ]
+      }
     },
     {
       "name": "parent_quant_ref",
@@ -131,7 +148,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "PART_OF",
+        "targets": [
+          "Quant"
+        ]
+      }
     },
     {
       "name": "test_specification_ref",
@@ -142,7 +166,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "TESTED_BY",
+        "targets": [
+          "TestSpecification"
+        ]
+      }
     }
   ],
   "relationships": [

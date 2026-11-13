@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-PhysicalAssetClass",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "standard": "CarToUNS",
   "category": "equipment",
   "displayName": "Physical Asset Class",
@@ -94,7 +94,18 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "IN_SCOPE_OF",
+        "targets": [
+          "Area",
+          "Enterprise",
+          "Machine",
+          "Site",
+          "WorkCenter"
+        ]
+      }
     },
     {
       "name": "base_physical_asset_class_ref",
@@ -105,7 +116,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "INCLUDES_PROPERTIES_OF",
+        "targets": [
+          "PhysicalAssetClass"
+        ]
+      }
     },
     {
       "name": "parent_physical_asset_class_ref",
@@ -116,7 +134,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "PART_OF",
+        "targets": [
+          "PhysicalAssetClass"
+        ]
+      }
     },
     {
       "name": "test_specification_ref",
@@ -127,7 +152,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "TESTED_BY",
+        "targets": [
+          "TestSpecification"
+        ]
+      }
     }
   ],
   "relationships": [

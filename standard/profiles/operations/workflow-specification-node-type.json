@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-WorkflowSpecificationNodeType",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Workflow Specification Node Type",
@@ -83,7 +83,18 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "IN_SCOPE_OF",
+        "targets": [
+          "Area",
+          "Enterprise",
+          "Machine",
+          "Site",
+          "WorkCenter"
+        ]
+      }
     },
     {
       "name": "base_workflow_specification_node_type_ref",
@@ -94,7 +105,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "INCLUDES_PROPERTIES_OF",
+        "targets": [
+          "WorkflowSpecificationNodeType"
+        ]
+      }
     }
   ],
   "relationships": [

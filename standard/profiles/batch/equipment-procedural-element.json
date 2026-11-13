@@ -57,7 +57,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "DEFINED_BY",
+        "targets": [
+          "EquipmentProceduralElementClass"
+        ]
+      }
     },
     {
       "name": "machine_ref",
@@ -68,7 +75,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "PART_OF",
+        "targets": [
+          "Machine"
+        ]
+      }
     },
     {
       "name": "equipment_class_ref",
@@ -79,7 +93,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "PART_OF",
+        "targets": [
+          "EquipmentClass"
+        ]
+      }
     }
   ],
   "relationships": [

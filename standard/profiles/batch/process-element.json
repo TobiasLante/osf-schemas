@@ -110,7 +110,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "FOLLOWS",
+        "targets": [
+          "ProcessElement"
+        ]
+      }
     },
     {
       "name": "material_ref",
@@ -121,7 +128,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "USES_MATERIAL",
+        "targets": [
+          "Article"
+        ]
+      }
     },
     {
       "name": "materials_type",
@@ -149,7 +163,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "PART_OF",
+        "targets": [
+          "GRecipe"
+        ]
+      }
     },
     {
       "name": "parent_process_element_ref",
@@ -160,7 +181,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "PART_OF",
+        "targets": [
+          "ProcessElement"
+        ]
+      }
     }
   ],
   "relationships": [

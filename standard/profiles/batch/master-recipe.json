@@ -61,7 +61,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "FOR_PRODUCT",
+        "targets": [
+          "Article"
+        ]
+      }
     },
     {
       "name": "product_name",

@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-OperationsDefinition",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Operations Definition (routing master data / master)",
@@ -64,7 +64,10 @@
       "valueType": "ID",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
+        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet.",
+        "targets": [
+          "Article"
+        ]
       }
     },
     {
@@ -79,7 +82,10 @@
       "valueType": "ID",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
+        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet.",
+        "targets": [
+          "ProductDefinition"
+        ]
       }
     },
     {
@@ -91,7 +97,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "HAS_MATERIAL_BILL",
+        "targets": [
+          "OperationsMaterialBill"
+        ]
+      }
     },
     {
       "name": "operations_type",
@@ -122,7 +135,12 @@
       "valueType": "ID",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "The BOM lives in PLM / ERP: kept as its id there; no profile of ours holds that BOM."
+        "reason": "B2MML BillOfMaterialsID: a bill of materials in the system that owns it (PLM or ERP), outside the model.",
+        "external": {
+          "system": "PLM or ERP",
+          "object": "bill of materials",
+          "key": "BillOfMaterialsID"
+        }
       }
     },
     {
@@ -170,7 +188,10 @@
       "valueType": "ID",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "Kept as a value: an engineering change is an extension object with no edge into the ISA-95 catalogue."
+        "reason": "Kept as a value: an engineering change is an extension object with no edge into the ISA-95 catalogue.",
+        "targets": [
+          "EngineeringChange"
+        ]
       }
     }
   ],

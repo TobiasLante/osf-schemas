@@ -94,7 +94,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "PART_OF",
+        "targets": [
+          "WorkCalendarDefinition"
+        ]
+      }
     },
     {
       "name": "parent_shift_window_ref",
@@ -105,7 +112,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "PART_OF",
+        "targets": [
+          "ShiftWindow"
+        ]
+      }
     }
   ],
   "isa95": {
