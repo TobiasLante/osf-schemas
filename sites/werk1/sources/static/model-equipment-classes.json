@@ -1,0 +1,122 @@
+{
+  "sourceId": "model-equipment-classes",
+  "version": "1.0.0",
+  "sourceType": "static",
+  "functionalLevel": 4,
+  "syncType": "polling",
+  "profileRef": "SMProfile-EquipmentClass",
+  "instanceRef": "werk1",
+  "location": {
+    "enterprise": "factory",
+    "site": "werk1"
+  },
+  "transport": [
+    "nats"
+  ],
+  "description": "The pools and the machine groups of werk1 as a fixed list in the model (core 6.2.0 K8, owner 12.11.2026 \"unbedingt a\"): the 13 pools with the names sim-v5 /pools gives them, the SGM machine groups (equipmentClass of sim-v5 /api/machines) PART_OF POOL-SGM, named by their id (the sim names them no other way). Read by opt-c5 on 13.11.2026 from sim-v5 PROD. The pools are no longer read from the sim (formerly the REST source erp-machine-pools): tools/check-pools-vs-sim.mjs compares this list with the sim, read only. Pool membership of a machine is not here: a machine is DEFINED_BY its class through its settings (equipment_class_ref).",
+  "response": {
+    "format": "json",
+    "rootPath": "$",
+    "idProperty": "equipment_class_id"
+  },
+  "polling": {
+    "changeDetection": "full_refresh",
+    "intervalMs": 3600000
+  },
+  "records": [
+    {
+      "equipment_class_id": "POOL-ASSEMBLY_LINE",
+      "name": "assembly-line pool (8 machines)"
+    },
+    {
+      "equipment_class_id": "POOL-ASSEMBLY_STATION",
+      "name": "Montagestationen"
+    },
+    {
+      "equipment_class_id": "POOL-CNC",
+      "name": "CNC-Maschinen"
+    },
+    {
+      "equipment_class_id": "POOL-FREMDBEARBEITUNG",
+      "name": "Fremdbearbeitung"
+    },
+    {
+      "equipment_class_id": "POOL-HMI",
+      "name": "hmi pool (2 machines)"
+    },
+    {
+      "equipment_class_id": "POOL-MOBILE_COBOT",
+      "name": "Mobile Cobots"
+    },
+    {
+      "equipment_class_id": "POOL-PRESS",
+      "name": "Presse"
+    },
+    {
+      "equipment_class_id": "POOL-PRUEFFELD",
+      "name": "Prüffeld"
+    },
+    {
+      "equipment_class_id": "POOL-QMS_INSPECTOR",
+      "name": "qms-inspector pool (3 machines)"
+    },
+    {
+      "equipment_class_id": "POOL-SGM",
+      "name": "sgm pool (22 machines)"
+    },
+    {
+      "equipment_class_id": "POOL-TMS",
+      "name": "Transport / TMS"
+    },
+    {
+      "equipment_class_id": "POOL-VORMONTAGE",
+      "name": "Vormontage"
+    },
+    {
+      "equipment_class_id": "POOL-WMS_ROBOT",
+      "name": "wms-robot pool (1 machines)"
+    },
+    {
+      "equipment_class_id": "SGM-1300",
+      "name": "SGM-1300",
+      "parent": "POOL-SGM"
+    },
+    {
+      "equipment_class_id": "SGM-2500",
+      "name": "SGM-2500",
+      "parent": "POOL-SGM"
+    },
+    {
+      "equipment_class_id": "SGM-4000",
+      "name": "SGM-4000",
+      "parent": "POOL-SGM"
+    },
+    {
+      "equipment_class_id": "SGM-SMALL",
+      "name": "SGM-SMALL",
+      "parent": "POOL-SGM"
+    }
+  ],
+  "columnMappings": [
+    {
+      "column": "equipment_class_id",
+      "smAttribute": "equipment_class_id",
+      "isId": true
+    },
+    {
+      "column": "name",
+      "smAttribute": "name"
+    },
+    {
+      "column": "parent",
+      "smAttribute": "parent_equipment_class_ref"
+    }
+  ],
+  "edges": [
+    {
+      "type": "PART_OF",
+      "fkColumn": "parent",
+      "targetIdProp": "equipment_class_id"
+    }
+  ]
+}
