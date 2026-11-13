@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-BatchProductionRecord",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Batch record",
@@ -267,6 +267,30 @@
       "description": "The equipment the record is for."
     },
     {
+      "type": "FOR_EQUIPMENT",
+      "target": "Enterprise",
+      "targetIdProp": "element_id",
+      "description": "The equipment the record is for — BatchML: any level of the equipment hierarchy (here Enterprise; model question 8)."
+    },
+    {
+      "type": "FOR_EQUIPMENT",
+      "target": "Site",
+      "targetIdProp": "element_id",
+      "description": "The equipment the record is for — BatchML: any level of the equipment hierarchy (here Site; model question 8)."
+    },
+    {
+      "type": "FOR_EQUIPMENT",
+      "target": "Area",
+      "targetIdProp": "element_id",
+      "description": "The equipment the record is for — BatchML: any level of the equipment hierarchy (here Area; model question 8)."
+    },
+    {
+      "type": "FOR_EQUIPMENT",
+      "target": "WorkCenter",
+      "targetIdProp": "element_id",
+      "description": "The equipment the record is for — BatchML: any level of the equipment hierarchy (here WorkCenter; model question 8)."
+    },
+    {
       "type": "FOR_MATERIAL_LOT",
       "target": "MaterialLot",
       "targetIdProp": "material_lot_no",
@@ -334,5 +358,8 @@
     "mappingNote": "Containment is PART_OF on the child with a reference to the parent (BatchML nests the child inside the parent). record_object_profile names the profile of the object in record_object_ref (BatchML carries the object itself). Data sets (process values) are telemetry: never objects, the record reaches them by time range at the historian."
   },
   "kgNodeLabel": "BatchProductionRecord",
-  "kgIdProperty": "batch_production_record_id"
+  "kgIdProperty": "batch_production_record_id",
+  "catalog": {
+    "reason": "BatchML 0701 (ISA-88) class for plants with batch processes; the reference plant werk1 manufactures discretely and has no source for it (model question 8, owner 13.11.2026)"
+  }
 }

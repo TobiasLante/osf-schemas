@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-RecipeElement",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Recipe element",
@@ -198,6 +198,30 @@
       "target": "Machine",
       "targetIdProp": "element_id",
       "description": "The equipment the element runs on (BatchML RecipeElement.ActualEquipmentID)."
+    },
+    {
+      "type": "ACTUAL_EQUIPMENT",
+      "target": "Enterprise",
+      "targetIdProp": "element_id",
+      "description": "The equipment the element runs on (BatchML RecipeElement.ActualEquipmentID) — BatchML: any level of the equipment hierarchy (here Enterprise; model question 8)."
+    },
+    {
+      "type": "ACTUAL_EQUIPMENT",
+      "target": "Site",
+      "targetIdProp": "element_id",
+      "description": "The equipment the element runs on (BatchML RecipeElement.ActualEquipmentID) — BatchML: any level of the equipment hierarchy (here Site; model question 8)."
+    },
+    {
+      "type": "ACTUAL_EQUIPMENT",
+      "target": "Area",
+      "targetIdProp": "element_id",
+      "description": "The equipment the element runs on (BatchML RecipeElement.ActualEquipmentID) — BatchML: any level of the equipment hierarchy (here Area; model question 8)."
+    },
+    {
+      "type": "ACTUAL_EQUIPMENT",
+      "target": "WorkCenter",
+      "targetIdProp": "element_id",
+      "description": "The equipment the element runs on (BatchML RecipeElement.ActualEquipmentID) — BatchML: any level of the equipment hierarchy (here WorkCenter; model question 8)."
     }
   ],
   "constraints": [],
@@ -229,5 +253,8 @@
     "mappingNote": "Containment is PART_OF on the child with a reference to the parent (BatchML nests the child inside the parent)."
   },
   "kgNodeLabel": "RecipeElement",
-  "kgIdProperty": "recipe_element_id"
+  "kgIdProperty": "recipe_element_id",
+  "catalog": {
+    "reason": "BatchML 0701 (ISA-88) class for plants with batch processes; the reference plant werk1 manufactures discretely and has no source for it (model question 8, owner 13.11.2026)"
+  }
 }

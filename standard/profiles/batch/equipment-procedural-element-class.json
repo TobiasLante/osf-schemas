@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-EquipmentProceduralElementClass",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Equipment procedural element class",
@@ -80,6 +80,30 @@
     },
     {
       "type": "PART_OF",
+      "target": "Enterprise",
+      "targetIdProp": "element_id",
+      "description": "The equipment the class is held by — BatchML: any level of the equipment hierarchy (here Enterprise; model question 8)."
+    },
+    {
+      "type": "PART_OF",
+      "target": "Site",
+      "targetIdProp": "element_id",
+      "description": "The equipment the class is held by — BatchML: any level of the equipment hierarchy (here Site; model question 8)."
+    },
+    {
+      "type": "PART_OF",
+      "target": "Area",
+      "targetIdProp": "element_id",
+      "description": "The equipment the class is held by — BatchML: any level of the equipment hierarchy (here Area; model question 8)."
+    },
+    {
+      "type": "PART_OF",
+      "target": "WorkCenter",
+      "targetIdProp": "element_id",
+      "description": "The equipment the class is held by — BatchML: any level of the equipment hierarchy (here WorkCenter; model question 8)."
+    },
+    {
+      "type": "PART_OF",
       "target": "EquipmentClass",
       "targetIdProp": "equipment_class_id",
       "description": "The equipment class the class is held by."
@@ -107,5 +131,8 @@
     "mappingNote": "Containment is PART_OF on the child with a reference to the parent (BatchML nests it in the EquipmentElement)."
   },
   "kgNodeLabel": "EquipmentProceduralElementClass",
-  "kgIdProperty": "equipment_procedural_element_class_id"
+  "kgIdProperty": "equipment_procedural_element_class_id",
+  "catalog": {
+    "reason": "BatchML 0701 (ISA-88) class for plants with batch processes; the reference plant werk1 manufactures discretely and has no source for it (model question 8, owner 13.11.2026)"
+  }
 }

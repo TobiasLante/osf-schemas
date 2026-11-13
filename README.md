@@ -172,6 +172,32 @@ osf-schemas/
 Measured from the tree by `i3x-v5 packages/schemas-ci/osf/gen-docs.mjs` — the same sums `lint-refs` prints (`lint-refs: 99 profiles, 35 sources, 9 sync files`).
 <!-- gen:counts:end -->
 
+## Model notes (core 6.2.0, model questions of 13.11.2026)
+
+**The four orders** — class name (the plant's word) · ISA-95 object · level; the chain runs top to bottom:
+
+| Class | ISA-95 / B2MML object | Level | Linked by |
+|---|---|---|---|
+| CustomerOrder | — (sales order, an extension) | 4 | ProductionOrder.sales_order_ref |
+| ProductionOrder | OperationsRequest (Part 2) | 4 → 3 | — |
+| Workorder | WorkRequest (Part 4) | 3 | FOR_OPERATIONS_REQUEST → ProductionOrder |
+| JobOrder | JobOrder (Part 4), the job of one machine | 3 | PART_OF Workorder · FOR_SEGMENT_REQUIREMENT → SegmentRequirement |
+
+`Workorder` keeps its spelling until core 7.0.0 (the knowledge-graph label); it becomes `WorkOrder` there, with an alias.
+
+**One row, two objects:** a row of the ERP's `/api/operations` is the plan of one operation: it feeds the SegmentRequirement (Part 2, the
+requirement of the order) and the JobOrder (Part 4, the job dispatched to a machine) — same key, joined by FOR_SEGMENT_REQUIREMENT. What was
+done (quantities, personnel, machine and setup minutes) is the SegmentResponse from the confirmations.
+
+**Material and inspection:** a Quant (MaterialSubLot) belongs to its lot through `lot` (B2MML MaterialSubLot.MaterialLotID; the lot is MADE_UP_OF
+its quants); its article is reached through the lot (Quant → MaterialLot → Article; `article_ref` on the quant is a search field). An
+InspectionLot is a TestResult: it TESTS the lot, the quant or the article; the test specification hangs on the tested object (TESTED_BY), not on
+the result. `quant_ref` on a lot names one sublot only (B2MML allows several; no source fills it yet).
+
+**Batch catalogue:** the 14 classes under `profiles/batch/` follow BatchML 0701 (ISA-88). They are kept for plants with batch processes and are
+marked `catalog` (the reference plant manufactures discretely and has no source for them). Their equipment edges reach every level of the
+equipment hierarchy (Enterprise … WorkCenter … Machine), as BatchML names "equipment" of any level.
+
 ## Inheritance
 
 Profiles support `parentType` inheritance. The KG Builder merges parent attributes and relationships into children at load time. Child definitions override parent on name collision.
