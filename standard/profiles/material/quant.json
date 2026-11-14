@@ -286,7 +286,7 @@
       "successor": {
         "profileRef": "SMProfile-Article",
         "constraintId": "stock_below_reorder_level",
-        "rationale": "stock_available (verfuegbar = free minus reserved) vs the article's own reorder_level (mindestbestand). Bounded population (221, populationComplete=true every 30 s), real re-observation (~5.5 articles change per minute), a per-article threshold from the ERP master, and the threshold reaches the wire as a FIELD (constraint_observed.reorder_level). Measured yield 12 of 221 (5.4 %).",
+        "rationale": "stock_available (verfuegbar = free minus reserved) vs the article's own reorder_level (mindestbestand). Bounded population (221, populationComplete=true every 30 s), real re-observation (~5.5 articles change per minute), a per-article threshold from the ERP master, and the threshold reaches the wire as a FIELD (constraint_observed.reorder_level). Measured yield 12 of 221 (5.4 %). Retired in turn on 2026-11-14 (retired:stock_below_reorder_level@2026-11-14): core 6.2.0 moved the article's stock to SMProfile-OperationsCapability quantity.",
         "doNotResurrectAs": "the same band with k=1, or with widened limits - both were measured and both are worse than silence."
       }
     }

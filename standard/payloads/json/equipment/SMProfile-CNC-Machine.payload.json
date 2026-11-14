@@ -2,9 +2,9 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/equipment/SMProfile-CNC-Machine.payload.json",
   "title": "SMProfile-CNC-Machine payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/equipment/cnc-machine.json 5.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: signal (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/equipment/cnc-machine.json 6.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: signal (envelope.schema.json).",
   "x-profileRef": "SMProfile-CNC-Machine",
-  "x-profileVersion": "5.1.0",
+  "x-profileVersion": "6.0.0",
   "x-payloadVersion": "1.1.0",
   "x-streams": {
     "telemetry": "FACTORY_TELEMETRY",
@@ -39,8 +39,6 @@
               "Act_Amount_LifeTimeScrap",
               "Act_State_InCycle",
               "Plan_Time_Cycle",
-              "Act_Ref_Shift",
-              "Act_Ref_Operator",
               "Set_Speed_Spindle",
               "Set_Rate_Feed",
               "Set_Pos_AxisX",
@@ -92,8 +90,6 @@
         "Act_State_InCycle",
         "Plan_Time_Cycle",
         "Act_Energy_Total",
-        "Act_Ref_Shift",
-        "Act_Ref_Operator",
         "Act_Speed_Spindle",
         "Set_Speed_Spindle",
         "Act_Pct_SpindleLoad",
@@ -168,8 +164,6 @@
     "Act_Amount_LifeTimeScrap",
     "Act_State_InCycle",
     "Plan_Time_Cycle",
-    "Act_Ref_Shift",
-    "Act_Ref_Operator",
     "Set_Speed_Spindle",
     "Set_Rate_Feed",
     "Set_Pos_AxisX",
@@ -270,7 +264,7 @@
       "type": "boolean",
       "delivery": "transactional",
       "scope": "hub",
-      "description": "A shift is active on the machine (sim node Machine/typeSpecific/shiftActive). Lifted into SMProfile-Machine in core 6.0.0 (owner 29.10.2026): IMM shiftActive; the CNC's Act_Ref_Shift (the shift id) stays on the CNC."
+      "description": "A shift is active on the machine (sim node Machine/typeSpecific/shiftActive). Lifted into SMProfile-Machine in core 6.0.0 (owner 29.10.2026): IMM shiftActive. The CNC's shift id (Act_Ref_Shift) stayed on the CNC until core 6.2.0: the shift is ShiftWindow.shift_id."
     },
     "Act_Power_Machine": {
       "type": "number",
@@ -323,16 +317,6 @@
       "type": "number",
       "unit": "KWH",
       "delivery": "telemetry",
-      "scope": "hub"
-    },
-    "Act_Ref_Shift": {
-      "type": "integer",
-      "delivery": "transactional",
-      "scope": "hub"
-    },
-    "Act_Ref_Operator": {
-      "type": "string",
-      "delivery": "transactional",
       "scope": "hub"
     },
     "Act_Speed_Spindle": {

@@ -17,3 +17,22 @@ Reorder level / Meldebestand from the ERP article master (mindestbestand). THE T
 ## attributes › safety_stock › description
 
 Safety stock (safety_stock). Carried for completeness and NOT used by a rule: measured 2026-08-30 the smallest margin (stock_available - safety_stock) across the 182 articles with a positive safety stock is 230, and all 12 articles currently below their reorder level have safety_stock = 0, so a 'below safety stock' rule could not fire against this population. Declaring it anyway would add a second error-severity alarm with the wire cut - the defect that retired qty_shortfall and material_unavailable. The number is recorded here instead of being asserted by a dormant guard.
+
+## constraints › stock_below_reorder_level › description
+
+TOMBSTONE - the rule body below is preserved VERBATIM as it ran until 2026-11-14. It is evidence, not configuration; retired:true means it is loaded, never evaluated, and its open episodes are superseded with superseded_by=retirementId (retired:stock_below_reorder_level@2026-11-14). Its operand stock_available left the article in core 6.2.0 (next section). Original description follows. >>> Stock below the reorder level: the article's available-to-promise stock (free minus reserved) has fallen under the reorder level the ERP article master declares FOR THIS ARTICLE. The IT/planning counterpart to the OT machine bands - a materials-planning finding about an article, not about a machine.
+
+## core 6.2.0 (0.7.2, owner 14.11.2026) — the stock leaves the article
+
+Core 6.2.0 first kept stock_free, stock_reserved, stock_blocked and stock_available on the article (M-34, 13.11.2026): the stock had become
+its own record, SMProfile-OperationsCapability quantity per article × storage location × capability type (B2MML MaterialCapability; the
+reference plant's source sim-v5-stock-capability), but "deprecated = error" (owner 07.10.2026, from core 4.0.0) would have refused the move
+of every plant of core 6.1.0, which maps the four. Owner 14.11.2026: "direkt umstellen bitte … wir haben das system noch bei keinem kunden am
+laufen und somit müssen wir es bei umstellungen bitte im moment nicht überkomplizieren" — no deprecation window. The four are removed
+(profile 3.0.0); each is a movedAttributes entry (→ SMProfile-OperationsCapability as quantity, since 6.2.0), so the core move takes their
+mappings out of a plant's article sources and lists where they went (standard.json breaking: article-stock-to-capability). One article
+figure becomes one record per storage location, told apart by capability_type in the core's own words: Total = on hand, Committed =
+reserved (stock_reserved), Unattainable = blocked (stock_blocked), Available = Total − Unattainable − Committed (stock_available). The rule
+stock_below_reorder_level compared stock_available with reorder_level on the same record; with the stock on another record it is retired
+(above), not repaired in place — a comparison across two records is no single-entity constraint of the article. reorder_level and
+safety_stock stay on the article (the thresholds of the ERP article master).
