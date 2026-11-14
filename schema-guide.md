@@ -332,6 +332,8 @@ Shortened from the real `sites/werk1/sources/opcua/opcua-sgm-004-processdata.jso
 
 **`edges`**: `fkColumn` → `targetIdProp`. The builder resolves `targetIdProp` to ALL profile labels sharing that `kgIdProperty` (polymorphic resolution).
 
+**`firstOf`** (UNSaC 0.7.2-d): an out-edge may name alternatives in priority order instead of one key — per record the first alternative whose column is non-empty draws the ONE edge, none ⇒ no edge. For an edge ISA-95 allows once per object, to the most specific object present: the inspection lot (B2MML TestResult.TestableObjectID 0..1) tests the Quant before the material lot before the article — `{ "type": "TESTS", "firstOf": [{ "fkColumn": "quant_ref", "targetIdProp": "quant_no" }, { "fkColumn": "material_lot_ref", "targetIdProp": "material_lot_no" }, { "fkColumn": "article_no", "targetIdProp": "article_no" }] }` (`sites/werk1/sources/rest/sim-v5-qms-inspections.json`).
+
 **`targetIdProp` example:** `"element_id"` resolves to every label whose `kgIdProperty` is `element_id` — see the generated *Common `targetIdProp` Values* table below. Add a new machine type with the same key and every existing edge finds it, no source change needed.
 
 **Environment variables:** `"${HISTORIAN_HOST}"`-style values are replaced at load time from `process.env`.
