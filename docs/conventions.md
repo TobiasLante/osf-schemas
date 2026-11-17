@@ -5,9 +5,9 @@
 
 - the UNS path of every signal (OT: `{enterprise}/{site}/{area}/{line}/{machine}`, IT: `{enterprise}/{site}/{entity}`,
   Level 4 `{enterprise}/{entity}`), built from `sources[].location` — every source carries one;
-- the hub subject per delivery class (OT `factory.{site}.{entity}.{machine}.telemetry.{attr}` on FACTORY_TELEMETRY /
-  `factory.{site}.{entity}.{machine}.event.{attr}` on FACTORY_TRANSACTIONAL; IT `business.{enterprise}.{site}.{entity}.{sourceId}.{eventType}.{id}`
-  on BUSINESS, tenant = the ISA-95 enterprise) — uns-convention 3.0.0 (core 6.0.0 shape, recorded in core 6.2.0);
+- the hub subject per delivery class (OT `{elementId}.{entity}.telemetry.{attr}` on FACTORY_TELEMETRY / `{elementId}.{entity}.event.{attr}` on
+  FACTORY_TRANSACTIONAL — the element's path along the equipment tree, any depth, then the contract; IT
+  `business.{enterprise}.{site}.{entity}.{sourceId}.{eventType}.{id}` on BUSINESS, tenant = the ISA-95 enterprise) — uns-convention 4.0.0 (core 6.3.0);
 - the rule that a route declared in `sites/werk1/sync/` (with `source.sourceRef`) wins over the convention.
 
 Its shape is `i3x-v5 packages/uns-grammar/validation/sync-schema.json` › `definitions.convention`. The i3x-v5 compiler checks it fail-closed:

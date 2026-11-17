@@ -2,9 +2,9 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/material/SMProfile-Article.payload.json",
   "title": "SMProfile-Article payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/material/article.json 2.5.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/material/article.json 3.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-Article",
-  "x-profileVersion": "2.5.0",
+  "x-profileVersion": "3.0.0",
   "x-payloadVersion": "1.1.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
@@ -56,22 +56,6 @@
         "currency": {
           "type": "string",
           "description": "ISO-4217 currency code for cost_hk / price_vk, from ERP waehrung (e.g. EUR)."
-        },
-        "stock_free": {
-          "type": "number",
-          "description": "Free (unblocked) stock of this article across all warehouses (menge_frei). Served by GET /api/articles, which is ARTICLE_WITH_STOCK_AND_PRICE_SQL. This is the article-level figure the WMS Quant rows sum to; a single Quant is one pallet/lot in one bin and is NOT a stock position."
-        },
-        "stock_reserved": {
-          "type": "number",
-          "description": "Quantity already committed to orders (menge_reserviert) — free stock that is spoken for."
-        },
-        "stock_blocked": {
-          "type": "number",
-          "description": "Quantity blocked / on hold (menge_blockiert)."
-        },
-        "stock_available": {
-          "type": "number",
-          "description": "AVAILABLE-TO-PROMISE: free minus reserved (verfuegbar). Full text: docs/history/standard/profiles/material/article.md, attributes › stock_available › description."
         },
         "reorder_level": {
           "type": "number",
@@ -156,10 +140,6 @@
     "cost_hk": "transactional",
     "price_vk": "transactional",
     "currency": "transactional",
-    "stock_free": "transactional",
-    "stock_reserved": "transactional",
-    "stock_blocked": "transactional",
-    "stock_available": "transactional",
     "reorder_level": "transactional",
     "safety_stock": "transactional",
     "material_class_ref": "transactional",

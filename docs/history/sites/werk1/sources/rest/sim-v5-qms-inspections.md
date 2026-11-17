@@ -1,5 +1,15 @@
 # sources/rest/sim-v5-qms-inspections.json — history and reasoning
 
+## version 2.3.0 (core 6.2.0, 14.11.2026, F50 — owner "Spezifischstes Objekt")
+
+**One tested object per inspection lot, the most specific one present.** Version 2.2.0 drew three TESTS edges per lot — to the article
+(`article_no`), the material lot (`material_lot_ref`) and the Quant (`quant_ref`) — while an inspection lot is a B2MML TestResult, whose
+TestableObjectID is 0..1: a test result tests ONE object. The audit's T19 (edge-max-cardinality) warned. Now the source declares ONE TESTS
+edge with `firstOf` (grammar 4.13.0, UNSaC 0.7.2-d): per lot the first alternative whose column is non-empty draws the edge — the Quant
+before the material lot before the article (`quant_ref` → quant_no, `material_lot_ref` → material_lot_no, `article_no` → article_no). A lot
+with a Quant tests the Quant; without one, the material lot; with neither, the article; with none of the three, no TESTS edge. The columns
+stay mapped as before (article_ref, material_lot_ref, quant_ref keep their values on the lot); only the graph edge chooses one object.
+
 ## version 2.2.0 (core 6.2.0, 12.11.2026, K21 + K12 / learning T15)
 
 **The RMA lot names what was delivered.** The sim (api-qms, live on PROD 12.11.2026 via opt-c5) gives every inspection lot `material_lot_ref` and

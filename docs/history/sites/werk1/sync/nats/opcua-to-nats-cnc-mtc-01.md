@@ -10,3 +10,7 @@ Standard OSF OT edge — subscribes the Sonder-Edge OPC-UA server and publishes 
 
 Core 6.0.0 gave the route's subject patterns the `{entity}` token of uns-convention 3.0.0 (`factory.{site}.{entity}.{machine}.telemetry|event.{attr}`)
 and kept version 2.0.0 — 3.0.0 records that change; the content is unchanged here.
+
+## version 4.0.0 (core 6.3.0, 16.11.2026, owner)
+
+The route's subjects follow the equipment tree like the convention's (uns-convention 4.0.0): `{elementId}.{entity}.telemetry|event.{attr}`.
