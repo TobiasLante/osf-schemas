@@ -31,5 +31,5 @@ An OT NATS subject follows the equipment tree (uns-convention 4.0.0, owner 16.11
 partOf from the Enterprise, any depth and level (e.g. `acme.plant1.press-shop.line-1.press-07`) — then the contract, so a subscriber filters per
 element (`<elementId>.>`) or per contract at a depth (`acme.*.*.*.*.<contract>.>`); the IT subjects carry `{site}.{entity}`; the streams stay per delivery.
 
-Keys (`element_id`, `id`, the profile's key attribute) are subject tokens: no `+ # * > /` or space.
+`element_id` is the machine's element id (the codes along partOf, joined with `.` — the element prefix of the subject). Keys (`id`, the profile's key attribute) are subject tokens; no key nor `element_id` carries `+ # * > /` or space.
 Abstract and retired profiles send nothing and have no payload; a category in neither world of the convention has none.
