@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-BatchEvent",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Batch event",
@@ -111,7 +111,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "FOR_EQUIPMENT",
+        "targets": [
+          "Machine"
+        ]
+      }
     },
     {
       "name": "value",
@@ -177,7 +184,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "FOR_PHYSICAL_ASSET",
+        "targets": [
+          "Tooling"
+        ]
+      }
     },
     {
       "name": "procedural_element_reference",
@@ -210,7 +224,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "ASSOCIATED_WITH",
+        "targets": [
+          "BatchEvent"
+        ]
+      }
     },
     {
       "name": "batch_production_record_ref",
@@ -221,7 +242,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "PART_OF",
+        "targets": [
+          "BatchProductionRecord"
+        ]
+      }
     }
   ],
   "relationships": [
@@ -230,6 +258,30 @@
       "target": "Machine",
       "targetIdProp": "element_id",
       "description": "The equipment the event happened on."
+    },
+    {
+      "type": "FOR_EQUIPMENT",
+      "target": "Enterprise",
+      "targetIdProp": "element_id",
+      "description": "The equipment the event happened on — BatchML: any level of the equipment hierarchy (here Enterprise; model question 8)."
+    },
+    {
+      "type": "FOR_EQUIPMENT",
+      "target": "Site",
+      "targetIdProp": "element_id",
+      "description": "The equipment the event happened on — BatchML: any level of the equipment hierarchy (here Site; model question 8)."
+    },
+    {
+      "type": "FOR_EQUIPMENT",
+      "target": "Area",
+      "targetIdProp": "element_id",
+      "description": "The equipment the event happened on — BatchML: any level of the equipment hierarchy (here Area; model question 8)."
+    },
+    {
+      "type": "FOR_EQUIPMENT",
+      "target": "WorkCenter",
+      "targetIdProp": "element_id",
+      "description": "The equipment the event happened on — BatchML: any level of the equipment hierarchy (here WorkCenter; model question 8)."
     },
     {
       "type": "FOR_PHYSICAL_ASSET",
@@ -283,5 +335,8 @@
     "mappingNote": "Containment is PART_OF on the child with a reference to the parent (BatchML nests the entry inside the record)."
   },
   "kgNodeLabel": "BatchEvent",
-  "kgIdProperty": "batch_event_id"
+  "kgIdProperty": "batch_event_id",
+  "catalog": {
+    "reason": "BatchML 0701 (ISA-88) class for plants with batch processes; the reference plant werk1 manufactures discretely and has no source for it (model question 8, owner 13.11.2026)"
+  }
 }

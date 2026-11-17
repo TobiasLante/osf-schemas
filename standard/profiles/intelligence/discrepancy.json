@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-Discrepancy",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "standard": "CarToUNS",
   "category": "intelligence",
   "displayName": "Discrepancy (Abstract Parent)",
@@ -126,7 +126,12 @@
       "description": "Hash-chain ref into the vault (vault-hashchain) for the resolution event",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet."
+        "reason": "An entry of the vault's hash chain (outside the model).",
+        "external": {
+          "system": "vault-hashchain",
+          "object": "event",
+          "key": "hash"
+        }
       }
     }
   ],

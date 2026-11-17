@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-OperationsEvent",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Operations Event (business event at Level 3)",
@@ -100,7 +100,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "FOR_OPERATIONS_DEFINITION",
+        "targets": [
+          "OperationsDefinition"
+        ]
+      }
     },
     {
       "name": "parent_event_ref",
@@ -111,7 +118,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "PART_OF",
+        "targets": [
+          "OperationsEvent"
+        ]
+      }
     },
     {
       "name": "record_object_ref",
@@ -122,13 +136,21 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "RECORDS",
+        "targets": [
+          "*"
+        ],
+        "targetBy": "record_object_profile"
+      }
     },
     {
       "name": "record_object_profile",
       "dataType": "String",
       "required": false,
-      "category": "Link",
+      "category": "Core",
       "description": "The profile (profileId or label) of the object in record_object_ref.",
       "delivery": "transactional",
       "scope": "hub",

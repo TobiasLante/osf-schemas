@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-Person",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Person (pseudonymous)",
@@ -28,7 +28,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "DEFINED_BY",
+        "targets": [
+          "PersonnelClass"
+        ]
+      }
     },
     {
       "name": "storage_location_ref",
@@ -39,7 +46,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "AT_LOCATION",
+        "targets": [
+          "StorageLocation"
+        ]
+      }
     },
     {
       "name": "test_specification_ref",
@@ -50,7 +64,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "TESTED_BY",
+        "targets": [
+          "TestSpecification"
+        ]
+      }
     },
     {
       "name": "spatial_definition",
