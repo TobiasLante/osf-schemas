@@ -8,7 +8,7 @@
     "strategy": "TopicNameStrategy"
   },
   "namespace": "org.openshopfloor.payload.operations",
-  "doc": "GENERATED from standard/profiles/operations/operations-capability.json 2.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "doc": "GENERATED from standard/profiles/operations/operations-capability.json 2.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
   "fields": [
     {
       "name": "eventType",
@@ -52,7 +52,7 @@
     {
       "name": "profileVersion",
       "type": "string",
-      "default": "2.0.0"
+      "default": "2.1.0"
     },
     {
       "name": "b2m",
@@ -132,7 +132,7 @@
               "string"
             ],
             "default": null,
-            "doc": "ISA-95 CapabilityType: Available, Committed or Unattainable."
+            "doc": "ISA-95 CapabilityType (B2MML CapabilityTypeType): Used, Unused, Total, Committed, Available, Unattainable or Other. For material stock: Total = on hand, Committed = reserved, Unattainable = blocked, Available = Total − Unattainable − Committed (M-34)."
           },
           {
             "name": "reason",
@@ -166,6 +166,33 @@
             ],
             "default": null,
             "doc": "End of the window."
+          },
+          {
+            "name": "quantity",
+            "type": [
+              "null",
+              "double"
+            ],
+            "default": null,
+            "doc": "The quantity of this capability (B2MML MaterialCapability.Quantity), e.g. the stock of an article at a storage location (M-34)."
+          },
+          {
+            "name": "quantity_unit",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The unit of quantity as the source names it (B2MML QuantityValueType.UnitOfMeasure); the unit of the article."
+          },
+          {
+            "name": "storage_location",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "Where the capability holds (B2MML MaterialCapability.StorageLocation, a location, not a reference), e.g. the warehouse of the stock."
           },
           {
             "name": "process_segment_ref",
