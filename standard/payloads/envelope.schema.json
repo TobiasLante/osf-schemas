@@ -259,6 +259,11 @@
           "type": "string",
           "description": "kgNodeLabel of the profile."
         },
+        "element_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The most specific element the record names (a column of an equipment edge of its source, looked up in the site's names from git), else its site; the element id is the codes along partOf."
+        },
         "timestamp": {
           "type": "string",
           "format": "date-time"
