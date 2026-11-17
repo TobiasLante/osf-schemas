@@ -1,6 +1,6 @@
 {
  "sourceId": "sim-v5-qms-inspections",
- "version": "2.1.0",
+ "version": "2.2.0",
  "sourceType": "rest",
  "functionalLevel": 4,
  "syncType": "polling",
@@ -10,9 +10,9 @@
  "transport": [
   "nats"
  ],
- "connection": { "baseUrl": "http://192.168.178.154:38261", "path": "/api/qms/inspection-lots", "method": "GET", "auth": null, "timeoutMs": 10000 },
+ "connection": { "baseUrl": "http://192.168.178.154:38261", "path": "/api/qms/inspection-lots?since=P7D", "method": "GET", "auth": null, "timeoutMs": 10000 },
  "response": { "format": "json", "rootPath": "$", "idProperty": "lot_no" },
- "polling": { "changeDetection": "timestamp", "timestampQueryParam": "since", "timestampField": "created_at", "intervalMs": 30000, "batchSize": 200 },
+ "polling": { "changeDetection": "full_refresh", "intervalMs": 300000, "batchSize": 5000, "paginate": true, "paginationMode": "keyset", "paginationOrderKey": "lot_no", "keysetParam": "after_id" },
  "columnMappings": [
   { "column": "lot_no", "smAttribute": "lot_no", "isId": true },
   { "column": "article_no", "smAttribute": "article_ref" },
@@ -24,9 +24,13 @@
   { "column": "machine_no", "smAttribute": "machine_ref" },
   { "column": "lot_quantity", "smAttribute": "quantity" },
   { "column": "sample_size", "smAttribute": "sample_size" },
-  { "column": "created_at", "smAttribute": "created_at" }
+  { "column": "created_at", "smAttribute": "created_at" },
+  { "column": "material_lot_ref", "smAttribute": "material_lot_ref" },
+  { "column": "quant_ref", "smAttribute": "quant_ref" }
  ],
  "edges": [
-  { "type": "TESTS", "fkColumn": "article_no", "targetIdProp": "article_no" }
+  { "type": "TESTS", "fkColumn": "article_no", "targetIdProp": "article_no" },
+  { "type": "TESTS", "fkColumn": "material_lot_ref", "targetIdProp": "material_lot_no" },
+  { "type": "TESTS", "fkColumn": "quant_ref", "targetIdProp": "quant_no" }
  ]
 }

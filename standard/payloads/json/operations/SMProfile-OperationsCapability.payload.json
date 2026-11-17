@@ -2,9 +2,9 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-OperationsCapability.payload.json",
   "title": "SMProfile-OperationsCapability payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/operations/operations-capability.json 2.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/operations/operations-capability.json 2.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-OperationsCapability",
-  "x-profileVersion": "2.0.0",
+  "x-profileVersion": "2.1.0",
   "x-payloadVersion": "1.1.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
@@ -45,7 +45,7 @@
             "Unattainable",
             "Other"
           ],
-          "description": "ISA-95 CapabilityType: Available, Committed or Unattainable."
+          "description": "ISA-95 CapabilityType (B2MML CapabilityTypeType): Used, Unused, Total, Committed, Available, Unattainable or Other. For material stock: Total = on hand, Committed = reserved, Unattainable = blocked, Available = Total − Unattainable − Committed (M-34)."
         },
         "reason": {
           "type": "string",
@@ -60,6 +60,18 @@
           "type": "string",
           "format": "date-time",
           "description": "End of the window."
+        },
+        "quantity": {
+          "type": "number",
+          "description": "The quantity of this capability (B2MML MaterialCapability.Quantity), e.g. the stock of an article at a storage location (M-34)."
+        },
+        "quantity_unit": {
+          "type": "string",
+          "description": "The unit of quantity as the source names it (B2MML QuantityValueType.UnitOfMeasure); the unit of the article."
+        },
+        "storage_location": {
+          "type": "string",
+          "description": "Where the capability holds (B2MML MaterialCapability.StorageLocation, a location, not a reference), e.g. the warehouse of the stock."
         },
         "process_segment_ref": {
           "type": "string",
@@ -122,6 +134,9 @@
     "reason": "transactional",
     "start_time": "transactional",
     "end_time": "transactional",
+    "quantity": "transactional",
+    "quantity_unit": "transactional",
+    "storage_location": "transactional",
     "process_segment_ref": "transactional",
     "operations_segment_ref": "transactional",
     "machine_ref": "transactional",

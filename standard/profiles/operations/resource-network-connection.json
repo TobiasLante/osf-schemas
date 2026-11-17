@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-ResourceNetworkConnection",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Resource Network Connection",
@@ -39,7 +39,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "DEFINED_BY",
+        "targets": [
+          "ResourceNetworkConnectionType"
+        ]
+      }
     },
     {
       "name": "from_resource_ref",
@@ -50,13 +57,21 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "FROM_RESOURCE",
+        "targets": [
+          "*"
+        ],
+        "targetBy": "from_resource_profile"
+      }
     },
     {
       "name": "from_resource_profile",
       "dataType": "String",
       "required": false,
-      "category": "Link",
+      "category": "Core",
       "description": "The profile (profileId or label) of the object in from_resource_ref.",
       "delivery": "transactional",
       "scope": "hub",
@@ -72,7 +87,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "PART_OF",
+        "targets": [
+          "ResourceRelationshipNetwork"
+        ]
+      }
     },
     {
       "name": "to_resource_ref",
@@ -83,13 +105,21 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "TO_RESOURCE",
+        "targets": [
+          "*"
+        ],
+        "targetBy": "to_resource_profile"
+      }
     },
     {
       "name": "to_resource_profile",
       "dataType": "String",
       "required": false,
-      "category": "Link",
+      "category": "Core",
       "description": "The profile (profileId or label) of the object in to_resource_ref.",
       "delivery": "transactional",
       "scope": "hub",

@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-WorkflowSpecificationNode",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Workflow Specification Node",
@@ -39,7 +39,18 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "IN_SCOPE_OF",
+        "targets": [
+          "Area",
+          "Enterprise",
+          "Machine",
+          "Site",
+          "WorkCenter"
+        ]
+      }
     },
     {
       "name": "workflow_specification_node_type_ref",
@@ -50,7 +61,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "DEFINED_BY",
+        "targets": [
+          "WorkflowSpecificationNodeType"
+        ]
+      }
     },
     {
       "name": "work_directive_ref",
@@ -61,7 +79,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "FOR_WORK_DIRECTIVE",
+        "targets": [
+          "WorkDirective"
+        ]
+      }
     },
     {
       "name": "work_master_ref",
@@ -72,7 +97,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "FOR_WORK_MASTER",
+        "targets": [
+          "WorkMaster"
+        ]
+      }
     },
     {
       "name": "workflow_specification_ref",
@@ -83,7 +115,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "HAS_WORKFLOW",
+        "targets": [
+          "WorkflowSpecification"
+        ]
+      }
     },
     {
       "name": "part_of_workflow_specification_ref",
@@ -94,7 +133,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "PART_OF",
+        "targets": [
+          "WorkflowSpecification"
+        ]
+      }
     }
   ],
   "relationships": [
