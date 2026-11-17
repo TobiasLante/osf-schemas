@@ -37,3 +37,10 @@ and kept version 2.0.0 — 3.0.0 records that change; the content is unchanged h
 EDGE_EXPORT sourced cross-domain by a hub stream FACTORY on .150); it now says only what this file declares. The old text, verbatim:
 
 > Two JetStream tiers. EDGE tier: one NATS per Edge-IPC, JetStream domain edge_<ipc>. HUB tier: central NATS on .150, default JetStream domain. The hub does NOT capture factory.*/cpp.*/aggregate.* by core-NATS leaf propagation alone for the durable path — it SOURCES the per-edge EDGE_EXPORT stream cross-domain ($JS.edge_<ipc>.API). A transactional NR-node publishes durably into its LOCAL edge EDGE_EXPORT stream (honest ack in the edge domain); the hub FACTORY stream pulls it via the declared source. This is why a transactional publish uses expectStream=EDGE_EXPORT, not FACTORY: the edge cannot address the domain-less hub JetStream over the leaf.
+
+## version 4.0.0 (core 6.3.0, 16.11.2026, owner)
+
+The OT subjects follow the equipment tree (`{elementId}.{entity}.telemetry|event.{attr}`, uns-convention 4.0.0): the kind token stands at a
+different place per element depth, so one `>` capture per kind is impossible. Each stream that captured `factory.*.*.*.telemetry.>` /
+`factory.*.*.*.event.>` takes one exact-count capture per element depth of this plant instead — factory 1..5
+(`factory.*.telemetry.*` … `factory.*.*.*.*.*.telemetry.*`, the same for `event`), sources' filterSubjects alike.

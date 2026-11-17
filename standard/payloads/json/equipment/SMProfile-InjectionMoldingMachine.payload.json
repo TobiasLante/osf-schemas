@@ -11,8 +11,8 @@
     "transactional": "FACTORY_TRANSACTIONAL"
   },
   "x-subjects": {
-    "telemetry": "factory.{site}.{entity}.{machine}.telemetry.{attr}",
-    "transactional": "factory.{site}.{entity}.{machine}.event.{attr}"
+    "telemetry": "{elementId}.{entity}.telemetry.{attr}",
+    "transactional": "{elementId}.{entity}.event.{attr}"
   },
   "allOf": [
     {
