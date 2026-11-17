@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-EquipmentClass",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "standard": "CarToUNS",
   "category": "equipment",
   "displayName": "Equipment Class",
@@ -50,7 +50,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "INCLUDES_PROPERTIES_OF",
+        "targets": [
+          "EquipmentClass"
+        ]
+      }
     },
     {
       "name": "parent_equipment_class_ref",
@@ -61,7 +68,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "PART_OF",
+        "targets": [
+          "EquipmentClass"
+        ]
+      }
     },
     {
       "name": "test_specification_ref",
@@ -72,7 +86,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "TESTED_BY",
+        "targets": [
+          "TestSpecification"
+        ]
+      }
     }
   ],
   "relationships": [

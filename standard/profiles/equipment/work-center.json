@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-WorkCenter",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "standard": "CarToUNS",
   "category": "equipment",
   "displayName": "Work Center (role-based equipment hierarchy)",
@@ -39,7 +39,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "PART_OF",
+        "targets": [
+          "Area"
+        ]
+      }
     }
   ],
   "relationships": [
