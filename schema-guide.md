@@ -490,7 +490,7 @@ Phase 5: Embeddings
 | `customer_no` | Customer | — |
 | `discrepancy_id` | ConstraintDiscrepancy, Discrepancy | — |
 | `effectivity_id` | Effectivity | — |
-| `element_id` | Area, CNC_Machine, Enterprise, InjectionMoldingMachine, Machine, Site, WorkCenter | 54 |
+| `element_id` | Area, CNC_Machine, Enterprise, InjectionMoldingMachine, Machine, Site, WorkCenter | 55 |
 | `equipment_class_id` | EquipmentClass | 18 |
 | `equipment_connection_id` | EquipmentConnection | — |
 | `equipment_procedural_element_class_id` | EquipmentProceduralElementClass | 1 |
@@ -503,7 +503,7 @@ Phase 5: Embeddings
 | `lot_no` | InspectionLot | 3 |
 | `master_recipe_id` | MasterRecipe | 2 |
 | `material_class_id` | MaterialClass, ThermoplasticClass | 19 |
-| `material_lot_no` | MaterialLot | 19 |
+| `material_lot_no` | MaterialLot | 20 |
 | `operational_location_class_id` | OperationalLocationClass | 3 |
 | `operations_capability_id` | OperationsCapability | — |
 | `operations_definition_no` | OperationsDefinition | 7 |
@@ -523,9 +523,9 @@ Phase 5: Embeddings
 | `process_element_id` | ProcessElement | 2 |
 | `process_segment_no` | ProcessSegment | 9 |
 | `product_definition_no` | ProductDefinition | — |
-| `production_order_no` | ProductionOrder | 4 |
+| `production_order_no` | ProductionOrder | 6 |
 | `proposal_id` | ResolutionProposal | — |
-| `quant_no` | Quant | 16 |
+| `quant_no` | Quant | 17 |
 | `recipe_element_id` | RecipeElement | 2 |
 | `resource_network_connection_id` | ResourceNetworkConnection | — |
 | `resource_network_connection_type_id` | ResourceNetworkConnectionType | 1 |
@@ -542,7 +542,7 @@ Phase 5: Embeddings
 | `work_alert_definition_id` | WorkAlertDefinition | — |
 | `work_alert_id` | WorkAlert | — |
 | `work_calendar_definition_entry_id` | WorkCalendarDefinitionEntry | 1 |
-| `work_calendar_definition_id` | WorkCalendarDefinition | 1 |
+| `work_calendar_definition_id` | WorkCalendarDefinition | 2 |
 | `work_calendar_entry_id` | WorkCalendarEntry | 1 |
 | `work_calendar_id` | WorkCalendar | 1 |
 | `work_capability_id` | WorkCapability | 1 |
