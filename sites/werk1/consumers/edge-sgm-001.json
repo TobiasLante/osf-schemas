@@ -1,0 +1,28 @@
+{
+  "consumerId": "edge-sgm-001",
+  "version": "1.0.0",
+  "kind": "edge",
+  "stage": "push",
+  "ring": 0,
+  "carries": [
+    "opcua-sgm-001-telemetry",
+    "opcua-sgm-001-event"
+  ],
+  "emitter": {
+    "type": "unsac-edge"
+  },
+  "syncs": [
+    "uns-convention"
+  ],
+  "capacity": 43,
+  "capacityKind": "measured",
+  "authoring": "compiled",
+  "description": "OT edge of sgm-001: carries opcua-sgm-001-telemetry and opcua-sgm-001-event. Capacity = signal count carried today, measured 23.09.; no declared limit yet. Runs as an UNS-as-Code edge on .99 (owner 18.11.2026: the vendor-software consumer ext-*-111 of #54 never ran — out).",
+  "feedback": {
+    "grains": [
+      "loaded"
+    ],
+    "maxAgeSeconds": 900
+  },
+  "$feedback": "loaded only (no v4 process observes its subjects; seen stays undeclared until one does). maxAgeSeconds 900 = 3 x the 300 s tick of edge-kg-publisher, the slowest periodic model reader on an edge (CAPT-SOLLIST Befund 2); edge-runtime itself is push-fed and has no cadence of its own."
+}
