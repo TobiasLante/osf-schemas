@@ -1,0 +1,116 @@
+{
+  "sourceId": "opcua-cnc-test-telemetry",
+  "version": "1.0.0",
+  "sourceType": "opcua",
+  "functionalLevel": 2,
+  "syncType": "polling",
+  "transport": [
+    "nats"
+  ],
+  "connection": {
+    "endpoint": "opc.tcp://192.168.178.154:36000",
+    "securityMode": "None",
+    "securityPolicy": "None",
+    "auth": "Anonymous"
+  },
+  "dataCategory": "telemetry",
+  "profileRef": "SMProfile-CNC-Machine",
+  "endpoint": "opc.tcp://192.168.178.154:36000",
+  "machineId": "cnc-test",
+  "machineName": "cnc-test",
+  "location": {
+    "enterprise": "factory",
+    "site": "werk1",
+    "area": "cnc",
+    "line": "line-a"
+  },
+  "instanceRef": "cnc-test",
+  "nodeMappings": [
+    {
+      "opcuaNodeId": "ns=1;s=Machine/status",
+      "browsePath": [
+        "CNC Mill 1 (Haas VF-2, v4-7533)",
+        "status"
+      ],
+      "smAttribute": "Act_Status_Machine",
+      "dataType": "String"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/mode",
+      "browsePath": [
+        "CNC Mill 1 (Haas VF-2, v4-7533)",
+        "mode"
+      ],
+      "smAttribute": "Act_Mode_Machine",
+      "dataType": "String"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cycle/inCycle",
+      "browsePath": [
+        "CNC Mill 1 (Haas VF-2, v4-7533)",
+        "typeSpecific",
+        "cycle",
+        "inCycle"
+      ],
+      "smAttribute": "Act_State_InCycle",
+      "dataType": "Boolean"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/cycle/cycleTimeSec",
+      "browsePath": [
+        "CNC Mill 1 (Haas VF-2, v4-7533)",
+        "typeSpecific",
+        "cycle",
+        "cycleTimeSec"
+      ],
+      "smAttribute": "Act_Time_Cycle",
+      "dataType": "Double"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/tool/toolLifePercent",
+      "browsePath": [
+        "CNC Mill 1 (Haas VF-2, v4-7533)",
+        "typeSpecific",
+        "tool",
+        "toolLifePercent"
+      ],
+      "smAttribute": "Act_Time_ToolLifeRemaining",
+      "dataType": "Double"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/typeSpecific/coolant/flowRateLmin",
+      "browsePath": [
+        "CNC Mill 1 (Haas VF-2, v4-7533)",
+        "typeSpecific",
+        "coolant",
+        "flowRateLmin"
+      ],
+      "smAttribute": "Act_Rate_CoolantFlow",
+      "dataType": "Double"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/partsCount/good",
+      "browsePath": [
+        "CNC Mill 1 (Haas VF-2, v4-7533)",
+        "partsCount",
+        "good"
+      ],
+      "smAttribute": "Act_Amount_LifeTimeGood",
+      "dataType": "Double"
+    },
+    {
+      "opcuaNodeId": "ns=1;s=Machine/partsCount/scrap",
+      "browsePath": [
+        "CNC Mill 1 (Haas VF-2, v4-7533)",
+        "partsCount",
+        "scrap"
+      ],
+      "smAttribute": "Act_Amount_LifeTimeScrap",
+      "dataType": "Double"
+    }
+  ],
+  "polling": {
+    "mode": "scan",
+    "intervalMs": 5000
+  }
+}

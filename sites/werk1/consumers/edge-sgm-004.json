@@ -7,20 +7,21 @@
   "carries": [
     "opcua-sgm-004-processdata"
   ],
-  "emitter": {
-    "type": "unsac-edge"
-  },
-  "syncs": [
-    "uns-convention"
-  ],
-  "capacity": 79,
+  "capacity": 80,
+  "capacityKind": "measured",
   "authoring": "compiled",
-  "description": "OT edge of sgm-004: carries opcua-sgm-004-processdata. Capacity = signal count carried today, measured 23.09.; no declared limit yet.",
+  "description": "Edge of sgm-004 (unsac-edge 0.7.1): data plane Redpanda Connect; releases, reports, Try and Browse over NATS through the hub of werk1 (0.4.0).",
   "feedback": {
     "grains": [
       "loaded"
     ],
     "maxAgeSeconds": 900
   },
-  "$feedback": "loaded only (no v4 process observes its subjects; seen stays undeclared until one does). maxAgeSeconds 900 = 3 x the 300 s tick of edge-kg-publisher, the slowest periodic model reader on an edge (CAPT-SOLLIST Befund 2); edge-runtime itself is push-fed and has no cadence of its own."
+  "$feedback": "loaded only (no v4 process observes its subjects; seen stays undeclared until one does). maxAgeSeconds 900 = 3 x the 300 s tick of edge-kg-publisher, the slowest periodic model reader on an edge (CAPT-SOLLIST Befund 2); edge-runtime itself is push-fed and has no cadence of its own.",
+  "emitter": {
+    "type": "unsac-edge"
+  },
+  "syncs": [
+    "uns-convention"
+  ]
 }
