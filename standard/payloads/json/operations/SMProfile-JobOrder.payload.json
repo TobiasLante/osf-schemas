@@ -2,9 +2,9 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-JobOrder.payload.json",
   "title": "SMProfile-JobOrder payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/operations/job-order.json 4.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/operations/job-order.json 4.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-JobOrder",
-  "x-profileVersion": "4.0.0",
+  "x-profileVersion": "4.1.0",
   "x-payloadVersion": "1.1.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
@@ -68,7 +68,11 @@
             "Closed",
             "Other"
           ],
-          "description": "Dispatch state of the job as the source names it."
+          "description": "Dispatch state of the job (B2MML JobOrderDispatchStatus). An open job whose preconditions are met is Ready, an open job otherwise Waiting (OPC 10031-4 Tab. 42; M-15)."
+        },
+        "status_source": {
+          "type": "string",
+          "description": "The job's state as the source names it, before the mapping to the B2MML dispatch state (M-15: e.g. OPEN, IN_PROCESS)."
         },
         "segment_requirement_ref": {
           "type": "string",
@@ -141,6 +145,7 @@
     "start_planned": "transactional",
     "end_planned": "transactional",
     "status": "transactional",
+    "status_source": "transactional",
     "segment_requirement_ref": "transactional",
     "job_list_ref": "transactional",
     "equipment_class_ref": "transactional",

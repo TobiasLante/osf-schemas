@@ -74,3 +74,13 @@ Every property of this profile reaches the hub: the 28 properties that were scop
 node without a mapping, the edge history) never leaves the edge. Before, raw telemetry stayed in the edge Timescale (Topology Edge+1) and the
 hub carried no telemetry of the machine at all — measured on our dev installation, 21.10.2026: the hub telemetry stream held 0 messages while a machine ran. Additive (no
 reader loses a value; owner 22.10.2026: scope edge → hub is additive, hub → edge stays breaking): profile 3.0.0 → 3.1.0. Needs grammar 4.10.0.
+
+## core 6.2.0 (0.7.2, owner 14.11.2026) — operator and shift leave the CNC
+
+Act_Ref_Operator (who works at the machine) and Act_Ref_Shift (the shift id) were signals of the CNC. Core 6.2.0 first only noted that they
+are to be replaced (M-28, 13.11.2026: who worked is SegmentResponse.person_ref, B2MML PersonnelActual; the shift is the work calendar,
+ShiftWindow) and kept them, because "deprecated = error" refused a CNC discovered over OPC UA that maps them (the full run's discovery flow,
+lint-deprecated D1). Owner 14.11.2026, no deprecation window ("direkt umstellen"): both are removed (profile 6.0.0) and recorded in
+movedAttributes — Act_Ref_Operator → SMProfile-SegmentResponse person_ref, Act_Ref_Shift → SMProfile-ShiftWindow shift_id, since 6.2.0 —
+so the core move takes their mappings out of a plant's CNC sources and lists where they went (standard.json breaking:
+cnc-operator-shift-moved). SMProfile-Machine keeps Act_State_ShiftActive (a shift is active on the machine).

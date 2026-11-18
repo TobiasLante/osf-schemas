@@ -2,17 +2,17 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/equipment/SMProfile-InjectionMoldingMachine.payload.json",
   "title": "SMProfile-InjectionMoldingMachine payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/equipment/injection-molding-machine.json 5.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: signal (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/equipment/injection-molding-machine.json 5.2.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: signal (envelope.schema.json).",
   "x-profileRef": "SMProfile-InjectionMoldingMachine",
-  "x-profileVersion": "5.1.0",
+  "x-profileVersion": "5.2.0",
   "x-payloadVersion": "1.1.0",
   "x-streams": {
     "telemetry": "FACTORY_TELEMETRY",
     "transactional": "FACTORY_TRANSACTIONAL"
   },
   "x-subjects": {
-    "telemetry": "factory.{site}.{entity}.{machine}.telemetry.{attr}",
-    "transactional": "factory.{site}.{entity}.{machine}.event.{attr}"
+    "telemetry": "{elementId}.{entity}.telemetry.{attr}",
+    "transactional": "{elementId}.{entity}.event.{attr}"
   },
   "allOf": [
     {
@@ -295,7 +295,7 @@
       "type": "boolean",
       "delivery": "transactional",
       "scope": "hub",
-      "description": "A shift is active on the machine (sim node Machine/typeSpecific/shiftActive). Lifted into SMProfile-Machine in core 6.0.0 (owner 29.10.2026): IMM shiftActive; the CNC's Act_Ref_Shift (the shift id) stays on the CNC."
+      "description": "A shift is active on the machine (sim node Machine/typeSpecific/shiftActive). Lifted into SMProfile-Machine in core 6.0.0 (owner 29.10.2026): IMM shiftActive. The CNC's shift id (Act_Ref_Shift) stayed on the CNC until core 6.2.0: the shift is ShiftWindow.shift_id."
     },
     "Act_Power_Machine": {
       "type": "number",

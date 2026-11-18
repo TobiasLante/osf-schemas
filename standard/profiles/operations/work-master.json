@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-WorkMaster",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Work Master (how a job is done)",
@@ -81,7 +81,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "FOR_PROCESS_SEGMENT",
+        "targets": [
+          "ProcessSegment"
+        ]
+      }
     },
     {
       "name": "operations_segment_ref",
@@ -92,7 +99,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "FOR_OPERATIONS_SEGMENT",
+        "targets": [
+          "OperationsSegment"
+        ]
+      }
     },
     {
       "name": "operations_definition_ref",
@@ -103,7 +117,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "FOR_OPERATIONS_DEFINITION",
+        "targets": [
+          "OperationsDefinition"
+        ]
+      }
     },
     {
       "name": "equipment_class_ref",
@@ -114,7 +135,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "SPECIFIES_EQUIPMENT",
+        "targets": [
+          "EquipmentClass"
+        ]
+      }
     },
     {
       "name": "material_ref",
@@ -125,7 +153,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "SPECIFIES_MATERIAL",
+        "targets": [
+          "Article"
+        ]
+      }
     },
     {
       "name": "tool_ref",
@@ -136,7 +171,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "SPECIFIES_PHYSICAL_ASSET",
+        "targets": [
+          "Tooling"
+        ]
+      }
     },
     {
       "name": "personnel_class_ref",
@@ -147,7 +189,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "SPECIFIES_PERSONNEL",
+        "targets": [
+          "PersonnelClass"
+        ]
+      }
     },
     {
       "name": "parent_work_master_ref",
@@ -158,7 +207,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "PART_OF",
+        "targets": [
+          "WorkMaster"
+        ]
+      }
     },
     {
       "name": "workflow_specification_ref",
@@ -169,7 +225,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "HAS_WORKFLOW",
+        "targets": [
+          "WorkflowSpecification"
+        ]
+      }
     },
     {
       "name": "machine_ref",
@@ -180,7 +243,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "SPECIFIES_EQUIPMENT",
+        "targets": [
+          "Machine"
+        ]
+      }
     },
     {
       "name": "material_class_ref",
@@ -191,7 +261,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "SPECIFIES_MATERIAL",
+        "targets": [
+          "MaterialClass"
+        ]
+      }
     },
     {
       "name": "material_lot_ref",
@@ -202,7 +279,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "SPECIFIES_MATERIAL",
+        "targets": [
+          "MaterialLot"
+        ]
+      }
     },
     {
       "name": "quant_ref",
@@ -213,7 +297,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "SPECIFIES_MATERIAL",
+        "targets": [
+          "Quant"
+        ]
+      }
     },
     {
       "name": "person_ref",
@@ -224,7 +315,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "SPECIFIES_PERSONNEL",
+        "targets": [
+          "Person"
+        ]
+      }
     },
     {
       "name": "physical_asset_class_ref",
@@ -235,7 +333,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "SPECIFIES_PHYSICAL_ASSET",
+        "targets": [
+          "PhysicalAssetClass"
+        ]
+      }
     },
     {
       "name": "test_specification_ref",
@@ -246,7 +351,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "TESTED_BY",
+        "targets": [
+          "TestSpecification"
+        ]
+      }
     }
   ],
   "relationships": [

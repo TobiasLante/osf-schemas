@@ -1,6 +1,6 @@
 {
  "sourceId": "erp-job-orders",
- "version": "2.1.0",
+ "version": "2.4.0",
  "$window": "0.6.6-g (owner 22.10.2026, the living window): the source reads the living part, not the whole history — every operation not final plus those started or ended in the last 7 days",
  "sourceType": "rest",
  "functionalLevel": 4,
@@ -38,12 +38,16 @@
    "isId": true
   },
   {
-   "column": "production_order_no",
+   "column": "workorder_no",
    "smAttribute": "workorder_ref"
   },
   {
    "column": "machine_id",
    "smAttribute": "machine_ref"
+  },
+  {
+   "column": "job_order_no",
+   "smAttribute": "segment_requirement_ref"
   },
   {
    "column": "planned_start",
@@ -57,11 +61,23 @@
    "column": "status",
    "smAttribute": "status",
    "valueMap": {
+    "OPEN": "Waiting",
     "IN_PROCESS": "Running",
     "PARTIAL_CONFIRMED": "Running",
     "FINAL_CONFIRMED": "Completed",
     "CANCELLED": "Cancelled"
+   },
+   "valueMapWhen": {
+    "column": "dispatchable",
+    "equals": true,
+    "valueMap": {
+     "OPEN": "Ready"
+    }
    }
+  },
+  {
+   "column": "status",
+   "smAttribute": "status_source"
   },
   {
    "smAttribute": "work_type",
@@ -72,13 +88,18 @@
  "edges": [
   {
    "type": "PART_OF",
-   "fkColumn": "production_order_no",
+   "fkColumn": "workorder_no",
    "targetIdProp": "workorder_no"
   },
   {
    "type": "REQUIRES_EQUIPMENT",
    "fkColumn": "machine_id",
    "targetIdProp": "element_id"
+  },
+  {
+   "type": "FOR_SEGMENT_REQUIREMENT",
+   "fkColumn": "job_order_no",
+   "targetIdProp": "segment_requirement_no"
   }
  ],
  "description": "JobOrders = one row of erp.order_operations (workorder x operation x machine), sim-v5 api-erp GET /api/operations, paged by the immutable key (production_order_no, operation_number). Full text: docs/history/sites/werk1/sources/rest/erp-job-orders.md, description."

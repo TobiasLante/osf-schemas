@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-EquipmentConnection",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Equipment connection",
@@ -54,7 +54,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "FROM_EQUIPMENT",
+        "targets": [
+          "Machine"
+        ]
+      }
     },
     {
       "name": "to_machine_ref",
@@ -65,7 +72,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "TO_EQUIPMENT",
+        "targets": [
+          "Machine"
+        ]
+      }
     },
     {
       "name": "machine_ref",
@@ -76,7 +90,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "PART_OF",
+        "targets": [
+          "Machine"
+        ]
+      }
     }
   ],
   "relationships": [
@@ -87,16 +108,88 @@
       "description": "Where the connection starts."
     },
     {
+      "type": "FROM_EQUIPMENT",
+      "target": "Enterprise",
+      "targetIdProp": "element_id",
+      "description": "Where the connection starts — BatchML: any level of the equipment hierarchy (here Enterprise; model question 8)."
+    },
+    {
+      "type": "FROM_EQUIPMENT",
+      "target": "Site",
+      "targetIdProp": "element_id",
+      "description": "Where the connection starts — BatchML: any level of the equipment hierarchy (here Site; model question 8)."
+    },
+    {
+      "type": "FROM_EQUIPMENT",
+      "target": "Area",
+      "targetIdProp": "element_id",
+      "description": "Where the connection starts — BatchML: any level of the equipment hierarchy (here Area; model question 8)."
+    },
+    {
+      "type": "FROM_EQUIPMENT",
+      "target": "WorkCenter",
+      "targetIdProp": "element_id",
+      "description": "Where the connection starts — BatchML: any level of the equipment hierarchy (here WorkCenter; model question 8)."
+    },
+    {
       "type": "TO_EQUIPMENT",
       "target": "Machine",
       "targetIdProp": "element_id",
       "description": "Where the connection ends."
     },
     {
+      "type": "TO_EQUIPMENT",
+      "target": "Enterprise",
+      "targetIdProp": "element_id",
+      "description": "Where the connection ends — BatchML: any level of the equipment hierarchy (here Enterprise; model question 8)."
+    },
+    {
+      "type": "TO_EQUIPMENT",
+      "target": "Site",
+      "targetIdProp": "element_id",
+      "description": "Where the connection ends — BatchML: any level of the equipment hierarchy (here Site; model question 8)."
+    },
+    {
+      "type": "TO_EQUIPMENT",
+      "target": "Area",
+      "targetIdProp": "element_id",
+      "description": "Where the connection ends — BatchML: any level of the equipment hierarchy (here Area; model question 8)."
+    },
+    {
+      "type": "TO_EQUIPMENT",
+      "target": "WorkCenter",
+      "targetIdProp": "element_id",
+      "description": "Where the connection ends — BatchML: any level of the equipment hierarchy (here WorkCenter; model question 8)."
+    },
+    {
       "type": "PART_OF",
       "target": "Machine",
       "targetIdProp": "element_id",
       "description": "The equipment that holds the connection."
+    },
+    {
+      "type": "PART_OF",
+      "target": "Enterprise",
+      "targetIdProp": "element_id",
+      "description": "The equipment that holds the connection — BatchML: any level of the equipment hierarchy (here Enterprise; model question 8)."
+    },
+    {
+      "type": "PART_OF",
+      "target": "Site",
+      "targetIdProp": "element_id",
+      "description": "The equipment that holds the connection — BatchML: any level of the equipment hierarchy (here Site; model question 8)."
+    },
+    {
+      "type": "PART_OF",
+      "target": "Area",
+      "targetIdProp": "element_id",
+      "description": "The equipment that holds the connection — BatchML: any level of the equipment hierarchy (here Area; model question 8)."
+    },
+    {
+      "type": "PART_OF",
+      "target": "WorkCenter",
+      "targetIdProp": "element_id",
+      "description": "The equipment that holds the connection — BatchML: any level of the equipment hierarchy (here WorkCenter; model question 8)."
     }
   ],
   "constraints": [],
@@ -122,5 +215,8 @@
     "mappingNote": "Containment is PART_OF on the child with a reference to the parent (BatchML nests it in the EquipmentElement)."
   },
   "kgNodeLabel": "EquipmentConnection",
-  "kgIdProperty": "equipment_connection_id"
+  "kgIdProperty": "equipment_connection_id",
+  "catalog": {
+    "reason": "BatchML 0701 (ISA-88) class for plants with batch processes; the reference plant werk1 manufactures discretely and has no source for it (model question 8, owner 13.11.2026)"
+  }
 }

@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-JobResponse",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Job Response (actuals of a job order)",
@@ -28,7 +28,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "PART_OF",
+        "targets": [
+          "WorkResponse"
+        ]
+      }
     },
     {
       "name": "job_order_ref",
@@ -39,7 +46,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "RESPONDS_TO",
+        "targets": [
+          "JobOrder"
+        ]
+      }
     },
     {
       "name": "work_master_ref",
@@ -50,7 +64,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "FOR_WORK_MASTER",
+        "targets": [
+          "WorkMaster"
+        ]
+      }
     },
     {
       "name": "machine_ref",
@@ -61,7 +82,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "ACTUAL_EQUIPMENT",
+        "targets": [
+          "Machine"
+        ]
+      }
     },
     {
       "name": "material_lot_ref",
@@ -72,7 +100,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "ACTUAL_MATERIAL",
+        "targets": [
+          "MaterialLot"
+        ]
+      }
     },
     {
       "name": "tool_ref",
@@ -83,7 +118,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "ACTUAL_PHYSICAL_ASSET",
+        "targets": [
+          "Tooling"
+        ]
+      }
     },
     {
       "name": "person_ref",
@@ -94,7 +136,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "ACTUAL_PERSONNEL",
+        "targets": [
+          "Person"
+        ]
+      }
     },
     {
       "name": "start_time",
@@ -150,7 +199,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "ACTUAL_EQUIPMENT",
+        "targets": [
+          "EquipmentClass"
+        ]
+      }
     },
     {
       "name": "material_class_ref",
@@ -161,7 +217,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "ACTUAL_MATERIAL",
+        "targets": [
+          "MaterialClass"
+        ]
+      }
     },
     {
       "name": "article_ref",
@@ -172,13 +235,20 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "ACTUAL_MATERIAL",
+        "targets": [
+          "Article"
+        ]
+      }
     },
     {
       "name": "article_revision",
       "dataType": "String",
       "required": false,
-      "category": "Link",
+      "category": "Core",
       "description": "The revision of the article that was built or used, where the source's article number carries none (a PLM part number with revision A). Empty when the number itself names the revision (at SAP dddd.1).",
       "delivery": "transactional",
       "scope": "hub",
@@ -194,7 +264,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "ACTUAL_MATERIAL",
+        "targets": [
+          "Quant"
+        ]
+      }
     },
     {
       "name": "personnel_class_ref",
@@ -205,7 +282,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "ACTUAL_PERSONNEL",
+        "targets": [
+          "PersonnelClass"
+        ]
+      }
     },
     {
       "name": "physical_asset_class_ref",
@@ -216,7 +300,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "ACTUAL_PHYSICAL_ASSET",
+        "targets": [
+          "PhysicalAssetClass"
+        ]
+      }
     },
     {
       "name": "work_directive_ref",
@@ -227,7 +318,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "EXECUTED_DIRECTIVE",
+        "targets": [
+          "WorkDirective"
+        ]
+      }
     },
     {
       "name": "workflow_specification_ref",
@@ -238,7 +336,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "FOR_WORKFLOW_SPECIFICATION",
+        "targets": [
+          "WorkflowSpecification"
+        ]
+      }
     },
     {
       "name": "workflow_specification_node_ref",
@@ -249,7 +354,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "FOR_WORKFLOW_SPECIFICATION_NODE",
+        "targets": [
+          "WorkflowSpecificationNode"
+        ]
+      }
     },
     {
       "name": "inspection_lot_ref",
@@ -260,7 +372,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "HAS_TEST_RESULT",
+        "targets": [
+          "InspectionLot"
+        ]
+      }
     },
     {
       "name": "personnel_test_result_ref",
@@ -271,7 +390,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "HAS_TEST_RESULT",
+        "targets": [
+          "TestResult"
+        ]
+      }
     },
     {
       "name": "equipment_test_result_ref",
@@ -282,7 +408,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "HAS_TEST_RESULT",
+        "targets": [
+          "TestResult"
+        ]
+      }
     },
     {
       "name": "physical_asset_test_result_ref",
@@ -293,7 +426,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "HAS_TEST_RESULT",
+        "targets": [
+          "TestResult"
+        ]
+      }
     },
     {
       "name": "job_response_list_ref",
@@ -304,7 +444,14 @@
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
-      "valueType": "ID"
+      "valueType": "ID",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "PART_OF",
+        "targets": [
+          "JobResponseList"
+        ]
+      }
     },
     {
       "name": "work_type",
