@@ -8,18 +8,10 @@ separate from the reusable, customer-**neutral** schema assets.
 > **Generalize, don't copy.**
 
 Do not paste a specific customer's plant names, line names, unit codes or node
-counts into the TYPE assets under `standard/profiles/`. The canonical equipment TYPE
-profiles that actually exist in this repo are
-[`standard/profiles/equipment/`](../profiles/equipment/): `equipment-class.json`,
-`equipment-model.json` (compact model, no SM profile) and `tool.json`.
-
-> **⚠ Honesty note (audit 2026-07-15):** an earlier version of this README
-> claimed a full set of canonical ISA-95/ISA-88 type profiles
-> (`enterprise.json` · `site.json` · `area.json` · `process-cell.json` ·
-> `equipment-unit.json` · `equipment-module.json` · `control-module.json`)
-> under a `next/profiles/equipment/` path. **Those files exist nowhere in this
-> repo.** The 7-level hierarchy exists only as the instance data inside the
-> demo fixture below.
+counts into the TYPE assets under `standard/profiles/`. The canonical equipment TYPE profiles of this repo are in
+[`standard/profiles/equipment/`](../standard/profiles/equipment/) — `area.json`, `cnc-machine.json`, `cutting-tool.json`, `die.json`, `enterprise.json`, `equipment-class.json`, `equipment-model.json`, `fixture.json`, `injection-molding-machine.json`, `machine.json`, `mould.json`, `physical-asset-class.json`, `site.json`, `tooling.json`, `work-center.json`.
+Since core 6.0.0 the plant hierarchy uses ISA-95 role-based levels (enterprise, site, area, work centers such as production lines and
+work cells, work units); the levels live in `sites/<plant>/instances/`, not as one profile per level.
 
 (The customer-specific plant hierarchy demo fixture was removed from next on 25.09.2026: customer data never lives in this repo.)
 

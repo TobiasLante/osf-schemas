@@ -15,9 +15,9 @@ validation and the mutation test are green. The checks added here moved to Tobia
 
 ## Declared open, not decided here
 
-- `standard/validation/open-units.json`: 88 numeric attributes no source states a unit for, and
+- `i3x-v5 packages/uns-grammar/validation/open-units.json`: 88 numeric attributes no source states a unit for, and
   `plastProgress`, which arrives as a 0..1 ratio while the profile says percent.
-- `standard/validation/relationship-types.json`: `PART_OF` is the reverse of four `HAS_*` types. i3X allows
+- `i3x-v5 packages/uns-grammar/validation/relationship-types.json`: `PART_OF` is the reverse of four `HAS_*` types. i3X allows
   one `reverseOf` per type.
 - Attribute names mirror source tags, so they are not renamed. Exceptions noted in
-  `standard/validation/naming-standard.md`.
+  `i3x-v5 packages/uns-grammar/validation/naming-standard.md`.

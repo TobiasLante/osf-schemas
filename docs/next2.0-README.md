@@ -88,7 +88,7 @@ next/
 
 ## Validation
 
-- AJV against `standard/validation/profile-unified-schema.json` (+ `constraint-schema.json`); category↔folder by
+- AJV against `i3x-v5 packages/uns-grammar/validation/profile-unified-schema.json` (+ `constraint-schema.json`); category↔folder by
  `ci/lint-category.mjs` (now includes `operations/ → business`); guardrails by `ci/lint-delivery.mjs`;
  constraint cross-refs by `ci/lint-constraints.mjs`; recipe refs by `ci/lint-recipes.mjs`.
 - 2.0 status: profiles/sources/recipes validate clean; all linters pass (delivery raises only the known

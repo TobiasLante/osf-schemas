@@ -1,6 +1,6 @@
 {
  "sourceId": "sim-v5-wms-quants",
- "version": "2.2.0",
+ "version": "2.3.0",
  "sourceType": "rest",
  "functionalLevel": 4,
  "syncType": "polling",
@@ -24,7 +24,8 @@
   { "column": "aktualisiert_am", "smAttribute": "updated_at" }
  ],
  "edges": [
-  { "type": "AT_LOCATION", "fkColumn": "lagerplatz_id", "targetIdProp": "storage_location_id" }
+  { "type": "AT_LOCATION", "fkColumn": "lagerplatz_id", "targetIdProp": "storage_location_id" },
+  { "type": "MADE_UP_OF", "fkColumn": "charge_nr", "targetIdProp": "material_lot_no", "direction": "in" }
  ],
  "description": "WMS stock levels (Quant) aligned to SMProfile-Quant (next/). Full text: docs/history/sites/werk1/sources/rest/sim-v5-wms-quants.md, description."
 }

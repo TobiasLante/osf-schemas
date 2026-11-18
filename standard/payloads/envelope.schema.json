@@ -133,7 +133,7 @@
         "element_id": {
           "type": "string",
           "pattern": "^[^+#*>/\\s]+$",
-          "description": "Machine key (contract nodes.Machine.key); a subject token."
+          "description": "The machine's element id: the codes along partOf from the Enterprise, joined with \".\" (the element prefix of the subject, e.g. acme.plant1.press-shop.line-1.press-07)."
         },
         "attr": {
           "type": "string",
@@ -258,6 +258,11 @@
         "entity": {
           "type": "string",
           "description": "kgNodeLabel of the profile."
+        },
+        "element_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The most specific element the record names (a column of an equipment edge of its source, looked up in the site's names from git), else its site; the element id is the codes along partOf."
         },
         "timestamp": {
           "type": "string",

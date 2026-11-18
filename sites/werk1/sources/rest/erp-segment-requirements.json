@@ -1,7 +1,6 @@
 {
   "sourceId": "erp-segment-requirements",
-  "version": "2.5.0",
-  "$window": "0.6.6-g (owner 22.10.2026, the living window): the source reads the living part, not the whole history — every operation not final plus those started or ended in the last 7 days",
+  "version": "3.1.0",
   "sourceType": "rest",
   "functionalLevel": 4,
   "syncType": "polling",
@@ -37,14 +36,14 @@
     "operation_number"
   ],
   "columnMappings": [
-    { "column": "job_order_no", "smAttribute": "segment_requirement_no", "isId": true },
+    {
+      "column": "job_order_no",
+      "smAttribute": "segment_requirement_no",
+      "isId": true
+    },
     {
       "column": "production_order_no",
       "smAttribute": "production_order_ref"
-    },
-    {
-      "column": "work_center",
-      "smAttribute": "process_segment_ref"
     },
     {
       "column": "operation_number",
@@ -54,6 +53,10 @@
     {
       "column": "machine_id",
       "smAttribute": "equipment_ref"
+    },
+    {
+      "column": "work_center",
+      "smAttribute": "equipment_class_ref"
     },
     {
       "column": "qty_planned",
@@ -67,6 +70,10 @@
     {
       "column": "planned_end",
       "smAttribute": "planned_end_time"
+    },
+    {
+      "smAttribute": "operations_type",
+      "const": "Production"
     }
   ],
   "filter": null,
@@ -77,14 +84,15 @@
       "targetIdProp": "production_order_no"
     },
     {
-      "type": "FOR_PROCESS_SEGMENT",
-      "fkColumn": "work_center",
-      "targetIdProp": "process_segment_no"
-    },
-    {
       "type": "REQUIRES_EQUIPMENT",
       "fkColumn": "machine_id",
       "targetIdProp": "element_id"
+    },
+    {
+      "type": "REQUIRES_EQUIPMENT",
+      "fkColumn": "work_center",
+      "targetIdProp": "equipment_class_id"
     }
-  ]
+  ],
+  "$window": "0.6.6-g (owner 22.10.2026, the living window): the source reads the living part, not the whole history — every operation not final plus those started or ended in the last 7 days"
 }

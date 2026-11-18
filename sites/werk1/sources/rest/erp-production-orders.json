@@ -1,6 +1,6 @@
 {
   "sourceId": "erp-production-orders",
-  "version": "4.2.2",
+  "version": "5.2.0",
   "sourceType": "rest",
   "functionalLevel": 4,
   "syncType": "polling",
@@ -31,7 +31,7 @@
     "batchSize": 500,
     "paginate": true,
     "paginationMode": "keyset",
-    "paginationOrderKey": "production_order_no",
+    "paginationOrderKey": "order_id",
     "keysetParam": "after_id"
   },
   "columnMappings": [
@@ -39,6 +39,10 @@
       "column": "production_order_no",
       "smAttribute": "production_order_no",
       "isId": true
+    },
+    {
+      "column": "sales_order_no",
+      "smAttribute": "sales_order_ref"
     },
     {
       "column": "article_no",
@@ -97,12 +101,12 @@
       "smAttribute": "dispatch_sequence"
     },
     {
-      "column": "kundenauftrag_nr",
-      "smAttribute": "sales_order_ref"
-    },
-    {
       "column": "geplante_stueckzahl",
       "smAttribute": "quantity"
+    },
+    {
+      "smAttribute": "operations_type",
+      "const": "Production"
     }
   ],
   "filter": null,

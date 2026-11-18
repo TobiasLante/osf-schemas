@@ -67,3 +67,20 @@ Owner 25.09.2026: an order actual measured at a machine (part counts, order, art
 - `SMProfile-CNC-Machine.Act_Status_Program` → `SMProfile-SegmentResponse.program_status`; its description was: 
 - attribute-aliases entry [{"profileRef": "SMProfile-CNC-Machine", "attribute": "Act_Amount_PartGood"}, {"profileRef": "SMProfile-InjectionMoldingMachine", "attribute": "good"}] retired: all members are now SMProfile-SegmentResponse.qty_good
 - attribute-aliases entry [{"profileRef": "SMProfile-CNC-Machine", "attribute": "Act_Amount_PartScrap"}, {"profileRef": "SMProfile-InjectionMoldingMachine", "attribute": "scrap"}] retired: all members are now SMProfile-SegmentResponse.qty_scrap
+
+## properties › scope (core 5.0.5, 0.6.6-g, owner 22.10.2026)
+Every property of this profile reaches the hub: the 28 properties that were scope edge are scope hub, each at its own cadence
+(promotion: raw every value, <N>sec / <N>min at most once per interval, on_change on a change). What is no property of the profile (an OPC UA
+node without a mapping, the edge history) never leaves the edge. Before, raw telemetry stayed in the edge Timescale (Topology Edge+1) and the
+hub carried no telemetry of the machine at all — measured on our dev installation, 21.10.2026: the hub telemetry stream held 0 messages while a machine ran. Additive (no
+reader loses a value; owner 22.10.2026: scope edge → hub is additive, hub → edge stays breaking): profile 3.0.0 → 3.1.0. Needs grammar 4.10.0.
+
+## core 6.2.0 (0.7.2, owner 14.11.2026) — operator and shift leave the CNC
+
+Act_Ref_Operator (who works at the machine) and Act_Ref_Shift (the shift id) were signals of the CNC. Core 6.2.0 first only noted that they
+are to be replaced (M-28, 13.11.2026: who worked is SegmentResponse.person_ref, B2MML PersonnelActual; the shift is the work calendar,
+ShiftWindow) and kept them, because "deprecated = error" refused a CNC discovered over OPC UA that maps them (the full run's discovery flow,
+lint-deprecated D1). Owner 14.11.2026, no deprecation window ("direkt umstellen"): both are removed (profile 6.0.0) and recorded in
+movedAttributes — Act_Ref_Operator → SMProfile-SegmentResponse person_ref, Act_Ref_Shift → SMProfile-ShiftWindow shift_id, since 6.2.0 —
+so the core move takes their mappings out of a plant's CNC sources and lists where they went (standard.json breaking:
+cnc-operator-shift-moved). SMProfile-Machine keeps Act_State_ShiftActive (a shift is active on the machine).

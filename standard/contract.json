@@ -1,6 +1,6 @@
 {
   "_comment": "ONTOLOGY CONTRACT — generated from standard/profiles/** by i3x-v5 packages/schemas-ci/osf/gen-contract.mjs; do not edit by hand. For agents and sink validators: ONLY these node labels (with their key property) and ONLY these relationship triples may be written to a knowledge graph. Anything not listed here is non-conformant — extend the profile first, then regenerate. Background: docs/agent-conformance.md.",
-  "contractVersion": "1.1.0",
+  "contractVersion": "1.2.0",
   "generatedBy": "i3x-v5 packages/schemas-ci/osf/gen-contract.mjs",
   "identity": {
     "rule": "Machine/equipment nodes MUST use their profile kgNodeLabel with the key property declared in nodes.* below — never invent node identities from source-local ids (machineId, machineNo, pool names, vendor names); those are attributes at most.",
@@ -1053,6 +1053,16 @@
       ]
     },
     {
+      "type": "RESPONDS_TO",
+      "from": "BdeConfirmation",
+      "to": [
+        "ProductionOrder"
+      ],
+      "targetIdProp": [
+        "production_order_no"
+      ]
+    },
+    {
       "type": "FOR_PRODUCT",
       "from": "ControlRecipe",
       "to": [
@@ -1246,10 +1256,14 @@
       "type": "TESTS",
       "from": "InspectionLot",
       "to": [
-        "Article"
+        "Article",
+        "MaterialLot",
+        "Quant"
       ],
       "targetIdProp": [
-        "article_no"
+        "article_no",
+        "material_lot_no",
+        "quant_no"
       ]
     },
     {
@@ -1959,9 +1973,11 @@
       "type": "RESPONDS_TO",
       "from": "OperationsResponse",
       "to": [
+        "ProductionOrder",
         "SegmentRequirement"
       ],
       "targetIdProp": [
+        "production_order_no",
         "segment_requirement_no"
       ]
     },
@@ -2751,10 +2767,12 @@
       "type": "PART_OF",
       "from": "ShiftWindow",
       "to": [
-        "ShiftWindow"
+        "ShiftWindow",
+        "WorkCalendarDefinition"
       ],
       "targetIdProp": [
-        "shift_window_id"
+        "shift_window_id",
+        "work_calendar_definition_id"
       ]
     },
     {
@@ -2782,6 +2800,9 @@
       "from": "StorageLocation",
       "to": [
         "Area"
+      ],
+      "targetIdProp": [
+        "element_id"
       ]
     },
     {

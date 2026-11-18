@@ -1,0 +1,20 @@
+{
+  "settingsId": "SETTINGS-sgm-14",
+  "instanceRef": "sgm-14",
+  "class": "SMProfile-InjectionMoldingMachine",
+  "equipment_class_ref": "SGM-2500",
+  "version": "2.0.0",
+  "owner": "Maintenance",
+  "displayName": "sgm-14 machine limits",
+  "description": "Machine limits (capability:*) where this machine's own data differs from its class: cooling flow and injection speed from the machine settings of core 6.0.0 (derived), peak pressure from the sim machine master (sgm-21, sgm-22). Every other limit is the class default of SMProfile-InjectionMoldingMachine. Product bands live in recipes.",
+  "values": {
+    "capability:injection_speed": [
+      0,
+      200
+    ],
+    "capability:cooling_flow": [
+      0,
+      60
+    ]
+  }
+}

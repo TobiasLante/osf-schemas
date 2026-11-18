@@ -1,16 +1,21 @@
 {
   "consumerId": "it-qms",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "kind": "edge",
   "stage": "push",
   "ring": 0,
   "carries": [
     "sim-v5-qms-inspections"
   ],
-  "capacity": 11,
-  "capacityKind": "measured",
+  "emitter": {
+    "type": "unsac-it"
+  },
+  "syncs": [
+    "uns-convention"
+  ],
+  "capacity": 13,
   "authoring": "locked",
-  "description": "IT edge for the QMS REST source (it-edge, no flow editor). Capacity = signal count today, measured 23.09.",
+  "description": "IT edge for the QMS REST source (it-edge, no flow editor). Capacity = signal count today: 11 measured 23.09., 13 since core 6.2.0 (K21: material_lot_ref, quant_ref)",
   "feedback": {
     "grains": [
       "loaded"
@@ -18,10 +23,5 @@
     "maxAgeSeconds": 180
   },
   "$feedback": "loaded only (no v4 process observes its subjects; seen stays undeclared until one does). maxAgeSeconds 180 = 3 x the 60 s tick of it-schema-publisher, which feeds this edge over NATS it_schemas (CAPT-SOLLIST Befund 2): a report older than three ticks cannot vouch for the current state.",
-  "emitter": {
-    "type": "unsac-it"
-  },
-  "syncs": [
-    "uns-convention"
-  ]
+  "capacityKind": "measured"
 }

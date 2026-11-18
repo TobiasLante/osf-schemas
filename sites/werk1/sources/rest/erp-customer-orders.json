@@ -2,18 +2,37 @@
   "sourceId": "erp-customer-orders",
   "version": "1.2.0",
   "sourceType": "rest",
+  "functionalLevel": 4,
   "syncType": "polling",
   "profileRef": "SMProfile-CustomerOrder",
+  "instanceRef": "werk1",
+  "location": {
+    "enterprise": "factory",
+    "site": "werk1"
+  },
   "transport": [
     "nats"
   ],
   "connection": {
     "baseUrl": "http://192.168.178.154:38260",
-    "path": "/api/customer-orders"
+    "path": "/api/customer-orders?since=P7D",
+    "method": "GET",
+    "auth": null,
+    "timeoutMs": 10000
   },
+  "response": {
+    "format": "json",
+    "rootPath": "$",
+    "idProperty": "kundenauftrag_nr"
+  },
+  "polling": {
+    "changeDetection": "full_refresh",
+    "intervalMs": 300000,
+    "batchSize": 5000,
+    "paginate": true, "paginationMode": "keyset", "paginationOrderKey": "order_id", "keysetParam": "after_id" },
   "columnMappings": [
     {
-      "column": "order_id",
+      "column": "kundenauftrag_nr",
       "smAttribute": "order_no",
       "isId": true
     },
@@ -42,6 +61,10 @@
       "smAttribute": "due_date"
     },
     {
+      "column": "lieferdatum",
+      "smAttribute": "customer_due_date"
+    },
+    {
       "column": "status",
       "smAttribute": "status",
       "valueMap": {
@@ -58,17 +81,7 @@
       "smAttribute": "priority"
     }
   ],
+  "filter": null,
   "edges": [],
-  "functionalLevel": 4,
-  "instanceRef": "werk1",
-  "location": {
-    "enterprise": "factory",
-    "site": "werk1"
-  },
-  "polling": {
-    "changeDetection": "full_refresh",
-    "intervalMs": 900000,
-    "batchSize": 5000,
-    "paginate": true
-  }
+  "description": "ERP CustomerOrder (Level 4) from the sim-v5 ERP REST API, keyed by order_no; production orders reach it through sales_order_ref. Full text: docs/history/sites/werk1/sources/rest/erp-customer-orders.md, description."
 }

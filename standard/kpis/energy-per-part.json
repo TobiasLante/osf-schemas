@@ -1,6 +1,6 @@
 {
   "kpiId": "KPI-Energy-Per-Part",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "displayName": "Energy per Good Part",
   "parked": true,
   "parkedAt": "2026-07-15",
@@ -10,8 +10,8 @@
   "category": "energy",
   "calculation": {
     "inputs": [
-      "Act_Amount_PartGood",
-      "Act_Energy_Total"
+      "Act_Energy_Total",
+      "Act_Amount_PartGood"
     ],
     "inputMappings": {
       "SMProfile-CNC-Machine": {
@@ -58,8 +58,8 @@
   },
   "thresholds": {
     "target": 0.5,
-    "warning": 1,
-    "critical": 2
+    "warning": 1.0,
+    "critical": 2.0
   },
   "appliesTo": [
     "SMProfile-CNC-Machine"
