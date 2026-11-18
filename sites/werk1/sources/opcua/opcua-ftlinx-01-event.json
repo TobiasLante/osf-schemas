@@ -1,7 +1,7 @@
 {
- "_comment": "This declaration pins the namespace INDEX ns=117 on the FactoryTalk Linx AGGREGATION gateway opc.tcp://192.168.178.154:36600 (118 namespaces, arrival-order dependent). Full text: docs/history/sites/werk1/sources/opcua/opcua-ftlinx-01-event.md, _comment.",
+ "_comment": "This declaration pins the namespace INDEX ns=43 on the FactoryTalk Linx AGGREGATION gateway opc.tcp://192.168.178.154:36600 (118 namespaces, arrival-order dependent). Full text: docs/history/sites/werk1/sources/opcua/opcua-ftlinx-01-event.md, _comment.",
  "sourceId": "opcua-ftlinx-01-event",
- "version": "3.0.0",
+ "version": "3.1.0",
  "sourceType": "opcua",
  "functionalLevel": 2,
  "syncType": "polling",
@@ -30,32 +30,32 @@
  },
  "nodeMappings": [
   {
-   "opcuaNodeId": "ns=117;s=Machine/status",
+   "opcuaNodeId": "ns=43;s=Machine/status",
    "smAttribute": "Act_Status_Machine",
    "dataType": "ns=0;i=12"
   },
   {
-   "opcuaNodeId": "ns=117;s=Machine/mode",
+   "opcuaNodeId": "ns=43;s=Machine/mode",
    "smAttribute": "Act_Mode_Machine",
    "dataType": "ns=0;i=12"
   },
   {
-   "opcuaNodeId": "ns=117;s=Machine/typeSpecific/cycle/inCycle",
+   "opcuaNodeId": "ns=43;s=Machine/typeSpecific/cycle/inCycle",
    "smAttribute": "Act_State_InCycle",
    "dataType": "ns=0;i=1"
   },
   {
-   "opcuaNodeId": "ns=117;s=Machine/alarms/_Count",
+   "opcuaNodeId": "ns=43;s=Machine/alarms/_Count",
    "smAttribute": "Act_Amount_Alarm",
    "dataType": "ns=0;i=6"
   },
   {
-   "opcuaNodeId": "ns=117;s=Machine/partsCount/good",
+   "opcuaNodeId": "ns=43;s=Machine/partsCount/good",
    "smAttribute": "Act_Amount_LifeTimeGood",
    "dataType": "ns=0;i=11"
   },
   {
-   "opcuaNodeId": "ns=117;s=Machine/partsCount/scrap",
+   "opcuaNodeId": "ns=43;s=Machine/partsCount/scrap",
    "smAttribute": "Act_Amount_LifeTimeScrap",
    "dataType": "ns=0;i=11"
   }
@@ -74,17 +74,17 @@
    "profileRef": "SMProfile-SegmentResponse",
    "nodeMappings": [
     {
-     "opcuaNodeId": "ns=117;s=Machine/typeSpecific/cycle/currentProgram",
+     "opcuaNodeId": "ns=43;s=Machine/typeSpecific/cycle/currentProgram",
      "smAttribute": "program_ref",
      "dataType": "ns=0;i=12"
     },
     {
-     "opcuaNodeId": "ns=117;s=Machine/typeSpecific/tool/currentToolId",
+     "opcuaNodeId": "ns=43;s=Machine/typeSpecific/tool/currentToolId",
      "smAttribute": "tool_ref",
      "dataType": "ns=0;i=12"
     },
     {
-     "opcuaNodeId": "ns=117;s=Machine/typeSpecific/nc/currentBlockN",
+     "opcuaNodeId": "ns=43;s=Machine/typeSpecific/nc/currentBlockN",
      "smAttribute": "program_line",
      "dataType": "ns=0;i=11"
     }
