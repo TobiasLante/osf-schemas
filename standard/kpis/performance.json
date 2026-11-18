@@ -1,6 +1,6 @@
 {
   "kpiId": "KPI-Performance",
-  "version": "2.2.0",
+  "version": "2.0.1",
   "displayName": "Performance",
   "parked": true,
   "parkedAt": "2026-07-15",
@@ -9,67 +9,15 @@
   "unit": "%",
   "category": "efficiency",
   "calculation": {
-    "inputs": [
-      "Plan_Time_Cycle",
-      "Act_Time_Cycle"
-    ],
+    "inputs": ["Plan_Time_Cycle", "Act_Time_Cycle"],
     "inputMappings": {
       "SMProfile-CNC-Machine": {
         "Plan_Time_Cycle": "Plan_Time_Cycle",
         "Act_Time_Cycle": "Act_Time_Cycle"
       }
     },
-    "cypher": "CASE WHEN coalesce(m.Act_Time_Cycle, 0) = 0 THEN null ELSE round(toFloat(m.Plan_Time_Cycle) / m.Act_Time_Cycle * 1000) / 10 END",
-    "expression": {
-      "if": {
-        "compare": "=",
-        "args": [
-          {
-            "ifEmpty": {
-              "input": "Act_Time_Cycle"
-            },
-            "then": {
-              "number": 0
-            }
-          },
-          {
-            "number": 0
-          }
-        ]
-      },
-      "then": {
-        "empty": true
-      },
-      "else": {
-        "round": {
-          "op": "*",
-          "args": [
-            {
-              "op": "/",
-              "args": [
-                {
-                  "input": "Plan_Time_Cycle"
-                },
-                {
-                  "input": "Act_Time_Cycle"
-                }
-              ]
-            },
-            {
-              "number": 100
-            }
-          ]
-        },
-        "digits": 1
-      }
-    }
+    "cypher": "CASE WHEN coalesce(m.Act_Time_Cycle, 0) = 0 THEN null ELSE round(toFloat(m.Plan_Time_Cycle) / m.Act_Time_Cycle * 1000) / 10 END"
   },
-  "thresholds": {
-    "target": 95,
-    "warning": 85,
-    "critical": 70
-  },
-  "appliesTo": [
-    "SMProfile-CNC-Machine"
-  ]
+  "thresholds": { "target": 95, "warning": 85, "critical": 70 },
+  "appliesTo": ["SMProfile-CNC-Machine"]
 }
