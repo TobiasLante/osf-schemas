@@ -1,6 +1,6 @@
 {
   "kpiId": "KPI-Energy-Per-Part",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "displayName": "Energy per Good Part",
   "parked": true,
   "parkedAt": "2026-07-15",
@@ -9,12 +9,59 @@
   "unit": "kWh/part",
   "category": "energy",
   "calculation": {
-    "inputs": ["Act_Energy_Total", "Act_Amount_PartGood"],
+    "inputs": [
+      "Act_Energy_Total",
+      "Act_Amount_PartGood"
+    ],
     "inputMappings": {
-      "SMProfile-CNC-Machine": { "Act_Energy_Total": "Act_Energy_Total", "Act_Amount_LifeTimeGood": "Act_Amount_PartGood" }
+      "SMProfile-CNC-Machine": {
+        "Act_Energy_Total": "Act_Energy_Total",
+        "Act_Amount_LifeTimeGood": "Act_Amount_PartGood"
+      }
     },
-    "cypher": "CASE WHEN coalesce(m.Act_Amount_PartGood, 0) = 0 THEN null ELSE round(toFloat(m.Act_Energy_Total) / m.Act_Amount_PartGood * 1000) / 1000 END"
+    "cypher": "CASE WHEN coalesce(m.Act_Amount_PartGood, 0) = 0 THEN null ELSE round(toFloat(m.Act_Energy_Total) / m.Act_Amount_PartGood * 1000) / 1000 END",
+    "expression": {
+      "if": {
+        "compare": "=",
+        "args": [
+          {
+            "ifEmpty": {
+              "input": "Act_Amount_PartGood"
+            },
+            "then": {
+              "number": 0
+            }
+          },
+          {
+            "number": 0
+          }
+        ]
+      },
+      "then": {
+        "empty": true
+      },
+      "else": {
+        "round": {
+          "op": "/",
+          "args": [
+            {
+              "input": "Act_Energy_Total"
+            },
+            {
+              "input": "Act_Amount_PartGood"
+            }
+          ]
+        },
+        "digits": 3
+      }
+    }
   },
-  "thresholds": { "target": 0.5, "warning": 1.0, "critical": 2.0 },
-  "appliesTo": ["SMProfile-CNC-Machine"]
+  "thresholds": {
+    "target": 0.5,
+    "warning": 1,
+    "critical": 2
+  },
+  "appliesTo": [
+    "SMProfile-CNC-Machine"
+  ]
 }
