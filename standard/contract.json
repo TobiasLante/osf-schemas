@@ -4878,9 +4878,7 @@
       ]
     },
     "MaterialLot.job_order_ref": {
-      "kind": "edge",
-      "relationship": "REQUIRES_MATERIAL",
-      "direction": "in",
+      "kind": "refOnly",
       "targets": [
         {
           "node": "JobOrder",
@@ -4905,6 +4903,17 @@
         {
           "node": "Quant",
           "key": "quant_no"
+        }
+      ]
+    },
+    "MaterialLot.segment_response_ref": {
+      "kind": "edge",
+      "relationship": "ACTUAL_MATERIAL",
+      "direction": "in",
+      "targets": [
+        {
+          "node": "SegmentResponse",
+          "key": "segment_response_no"
         }
       ]
     },

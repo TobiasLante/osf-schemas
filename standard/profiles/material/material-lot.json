@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-MaterialLot",
-  "version": "3.4.0",
+  "version": "3.5.0",
   "standard": "CarToUNS",
   "category": "material",
   "displayName": "Material Lot (the correct term for 'batch')",
@@ -110,11 +110,29 @@
       "promotion": "on_change",
       "valueType": "ID",
       "refStatus": {
-        "kind": "edge",
-        "relationship": "REQUIRES_MATERIAL",
-        "direction": "in",
+        "kind": "refOnly",
+        "reason": "The job that made the lot. B2MML names a made lot in the response's material actual (SegmentResponse / JobResponse .MaterialActual, ACTUAL_MATERIAL — segment_response_ref), never as a requirement of the job order: REQUIRES_MATERIAL would say the job needs the lot. Kept as a value (core 6.5.0, owner 19.11.2026 „eigene Kante für erzeugtes Material statt REQUIRES_MATERIAL“).",
         "targets": [
           "JobOrder"
+        ]
+      }
+    },
+    {
+      "name": "segment_response_ref",
+      "valueType": "ID",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "FK to SegmentResponse.segment_response_no: the confirmed operation whose material actual made this lot (B2MML SegmentResponse.MaterialActual.MaterialLotID). Full text: docs/history/standard/profiles/material/material-lot.md, attributes › segment_response_ref › description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "ACTUAL_MATERIAL",
+        "direction": "in",
+        "targets": [
+          "SegmentResponse"
         ]
       }
     },
@@ -290,6 +308,7 @@
     "notInIsa95": [
       "workorder_ref",
       "job_order_ref",
+      "segment_response_ref",
       "created_at",
       "updated_at",
       "article_revision"

@@ -13,3 +13,7 @@ FK to JobOrder.job_order_no: the job (one workorder operation) that produced thi
 ## isa95 › note (Welle 12, 25.09.2026)
 
 ISA-95 MaterialLot = identifiable material quantity of a MaterialDefinition. RULE: ERP 'batch' == MaterialLot (a portion of material), NEVER an activity. Sits between Article (MaterialDefinition) and Quant (MaterialSublot). job_order_ref is the key of the ISA-95 edge JobOrder REQUIRES_MATERIAL MaterialLot (JobOrder.MaterialRequirement.MaterialLotID, MaterialUse Produced/Consumed): the edge is 1:n and carried from the lot side, not a MaterialLot field in B2MML.
+
+## attributes › segment_response_ref › description
+
+FK to SegmentResponse.segment_response_no: the confirmed operation whose material actual made this lot (B2MML 0701 SegmentResponse.MaterialActual.MaterialLotID — a made lot is a material actual of the response, its use "Produced"). The edge runs from the response (ACTUAL_MATERIAL, in-edge of the lot's source); the order is that response's (RESPONDS_TO). Core 6.5.0 (owner 19.11.2026: „eigene Kante für erzeugtes Material statt REQUIRES_MATERIAL“): before, the lot's source drew JobOrder REQUIRES_MATERIAL to the made lot, which reads as "the job needs 2 014 lots". The reference plant fills it once the sim's /material-lots carries the confirmation number (sim list Q4).
