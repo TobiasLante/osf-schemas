@@ -186,6 +186,18 @@
             "doc": "Planned completion date (target). Counterpart to actual_end_time. Driver of the late_delivery rule."
           },
           {
+            "name": "due_date",
+            "type": [
+              "null",
+              {
+                "type": "long",
+                "logicalType": "timestamp-millis"
+              }
+            ],
+            "default": null,
+            "doc": "Delivery due date of the order (lieferdatum_soll, a date: 00:00Z) — not its planned end. Full text: docs/history/standard/profiles/operations/production-order.md, attributes › due_date."
+          },
+          {
             "name": "cycle_time_planned_sec",
             "type": [
               "null",

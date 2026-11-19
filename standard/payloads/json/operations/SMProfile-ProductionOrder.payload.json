@@ -61,6 +61,11 @@
           "format": "date-time",
           "description": "Planned completion date (target). Counterpart to actual_end_time. Driver of the late_delivery rule."
         },
+        "due_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Delivery due date of the order (lieferdatum_soll, a date: 00:00Z) — not its planned end. Full text: docs/history/standard/profiles/operations/production-order.md, attributes › due_date."
+        },
         "cycle_time_planned_sec": {
           "type": "integer",
           "x-unit": "SEC",
@@ -211,6 +216,7 @@
     "qty_planned": "transactional",
     "planned_start_time": "transactional",
     "planned_end_time": "transactional",
+    "due_date": "transactional",
     "cycle_time_planned_sec": "transactional",
     "dispatch_sequence": "transactional",
     "material_ready_at": "transactional",
