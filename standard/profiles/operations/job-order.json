@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-JobOrder",
-  "version": "4.1.0",
+  "version": "4.2.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Job Order (dispatched job on one machine)",
@@ -126,6 +126,13 @@
       "valueType": "PV",
       "required": false,
       "category": "Core",
+      "enum": [
+        "FINAL_CONFIRMED",
+        "PARTIAL_CONFIRMED",
+        "CANCELLED",
+        "OPEN",
+        "IN_PROCESS"
+      ],
       "description": "The job's state as the source names it, before the mapping to the B2MML dispatch state (M-15: e.g. OPEN, IN_PROCESS).",
       "delivery": "transactional",
       "scope": "hub",
@@ -345,6 +352,83 @@
       "scope": "hub",
       "promotion": "on_change",
       "valueType": "PV"
+    },
+    {
+      "name": "dispatchable",
+      "dataType": "Boolean",
+      "valueType": "PV",
+      "required": false,
+      "category": "Planning",
+      "description": "The ERP releases the job for dispatch (an OPEN job that is dispatchable is Ready).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "dispatch_sequence",
+      "dataType": "Int32",
+      "valueType": "SP",
+      "required": false,
+      "category": "Planning",
+      "description": "Position of the job in its machine's dispatch queue (sequence_on_machine); empty when not queued.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "start_replanned",
+      "dataType": "DateTime",
+      "valueType": "SP",
+      "required": false,
+      "category": "Planning",
+      "description": "Start time after the scheduler's last re-plan (start_planned keeps the original plan).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "end_replanned",
+      "dataType": "DateTime",
+      "valueType": "SP",
+      "required": false,
+      "category": "Planning",
+      "description": "End time after the scheduler's last re-plan (end_planned keeps the original plan).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "release_block_reason",
+      "dataType": "String",
+      "valueType": "PV",
+      "required": false,
+      "category": "Core",
+      "description": "Why the ERP blocks the job's release; empty when not blocked (empty on all 3 871 jobs measured 19.11.2026).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "created_at",
+      "dataType": "DateTime",
+      "valueType": "PV",
+      "required": false,
+      "category": "Timing",
+      "description": "When the operation was created in the ERP.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "updated_at",
+      "dataType": "DateTime",
+      "valueType": "PV",
+      "required": false,
+      "category": "Timing",
+      "description": "When the ERP last changed the operation.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "never"
     }
   ],
   "relationships": [
@@ -472,7 +556,14 @@
     "notInIsa95": [
       "workorder_ref",
       "job_list_ref",
-      "status_source"
+      "status_source",
+      "dispatchable",
+      "dispatch_sequence",
+      "start_replanned",
+      "end_replanned",
+      "release_block_reason",
+      "created_at",
+      "updated_at"
     ],
     "mappingNote": "The parent WorkRequest is carried by B2MML through the nesting of JobOrder in WorkRequest, not as a field. Actuals are reported per order and operation (Part 2 SegmentResponse); Part 4 actuals need a source keyed by job. Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent)."
   },

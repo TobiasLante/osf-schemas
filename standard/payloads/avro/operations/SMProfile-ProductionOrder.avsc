@@ -8,7 +8,7 @@
     "strategy": "TopicNameStrategy"
   },
   "namespace": "org.openshopfloor.payload.operations",
-  "doc": "GENERATED from standard/profiles/operations/production-order.json 4.0.1 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "doc": "GENERATED from standard/profiles/operations/production-order.json 4.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
   "fields": [
     {
       "name": "eventType",
@@ -52,7 +52,7 @@
     {
       "name": "profileVersion",
       "type": "string",
-      "default": "4.0.1"
+      "default": "4.1.0"
     },
     {
       "name": "b2m",
@@ -307,6 +307,96 @@
             ],
             "default": null,
             "doc": "ISA-95 operations type (B2MML OperationsType; Part 3/4: which MOM area the object belongs to; audit M1). A source without the column sets the constant of the profile's momDomain (columnMappings const)."
+          },
+          {
+            "name": "qty_produced",
+            "type": [
+              "null",
+              "long"
+            ],
+            "default": null,
+            "doc": "Good pieces produced on the order so far, as the ERP books it (produzierte_stueckzahl)."
+          },
+          {
+            "name": "machine_type",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The ERP's machine type of the planned machine. Values measured over 26 304 orders 19.11.2026."
+          },
+          {
+            "name": "dispatch_machine_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The machine the dispatcher put the order on inside the planning horizon (FK to the machine's element id)."
+          },
+          {
+            "name": "dispatch_pool_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The ERP pool (EquipmentClass, e.g. POOL-SGM) the dispatcher planned the order in."
+          },
+          {
+            "name": "dispatch_operation_no",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "Routing operation number the dispatch proposal is for (e.g. 10, 20, 2099)."
+          },
+          {
+            "name": "dispatch_in_horizon",
+            "type": [
+              "null",
+              "boolean"
+            ],
+            "default": null,
+            "doc": "The order lies inside the dispatcher's planning horizon (it carries a dispatch proposal)."
+          },
+          {
+            "name": "tool_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The tool the order is planned with (FK to Tooling.tool_id)."
+          },
+          {
+            "name": "mould_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The mould the order is planned with on an injection moulding machine (FK to Mould.tool_id); carries parts_per_shot."
+          },
+          {
+            "name": "routing_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The ERP routing (Arbeitsplan) the order is made by. Full text: docs/history/standard/profiles/operations/production-order.md, attributes › routing_ref."
+          },
+          {
+            "name": "note",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "Free-text note of the ERP on the order (notiz)."
           }
         ]
       }

@@ -8,7 +8,7 @@
     "strategy": "TopicNameStrategy"
   },
   "namespace": "org.openshopfloor.payload.operations",
-  "doc": "GENERATED from standard/profiles/operations/job-order.json 4.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "doc": "GENERATED from standard/profiles/operations/job-order.json 4.2.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
   "fields": [
     {
       "name": "eventType",
@@ -52,7 +52,7 @@
     {
       "name": "profileVersion",
       "type": "string",
-      "default": "4.1.0"
+      "default": "4.2.0"
     },
     {
       "name": "b2m",
@@ -288,6 +288,81 @@
             ],
             "default": null,
             "doc": "ISA-95 work type (B2MML WorkType, the OperationsType code list; Part 4; audit M1). A source without the column sets the constant of the profile's momDomain (columnMappings const)."
+          },
+          {
+            "name": "dispatchable",
+            "type": [
+              "null",
+              "boolean"
+            ],
+            "default": null,
+            "doc": "The ERP releases the job for dispatch (an OPEN job that is dispatchable is Ready)."
+          },
+          {
+            "name": "dispatch_sequence",
+            "type": [
+              "null",
+              "long"
+            ],
+            "default": null,
+            "doc": "Position of the job in its machine's dispatch queue (sequence_on_machine); empty when not queued."
+          },
+          {
+            "name": "start_replanned",
+            "type": [
+              "null",
+              {
+                "type": "long",
+                "logicalType": "timestamp-millis"
+              }
+            ],
+            "default": null,
+            "doc": "Start time after the scheduler's last re-plan (start_planned keeps the original plan)."
+          },
+          {
+            "name": "end_replanned",
+            "type": [
+              "null",
+              {
+                "type": "long",
+                "logicalType": "timestamp-millis"
+              }
+            ],
+            "default": null,
+            "doc": "End time after the scheduler's last re-plan (end_planned keeps the original plan)."
+          },
+          {
+            "name": "release_block_reason",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "Why the ERP blocks the job's release; empty when not blocked (empty on all 3 871 jobs measured 19.11.2026)."
+          },
+          {
+            "name": "created_at",
+            "type": [
+              "null",
+              {
+                "type": "long",
+                "logicalType": "timestamp-millis"
+              }
+            ],
+            "default": null,
+            "doc": "When the operation was created in the ERP."
+          },
+          {
+            "name": "updated_at",
+            "type": [
+              "null",
+              {
+                "type": "long",
+                "logicalType": "timestamp-millis"
+              }
+            ],
+            "default": null,
+            "doc": "When the ERP last changed the operation."
           }
         ]
       }

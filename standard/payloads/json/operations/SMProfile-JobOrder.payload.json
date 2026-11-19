@@ -2,9 +2,9 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-JobOrder.payload.json",
   "title": "SMProfile-JobOrder payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/operations/job-order.json 4.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/operations/job-order.json 4.2.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-JobOrder",
-  "x-profileVersion": "4.1.0",
+  "x-profileVersion": "4.2.0",
   "x-payloadVersion": "1.1.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
@@ -72,6 +72,13 @@
         },
         "status_source": {
           "type": "string",
+          "enum": [
+            "FINAL_CONFIRMED",
+            "PARTIAL_CONFIRMED",
+            "CANCELLED",
+            "OPEN",
+            "IN_PROCESS"
+          ],
           "description": "The job's state as the source names it, before the mapping to the B2MML dispatch state (M-15: e.g. OPEN, IN_PROCESS)."
         },
         "segment_requirement_ref": {
@@ -129,6 +136,38 @@
             "Other"
           ],
           "description": "ISA-95 work type (B2MML WorkType, the OperationsType code list; Part 4; audit M1). A source without the column sets the constant of the profile's momDomain (columnMappings const)."
+        },
+        "dispatchable": {
+          "type": "boolean",
+          "description": "The ERP releases the job for dispatch (an OPEN job that is dispatchable is Ready)."
+        },
+        "dispatch_sequence": {
+          "type": "integer",
+          "description": "Position of the job in its machine's dispatch queue (sequence_on_machine); empty when not queued."
+        },
+        "start_replanned": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Start time after the scheduler's last re-plan (start_planned keeps the original plan)."
+        },
+        "end_replanned": {
+          "type": "string",
+          "format": "date-time",
+          "description": "End time after the scheduler's last re-plan (end_planned keeps the original plan)."
+        },
+        "release_block_reason": {
+          "type": "string",
+          "description": "Why the ERP blocks the job's release; empty when not blocked (empty on all 3 871 jobs measured 19.11.2026)."
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the operation was created in the ERP."
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the ERP last changed the operation."
         }
       },
       "required": [
@@ -157,6 +196,13 @@
     "tool_ref": "transactional",
     "physical_asset_class_ref": "transactional",
     "test_specification_ref": "transactional",
-    "work_type": "transactional"
+    "work_type": "transactional",
+    "dispatchable": "transactional",
+    "dispatch_sequence": "transactional",
+    "start_replanned": "transactional",
+    "end_replanned": "transactional",
+    "release_block_reason": "transactional",
+    "created_at": "transactional",
+    "updated_at": "transactional"
   }
 }

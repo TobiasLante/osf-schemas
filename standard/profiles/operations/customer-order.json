@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-CustomerOrder",
-  "version": "4.1.2",
+  "version": "4.2.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Customer Order (sales order)",
@@ -52,6 +52,7 @@
       "valueType": "SP",
       "required": false,
       "category": "Commercial",
+      "unit": "C62",
       "description": "Ordered piece count of the order line (menge). Together with unit_price the source for total_amount — the real ERP does not keep an order total: order value = quantity × unit_price (derived by the it-evaluator).",
       "delivery": "transactional",
       "scope": "hub",
@@ -131,6 +132,11 @@
       "valueType": "SP",
       "required": false,
       "category": "Planning",
+      "enum": [
+        "HIGH",
+        "NORMAL",
+        "URGENT"
+      ],
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -142,6 +148,176 @@
       "required": false,
       "category": "Timing",
       "description": "Customer delivery date of the order (moved here from ProductionOrder in core 3.0.0).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "article_ref",
+      "dataType": "String",
+      "valueType": "ID",
+      "required": false,
+      "category": "Link",
+      "description": "The article the order line is for (FK to Article.article_no).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "Kept as a value: the customer order is an extension above the MOM boundary, ISA-95 has no edge from it (owner 25.09.: only ISA-95 edges).",
+        "targets": [
+          "Article"
+        ]
+      }
+    },
+    {
+      "name": "article_name",
+      "dataType": "String",
+      "valueType": "MD",
+      "required": false,
+      "category": "Core",
+      "description": "Name of the ordered article as the ERP prints it on the order.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "production_order_ref",
+      "dataType": "String",
+      "valueType": "ID",
+      "required": false,
+      "category": "Link",
+      "description": "The production order that makes this order line (FK to ProductionOrder.production_order_no).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "Kept as a value: the customer order is an extension above the MOM boundary, ISA-95 has no edge from it to the OperationsRequest it triggers.",
+        "targets": [
+          "ProductionOrder"
+        ]
+      }
+    },
+    {
+      "name": "parent_order_ref",
+      "dataType": "String",
+      "valueType": "ID",
+      "required": false,
+      "category": "Link",
+      "description": "The customer order this one was split from (split order, suffix -S1); empty on an unsplit order.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "Kept as a value: a split of a Level-4 sales order, no ISA-95 object.",
+        "targets": [
+          "CustomerOrder"
+        ]
+      }
+    },
+    {
+      "name": "status_source",
+      "dataType": "String",
+      "valueType": "PV",
+      "required": false,
+      "category": "Core",
+      "enum": [
+        "PARTIAL_SHIPPED",
+        "INVOICED",
+        "IN_PRODUCTION",
+        "COMPLETED",
+        "ACCEPTED",
+        "CANCELLED",
+        "ON_HOLD",
+        "SHIPPED"
+      ],
+      "description": "The ERP's own sales status word, unmapped (status carries it in the B2MML RequestState vocabulary). Values measured over 26 304 orders 19.11.2026.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "status_code",
+      "dataType": "String",
+      "valueType": "PV",
+      "required": false,
+      "category": "Core",
+      "enum": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "description": "The ERP's numeric order status code as delivered (order_status). Values measured over 26 304 orders 19.11.2026.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "confirmed",
+      "dataType": "Boolean",
+      "valueType": "PV",
+      "required": false,
+      "category": "Core",
+      "description": "The order is confirmed to the customer (order confirmation sent).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "confirmed_delivery_date",
+      "dataType": "DateTime",
+      "valueType": "SP",
+      "required": false,
+      "category": "Planning",
+      "description": "Delivery date confirmed to the customer in the order confirmation.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "actual_delivery_date",
+      "dataType": "DateTime",
+      "valueType": "PV",
+      "required": false,
+      "category": "Timing",
+      "description": "Date the order was actually delivered; empty while not delivered.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "created_at",
+      "dataType": "DateTime",
+      "valueType": "PV",
+      "required": false,
+      "category": "Timing",
+      "description": "When the order was created in the ERP.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "updated_at",
+      "dataType": "DateTime",
+      "valueType": "PV",
+      "required": false,
+      "category": "Timing",
+      "description": "When the ERP last changed the order.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "never"
+    },
+    {
+      "name": "closed_at",
+      "dataType": "DateTime",
+      "valueType": "PV",
+      "required": false,
+      "category": "Timing",
+      "description": "When the ERP closed the order; empty while open.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
@@ -220,7 +396,19 @@
       "order_no",
       "customer_ref",
       "due_date",
-      "priority"
+      "priority",
+      "article_ref",
+      "article_name",
+      "production_order_ref",
+      "parent_order_ref",
+      "status_source",
+      "status_code",
+      "confirmed",
+      "confirmed_delivery_date",
+      "actual_delivery_date",
+      "created_at",
+      "updated_at",
+      "closed_at"
     ],
     "mappingNote": "Level 4 sales order. ISA-95 stops at the MOM boundary; B2MML 0701 has no SalesOrder object."
   },

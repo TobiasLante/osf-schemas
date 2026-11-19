@@ -8,7 +8,7 @@
     "strategy": "TopicNameStrategy"
   },
   "namespace": "org.openshopfloor.payload.operations",
-  "doc": "GENERATED from standard/profiles/operations/customer-order.json 4.1.2 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "doc": "GENERATED from standard/profiles/operations/customer-order.json 4.2.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
   "fields": [
     {
       "name": "eventType",
@@ -52,7 +52,7 @@
     {
       "name": "profileVersion",
       "type": "string",
-      "default": "4.1.2"
+      "default": "4.2.0"
     },
     {
       "name": "b2m",
@@ -206,6 +206,129 @@
             ],
             "default": null,
             "doc": "Customer delivery date of the order (moved here from ProductionOrder in core 3.0.0)."
+          },
+          {
+            "name": "article_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The article the order line is for (FK to Article.article_no)."
+          },
+          {
+            "name": "article_name",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "Name of the ordered article as the ERP prints it on the order."
+          },
+          {
+            "name": "production_order_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The production order that makes this order line (FK to ProductionOrder.production_order_no)."
+          },
+          {
+            "name": "parent_order_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The customer order this one was split from (split order, suffix -S1); empty on an unsplit order."
+          },
+          {
+            "name": "status_source",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The ERP's own sales status word, unmapped (status carries it in the B2MML RequestState vocabulary). Values measured over 26 304 orders 19.11.2026."
+          },
+          {
+            "name": "status_code",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The ERP's numeric order status code as delivered (order_status). Values measured over 26 304 orders 19.11.2026."
+          },
+          {
+            "name": "confirmed",
+            "type": [
+              "null",
+              "boolean"
+            ],
+            "default": null,
+            "doc": "The order is confirmed to the customer (order confirmation sent)."
+          },
+          {
+            "name": "confirmed_delivery_date",
+            "type": [
+              "null",
+              {
+                "type": "long",
+                "logicalType": "timestamp-millis"
+              }
+            ],
+            "default": null,
+            "doc": "Delivery date confirmed to the customer in the order confirmation."
+          },
+          {
+            "name": "actual_delivery_date",
+            "type": [
+              "null",
+              {
+                "type": "long",
+                "logicalType": "timestamp-millis"
+              }
+            ],
+            "default": null,
+            "doc": "Date the order was actually delivered; empty while not delivered."
+          },
+          {
+            "name": "created_at",
+            "type": [
+              "null",
+              {
+                "type": "long",
+                "logicalType": "timestamp-millis"
+              }
+            ],
+            "default": null,
+            "doc": "When the order was created in the ERP."
+          },
+          {
+            "name": "updated_at",
+            "type": [
+              "null",
+              {
+                "type": "long",
+                "logicalType": "timestamp-millis"
+              }
+            ],
+            "default": null,
+            "doc": "When the ERP last changed the order."
+          },
+          {
+            "name": "closed_at",
+            "type": [
+              "null",
+              {
+                "type": "long",
+                "logicalType": "timestamp-millis"
+              }
+            ],
+            "default": null,
+            "doc": "When the ERP closed the order; empty while open."
           }
         ]
       }

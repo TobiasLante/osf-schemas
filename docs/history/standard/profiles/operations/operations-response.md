@@ -13,3 +13,7 @@ Actual status of the confirmation. MEASURED reality (2026-07-12): the bound sour
 ## isa95 › note
 
 Level-3 MOM OperationsResponse (B2MML) = the actuals. v2.0: the actuals per ProcessSegment are modeled out as a dedicated SMProfile-SegmentResponse (HAS_SEGMENT_RESPONSE); article_ref/machine_ref/quantity_produced remain a denormalized header shortcut, while material consumed/produced per segment lives as MaterialActual (MaterialLot) in the SegmentResponses. Plan-vs-actual = Cross-Source reconcile. SPEC-VS-ACTUAL: measured actual product property values (process-specific, e.g. line_speed/thickness/area_weight) hang off the Response (or SegmentResponse, delivery telemetry) and are checked against the ProductDefinition recipe bands. Process-specific measurement attributes live in customer profiles/examples, not in the neutral profile.
+
+## core 6.5.0 (0.7.5, owner 19./20.11.2026: „warum bilden wir nicht 46 felder einfach ab, wenn wir sie schon haben?“ — every field the sim delivers is mapped)
+
+Measured 19.11.2026 on /api/confirmations?per_po=true (100 000 rows paged). New: quantity_scrap (C62), cycle_time_planned_sec (SEC), planned_machine_ref (machine or pool) and aggregated_per_order. quantity_produced carries C62. Not mapped: fa_nr (= production_order_no), good_qty and yield_qty (= confirmed_qty on every row), cycle_time_planned (= cycle_time_planned_sec), machine_id (the same machine as machine_no, spelled sgm-05 for sgm-005 on 794 of 5 000 rows).

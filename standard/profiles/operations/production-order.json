@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-ProductionOrder",
-  "version": "4.0.1",
+  "version": "4.1.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Production Order (manufacturing order / OperationsRequest — PLAN/target)",
@@ -103,6 +103,7 @@
       "valueType": "SP",
       "required": false,
       "category": "Planning",
+      "unit": "C62",
       "description": "Planned piece count (target). Counterpart to OperationsResponse.quantity_produced. Driver of the qty_shortfall rule.",
       "delivery": "transactional",
       "scope": "hub",
@@ -170,6 +171,7 @@
       "valueType": "SP",
       "required": false,
       "category": "Commercial",
+      "unit": "C62",
       "description": "Ordered piece count (geplante_stueckzahl). Full text: docs/history/standard/profiles/operations/production-order.md, attributes › quantity › description.",
       "delivery": "transactional",
       "scope": "hub",
@@ -206,6 +208,11 @@
       "valueType": "SP",
       "required": false,
       "category": "Planning",
+      "enum": [
+        "HIGH",
+        "NORMAL",
+        "URGENT"
+      ],
       "description": "Order priority.",
       "delivery": "transactional",
       "scope": "hub",
@@ -321,6 +328,163 @@
       "scope": "hub",
       "promotion": "on_change",
       "valueType": "PV"
+    },
+    {
+      "name": "qty_produced",
+      "dataType": "Int32",
+      "valueType": "PV",
+      "required": false,
+      "category": "Execution",
+      "unit": "C62",
+      "description": "Good pieces produced on the order so far, as the ERP books it (produzierte_stueckzahl).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "machine_type",
+      "dataType": "String",
+      "valueType": "MD",
+      "required": false,
+      "category": "Core",
+      "enum": [
+        "assembly-line",
+        "fremdbearbeitung",
+        "cnc",
+        "prueffeld",
+        "vormontage",
+        "sgm",
+        "CNC",
+        "assembly-station",
+        "press"
+      ],
+      "description": "The ERP's machine type of the planned machine. Values measured over 26 304 orders 19.11.2026.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "dispatch_machine_ref",
+      "dataType": "String",
+      "valueType": "ID",
+      "required": false,
+      "category": "Link",
+      "description": "The machine the dispatcher put the order on inside the planning horizon (FK to the machine's element id).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "Kept as a value: the dispatch proposal is the scheduler's, no B2MML field of the OperationsRequest; the planned machine is machine_ref.",
+        "targets": [
+          "Machine"
+        ]
+      }
+    },
+    {
+      "name": "dispatch_pool_ref",
+      "dataType": "String",
+      "valueType": "ID",
+      "required": false,
+      "category": "Link",
+      "description": "The ERP pool (EquipmentClass, e.g. POOL-SGM) the dispatcher planned the order in.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "Kept as a value: the dispatch proposal is the scheduler's, no B2MML field of the OperationsRequest.",
+        "targets": [
+          "EquipmentClass"
+        ]
+      }
+    },
+    {
+      "name": "dispatch_operation_no",
+      "dataType": "String",
+      "valueType": "ID",
+      "required": false,
+      "category": "Planning",
+      "description": "Routing operation number the dispatch proposal is for (e.g. 10, 20, 2099).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "dispatch_in_horizon",
+      "dataType": "Boolean",
+      "valueType": "PV",
+      "required": false,
+      "category": "Planning",
+      "description": "The order lies inside the dispatcher's planning horizon (it carries a dispatch proposal).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "tool_ref",
+      "dataType": "String",
+      "valueType": "ID",
+      "required": false,
+      "category": "Link",
+      "description": "The tool the order is planned with (FK to Tooling.tool_id).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "Kept as a value: ISA-95 has no edge from the OperationsRequest to a physical asset; the edge belongs to its segment requirement (SegmentRequirement.tool_ref).",
+        "targets": [
+          "Tooling"
+        ]
+      }
+    },
+    {
+      "name": "mould_ref",
+      "dataType": "String",
+      "valueType": "ID",
+      "required": false,
+      "category": "Link",
+      "description": "The mould the order is planned with on an injection moulding machine (FK to Mould.tool_id); carries parts_per_shot.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "Kept as a value: ISA-95 has no edge from the OperationsRequest to a physical asset; the edge belongs to its segment requirement.",
+        "targets": [
+          "Mould"
+        ]
+      }
+    },
+    {
+      "name": "routing_ref",
+      "dataType": "String",
+      "valueType": "ID",
+      "required": false,
+      "category": "Link",
+      "description": "The ERP routing (Arbeitsplan) the order is made by. Full text: docs/history/standard/profiles/operations/production-order.md, attributes › routing_ref.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "Kept as a value: the ERP routing number does not meet the operations definitions' keys (OPDEF-…, measured 19.11.2026), so no FOR_OPERATIONS_DEFINITION edge is drawn on it.",
+        "targets": [
+          "OperationsDefinition"
+        ]
+      }
+    },
+    {
+      "name": "note",
+      "dataType": "String",
+      "valueType": "MD",
+      "required": false,
+      "category": "Core",
+      "description": "Free-text note of the ERP on the order (notiz).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     }
   ],
   "relationships": [
@@ -402,7 +566,8 @@
       "priority": "OperationsRequest.Priority",
       "operations_type": "OperationsRequest.OperationsType",
       "planned_start_time": "OperationsRequest.StartTime",
-      "department_ref": "OperationsRequest.HierarchyScope.EquipmentID"
+      "department_ref": "OperationsRequest.HierarchyScope.EquipmentID",
+      "tool_ref": "OperationsRequest.SegmentRequirement.PhysicalAssetRequirement.PhysicalAssetID"
     },
     "notInIsa95": [
       "sales_order_ref",
@@ -412,7 +577,16 @@
       "material_ready_at",
       "updated_at",
       "qty_planned",
-      "operations_definition_version"
+      "operations_definition_version",
+      "qty_produced",
+      "machine_type",
+      "dispatch_machine_ref",
+      "dispatch_pool_ref",
+      "dispatch_operation_no",
+      "dispatch_in_horizon",
+      "mould_ref",
+      "routing_ref",
+      "note"
     ],
     "mappingNote": "sales_order_ref is the ERP key of the Level-4 customer order this OperationsRequest serves. ISA-95 Part 2 has no element for a business-level order on the OperationsRequest, so it is kept as a plain reference value, not mapped and not an edge (owner 25.09.: only ISA-95 edges; owner 06.10. round 4: the reference stays). department_ref is the ERP department (not an ISA-95 hierarchy element), planned_start_time is the start of the next open operation (not of the request), and cycle time, dispatch sequence and material-ready time are planning values of the source with no B2MML field; updated_at is a technical timestamp of the source. Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent). qty_planned names the same B2MML field as quantity (SegmentRequirement.MaterialRequirement.Quantity); quantity carries the mapping, qty_planned is its name for the qty_shortfall rule (audit L1). Audit M3 (core 6.0.0): planned_start_time is OperationsRequest.StartTime, department_ref the request's HierarchyScope; cycle_time_planned_sec stays ours — SegmentRequirement.Duration is the planned duration of the segment, not the time per part. PLM as-built (owner 29.10.2026): operations_definition_version names the state that was built where the source's id carries none; B2MML references a definition by its ID alone (an ID means one state), so there is no field for it — an extension, never part of the key."
   },

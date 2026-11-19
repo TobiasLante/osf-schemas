@@ -1,6 +1,6 @@
 {
   "sourceId": "erp-bde-confirmations",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "sourceType": "rest",
   "functionalLevel": 4,
   "syncType": "polling",
@@ -105,6 +105,46 @@
     {
       "smAttribute": "operations_type",
       "const": "Production"
+    },
+    {
+      "column": "job_order_no",
+      "smAttribute": "job_order_ref"
+    },
+    {
+      "column": "planned_machine_no",
+      "smAttribute": "planned_machine_ref"
+    },
+    {
+      "column": "machine_type",
+      "smAttribute": "machine_type"
+    },
+    {
+      "column": "cycle_time_planned_sec",
+      "smAttribute": "cycle_time_planned_sec"
+    },
+    {
+      "column": "worker_id",
+      "smAttribute": "person_ref"
+    },
+    {
+      "column": "worker_pnr",
+      "smAttribute": "personnel_no"
+    },
+    {
+      "column": "operator_id",
+      "smAttribute": "operator_ref"
+    },
+    {
+      "column": "final_confirmation",
+      "smAttribute": "final_confirmation"
+    },
+    {
+      "column": "received_at",
+      "smAttribute": "received_at"
+    },
+    {
+      "column": "recorded_by",
+      "smAttribute": "recorded_by"
     }
   ],
   "filter": null,

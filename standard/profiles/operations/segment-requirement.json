@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-SegmentRequirement",
-  "version": "4.0.1",
+  "version": "4.1.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Segment Requirement (segment target per order)",
@@ -116,6 +116,7 @@
       "valueType": "SP",
       "required": false,
       "category": "Planning",
+      "unit": "C62",
       "description": "Planned quantity of this material role (target). Counterpart to SegmentResponse.qty_actual.",
       "delivery": "transactional",
       "scope": "hub",
@@ -433,6 +434,59 @@
       "scope": "hub",
       "promotion": "on_change",
       "valueType": "ID"
+    },
+    {
+      "name": "routing_ref",
+      "dataType": "String",
+      "valueType": "ID",
+      "required": false,
+      "category": "Link",
+      "description": "The ERP routing (Arbeitsplan) the operation comes from. Full text: docs/history/standard/profiles/operations/segment-requirement.md, attributes › routing_ref.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "Kept as a value: the ERP routing number does not meet the operations definitions' keys (OPDEF-…, measured 19.11.2026), so no FOR_OPERATIONS_DEFINITION edge is drawn on it.",
+        "targets": [
+          "OperationsDefinition"
+        ]
+      }
+    },
+    {
+      "name": "routing_operation_no",
+      "dataType": "String",
+      "valueType": "ID",
+      "required": false,
+      "category": "Planning",
+      "description": "Operation number inside the ERP routing (e.g. 10, 20, 99).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "setup_planned_min",
+      "dataType": "Double",
+      "valueType": "SP",
+      "required": false,
+      "category": "Planning",
+      "unit": "MIN",
+      "description": "Planned setup time of the operation from the routing.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "cycle_time_planned_sec",
+      "dataType": "Double",
+      "valueType": "SP",
+      "required": false,
+      "category": "Planning",
+      "unit": "SEC",
+      "description": "Planned cycle time per piece of the operation from the routing.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     }
   ],
   "relationships": [
@@ -578,7 +632,11 @@
     "notInIsa95": [
       "parent_segment_requirement_ref",
       "sequence",
-      "operations_definition_version"
+      "operations_definition_version",
+      "routing_ref",
+      "routing_operation_no",
+      "setup_planned_min",
+      "cycle_time_planned_sec"
     ],
     "mappingNote": "sequence is carried by B2MML through the order of SegmentRequirement in OperationsRequest, not as a field. Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent). PLM as-built (owner 29.10.2026): operations_definition_version names the state that was built where the source's id carries none; B2MML references a definition by its ID alone (an ID means one state), so there is no field for it — an extension, never part of the key."
   },

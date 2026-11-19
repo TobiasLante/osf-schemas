@@ -8,7 +8,7 @@
     "strategy": "TopicNameStrategy"
   },
   "namespace": "org.openshopfloor.payload.operations",
-  "doc": "GENERATED from standard/profiles/operations/customer.json 2.0.1 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "doc": "GENERATED from standard/profiles/operations/customer.json 2.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
   "fields": [
     {
       "name": "eventType",
@@ -52,7 +52,7 @@
     {
       "name": "profileVersion",
       "type": "string",
-      "default": "2.0.1"
+      "default": "2.1.0"
     },
     {
       "name": "b2m",
@@ -142,6 +142,141 @@
             ],
             "default": null,
             "doc": "Customer segment / classification."
+          },
+          {
+            "name": "email",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "Order contact e-mail address of the customer."
+          },
+          {
+            "name": "payment_terms",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "Payment terms key of the customer. Values measured over all 6 customers 19.11.2026."
+          },
+          {
+            "name": "active",
+            "type": [
+              "null",
+              "boolean"
+            ],
+            "default": null,
+            "doc": "The customer is active in the ERP."
+          },
+          {
+            "name": "credit_limit",
+            "type": [
+              "null",
+              "double"
+            ],
+            "default": null,
+            "doc": "Credit limit of the customer, in currency."
+          },
+          {
+            "name": "currency",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "Currency of the customer's account (ISO 4217, e.g. EUR)."
+          },
+          {
+            "name": "tax_id",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "VAT identification number of the customer."
+          },
+          {
+            "name": "incoterms",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "Incoterms delivery term agreed with the customer. Values measured over all 6 customers 19.11.2026."
+          },
+          {
+            "name": "sales_area",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "Sales area the customer belongs to (e.g. DE_SUED)."
+          },
+          {
+            "name": "delivery_block",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "Delivery block key on the customer. Values measured over all 6 customers 19.11.2026."
+          },
+          {
+            "name": "billing_block",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "Billing block key on the customer. Values measured over all 6 customers 19.11.2026."
+          },
+          {
+            "name": "deactivated_at",
+            "type": [
+              "null",
+              {
+                "type": "long",
+                "logicalType": "timestamp-millis"
+              }
+            ],
+            "default": null,
+            "doc": "When the customer was deactivated; empty while active."
+          },
+          {
+            "name": "deactivated_reason",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "Why the customer was deactivated; empty while active."
+          },
+          {
+            "name": "created_at",
+            "type": [
+              "null",
+              {
+                "type": "long",
+                "logicalType": "timestamp-millis"
+              }
+            ],
+            "default": null,
+            "doc": "When the customer was created in the ERP."
+          },
+          {
+            "name": "updated_at",
+            "type": [
+              "null",
+              {
+                "type": "long",
+                "logicalType": "timestamp-millis"
+              }
+            ],
+            "default": null,
+            "doc": "When the ERP last changed the customer."
           }
         ]
       }

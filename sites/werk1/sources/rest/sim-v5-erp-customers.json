@@ -1,6 +1,6 @@
 {
  "sourceId": "sim-v5-erp-customers",
- "version": "2.2.0",
+ "version": "2.3.0",
  "sourceType": "rest",
  "functionalLevel": 4,
  "syncType": "polling",
@@ -15,8 +15,64 @@
   { "column": "kunde_id", "smAttribute": "customer_no", "isId": true },
   { "column": "name", "smAttribute": "name" },
   { "column": "land", "smAttribute": "country" },
-  { "column": "segment", "smAttribute": "segment" }
- ],
+  { "column": "segment", "smAttribute": "segment" },
+    {
+      "column": "email",
+      "smAttribute": "email"
+    },
+    {
+      "column": "payment_terms",
+      "smAttribute": "payment_terms"
+    },
+    {
+      "column": "active",
+      "smAttribute": "active"
+    },
+    {
+      "column": "credit_limit",
+      "smAttribute": "credit_limit"
+    },
+    {
+      "column": "currency",
+      "smAttribute": "currency"
+    },
+    {
+      "column": "tax_id",
+      "smAttribute": "tax_id"
+    },
+    {
+      "column": "incoterms",
+      "smAttribute": "incoterms"
+    },
+    {
+      "column": "sales_area",
+      "smAttribute": "sales_area"
+    },
+    {
+      "column": "delivery_block",
+      "smAttribute": "delivery_block"
+    },
+    {
+      "column": "billing_block",
+      "smAttribute": "billing_block"
+    },
+    {
+      "column": "deactivated_at",
+      "smAttribute": "deactivated_at"
+    },
+    {
+      "column": "deactivated_reason",
+      "smAttribute": "deactivated_reason"
+    },
+    {
+      "column": "created_at",
+      "smAttribute": "created_at"
+    },
+    {
+      "column": "updated_at",
+      "smAttribute": "updated_at"
+    }
+  ],
  "filter": null,
  "edges": [],
  "description": "Polling.paginate ENABLED. Full text: docs/history/sites/werk1/sources/rest/sim-v5-erp-customers.md, description."

@@ -2,9 +2,9 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-BdeConfirmation.payload.json",
   "title": "SMProfile-BdeConfirmation payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/operations/bde-confirmation.json 1.2.1 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/operations/bde-confirmation.json 1.3.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-BdeConfirmation",
-  "x-profileVersion": "1.2.1",
+  "x-profileVersion": "1.3.0",
   "x-payloadVersion": "1.1.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
@@ -60,22 +60,38 @@
         },
         "shift": {
           "type": "string",
+          "enum": [
+            "SS",
+            "FS"
+          ],
           "description": "Shift of record for the booking, derived upstream from machine_departments x machine_pools x shift_config x shift_weekly_pattern (sim-v5, 2026-08-03). Full text: docs/history/standard/profiles/operations/bde-confirmation.md, attributes › shift › description."
         },
         "good_qty": {
           "type": "integer",
+          "x-unit": "C62",
           "description": "Pieces booked as good on this confirmation."
         },
         "scrap_qty": {
           "type": "integer",
+          "x-unit": "C62",
           "description": "Pieces booked as scrap on this confirmation. The ERP half of the quantity axis — the counterpart the machine's own part_scrap counter is reconciled against."
         },
         "rework_qty": {
           "type": "integer",
+          "x-unit": "C62",
           "description": "Pieces booked for rework — a THIRD disposition, deliberately not folded into scrap (same rule as the part_scrap semantic in standard/mappings/attribute-aliases.json). Full text: docs/history/standard/profiles/operations/bde-confirmation.md, attributes › rework_qty › description."
         },
         "scrap_reason": {
           "type": "string",
+          "enum": [
+            "cavity-defect",
+            "quality-fail",
+            "clip_kraft",
+            "einpresskraft",
+            "isolations_widerstand",
+            "drehwinkel",
+            "drehmoment"
+          ],
           "description": "Reason code for the scrap on this booking. MEASURED: only 123 of 2000 rows carry one, with 2 distinct values (cavity-defect, quality-fail). Thin by nature — most bookings have no scrap at all — so a consumer must treat absence as 'no reason recorded', never as a category."
         },
         "labor_min": {
@@ -124,6 +140,61 @@
             "Other"
           ],
           "description": "ISA-95 operations type (B2MML OperationsType; Part 3/4: which MOM area the object belongs to; audit M1). A source without the column sets the constant of the profile's momDomain (columnMappings const)."
+        },
+        "job_order_ref": {
+          "type": "string",
+          "description": "The job (operation of the production order) the booking is for (FK to JobOrder.job_order_no)."
+        },
+        "planned_machine_ref": {
+          "type": "string",
+          "description": "The machine the operation was planned on (FK to the element id); machine_ref is the machine that booked."
+        },
+        "machine_type": {
+          "type": "string",
+          "enum": [
+            "assembly-line",
+            "sgm",
+            "cnc",
+            "fremdbearbeitung",
+            "assembly-station",
+            "press",
+            "CNC",
+            "wms-robot",
+            "prueffeld",
+            "vormontage",
+            "mobile-cobot"
+          ],
+          "description": "The ERP's type of the booking machine. Values measured over 50 000 bookings 19.11.2026."
+        },
+        "cycle_time_planned_sec": {
+          "type": "number",
+          "x-unit": "SEC",
+          "description": "Planned cycle time per piece the booking is measured against."
+        },
+        "person_ref": {
+          "type": "string",
+          "description": "The worker who booked (FK to Person.person_id); empty on all 50 000 bookings measured 19.11.2026."
+        },
+        "personnel_no": {
+          "type": "string",
+          "description": "Personnel number of the worker who booked (worker_pnr); empty on all 50 000 bookings measured 19.11.2026."
+        },
+        "operator_ref": {
+          "type": "string",
+          "description": "The operator of the booking machine (FK to Person.person_id); empty on all 50 000 bookings measured 19.11.2026."
+        },
+        "final_confirmation": {
+          "type": "boolean",
+          "description": "The booking is the final confirmation of the operation."
+        },
+        "received_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the ERP received the booking."
+        },
+        "recorded_by": {
+          "type": "string",
+          "description": "The system or station that recorded the booking (e.g. factory-bde-bridge:station:M2-1)."
         }
       },
       "required": [
@@ -152,6 +223,16 @@
     "actual_start_time": "transactional",
     "actual_end_time": "transactional",
     "updated_at": "transactional",
-    "operations_type": "transactional"
+    "operations_type": "transactional",
+    "job_order_ref": "transactional",
+    "planned_machine_ref": "transactional",
+    "machine_type": "transactional",
+    "cycle_time_planned_sec": "transactional",
+    "person_ref": "transactional",
+    "personnel_no": "transactional",
+    "operator_ref": "transactional",
+    "final_confirmation": "transactional",
+    "received_at": "transactional",
+    "recorded_by": "transactional"
   }
 }

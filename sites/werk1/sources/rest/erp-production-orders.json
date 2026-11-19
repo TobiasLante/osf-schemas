@@ -1,6 +1,6 @@
 {
   "sourceId": "erp-production-orders",
-  "version": "5.2.0",
+  "version": "5.3.0",
   "sourceType": "rest",
   "functionalLevel": 4,
   "syncType": "polling",
@@ -107,6 +107,46 @@
     {
       "smAttribute": "operations_type",
       "const": "Production"
+    },
+    {
+      "column": "produzierte_stueckzahl",
+      "smAttribute": "qty_produced"
+    },
+    {
+      "column": "machine_type",
+      "smAttribute": "machine_type"
+    },
+    {
+      "column": "dispatch_machine_id",
+      "smAttribute": "dispatch_machine_ref"
+    },
+    {
+      "column": "dispatch_pool_id",
+      "smAttribute": "dispatch_pool_ref"
+    },
+    {
+      "column": "dispatch_operation_number",
+      "smAttribute": "dispatch_operation_no"
+    },
+    {
+      "column": "dispatch_in_horizon",
+      "smAttribute": "dispatch_in_horizon"
+    },
+    {
+      "column": "tool_no",
+      "smAttribute": "tool_ref"
+    },
+    {
+      "column": "mould_ref",
+      "smAttribute": "mould_ref"
+    },
+    {
+      "column": "arbeitsplan",
+      "smAttribute": "routing_ref"
+    },
+    {
+      "column": "notiz",
+      "smAttribute": "note"
     }
   ],
   "filter": null,

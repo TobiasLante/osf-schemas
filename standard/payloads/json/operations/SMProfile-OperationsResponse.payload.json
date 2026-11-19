@@ -2,9 +2,9 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-OperationsResponse.payload.json",
   "title": "SMProfile-OperationsResponse payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/operations/operations-response.json 4.0.1 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/operations/operations-response.json 4.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-OperationsResponse",
-  "x-profileVersion": "4.0.1",
+  "x-profileVersion": "4.1.0",
   "x-payloadVersion": "1.1.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
@@ -48,6 +48,7 @@
         },
         "quantity_produced": {
           "type": "integer",
+          "x-unit": "C62",
           "description": "Piece count actually produced (actual). Counterpart to qty_planned."
         },
         "cycle_time_actual_sec": {
@@ -117,6 +118,24 @@
             "Other"
           ],
           "description": "ISA-95 operations type (B2MML OperationsType; Part 3/4: which MOM area the object belongs to; audit M1). A source without the column sets the constant of the profile's momDomain (columnMappings const)."
+        },
+        "quantity_scrap": {
+          "type": "integer",
+          "x-unit": "C62",
+          "description": "Scrapped pieces confirmed on the order."
+        },
+        "cycle_time_planned_sec": {
+          "type": "number",
+          "x-unit": "SEC",
+          "description": "Planned cycle time per piece the confirmation is measured against."
+        },
+        "planned_machine_ref": {
+          "type": "string",
+          "description": "The ERP pool (EquipmentClass, e.g. POOL-SGM) the work was planned on; machine_ref is the machine that ran it."
+        },
+        "aggregated_per_order": {
+          "type": "boolean",
+          "description": "The row sums all confirmations of one production order (true on every row of the per-order view)."
         }
       },
       "required": [
@@ -141,6 +160,10 @@
     "operations_segment_ref": "transactional",
     "operations_performance_ref": "transactional",
     "segment_requirement_ref": "transactional",
-    "operations_type": "transactional"
+    "operations_type": "transactional",
+    "quantity_scrap": "transactional",
+    "cycle_time_planned_sec": "transactional",
+    "planned_machine_ref": "transactional",
+    "aggregated_per_order": "transactional"
   }
 }

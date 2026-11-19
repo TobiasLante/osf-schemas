@@ -8,7 +8,7 @@
     "strategy": "TopicNameStrategy"
   },
   "namespace": "org.openshopfloor.payload.operations",
-  "doc": "GENERATED from standard/profiles/operations/operations-response.json 4.0.1 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "doc": "GENERATED from standard/profiles/operations/operations-response.json 4.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
   "fields": [
     {
       "name": "eventType",
@@ -52,7 +52,7 @@
     {
       "name": "profileVersion",
       "type": "string",
-      "default": "4.0.1"
+      "default": "4.1.0"
     },
     {
       "name": "b2m",
@@ -268,6 +268,42 @@
             ],
             "default": null,
             "doc": "ISA-95 operations type (B2MML OperationsType; Part 3/4: which MOM area the object belongs to; audit M1). A source without the column sets the constant of the profile's momDomain (columnMappings const)."
+          },
+          {
+            "name": "quantity_scrap",
+            "type": [
+              "null",
+              "long"
+            ],
+            "default": null,
+            "doc": "Scrapped pieces confirmed on the order."
+          },
+          {
+            "name": "cycle_time_planned_sec",
+            "type": [
+              "null",
+              "double"
+            ],
+            "default": null,
+            "doc": "Planned cycle time per piece the confirmation is measured against."
+          },
+          {
+            "name": "planned_machine_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The ERP pool (EquipmentClass, e.g. POOL-SGM) the work was planned on; machine_ref is the machine that ran it."
+          },
+          {
+            "name": "aggregated_per_order",
+            "type": [
+              "null",
+              "boolean"
+            ],
+            "default": null,
+            "doc": "The row sums all confirmations of one production order (true on every row of the per-order view)."
           }
         ]
       }
