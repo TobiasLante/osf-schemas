@@ -8,7 +8,7 @@
     "strategy": "TopicNameStrategy"
   },
   "namespace": "org.openshopfloor.payload.quality",
-  "doc": "GENERATED from standard/profiles/quality/inspection-lot.json 3.4.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "doc": "GENERATED from standard/profiles/quality/inspection-lot.json 3.5.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
   "fields": [
     {
       "name": "eventType",
@@ -52,7 +52,7 @@
     {
       "name": "profileVersion",
       "type": "string",
-      "default": "3.4.0"
+      "default": "3.5.0"
     },
     {
       "name": "b2m",
@@ -222,7 +222,16 @@
               "string"
             ],
             "default": null,
-            "doc": "Referenced production order (join key to ProductionOrder / CustomerOrder)."
+            "doc": "Referenced production order (join key to ProductionOrder.production_order_no). The customer order is the production order's sales_order_ref, never this value."
+          },
+          {
+            "name": "segment_response_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "FK to SegmentResponse.segment_response_no: the segment response whose material actual carries this lot's result (B2MML SegmentResponse.MaterialActual.TestResult). Full text: docs/history/standard/profiles/quality/inspection-lot.md, attributes › segment_response_ref › description."
           },
           {
             "name": "article_ref",
