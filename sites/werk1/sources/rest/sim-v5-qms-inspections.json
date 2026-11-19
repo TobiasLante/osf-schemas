@@ -1,6 +1,6 @@
 {
  "sourceId": "sim-v5-qms-inspections",
- "version": "2.3.0",
+ "version": "2.4.0",
  "sourceType": "rest",
  "functionalLevel": 4,
  "syncType": "polling",
@@ -17,6 +17,7 @@
   { "column": "lot_no", "smAttribute": "lot_no", "isId": true },
   { "column": "article_no", "smAttribute": "article_ref" },
   { "column": "production_order_no", "smAttribute": "order_ref" },
+  { "column": "confirmation_no", "smAttribute": "segment_response_ref" },
   { "column": "status", "smAttribute": "status" },
   { "column": "state", "smAttribute": "state" },
   { "column": "lot_type", "smAttribute": "lot_type" },
@@ -33,6 +34,7 @@
    { "fkColumn": "quant_ref", "targetIdProp": "quant_no" },
    { "fkColumn": "material_lot_ref", "targetIdProp": "material_lot_no" },
    { "fkColumn": "article_no", "targetIdProp": "article_no" }
-  ] }
+  ] },
+  { "type": "HAS_TEST_RESULT", "fkColumn": "confirmation_no", "targetIdProp": "segment_response_no", "direction": "in" }
  ]
 }

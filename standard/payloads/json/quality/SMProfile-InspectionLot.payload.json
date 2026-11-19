@@ -2,9 +2,9 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/quality/SMProfile-InspectionLot.payload.json",
   "title": "SMProfile-InspectionLot payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/quality/inspection-lot.json 3.4.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/quality/inspection-lot.json 3.5.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-InspectionLot",
-  "x-profileVersion": "3.4.0",
+  "x-profileVersion": "3.5.0",
   "x-payloadVersion": "1.1.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
@@ -81,7 +81,11 @@
         },
         "order_ref": {
           "type": "string",
-          "description": "Referenced production order (join key to ProductionOrder / CustomerOrder)."
+          "description": "Referenced production order (join key to ProductionOrder.production_order_no). The customer order is the production order's sales_order_ref, never this value."
+        },
+        "segment_response_ref": {
+          "type": "string",
+          "description": "FK to SegmentResponse.segment_response_no: the segment response (one confirmed operation of the production order) whose material actual carries this lot's result (B2MML SegmentResponse.MaterialActual.TestResult). Through it the lot reaches its production order (RESPONDS_TO). Core 6.4.0 (K-QLOT, owner 19.11.2026)."
         },
         "article_ref": {
           "type": "string"
@@ -145,6 +149,7 @@
     "parent_test_result_ref": "transactional",
     "lot_no": "transactional",
     "order_ref": "transactional",
+    "segment_response_ref": "transactional",
     "article_ref": "transactional",
     "lot_type": "transactional",
     "status": "transactional",

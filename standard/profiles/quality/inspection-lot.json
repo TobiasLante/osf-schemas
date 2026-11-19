@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-InspectionLot",
-  "version": "3.4.0",
+  "version": "3.5.0",
   "standard": "CarToUNS",
   "category": "quality",
   "displayName": "Inspection Lot",
@@ -24,15 +24,34 @@
       "dataType": "String",
       "required": false,
       "category": "Link",
-      "description": "Referenced production order (join key to ProductionOrder / CustomerOrder).",
+      "description": "Referenced production order (join key to ProductionOrder.production_order_no). The customer order is the production order's sales_order_ref, never this value.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change",
       "refStatus": {
         "kind": "refOnly",
-        "reason": "B2MML 0701 TestResult names no order: it tests one object (TestableObjectID) — the order is reached through the tested lot (TESTS MaterialLot, the lot of the job order). Kept as a value (core 6.2.0 K11).",
+        "reason": "B2MML 0701 TestResult names no order: it tests one object (TestableObjectID). The order is reached through the segment response that holds the result (SegmentResponse HAS_TEST_RESULT, RESPONDS_TO OperationsRequest) — segment_response_ref. Kept as a value (core 6.2.0 K11; target ProductionOrder since core 6.4.0, K-QLOT).",
         "targets": [
-          "CustomerOrder"
+          "ProductionOrder"
+        ]
+      }
+    },
+    {
+      "name": "segment_response_ref",
+      "valueType": "ID",
+      "dataType": "String",
+      "required": false,
+      "category": "Link",
+      "description": "FK to SegmentResponse.segment_response_no: the segment response (one confirmed operation of the production order) whose material actual carries this lot's result (B2MML SegmentResponse.MaterialActual.TestResult). Through it the lot reaches its production order (RESPONDS_TO). Core 6.4.0 (K-QLOT, owner 19.11.2026).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "refStatus": {
+        "kind": "edge",
+        "relationship": "HAS_TEST_RESULT",
+        "direction": "in",
+        "targets": [
+          "SegmentResponse"
         ]
       }
     },
@@ -260,6 +279,7 @@
     },
     "notInIsa95": [
       "order_ref",
+      "segment_response_ref",
       "state",
       "parent_inspection_lot_ref",
       "machine_ref",
@@ -269,7 +289,7 @@
       "sample_size",
       "created_at"
     ],
-    "mappingNote": "TestResult carries no order and no workflow state; both are OSF joins on the lot. TestResult carries no equipment, lot type, lot status, lot quantity or sample size either. Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent). created_at is the day the lot was opened, not the evaluation date of B2MML TestResult.EvaluationDate (the usage decision) — no source of the demo plant has that date (audit M4).",
+    "mappingNote": "TestResult carries no order and no workflow state; both are OSF joins on the lot. The segment response that holds the result (B2MML SegmentResponse.MaterialActual.TestResult) is named on the lot by segment_response_ref — the edge runs from the response (HAS_TEST_RESULT, in-edge of the lot's source), and the order is the response's (RESPONDS_TO). TestResult carries no equipment, lot type, lot status, lot quantity or sample size either. Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent). created_at is the day the lot was opened, not the evaluation date of B2MML TestResult.EvaluationDate (the usage decision) — no source of the demo plant has that date (audit M4).",
     "grain": "one test result of material (ISA-95 Part 2 cl. 5.9 TestResult): one row = one inspection lot — the tested article, material lot (MaterialLot) or sublot (Quant) with its usage decision, keyed by lot_no; the test result of a person, machine or tool is TestResult"
   },
   "kgNodeLabel": "InspectionLot",

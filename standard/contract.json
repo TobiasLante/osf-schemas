@@ -4369,8 +4369,8 @@
       "kind": "refOnly",
       "targets": [
         {
-          "node": "CustomerOrder",
-          "key": "order_no"
+          "node": "ProductionOrder",
+          "key": "production_order_no"
         }
       ]
     },
@@ -4391,6 +4391,17 @@
         {
           "node": "Quant",
           "key": "quant_no"
+        }
+      ]
+    },
+    "InspectionLot.segment_response_ref": {
+      "kind": "edge",
+      "relationship": "HAS_TEST_RESULT",
+      "direction": "in",
+      "targets": [
+        {
+          "node": "SegmentResponse",
+          "key": "segment_response_no"
         }
       ]
     },
@@ -4867,7 +4878,9 @@
       ]
     },
     "MaterialLot.job_order_ref": {
-      "kind": "refOnly",
+      "kind": "edge",
+      "relationship": "REQUIRES_MATERIAL",
+      "direction": "in",
       "targets": [
         {
           "node": "JobOrder",
