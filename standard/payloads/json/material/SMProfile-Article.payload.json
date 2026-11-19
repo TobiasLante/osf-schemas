@@ -2,9 +2,9 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/material/SMProfile-Article.payload.json",
   "title": "SMProfile-Article payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/material/article.json 3.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/material/article.json 3.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-Article",
-  "x-profileVersion": "3.0.0",
+  "x-profileVersion": "3.1.0",
   "x-payloadVersion": "1.1.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
@@ -33,7 +33,14 @@
           "type": "string"
         },
         "type": {
-          "type": "string"
+          "type": "string",
+          "enum": [
+            "FINISHED",
+            "RAW",
+            "WIP",
+            "CONSUMABLE",
+            "TOOL"
+          ]
         },
         "unit": {
           "type": "string"
@@ -123,6 +130,104 @@
         "plm_part_ref": {
           "type": "string",
           "description": "The part number of this article in PLM (e.g. a Windchill part) where it differs from the ERP number; empty when the source does not name it."
+        },
+        "supplier_ref": {
+          "type": "string",
+          "description": "The supplier of the article as the ERP article master names it (lieferant_id)."
+        },
+        "primary_supplier_ref": {
+          "type": "string",
+          "description": "The primary supplier of the article from the ERP purchasing data (primary_supplier_id). Full text: docs/history/standard/profiles/material/article.md, attributes › primary_supplier_ref › description."
+        },
+        "active": {
+          "type": "boolean",
+          "description": "Whether the article is active in the ERP article master (aktiv)."
+        },
+        "replaced_by_ref": {
+          "type": "string",
+          "description": "The article that replaces this one, where the ERP article master names it (replaced_by)."
+        },
+        "deactivated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the ERP deactivated the article (deactivated_at)."
+        },
+        "deactivated_reason": {
+          "type": "string",
+          "description": "Why the ERP deactivated the article, in its words (deactivated_reason)."
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the article was created in the ERP article master."
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last change of the article in the ERP article master."
+        },
+        "purchase_price": {
+          "type": "number",
+          "description": "Purchase price per unit of the article from the ERP purchasing data (einkaufspreis); empty for articles without one."
+        },
+        "weight_kg": {
+          "type": "number",
+          "x-unit": "KGM",
+          "description": "Weight of one unit of the article in kilograms, where the ERP article master names it (gewicht_kg)."
+        },
+        "mrp_type": {
+          "type": "string",
+          "enum": [
+            "PD",
+            "VB",
+            "ND"
+          ],
+          "description": "MRP type of the ERP article master in its own codes (mrp_type)."
+        },
+        "procurement_type": {
+          "type": "string",
+          "enum": [
+            "E",
+            "F"
+          ],
+          "description": "Procurement type of the ERP article master in its own codes (procurement_type)."
+        },
+        "lot_size_procedure": {
+          "type": "string",
+          "enum": [
+            "LFL",
+            "POS",
+            "EX"
+          ],
+          "description": "Lot-sizing procedure of the ERP article master in its own codes (lot_size_proc)."
+        },
+        "min_lot_size": {
+          "type": "number",
+          "description": "Minimum lot size of the ERP article master, in the article's unit (min_lot_size)."
+        },
+        "max_lot_size": {
+          "type": "number",
+          "description": "Maximum lot size of the ERP article master, in the article's unit (max_lot_size)."
+        },
+        "rounding_value": {
+          "type": "number",
+          "description": "Rounding value of the ERP article master: a lot is a multiple of it, in the article's unit (rounding_value)."
+        },
+        "batch_managed": {
+          "type": "boolean",
+          "description": "Whether the ERP manages the article in batches (batch_managed)."
+        },
+        "serial_managed": {
+          "type": "boolean",
+          "description": "Whether the ERP manages the article by serial number (serial_managed)."
+        },
+        "material_grade": {
+          "type": "string",
+          "description": "The grade of the material within its material class as the ERP names it (material_grade), e.g. 42CrMo4."
+        },
+        "material_class_source": {
+          "type": "string",
+          "description": "Where the ERP took the article's material class from, in its words (material_source), e.g. description:ABS."
         }
       },
       "required": [
@@ -153,6 +258,26 @@
     "effective_end": "transactional",
     "published_date": "transactional",
     "engineering_change_ref": "transactional",
-    "plm_part_ref": "transactional"
+    "plm_part_ref": "transactional",
+    "supplier_ref": "transactional",
+    "primary_supplier_ref": "transactional",
+    "active": "transactional",
+    "replaced_by_ref": "transactional",
+    "deactivated_at": "transactional",
+    "deactivated_reason": "transactional",
+    "created_at": "transactional",
+    "updated_at": "transactional",
+    "purchase_price": "transactional",
+    "weight_kg": "transactional",
+    "mrp_type": "transactional",
+    "procurement_type": "transactional",
+    "lot_size_procedure": "transactional",
+    "min_lot_size": "transactional",
+    "max_lot_size": "transactional",
+    "rounding_value": "transactional",
+    "batch_managed": "transactional",
+    "serial_managed": "transactional",
+    "material_grade": "transactional",
+    "material_class_source": "transactional"
   }
 }

@@ -273,6 +273,16 @@
   ],
   "additive": [
     {
+      "id": "it-sources-every-column",
+      "text": "Every column the reference plant's IT sources deliver is mapped (owner 19./20.11.2026 „46 felder einfach abbilden“): SMProfile-Article gains 20 ERP article master attributes, SMProfile-Quant 5, SMProfile-InspectionLot 5 references; code lists (enum) on Article.type, Quant.blocked, InspectionLot.status / lot_type, MaterialLot.status as measured; InspectionLot.sample_size in C62. Additive.",
+      "profiles": [
+        "SMProfile-Article",
+        "SMProfile-Quant",
+        "SMProfile-InspectionLot",
+        "SMProfile-MaterialLot"
+      ]
+    },
+    {
       "id": "sim-fields-orders-operations",
       "text": "Every field the reference ERP delivers is mapped (owner 19./20.11.2026): SMProfile-CustomerOrder gains the order line's article (article_ref, article_name), production_order_ref, parent_order_ref, status_source, status_code, confirmation and delivery dates, timestamps; ProductionOrder qty_produced, machine_type, the dispatch proposal, tool_ref, mould_ref, routing_ref, note; JobOrder dispatch fields and timestamps; SegmentRequirement routing_ref, routing_operation_no, setup_planned_min, cycle_time_planned_sec; SegmentResponse tool_kind and tool dimensions; OperationsResponse quantity_scrap, cycle_time_planned_sec, planned_machine_ref, aggregated_per_order; BdeConfirmation job_order_ref, planned_machine_ref, machine_type, cycle_time_planned_sec, person_ref, personnel_no, operator_ref, final_confirmation, received_at, recorded_by; Customer the ERP master data (payment terms, incoterms, credit limit, blocks, tax id, …). Piece counts carry C62; status, reason, shift, priority and type attributes carry the code list measured on the reference plant (19.11.2026). Additive: no key, edge or property removed. ProductionOrder also gains due_date: the reference ERP's lieferdatum_soll (a delivery date) fills it instead of planned_end_time, which /api/orders does not deliver and stays unmapped there; material_ready_after_planned_end compares material_ready_at with due_date.",
       "profiles": [

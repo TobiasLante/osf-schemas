@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-MaterialLot",
-  "version": "3.5.0",
+  "version": "3.6.0",
   "standard": "CarToUNS",
   "category": "material",
   "displayName": "Material Lot (the correct term for 'batch')",
@@ -76,10 +76,14 @@
       "valueType": "PV",
       "required": false,
       "category": "Core",
-      "description": "Lot status (ISA-95 MaterialLotProperty / Status), e.g. available, in_production, consumed, blocked.",
+      "description": "Lot status (B2MML MaterialLot.Status) in the source's words. Full text: docs/history/standard/profiles/material/material-lot.md, attributes › status › description.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "enum": [
+        "AVAILABLE",
+        "RESERVED"
+      ]
     },
     {
       "name": "workorder_ref",

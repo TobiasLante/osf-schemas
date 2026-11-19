@@ -3801,6 +3801,31 @@
         "key": "number"
       }
     },
+    "Article.primary_supplier_ref": {
+      "kind": "refOnly",
+      "external": {
+        "system": "ERP",
+        "object": "supplier",
+        "key": "number"
+      }
+    },
+    "Article.replaced_by_ref": {
+      "kind": "refOnly",
+      "targets": [
+        {
+          "node": "Article",
+          "key": "article_no"
+        }
+      ]
+    },
+    "Article.supplier_ref": {
+      "kind": "refOnly",
+      "external": {
+        "system": "ERP",
+        "object": "supplier",
+        "key": "number"
+      }
+    },
     "Article.test_specification_ref": {
       "kind": "edge",
       "relationship": "TESTED_BY",
@@ -4409,6 +4434,14 @@
         }
       ]
     },
+    "InspectionLot.delivery_ref": {
+      "kind": "refOnly",
+      "external": {
+        "system": "ERP",
+        "object": "inbound delivery",
+        "key": "number"
+      }
+    },
     "InspectionLot.machine_ref": {
       "kind": "refOnly",
       "targets": [
@@ -4457,6 +4490,23 @@
         }
       ]
     },
+    "InspectionLot.rma_ref": {
+      "kind": "refOnly",
+      "external": {
+        "system": "ERP",
+        "object": "return (RMA)",
+        "key": "number"
+      }
+    },
+    "InspectionLot.sales_order_ref": {
+      "kind": "refOnly",
+      "targets": [
+        {
+          "node": "CustomerOrder",
+          "key": "order_no"
+        }
+      ]
+    },
     "InspectionLot.segment_response_ref": {
       "kind": "edge",
       "relationship": "HAS_TEST_RESULT",
@@ -4465,6 +4515,24 @@
         {
           "node": "SegmentResponse",
           "key": "segment_response_no"
+        }
+      ]
+    },
+    "InspectionLot.test_specification_ref": {
+      "kind": "refOnly",
+      "targets": [
+        {
+          "node": "TestSpecification",
+          "key": "test_specification_id"
+        }
+      ]
+    },
+    "InspectionLot.workorder_ref": {
+      "kind": "refOnly",
+      "targets": [
+        {
+          "node": "Workorder",
+          "key": "workorder_no"
         }
       ]
     },

@@ -1,6 +1,6 @@
 {
   "consumerId": "it-wms",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "kind": "edge",
   "stage": "push",
   "ring": 0,
@@ -13,21 +13,15 @@
   "syncs": [
     "uns-convention"
   ],
-  "capacity": 8,
+  "capacity": 13,
   "capacityKind": "measured",
   "authoring": "locked",
-  "description": "IT edge for the WMS REST source (it-edge, no flow editor). Capacity = signal count today, measured 23.09.",
+  "description": "IT edge for the WMS REST source (it-edge, no flow editor). Capacity = signal count today, measured 23.09; 13 since core 6.5.0 (every delivered column).",
   "feedback": {
     "grains": [
       "loaded"
     ],
     "maxAgeSeconds": 180
   },
-  "$feedback": "loaded only (no v4 process observes its subjects; seen stays undeclared until one does). maxAgeSeconds 180 = 3 x the 60 s tick of it-schema-publisher, which feeds this edge over NATS it_schemas (CAPT-SOLLIST Befund 2): a report older than three ticks cannot vouch for the current state.",
-  "emitter": {
-    "type": "unsac-it"
-  },
-  "syncs": [
-    "uns-convention"
-  ]
+  "$feedback": "loaded only (no v4 process observes its subjects; seen stays undeclared until one does). maxAgeSeconds 180 = 3 x the 60 s tick of it-schema-publisher, which feeds this edge over NATS it_schemas (CAPT-SOLLIST Befund 2): a report older than three ticks cannot vouch for the current state."
 }

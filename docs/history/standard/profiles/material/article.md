@@ -36,3 +36,21 @@ reserved (stock_reserved), Unattainable = blocked (stock_blocked), Available = T
 stock_below_reorder_level compared stock_available with reorder_level on the same record; with the stock on another record it is retired
 (above), not repaired in place — a comparison across two records is no single-entity constraint of the article. reorder_level and
 safety_stock stay on the article (the thresholds of the ERP article master).
+
+## attributes › primary_supplier_ref › description
+
+The primary supplier of the article from the ERP purchasing data (primary_supplier_id). Kept apart from supplier_ref (lieferant_id): measured 19.11.2026 over the 223 articles of GET /api/articles the two are equal on 222 and differ on one (PART-A: lieferant_id SUP-MUELLER, primary_supplier_id empty) — two fields of the source, not one.
+
+## core 6.5.0 (0.7.5) — every delivered column of the article master
+
+Owner 19./20.11.2026: „warum bilden wir nicht 46 felder einfach ab, wenn wir sie schon haben?“ — every column the reference plant's sim delivers is mapped; nothing invented, nothing dropped. Measured on sim-v5 PROD (192.168.178.154, GET only) on 19.11.2026.
+
+GET :38260/api/articles delivers 223 rows with 44 columns; 11 were mapped. 21 more are mapped now (profile 3.1.0, source sim-v5-erp-articles 2.5.0): lieferant_id → supplier_ref, primary_supplier_id → primary_supplier_ref, aktiv → active, replaced_by → replaced_by_ref, deactivated_at, deactivated_reason, created_at, updated_at, einkaufspreis → purchase_price, gewicht_kg → weight_kg (unit KGM: the column names the kilogram), mrp_type, procurement_type, lot_size_proc → lot_size_procedure, min_lot_size, max_lot_size, rounding_value, batch_managed, serial_managed, material_class → material_class_ref (the existing reference, DEFINED_BY MaterialClass), material_grade, material_source → material_class_source. None has a field in B2MML 0701 MaterialDefinition (ID, Version, Description, dates, HierarchyScope, SpatialDefinition, MaterialDefinitionProperty, MaterialClassID, MaterialLotSourceID, TestSpecificationID, Assembly*): notInIsa95. supplier, return and delivery numbers name objects outside the model: refOnly with external.
+
+The 12 columns not mapped, each for a reason:
+- duplicates (value-equal on all 223 rows): part_number = teil_id (the id), description = bezeichnung (name), verkaufspreis = std_verkaufspreis (price_vk), unit_price = einkaufspreis (purchase_price), disposition = disposition_typed = mrp_type (mrp_type), stock_total = menge_frei, stock_reserved = menge_reserviert.
+- the stock (menge_frei, menge_reserviert, menge_blockiert, verfuegbar): it left the article in core 6.2.0 (owner 14.11.2026 „direkt umstellen“, movedAttributes) and is delivered as SMProfile-OperationsCapability by sim-v5-stock-capability (Total, Committed, Unattainable, Available per article × storage location). Mapping it back would undo that decision.
+
+Code lists, measured over the 223 rows: type FINISHED 111, RAW 63, WIP 36, CONSUMABLE 9, TOOL 4; mrp_type PD 147, VB 72, ND 2 (2 empty); procurement_type E 147, F 74 (2 empty); lot_size_procedure LFL 147, POS 72, EX 2 (2 empty). abc_class gets none: the sim delivers B 210, C 9 (4 empty) — an ABC classification has A by definition, a list of B and C would describe the sim, not the field (open for the owner).
+
+Units: min_lot_size, max_lot_size and rounding_value are in the article's own unit (the unit attribute: EA 161, KG 51, Stück 7, PCE 2, L 1, M 1) — no fixed code; open (grammar validation/open-units.json, like reorder_level and safety_stock). purchase_price carries currency EUR like cost_hk and price_vk (waehrung EUR on all 223 rows).

@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-Article",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Article (article / part)",
@@ -36,7 +36,14 @@
       "category": "Core",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "enum": [
+        "FINISHED",
+        "RAW",
+        "WIP",
+        "CONSUMABLE",
+        "TOOL"
+      ]
     },
     {
       "name": "unit",
@@ -302,6 +309,267 @@
           "key": "number"
         }
       }
+    },
+    {
+      "name": "supplier_ref",
+      "dataType": "String",
+      "valueType": "ID",
+      "required": false,
+      "category": "Link",
+      "description": "The supplier of the article as the ERP article master names it (lieferant_id).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "A supplier is no object of the model, and B2MML MaterialDefinition names none: kept as a value.",
+        "external": {
+          "system": "ERP",
+          "object": "supplier",
+          "key": "number"
+        }
+      }
+    },
+    {
+      "name": "primary_supplier_ref",
+      "dataType": "String",
+      "valueType": "ID",
+      "required": false,
+      "category": "Link",
+      "description": "The primary supplier of the article from the ERP purchasing data (primary_supplier_id). Full text: docs/history/standard/profiles/material/article.md, attributes › primary_supplier_ref › description.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "A supplier is no object of the model, and B2MML MaterialDefinition names none: kept as a value.",
+        "external": {
+          "system": "ERP",
+          "object": "supplier",
+          "key": "number"
+        }
+      }
+    },
+    {
+      "name": "active",
+      "dataType": "Boolean",
+      "valueType": "MD",
+      "required": false,
+      "category": "Core",
+      "description": "Whether the article is active in the ERP article master (aktiv).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "replaced_by_ref",
+      "dataType": "String",
+      "valueType": "ID",
+      "required": false,
+      "category": "Link",
+      "description": "The article that replaces this one, where the ERP article master names it (replaced_by).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "A successor is named as a value: B2MML MaterialDefinition has no link from a definition to the one that replaces it.",
+        "targets": [
+          "Article"
+        ]
+      }
+    },
+    {
+      "name": "deactivated_at",
+      "dataType": "DateTime",
+      "valueType": "MD",
+      "required": false,
+      "category": "Timing",
+      "description": "When the ERP deactivated the article (deactivated_at).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "deactivated_reason",
+      "dataType": "String",
+      "valueType": "MD",
+      "required": false,
+      "category": "Core",
+      "description": "Why the ERP deactivated the article, in its words (deactivated_reason).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "created_at",
+      "dataType": "DateTime",
+      "valueType": "PV",
+      "required": false,
+      "category": "Timing",
+      "description": "When the article was created in the ERP article master.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "updated_at",
+      "dataType": "DateTime",
+      "valueType": "PV",
+      "required": false,
+      "category": "Timing",
+      "description": "Last change of the article in the ERP article master.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "purchase_price",
+      "dataType": "Double",
+      "valueType": "MD",
+      "required": false,
+      "category": "Valuation",
+      "description": "Purchase price per unit of the article from the ERP purchasing data (einkaufspreis); empty for articles without one.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "currency": "EUR"
+    },
+    {
+      "name": "weight_kg",
+      "dataType": "Double",
+      "valueType": "MD",
+      "required": false,
+      "category": "Core",
+      "description": "Weight of one unit of the article in kilograms, where the ERP article master names it (gewicht_kg).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "unit": "KGM"
+    },
+    {
+      "name": "mrp_type",
+      "dataType": "String",
+      "valueType": "MD",
+      "required": false,
+      "category": "Planning",
+      "description": "MRP type of the ERP article master in its own codes (mrp_type).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "enum": [
+        "PD",
+        "VB",
+        "ND"
+      ]
+    },
+    {
+      "name": "procurement_type",
+      "dataType": "String",
+      "valueType": "MD",
+      "required": false,
+      "category": "Planning",
+      "description": "Procurement type of the ERP article master in its own codes (procurement_type).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "enum": [
+        "E",
+        "F"
+      ]
+    },
+    {
+      "name": "lot_size_procedure",
+      "dataType": "String",
+      "valueType": "MD",
+      "required": false,
+      "category": "Planning",
+      "description": "Lot-sizing procedure of the ERP article master in its own codes (lot_size_proc).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "enum": [
+        "LFL",
+        "POS",
+        "EX"
+      ]
+    },
+    {
+      "name": "min_lot_size",
+      "dataType": "Float",
+      "valueType": "LIM",
+      "required": false,
+      "category": "Planning",
+      "description": "Minimum lot size of the ERP article master, in the article's unit (min_lot_size).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "max_lot_size",
+      "dataType": "Float",
+      "valueType": "LIM",
+      "required": false,
+      "category": "Planning",
+      "description": "Maximum lot size of the ERP article master, in the article's unit (max_lot_size).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "rounding_value",
+      "dataType": "Float",
+      "valueType": "MD",
+      "required": false,
+      "category": "Planning",
+      "description": "Rounding value of the ERP article master: a lot is a multiple of it, in the article's unit (rounding_value).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "batch_managed",
+      "dataType": "Boolean",
+      "valueType": "MD",
+      "required": false,
+      "category": "Planning",
+      "description": "Whether the ERP manages the article in batches (batch_managed).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "serial_managed",
+      "dataType": "Boolean",
+      "valueType": "MD",
+      "required": false,
+      "category": "Planning",
+      "description": "Whether the ERP manages the article by serial number (serial_managed).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "material_grade",
+      "dataType": "String",
+      "valueType": "MD",
+      "required": false,
+      "category": "Core",
+      "description": "The grade of the material within its material class as the ERP names it (material_grade), e.g. 42CrMo4.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "material_class_source",
+      "dataType": "String",
+      "valueType": "MD",
+      "required": false,
+      "category": "Core",
+      "description": "Where the ERP took the article's material class from, in its words (material_source), e.g. description:ABS.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     }
   ],
   "relationships": [
@@ -379,9 +647,29 @@
       "version",
       "base_article_ref",
       "engineering_change_ref",
-      "plm_part_ref"
+      "plm_part_ref",
+      "supplier_ref",
+      "primary_supplier_ref",
+      "active",
+      "replaced_by_ref",
+      "deactivated_at",
+      "deactivated_reason",
+      "created_at",
+      "updated_at",
+      "purchase_price",
+      "weight_kg",
+      "mrp_type",
+      "procurement_type",
+      "lot_size_procedure",
+      "min_lot_size",
+      "max_lot_size",
+      "rounding_value",
+      "batch_managed",
+      "serial_managed",
+      "material_grade",
+      "material_class_source"
     ],
-    "mappingNote": "The unit of a MaterialDefinition sits on its property or quantity in B2MML, not on the definition itself. type, lead time, ABC class, cost, price, currency, reorder level and safety stock are ERP article master fields; B2MML MaterialDefinition has no field for them. The stock of an article is no field of the definition: since core 6.2.0 it is SMProfile-OperationsCapability (B2MML MaterialCapability) per storage location and capability type. PLM model (owner 29.10.2026): the revision is MaterialDefinition.Version; B2MML has one version field, so the second axis version (an iteration within a revision) and base_article_ref (the stem the revisions share) are extensions with no B2MML field. PLM extensions (owner 29.10.2026): engineering_change_ref and plm_part_ref have no B2MML field — B2MML knows no engineering change and no PLM part number next to the material definition.",
+    "mappingNote": "The unit of a MaterialDefinition sits on its property or quantity in B2MML, not on the definition itself. type, lead time, ABC class, cost, price, currency, reorder level and safety stock are ERP article master fields; B2MML MaterialDefinition has no field for them. The stock of an article is no field of the definition: since core 6.2.0 it is SMProfile-OperationsCapability (B2MML MaterialCapability) per storage location and capability type. PLM model (owner 29.10.2026): the revision is MaterialDefinition.Version; B2MML has one version field, so the second axis version (an iteration within a revision) and base_article_ref (the stem the revisions share) are extensions with no B2MML field. PLM extensions (owner 29.10.2026): engineering_change_ref and plm_part_ref have no B2MML field — B2MML knows no engineering change and no PLM part number next to the material definition. The ERP article master's supplier, purchase price, weight, MRP, lot-size, lifecycle and material-grade fields (core 6.5.0, mapped from the reference plant's 44 delivered columns) have no field in B2MML MaterialDefinition either: extensions.",
     "grain": "one revision of one article (ISA-95 Part 2 MaterialDefinition): one row = one material number as the source delivers it (at SAP dddd.1, dddd.2 — each revision its own number), keyed by article_no; its family is the MaterialClass, its stem base_article_ref"
   },
   "kgNodeLabel": "Article",

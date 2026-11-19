@@ -17,3 +17,13 @@ ISA-95 MaterialLot = identifiable material quantity of a MaterialDefinition. RUL
 ## attributes › segment_response_ref › description
 
 FK to SegmentResponse.segment_response_no: the confirmed operation whose material actual made this lot (B2MML 0701 SegmentResponse.MaterialActual.MaterialLotID — a made lot is a material actual of the response, its use "Produced"). The edge runs from the response (ACTUAL_MATERIAL, in-edge of the lot's source); the order is that response's (RESPONDS_TO). Core 6.5.0 (owner 19.11.2026: „eigene Kante für erzeugtes Material statt REQUIRES_MATERIAL“): before, the lot's source drew JobOrder REQUIRES_MATERIAL to the made lot, which reads as "the job needs 2 014 lots". The reference plant fills it once the sim's /material-lots carries the confirmation number (sim list Q4).
+
+## attributes › status › description
+
+Lot status (B2MML MaterialLot.Status) in the source's words. Code list measured 19.11.2026 over 19 981 lots of GET :38060/material-lots?since=P30D (offset paging): AVAILABLE 19 917, RESERVED 64. B2MML 0701 StatusType has no code list, so the list is the source's. The text before core 6.5.0 said „e.g. available, in_production, consumed, blocked“ — none of those occurs.
+
+## core 6.5.0 (0.7.5) — the delivered columns and the unit
+
+Owner 19./20.11.2026: „warum bilden wir nicht 46 felder einfach ab, wenn wir sie schon haben?“ — every column the reference plant's sim delivers is mapped; nothing invented, nothing dropped. Measured on sim-v5 PROD (192.168.178.154, GET only) on 19.11.2026.
+
+GET /material-lots delivers 10 columns, all mapped (confirmation_no → segment_response_ref is mapped and not delivered yet). quantity gets no fixed unit: the source sends unit_of_measure PCS on all 19 981 lots, but 6 994 of them are lots of KG articles (the sprue and regrind byproducts _V4_BY-ANGUSS-* / _V4_BY-REGRIND-*, quantities like 0.64 or 0.96) — the quantity is in the article's unit, and the PCS label on those lots is a finding at the sim, not a unit for the model.

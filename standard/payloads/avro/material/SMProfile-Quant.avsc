@@ -8,7 +8,7 @@
     "strategy": "TopicNameStrategy"
   },
   "namespace": "org.openshopfloor.payload.material",
-  "doc": "GENERATED from standard/profiles/material/quant.json 3.1.1 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "doc": "GENERATED from standard/profiles/material/quant.json 3.2.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
   "fields": [
     {
       "name": "eventType",
@@ -52,7 +52,7 @@
     {
       "name": "profileVersion",
       "type": "string",
-      "default": "3.1.1"
+      "default": "3.2.0"
     },
     {
       "name": "b2m",
@@ -217,6 +217,63 @@
             ],
             "default": null,
             "doc": "The TestSpecification (TESTED_BY; ISA-95 MaterialSubLot → TestSpecification). Optional."
+          },
+          {
+            "name": "manufactured_at",
+            "type": [
+              "null",
+              {
+                "type": "long",
+                "logicalType": "timestamp-millis"
+              }
+            ],
+            "default": null,
+            "doc": "When the stock of this quant was made, as the WMS says (hergestellt_am)."
+          },
+          {
+            "name": "best_before",
+            "type": [
+              "null",
+              {
+                "type": "long",
+                "logicalType": "timestamp-millis"
+              }
+            ],
+            "default": null,
+            "doc": "Best-before date of the quant as the WMS says (mhd)."
+          },
+          {
+            "name": "created_at",
+            "type": [
+              "null",
+              {
+                "type": "long",
+                "logicalType": "timestamp-millis"
+              }
+            ],
+            "default": null,
+            "doc": "When the WMS created the quant (erstellt_am)."
+          },
+          {
+            "name": "deleted",
+            "type": [
+              "null",
+              "boolean"
+            ],
+            "default": null,
+            "doc": "Whether the WMS marks the quant as deleted (deleted)."
+          },
+          {
+            "name": "deleted_at",
+            "type": [
+              "null",
+              {
+                "type": "long",
+                "logicalType": "timestamp-millis"
+              }
+            ],
+            "default": null,
+            "doc": "When the WMS deleted the quant (deleted_at)."
           }
         ]
       }
