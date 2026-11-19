@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-MaterialLot",
-  "version": "3.3.1",
+  "version": "3.4.0",
   "standard": "CarToUNS",
   "category": "material",
   "displayName": "Material Lot (the correct term for 'batch')",
@@ -110,8 +110,9 @@
       "promotion": "on_change",
       "valueType": "ID",
       "refStatus": {
-        "kind": "refOnly",
-        "reason": "The reference is kept as a value: core 2.0.0 has no edge for it yet.",
+        "kind": "edge",
+        "relationship": "REQUIRES_MATERIAL",
+        "direction": "in",
         "targets": [
           "JobOrder"
         ]

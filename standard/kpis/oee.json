@@ -1,18 +1,87 @@
 {
   "kpiId": "KPI-OEE",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "displayName": "OEE (live quality-factor proxy)",
   "description": "HONEST SCOPE: this is NOT full OEE. Full text: docs/history/standard/kpis/oee.md, description.",
   "unit": "%",
   "category": "efficiency",
   "calculation": {
-    "inputs": ["part_good", "part_scrap"],
+    "inputs": [
+      "part_good",
+      "part_scrap"
+    ],
     "inputMappings": {
-      "SMProfile-InjectionMoldingMachine": { "Act_Amount_LifeTimeGood": "part_good", "Act_Amount_LifeTimeScrap": "part_scrap" },
-      "SMProfile-CNC-Machine": { "Act_Amount_LifeTimeGood": "part_good", "Act_Amount_LifeTimeScrap": "part_scrap" }
+      "SMProfile-InjectionMoldingMachine": {
+        "Act_Amount_LifeTimeGood": "part_good",
+        "Act_Amount_LifeTimeScrap": "part_scrap"
+      },
+      "SMProfile-CNC-Machine": {
+        "Act_Amount_LifeTimeGood": "part_good",
+        "Act_Amount_LifeTimeScrap": "part_scrap"
+      }
     },
-    "cypher": "CASE WHEN (m.part_good + m.part_scrap) = 0 THEN null ELSE round(toFloat(m.part_good) / (m.part_good + m.part_scrap) * 1000) / 10 END"
+    "cypher": "CASE WHEN (m.part_good + m.part_scrap) = 0 THEN null ELSE round(toFloat(m.part_good) / (m.part_good + m.part_scrap) * 1000) / 10 END",
+    "expression": {
+      "if": {
+        "compare": "=",
+        "args": [
+          {
+            "op": "+",
+            "args": [
+              {
+                "input": "part_good"
+              },
+              {
+                "input": "part_scrap"
+              }
+            ]
+          },
+          {
+            "number": 0
+          }
+        ]
+      },
+      "then": {
+        "empty": true
+      },
+      "else": {
+        "round": {
+          "op": "*",
+          "args": [
+            {
+              "op": "/",
+              "args": [
+                {
+                  "input": "part_good"
+                },
+                {
+                  "op": "+",
+                  "args": [
+                    {
+                      "input": "part_good"
+                    },
+                    {
+                      "input": "part_scrap"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "number": 100
+            }
+          ]
+        },
+        "digits": 1
+      }
+    }
   },
-  "thresholds": { "target": 85, "warning": 75, "critical": 60 },
-  "appliesTo": ["SMProfile-Machine"]
+  "thresholds": {
+    "target": 85,
+    "warning": 75,
+    "critical": 60
+  },
+  "appliesTo": [
+    "SMProfile-Machine"
+  ]
 }
