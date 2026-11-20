@@ -1,0 +1,47 @@
+{
+  "workRecordSpecificationID": "8d-order",
+  "version": "1.0.0",
+  "description": "8D for a production order: what ran, where, with which material, which test results.",
+  "isa95": "ISA-95 2018 Part 4 Work Record (WorkRecordSpecification; InformationObjectType). Norm source in the repo: B2MML 0701 B2MML-WorkRecord.xsd (incorporated from ISA-88 Part 4 / 880004 Batch Production Record). Paths come from standard/contract.json, never a path language of our own.",
+  "anchor": "ProductionOrder",
+  "informationObjectTypes": [
+    {
+      "type": "ProductionOrder"
+    },
+    {
+      "type": "SegmentRequirement"
+    },
+    {
+      "type": "JobOrder"
+    },
+    {
+      "type": "SegmentResponse"
+    },
+    {
+      "type": "BdeConfirmation"
+    },
+    {
+      "type": "OperationsResponse"
+    },
+    {
+      "type": "MaterialLot",
+      "via": [
+        "SegmentResponse"
+      ]
+    },
+    {
+      "type": "InspectionLot",
+      "via": [
+        "SegmentResponse"
+      ]
+    }
+  ],
+  "views": {
+    "signals": {
+      "machinesFrom": "BdeConfirmation.machine_ref",
+      "fromAttr": "BdeConfirmation.actual_start_time",
+      "toAttr": "BdeConfirmation.actual_end_time",
+      "bucketMin": 15
+    }
+  }
+}
