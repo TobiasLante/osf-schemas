@@ -1,6 +1,6 @@
 {
  "sourceId": "erp-material-lots",
- "version": "1.1.0",
+ "version": "1.2.0",
   "$window": "0.6.6-g (owner 22.10.2026, the living window): the source reads the living part, not the whole history — the lots of the last 12 hours",
  "sourceType": "rest",
  "functionalLevel": 4,
@@ -64,6 +64,10 @@
    "smAttribute": "job_order_ref"
   },
   {
+   "column": "confirmation_no",
+   "smAttribute": "segment_response_ref"
+  },
+  {
    "column": "location_ref",
    "smAttribute": "location_ref"
   },
@@ -88,9 +92,9 @@
    "targetIdProp": "storage_location_id"
   },
   {
-   "type": "REQUIRES_MATERIAL",
-   "fkColumn": "job_order_ref",
-   "targetIdProp": "job_order_no",
+   "type": "ACTUAL_MATERIAL",
+   "fkColumn": "confirmation_no",
+   "targetIdProp": "segment_response_no",
    "direction": "in"
   }
  ],

@@ -1,6 +1,6 @@
 {
   "sourceId": "erp-segment-responses",
-  "version": "5.0.0",
+  "version": "5.1.0",
   "sourceType": "rest",
   "functionalLevel": 4,
   "syncType": "polling",
@@ -82,6 +82,33 @@
     {
       "smAttribute": "operations_type",
       "const": "Production"
+    },
+    {
+      "column": "qty_scrap",
+      "smAttribute": "qty_scrap",
+      "dataType": "Int32"
+    },
+    {
+      "column": "tool_nr",
+      "smAttribute": "tool_ref"
+    },
+    {
+      "column": "tool_type",
+      "smAttribute": "physical_asset_class_ref"
+    },
+    {
+      "column": "tool_kind",
+      "smAttribute": "tool_kind"
+    },
+    {
+      "column": "tool_diameter_mm",
+      "smAttribute": "tool_diameter_mm",
+      "dataType": "Double"
+    },
+    {
+      "column": "tool_corner_radius_mm",
+      "smAttribute": "tool_corner_radius_mm",
+      "dataType": "Double"
     }
   ],
   "filter": null,

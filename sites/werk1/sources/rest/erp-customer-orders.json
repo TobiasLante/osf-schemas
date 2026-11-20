@@ -1,6 +1,6 @@
 {
   "sourceId": "erp-customer-orders",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "sourceType": "rest",
   "functionalLevel": 4,
   "syncType": "polling",
@@ -79,6 +79,54 @@
     {
       "column": "prioritaet",
       "smAttribute": "priority"
+    },
+    {
+      "column": "article_no",
+      "smAttribute": "article_ref"
+    },
+    {
+      "column": "article_name",
+      "smAttribute": "article_name"
+    },
+    {
+      "column": "production_order_no",
+      "smAttribute": "production_order_ref"
+    },
+    {
+      "column": "parent_order_no",
+      "smAttribute": "parent_order_ref"
+    },
+    {
+      "column": "status_raw",
+      "smAttribute": "status_source"
+    },
+    {
+      "column": "order_status",
+      "smAttribute": "status_code"
+    },
+    {
+      "column": "bestaetigt",
+      "smAttribute": "confirmed"
+    },
+    {
+      "column": "bestaetigt_lieferdatum",
+      "smAttribute": "confirmed_delivery_date"
+    },
+    {
+      "column": "lieferdatum_ist",
+      "smAttribute": "actual_delivery_date"
+    },
+    {
+      "column": "erstellt_am",
+      "smAttribute": "created_at"
+    },
+    {
+      "column": "aktualisiert_am",
+      "smAttribute": "updated_at"
+    },
+    {
+      "column": "abgeschlossen_am",
+      "smAttribute": "closed_at"
     }
   ],
   "filter": null,

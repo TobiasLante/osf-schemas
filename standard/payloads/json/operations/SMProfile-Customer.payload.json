@@ -2,9 +2,9 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-Customer.payload.json",
   "title": "SMProfile-Customer payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/operations/customer.json 2.0.1 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/operations/customer.json 2.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-Customer",
-  "x-profileVersion": "2.0.1",
+  "x-profileVersion": "2.1.0",
   "x-payloadVersion": "1.1.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
@@ -40,7 +40,85 @@
         },
         "segment": {
           "type": "string",
+          "enum": [
+            "STANDARD",
+            "PREMIUM",
+            "STRATEGIC"
+          ],
           "description": "Customer segment / classification."
+        },
+        "email": {
+          "type": "string",
+          "description": "Order contact e-mail address of the customer."
+        },
+        "payment_terms": {
+          "type": "string",
+          "enum": [
+            "NET30"
+          ],
+          "description": "Payment terms key of the customer. Values measured over all 6 customers 19.11.2026."
+        },
+        "active": {
+          "type": "boolean",
+          "description": "The customer is active in the ERP."
+        },
+        "credit_limit": {
+          "type": "number",
+          "description": "Credit limit of the customer, in currency."
+        },
+        "currency": {
+          "type": "string",
+          "description": "Currency of the customer's account (ISO 4217, e.g. EUR)."
+        },
+        "tax_id": {
+          "type": "string",
+          "description": "VAT identification number of the customer."
+        },
+        "incoterms": {
+          "type": "string",
+          "enum": [
+            "DDP",
+            "DAP",
+            "FCA"
+          ],
+          "description": "Incoterms delivery term agreed with the customer. Values measured over all 6 customers 19.11.2026."
+        },
+        "sales_area": {
+          "type": "string",
+          "description": "Sales area the customer belongs to (e.g. DE_SUED)."
+        },
+        "delivery_block": {
+          "type": "string",
+          "enum": [
+            "NONE"
+          ],
+          "description": "Delivery block key on the customer. Values measured over all 6 customers 19.11.2026."
+        },
+        "billing_block": {
+          "type": "string",
+          "enum": [
+            "NONE"
+          ],
+          "description": "Billing block key on the customer. Values measured over all 6 customers 19.11.2026."
+        },
+        "deactivated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the customer was deactivated; empty while active."
+        },
+        "deactivated_reason": {
+          "type": "string",
+          "description": "Why the customer was deactivated; empty while active."
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the customer was created in the ERP."
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the ERP last changed the customer."
         }
       },
       "required": [
@@ -52,6 +130,20 @@
     "customer_no": "transactional",
     "name": "transactional",
     "country": "transactional",
-    "segment": "transactional"
+    "segment": "transactional",
+    "email": "transactional",
+    "payment_terms": "transactional",
+    "active": "transactional",
+    "credit_limit": "transactional",
+    "currency": "transactional",
+    "tax_id": "transactional",
+    "incoterms": "transactional",
+    "sales_area": "transactional",
+    "delivery_block": "transactional",
+    "billing_block": "transactional",
+    "deactivated_at": "transactional",
+    "deactivated_reason": "transactional",
+    "created_at": "transactional",
+    "updated_at": "transactional"
   }
 }

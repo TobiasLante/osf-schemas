@@ -9,3 +9,9 @@ next/ v4 — WMS stock levels (Quant) aligned to SMProfile-Quant (next/). Provid
 ## edges (2.3.0, core 6.0.0 audit M-10, 29.10.2026)
 
 MaterialLot -[MADE_UP_OF]-> Quant, fed from the quant's lot (`charge_nr` -> MaterialLot.material_lot_no, `direction: in`): ISA-95 Part 2 cl. 5.7, a material sublot is part of exactly one material lot (B2MML `MaterialSubLot.MaterialLotID`, the back reference of `MaterialLot.MaterialSubLot`; catalogue edge MADE_UP_OF MaterialLot -> MaterialSubLot). Before, the sublot reached its lot only through ASSEMBLED_FROM (`MaterialSubLot.AssemblyLot`, assembly semantics) and no source fed it. Measured 29.10.2026 on .154: GET /api/wms/quants 500 rows, all with `charge_nr`, 497 distinct; `charge_nr` speaks the id space of erp-material-lots `material_lot_no` (CH-<machine>-<hour>-<n>; 102 of the 500 quants name a lot of the 100-row window of GET /material-lots) — one lot, several quants, so the containment is 1:n and the key lives on the quant.
+
+## core 6.5.0 (0.7.5) — every delivered column
+
+Owner 19./20.11.2026: „warum bilden wir nicht 46 felder einfach ab, wenn wir sie schon haben?“ — every column the reference plant's sim delivers is mapped; nothing invented, nothing dropped. Measured on sim-v5 PROD (192.168.178.154, GET only) on 19.11.2026.
+
+2.4.0: hergestellt_am, mhd, erstellt_am, deleted, deleted_at mapped (13 of 14 delivered columns; keyset is the API's paging cursor). Measurement: docs/history/standard/profiles/material/quant.md, core 6.5.0.

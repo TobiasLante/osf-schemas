@@ -3801,6 +3801,31 @@
         "key": "number"
       }
     },
+    "Article.primary_supplier_ref": {
+      "kind": "refOnly",
+      "external": {
+        "system": "ERP",
+        "object": "supplier",
+        "key": "number"
+      }
+    },
+    "Article.replaced_by_ref": {
+      "kind": "refOnly",
+      "targets": [
+        {
+          "node": "Article",
+          "key": "article_no"
+        }
+      ]
+    },
+    "Article.supplier_ref": {
+      "kind": "refOnly",
+      "external": {
+        "system": "ERP",
+        "object": "supplier",
+        "key": "number"
+      }
+    },
     "Article.test_specification_ref": {
       "kind": "edge",
       "relationship": "TESTED_BY",
@@ -4047,7 +4072,43 @@
         }
       ]
     },
+    "BdeConfirmation.job_order_ref": {
+      "kind": "refOnly",
+      "targets": [
+        {
+          "node": "JobOrder",
+          "key": "job_order_no"
+        }
+      ]
+    },
     "BdeConfirmation.machine_ref": {
+      "kind": "refOnly",
+      "targets": [
+        {
+          "node": "Machine",
+          "key": "element_id"
+        }
+      ]
+    },
+    "BdeConfirmation.operator_ref": {
+      "kind": "refOnly",
+      "targets": [
+        {
+          "node": "Person",
+          "key": "person_id"
+        }
+      ]
+    },
+    "BdeConfirmation.person_ref": {
+      "kind": "refOnly",
+      "targets": [
+        {
+          "node": "Person",
+          "key": "person_id"
+        }
+      ]
+    },
+    "BdeConfirmation.planned_machine_ref": {
       "kind": "refOnly",
       "targets": [
         {
@@ -4105,12 +4166,39 @@
         }
       ]
     },
+    "CustomerOrder.article_ref": {
+      "kind": "refOnly",
+      "targets": [
+        {
+          "node": "Article",
+          "key": "article_no"
+        }
+      ]
+    },
     "CustomerOrder.customer_ref": {
       "kind": "refOnly",
       "targets": [
         {
           "node": "Customer",
           "key": "customer_no"
+        }
+      ]
+    },
+    "CustomerOrder.parent_order_ref": {
+      "kind": "refOnly",
+      "targets": [
+        {
+          "node": "CustomerOrder",
+          "key": "order_no"
+        }
+      ]
+    },
+    "CustomerOrder.production_order_ref": {
+      "kind": "refOnly",
+      "targets": [
+        {
+          "node": "ProductionOrder",
+          "key": "production_order_no"
         }
       ]
     },
@@ -4346,6 +4434,14 @@
         }
       ]
     },
+    "InspectionLot.delivery_ref": {
+      "kind": "refOnly",
+      "external": {
+        "system": "ERP",
+        "object": "inbound delivery",
+        "key": "number"
+      }
+    },
     "InspectionLot.machine_ref": {
       "kind": "refOnly",
       "targets": [
@@ -4394,6 +4490,23 @@
         }
       ]
     },
+    "InspectionLot.rma_ref": {
+      "kind": "refOnly",
+      "external": {
+        "system": "ERP",
+        "object": "return (RMA)",
+        "key": "number"
+      }
+    },
+    "InspectionLot.sales_order_ref": {
+      "kind": "refOnly",
+      "targets": [
+        {
+          "node": "CustomerOrder",
+          "key": "order_no"
+        }
+      ]
+    },
     "InspectionLot.segment_response_ref": {
       "kind": "edge",
       "relationship": "HAS_TEST_RESULT",
@@ -4402,6 +4515,24 @@
         {
           "node": "SegmentResponse",
           "key": "segment_response_no"
+        }
+      ]
+    },
+    "InspectionLot.test_specification_ref": {
+      "kind": "refOnly",
+      "targets": [
+        {
+          "node": "TestSpecification",
+          "key": "test_specification_id"
+        }
+      ]
+    },
+    "InspectionLot.workorder_ref": {
+      "kind": "refOnly",
+      "targets": [
+        {
+          "node": "Workorder",
+          "key": "workorder_no"
         }
       ]
     },
@@ -4878,9 +5009,7 @@
       ]
     },
     "MaterialLot.job_order_ref": {
-      "kind": "edge",
-      "relationship": "REQUIRES_MATERIAL",
-      "direction": "in",
+      "kind": "refOnly",
       "targets": [
         {
           "node": "JobOrder",
@@ -4905,6 +5034,17 @@
         {
           "node": "Quant",
           "key": "quant_no"
+        }
+      ]
+    },
+    "MaterialLot.segment_response_ref": {
+      "kind": "edge",
+      "relationship": "ACTUAL_MATERIAL",
+      "direction": "in",
+      "targets": [
+        {
+          "node": "SegmentResponse",
+          "key": "segment_response_no"
         }
       ]
     },
@@ -5431,6 +5571,15 @@
         {
           "node": "OperationsSegment",
           "key": "operations_segment_no"
+        }
+      ]
+    },
+    "OperationsResponse.planned_machine_ref": {
+      "kind": "refOnly",
+      "targets": [
+        {
+          "node": "EquipmentClass",
+          "key": "equipment_class_id"
         }
       ]
     },
@@ -6012,12 +6161,39 @@
         }
       ]
     },
+    "ProductionOrder.dispatch_machine_ref": {
+      "kind": "refOnly",
+      "targets": [
+        {
+          "node": "Machine",
+          "key": "element_id"
+        }
+      ]
+    },
+    "ProductionOrder.dispatch_pool_ref": {
+      "kind": "refOnly",
+      "targets": [
+        {
+          "node": "EquipmentClass",
+          "key": "equipment_class_id"
+        }
+      ]
+    },
     "ProductionOrder.machine_ref": {
       "kind": "refOnly",
       "targets": [
         {
           "node": "Machine",
           "key": "element_id"
+        }
+      ]
+    },
+    "ProductionOrder.mould_ref": {
+      "kind": "refOnly",
+      "targets": [
+        {
+          "node": "Mould",
+          "key": "tool_id"
         }
       ]
     },
@@ -6051,6 +6227,15 @@
         }
       ]
     },
+    "ProductionOrder.routing_ref": {
+      "kind": "refOnly",
+      "targets": [
+        {
+          "node": "OperationsDefinition",
+          "key": "operations_definition_no"
+        }
+      ]
+    },
     "ProductionOrder.sales_order_ref": {
       "kind": "refOnly",
       "targets": [
@@ -6067,6 +6252,15 @@
         {
           "node": "SegmentResponse",
           "key": "segment_response_no"
+        }
+      ]
+    },
+    "ProductionOrder.tool_ref": {
+      "kind": "refOnly",
+      "targets": [
+        {
+          "node": "Tooling",
+          "key": "tool_id"
         }
       ]
     },
@@ -6417,6 +6611,15 @@
         {
           "node": "Quant",
           "key": "quant_no"
+        }
+      ]
+    },
+    "SegmentRequirement.routing_ref": {
+      "kind": "refOnly",
+      "targets": [
+        {
+          "node": "OperationsDefinition",
+          "key": "operations_definition_no"
         }
       ]
     },

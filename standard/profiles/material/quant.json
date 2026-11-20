@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-Quant",
-  "version": "3.1.1",
+  "version": "3.2.0",
   "standard": "CarToUNS",
   "category": "material",
   "displayName": "Quant (inventory stock unit / MaterialSublot)",
@@ -90,7 +90,11 @@
       "description": "Block flag (gesperrt): 0 = freely available, !=0 = blocked. Filter for the material_unavailable aggregation (only free stock counts).",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "enum": [
+        0,
+        1
+      ]
     },
     {
       "name": "updated_at",
@@ -174,6 +178,61 @@
           "TestSpecification"
         ]
       }
+    },
+    {
+      "name": "manufactured_at",
+      "dataType": "DateTime",
+      "valueType": "PV",
+      "required": false,
+      "category": "Timing",
+      "description": "When the stock of this quant was made, as the WMS says (hergestellt_am).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "best_before",
+      "dataType": "DateTime",
+      "valueType": "MD",
+      "required": false,
+      "category": "Timing",
+      "description": "Best-before date of the quant as the WMS says (mhd).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "created_at",
+      "dataType": "DateTime",
+      "valueType": "PV",
+      "required": false,
+      "category": "Timing",
+      "description": "When the WMS created the quant (erstellt_am).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "deleted",
+      "dataType": "Boolean",
+      "valueType": "PV",
+      "required": false,
+      "category": "Core",
+      "description": "Whether the WMS marks the quant as deleted (deleted).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "deleted_at",
+      "dataType": "DateTime",
+      "valueType": "PV",
+      "required": false,
+      "category": "Timing",
+      "description": "When the WMS deleted the quant (deleted_at).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     }
   ],
   "relationships": [
@@ -312,7 +371,12 @@
       "article_ref",
       "warehouse",
       "blocked",
-      "updated_at"
+      "updated_at",
+      "manufactured_at",
+      "best_before",
+      "created_at",
+      "deleted",
+      "deleted_at"
     ],
     "mappingNote": "B2MML MaterialSubLot carries no material definition (that sits on its lot) and no warehouse; blocked is the WMS block flag, no B2MML field; updated_at is a technical timestamp of the source. Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent)."
   },

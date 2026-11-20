@@ -1,6 +1,6 @@
 {
  "sourceId": "erp-job-orders",
- "version": "2.4.0",
+ "version": "2.5.0",
  "$window": "0.6.6-g (owner 22.10.2026, the living window): the source reads the living part, not the whole history — every operation not final plus those started or ended in the last 7 days",
  "sourceType": "rest",
  "functionalLevel": 4,
@@ -82,8 +82,37 @@
   {
    "smAttribute": "work_type",
    "const": "Production"
-  }
- ],
+  },
+    {
+      "column": "dispatchable",
+      "smAttribute": "dispatchable"
+    },
+    {
+      "column": "sequence_on_machine",
+      "smAttribute": "dispatch_sequence",
+      "dataType": "Int32"
+    },
+    {
+      "column": "replanned_start",
+      "smAttribute": "start_replanned"
+    },
+    {
+      "column": "replanned_end",
+      "smAttribute": "end_replanned"
+    },
+    {
+      "column": "release_block_reason",
+      "smAttribute": "release_block_reason"
+    },
+    {
+      "column": "created_at",
+      "smAttribute": "created_at"
+    },
+    {
+      "column": "updated_at",
+      "smAttribute": "updated_at"
+    }
+  ],
  "filter": null,
  "edges": [
   {

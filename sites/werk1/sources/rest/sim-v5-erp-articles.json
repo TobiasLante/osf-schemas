@@ -1,6 +1,6 @@
 {
   "sourceId": "sim-v5-erp-articles",
-  "version": "2.4.0",
+  "version": "2.5.0",
   "sourceType": "rest",
   "functionalLevel": 4,
   "syncType": "polling",
@@ -75,9 +75,92 @@
     {
       "column": "safety_stock",
       "smAttribute": "safety_stock"
+    },
+    {
+      "column": "lieferant_id",
+      "smAttribute": "supplier_ref"
+    },
+    {
+      "column": "primary_supplier_id",
+      "smAttribute": "primary_supplier_ref"
+    },
+    {
+      "column": "aktiv",
+      "smAttribute": "active"
+    },
+    {
+      "column": "replaced_by",
+      "smAttribute": "replaced_by_ref"
+    },
+    {
+      "column": "deactivated_at",
+      "smAttribute": "deactivated_at"
+    },
+    {
+      "column": "deactivated_reason",
+      "smAttribute": "deactivated_reason"
+    },
+    {
+      "column": "created_at",
+      "smAttribute": "created_at"
+    },
+    {
+      "column": "updated_at",
+      "smAttribute": "updated_at"
+    },
+    {
+      "column": "einkaufspreis",
+      "smAttribute": "purchase_price"
+    },
+    {
+      "column": "gewicht_kg",
+      "smAttribute": "weight_kg"
+    },
+    {
+      "column": "mrp_type",
+      "smAttribute": "mrp_type"
+    },
+    {
+      "column": "procurement_type",
+      "smAttribute": "procurement_type"
+    },
+    {
+      "column": "lot_size_proc",
+      "smAttribute": "lot_size_procedure"
+    },
+    {
+      "column": "min_lot_size",
+      "smAttribute": "min_lot_size"
+    },
+    {
+      "column": "max_lot_size",
+      "smAttribute": "max_lot_size"
+    },
+    {
+      "column": "rounding_value",
+      "smAttribute": "rounding_value"
+    },
+    {
+      "column": "batch_managed",
+      "smAttribute": "batch_managed"
+    },
+    {
+      "column": "serial_managed",
+      "smAttribute": "serial_managed"
+    },
+    {
+      "column": "material_class",
+      "smAttribute": "material_class_ref"
+    },
+    {
+      "column": "material_grade",
+      "smAttribute": "material_grade"
+    },
+    {
+      "column": "material_source",
+      "smAttribute": "material_class_source"
     }
   ],
   "filter": null,
-  "edges": [],
   "description": "Article master from the sim-v5 ERP REST API, including the six stock columns the IT deviation rule needs. Full text: docs/history/sites/werk1/sources/rest/sim-v5-erp-articles.md, description."
 }

@@ -1,6 +1,6 @@
 {
   "sourceId": "erp-operations-response",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "sourceType": "rest",
   "functionalLevel": 4,
   "syncType": "polling",
@@ -80,6 +80,22 @@
     {
       "smAttribute": "operations_type",
       "const": "Production"
+    },
+    {
+      "column": "scrap_qty",
+      "smAttribute": "quantity_scrap"
+    },
+    {
+      "column": "cycle_time_planned_sec",
+      "smAttribute": "cycle_time_planned_sec"
+    },
+    {
+      "column": "planned_machine_no",
+      "smAttribute": "planned_machine_ref"
+    },
+    {
+      "column": "aggregated_per_po",
+      "smAttribute": "aggregated_per_order"
     }
   ],
   "filter": null,

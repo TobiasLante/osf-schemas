@@ -2,9 +2,9 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/material/SMProfile-Quant.payload.json",
   "title": "SMProfile-Quant payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/material/quant.json 3.1.1 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/material/quant.json 3.2.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-Quant",
-  "x-profileVersion": "3.1.1",
+  "x-profileVersion": "3.2.0",
   "x-payloadVersion": "1.1.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
@@ -52,6 +52,10 @@
         },
         "blocked": {
           "type": "integer",
+          "enum": [
+            0,
+            1
+          ],
           "description": "Block flag (gesperrt): 0 = freely available, !=0 = blocked. Filter for the material_unavailable aggregation (only free stock counts)."
         },
         "updated_at": {
@@ -74,6 +78,30 @@
         "test_specification_ref": {
           "type": "string",
           "description": "The TestSpecification (TESTED_BY; ISA-95 MaterialSubLot → TestSpecification). Optional."
+        },
+        "manufactured_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the stock of this quant was made, as the WMS says (hergestellt_am)."
+        },
+        "best_before": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Best-before date of the quant as the WMS says (mhd)."
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the WMS created the quant (erstellt_am)."
+        },
+        "deleted": {
+          "type": "boolean",
+          "description": "Whether the WMS marks the quant as deleted (deleted)."
+        },
+        "deleted_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the WMS deleted the quant (deleted_at)."
         }
       },
       "required": [
@@ -93,6 +121,11 @@
     "material_lot_ref": "transactional",
     "assembled_from_quant_ref": "transactional",
     "parent_quant_ref": "transactional",
-    "test_specification_ref": "transactional"
+    "test_specification_ref": "transactional",
+    "manufactured_at": "transactional",
+    "best_before": "transactional",
+    "created_at": "transactional",
+    "deleted": "transactional",
+    "deleted_at": "transactional"
   }
 }

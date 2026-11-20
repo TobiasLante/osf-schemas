@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-OperationsResponse",
-  "version": "4.0.1",
+  "version": "4.1.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Operations Response (production actuals / confirmation)",
@@ -90,6 +90,7 @@
       "valueType": "PV",
       "required": false,
       "category": "Execution",
+      "unit": "C62",
       "description": "Piece count actually produced (actual). Counterpart to qty_planned.",
       "delivery": "transactional",
       "scope": "hub",
@@ -262,6 +263,59 @@
       "scope": "hub",
       "promotion": "on_change",
       "valueType": "PV"
+    },
+    {
+      "name": "quantity_scrap",
+      "dataType": "Int32",
+      "valueType": "PV",
+      "required": false,
+      "category": "Execution",
+      "unit": "C62",
+      "description": "Scrapped pieces confirmed on the order.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "cycle_time_planned_sec",
+      "dataType": "Double",
+      "valueType": "SP",
+      "required": false,
+      "category": "Planning",
+      "unit": "SEC",
+      "description": "Planned cycle time per piece the confirmation is measured against.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "planned_machine_ref",
+      "dataType": "String",
+      "valueType": "ID",
+      "required": false,
+      "category": "Link",
+      "description": "The ERP pool (EquipmentClass, e.g. POOL-SGM) the work was planned on; machine_ref is the machine that ran it.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "Kept as a value: the plan is the request's, not a field of the response. 2 % of the rows measured 19.11.2026 name a machine directly (e.g. ML-1), a value that names no class.",
+        "targets": [
+          "EquipmentClass"
+        ]
+      }
+    },
+    {
+      "name": "aggregated_per_order",
+      "dataType": "Boolean",
+      "valueType": "MD",
+      "required": false,
+      "category": "Core",
+      "description": "The row sums all confirmations of one production order (true on every row of the per-order view).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     }
   ],
   "relationships": [
@@ -324,7 +378,11 @@
       "completed_at",
       "updated_at",
       "operations_definition_version",
-      "article_revision"
+      "article_revision",
+      "quantity_scrap",
+      "cycle_time_planned_sec",
+      "planned_machine_ref",
+      "aggregated_per_order"
     ],
     "mappingNote": "B2MML OperationsResponse has no cycle time; completed_at and updated_at are timestamps of the source (the end of the response is actual_end_time). Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent). PLM as-built (owner 29.10.2026): operations_definition_version and article_revision name the state that was built where the source's id carries none; B2MML references a definition by its ID alone (an ID means one state), so there is no field for it — an extension, never part of the key."
   },

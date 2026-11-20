@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-InspectionLot",
-  "version": "3.5.0",
+  "version": "3.6.0",
   "standard": "CarToUNS",
   "category": "quality",
   "displayName": "Inspection Lot",
@@ -98,7 +98,14 @@
       "description": "e.g. final, RMA_RECEIPT.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "enum": [
+        "final",
+        "in_process",
+        "goods_receipt",
+        "first_article",
+        "RMA_RECEIPT"
+      ]
     },
     {
       "name": "status",
@@ -109,7 +116,10 @@
       "description": "Lot status, e.g. open, closed.",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "enum": [
+        "closed"
+      ]
     },
     {
       "name": "state",
@@ -159,7 +169,8 @@
       "category": "Core",
       "delivery": "transactional",
       "scope": "hub",
-      "promotion": "on_change"
+      "promotion": "on_change",
+      "unit": "C62"
     },
     {
       "name": "created_at",
@@ -224,6 +235,100 @@
           "InspectionLot"
         ]
       }
+    },
+    {
+      "name": "test_specification_ref",
+      "dataType": "String",
+      "valueType": "ID",
+      "required": false,
+      "category": "Link",
+      "description": "The inspection plan the lot is tested by (plan_no), a TestSpecification.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "B2MML 0701 TestResult names no test specification (it names an OperationsTestRequirementID): the inspection plan is kept as a value.",
+        "targets": [
+          "TestSpecification"
+        ]
+      }
+    },
+    {
+      "name": "workorder_ref",
+      "dataType": "String",
+      "valueType": "ID",
+      "required": false,
+      "category": "Link",
+      "description": "FK to Workorder.workorder_no: the workorder of the tested production (workorder_no).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "B2MML 0701 TestResult names no order: the order is reached through the segment response that holds the result (segment_response_ref). Kept as a value.",
+        "targets": [
+          "Workorder"
+        ]
+      }
+    },
+    {
+      "name": "sales_order_ref",
+      "dataType": "String",
+      "valueType": "ID",
+      "required": false,
+      "category": "Link",
+      "description": "FK to CustomerOrder: the customer order of the tested production (sales_order_no).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "B2MML 0701 TestResult names no order: the customer order is the production order's sales_order_ref. Kept as a value.",
+        "targets": [
+          "CustomerOrder"
+        ]
+      }
+    },
+    {
+      "name": "rma_ref",
+      "dataType": "String",
+      "valueType": "ID",
+      "required": false,
+      "category": "Link",
+      "description": "The return (RMA) whose received goods the lot tests (rma_no).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "A return is no object of the model, and B2MML TestResult names none: kept as a value.",
+        "external": {
+          "system": "ERP",
+          "object": "return (RMA)",
+          "key": "number"
+        }
+      }
+    },
+    {
+      "name": "delivery_ref",
+      "dataType": "String",
+      "valueType": "ID",
+      "required": false,
+      "category": "Link",
+      "description": "The inbound delivery whose goods the lot tests at goods receipt (delivery_no).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "A delivery is no object of the model, and B2MML TestResult names none: kept as a value.",
+        "external": {
+          "system": "ERP",
+          "object": "inbound delivery",
+          "key": "number"
+        }
+      }
     }
   ],
   "relationships": [
@@ -287,7 +392,12 @@
       "status",
       "quantity",
       "sample_size",
-      "created_at"
+      "created_at",
+      "test_specification_ref",
+      "workorder_ref",
+      "sales_order_ref",
+      "rma_ref",
+      "delivery_ref"
     ],
     "mappingNote": "TestResult carries no order and no workflow state; both are OSF joins on the lot. The segment response that holds the result (B2MML SegmentResponse.MaterialActual.TestResult) is named on the lot by segment_response_ref — the edge runs from the response (HAS_TEST_RESULT, in-edge of the lot's source), and the order is the response's (RESPONDS_TO). TestResult carries no equipment, lot type, lot status, lot quantity or sample size either. Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent). created_at is the day the lot was opened, not the evaluation date of B2MML TestResult.EvaluationDate (the usage decision) — no source of the demo plant has that date (audit M4).",
     "grain": "one test result of material (ISA-95 Part 2 cl. 5.9 TestResult): one row = one inspection lot — the tested article, material lot (MaterialLot) or sublot (Quant) with its usage decision, keyed by lot_no; the test result of a person, machine or tool is TestResult"

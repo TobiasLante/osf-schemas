@@ -8,7 +8,7 @@
     "strategy": "TopicNameStrategy"
   },
   "namespace": "org.openshopfloor.payload.material",
-  "doc": "GENERATED from standard/profiles/material/material-lot.json 3.4.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "doc": "GENERATED from standard/profiles/material/material-lot.json 3.6.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
   "fields": [
     {
       "name": "eventType",
@@ -52,7 +52,7 @@
     {
       "name": "profileVersion",
       "type": "string",
-      "default": "3.4.0"
+      "default": "3.6.0"
     },
     {
       "name": "b2m",
@@ -159,7 +159,7 @@
               "string"
             ],
             "default": null,
-            "doc": "Lot status (ISA-95 MaterialLotProperty / Status), e.g. available, in_production, consumed, blocked."
+            "doc": "Lot status (B2MML MaterialLot.Status) in the source's words. Full text: docs/history/standard/profiles/material/material-lot.md, attributes › status › description."
           },
           {
             "name": "workorder_ref",
@@ -178,6 +178,15 @@
             ],
             "default": null,
             "doc": "FK to JobOrder.job_order_no: the job (one workorder operation) that produced this lot. Full text: docs/history/standard/profiles/material/material-lot.md, attributes › job_order_ref › description."
+          },
+          {
+            "name": "segment_response_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "FK to SegmentResponse.segment_response_no: the confirmed operation whose material actual made this lot (B2MML SegmentResponse.MaterialActual.MaterialLotID). Full text: docs/history/standard/profiles/material/material-lot.md, attributes › segment_response_ref › description."
           },
           {
             "name": "location_ref",

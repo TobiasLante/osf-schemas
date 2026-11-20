@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-BdeConfirmation",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "BDE Confirmation (shop-floor booking, one row per confirmation)",
@@ -132,6 +132,10 @@
       "valueType": "PV",
       "required": false,
       "category": "Core",
+      "enum": [
+        "SS",
+        "FS"
+      ],
       "description": "Shift of record for the booking, derived upstream from machine_departments x machine_pools x shift_config x shift_weekly_pattern (sim-v5, 2026-08-03). Full text: docs/history/standard/profiles/operations/bde-confirmation.md, attributes › shift › description.",
       "delivery": "transactional",
       "scope": "hub",
@@ -143,6 +147,7 @@
       "valueType": "PV",
       "required": false,
       "category": "Execution",
+      "unit": "C62",
       "description": "Pieces booked as good on this confirmation.",
       "delivery": "transactional",
       "scope": "hub",
@@ -154,6 +159,7 @@
       "valueType": "PV",
       "required": false,
       "category": "Execution",
+      "unit": "C62",
       "description": "Pieces booked as scrap on this confirmation. The ERP half of the quantity axis — the counterpart the machine's own part_scrap counter is reconciled against.",
       "delivery": "transactional",
       "scope": "hub",
@@ -165,6 +171,7 @@
       "valueType": "PV",
       "required": false,
       "category": "Execution",
+      "unit": "C62",
       "description": "Pieces booked for rework — a THIRD disposition, deliberately not folded into scrap (same rule as the part_scrap semantic in standard/mappings/attribute-aliases.json). Full text: docs/history/standard/profiles/operations/bde-confirmation.md, attributes › rework_qty › description.",
       "delivery": "transactional",
       "scope": "hub",
@@ -176,6 +183,15 @@
       "valueType": "PV",
       "required": false,
       "category": "Quality",
+      "enum": [
+        "cavity-defect",
+        "quality-fail",
+        "clip_kraft",
+        "einpresskraft",
+        "isolations_widerstand",
+        "drehwinkel",
+        "drehmoment"
+      ],
       "description": "Reason code for the scrap on this booking. MEASURED: only 123 of 2000 rows carry one, with 2 distinct values (cavity-defect, quality-fail). Thin by nature — most bookings have no scrap at all — so a consumer must treat absence as 'no reason recorded', never as a category.",
       "delivery": "transactional",
       "scope": "hub",
@@ -278,6 +294,158 @@
       "scope": "hub",
       "promotion": "on_change",
       "valueType": "PV"
+    },
+    {
+      "name": "job_order_ref",
+      "dataType": "String",
+      "valueType": "ID",
+      "required": false,
+      "category": "Link",
+      "description": "The job (operation of the production order) the booking is for (FK to JobOrder.job_order_no).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "Kept as a value: B2MML's response names a JobResponse, not the JobOrder; no edge from the booking to the job order.",
+        "targets": [
+          "JobOrder"
+        ]
+      }
+    },
+    {
+      "name": "planned_machine_ref",
+      "dataType": "String",
+      "valueType": "ID",
+      "required": false,
+      "category": "Link",
+      "description": "The machine the operation was planned on (FK to the element id); machine_ref is the machine that booked.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "Kept as a value: the plan is the request's, not a field of the response. 31 % of the 50 000 bookings measured 19.11.2026 name an ERP pool (POOL-…) instead, a value that names no machine.",
+        "targets": [
+          "Machine"
+        ]
+      }
+    },
+    {
+      "name": "machine_type",
+      "dataType": "String",
+      "valueType": "MD",
+      "required": false,
+      "category": "Core",
+      "enum": [
+        "assembly-line",
+        "sgm",
+        "cnc",
+        "fremdbearbeitung",
+        "assembly-station",
+        "press",
+        "CNC",
+        "wms-robot",
+        "prueffeld",
+        "vormontage",
+        "mobile-cobot"
+      ],
+      "description": "The ERP's type of the booking machine. Values measured over 50 000 bookings 19.11.2026.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "cycle_time_planned_sec",
+      "dataType": "Double",
+      "valueType": "SP",
+      "required": false,
+      "category": "Planning",
+      "unit": "SEC",
+      "description": "Planned cycle time per piece the booking is measured against.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "person_ref",
+      "dataType": "String",
+      "valueType": "ID",
+      "required": false,
+      "category": "Link",
+      "description": "The worker who booked (FK to Person.person_id); empty on all 50 000 bookings measured 19.11.2026.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "Kept as a value, like machine_ref: the booking is a grain of the OperationsResponse.",
+        "targets": [
+          "Person"
+        ]
+      }
+    },
+    {
+      "name": "personnel_no",
+      "dataType": "String",
+      "valueType": "ID",
+      "required": false,
+      "category": "Core",
+      "description": "Personnel number of the worker who booked (worker_pnr); empty on all 50 000 bookings measured 19.11.2026.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "operator_ref",
+      "dataType": "String",
+      "valueType": "ID",
+      "required": false,
+      "category": "Link",
+      "description": "The operator of the booking machine (FK to Person.person_id); empty on all 50 000 bookings measured 19.11.2026.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change",
+      "refStatus": {
+        "kind": "refOnly",
+        "reason": "Kept as a value, like machine_ref: the booking is a grain of the OperationsResponse.",
+        "targets": [
+          "Person"
+        ]
+      }
+    },
+    {
+      "name": "final_confirmation",
+      "dataType": "Boolean",
+      "valueType": "PV",
+      "required": false,
+      "category": "Execution",
+      "description": "The booking is the final confirmation of the operation.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "received_at",
+      "dataType": "DateTime",
+      "valueType": "PV",
+      "required": false,
+      "category": "Timing",
+      "description": "When the ERP received the booking.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "recorded_by",
+      "dataType": "String",
+      "valueType": "MD",
+      "required": false,
+      "category": "Core",
+      "description": "The system or station that recorded the booking (e.g. factory-bde-bridge:station:M2-1).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     }
   ],
   "relationships": [],
@@ -299,7 +467,8 @@
       "operations_type": "OperationsResponse.SegmentResponse.OperationsType",
       "good_qty": "OperationsResponse.SegmentResponse.MaterialActual[MaterialUse=Produced].Quantity",
       "labor_min": "OperationsResponse.SegmentResponse.PersonnelActual.Quantity",
-      "machine_min": "OperationsResponse.SegmentResponse.EquipmentActual.Quantity"
+      "machine_min": "OperationsResponse.SegmentResponse.EquipmentActual.Quantity",
+      "person_ref": "OperationsResponse.SegmentResponse.PersonnelActual.PersonID"
     },
     "notInIsa95": [
       "operation_no",
@@ -312,7 +481,16 @@
       "updated_at",
       "article_revision",
       "recipe_ref",
-      "recipe_version"
+      "recipe_version",
+      "job_order_ref",
+      "planned_machine_ref",
+      "machine_type",
+      "cycle_time_planned_sec",
+      "personnel_no",
+      "operator_ref",
+      "final_confirmation",
+      "received_at",
+      "recorded_by"
     ],
     "mappingNote": "B2MML SegmentResponse has one quantity per material actual, no good/scrap/rework split, no scrap reason, no shift, no booked minutes and no cycle time; operation_no is the ERP routing operation number, no B2MML ID; updated_at is a technical timestamp of the source. Audit M3 (core 6.0.0): good_qty is the produced MaterialActual (MaterialUse Produced), labor_min / machine_min the personnel / equipment actual quantity (UoM MIN); scrap_qty and rework_qty stay ours — B2MML 0701 has no MaterialUse for scrap or rework (each would need a MaterialDefinition of its own); setup_min belongs to a segment response of its own. PLM as-built (owner 29.10.2026): article_revision names the state that was built where the source's id carries none; B2MML references a definition by its ID alone (an ID means one state), so there is no field for it — an extension, never part of the key. recipe_ref / recipe_version (0.7.0 R5): the git recipe and its released version the order ran with — B2MML has no field for a recipe file on a response, so they are extensions for traceability.",
     "grain": "one booking"
