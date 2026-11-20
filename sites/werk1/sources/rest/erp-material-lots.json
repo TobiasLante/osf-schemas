@@ -1,7 +1,7 @@
 {
  "sourceId": "erp-material-lots",
- "version": "1.2.0",
-  "$window": "0.6.6-g (owner 22.10.2026, the living window): the source reads the living part, not the whole history — the lots of the last 12 hours",
+ "version": "1.3.0",
+  "$window": "0.6.6-g (owner 22.10.2026, the living window): the source reads the living part, not the whole history — the lots of the last 12 hours. 0.7.6 K-ML-PAGE (20.11.2026): the sim's change feed pages by its row cursor (after=, 5000 per page, oldest first) and the edge resumes after the cursor of its last complete read (resumeCursor) — before, one unpaged answer of the whole window; the feed holds > 1 M lots since 06/2026, so the 12-hour window stays",
  "sourceType": "rest",
  "functionalLevel": 4,
  "syncType": "polling",
@@ -16,7 +16,7 @@
  ],
  "connection": {
   "baseUrl": "http://192.168.178.154:38060",
-  "path": "/material-lots?since=PT12H",
+  "path": "/material-lots?updated_since=PT12H",
   "method": "GET",
   "auth": null,
   "timeoutMs": 10000
@@ -28,10 +28,14 @@
  },
  "polling": {
   "changeDetection": "timestamp",
-  "timestampQueryParam": "updated_since",
   "timestampField": "updated_at",
   "intervalMs": 60000,
-  "batchSize": 500
+  "batchSize": 5000,
+  "paginate": true,
+  "paginationMode": "keyset",
+  "paginationOrderKey": "cursor",
+  "keysetParam": "after",
+  "resumeCursor": true
  },
  "columnMappings": [
   {
