@@ -26,3 +26,9 @@ back; the list is sorted by `lot_no` ASC (the key of qms.inspection_lots, unique
 database's DEFAULT collation — the keyset guard of the IT reader therefore only asks whether the walk moved (0.7.2 E9, F37), never "greater by
 code units". Measured on PROD: since=P1D walked complete (11 336 = DB, no duplicates, 3 pages, slowest 1.65 s cold). A row missing from the
 window is NOT deleted — the IT reader sends created and updated only.
+
+## core 6.5.0 (0.7.5) — every delivered column
+
+Owner 19./20.11.2026: „warum bilden wir nicht 46 felder einfach ab, wenn wir sie schon haben?“ — every column the reference plant's sim delivers is mapped; nothing invented, nothing dropped. Measured on sim-v5 PROD (192.168.178.154, GET only) on 19.11.2026.
+
+2.5.0: plan_no, workorder_no, sales_order_no, rma_no, delivery_no mapped (19 of 20 delivered columns; material_lot_refs is a list, which the core has no type for). Measurement: docs/history/standard/profiles/quality/inspection-lot.md, core 6.5.0.

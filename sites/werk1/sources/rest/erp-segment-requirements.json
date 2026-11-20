@@ -1,6 +1,6 @@
 {
   "sourceId": "erp-segment-requirements",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "sourceType": "rest",
   "functionalLevel": 4,
   "syncType": "polling",
@@ -74,6 +74,36 @@
     {
       "smAttribute": "operations_type",
       "const": "Production"
+    },
+    {
+      "column": "article",
+      "smAttribute": "material_ref"
+    },
+    {
+      "column": "routing_number",
+      "smAttribute": "routing_ref"
+    },
+    {
+      "column": "routing_version",
+      "smAttribute": "operations_definition_version"
+    },
+    {
+      "column": "routing_operation_number",
+      "smAttribute": "routing_operation_no"
+    },
+    {
+      "column": "routing_tool_number",
+      "smAttribute": "tool_ref"
+    },
+    {
+      "column": "setup_minutes",
+      "smAttribute": "setup_planned_min",
+      "dataType": "Double"
+    },
+    {
+      "column": "cycle_time_seconds",
+      "smAttribute": "cycle_time_planned_sec",
+      "dataType": "Double"
     }
   ],
   "filter": null,
@@ -92,6 +122,11 @@
       "type": "REQUIRES_EQUIPMENT",
       "fkColumn": "work_center",
       "targetIdProp": "equipment_class_id"
+    },
+    {
+      "type": "REQUIRES_MATERIAL",
+      "fkColumn": "article",
+      "targetIdProp": "article_no"
     }
   ],
   "$window": "0.6.6-g (owner 22.10.2026, the living window): the source reads the living part, not the whole history — every operation not final plus those started or ended in the last 7 days"

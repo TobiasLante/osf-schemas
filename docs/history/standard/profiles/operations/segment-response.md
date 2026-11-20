@@ -35,3 +35,7 @@ Owner 25.09.2026: an order actual measured at a machine (part counts, order, art
 - `SMProfile-CNC-Machine.Act_Status_Program` → `SMProfile-SegmentResponse.program_status`; its description was: 
 - attribute-aliases entry [{"profileRef": "SMProfile-CNC-Machine", "attribute": "Act_Amount_PartGood"}, {"profileRef": "SMProfile-InjectionMoldingMachine", "attribute": "good"}] retired: all members are now SMProfile-SegmentResponse.qty_good
 - attribute-aliases entry [{"profileRef": "SMProfile-CNC-Machine", "attribute": "Act_Amount_PartScrap"}, {"profileRef": "SMProfile-InjectionMoldingMachine", "attribute": "scrap"}] retired: all members are now SMProfile-SegmentResponse.qty_scrap
+
+## core 6.5.0 (0.7.5, owner 19./20.11.2026: „warum bilden wir nicht 46 felder einfach ab, wenn wir sie schon haben?“ — every field the sim delivers is mapped)
+
+Measured 19.11.2026 on /api/operations (3 871 operations). The actual side is mapped here: qty_scrap, tool_ref (tool_nr, the tool instance the operation ran with), physical_asset_class_ref (tool_type), tool_kind (6 values), tool_diameter_mm and tool_corner_radius_mm (MMT). No Tooling or PhysicalAssetClass source exists in werk1, so no source edge is drawn on tool_ref / physical_asset_class_ref yet. Every piece count (qty_actual, qty_good, qty_scrap, qty_total, qty_rework) carries C62.

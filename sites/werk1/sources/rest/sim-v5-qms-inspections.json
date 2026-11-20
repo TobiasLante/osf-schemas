@@ -1,40 +1,141 @@
 {
- "sourceId": "sim-v5-qms-inspections",
- "version": "2.4.0",
- "sourceType": "rest",
- "functionalLevel": 4,
- "syncType": "polling",
- "profileRef": "SMProfile-InspectionLot",
- "instanceRef": "werk1",
- "location": { "enterprise": "factory", "site": "werk1" },
- "transport": [
-  "nats"
- ],
- "connection": { "baseUrl": "http://192.168.178.154:38261", "path": "/api/qms/inspection-lots?since=P7D", "method": "GET", "auth": null, "timeoutMs": 10000 },
- "response": { "format": "json", "rootPath": "$", "idProperty": "lot_no" },
- "polling": { "changeDetection": "full_refresh", "intervalMs": 300000, "batchSize": 5000, "paginate": true, "paginationMode": "keyset", "paginationOrderKey": "lot_no", "keysetParam": "after_id" },
- "columnMappings": [
-  { "column": "lot_no", "smAttribute": "lot_no", "isId": true },
-  { "column": "article_no", "smAttribute": "article_ref" },
-  { "column": "production_order_no", "smAttribute": "order_ref" },
-  { "column": "confirmation_no", "smAttribute": "segment_response_ref" },
-  { "column": "status", "smAttribute": "status" },
-  { "column": "state", "smAttribute": "state" },
-  { "column": "lot_type", "smAttribute": "lot_type" },
-  { "column": "decision", "smAttribute": "decision" },
-  { "column": "machine_no", "smAttribute": "machine_ref" },
-  { "column": "lot_quantity", "smAttribute": "quantity" },
-  { "column": "sample_size", "smAttribute": "sample_size" },
-  { "column": "created_at", "smAttribute": "created_at" },
-  { "column": "material_lot_ref", "smAttribute": "material_lot_ref" },
-  { "column": "quant_ref", "smAttribute": "quant_ref" }
- ],
- "edges": [
-  { "type": "TESTS", "firstOf": [
-   { "fkColumn": "quant_ref", "targetIdProp": "quant_no" },
-   { "fkColumn": "material_lot_ref", "targetIdProp": "material_lot_no" },
-   { "fkColumn": "article_no", "targetIdProp": "article_no" }
-  ] },
-  { "type": "HAS_TEST_RESULT", "fkColumn": "confirmation_no", "targetIdProp": "segment_response_no", "direction": "in" }
- ]
+  "sourceId": "sim-v5-qms-inspections",
+  "version": "2.5.0",
+  "sourceType": "rest",
+  "functionalLevel": 4,
+  "syncType": "polling",
+  "profileRef": "SMProfile-InspectionLot",
+  "instanceRef": "werk1",
+  "location": {
+    "enterprise": "factory",
+    "site": "werk1"
+  },
+  "transport": [
+    "nats"
+  ],
+  "connection": {
+    "baseUrl": "http://192.168.178.154:38261",
+    "path": "/api/qms/inspection-lots?since=P7D",
+    "method": "GET",
+    "auth": null,
+    "timeoutMs": 10000
+  },
+  "response": {
+    "format": "json",
+    "rootPath": "$",
+    "idProperty": "lot_no"
+  },
+  "polling": {
+    "changeDetection": "full_refresh",
+    "intervalMs": 300000,
+    "batchSize": 5000,
+    "paginate": true,
+    "paginationMode": "keyset",
+    "paginationOrderKey": "lot_no",
+    "keysetParam": "after_id"
+  },
+  "columnMappings": [
+    {
+      "column": "lot_no",
+      "smAttribute": "lot_no",
+      "isId": true
+    },
+    {
+      "column": "article_no",
+      "smAttribute": "article_ref"
+    },
+    {
+      "column": "production_order_no",
+      "smAttribute": "order_ref"
+    },
+    {
+      "column": "confirmation_no",
+      "smAttribute": "segment_response_ref"
+    },
+    {
+      "column": "status",
+      "smAttribute": "status"
+    },
+    {
+      "column": "state",
+      "smAttribute": "state"
+    },
+    {
+      "column": "lot_type",
+      "smAttribute": "lot_type"
+    },
+    {
+      "column": "decision",
+      "smAttribute": "decision"
+    },
+    {
+      "column": "machine_no",
+      "smAttribute": "machine_ref"
+    },
+    {
+      "column": "lot_quantity",
+      "smAttribute": "quantity"
+    },
+    {
+      "column": "sample_size",
+      "smAttribute": "sample_size"
+    },
+    {
+      "column": "created_at",
+      "smAttribute": "created_at"
+    },
+    {
+      "column": "material_lot_ref",
+      "smAttribute": "material_lot_ref"
+    },
+    {
+      "column": "quant_ref",
+      "smAttribute": "quant_ref"
+    },
+    {
+      "column": "plan_no",
+      "smAttribute": "test_specification_ref"
+    },
+    {
+      "column": "workorder_no",
+      "smAttribute": "workorder_ref"
+    },
+    {
+      "column": "sales_order_no",
+      "smAttribute": "sales_order_ref"
+    },
+    {
+      "column": "rma_no",
+      "smAttribute": "rma_ref"
+    },
+    {
+      "column": "delivery_no",
+      "smAttribute": "delivery_ref"
+    }
+  ],
+  "edges": [
+    {
+      "type": "TESTS",
+      "firstOf": [
+        {
+          "fkColumn": "quant_ref",
+          "targetIdProp": "quant_no"
+        },
+        {
+          "fkColumn": "material_lot_ref",
+          "targetIdProp": "material_lot_no"
+        },
+        {
+          "fkColumn": "article_no",
+          "targetIdProp": "article_no"
+        }
+      ]
+    },
+    {
+      "type": "HAS_TEST_RESULT",
+      "fkColumn": "confirmation_no",
+      "targetIdProp": "segment_response_no",
+      "direction": "in"
+    }
+  ]
 }
