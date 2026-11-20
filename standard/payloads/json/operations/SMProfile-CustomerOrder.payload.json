@@ -2,9 +2,9 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-CustomerOrder.payload.json",
   "title": "SMProfile-CustomerOrder payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/operations/customer-order.json 4.1.2 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/operations/customer-order.json 4.2.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-CustomerOrder",
-  "x-profileVersion": "4.1.2",
+  "x-profileVersion": "4.2.0",
   "x-payloadVersion": "1.1.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
@@ -37,6 +37,7 @@
         },
         "quantity": {
           "type": "integer",
+          "x-unit": "C62",
           "description": "Ordered piece count of the order line (menge). Together with unit_price the source for total_amount — the real ERP does not keep an order total: order value = quantity × unit_price (derived by the it-evaluator)."
         },
         "unit_price": {
@@ -74,12 +75,87 @@
           "description": "Sales-order status in the B2MML RequestState vocabulary (MESA B2MML, the XML implementation of IEC 62264: B2MML-Common.xsd RequestState1Type); a source maps its own values with valueMap. Full text: docs/history/standard/profiles/operations/customer-order.md, attributes › status › description."
         },
         "priority": {
-          "type": "string"
+          "type": "string",
+          "enum": [
+            "HIGH",
+            "NORMAL",
+            "URGENT"
+          ]
         },
         "customer_due_date": {
           "type": "string",
           "format": "date-time",
           "description": "Customer delivery date of the order (moved here from ProductionOrder in core 3.0.0)."
+        },
+        "article_ref": {
+          "type": "string",
+          "description": "The article the order line is for (FK to Article.article_no)."
+        },
+        "article_name": {
+          "type": "string",
+          "description": "Name of the ordered article as the ERP prints it on the order."
+        },
+        "production_order_ref": {
+          "type": "string",
+          "description": "The production order that makes this order line (FK to ProductionOrder.production_order_no)."
+        },
+        "parent_order_ref": {
+          "type": "string",
+          "description": "The customer order this one was split from (split order, suffix -S1); empty on an unsplit order."
+        },
+        "status_source": {
+          "type": "string",
+          "enum": [
+            "PARTIAL_SHIPPED",
+            "INVOICED",
+            "IN_PRODUCTION",
+            "COMPLETED",
+            "ACCEPTED",
+            "CANCELLED",
+            "ON_HOLD",
+            "SHIPPED"
+          ],
+          "description": "The ERP's own sales status word, unmapped (status carries it in the B2MML RequestState vocabulary). Values measured over 26 304 orders 19.11.2026."
+        },
+        "status_code": {
+          "type": "string",
+          "enum": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5"
+          ],
+          "description": "The ERP's numeric order status code as delivered (order_status). Values measured over 26 304 orders 19.11.2026."
+        },
+        "confirmed": {
+          "type": "boolean",
+          "description": "The order is confirmed to the customer (order confirmation sent)."
+        },
+        "confirmed_delivery_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Delivery date confirmed to the customer in the order confirmation."
+        },
+        "actual_delivery_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Date the order was actually delivered; empty while not delivered."
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the order was created in the ERP."
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the ERP last changed the order."
+        },
+        "closed_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the ERP closed the order; empty while open."
         }
       },
       "required": [
@@ -98,6 +174,18 @@
     "due_date": "transactional",
     "status": "transactional",
     "priority": "transactional",
-    "customer_due_date": "transactional"
+    "customer_due_date": "transactional",
+    "article_ref": "transactional",
+    "article_name": "transactional",
+    "production_order_ref": "transactional",
+    "parent_order_ref": "transactional",
+    "status_source": "transactional",
+    "status_code": "transactional",
+    "confirmed": "transactional",
+    "confirmed_delivery_date": "transactional",
+    "actual_delivery_date": "transactional",
+    "created_at": "transactional",
+    "updated_at": "transactional",
+    "closed_at": "transactional"
   }
 }

@@ -8,7 +8,7 @@
     "strategy": "TopicNameStrategy"
   },
   "namespace": "org.openshopfloor.payload.quality",
-  "doc": "GENERATED from standard/profiles/quality/inspection-lot.json 3.5.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "doc": "GENERATED from standard/profiles/quality/inspection-lot.json 3.6.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
   "fields": [
     {
       "name": "eventType",
@@ -52,7 +52,7 @@
     {
       "name": "profileVersion",
       "type": "string",
-      "default": "3.5.0"
+      "default": "3.6.0"
     },
     {
       "name": "b2m",
@@ -312,6 +312,51 @@
             ],
             "default": null,
             "doc": "The InspectionLot this InspectionLot is part of (PART_OF; ISA-95 TestResult MADE_UP_OF TestResult). Optional."
+          },
+          {
+            "name": "test_specification_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The inspection plan the lot is tested by (plan_no), a TestSpecification."
+          },
+          {
+            "name": "workorder_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "FK to Workorder.workorder_no: the workorder of the tested production (workorder_no)."
+          },
+          {
+            "name": "sales_order_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "FK to CustomerOrder: the customer order of the tested production (sales_order_no)."
+          },
+          {
+            "name": "rma_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The return (RMA) whose received goods the lot tests (rma_no)."
+          },
+          {
+            "name": "delivery_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The inbound delivery whose goods the lot tests at goods receipt (delivery_no)."
           }
         ]
       }

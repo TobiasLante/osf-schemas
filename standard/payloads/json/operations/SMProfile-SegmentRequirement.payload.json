@@ -2,9 +2,9 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-SegmentRequirement.payload.json",
   "title": "SMProfile-SegmentRequirement payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/operations/segment-requirement.json 4.0.1 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/operations/segment-requirement.json 4.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-SegmentRequirement",
-  "x-profileVersion": "4.0.1",
+  "x-profileVersion": "4.1.0",
   "x-payloadVersion": "1.1.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
@@ -67,6 +67,7 @@
         },
         "qty_planned": {
           "type": "number",
+          "x-unit": "C62",
           "description": "Planned quantity of this material role (target). Counterpart to SegmentResponse.qty_actual."
         },
         "unit_of_measure": {
@@ -154,6 +155,24 @@
             "Other"
           ],
           "description": "ISA-95 operations type (B2MML OperationsType; Part 3/4: which MOM area the object belongs to; audit M1). A source without the column sets the constant of the profile's momDomain (columnMappings const)."
+        },
+        "routing_ref": {
+          "type": "string",
+          "description": "The ERP routing (Arbeitsplan) the operation comes from. Full text: docs/history/standard/profiles/operations/segment-requirement.md, attributes › routing_ref."
+        },
+        "routing_operation_no": {
+          "type": "string",
+          "description": "Operation number inside the ERP routing (e.g. 10, 20, 99)."
+        },
+        "setup_planned_min": {
+          "type": "number",
+          "x-unit": "MIN",
+          "description": "Planned setup time of the operation from the routing."
+        },
+        "cycle_time_planned_sec": {
+          "type": "number",
+          "x-unit": "SEC",
+          "description": "Planned cycle time per piece of the operation from the routing."
         }
       },
       "required": [
@@ -188,6 +207,10 @@
     "tool_ref": "transactional",
     "physical_asset_class_ref": "transactional",
     "test_specification_ref": "transactional",
-    "operations_type": "transactional"
+    "operations_type": "transactional",
+    "routing_ref": "transactional",
+    "routing_operation_no": "transactional",
+    "setup_planned_min": "transactional",
+    "cycle_time_planned_sec": "transactional"
   }
 }

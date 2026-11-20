@@ -2,9 +2,9 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://osf-schemas/next/payloads/json/operations/SMProfile-SegmentResponse.payload.json",
   "title": "SMProfile-SegmentResponse payload (NATS, MQTT)",
-  "description": "GENERATED from standard/profiles/operations/segment-response.json 5.0.1 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
+  "description": "GENERATED from standard/profiles/operations/segment-response.json 5.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Shape: entity (envelope.schema.json).",
   "x-profileRef": "SMProfile-SegmentResponse",
-  "x-profileVersion": "5.0.1",
+  "x-profileVersion": "5.1.0",
   "x-payloadVersion": "1.1.0",
   "x-stream": "BUSINESS",
   "x-subjects": {
@@ -71,6 +71,7 @@
         },
         "qty_actual": {
           "type": "number",
+          "x-unit": "C62",
           "description": "Actual quantity of this material role (actual). Counterpart to SegmentRequirement.qty_planned."
         },
         "unit_of_measure": {
@@ -109,14 +110,17 @@
         },
         "qty_good": {
           "type": "integer",
+          "x-unit": "C62",
           "description": "Good parts counted at the machine for the running order. Reported by the machine source through objects[] (owner 25.09.); history: docs/history/standard/profiles/operations/segment-response.md."
         },
         "qty_scrap": {
           "type": "integer",
+          "x-unit": "C62",
           "description": "Scrap parts counted at the machine for the running order. Reported by the machine source through objects[] (owner 25.09.); history: docs/history/standard/profiles/operations/segment-response.md."
         },
         "qty_total": {
           "type": "integer",
+          "x-unit": "C62",
           "description": "All parts (good + scrap) counted at the machine for the running order. Reported by the machine source through objects[] (owner 25.09.); history: docs/history/standard/profiles/operations/segment-response.md."
         },
         "program_ref": {
@@ -129,6 +133,7 @@
         },
         "qty_rework": {
           "type": "integer",
+          "x-unit": "C62",
           "description": "Parts sent to rework, counted at the machine for the running order. Reported by the machine source through objects[] (owner 25.09.); history: docs/history/standard/profiles/operations/segment-response.md."
         },
         "production_order_ref": {
@@ -243,6 +248,28 @@
             "Other"
           ],
           "description": "ISA-95 operations type (B2MML OperationsType; Part 3/4: which MOM area the object belongs to; audit M1). A source without the column sets the constant of the profile's momDomain (columnMappings const)."
+        },
+        "tool_kind": {
+          "type": "string",
+          "enum": [
+            "end-mill",
+            "turning-insert",
+            "grinding-wheel",
+            "drill",
+            "tap",
+            "face-mill"
+          ],
+          "description": "Kind of the tool the operation ran with. Values measured over 3 871 operations 19.11.2026."
+        },
+        "tool_diameter_mm": {
+          "type": "number",
+          "x-unit": "MMT",
+          "description": "Diameter of the tool the operation ran with."
+        },
+        "tool_corner_radius_mm": {
+          "type": "number",
+          "x-unit": "MMT",
+          "description": "Corner radius of the turning insert the operation ran with."
         }
       },
       "required": [
@@ -295,6 +322,9 @@
     "physical_asset_test_result_ref": "transactional",
     "parent_segment_response_ref": "transactional",
     "source_quality": "transactional",
-    "operations_type": "transactional"
+    "operations_type": "transactional",
+    "tool_kind": "transactional",
+    "tool_diameter_mm": "transactional",
+    "tool_corner_radius_mm": "transactional"
   }
 }

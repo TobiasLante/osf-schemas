@@ -8,7 +8,7 @@
     "strategy": "TopicNameStrategy"
   },
   "namespace": "org.openshopfloor.payload.material",
-  "doc": "GENERATED from standard/profiles/material/article.json 3.0.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
+  "doc": "GENERATED from standard/profiles/material/article.json 3.1.0 by i3x-v5 packages/schemas-ci/gen-payloads.mjs; do not edit by hand. Kafka value schema (TopicNameStrategy), the same shape as the JSON payload (envelope fields + data). Types: DateTime → long timestamp-millis (UTC), Int32/Int64 → long, Float/Double → double, Json → string (JSON text); key and required attributes are not nullable, the others [null, T] default null.",
   "fields": [
     {
       "name": "eventType",
@@ -52,7 +52,7 @@
     {
       "name": "profileVersion",
       "type": "string",
-      "default": "3.0.0"
+      "default": "3.1.0"
     },
     {
       "name": "b2m",
@@ -316,6 +316,195 @@
             ],
             "default": null,
             "doc": "The part number of this article in PLM (e.g. a Windchill part) where it differs from the ERP number; empty when the source does not name it."
+          },
+          {
+            "name": "supplier_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The supplier of the article as the ERP article master names it (lieferant_id)."
+          },
+          {
+            "name": "primary_supplier_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The primary supplier of the article from the ERP purchasing data (primary_supplier_id). Full text: docs/history/standard/profiles/material/article.md, attributes › primary_supplier_ref › description."
+          },
+          {
+            "name": "active",
+            "type": [
+              "null",
+              "boolean"
+            ],
+            "default": null,
+            "doc": "Whether the article is active in the ERP article master (aktiv)."
+          },
+          {
+            "name": "replaced_by_ref",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The article that replaces this one, where the ERP article master names it (replaced_by)."
+          },
+          {
+            "name": "deactivated_at",
+            "type": [
+              "null",
+              {
+                "type": "long",
+                "logicalType": "timestamp-millis"
+              }
+            ],
+            "default": null,
+            "doc": "When the ERP deactivated the article (deactivated_at)."
+          },
+          {
+            "name": "deactivated_reason",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "Why the ERP deactivated the article, in its words (deactivated_reason)."
+          },
+          {
+            "name": "created_at",
+            "type": [
+              "null",
+              {
+                "type": "long",
+                "logicalType": "timestamp-millis"
+              }
+            ],
+            "default": null,
+            "doc": "When the article was created in the ERP article master."
+          },
+          {
+            "name": "updated_at",
+            "type": [
+              "null",
+              {
+                "type": "long",
+                "logicalType": "timestamp-millis"
+              }
+            ],
+            "default": null,
+            "doc": "Last change of the article in the ERP article master."
+          },
+          {
+            "name": "purchase_price",
+            "type": [
+              "null",
+              "double"
+            ],
+            "default": null,
+            "doc": "Purchase price per unit of the article from the ERP purchasing data (einkaufspreis); empty for articles without one."
+          },
+          {
+            "name": "weight_kg",
+            "type": [
+              "null",
+              "double"
+            ],
+            "default": null,
+            "doc": "Weight of one unit of the article in kilograms, where the ERP article master names it (gewicht_kg)."
+          },
+          {
+            "name": "mrp_type",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "MRP type of the ERP article master in its own codes (mrp_type)."
+          },
+          {
+            "name": "procurement_type",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "Procurement type of the ERP article master in its own codes (procurement_type)."
+          },
+          {
+            "name": "lot_size_procedure",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "Lot-sizing procedure of the ERP article master in its own codes (lot_size_proc)."
+          },
+          {
+            "name": "min_lot_size",
+            "type": [
+              "null",
+              "double"
+            ],
+            "default": null,
+            "doc": "Minimum lot size of the ERP article master, in the article's unit (min_lot_size)."
+          },
+          {
+            "name": "max_lot_size",
+            "type": [
+              "null",
+              "double"
+            ],
+            "default": null,
+            "doc": "Maximum lot size of the ERP article master, in the article's unit (max_lot_size)."
+          },
+          {
+            "name": "rounding_value",
+            "type": [
+              "null",
+              "double"
+            ],
+            "default": null,
+            "doc": "Rounding value of the ERP article master: a lot is a multiple of it, in the article's unit (rounding_value)."
+          },
+          {
+            "name": "batch_managed",
+            "type": [
+              "null",
+              "boolean"
+            ],
+            "default": null,
+            "doc": "Whether the ERP manages the article in batches (batch_managed)."
+          },
+          {
+            "name": "serial_managed",
+            "type": [
+              "null",
+              "boolean"
+            ],
+            "default": null,
+            "doc": "Whether the ERP manages the article by serial number (serial_managed)."
+          },
+          {
+            "name": "material_grade",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "The grade of the material within its material class as the ERP names it (material_grade), e.g. 42CrMo4."
+          },
+          {
+            "name": "material_class_source",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null,
+            "doc": "Where the ERP took the article's material class from, in its words (material_source), e.g. description:ABS."
           }
         ]
       }
