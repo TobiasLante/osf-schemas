@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-Customer",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Customer",
@@ -47,10 +47,183 @@
       "valueType": "MD",
       "required": false,
       "category": "Core",
+      "enum": [
+        "STANDARD",
+        "PREMIUM",
+        "STRATEGIC"
+      ],
       "description": "Customer segment / classification.",
       "delivery": "transactional",
       "scope": "hub",
       "promotion": "on_change"
+    },
+    {
+      "name": "email",
+      "dataType": "String",
+      "valueType": "MD",
+      "required": false,
+      "category": "Core",
+      "description": "Order contact e-mail address of the customer.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "payment_terms",
+      "dataType": "String",
+      "valueType": "MD",
+      "required": false,
+      "category": "Commercial",
+      "enum": [
+        "NET30"
+      ],
+      "description": "Payment terms key of the customer. Values measured over all 6 customers 19.11.2026.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "active",
+      "dataType": "Boolean",
+      "valueType": "MD",
+      "required": false,
+      "category": "Core",
+      "description": "The customer is active in the ERP.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "credit_limit",
+      "dataType": "Float",
+      "valueType": "MD",
+      "required": false,
+      "category": "Commercial",
+      "description": "Credit limit of the customer, in currency.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "currency",
+      "dataType": "String",
+      "valueType": "MD",
+      "required": false,
+      "category": "Commercial",
+      "description": "Currency of the customer's account (ISO 4217, e.g. EUR).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "tax_id",
+      "dataType": "String",
+      "valueType": "ID",
+      "required": false,
+      "category": "Core",
+      "description": "VAT identification number of the customer.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "incoterms",
+      "dataType": "String",
+      "valueType": "MD",
+      "required": false,
+      "category": "Commercial",
+      "enum": [
+        "DDP",
+        "DAP",
+        "FCA"
+      ],
+      "description": "Incoterms delivery term agreed with the customer. Values measured over all 6 customers 19.11.2026.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "sales_area",
+      "dataType": "String",
+      "valueType": "MD",
+      "required": false,
+      "category": "Commercial",
+      "description": "Sales area the customer belongs to (e.g. DE_SUED).",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "delivery_block",
+      "dataType": "String",
+      "valueType": "MD",
+      "required": false,
+      "category": "Commercial",
+      "enum": [
+        "NONE"
+      ],
+      "description": "Delivery block key on the customer. Values measured over all 6 customers 19.11.2026.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "billing_block",
+      "dataType": "String",
+      "valueType": "MD",
+      "required": false,
+      "category": "Commercial",
+      "enum": [
+        "NONE"
+      ],
+      "description": "Billing block key on the customer. Values measured over all 6 customers 19.11.2026.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "deactivated_at",
+      "dataType": "DateTime",
+      "valueType": "MD",
+      "required": false,
+      "category": "Timing",
+      "description": "When the customer was deactivated; empty while active.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "deactivated_reason",
+      "dataType": "String",
+      "valueType": "MD",
+      "required": false,
+      "category": "Core",
+      "description": "Why the customer was deactivated; empty while active.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "created_at",
+      "dataType": "DateTime",
+      "valueType": "MD",
+      "required": false,
+      "category": "Timing",
+      "description": "When the customer was created in the ERP.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "updated_at",
+      "dataType": "DateTime",
+      "valueType": "MD",
+      "required": false,
+      "category": "Timing",
+      "description": "When the ERP last changed the customer.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "never"
     }
   ],
   "relationships": [],
@@ -62,7 +235,23 @@
     "level": 4,
     "note": "Level-4 business partner. Full text: docs/history/standard/profiles/operations/customer.md, isa95 › note. No momDomain: Level 4, outside the MOM categories (audit L5).",
     "extension": true,
-    "mappingNote": "Level 4 business partner. B2MML 0701 has no Customer object."
+    "mappingNote": "Level 4 business partner. B2MML 0701 has no Customer object.",
+    "notInIsa95": [
+      "email",
+      "payment_terms",
+      "active",
+      "credit_limit",
+      "currency",
+      "tax_id",
+      "incoterms",
+      "sales_area",
+      "delivery_block",
+      "billing_block",
+      "deactivated_at",
+      "deactivated_reason",
+      "created_at",
+      "updated_at"
+    ]
   },
   "kgNodeLabel": "Customer",
   "kgIdProperty": "customer_no"

@@ -1,6 +1,6 @@
 {
   "profileId": "SMProfile-SegmentResponse",
-  "version": "5.0.1",
+  "version": "5.1.0",
   "standard": "CarToUNS",
   "category": "business",
   "displayName": "Segment Response (segment actuals per order)",
@@ -134,6 +134,7 @@
       "valueType": "PV",
       "required": false,
       "category": "Execution",
+      "unit": "C62",
       "description": "Actual quantity of this material role (actual). Counterpart to SegmentRequirement.qty_planned.",
       "delivery": "transactional",
       "scope": "hub",
@@ -216,9 +217,10 @@
     {
       "name": "qty_good",
       "dataType": "Int32",
+      "valueType": "PV",
       "required": false,
       "category": "BDE",
-      "valueType": "PV",
+      "unit": "C62",
       "description": "Good parts counted at the machine for the running order. Reported by the machine source through objects[] (owner 25.09.); history: docs/history/standard/profiles/operations/segment-response.md.",
       "delivery": "transactional",
       "scope": "hub",
@@ -241,9 +243,10 @@
     {
       "name": "qty_scrap",
       "dataType": "Int32",
+      "valueType": "PV",
       "required": false,
       "category": "BDE",
-      "valueType": "PV",
+      "unit": "C62",
       "description": "Scrap parts counted at the machine for the running order. Reported by the machine source through objects[] (owner 25.09.); history: docs/history/standard/profiles/operations/segment-response.md.",
       "delivery": "transactional",
       "scope": "hub",
@@ -269,6 +272,7 @@
       "valueType": "PV",
       "required": false,
       "category": "BDE",
+      "unit": "C62",
       "description": "All parts (good + scrap) counted at the machine for the running order. Reported by the machine source through objects[] (owner 25.09.); history: docs/history/standard/profiles/operations/segment-response.md.",
       "delivery": "transactional",
       "scope": "hub",
@@ -345,8 +349,9 @@
     {
       "name": "qty_rework",
       "dataType": "Int32",
-      "required": false,
       "valueType": "PV",
+      "required": false,
+      "unit": "C62",
       "description": "Parts sent to rework, counted at the machine for the running order. Reported by the machine source through objects[] (owner 25.09.); history: docs/history/standard/profiles/operations/segment-response.md.",
       "delivery": "transactional",
       "scope": "hub",
@@ -791,6 +796,49 @@
       "scope": "hub",
       "promotion": "on_change",
       "valueType": "PV"
+    },
+    {
+      "name": "tool_kind",
+      "dataType": "String",
+      "valueType": "MD",
+      "required": false,
+      "category": "Execution",
+      "enum": [
+        "end-mill",
+        "turning-insert",
+        "grinding-wheel",
+        "drill",
+        "tap",
+        "face-mill"
+      ],
+      "description": "Kind of the tool the operation ran with. Values measured over 3 871 operations 19.11.2026.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "tool_diameter_mm",
+      "dataType": "Double",
+      "valueType": "MD",
+      "required": false,
+      "category": "Execution",
+      "unit": "MMT",
+      "description": "Diameter of the tool the operation ran with.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
+    },
+    {
+      "name": "tool_corner_radius_mm",
+      "dataType": "Double",
+      "valueType": "MD",
+      "required": false,
+      "category": "Execution",
+      "unit": "MMT",
+      "description": "Corner radius of the turning insert the operation ran with.",
+      "delivery": "transactional",
+      "scope": "hub",
+      "promotion": "on_change"
     }
   ],
   "relationships": [
@@ -978,7 +1026,10 @@
       "operations_definition_version",
       "article_revision",
       "recipe_ref",
-      "recipe_version"
+      "recipe_version",
+      "tool_kind",
+      "tool_diameter_mm",
+      "tool_corner_radius_mm"
     ],
     "mappingNote": "sequence is carried by B2MML through the order of SegmentResponse in OperationsResponse; B2MML has one quantity per material actual, no good/scrap/total/rework split, and no NC program, program line or program state. source_quality: data quality of the record as its source reported it; ISA-95 has no element for it. Self-nesting and containment are PART_OF on the child with a reference to the parent (B2MML nests the child inside the parent). Audit M3 (core 6.0.0): qty_good is the produced MaterialActual (MaterialUse Produced); program_ref / program_line / program_status are SegmentData entries named by their ID; qty_scrap / qty_rework / qty_total stay ours (no MaterialUse for scrap or rework in B2MML 0701). PLM as-built (owner 29.10.2026): operations_definition_version and article_revision name the state that was built where the source's id carries none; B2MML references a definition by its ID alone (an ID means one state), so there is no field for it — an extension, never part of the key. recipe_ref / recipe_version (0.7.0 R5): the git recipe and its released version the order ran with — B2MML has no field for a recipe file on a response, so they are extensions for traceability."
   },
