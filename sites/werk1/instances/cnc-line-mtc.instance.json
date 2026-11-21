@@ -1,5 +1,5 @@
 {
-  "_note": "Line line-mtc in area cnc: the ProductionLine (a WorkCenter) and its machines (WorkCell).",
+  "_note": "Line line-mtc in area cnc: the ProductionLine (a WorkCenter) and its machines (WorkCell). 0.7.8: cnc-mtc-01 names no equipmentClass — it is a second protocol view of cnc-002 (machine-identity mirrorOf, value-level evidence), not a machine of its own; its class is cnc-002's.",
   "instances": [
     {
       "id": "cnc-line-mtc",
@@ -23,7 +23,8 @@
       "code": "cnc-mtc-02",
       "class": "SMProfile-CNC-Machine",
       "name": "CNC-MTC-02 (MTConnect)",
-      "partOf": "cnc-line-mtc"
+      "partOf": "cnc-line-mtc",
+      "equipmentClass": "POOL-CNC"
     }
   ]
 }
