@@ -32,6 +32,7 @@ osf-schemas/
 │       │   ├── nats/                   NATS subjects + JetStream stream declarations (suite hub) (2 json)
 │       │   ├── opcua-server/           Sonder-Edge re-publish (MTConnect → embedded OPC-UA server) (1 json)
 │       │   └── polling/                REST polling schedule (1 json)
+│       ├── work-records/           Work Record specifications (ISA-95 2018 Part 4 WorkRecordSpecification): the use-case templates of the context layer, paths from contract.json (6 json)
 │       └── site.model.json
 ├── standard/               CENTRAL — classes, contracts, vocabulary, edge catalogue; one per enterprise
 │   ├── cross-constraints/      cross-profile discrepancy constraints (PLAN vs IST rules) (4 json)
