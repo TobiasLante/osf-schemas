@@ -1,33 +1,47 @@
 {
   "workRecordSpecificationID": "lot-trace",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Trace a material lot: made by which response, for which order, tested how, where it lies.",
   "isa95": "ISA-95 2018 Part 4 Work Record (WorkRecordSpecification; InformationObjectType). Norm source in the repo: B2MML 0701 B2MML-WorkRecord.xsd (incorporated from ISA-88 Part 4 / 880004 Batch Production Record). Paths come from standard/contract.json, never a path language of our own.",
   "anchor": "MaterialLot",
+  "isa95Anchor": {
+    "field": "MaterialLotID"
+  },
+  "isa95Activity": "Production tracking (genealogy)",
   "informationObjectTypes": [
     {
-      "type": "MaterialLot"
+      "type": "MaterialLot",
+      "isa95InformationObjectType": "Material Lot"
     },
     {
-      "type": "SegmentResponse"
+      "type": "SegmentResponse",
+      "isa95InformationObjectType": "Operations Response"
     },
     {
       "type": "ProductionOrder",
+      "isa95InformationObjectType": "Operations Request",
       "via": [
         "SegmentResponse"
       ]
     },
     {
-      "type": "InspectionLot"
+      "type": "InspectionLot",
+      "isa95InformationObjectType": "Test Result",
+      "via": [
+        "SegmentResponse"
+      ]
     },
     {
-      "type": "Article"
+      "type": "Article",
+      "isa95InformationObjectType": "Material Definition"
     },
     {
-      "type": "Quant"
+      "type": "Quant",
+      "isa95InformationObjectType": "Material SubLot"
     },
     {
-      "type": "StorageLocation"
+      "type": "StorageLocation",
+      "isa95InformationObjectType": "Operational Location"
     }
   ],
   "views": {}

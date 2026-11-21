@@ -1,36 +1,49 @@
 {
   "workRecordSpecificationID": "8d-order",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "8D for a production order: what ran, where, with which material, which test results.",
   "isa95": "ISA-95 2018 Part 4 Work Record (WorkRecordSpecification; InformationObjectType). Norm source in the repo: B2MML 0701 B2MML-WorkRecord.xsd (incorporated from ISA-88 Part 4 / 880004 Batch Production Record). Paths come from standard/contract.json, never a path language of our own.",
   "anchor": "ProductionOrder",
+  "isa95Anchor": {
+    "extension": true
+  },
+  "isa95Activity": "Quality performance analysis, Quality tracking",
   "informationObjectTypes": [
     {
-      "type": "ProductionOrder"
+      "type": "ProductionOrder",
+      "isa95InformationObjectType": "Operations Request"
     },
     {
-      "type": "SegmentRequirement"
+      "type": "SegmentRequirement",
+      "isa95InformationObjectType": "Operations Request"
     },
     {
-      "type": "JobOrder"
+      "type": "JobOrder",
+      "isa95InformationObjectType": "Job Order"
     },
     {
-      "type": "SegmentResponse"
+      "type": "SegmentResponse",
+      "isa95InformationObjectType": "Operations Response"
     },
     {
-      "type": "BdeConfirmation"
+      "type": "BdeConfirmation",
+      "isa95InformationObjectType": "Other",
+      "isa95OtherValue": "BdeConfirmation"
     },
     {
-      "type": "OperationsResponse"
+      "type": "OperationsResponse",
+      "isa95InformationObjectType": "Operations Response"
     },
     {
       "type": "MaterialLot",
+      "isa95InformationObjectType": "Material Lot",
       "via": [
         "SegmentResponse"
       ]
     },
     {
       "type": "InspectionLot",
+      "isa95InformationObjectType": "Test Result",
       "via": [
         "SegmentResponse"
       ]

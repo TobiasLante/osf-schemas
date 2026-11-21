@@ -1,30 +1,40 @@
 {
   "workRecordSpecificationID": "ncr-lot",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Nonconformance on an inspection lot: what was tested, made by which response for which order.",
   "isa95": "ISA-95 2018 Part 4 Work Record (WorkRecordSpecification; InformationObjectType). Norm source in the repo: B2MML 0701 B2MML-WorkRecord.xsd (incorporated from ISA-88 Part 4 / 880004 Batch Production Record). Paths come from standard/contract.json, never a path language of our own.",
   "anchor": "InspectionLot",
+  "isa95Anchor": {
+    "extension": true
+  },
+  "isa95Activity": "Quality tracking",
   "informationObjectTypes": [
     {
-      "type": "InspectionLot"
+      "type": "InspectionLot",
+      "isa95InformationObjectType": "Test Result"
     },
     {
-      "type": "SegmentResponse"
+      "type": "SegmentResponse",
+      "isa95InformationObjectType": "Operations Response"
     },
     {
       "type": "ProductionOrder",
+      "isa95InformationObjectType": "Operations Request",
       "via": [
         "SegmentResponse"
       ]
     },
     {
-      "type": "MaterialLot"
+      "type": "MaterialLot",
+      "isa95InformationObjectType": "Material Lot"
     },
     {
-      "type": "Article"
+      "type": "Article",
+      "isa95InformationObjectType": "Material Definition"
     },
     {
-      "type": "TestSpecification"
+      "type": "TestSpecification",
+      "isa95InformationObjectType": "Test Specification"
     }
   ],
   "views": {}

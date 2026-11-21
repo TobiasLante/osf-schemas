@@ -1,23 +1,31 @@
 {
   "workRecordSpecificationID": "breakdown",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "A machine in a time window: its confirmations in the window (value references by the machine key), the orders they were for, its planned jobs, and its signals.",
   "isa95": "ISA-95 2018 Part 4 Work Record (WorkRecordSpecification; InformationObjectType). Norm source in the repo: B2MML 0701 B2MML-WorkRecord.xsd (incorporated from ISA-88 Part 4 / 880004 Batch Production Record). Paths come from standard/contract.json, never a path language of our own.",
   "anchor": "Machine",
+  "isa95Anchor": {
+    "field": "EquipmentID"
+  },
+  "isa95Activity": "Maintenance tracking, Production data collection",
   "informationObjectTypes": [
     {
       "type": "BdeConfirmation",
+      "isa95InformationObjectType": "Other",
+      "isa95OtherValue": "BdeConfirmation",
       "valueRefs": true
     },
     {
       "type": "ProductionOrder",
+      "isa95InformationObjectType": "Operations Request",
       "via": [
         "BdeConfirmation"
       ],
       "valueRefs": true
     },
     {
-      "type": "JobOrder"
+      "type": "JobOrder",
+      "isa95InformationObjectType": "Job Order"
     }
   ],
   "views": {
